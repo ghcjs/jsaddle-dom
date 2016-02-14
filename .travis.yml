@@ -1,0 +1,47 @@
+language: haskell
+
+sudo: false
+
+matrix:
+  include:
+    - env: CABALVER=1.20 GHCVER=7.8.3
+      addons: {apt: {packages: [cabal-install-1.18,ghc-7.8.3,happy-1.19.5,alex-3.1.4,libwebkitgtk-dev,libwebkitgtk-3.0-dev], sources: [hvr-ghc]}}
+    - env: CABALVER=1.20 GHCVER=7.8.4
+      addons: {apt: {packages: [cabal-install-1.18,ghc-7.8.4,happy-1.19.5,alex-3.1.4,libwebkitgtk-dev,libwebkitgtk-3.0-dev], sources: [hvr-ghc]}}
+    - env: CABALVER=1.22 GHCVER=7.10.1
+      addons: {apt: {packages: [cabal-install-1.22,ghc-7.10.1,happy-1.19.5,alex-3.1.4,libwebkitgtk-dev,libwebkitgtk-3.0-dev], sources: [hvr-ghc]}}
+    - env: CABALVER=1.22 GHCVER=7.10.2
+      addons: {apt: {packages: [cabal-install-1.22,ghc-7.10.2,happy-1.19.5,alex-3.1.4,libwebkitgtk-dev,libwebkitgtk-3.0-dev], sources: [hvr-ghc]}}
+    - env: CABALVER=1.22 GHCVER=7.10.3
+      addons: {apt: {packages: [cabal-install-1.22,ghc-7.10.3,happy-1.19.5,alex-3.1.4,libwebkitgtk-dev,libwebkitgtk-3.0-dev], sources: [hvr-ghc]}}
+    - env: CABALVER=head GHCVER=head
+      addons: {apt: {packages: [cabal-install-head,ghc-head,happy-1.19.5,alex-3.1.4,libwebkitgtk-dev,libwebkitgtk-3.0-dev],  sources: [hvr-ghc]}}
+  allow_failures:
+    - env: CABALVER=head GHCVER=head
+
+before_install:
+  - export PATH=/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:/opt/alex/3.1.4/bin:/opt/happy/1.19.5/bin:$PATH
+
+install:
+  - cabal --version
+  - echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
+  - cabal update
+  - cabal install Cabal cabal-install
+  - cabal install gtk2hs-buildtools
+
+script:
+  - cabal install --only-dependencies --enable-tests --force-reinstalls
+  - cabal configure
+  - cabal build
+  - cabal clean
+  - cabal install --only-dependencies -f-gtk3 --enable-tests --force-reinstalls
+  - cabal configure -f-gtk3
+  - cabal build
+  - cabal clean
+  - cabal sdist
+
+notifications:
+  irc:
+    channels: "irc.freenode.net#gtk2hs"
+    skip_join: true
+  email: true
