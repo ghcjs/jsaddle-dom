@@ -16,10 +16,6 @@ source-repository head
     type: git
     location: https://github.com/ghcjs/jsaddle-dom
 
-flag gtk3
-    description:
-        Use GTK3 rather than GTK2 (only matters when using webkit)
-
 library
 
     if impl(ghcjs -any)
@@ -28,17 +24,11 @@ library
             ghcjs-prim -any,
             ghc-prim -any
     else
-
-        if flag(gtk3)
-            build-depends:
-                gtk3 >=0.13.0.0 && <0.15,
-                webkitgtk3 >=0.14.0.0 && <0.15
-        else
-            build-depends:
-                gtk >=0.13.0.0 && <0.14,
-                webkit >=0.14.0.0 && <0.15
         build-depends:
-            glib >=0.13.0.0 && <0.14,
+            haskell-gi-base >= 0.13 && < 0.14,
+            gi-glib >=0.2.44 && <0.2.47,
+            gi-gtk >=0.3.16 && <0.3.19,
+            gi-webkit >=0.2.4 && <0.2.5,
             transformers >=0.3.0.0 && <0.5
 
     exposed-modules:

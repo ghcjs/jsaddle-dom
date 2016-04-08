@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, OverloadedStrings #-}
+{-# LANGUAGE CPP, OverloadedStrings, PatternSynonyms #-}
 module Language.Javascript.JSaddle.DOM (
   currentWindow
 , currentDocument
@@ -14,26 +14,27 @@ import GHCJS.Types (JSVal(..))
 import GHCJS.Nullable (Nullable(..), nullableToMaybe)
 import Control.Applicative ((<$>))
 #else
-import Graphics.UI.Gtk.WebKit.WebView
-       (webViewSetWebSettings, webViewGetWebSettings, loadStarted,
-        webViewLoadUri, loadFinished, webViewNew, webViewGetDomDocument,
-        webViewGetInspector)
-import Graphics.UI.Gtk.WebKit.WebInspector
-       (showWindow, inspectWebView)
-import Graphics.UI.Gtk
-       (timeoutAddFull, widgetShowAll, mainQuit, objectDestroy,
+import GI.WebKit.Objects.WebView
+       (getWebViewSettings, onWebViewLoadFinished, setWebViewSettings,
+        webViewSetSettings, webViewGetSettings, webViewLoadUri, webViewNew,
+        webViewGetDomDocument, webViewGetInspector, WebView(..))
+import GI.Gtk
+       (widgetShowAll, mainQuit,
         WindowPosition(..), containerAdd, scrolledWindowNew,
-        windowSetPosition, windowSetDefaultSize, windowNew, mainGUI,
-        initGUI, postGUISync, postGUIAsync)
-import System.Glib.Signals (on)
-import System.Glib.Attributes (get, AttrOp(..), set)
-import System.Glib.FFI (maybeNull)
-import System.Glib.MainLoop (priorityLow)
-import Graphics.UI.Gtk.WebKit.WebSettings
-       (webSettingsMonospaceFontFamily, webSettingsUserAgent,
-        webSettingsEnableDeveloperExtras)
+        windowSetPosition, windowSetDefaultSize, windowNew)
+import qualified GI.Gtk.Functions as Gtk (init, main)
+import GI.WebKit.Objects.WebSettings
+       (setWebSettingsMonospaceFontFamily,
+        setWebSettingsEnableDeveloperExtras, setWebSettingsUserAgent,
+        getWebSettingsUserAgent)
+import GI.Gtk.Objects.Widget (onWidgetDestroy)
+import GI.WebKit.Objects.WebInspector
+       (onWebInspectorShowWindow, onWebInspectorInspectWebView)
+import GI.Gtk.Enums (WindowType(..))
+import GI.GLib.Functions (timeoutAdd)
+import GI.GLib.Constants (pattern PRIORITY_LOW)
+import GI.Gtk.Objects.Adjustment (noAdjustment)
 import Control.Monad.IO.Class (liftIO)
-import Graphics.UI.Gtk.WebKit.Types (castToWebView, WebView(..))
 #endif
 
 import Language.Javascript.JSaddle.DOM.Window (getNavigator, getDocument)
@@ -71,28 +72,28 @@ runWebGUI' userAgentKey main = do
   window <- Window <$> ghcjs_currentWindow
   runJSaddle window $ main WebView
 #else
-  initGUI
-  window <- windowNew
-  timeoutAddFull (yield >> return True) priorityLow 10
+  Gtk.init Nothing
+  window <- windowNew WindowTypeToplevel
+  timeoutAdd PRIORITY_LOW 10 (yield >> return True)
   windowSetDefaultSize window 900 600
-  windowSetPosition window WinPosCenter
-  scrollWin <- scrolledWindowNew Nothing Nothing
+  windowSetPosition window WindowPositionCenter
+  scrollWin <- scrolledWindowNew noAdjustment noAdjustment
   webView <- webViewNew
-  settings <- webViewGetWebSettings webView
-  userAgent <- settings `get` webSettingsUserAgent
-  settings `set` [webSettingsUserAgent := userAgent <> " " <> userAgentKey]
-  webViewSetWebSettings webView settings
+  settings <- getWebViewSettings webView
+  userAgent <- getWebSettingsUserAgent settings
+  setWebSettingsUserAgent settings $ userAgent <> " " <> userAgentKey
+  setWebViewSettings webView settings
   window `containerAdd` scrollWin
   scrollWin `containerAdd` webView
-  on window objectDestroy . liftIO $ mainQuit
+  onWidgetDestroy window $ liftIO mainQuit
   widgetShowAll window
-  webView `on` loadFinished $ \frame ->
-    runJSaddle_ webView $ main webView
+  onWebViewLoadFinished webView $ \frame ->
+    runJSaddle webView $ main webView
   args <- getArgs
   case args of
     uri:_ -> webViewLoadUri webView (T.pack uri)
-    []    -> runJSaddle_ webView $ main webView
-  mainGUI
+    []    -> runJSaddle webView $ main webView
+  Gtk.main
 #endif
 
 enableInspector :: MonadIO m => WebView -> m ()
@@ -100,23 +101,23 @@ enableInspector :: MonadIO m => WebView -> m ()
 enableInspector _ = return ()
 #else
 enableInspector webView = liftIO $ do
-  settings <- webViewGetWebSettings webView
-  settings `set` [webSettingsEnableDeveloperExtras := True]
-  webViewSetWebSettings webView settings
+  settings <- getWebViewSettings webView
+  setWebSettingsEnableDeveloperExtras settings True
+  setWebViewSettings webView settings
   inspector <- webViewGetInspector webView
-  window <- windowNew
+  window <- windowNew WindowTypeToplevel
   windowSetDefaultSize window 900 300
-  scrollWin <- scrolledWindowNew Nothing Nothing
-  inspector `on` inspectWebView $ \view -> do
+  scrollWin <- scrolledWindowNew noAdjustment noAdjustment
+  onWebInspectorInspectWebView inspector $ \view -> do
     inspectorView <- webViewNew
-    settings <- webViewGetWebSettings inspectorView
-    settings `set` [webSettingsMonospaceFontFamily := ("Consolas" :: String)]
-    webViewSetWebSettings inspectorView settings
+    settings <- getWebViewSettings inspectorView
+    setWebSettingsMonospaceFontFamily settings "Consolas"
+    setWebViewSettings inspectorView settings
     scrollWin `containerAdd` inspectorView
     window `containerAdd` scrollWin
     widgetShowAll window
     return inspectorView
-  inspector `on` showWindow $ do
+  onWebInspectorShowWindow inspector $ do
     widgetShowAll window
     return True
   return ()
