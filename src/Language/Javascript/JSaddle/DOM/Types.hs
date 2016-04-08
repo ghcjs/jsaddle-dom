@@ -6,7 +6,7 @@
 {-# LANGUAGE LambdaCase #-}
 module Language.Javascript.JSaddle.DOM.Types (
   -- * Monad
-    MonadDOM(..)
+    DOM, MonadDOM, liftDOM
 
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', maybeToNullable
@@ -680,6 +680,8 @@ import Control.Monad ((>=>))
 import Data.Coerce (coerce, Coercible)
 import Control.Monad.Trans.Reader (ReaderT(..), ask)
 import Control.Exception (bracket)
+
+type DOM = JSM
 
 class MonadIO m => MonadDOM m where
     liftDOM :: JSM a -> m a
