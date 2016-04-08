@@ -41,14 +41,13 @@ send' :: (MonadDOM m) => XMLHttpRequest -> Maybe JSVal -> m (Maybe XHRError)
 send' self mbVal = do
     result <- liftIO newEmptyMVar
     liftDOM $
-        withEvent (on self Generated.error $ liftIO $ putStrLn "error" >> putMVar result (Just XHRError)) $
-            withEvent (on self abortEvent $ liftIO $ putStrLn "abort" >> putMVar result (Just XHRAborted)) $
-                withEvent (on self load $ liftIO $ putStrLn "load" >> putMVar result Nothing) $ do
-                    postGUIAsyncJS . void $ do
-                        x <- case mbVal of
+        withEvent (on self Generated.error . liftIO $ putMVar result (Just XHRError)) $
+            withEvent (on self abortEvent . liftIO $ putMVar result (Just XHRAborted)) $
+                withEvent (on self load . liftIO $ putMVar result Nothing) $ do
+                    postGUIAsyncJS . void $
+                        case mbVal of
                             Nothing  -> self ^. js0 "send"
                             Just val -> self ^. js1 "send" val
-                        self ^. js0 "toString" >>= valToText >>= liftIO . putStrLn . T.unpack
                     liftIO $ takeMVar result
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#send() Mozilla XMLHttpRequest.send documentation>
