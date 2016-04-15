@@ -6,7 +6,7 @@
 {-# LANGUAGE LambdaCase #-}
 module Language.Javascript.JSaddle.DOM.Types (
   -- * Monad
-    DOM, MonadDOM, liftDOM
+    DOM, DOMContext, askDOM, runDOM, MonadDOM, liftDOM
 
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', maybeToNullable
@@ -671,7 +671,7 @@ import Language.Javascript.JSaddle
        (Object(..), valToBool, valMakeNull, valToNumber, (!!), js,
         JSVal, JSString, JSM, maybeNullOrUndefined, maybeNullOrUndefined',
         valToStr, jsg, ToJSString(..), strToText, MakeObject(..),
-        Nullable(..), Function(..), freeFunction, instanceOf)
+        Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef)
 import Foreign.Ptr (nullPtr)
 import Control.Lens.Operators ((^.))
 import Data.Maybe (catMaybes)
@@ -682,6 +682,13 @@ import Control.Monad.Trans.Reader (ReaderT(..), ask)
 import Control.Exception (bracket)
 
 type DOM = JSM
+type DOMContext = JSContextRef
+
+askDOM :: MonadDOM m => m DOMContext
+askDOM = liftDOM ask
+
+runDOM :: DOM a -> DOMContext -> IO a
+runDOM = runReaderT
 
 class MonadIO m => MonadDOM m where
     liftDOM :: JSM a -> m a
