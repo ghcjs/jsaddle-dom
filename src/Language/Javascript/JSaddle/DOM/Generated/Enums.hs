@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module Language.Javascript.JSaddle.DOM.Generated.Enums
        (KeyType(..), ToJSVal, FromJSVal, js_KeyTypeSecret,
         js_KeyTypePublic, js_KeyTypePrivate, KeyUsage(..),

@@ -3,10 +3,12 @@ module Language.Javascript.JSaddle.DOM.Custom.Window (
   , openDatabase
 ) where
 
+import Prelude ()
+import Prelude.Compat
 import Control.Monad.IO.Class (MonadIO(..))
 
 import Language.Javascript.JSaddle.DOM.Types
-       (withCallback, MonadDOM, ToJSString, Database, DatabaseCallback(..))
+       (withCallback, Callback(..), MonadDOM, ToJSString, Database, DatabaseCallback(..))
 
 import Language.Javascript.JSaddle.Monad (postGUISyncJS)
 import Language.Javascript.JSaddle.DOM.Generated.Window as Generated hiding (openDatabase)

@@ -1,9 +1,13 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module Language.Javascript.JSaddle.DOM.Custom.AudioContext (
     module Generated
   , DecodeAudioError(..)
   , decodeAudioData
 ) where
 
+import Prelude ()
+import Prelude.Compat
+import Data.Typeable (Typeable)
 import Control.Exception (Exception(..), throwIO)
 import Control.Monad.IO.Class (MonadIO(..))
 
@@ -16,7 +20,7 @@ import Language.Javascript.JSaddle.DOM.Generated.AudioContext as Generated hidin
 import qualified Language.Javascript.JSaddle.DOM.Generated.AudioContext
        as Generated (decodeAudioData)
 
-data DecodeAudioError = DecodeAudioError deriving (Show, Eq)
+data DecodeAudioError = DecodeAudioError deriving (Show, Eq, Typeable)
 
 instance Exception DecodeAudioError
 

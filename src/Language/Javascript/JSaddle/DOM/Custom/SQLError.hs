@@ -1,4 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module Language.Javascript.JSaddle.DOM.Custom.SQLError (
     module Generated
   , SQLErrorCode(..)
@@ -6,10 +7,13 @@ module Language.Javascript.JSaddle.DOM.Custom.SQLError (
   , throwSQLException
 ) where
 
+import Prelude ()
+import Prelude.Compat
+import Data.Typeable (Typeable)
 import Control.Exception (Exception, throwIO)
 import Control.Monad.IO.Class (MonadIO(..))
 
-import Language.Javascript.JSaddle.DOM.Types (MonadDOM)
+import Language.Javascript.JSaddle.DOM.Types (MonadDOM(..))
 
 import Language.Javascript.JSaddle.DOM.Generated.SQLError as Generated
 
@@ -21,8 +25,8 @@ data SQLErrorCode = SQLErrorUnknown
                   | SQLErrorSyntax
                   | SQLErrorConstraint
                   | SQLErrorTimeout
-                  deriving (Show, Eq, Enum)
-data SQLException = SQLException { sqlErrorCode :: SQLErrorCode, sqlErrorMessage :: String } deriving (Show, Eq)
+                  deriving (Show, Eq, Enum, Typeable)
+data SQLException = SQLException { sqlErrorCode :: SQLErrorCode, sqlErrorMessage :: String } deriving (Show, Eq, Typeable)
 
 instance Exception SQLException
 

@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module Language.Javascript.JSaddle.DOM.Custom.XMLHttpRequest (
     module Generated
   , XHRError(..)
@@ -9,6 +10,9 @@ module Language.Javascript.JSaddle.DOM.Custom.XMLHttpRequest (
   , sendFormData
 ) where
 
+import Prelude ()
+import Prelude.Compat
+import Data.Typeable (Typeable)
 import Control.Concurrent.MVar (takeMVar, newEmptyMVar, putMVar)
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Exception (Exception(..), throwIO)
@@ -27,7 +31,7 @@ import qualified Data.Text as T (unpack)
 
 data XHRError = XHRError
               | XHRAborted
-              deriving (Show, Eq)
+              deriving (Show, Eq, Typeable)
 
 instance Exception XHRError
 

@@ -1,18 +1,22 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module Language.Javascript.JSaddle.DOM.Custom.DOMError (
     module Generated
   , DOMErrorException(..)
   , throwDOMErrorException
 ) where
 
+import Prelude ()
+import Prelude.Compat
+import Data.Typeable (Typeable)
 import Control.Exception (Exception, throwIO)
 import Control.Monad.IO.Class (MonadIO(..))
 
 import Language.Javascript.JSaddle.DOM.Types (MonadDOM)
 import Language.Javascript.JSaddle.DOM.Generated.DOMError as Generated
 
-data DOMErrorException = DOMErrorException { domErrorName :: String } deriving (Show, Eq)
+data DOMErrorException = DOMErrorException { domErrorName :: String } deriving (Show, Eq, Typeable)
 
 instance Exception DOMErrorException
 

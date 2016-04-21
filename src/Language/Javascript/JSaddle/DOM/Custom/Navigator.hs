@@ -10,7 +10,7 @@ import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 
 import Language.Javascript.JSaddle (postGUIAsyncJS)
 import Language.Javascript.JSaddle.DOM.Types
-       (withCallback, MediaStream(..), NavigatorUserMediaError(..),
+       (withCallback, Callback(..), MediaStream(..), NavigatorUserMediaError(..),
         Dictionary(..), MonadDOM, NavigatorUserMediaSuccessCallback(..),
         NavigatorUserMediaErrorCallback(..))
 

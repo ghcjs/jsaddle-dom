@@ -8,7 +8,7 @@ import Control.Concurrent.MVar (newEmptyMVar, takeMVar, putMVar)
 
 import Language.Javascript.JSaddle (postGUIAsyncJS)
 import Language.Javascript.JSaddle.DOM.Types
-       (withCallback, SourceInfo(..), MonadDOM, MediaStreamTrackSourcesCallback(..))
+       (withCallback, Callback(..), SourceInfo(..), MonadDOM, MediaStreamTrackSourcesCallback(..))
 
 import Language.Javascript.JSaddle.DOM.Generated.MediaStreamTrackSourcesCallback
        (newMediaStreamTrackSourcesCallback)

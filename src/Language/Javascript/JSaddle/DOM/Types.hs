@@ -6,7 +6,7 @@
 {-# LANGUAGE LambdaCase #-}
 module Language.Javascript.JSaddle.DOM.Types (
   -- * Monad
-    DOM, DOMContext, askDOM, runDOM, MonadDOM, liftDOM
+    DOM, DOMContext, askDOM, runDOM, MonadDOM(..)
 
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', maybeToNullable
@@ -661,8 +661,8 @@ module Language.Javascript.JSaddle.DOM.Types (
 -- AUTO GENERATION ENDS HERE
   ) where
 
-import Prelude hiding((!!))
-import Control.Applicative ((<$>))
+import Prelude ()
+import Prelude.Compat hiding((!!))
 import qualified Data.Text as T (unpack, Text)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.Int (Int8, Int16, Int32, Int64)
@@ -690,7 +690,7 @@ askDOM = liftDOM ask
 runDOM :: DOM a -> DOMContext -> IO a
 runDOM = runReaderT
 
-class MonadIO m => MonadDOM m where
+class (Applicative m, MonadIO m) => MonadDOM m where
     liftDOM :: JSM a -> m a
     {-# MINIMAL liftDOM #-}
 
@@ -706,12 +706,12 @@ postGUISync :: IO a -> IO a
 postGUISync = id
 #endif
 
--- #if defined(ghcjs_HOST_OS)
--- #else
+propagateGError :: a -> a
 propagateGError = id
 
 newtype GType = GType Object
 
+typeInstanceIsA :: ToJSVal value => value -> GType -> JSM Bool
 typeInstanceIsA o (GType t) = o `instanceOf` t
 
 -- The usage of foreignPtrToPtr should be safe as the evaluation will only be
@@ -823,6 +823,7 @@ castToGObject = return
 #ifdef ghcjs_HOST_OS
 foreign import javascript unsafe "object" gTypeGObject :: GType
 #else
+gTypeGObject :: GType
 gTypeGObject = error "gTypeGObject: only available in JavaScript"
 #endif
 
@@ -890,14 +891,14 @@ instance FromJSString JSString where
 
 type ToDOMString s = ToJSString s
 type FromDOMString s = FromJSString s
--- #endif
 
 type IsDOMString s = (ToDOMString s, FromDOMString s)
 
 -- Callbacks
 newtype Callback a = Callback Function
 
-withCallback :: MonadDOM m => Coercible c (Callback x) => JSM c -> (c -> JSM a) -> m a
+withCallback :: (MonadDOM m, Coercible c Function)
+             => JSM c -> (c -> JSM a) -> m a
 withCallback aquire f = do
     jsCtx <- liftDOM ask
     liftIO $ bracket

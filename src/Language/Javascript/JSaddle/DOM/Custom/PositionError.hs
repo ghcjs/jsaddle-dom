@@ -1,4 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module Language.Javascript.JSaddle.DOM.Custom.PositionError (
     module Generated
   , PositionErrorCode(..)
@@ -6,6 +7,9 @@ module Language.Javascript.JSaddle.DOM.Custom.PositionError (
   , throwPositionException
 ) where
 
+import Prelude ()
+import Prelude.Compat
+import Data.Typeable (Typeable)
 import Control.Exception (Exception, throwIO)
 import Control.Monad.IO.Class (MonadIO(..))
 
@@ -16,7 +20,7 @@ import Language.Javascript.JSaddle.DOM.Generated.PositionError as Generated
 data PositionErrorCode = PositionPermissionDenied | PositionUnavailable | PositionTimeout deriving (Show, Eq, Enum)
 data PositionException = PositionException {
         positionErrorCode    :: PositionErrorCode,
-        positionErrorMessage :: String } deriving (Show, Eq)
+        positionErrorMessage :: String } deriving (Show, Eq, Typeable)
 
 instance Exception PositionException
 

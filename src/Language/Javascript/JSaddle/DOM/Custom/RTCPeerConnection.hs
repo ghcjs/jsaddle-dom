@@ -18,7 +18,7 @@ import Control.Monad.IO.Class (MonadIO(..))
 import Language.Javascript.JSaddle (postGUIAsyncJS)
 import Language.Javascript.JSaddle.DOM.Types
        (RTCStatsResponse(..), IsMediaStreamTrack, RTCIceCandidate(..),
-        withCallback, RTCSessionDescription(..), DOMError(..),
+        withCallback, Callback(..), RTCSessionDescription(..), DOMError(..),
         Dictionary(..), RTCPeerConnection(..), MonadDOM,
         RTCSessionDescriptionCallback(..),
         RTCPeerConnectionErrorCallback(..),

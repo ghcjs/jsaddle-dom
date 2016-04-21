@@ -13,7 +13,7 @@ import Control.Monad.IO.Class (MonadIO(..))
 
 import Language.Javascript.JSaddle (postGUIAsyncJS)
 import Language.Javascript.JSaddle.DOM.Types
-       (withCallback, SQLResultSet(..), SQLError(..), IsObjectArray,
+       (withCallback, Callback(..), SQLResultSet(..), SQLError(..), IsObjectArray,
         MonadDOM, ToJSString, SQLStatementCallback(..),
         SQLStatementErrorCallback(..))
 
