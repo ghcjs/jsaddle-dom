@@ -24,7 +24,8 @@ install:
  - travis_retry cabal update
  - cabal install Cabal cabal-install
  - cabal install gtk2hs-buildtools
- - cabal install haskell-gi
+ - git clone https://github.com/hamishmack/haskell-gi.git
+ - cabal install ./haskell-gi
  - cabal install --only-dependencies --enable-tests --enable-benchmarks
 
 # Here starts the actual work to be performed for the package under test; any command which exits with a non-zero exit code causes the build to fail.
