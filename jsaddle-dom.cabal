@@ -1,5 +1,5 @@
 name: jsaddle-dom
-version: 0.1.0.2
+version: 0.1.0.3
 cabal-version: >=1.22
 build-type: Simple
 license: MIT
@@ -560,6 +560,7 @@ library
         Language.Javascript.JSaddle.DOM
         Language.Javascript.JSaddle.DOM.EventM
         Language.Javascript.JSaddle.DOM.Types
+        Language.Javascript.JSaddle.DOM.Enums
         Language.Javascript.JSaddle.DOM.EventTargetClosures
 
     reexported-modules:
@@ -675,7 +676,6 @@ library
         , Language.Javascript.JSaddle.DOM.Generated.EXTTextureFilterAnisotropic as Language.Javascript.JSaddle.DOM.EXTTextureFilterAnisotropic
         , Language.Javascript.JSaddle.DOM.Generated.Element as Language.Javascript.JSaddle.DOM.Element
         , Language.Javascript.JSaddle.DOM.Generated.Entity as Language.Javascript.JSaddle.DOM.Entity
-        , Language.Javascript.JSaddle.DOM.Generated.Enums as Language.Javascript.JSaddle.DOM.Enums
         , Language.Javascript.JSaddle.DOM.Generated.ErrorEvent as Language.Javascript.JSaddle.DOM.ErrorEvent
         , Language.Javascript.JSaddle.DOM.Generated.Event as Language.Javascript.JSaddle.DOM.Event
         , Language.Javascript.JSaddle.DOM.Generated.EventListener as Language.Javascript.JSaddle.DOM.EventListener

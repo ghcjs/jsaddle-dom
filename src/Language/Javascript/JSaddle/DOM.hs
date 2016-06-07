@@ -37,8 +37,8 @@ import GI.Gtk.Objects.Adjustment (noAdjustment)
 import Control.Monad.IO.Class (liftIO)
 #endif
 
-import Language.Javascript.JSaddle.DOM.Window (getNavigator, getDocument)
-import Language.Javascript.JSaddle.DOM.Navigator (getUserAgent)
+import Language.Javascript.JSaddle.DOM.Generated.Window (getNavigator, getDocument)
+import Language.Javascript.JSaddle.DOM.Generated.Navigator (getUserAgent)
 import Foreign (ForeignPtr, nullPtr, Ptr)
 import Control.Monad (unless, forever, liftM)
 import Control.Concurrent

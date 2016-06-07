@@ -70,10 +70,10 @@ import           Control.Monad.Trans.Class (MonadTrans(..))
 import           Control.Monad.Trans.Reader (ReaderT, ask, runReaderT)
 import           Control.Monad.IO.Class (MonadIO(..))
 import           Language.Javascript.JSaddle.DOM.Types
-import qualified Language.Javascript.JSaddle.DOM.Event as Event
-import qualified Language.Javascript.JSaddle.DOM.UIEvent as UIEvent
-import qualified Language.Javascript.JSaddle.DOM.MouseEvent as MouseEvent
-import           Language.Javascript.JSaddle.DOM.EventTarget
+import qualified Language.Javascript.JSaddle.DOM.Generated.Event as Event
+import qualified Language.Javascript.JSaddle.DOM.Generated.UIEvent as UIEvent
+import qualified Language.Javascript.JSaddle.DOM.Generated.MouseEvent as MouseEvent
+import           Language.Javascript.JSaddle.DOM.Generated.EventTarget
 import           Language.Javascript.JSaddle.DOM.EventTargetClosures
 import           Data.Word (Word)
 import           Language.Javascript.JSaddle (JSM)
