@@ -25,10 +25,10 @@ library
             ghc-prim -any
     else
         build-depends:
-            haskell-gi-base >= 0.17 && < 0.18,
-            gi-glib >=2.0.2 && <2.1,
-            gi-gtk >=3.0.2 && <3.1,
-            gi-webkit >=3.0.2 && <3.1
+            haskell-gi-base >= 0.18 && < 0.19,
+            gi-glib >=2.0.6 && <2.1,
+            gi-gtk >=3.0.6 && <3.1,
+            gi-webkit >=3.0.6 && <3.1
 
     exposed-modules:
         JSDOM.Custom.AudioContext
