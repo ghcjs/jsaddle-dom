@@ -76,42 +76,52 @@ import qualified JSDOM.Generated.MouseEvent as MouseEvent
 import           JSDOM.Generated.EventTarget
 import           JSDOM.EventTargetClosures
 import           Data.Word (Word)
-import           Language.Javascript.JSaddle (JSM)
+import           Data.Foldable (forM_)
 
-type EventM t e = ReaderT e JSM
+type EventM t e = ReaderT e DOM
 
-instance MonadDOM (ReaderT e JSM) where
+instance MonadDOM (ReaderT e DOM) where
     liftDOM = lift
 
-newListener :: (IsEvent e) => EventM t e () -> JSM (SaferEventListener t e)
+newListener :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListener f = eventListenerNew (runReaderT f)
 
-newListenerSync :: (IsEvent e) => EventM t e () -> JSM (SaferEventListener t e)
+newListenerSync :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListenerSync f = eventListenerNewSync (runReaderT f)
 
-newListenerAsync :: (IsEvent e) => EventM t e () -> JSM (SaferEventListener t e)
+newListenerAsync :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListenerAsync f = eventListenerNewAsync (runReaderT f)
 
-addListener :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> SaferEventListener t e -> Bool -> JSM ()
+addListener :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> SaferEventListener t e -> Bool -> DOM ()
 addListener target (EventName eventName) l useCapture = do
     raw <- EventListener <$> toJSVal l
     addEventListener target eventName (Just raw) useCapture
 
-removeListener :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> SaferEventListener t e -> Bool -> JSM ()
+removeListener :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> SaferEventListener t e -> Bool -> DOM ()
 removeListener target (EventName eventName) l useCapture = do
     raw <- EventListener <$> toJSVal l
     removeEventListener target eventName (Just raw) useCapture
 
-releaseListener :: (IsEventTarget t, IsEvent e) => SaferEventListener t e -> JSM ()
+releaseListener :: (IsEventTarget t, IsEvent e) => SaferEventListener t e -> DOM ()
 releaseListener = eventListenerRelease
 
-on :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> EventM t e () -> JSM (JSM ())
+on :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> EventM t e () -> DOM (DOM ())
 on target eventName callback = do
     l <- newListener callback
     addListener target eventName l False
     return $ do
         removeListener target eventName l False
         releaseListener l
+
+onThese :: (IsEventTarget t, IsEvent e) => [(t, EventName t e)] -> EventM t e () -> DOM (DOM ())
+onThese targetsAndEventNames callback = do
+    l <- newListener callback
+    forM_ targetsAndEventNames $ \(target, eventName) ->
+        addListener target eventName l False
+    return (do
+        forM_ targetsAndEventNames (\(target, eventName) ->
+            removeListener target eventName l False)
+        releaseListener l)
 
 event :: EventM t e e
 event = ask
