@@ -5,6 +5,8 @@ module JSDOM (
 , WebView
 , runWebGUI
 , enableInspector
+, postGUISync
+, postGUIAsync
 ) where
 
 import qualified Data.Text as T
@@ -45,9 +47,9 @@ import Control.Concurrent
        (yield, threadDelay, takeMVar, newEmptyMVar)
 import System.Environment (getArgs)
 import Data.List (isSuffixOf)
-import Language.Javascript.JSaddle (runJSaddle, JSM, jsg)
+import Language.Javascript.JSaddle (runJSaddle, JSM, jsg, postGUIAsyncJS, postGUISyncJS)
 import JSDOM.Types
-       (FromJSVal(..), MonadDOM(..), MonadDOM, Document(..), Window(..))
+       (DOM, FromJSVal(..), MonadDOM(..), MonadDOM, Document(..), Window(..))
 import Control.Monad.IO.Class (MonadIO)
 
 #ifdef ghcjs_HOST_OS
@@ -56,6 +58,12 @@ foreign import javascript unsafe "$r = window"
 
 data WebView = WebView
 #endif
+
+postGUIAsync :: DOM () -> DOM ()
+postGUIAsync = postGUIAsyncJS
+
+postGUISync :: DOM a -> DOM a
+postGUISync = postGUISyncJS
 
 currentWindow :: MonadDOM m => m (Maybe Window)
 currentWindow = liftDOM $ jsg ("window" :: String) >>= fromJSVal
