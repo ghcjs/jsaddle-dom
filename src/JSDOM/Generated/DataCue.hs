@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataCue
        (newDataCue, newDataCue', setData, getData, setValue, getValue,
         getType, DataCue, castToDataCue, gTypeDataCue)

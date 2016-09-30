@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLAnchorElement
        (toString, setCharset, getCharset, setCoords, getCoords,
         setDownload, getDownload, setHref, getHref, setHreflang,

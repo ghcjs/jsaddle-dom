@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OscillatorNode
        (start, stop, noteOn, noteOff, setPeriodicWave, pattern SINE,
         pattern SQUARE, pattern SAWTOOTH, pattern TRIANGLE, pattern CUSTOM,

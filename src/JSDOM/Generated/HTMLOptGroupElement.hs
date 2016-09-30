@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptGroupElement
        (setDisabled, getDisabled, setLabel, getLabel, HTMLOptGroupElement,
         castToHTMLOptGroupElement, gTypeHTMLOptGroupElement)

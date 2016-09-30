@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioListener
        (setPosition, setOrientation, setVelocity, setDopplerFactor,
         getDopplerFactor, setSpeedOfSound, getSpeedOfSound, AudioListener,

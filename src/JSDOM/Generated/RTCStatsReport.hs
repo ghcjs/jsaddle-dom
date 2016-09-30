@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCStatsReport
        (stat, names, getTimestamp, getId, getType, getLocal, getRemote,
         RTCStatsReport, castToRTCStatsReport, gTypeRTCStatsReport)

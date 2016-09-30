@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamTrack
        (getSources, getConstraints, states, getCapabilities,
         applyConstraints, clone, stop, getKind, getId, getLabel,

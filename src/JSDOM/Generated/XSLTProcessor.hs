@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XSLTProcessor
        (newXSLTProcessor, importStylesheet, transformToFragment,
         transformToDocument, setParameter, getParameter, removeParameter,

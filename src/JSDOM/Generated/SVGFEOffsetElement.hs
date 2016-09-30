@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEOffsetElement
        (getIn1, getDx, getDy, SVGFEOffsetElement,
         castToSVGFEOffsetElement, gTypeSVGFEOffsetElement)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XPathResult
        (iterateNext, snapshotItem, pattern ANY_TYPE, pattern NUMBER_TYPE,
         pattern STRING_TYPE, pattern BOOLEAN_TYPE,

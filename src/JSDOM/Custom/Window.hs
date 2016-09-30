@@ -10,7 +10,6 @@ import Control.Monad.IO.Class (MonadIO(..))
 import JSDOM.Types
        (withCallback, Callback(..), MonadDOM, ToJSString, Database, DatabaseCallback(..))
 
-import Language.Javascript.JSaddle.Monad (postGUISyncJS)
 import JSDOM.Generated.Window as Generated hiding (openDatabase)
 import qualified JSDOM.Generated.Window
        as Generated (openDatabase)
@@ -25,5 +24,5 @@ openDatabase :: (MonadDOM m, ToJSString name, ToJSString version, ToJSString dis
 openDatabase self name version displayName estimatedSize = do
     result <- liftIO newEmptyMVar
     withCallback (newDatabaseCallback (liftIO . putMVar result)) $ \creationCallback ->
-        postGUISyncJS $ Generated.openDatabase self name version displayName estimatedSize (Just creationCallback)
+        Generated.openDatabase self name version displayName estimatedSize (Just creationCallback)
             >>= maybe (fromJust <$> liftIO (takeMVar result)) return

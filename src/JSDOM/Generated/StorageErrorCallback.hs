@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageErrorCallback
        (newStorageErrorCallback, newStorageErrorCallbackSync,
         newStorageErrorCallbackAsync, StorageErrorCallback)
@@ -22,7 +23,7 @@ newStorageErrorCallback ::
 newStorageErrorCallback callback
   = liftDOM
       (StorageErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageErrorCallback Mozilla StorageErrorCallback documentation> 
@@ -32,7 +33,7 @@ newStorageErrorCallbackSync ::
 newStorageErrorCallbackSync callback
   = liftDOM
       (StorageErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageErrorCallback Mozilla StorageErrorCallback documentation> 
@@ -42,5 +43,5 @@ newStorageErrorCallbackAsync ::
 newStorageErrorCallbackAsync callback
   = liftDOM
       (StorageErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))

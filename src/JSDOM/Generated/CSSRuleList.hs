@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSRuleList
        (item, getLength, CSSRuleList, castToCSSRuleList, gTypeCSSRuleList)
        where

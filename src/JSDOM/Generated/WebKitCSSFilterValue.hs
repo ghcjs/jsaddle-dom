@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSFilterValue
        (_get, pattern CSS_FILTER_REFERENCE, pattern CSS_FILTER_GRAYSCALE,
         pattern CSS_FILTER_SEPIA, pattern CSS_FILTER_SATURATE,

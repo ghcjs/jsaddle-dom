@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PannerNode
        (setPosition, setOrientation, setVelocity, pattern EQUALPOWER,
         pattern HRTF, pattern SOUNDFIELD, pattern LINEAR_DISTANCE,

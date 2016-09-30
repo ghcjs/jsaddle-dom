@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGComponentTransferFunctionElement
        (pattern SVG_FECOMPONENTTRANSFER_TYPE_UNKNOWN,
         pattern SVG_FECOMPONENTTRANSFER_TYPE_IDENTITY,

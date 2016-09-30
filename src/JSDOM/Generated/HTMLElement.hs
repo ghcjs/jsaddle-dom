@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLElement
        (insertAdjacentElement, insertAdjacentHTML, insertAdjacentText,
         click, setTitle, getTitle, setLang, getLang, setTranslate,

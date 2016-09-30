@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NavigatorUserMediaErrorCallback
        (newNavigatorUserMediaErrorCallback,
         newNavigatorUserMediaErrorCallbackSync,
@@ -25,7 +26,7 @@ newNavigatorUserMediaErrorCallback ::
 newNavigatorUserMediaErrorCallback callback
   = liftDOM
       (NavigatorUserMediaErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUserMediaErrorCallback Mozilla NavigatorUserMediaErrorCallback documentation> 
@@ -36,7 +37,7 @@ newNavigatorUserMediaErrorCallbackSync ::
 newNavigatorUserMediaErrorCallbackSync callback
   = liftDOM
       (NavigatorUserMediaErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUserMediaErrorCallback Mozilla NavigatorUserMediaErrorCallback documentation> 
@@ -47,5 +48,5 @@ newNavigatorUserMediaErrorCallbackAsync ::
 newNavigatorUserMediaErrorCallbackAsync callback
   = liftDOM
       (NavigatorUserMediaErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))

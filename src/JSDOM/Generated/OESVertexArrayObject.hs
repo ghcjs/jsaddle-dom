@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OESVertexArrayObject
        (createVertexArrayOES, deleteVertexArrayOES, isVertexArrayOES,
         bindVertexArrayOES, pattern VERTEX_ARRAY_BINDING_OES,

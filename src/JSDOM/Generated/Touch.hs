@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Touch
        (getClientX, getClientY, getScreenX, getScreenY, getPageX,
         getPageY, getTarget, getIdentifier, getWebkitRadiusX,

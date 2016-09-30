@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioBufferSourceNode
        (start, stop, noteOn, noteGrainOn, noteOff,
         pattern UNSCHEDULED_STATE, pattern SCHEDULED_STATE,

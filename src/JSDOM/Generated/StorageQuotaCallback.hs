@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageQuotaCallback
        (newStorageQuotaCallback, newStorageQuotaCallbackSync,
         newStorageQuotaCallbackAsync, StorageQuotaCallback)
@@ -21,7 +22,7 @@ newStorageQuotaCallback ::
 newStorageQuotaCallback callback
   = liftDOM
       (StorageQuotaCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [grantedQuotaInBytes] ->
               fromJSValUnchecked grantedQuotaInBytes >>=
                 \ grantedQuotaInBytes' -> callback grantedQuotaInBytes'))
@@ -32,7 +33,7 @@ newStorageQuotaCallbackSync ::
 newStorageQuotaCallbackSync callback
   = liftDOM
       (StorageQuotaCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [grantedQuotaInBytes] ->
               fromJSValUnchecked grantedQuotaInBytes >>=
                 \ grantedQuotaInBytes' -> callback grantedQuotaInBytes'))
@@ -43,7 +44,7 @@ newStorageQuotaCallbackAsync ::
 newStorageQuotaCallbackAsync callback
   = liftDOM
       (StorageQuotaCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [grantedQuotaInBytes] ->
               fromJSValUnchecked grantedQuotaInBytes >>=
                 \ grantedQuotaInBytes' -> callback grantedQuotaInBytes'))

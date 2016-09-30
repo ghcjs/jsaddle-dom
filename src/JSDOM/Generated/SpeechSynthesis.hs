@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SpeechSynthesis
        (speak, cancel, pause, resume, getVoices, getPending, getSpeaking,
         getPaused, SpeechSynthesis, castToSpeechSynthesis,

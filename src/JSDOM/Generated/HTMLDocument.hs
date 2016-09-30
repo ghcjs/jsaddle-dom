@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLDocument
        (open, close, write, writeln, clear, captureEvents, releaseEvents,
         getEmbeds, getPlugins, getScripts, getAll, getWidth, getHeight,

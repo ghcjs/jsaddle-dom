@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLIFrameElement
        (getSVGDocument, setAlign, getAlign, setFrameBorder,
         getFrameBorder, setHeight, getHeight, setLongDesc, getLongDesc,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FileReader
        (newFileReader, readAsArrayBuffer, readAsBinaryString, readAsText,
         readAsDataURL, abort, pattern EMPTY, pattern LOADING, pattern DONE,

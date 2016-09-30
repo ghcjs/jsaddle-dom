@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ImageData
        (newImageData, newImageData', getWidth, getHeight, ImageData,
         castToImageData, gTypeImageData)

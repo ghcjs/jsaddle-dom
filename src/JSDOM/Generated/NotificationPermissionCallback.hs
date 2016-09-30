@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NotificationPermissionCallback
        (newNotificationPermissionCallback,
         newNotificationPermissionCallbackSync,
@@ -25,7 +26,7 @@ newNotificationPermissionCallback ::
 newNotificationPermissionCallback callback
   = liftDOM
       (NotificationPermissionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [permission] ->
               fromJSValUnchecked permission >>=
                 \ permission' -> callback permission'))
@@ -38,7 +39,7 @@ newNotificationPermissionCallbackSync ::
 newNotificationPermissionCallbackSync callback
   = liftDOM
       (NotificationPermissionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [permission] ->
               fromJSValUnchecked permission >>=
                 \ permission' -> callback permission'))
@@ -51,7 +52,7 @@ newNotificationPermissionCallbackAsync ::
 newNotificationPermissionCallbackAsync callback
   = liftDOM
       (NotificationPermissionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [permission] ->
               fromJSValUnchecked permission >>=
                 \ permission' -> callback permission'))

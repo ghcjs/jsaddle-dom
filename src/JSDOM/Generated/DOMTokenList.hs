@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMTokenList
        (item, contains, add, remove, toggle, toString, getLength,
         DOMTokenList, castToDOMTokenList, gTypeDOMTokenList,

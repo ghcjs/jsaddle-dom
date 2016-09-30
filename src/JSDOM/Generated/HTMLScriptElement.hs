@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLScriptElement
        (setText, getText, setHtmlFor, getHtmlFor, setEvent, getEvent,
         setCharset, getCharset, setAsync, getAsync, setDefer, getDefer,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageInfo
        (queryUsageAndQuota, requestQuota, pattern TEMPORARY,
         pattern PERSISTENT, StorageInfo, castToStorageInfo,

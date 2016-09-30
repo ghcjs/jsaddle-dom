@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFESpecularLightingElement
        (getIn1, getSurfaceScale, getSpecularConstant, getSpecularExponent,
         SVGFESpecularLightingElement, castToSVGFESpecularLightingElement,

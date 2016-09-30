@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ScriptProfileNode
        (children, getId, getFunctionName, getUrl, getLineNumber,
         getColumnNumber, ScriptProfileNode, castToScriptProfileNode,

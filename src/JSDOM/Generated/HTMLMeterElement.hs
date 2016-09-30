@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMeterElement
        (setValue, getValue, setMin, getMin, setMax, getMax, setLow,
         getLow, setHigh, getHigh, setOptimum, getOptimum, getLabels,

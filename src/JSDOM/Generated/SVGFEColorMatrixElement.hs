@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEColorMatrixElement
        (pattern SVG_FECOLORMATRIX_TYPE_UNKNOWN,
         pattern SVG_FECOLORMATRIX_TYPE_MATRIX,

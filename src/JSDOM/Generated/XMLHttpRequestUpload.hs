@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XMLHttpRequestUpload
        (abort, error, load, loadEnd, loadStart, progress,
         XMLHttpRequestUpload, castToXMLHttpRequestUpload,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLEmbedElement
        (getSVGDocument, setAlign, getAlign, setHeight, getHeight, setName,
         getName, setSrc, getSrc, setType, getType, setWidth, getWidth,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBaseFontElement
        (setColor, getColor, setFace, getFace, setSize, getSize,
         HTMLBaseFontElement, castToHTMLBaseFontElement,

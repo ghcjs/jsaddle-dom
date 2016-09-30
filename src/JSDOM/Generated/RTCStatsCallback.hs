@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCStatsCallback
        (newRTCStatsCallback, newRTCStatsCallbackSync,
         newRTCStatsCallbackAsync, RTCStatsCallback)
@@ -22,7 +23,7 @@ newRTCStatsCallback ::
 newRTCStatsCallback callback
   = liftDOM
       (RTCStatsCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [response] ->
               fromJSVal response >>= \ response' -> callback response'))
 
@@ -33,7 +34,7 @@ newRTCStatsCallbackSync ::
 newRTCStatsCallbackSync callback
   = liftDOM
       (RTCStatsCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [response] ->
               fromJSVal response >>= \ response' -> callback response'))
 
@@ -44,6 +45,6 @@ newRTCStatsCallbackAsync ::
 newRTCStatsCallbackAsync callback
   = liftDOM
       (RTCStatsCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [response] ->
               fromJSVal response >>= \ response' -> callback response'))

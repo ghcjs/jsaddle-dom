@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLAreaElement
        (setAlt, getAlt, setCoords, getCoords, setHref, getHref, setNoHref,
         getNoHref, setPing, getPing, setRel, getRel, setShape, getShape,

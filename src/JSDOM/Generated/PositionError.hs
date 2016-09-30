@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PositionError
        (pattern PERMISSION_DENIED, pattern POSITION_UNAVAILABLE,
         pattern TIMEOUT, getCode, getMessage, PositionError,

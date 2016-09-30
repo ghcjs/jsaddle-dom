@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.KeyboardEvent
        (initKeyboardEvent, pattern DOM_KEY_LOCATION_STANDARD,
         pattern DOM_KEY_LOCATION_LEFT, pattern DOM_KEY_LOCATION_RIGHT,

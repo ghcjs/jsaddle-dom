@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGRectElement
        (getX, getY, getWidth, getHeight, getRx, getRy, SVGRectElement,
         castToSVGRectElement, gTypeSVGRectElement)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitPoint
        (newWebKitPoint, newWebKitPoint', setX, getX, setY, getY,
         WebKitPoint, castToWebKitPoint, gTypeWebKitPoint)

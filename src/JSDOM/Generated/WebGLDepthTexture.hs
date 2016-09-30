@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLDepthTexture
        (pattern UNSIGNED_INT_24_8_WEBGL, WebGLDepthTexture,
         castToWebGLDepthTexture, gTypeWebGLDepthTexture)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MouseEvent
        (initMouseEvent, getScreenX, getScreenY, getClientX, getClientY,
         getCtrlKey, getShiftKey, getAltKey, getMetaKey, getButton,

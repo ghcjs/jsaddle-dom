@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeIterator
        (nextNode, previousNode, detach, getRoot, getWhatToShow, getFilter,
         getExpandEntityReferences, getReferenceNode,

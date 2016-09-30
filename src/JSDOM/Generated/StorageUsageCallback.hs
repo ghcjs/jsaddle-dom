@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageUsageCallback
        (newStorageUsageCallback, newStorageUsageCallbackSync,
         newStorageUsageCallbackAsync, StorageUsageCallback)
@@ -22,7 +23,7 @@ newStorageUsageCallback ::
 newStorageUsageCallback callback
   = liftDOM
       (StorageUsageCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [currentUsageInBytes, currentQuotaInBytes] ->
               fromJSValUnchecked currentQuotaInBytes >>=
                 \ currentQuotaInBytes' ->
@@ -37,7 +38,7 @@ newStorageUsageCallbackSync ::
 newStorageUsageCallbackSync callback
   = liftDOM
       (StorageUsageCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [currentUsageInBytes, currentQuotaInBytes] ->
               fromJSValUnchecked currentQuotaInBytes >>=
                 \ currentQuotaInBytes' ->
@@ -52,7 +53,7 @@ newStorageUsageCallbackAsync ::
 newStorageUsageCallbackAsync callback
   = liftDOM
       (StorageUsageCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [currentUsageInBytes, currentQuotaInBytes] ->
               fromJSValUnchecked currentQuotaInBytes >>=
                 \ currentQuotaInBytes' ->

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLButtonElement
        (checkValidity, setCustomValidity, setAutofocus, getAutofocus,
         setDisabled, getDisabled, getForm, setFormAction, getFormAction,

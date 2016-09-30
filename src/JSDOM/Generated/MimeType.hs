@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MimeType
        (getType, getSuffixes, getDescription, getEnabledPlugin, MimeType,
         castToMimeType, gTypeMimeType)

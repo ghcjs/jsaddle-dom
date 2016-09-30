@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLDebugRendererInfo
        (pattern UNMASKED_VENDOR_WEBGL, pattern UNMASKED_RENDERER_WEBGL,
         WebGLDebugRendererInfo, castToWebGLDebugRendererInfo,

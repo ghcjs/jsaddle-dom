@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NavigatorUserMediaSuccessCallback
        (newNavigatorUserMediaSuccessCallback,
         newNavigatorUserMediaSuccessCallbackSync,
@@ -25,7 +26,7 @@ newNavigatorUserMediaSuccessCallback ::
 newNavigatorUserMediaSuccessCallback callback
   = liftDOM
       (NavigatorUserMediaSuccessCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [stream] ->
               fromJSVal stream >>= \ stream' -> callback stream'))
 
@@ -37,7 +38,7 @@ newNavigatorUserMediaSuccessCallbackSync ::
 newNavigatorUserMediaSuccessCallbackSync callback
   = liftDOM
       (NavigatorUserMediaSuccessCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [stream] ->
               fromJSVal stream >>= \ stream' -> callback stream'))
 
@@ -49,6 +50,6 @@ newNavigatorUserMediaSuccessCallbackAsync ::
 newNavigatorUserMediaSuccessCallbackAsync callback
   = liftDOM
       (NavigatorUserMediaSuccessCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [stream] ->
               fromJSVal stream >>= \ stream' -> callback stream'))

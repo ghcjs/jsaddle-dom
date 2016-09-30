@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLDrawBuffers
        (drawBuffersWEBGL, pattern COLOR_ATTACHMENT0_WEBGL,
         pattern COLOR_ATTACHMENT1_WEBGL, pattern COLOR_ATTACHMENT2_WEBGL,

@@ -4,6 +4,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE LambdaCase #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Types (
   -- * Monad
     DOM, DOMContext, askDOM, runDOM, MonadDOM(..)
@@ -668,7 +669,7 @@ import Control.Monad.IO.Class (MonadIO(..))
 import Data.Int (Int8, Int16, Int32, Int64)
 import Data.Word (Word8, Word16, Word32, Word64)
 import Language.Javascript.JSaddle
-       (Object(..), valToBool, valMakeNull, valToNumber, (!!), js,
+       (Object(..), valToBool, valNull, valToNumber, (!!), js,
         JSVal, JSString, JSM, maybeNullOrUndefined, maybeNullOrUndefined',
         valToStr, jsg, ToJSString(..), strToText, MakeObject(..),
         Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef)
@@ -775,7 +776,7 @@ nullableToMaybe = fromJSVal
 {-# INLINE nullableToMaybe #-}
 --
 maybeToNullable :: ToJSVal a => Maybe a -> JSM JSVal
-maybeToNullable Nothing = valMakeNull
+maybeToNullable Nothing = return valNull
 maybeToNullable (Just a) = toJSVal a
 {-# INLINE maybeToNullable #-}
 
@@ -848,7 +849,7 @@ fromJSStringArray a = do
 --{-# INLINE fromJSString #-}
 
 toMaybeJSString :: ToJSString a => Maybe a -> JSM JSVal
-toMaybeJSString Nothing = valMakeNull
+toMaybeJSString Nothing = return valNull
 toMaybeJSString (Just a) = toJSVal (toJSString a)
 {-# INLINE toMaybeJSString #-}
 
@@ -877,13 +878,13 @@ instance FromJSVal Word64 where
 instance FromJSVal Bool where
     fromJSValUnchecked = valToBool
 instance FromJSVal T.Text where
-    fromJSValUnchecked v = valToStr v >>= strToText
+    fromJSValUnchecked v = strToText <$> valToStr v
 instance FromJSString T.Text where
-    fromJSString = strToText
+    fromJSString = return . strToText
 instance FromJSVal String where
-    fromJSValUnchecked v = T.unpack <$> (valToStr v >>= strToText)
+    fromJSValUnchecked v = T.unpack . strToText <$> valToStr v
 instance FromJSString String where
-    fromJSString v = T.unpack <$> strToText v
+    fromJSString v = return . T.unpack $ strToText v
 instance FromJSVal JSString where
     fromJSValUnchecked = valToStr
 instance FromJSString JSString where
@@ -903,7 +904,7 @@ withCallback aquire f = do
     jsCtx <- liftDOM ask
     liftIO $ bracket
         (runReaderT aquire jsCtx)
-        (freeFunction . coerce)
+        ((`runReaderT` jsCtx) . freeFunction . coerce)
         (\t -> runReaderT (f t) jsCtx)
 
 newtype AudioBufferCallback = AudioBufferCallback (Callback (JSVal -> IO ()))

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleSheet
        (insertRule, deleteRule, addRule, removeRule, getOwnerRule,
         getCssRules, getRules, CSSStyleSheet, castToCSSStyleSheet,

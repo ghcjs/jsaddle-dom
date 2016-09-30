@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBTransaction
        (objectStore, abort, getMode, getDb, getError, abortEvent,
         complete, error, IDBTransaction, castToIDBTransaction,

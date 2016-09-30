@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLRenderingContextBase
        (activeTexture, attachShader, bindAttribLocation, bindBuffer,
         bindFramebuffer, bindRenderbuffer, bindTexture, blendColor,

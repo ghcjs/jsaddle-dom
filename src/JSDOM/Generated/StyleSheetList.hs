@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleSheetList
        (item, _get, getLength, StyleSheetList, castToStyleSheetList,
         gTypeStyleSheetList)

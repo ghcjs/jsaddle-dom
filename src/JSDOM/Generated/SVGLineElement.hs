@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGLineElement
        (getX1, getY1, getX2, getY2, SVGLineElement, castToSVGLineElement,
         gTypeSVGLineElement)

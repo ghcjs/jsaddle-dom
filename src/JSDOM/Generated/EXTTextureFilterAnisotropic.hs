@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.EXTTextureFilterAnisotropic
        (pattern TEXTURE_MAX_ANISOTROPY_EXT,
         pattern MAX_TEXTURE_MAX_ANISOTROPY_EXT,

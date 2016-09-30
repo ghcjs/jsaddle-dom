@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeFilter
        (acceptNode, pattern FILTER_ACCEPT, pattern FILTER_REJECT,
         pattern FILTER_SKIP, pattern SHOW_ALL, pattern SHOW_ELEMENT,

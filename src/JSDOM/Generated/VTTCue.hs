@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTCue
        (newVTTCue, getCueAsHTML, setVertical, getVertical, setSnapToLines,
         getSnapToLines, setLine, getLine, setPosition, getPosition,

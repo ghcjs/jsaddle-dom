@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGStyleElement
        (setDisabled, getDisabled, setType, getType, setMedia, getMedia,
         setTitle, getTitle, SVGStyleElement, castToSVGStyleElement,

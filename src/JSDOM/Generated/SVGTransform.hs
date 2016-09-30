@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTransform
        (setMatrix, setTranslate, setScale, setRotate, setSkewX, setSkewY,
         pattern SVG_TRANSFORM_UNKNOWN, pattern SVG_TRANSFORM_MATRIX,

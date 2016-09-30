@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLHRElement
        (setAlign, getAlign, setNoShade, getNoShade, setSize, getSize,
         setWidth, getWidth, HTMLHRElement, castToHTMLHRElement,

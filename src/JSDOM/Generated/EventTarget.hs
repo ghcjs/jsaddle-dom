@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.EventTarget
        (addEventListener, removeEventListener, dispatchEvent, EventTarget,
         castToEventTarget, gTypeEventTarget, IsEventTarget, toEventTarget)

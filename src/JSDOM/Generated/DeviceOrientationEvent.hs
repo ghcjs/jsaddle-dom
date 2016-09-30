@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DeviceOrientationEvent
        (initDeviceOrientationEvent, getAlpha, getBeta, getGamma,
         getAbsolute, DeviceOrientationEvent, castToDeviceOrientationEvent,

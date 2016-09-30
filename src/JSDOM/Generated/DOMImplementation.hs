@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMImplementation
        (hasFeature, createDocumentType, createDocument,
         createCSSStyleSheet, createHTMLDocument, DOMImplementation,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OESStandardDerivatives
        (pattern FRAGMENT_SHADER_DERIVATIVE_HINT_OES,
         OESStandardDerivatives, castToOESStandardDerivatives,

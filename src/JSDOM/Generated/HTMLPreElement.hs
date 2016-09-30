@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLPreElement
        (setWidth, getWidth, setWrap, getWrap, HTMLPreElement,
         castToHTMLPreElement, gTypeHTMLPreElement)

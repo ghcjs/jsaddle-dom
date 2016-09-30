@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DatabaseCallback
        (newDatabaseCallback, newDatabaseCallbackSync,
         newDatabaseCallbackAsync, DatabaseCallback)
@@ -21,7 +22,7 @@ newDatabaseCallback ::
 newDatabaseCallback callback
   = liftDOM
       (DatabaseCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [database] ->
               fromJSVal database >>= \ database' -> callback database'))
 
@@ -31,7 +32,7 @@ newDatabaseCallbackSync ::
 newDatabaseCallbackSync callback
   = liftDOM
       (DatabaseCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [database] ->
               fromJSVal database >>= \ database' -> callback database'))
 
@@ -41,6 +42,6 @@ newDatabaseCallbackAsync ::
 newDatabaseCallbackAsync callback
   = liftDOM
       (DatabaseCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [database] ->
               fromJSVal database >>= \ database' -> callback database'))

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEDiffuseLightingElement
        (getIn1, getSurfaceScale, getDiffuseConstant, getKernelUnitLengthX,
         getKernelUnitLengthY, SVGFEDiffuseLightingElement,

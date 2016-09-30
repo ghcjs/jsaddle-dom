@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionElement
        (setDisabled, getDisabled, getForm, setLabel, getLabel,
         setDefaultSelected, getDefaultSelected, setSelected, getSelected,

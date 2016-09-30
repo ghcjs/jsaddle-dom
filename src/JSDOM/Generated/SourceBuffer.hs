@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SourceBuffer
        (appendBuffer, appendBufferView, abort, remove, setMode, getMode,
         getUpdating, getBuffered, setTimestampOffset, getTimestampOffset,

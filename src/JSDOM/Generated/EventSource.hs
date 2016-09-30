@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.EventSource
        (newEventSource, close, pattern CONNECTING, pattern OPEN,
         pattern CLOSED, getUrl, getWithCredentials, getReadyState, open,

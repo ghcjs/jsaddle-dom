@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegLinetoRel
        (setX, getX, setY, getY, SVGPathSegLinetoRel,
         castToSVGPathSegLinetoRel, gTypeSVGPathSegLinetoRel)

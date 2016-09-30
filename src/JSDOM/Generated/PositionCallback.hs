@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PositionCallback
        (newPositionCallback, newPositionCallbackSync,
         newPositionCallbackAsync, PositionCallback)
@@ -21,7 +22,7 @@ newPositionCallback ::
 newPositionCallback callback
   = liftDOM
       (PositionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [position] ->
               fromJSVal position >>= \ position' -> callback position'))
 
@@ -31,7 +32,7 @@ newPositionCallbackSync ::
 newPositionCallbackSync callback
   = liftDOM
       (PositionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [position] ->
               fromJSVal position >>= \ position' -> callback position'))
 
@@ -41,6 +42,6 @@ newPositionCallbackAsync ::
 newPositionCallbackAsync callback
   = liftDOM
       (PositionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [position] ->
               fromJSVal position >>= \ position' -> callback position'))

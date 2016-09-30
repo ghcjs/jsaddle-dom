@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTextPathElement
        (pattern TEXTPATH_METHODTYPE_UNKNOWN,
         pattern TEXTPATH_METHODTYPE_ALIGN,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PositionErrorCallback
        (newPositionErrorCallback, newPositionErrorCallbackSync,
         newPositionErrorCallbackAsync, PositionErrorCallback)
@@ -22,7 +23,7 @@ newPositionErrorCallback ::
 newPositionErrorCallback callback
   = liftDOM
       (PositionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/PositionErrorCallback Mozilla PositionErrorCallback documentation> 
@@ -32,7 +33,7 @@ newPositionErrorCallbackSync ::
 newPositionErrorCallbackSync callback
   = liftDOM
       (PositionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/PositionErrorCallback Mozilla PositionErrorCallback documentation> 
@@ -42,5 +43,5 @@ newPositionErrorCallbackAsync ::
 newPositionErrorCallbackAsync callback
   = liftDOM
       (PositionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))

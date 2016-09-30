@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionsCollection
        (namedItem, addBefore, add, remove, setSelectedIndex,
         getSelectedIndex, setLength, getLength, HTMLOptionsCollection,

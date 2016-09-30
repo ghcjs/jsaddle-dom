@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBodyElement
        (setALink, getALink, setBackground, getBackground, setBgColor,
         getBgColor, setLink, getLink, setText, getText, setVLink, getVLink,

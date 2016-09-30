@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBKeyRange
        (only, lowerBound, upperBound, bound, getLower, getUpper,
         getLowerOpen, getUpperOpen, IDBKeyRange, castToIDBKeyRange,

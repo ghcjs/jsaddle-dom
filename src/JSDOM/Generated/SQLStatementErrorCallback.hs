@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SQLStatementErrorCallback
        (newSQLStatementErrorCallback, newSQLStatementErrorCallbackSync,
         newSQLStatementErrorCallbackAsync, SQLStatementErrorCallback)
@@ -23,7 +24,7 @@ newSQLStatementErrorCallback ::
 newSQLStatementErrorCallback callback
   = liftDOM
       (SQLStatementErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [transaction, error] ->
               fromJSVal error >>=
                 \ error' ->
@@ -38,7 +39,7 @@ newSQLStatementErrorCallbackSync ::
 newSQLStatementErrorCallbackSync callback
   = liftDOM
       (SQLStatementErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [transaction, error] ->
               fromJSVal error >>=
                 \ error' ->
@@ -53,7 +54,7 @@ newSQLStatementErrorCallbackAsync ::
 newSQLStatementErrorCallbackAsync callback
   = liftDOM
       (SQLStatementErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [transaction, error] ->
               fromJSVal error >>=
                 \ error' ->

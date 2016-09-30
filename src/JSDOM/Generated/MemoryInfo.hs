@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MemoryInfo
        (getUsedJSHeapSize, getTotalJSHeapSize, MemoryInfo,
         castToMemoryInfo, gTypeMemoryInfo)

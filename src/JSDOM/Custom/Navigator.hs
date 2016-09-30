@@ -8,7 +8,6 @@ import Data.Maybe (fromJust)
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 
-import Language.Javascript.JSaddle (postGUIAsyncJS)
 import JSDOM.Types
        (withCallback, Callback(..), MediaStream(..), NavigatorUserMediaError(..),
         Dictionary(..), MonadDOM, NavigatorUserMediaSuccessCallback(..),
@@ -31,7 +30,7 @@ getUserMedia' self options = do
     result <- liftIO newEmptyMVar
     withCallback (newNavigatorUserMediaSuccessCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
         withCallback (newNavigatorUserMediaErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            postGUIAsyncJS $ Generated.webkitGetUserMedia self options (Just success) (Just error)
+            Generated.webkitGetUserMedia self options (Just success) (Just error)
             liftIO $ takeMVar result
 
 getUserMedia :: MonadDOM m => Navigator -> Maybe Dictionary -> m MediaStream

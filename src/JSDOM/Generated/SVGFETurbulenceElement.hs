@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFETurbulenceElement
        (pattern SVG_TURBULENCE_TYPE_UNKNOWN,
         pattern SVG_TURBULENCE_TYPE_FRACTALNOISE,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLAppletElement
        (setAlign, getAlign, setAlt, getAlt, setArchive, getArchive,
         setCode, getCode, setCodeBase, getCodeBase, setHeight, getHeight,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NamedNodeMap
        (getNamedItem, setNamedItem, removeNamedItem, item, getNamedItemNS,
         setNamedItemNS, removeNamedItemNS, getLength, NamedNodeMap,

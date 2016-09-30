@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLCanvasElement
        (toDataURL, getContext, probablySupportsContext, setWidth,
         getWidth, setHeight, getHeight, HTMLCanvasElement,

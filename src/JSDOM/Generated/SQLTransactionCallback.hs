@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SQLTransactionCallback
        (newSQLTransactionCallback, newSQLTransactionCallbackSync,
         newSQLTransactionCallbackAsync, SQLTransactionCallback)
@@ -22,7 +23,7 @@ newSQLTransactionCallback ::
 newSQLTransactionCallback callback
   = liftDOM
       (SQLTransactionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [transaction] ->
               fromJSVal transaction >>= \ transaction' -> callback transaction'))
 
@@ -33,7 +34,7 @@ newSQLTransactionCallbackSync ::
 newSQLTransactionCallbackSync callback
   = liftDOM
       (SQLTransactionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [transaction] ->
               fromJSVal transaction >>= \ transaction' -> callback transaction'))
 
@@ -44,6 +45,6 @@ newSQLTransactionCallbackAsync ::
 newSQLTransactionCallbackAsync callback
   = liftDOM
       (SQLTransactionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [transaction] ->
               fromJSVal transaction >>= \ transaction' -> callback transaction'))

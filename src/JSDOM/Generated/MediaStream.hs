@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStream
        (newMediaStream, newMediaStream', newMediaStream'', getAudioTracks,
         getVideoTracks, getTracks, addTrack, removeTrack, getTrackById,

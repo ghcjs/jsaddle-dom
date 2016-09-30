@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrackList
        (item, getTrackById, getLength, addTrack, change, removeTrack,
         TextTrackList, castToTextTrackList, gTypeTextTrackList)

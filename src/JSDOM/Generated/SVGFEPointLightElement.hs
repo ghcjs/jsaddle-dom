@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEPointLightElement
        (getX, getY, getZ, SVGFEPointLightElement,
         castToSVGFEPointLightElement, gTypeSVGFEPointLightElement)

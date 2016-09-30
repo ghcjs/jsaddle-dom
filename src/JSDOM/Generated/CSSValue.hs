@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSValue
        (pattern CSS_INHERIT, pattern CSS_PRIMITIVE_VALUE,
         pattern CSS_VALUE_LIST, pattern CSS_CUSTOM, setCssText, getCssText,

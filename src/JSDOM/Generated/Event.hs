@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Event
        (stopPropagation, preventDefault, initEvent,
         stopImmediatePropagation, pattern NONE, pattern CAPTURING_PHASE,

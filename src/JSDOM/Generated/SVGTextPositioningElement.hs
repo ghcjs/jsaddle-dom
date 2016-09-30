@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTextPositioningElement
        (getX, getY, getDx, getDy, getRotate, SVGTextPositioningElement,
         castToSVGTextPositioningElement, gTypeSVGTextPositioningElement,

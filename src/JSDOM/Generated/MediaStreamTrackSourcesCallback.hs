@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamTrackSourcesCallback
        (newMediaStreamTrackSourcesCallback,
         newMediaStreamTrackSourcesCallbackSync,
@@ -25,7 +26,7 @@ newMediaStreamTrackSourcesCallback ::
 newMediaStreamTrackSourcesCallback callback
   = liftDOM
       (MediaStreamTrackSourcesCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [sources] ->
               fromJSArray sources >>= \ sources' -> callback sources'))
 
@@ -37,7 +38,7 @@ newMediaStreamTrackSourcesCallbackSync ::
 newMediaStreamTrackSourcesCallbackSync callback
   = liftDOM
       (MediaStreamTrackSourcesCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [sources] ->
               fromJSArray sources >>= \ sources' -> callback sources'))
 
@@ -49,6 +50,6 @@ newMediaStreamTrackSourcesCallbackAsync ::
 newMediaStreamTrackSourcesCallbackAsync callback
   = liftDOM
       (MediaStreamTrackSourcesCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [sources] ->
               fromJSArray sources >>= \ sources' -> callback sources'))

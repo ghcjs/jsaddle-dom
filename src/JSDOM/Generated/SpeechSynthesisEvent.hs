@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SpeechSynthesisEvent
        (getCharIndex, getElapsedTime, getName, SpeechSynthesisEvent,
         castToSpeechSynthesisEvent, gTypeSpeechSynthesisEvent)

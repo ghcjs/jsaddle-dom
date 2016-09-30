@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCStatsResponse
        (result, namedItem, RTCStatsResponse, castToRTCStatsResponse,
         gTypeRTCStatsResponse)

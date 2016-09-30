@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TouchEvent
        (initTouchEvent, getTouches, getTargetTouches, getChangedTouches,
         getCtrlKey, getShiftKey, getAltKey, getMetaKey, TouchEvent,

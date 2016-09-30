@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSMatrix
        (newWebKitCSSMatrix, setMatrixValue, multiply, inverse, translate,
         scale, rotate, rotateAxisAngle, skewX, skewY, toString, setA, getA,

@@ -1,5 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE DeriveDataTypeable #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Enums
        (KeyType(..), ToJSVal, FromJSVal, js_KeyTypeSecret,
         js_KeyTypePublic, js_KeyTypePrivate, KeyUsage(..),

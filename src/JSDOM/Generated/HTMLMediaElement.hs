@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMediaElement
        (load, canPlayType, play, pause, fastSeek,
         webkitGenerateKeyRequest, webkitAddKey, webkitCancelKeyRequest,

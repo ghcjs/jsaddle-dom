@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBObjectStore
        (put, add, deleteRange, delete, getRange, get, clear,
         openCursorRange, openCursor, createIndex', createIndex, index,

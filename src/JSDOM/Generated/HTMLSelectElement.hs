@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSelectElement
        (item, namedItem, addBefore, add, remove, checkValidity,
         setCustomValidity, setAutofocus, getAutofocus, setDisabled,

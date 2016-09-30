@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitNamedFlow
        (getRegionsByContent, getRegions, getContent, getName, getOverset,
         getFirstEmptyRegionIndex, WebKitNamedFlow, castToWebKitNamedFlow,

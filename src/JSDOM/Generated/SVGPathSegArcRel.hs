@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegArcRel
        (setX, getX, setY, getY, setR1, getR1, setR2, getR2, setAngle,
         getAngle, setLargeArcFlag, getLargeArcFlag, setSweepFlag,

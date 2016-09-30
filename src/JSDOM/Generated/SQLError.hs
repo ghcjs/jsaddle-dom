@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SQLError
        (pattern UNKNOWN_ERR, pattern DATABASE_ERR, pattern VERSION_ERR,
         pattern TOO_LARGE_ERR, pattern QUOTA_ERR, pattern SYNTAX_ERR,

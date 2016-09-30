@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegLinetoAbs
        (setX, getX, setY, getY, SVGPathSegLinetoAbs,
         castToSVGPathSegLinetoAbs, gTypeSVGPathSegLinetoAbs)

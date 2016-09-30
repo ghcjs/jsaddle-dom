@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFormControlsCollection
        (_get, namedItem, HTMLFormControlsCollection,
         castToHTMLFormControlsCollection, gTypeHTMLFormControlsCollection)

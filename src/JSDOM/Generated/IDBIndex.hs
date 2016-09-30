@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBIndex
        (openCursorRange, openCursor, openKeyCursorRange, openKeyCursor,
         getRange, get, getKeyRange, getKey, countRange, count, getName,

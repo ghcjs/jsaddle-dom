@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaQueryListListener
        (newMediaQueryListListener, newMediaQueryListListenerSync,
         newMediaQueryListListenerAsync, MediaQueryListListener)
@@ -22,7 +23,7 @@ newMediaQueryListListener ::
 newMediaQueryListListener callback
   = liftDOM
       (MediaQueryListListener . Callback <$>
-         function ""
+         function
            (\ _ _ [list] -> fromJSVal list >>= \ list' -> callback list'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryListListener Mozilla MediaQueryListListener documentation> 
@@ -32,7 +33,7 @@ newMediaQueryListListenerSync ::
 newMediaQueryListListenerSync callback
   = liftDOM
       (MediaQueryListListener . Callback <$>
-         function ""
+         function
            (\ _ _ [list] -> fromJSVal list >>= \ list' -> callback list'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryListListener Mozilla MediaQueryListListener documentation> 
@@ -42,5 +43,5 @@ newMediaQueryListListenerAsync ::
 newMediaQueryListListenerAsync callback
   = liftDOM
       (MediaQueryListListener . Callback <$>
-         function ""
+         function
            (\ _ _ [list] -> fromJSVal list >>= \ list' -> callback list'))

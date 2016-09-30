@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Internals
        (address, nodeNeedsStyleRecalc, description,
         hasPausedImageAnimations, elementRenderTreeAsText, isPreloaded,

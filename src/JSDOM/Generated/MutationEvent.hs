@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationEvent
        (initMutationEvent, pattern MODIFICATION, pattern ADDITION,
         pattern REMOVAL, getRelatedNode, getPrevValue, getNewValue,

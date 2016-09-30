@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGGlyphRefElement
        (setGlyphRef, getGlyphRef, setFormat, getFormat, setX, getX, setY,
         getY, setDx, getDx, setDy, getDy, SVGGlyphRefElement,

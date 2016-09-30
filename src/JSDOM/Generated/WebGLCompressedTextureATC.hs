@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLCompressedTextureATC
        (pattern COMPRESSED_RGB_ATC_WEBGL,
         pattern COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBDatabase
        (createObjectStore, deleteObjectStore, transaction, transaction',
         close, getName, getVersion, getObjectStoreNames, abort, error,

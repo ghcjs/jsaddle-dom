@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MessageEvent
        (initMessageEvent, webkitInitMessageEvent, getOrigin,
         getLastEventId, getSource, getData, getPorts, MessageEvent,

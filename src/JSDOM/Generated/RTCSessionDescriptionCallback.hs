@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCSessionDescriptionCallback
        (newRTCSessionDescriptionCallback,
         newRTCSessionDescriptionCallbackSync,
@@ -25,7 +26,7 @@ newRTCSessionDescriptionCallback ::
 newRTCSessionDescriptionCallback callback
   = liftDOM
       (RTCSessionDescriptionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [sdp] -> fromJSVal sdp >>= \ sdp' -> callback sdp'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescriptionCallback Mozilla RTCSessionDescriptionCallback documentation> 
@@ -36,7 +37,7 @@ newRTCSessionDescriptionCallbackSync ::
 newRTCSessionDescriptionCallbackSync callback
   = liftDOM
       (RTCSessionDescriptionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [sdp] -> fromJSVal sdp >>= \ sdp' -> callback sdp'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescriptionCallback Mozilla RTCSessionDescriptionCallback documentation> 
@@ -47,5 +48,5 @@ newRTCSessionDescriptionCallbackAsync ::
 newRTCSessionDescriptionCallbackAsync callback
   = liftDOM
       (RTCSessionDescriptionCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [sdp] -> fromJSVal sdp >>= \ sdp' -> callback sdp'))

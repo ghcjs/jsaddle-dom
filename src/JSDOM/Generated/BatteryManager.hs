@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.BatteryManager
        (getCharging, getChargingTime, getDischargingTime, getLevel,
         chargingChange, chargingTimeChange, dischargingTimeChange,

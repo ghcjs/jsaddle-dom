@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleSheet
        (getType, setDisabled, getDisabled, getOwnerNode,
         getParentStyleSheet, getHref, getTitle, getMedia, StyleSheet,

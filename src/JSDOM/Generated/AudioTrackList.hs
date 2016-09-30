@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioTrackList
        (item, getTrackById, getLength, change, addTrack, removeTrack,
         AudioTrackList, castToAudioTrackList, gTypeAudioTrackList)

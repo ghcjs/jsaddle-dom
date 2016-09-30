@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFECompositeElement
        (pattern SVG_FECOMPOSITE_OPERATOR_UNKNOWN,
         pattern SVG_FECOMPOSITE_OPERATOR_OVER,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Text
        (newText, splitText, replaceWholeText, getWholeText, Text,
         castToText, gTypeText, IsText, toText)

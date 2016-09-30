@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.History
        (back, forward, go, pushState, replaceState, getLength, getState,
         History, castToHistory, gTypeHistory)

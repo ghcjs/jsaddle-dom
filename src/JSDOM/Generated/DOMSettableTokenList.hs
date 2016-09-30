@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMSettableTokenList
        (_get, setValue, getValue, DOMSettableTokenList,
         castToDOMSettableTokenList, gTypeDOMSettableTokenList)

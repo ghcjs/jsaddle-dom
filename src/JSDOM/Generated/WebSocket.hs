@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebSocket
        (newWebSocket, newWebSocket', send, sendView, sendBlob, sendString,
         close, pattern CONNECTING, pattern OPEN, pattern CLOSING,
@@ -105,7 +106,7 @@ error :: EventName WebSocket UIEvent
 error = unsafeEventName (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.onclose Mozilla WebSocket.onclose documentation> 
-closeEvent :: EventName WebSocket Event
+closeEvent :: EventName WebSocket CloseEvent
 closeEvent = unsafeEventName (toJSString "close")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 

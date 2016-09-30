@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGViewSpec
        (getTransform, getViewTarget, getViewBoxString,
         getPreserveAspectRatioString, getTransformString,

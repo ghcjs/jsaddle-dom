@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrackCueList
        (item, getCueById, getLength, TextTrackCueList,
         castToTextTrackCueList, gTypeTextTrackCueList)

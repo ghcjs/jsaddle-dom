@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StringCallback
        (newStringCallback, newStringCallbackSync, newStringCallbackAsync,
         StringCallback)
@@ -22,7 +23,7 @@ newStringCallback ::
 newStringCallback callback
   = liftDOM
       (StringCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [data'] ->
               fromJSValUnchecked data' >>= \ data'' -> callback data''))
 
@@ -33,7 +34,7 @@ newStringCallbackSync ::
 newStringCallbackSync callback
   = liftDOM
       (StringCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [data'] ->
               fromJSValUnchecked data' >>= \ data'' -> callback data''))
 
@@ -44,6 +45,6 @@ newStringCallbackAsync ::
 newStringCallbackAsync callback
   = liftDOM
       (StringCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [data'] ->
               fromJSValUnchecked data' >>= \ data'' -> callback data''))

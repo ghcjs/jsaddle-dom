@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSRule
        (pattern UNKNOWN_RULE, pattern STYLE_RULE, pattern CHARSET_RULE,
         pattern IMPORT_RULE, pattern MEDIA_RULE, pattern FONT_FACE_RULE,

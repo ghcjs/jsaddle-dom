@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGImageElement
        (getX, getY, getWidth, getHeight, getPreserveAspectRatio,
         SVGImageElement, castToSVGImageElement, gTypeSVGImageElement)

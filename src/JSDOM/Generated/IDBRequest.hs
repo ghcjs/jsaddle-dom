@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBRequest
        (getResult, getError, getSource, getTransaction, getReadyState,
         success, error, IDBRequest, castToIDBRequest, gTypeIDBRequest,

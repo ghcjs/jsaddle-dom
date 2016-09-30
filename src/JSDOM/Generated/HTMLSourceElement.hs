@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSourceElement
        (setSrc, getSrc, setType, getType, setMedia, getMedia,
         HTMLSourceElement, castToHTMLSourceElement, gTypeHTMLSourceElement)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioBuffer
        (getChannelData, getLength, getDuration, getSampleRate, setGain,
         getGain, getNumberOfChannels, AudioBuffer, castToAudioBuffer,

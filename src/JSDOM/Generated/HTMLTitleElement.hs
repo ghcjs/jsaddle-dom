@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTitleElement
        (setText, getText, HTMLTitleElement, castToHTMLTitleElement,
         gTypeHTMLTitleElement)

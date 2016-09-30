@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLKeygenElement
        (checkValidity, setCustomValidity, setAutofocus, getAutofocus,
         setChallenge, getChallenge, setDisabled, getDisabled, getForm,

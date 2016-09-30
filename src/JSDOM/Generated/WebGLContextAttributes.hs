@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLContextAttributes
        (setAlpha, getAlpha, setDepth, getDepth, setStencil, getStencil,
         setAntialias, getAntialias, setPremultipliedAlpha,

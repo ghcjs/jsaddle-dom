@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SQLTransactionErrorCallback
        (newSQLTransactionErrorCallback,
         newSQLTransactionErrorCallbackSync,
@@ -23,7 +24,7 @@ newSQLTransactionErrorCallback ::
 newSQLTransactionErrorCallback callback
   = liftDOM
       (SQLTransactionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLTransactionErrorCallback Mozilla SQLTransactionErrorCallback documentation> 
@@ -33,7 +34,7 @@ newSQLTransactionErrorCallbackSync ::
 newSQLTransactionErrorCallbackSync callback
   = liftDOM
       (SQLTransactionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLTransactionErrorCallback Mozilla SQLTransactionErrorCallback documentation> 
@@ -43,5 +44,5 @@ newSQLTransactionErrorCallbackAsync ::
 newSQLTransactionErrorCallbackAsync callback
   = liftDOM
       (SQLTransactionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))

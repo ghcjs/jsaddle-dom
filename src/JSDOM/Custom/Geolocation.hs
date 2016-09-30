@@ -9,7 +9,6 @@ import Data.Maybe (fromJust)
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 
-import Language.Javascript.JSaddle (postGUIAsyncJS)
 import JSDOM.Types
 
 import JSDOM.Custom.PositionError (throwPositionException)
@@ -30,7 +29,7 @@ getCurrentPosition' self options = do
     result <- liftIO newEmptyMVar
     withCallback (newPositionCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
         withCallback (newPositionErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            postGUIAsyncJS $ Generated.getCurrentPosition self (Just success) (Just error) options
+            Generated.getCurrentPosition self (Just success) (Just error) options
             liftIO $ takeMVar result
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition Mozilla Geolocation.getCurrentPosition documentation>

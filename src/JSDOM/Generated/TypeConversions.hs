@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TypeConversions
        (setTestLong, getTestLong, setTestEnforceRangeLong,
         getTestEnforceRangeLong, setTestUnsignedLong, getTestUnsignedLong,

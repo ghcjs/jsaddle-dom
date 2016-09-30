@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DocumentType
        (getName, getEntities, getNotations, getPublicId, getSystemId,
         getInternalSubset, DocumentType, castToDocumentType,

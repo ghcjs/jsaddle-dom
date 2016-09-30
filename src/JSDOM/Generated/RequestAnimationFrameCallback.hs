@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RequestAnimationFrameCallback
        (newRequestAnimationFrameCallback,
         newRequestAnimationFrameCallbackSync,
@@ -24,7 +25,7 @@ newRequestAnimationFrameCallback ::
 newRequestAnimationFrameCallback callback
   = liftDOM
       (RequestAnimationFrameCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [highResTime] ->
               fromJSValUnchecked highResTime >>=
                 \ highResTime' -> callback highResTime'))
@@ -36,7 +37,7 @@ newRequestAnimationFrameCallbackSync ::
 newRequestAnimationFrameCallbackSync callback
   = liftDOM
       (RequestAnimationFrameCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [highResTime] ->
               fromJSValUnchecked highResTime >>=
                 \ highResTime' -> callback highResTime'))
@@ -48,7 +49,7 @@ newRequestAnimationFrameCallbackAsync ::
 newRequestAnimationFrameCallbackAsync callback
   = liftDOM
       (RequestAnimationFrameCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [highResTime] ->
               fromJSValUnchecked highResTime >>=
                 \ highResTime' -> callback highResTime'))

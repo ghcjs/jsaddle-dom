@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Range
        (newRange, setStart, setEnd, setStartBefore, setStartAfter,
         setEndBefore, setEndAfter, collapse, selectNode,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoQuadraticRel
        (setX, getX, setY, getY, setX1, getX1, setY1, getY1,
         SVGPathSegCurvetoQuadraticRel, castToSVGPathSegCurvetoQuadraticRel,

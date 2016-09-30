@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.URLUtils
        (toString, setHref, getHref, getOrigin, setProtocol, getProtocol,
         setUsername, getUsername, setPassword, getPassword, setHost,

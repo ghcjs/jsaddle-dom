@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Path2D
        (newPath2D, newPath2D', newPath2D'', addPath, closePath, moveTo,
         lineTo, quadraticCurveTo, bezierCurveTo, arcTo, rect, arc, Path2D,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableCellElement
        (getCellIndex, setAbbr, getAbbr, setAlign, getAlign, setAxis,
         getAxis, setBgColor, getBgColor, setCh, getCh, setChOff, getChOff,

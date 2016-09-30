@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSeg
        (pattern PATHSEG_UNKNOWN, pattern PATHSEG_CLOSEPATH,
         pattern PATHSEG_MOVETO_ABS, pattern PATHSEG_MOVETO_REL,

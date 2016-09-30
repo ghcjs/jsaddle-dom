@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Gamepad
        (getId, getIndex, getConnected, getTimestamp, getMapping, getAxes,
         getButtons, Gamepad, castToGamepad, gTypeGamepad)

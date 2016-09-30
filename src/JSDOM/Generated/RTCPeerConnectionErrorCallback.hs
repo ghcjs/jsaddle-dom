@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCPeerConnectionErrorCallback
        (newRTCPeerConnectionErrorCallback,
         newRTCPeerConnectionErrorCallbackSync,
@@ -24,7 +25,7 @@ newRTCPeerConnectionErrorCallback ::
 newRTCPeerConnectionErrorCallback callback
   = liftDOM
       (RTCPeerConnectionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnectionErrorCallback Mozilla RTCPeerConnectionErrorCallback documentation> 
@@ -35,7 +36,7 @@ newRTCPeerConnectionErrorCallbackSync ::
 newRTCPeerConnectionErrorCallbackSync callback
   = liftDOM
       (RTCPeerConnectionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnectionErrorCallback Mozilla RTCPeerConnectionErrorCallback documentation> 
@@ -46,5 +47,5 @@ newRTCPeerConnectionErrorCallbackAsync ::
 newRTCPeerConnectionErrorCallbackAsync callback
   = liftDOM
       (RTCPeerConnectionErrorCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [error] -> fromJSVal error >>= \ error' -> callback error'))

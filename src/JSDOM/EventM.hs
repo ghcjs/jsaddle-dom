@@ -68,7 +68,6 @@ where
 import           Control.Applicative ((<$>))
 import           Control.Monad.Trans.Class (MonadTrans(..))
 import           Control.Monad.Trans.Reader (ReaderT, ask, runReaderT)
-import           Control.Monad.IO.Class (MonadIO(..))
 import           JSDOM.Types
 import qualified JSDOM.Generated.Event as Event
 import qualified JSDOM.Generated.UIEvent as UIEvent

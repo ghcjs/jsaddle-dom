@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEDisplacementMapElement
        (pattern SVG_CHANNEL_UNKNOWN, pattern SVG_CHANNEL_R,
         pattern SVG_CHANNEL_G, pattern SVG_CHANNEL_B,

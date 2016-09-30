@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ClientRect
        (getTop, getRight, getBottom, getLeft, getWidth, getHeight,
         ClientRect, castToClientRect, gTypeClientRect)

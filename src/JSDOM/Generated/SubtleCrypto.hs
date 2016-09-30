@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SubtleCrypto
        (encrypt, decrypt, sign, verify, digest, generateKey, importKey,
         exportKey, wrapKey, unwrapKey, SubtleCrypto, castToSubtleCrypto,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLHeadElement
        (setProfile, getProfile, HTMLHeadElement, castToHTMLHeadElement,
         gTypeHTMLHeadElement)

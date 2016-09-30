@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CharacterData
        (substringData, appendData, insertData, deleteData, replaceData,
         setData, getData, getLength, CharacterData, castToCharacterData,

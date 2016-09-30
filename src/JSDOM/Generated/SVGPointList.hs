@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPointList
        (clear, initialize, getItem, insertItemBefore, replaceItem,
         removeItem, appendItem, getNumberOfItems, SVGPointList,

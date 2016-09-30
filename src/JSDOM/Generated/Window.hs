@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Window
        (openDatabase, getSelection, focus, blur, close, print, stop, open,
         showModalDialog, alert, confirm, prompt, find, scrollBy, scrollTo,

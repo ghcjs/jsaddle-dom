@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.UIEvent
        (initUIEvent, getView, getDetail, getKeyCode, getCharCode,
         getLayerX, getLayerY, getPageX, getPageY, getWhich, UIEvent,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLObjectElement
        (checkValidity, setCustomValidity, getSVGDocument, getForm,
         setCode, getCode, setAlign, getAlign, setArchive, getArchive,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTrackElement
        (pattern NONE, pattern LOADING, pattern LOADED, pattern ERROR,
         setKind, getKind, setSrc, getSrc, setSrclang, getSrclang, setLabel,

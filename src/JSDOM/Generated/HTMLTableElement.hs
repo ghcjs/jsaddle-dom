@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableElement
        (createTHead, deleteTHead, createTFoot, deleteTFoot, createTBody,
         createCaption, deleteCaption, insertRow, deleteRow, setCaption,

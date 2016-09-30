@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FileReaderSync
        (newFileReaderSync, readAsArrayBuffer, readAsBinaryString,
         readAsText, readAsDataURL, FileReaderSync, castToFileReaderSync,

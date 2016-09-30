@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PerformanceNavigation
        (pattern TYPE_NAVIGATE, pattern TYPE_RELOAD,
         pattern TYPE_BACK_FORWARD, pattern TYPE_RESERVED, getType,

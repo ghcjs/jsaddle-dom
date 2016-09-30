@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CommandLineAPIHost
        (clearConsoleMessages, copyText, inspect, inspectedObject,
         getEventListeners, databaseId, storageId, CommandLineAPIHost,

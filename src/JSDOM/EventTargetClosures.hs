@@ -3,8 +3,7 @@ module JSDOM.EventTargetClosures
 
 import Control.Applicative ((<$>))
 import JSDOM.Types
-import Language.Javascript.JSaddle (JSUndefined, function, JSM, Function(..), freeFunction)
-import Control.Monad.IO.Class (MonadIO(..))
+import Language.Javascript.JSaddle (function, JSM, Function(..), freeFunction)
 
 newtype EventName t e = EventName DOMString
 newtype SaferEventListener t e = SaferEventListener Function
@@ -21,13 +20,13 @@ unsafeEventName :: DOMString -> EventName t e
 unsafeEventName = EventName
 
 eventListenerNew :: (IsEvent e) => (e -> JSM ()) -> JSM (SaferEventListener t e)
-eventListenerNew callback = SaferEventListener <$> function "listener" (\_ _ [e] -> fromJSValUnchecked e >>= callback)
+eventListenerNew callback = SaferEventListener <$> function (\_ _ [e] -> fromJSValUnchecked e >>= callback)
 
 eventListenerNewSync :: (IsEvent e) => (e -> JSM ()) -> JSM (SaferEventListener t e)
-eventListenerNewSync callback = SaferEventListener <$> function "listener" (\_ _ [e] -> fromJSValUnchecked e >>= callback)
+eventListenerNewSync callback = SaferEventListener <$> function (\_ _ [e] -> fromJSValUnchecked e >>= callback)
 
 eventListenerNewAsync :: (IsEvent e) => (e -> JSM ()) -> JSM (SaferEventListener t e)
-eventListenerNewAsync callback = SaferEventListener <$> function "listener" (\_ _ [e] -> fromJSValUnchecked e >>= callback)
+eventListenerNewAsync callback = SaferEventListener <$> function (\_ _ [e] -> fromJSValUnchecked e >>= callback)
 
 eventListenerRelease :: SaferEventListener t e -> JSM ()
 eventListenerRelease (SaferEventListener f) = freeFunction f

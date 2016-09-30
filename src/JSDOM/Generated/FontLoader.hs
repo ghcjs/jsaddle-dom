@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FontLoader
        (checkFont, loadFont, notifyWhenFontsReady, loading, loadingDone,
         loadStart, load, error, getLoading, FontLoader, castToFontLoader,

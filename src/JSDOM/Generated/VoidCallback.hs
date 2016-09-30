@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VoidCallback
        (newVoidCallback, newVoidCallbackSync, newVoidCallbackAsync,
         VoidCallback)
@@ -19,16 +20,16 @@ import JSDOM.Enums
 newVoidCallback :: (MonadDOM m) => JSM () -> m VoidCallback
 newVoidCallback callback
   = liftDOM
-      (VoidCallback . Callback <$> function "" (\ _ _ [] -> callback))
+      (VoidCallback . Callback <$> function (\ _ _ [] -> callback))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VoidCallback Mozilla VoidCallback documentation> 
 newVoidCallbackSync :: (MonadDOM m) => JSM () -> m VoidCallback
 newVoidCallbackSync callback
   = liftDOM
-      (VoidCallback . Callback <$> function "" (\ _ _ [] -> callback))
+      (VoidCallback . Callback <$> function (\ _ _ [] -> callback))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VoidCallback Mozilla VoidCallback documentation> 
 newVoidCallbackAsync :: (MonadDOM m) => JSM () -> m VoidCallback
 newVoidCallbackAsync callback
   = liftDOM
-      (VoidCallback . Callback <$> function "" (\ _ _ [] -> callback))
+      (VoidCallback . Callback <$> function (\ _ _ [] -> callback))

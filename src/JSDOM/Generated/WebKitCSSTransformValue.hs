@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSTransformValue
        (_get, pattern CSS_TRANSLATE, pattern CSS_TRANSLATEX,
         pattern CSS_TRANSLATEY, pattern CSS_ROTATE, pattern CSS_SCALE,

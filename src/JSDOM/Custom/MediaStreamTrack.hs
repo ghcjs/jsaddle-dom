@@ -6,7 +6,6 @@ module JSDOM.Custom.MediaStreamTrack (
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Concurrent.MVar (newEmptyMVar, takeMVar, putMVar)
 
-import Language.Javascript.JSaddle (postGUIAsyncJS)
 import JSDOM.Types
        (withCallback, Callback(..), SourceInfo(..), MonadDOM, MediaStreamTrackSourcesCallback(..))
 
@@ -23,7 +22,7 @@ getSources :: (MonadDOM m, IsMediaStreamTrack self) => self -> m [Maybe SourceIn
 getSources self = do
     result <- liftIO newEmptyMVar
     withCallback (newMediaStreamTrackSourcesCallback (liftIO . putMVar result)) $ \callback -> do
-        postGUIAsyncJS $ Generated.getSources self (Just callback)
+        Generated.getSources self (Just callback)
         liftIO $ takeMVar result
 
 

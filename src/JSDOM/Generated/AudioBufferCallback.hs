@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioBufferCallback
        (newAudioBufferCallback, newAudioBufferCallbackSync,
         newAudioBufferCallbackAsync, AudioBufferCallback)
@@ -22,7 +23,7 @@ newAudioBufferCallback ::
 newAudioBufferCallback callback
   = liftDOM
       (AudioBufferCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [audioBuffer] ->
               fromJSVal audioBuffer >>= \ audioBuffer' -> callback audioBuffer'))
 
@@ -33,7 +34,7 @@ newAudioBufferCallbackSync ::
 newAudioBufferCallbackSync callback
   = liftDOM
       (AudioBufferCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [audioBuffer] ->
               fromJSVal audioBuffer >>= \ audioBuffer' -> callback audioBuffer'))
 
@@ -44,6 +45,6 @@ newAudioBufferCallbackAsync ::
 newAudioBufferCallbackAsync callback
   = liftDOM
       (AudioBufferCallback . Callback <$>
-         function ""
+         function
            (\ _ _ [audioBuffer] ->
               fromJSVal audioBuffer >>= \ audioBuffer' -> callback audioBuffer'))

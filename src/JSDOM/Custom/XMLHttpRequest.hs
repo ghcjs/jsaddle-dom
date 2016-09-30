@@ -19,15 +19,14 @@ import Control.Exception (Exception(..), throwIO)
 import Control.Lens.Operators ((^.))
 
 import Language.Javascript.JSaddle
-       (valToText, valToStr, JSM, js0, js1, postGUIAsyncJS, bracket,
+       (js0, js1, bracket,
         ToJSString, ToJSVal(..), JSVal)
 import JSDOM.Types
-       (MonadDOM(..), FormData(..), IsDocument, IsBlob, IsArrayBufferView)
+       (DOM, MonadDOM(..), FormData(..), IsDocument, IsBlob, IsArrayBufferView)
 import JSDOM.EventM (on)
 
 import JSDOM.Generated.XMLHttpRequest as Generated hiding (send)
 import Control.Monad (void)
-import qualified Data.Text as T (unpack)
 
 data XHRError = XHRError
               | XHRAborted
@@ -38,7 +37,7 @@ instance Exception XHRError
 throwXHRError :: MonadDOM m => Maybe XHRError -> m ()
 throwXHRError = maybe (return ()) (liftIO . throwIO)
 
-withEvent :: JSM (JSM ()) -> JSM a -> JSM a
+withEvent :: DOM (DOM ()) -> DOM a -> DOM a
 withEvent aquire = bracket aquire id . const
 
 send' :: (MonadDOM m) => XMLHttpRequest -> Maybe JSVal -> m (Maybe XHRError)
@@ -48,7 +47,7 @@ send' self mbVal = do
         withEvent (on self Generated.error . liftIO $ putMVar result (Just XHRError)) $
             withEvent (on self abortEvent . liftIO $ putMVar result (Just XHRAborted)) $
                 withEvent (on self load . liftIO $ putMVar result Nothing) $ do
-                    postGUIAsyncJS . void $
+                    void $
                         case mbVal of
                             Nothing  -> self ^. js0 "send"
                             Just val -> self ^. js1 "send" val

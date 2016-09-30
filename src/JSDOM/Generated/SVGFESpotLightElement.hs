@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFESpotLightElement
        (getX, getY, getZ, getPointsAtX, getPointsAtY, getPointsAtZ,
         getSpecularExponent, getLimitingConeAngle, SVGFESpotLightElement,

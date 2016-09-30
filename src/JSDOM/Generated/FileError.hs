@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FileError
        (pattern NOT_FOUND_ERR, pattern SECURITY_ERR, pattern ABORT_ERR,
         pattern NOT_READABLE_ERR, pattern ENCODING_ERR,

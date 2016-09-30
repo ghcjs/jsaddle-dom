@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFrameSetElement
        (setCols, getCols, setRows, getRows, beforeUnload, hashChange,
         message, offline, online, popState, resize, storage, unload,

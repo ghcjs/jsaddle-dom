@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Location
        (assign, replace, reload, toString, setHref, getHref, setProtocol,
         getProtocol, setHost, getHost, setHostname, getHostname, setPort,

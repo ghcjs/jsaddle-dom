@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Attr
        (getName, getSpecified, setValue, getValue, getOwnerElement,
         getIsId, Attr, castToAttr, gTypeAttr)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLCompressedTexturePVRTC
        (pattern COMPRESSED_RGB_PVRTC_4BPPV1_IMG,
         pattern COMPRESSED_RGB_PVRTC_2BPPV1_IMG,

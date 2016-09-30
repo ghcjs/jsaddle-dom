@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MessageChannel
        (newMessageChannel, getPort1, getPort2, MessageChannel,
         castToMessageChannel, gTypeMessageChannel)

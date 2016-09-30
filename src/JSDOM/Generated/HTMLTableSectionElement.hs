@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableSectionElement
        (insertRow, deleteRow, setAlign, getAlign, setCh, getCh, setChOff,
         getChOff, setVAlign, getVAlign, getRows, HTMLTableSectionElement,

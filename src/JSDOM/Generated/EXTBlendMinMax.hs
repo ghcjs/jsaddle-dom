@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.EXTBlendMinMax
        (pattern MIN_EXT, pattern MAX_EXT, EXTBlendMinMax,
         castToEXTBlendMinMax, gTypeEXTBlendMinMax)

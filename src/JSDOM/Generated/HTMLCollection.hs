@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLCollection
        (item, namedItem, getLength, HTMLCollection, castToHTMLCollection,
         gTypeHTMLCollection, IsHTMLCollection, toHTMLCollection)

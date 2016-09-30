@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEDropShadowElement
        (setStdDeviation, getIn1, getDx, getDy, getStdDeviationX,
         getStdDeviationY, SVGFEDropShadowElement,

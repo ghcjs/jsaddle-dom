@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Plugin
        (item, namedItem, getName, getFilename, getDescription, getLength,
         Plugin, castToPlugin, gTypePlugin)

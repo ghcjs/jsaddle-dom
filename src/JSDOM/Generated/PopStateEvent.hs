@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PopStateEvent
        (getState, PopStateEvent, castToPopStateEvent, gTypePopStateEvent)
        where

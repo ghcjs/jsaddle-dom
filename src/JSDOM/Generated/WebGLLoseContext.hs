@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLLoseContext
        (loseContext, restoreContext, WebGLLoseContext,
         castToWebGLLoseContext, gTypeWebGLLoseContext)

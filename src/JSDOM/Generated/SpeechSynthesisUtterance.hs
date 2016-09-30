@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SpeechSynthesisUtterance
        (newSpeechSynthesisUtterance, setText, getText, setLang, getLang,
         setVoice, getVoice, setVolume, getVolume, setRate, getRate,

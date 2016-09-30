@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ValidityState
        (getValueMissing, getTypeMismatch, getPatternMismatch, getTooLong,
         getRangeUnderflow, getRangeOverflow, getStepMismatch, getBadInput,

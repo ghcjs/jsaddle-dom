@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLImageElement
        (setName, getName, setAlign, getAlign, setAlt, getAlt, setBorder,
         getBorder, setCrossOrigin, getCrossOrigin, setHeight, getHeight,

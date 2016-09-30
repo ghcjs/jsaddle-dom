@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaSourceStates
        (getSourceType, getSourceId, getWidth, getHeight, getFrameRate,
         getAspectRatio, getFacingMode, getVolume, MediaSourceStates,

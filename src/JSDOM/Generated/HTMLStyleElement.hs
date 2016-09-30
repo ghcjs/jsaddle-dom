@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLStyleElement
        (setDisabled, getDisabled, setMedia, getMedia, setType, getType,
         getSheet, HTMLStyleElement, castToHTMLStyleElement,

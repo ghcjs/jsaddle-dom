@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSValueList
        (item, getLength, CSSValueList, castToCSSValueList,
         gTypeCSSValueList, IsCSSValueList, toCSSValueList)

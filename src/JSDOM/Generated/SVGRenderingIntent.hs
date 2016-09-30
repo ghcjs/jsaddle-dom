@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGRenderingIntent
        (pattern RENDERING_INTENT_UNKNOWN, pattern RENDERING_INTENT_AUTO,
         pattern RENDERING_INTENT_PERCEPTUAL,

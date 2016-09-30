@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTextAreaElement
        (checkValidity, setCustomValidity, select, setRangeText,
         setRangeText4, setSelectionRange, setAutofocus, getAutofocus,

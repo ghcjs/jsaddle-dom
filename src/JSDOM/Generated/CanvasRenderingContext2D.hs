@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CanvasRenderingContext2D
        (save, restore, scale, rotate, translate, transform, setTransform,
         createLinearGradient, createRadialGradient, setLineDash,

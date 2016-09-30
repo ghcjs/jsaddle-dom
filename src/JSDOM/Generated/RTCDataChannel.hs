@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCDataChannel
        (send, sendView, sendBlob, sendString, close, getLabel, getOrdered,
         getMaxRetransmitTime, getMaxRetransmits, getProtocol,
@@ -119,7 +120,7 @@ error :: EventName RTCDataChannel UIEvent
 error = unsafeEventName (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onclose Mozilla RTCDataChannel.onclose documentation> 
-closeEvent :: EventName RTCDataChannel Event
+closeEvent :: EventName RTCDataChannel CloseEvent
 closeEvent = unsafeEventName (toJSString "close")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onmessage Mozilla RTCDataChannel.onmessage documentation> 

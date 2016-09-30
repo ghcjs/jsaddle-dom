@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGMarkerElement
        (setOrientToAuto, setOrientToAngle,
         pattern SVG_MARKERUNITS_UNKNOWN,

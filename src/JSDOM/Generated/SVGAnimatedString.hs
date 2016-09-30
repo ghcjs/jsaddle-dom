@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedString
        (setBaseVal, getBaseVal, getAnimVal, SVGAnimatedString,
         castToSVGAnimatedString, gTypeSVGAnimatedString)

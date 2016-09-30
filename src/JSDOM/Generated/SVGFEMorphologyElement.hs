@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEMorphologyElement
        (setRadius, pattern SVG_MORPHOLOGY_OPERATOR_UNKNOWN,
         pattern SVG_MORPHOLOGY_OPERATOR_ERODE,

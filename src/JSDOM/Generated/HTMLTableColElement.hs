@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableColElement
        (setAlign, getAlign, setCh, getCh, setChOff, getChOff, setSpan,
         getSpan, setVAlign, getVAlign, setWidth, getWidth,

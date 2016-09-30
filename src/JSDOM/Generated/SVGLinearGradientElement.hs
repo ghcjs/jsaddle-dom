@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGLinearGradientElement
        (getX1, getY1, getX2, getY2, SVGLinearGradientElement,
         castToSVGLinearGradientElement, gTypeSVGLinearGradientElement)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyEvent
        (getKeySystem, getSessionId, getInitData, getMessage,
         getDefaultURL, getErrorCode, getSystemCode, MediaKeyEvent,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMetaElement
        (setContent, getContent, setHttpEquiv, getHttpEquiv, setName,
         getName, setScheme, getScheme, HTMLMetaElement,

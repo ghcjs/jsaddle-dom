@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBaseElement
        (setHref, getHref, setTarget, getTarget, HTMLBaseElement,
         castToHTMLBaseElement, gTypeHTMLBaseElement)

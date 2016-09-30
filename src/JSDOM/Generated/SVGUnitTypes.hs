@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGUnitTypes
        (pattern SVG_UNIT_TYPE_UNKNOWN,
         pattern SVG_UNIT_TYPE_USERSPACEONUSE,

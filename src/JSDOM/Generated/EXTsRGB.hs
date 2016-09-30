@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.EXTsRGB
        (pattern SRGB_EXT, pattern SRGB_ALPHA_EXT,
         pattern SRGB8_ALPHA8_EXT,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGZoomEvent
        (getZoomRectScreen, getPreviousScale, getPreviousTranslate,
         getNewScale, getNewTranslate, SVGZoomEvent, castToSVGZoomEvent,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Blob
        (newBlob, newBlob', slice, getSize, getType, Blob, castToBlob,
         gTypeBlob, IsBlob, toBlob)

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerGlobalScope
        (close, importScripts, getSelf, getLocation, error, offline,
         online, getNavigator, WorkerGlobalScope, castToWorkerGlobalScope,

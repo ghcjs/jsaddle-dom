@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSImportRule
        (getHref, getMedia, getStyleSheet, CSSImportRule,
         castToCSSImportRule, gTypeCSSImportRule)

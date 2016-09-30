@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioNode
        (connect, connectParam, disconnect, getContext, getNumberOfInputs,
         getNumberOfOutputs, setChannelCount, getChannelCount,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WheelEvent
        (initWebKitWheelEvent, pattern DOM_DELTA_PIXEL,
         pattern DOM_DELTA_LINE, pattern DOM_DELTA_PAGE, getDeltaX,

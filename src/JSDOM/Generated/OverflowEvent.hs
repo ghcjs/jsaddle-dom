@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OverflowEvent
        (pattern HORIZONTAL, pattern VERTICAL, pattern BOTH, getOrient,
         getHorizontalOverflow, getVerticalOverflow, OverflowEvent,

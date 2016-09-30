@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPaint
        (setUri, setPaint, pattern SVG_PAINTTYPE_UNKNOWN,
         pattern SVG_PAINTTYPE_RGBCOLOR,

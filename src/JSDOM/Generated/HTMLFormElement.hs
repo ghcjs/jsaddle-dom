@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFormElement
        (_get, submit, reset, checkValidity, requestAutocomplete,
         setAcceptCharset, getAcceptCharset, setAction, getAction,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGMatrix
        (multiply, inverse, translate, scale, scaleNonUniform, rotate,
         rotateFromVector, flipX, flipY, skewX, skewY, setA, getA, setB,

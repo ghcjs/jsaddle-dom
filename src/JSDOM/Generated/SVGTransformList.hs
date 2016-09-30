@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTransformList
        (clear, initialize, getItem, insertItemBefore, replaceItem,
         removeItem, appendItem, createSVGTransformFromMatrix, consolidate,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.BiquadFilterNode
        (getFrequencyResponse, pattern LOWPASS, pattern HIGHPASS,
         pattern BANDPASS, pattern LOWSHELF, pattern HIGHSHELF,

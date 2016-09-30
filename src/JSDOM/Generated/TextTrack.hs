@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrack
        (addCue, removeCue, addRegion, removeRegion, getId, setKind,
         getKind, getLabel, setLanguage, getLanguage,

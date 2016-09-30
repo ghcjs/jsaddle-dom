@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGL2RenderingContext
        (copyBufferSubData, getBufferSubDataView, getBufferSubData,
         getFramebufferAttachmentParameter, blitFramebuffer,

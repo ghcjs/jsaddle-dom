@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataTransfer
        (clearData, getData, setData, setDragImage, setDropEffect,
         getDropEffect, setEffectAllowed, getEffectAllowed, getTypes,

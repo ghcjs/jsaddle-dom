@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOListElement
        (setCompact, getCompact, setStart, getStart, setReversed,
         getReversed, setType, getType, HTMLOListElement,

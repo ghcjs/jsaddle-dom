@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaList
        (item, deleteMedium, appendMedium, setMediaText, getMediaText,
         getLength, MediaList, castToMediaList, gTypeMediaList)

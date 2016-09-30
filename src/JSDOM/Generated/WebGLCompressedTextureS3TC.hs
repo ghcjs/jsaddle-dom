@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLCompressedTextureS3TC
        (pattern COMPRESSED_RGB_S3TC_DXT1_EXT,
         pattern COMPRESSED_RGBA_S3TC_DXT1_EXT,

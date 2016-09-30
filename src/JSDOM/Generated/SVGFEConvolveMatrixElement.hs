@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEConvolveMatrixElement
        (pattern SVG_EDGEMODE_UNKNOWN, pattern SVG_EDGEMODE_DUPLICATE,
         pattern SVG_EDGEMODE_WRAP, pattern SVG_EDGEMODE_NONE, getIn1,

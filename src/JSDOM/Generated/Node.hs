@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Node
        (insertBefore, replaceChild, removeChild, appendChild,
         hasChildNodes, cloneNode, normalize, isSupported, isSameNode,

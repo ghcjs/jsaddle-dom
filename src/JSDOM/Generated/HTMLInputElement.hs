@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLInputElement
        (stepUp, stepDown, checkValidity, setCustomValidity, select,
         setRangeText, setRangeText4, setSelectionRange, setAccept,

@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBCursor
        (update, advance, continue, delete, getSource, getDirection,
         getKey, getPrimaryKey, IDBCursor, castToIDBCursor, gTypeIDBCursor,

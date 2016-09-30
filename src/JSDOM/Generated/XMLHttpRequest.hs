@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XMLHttpRequest
        (newXMLHttpRequest, open, setRequestHeader, send, abort,
         getAllResponseHeaders, getResponseHeader, overrideMimeType,

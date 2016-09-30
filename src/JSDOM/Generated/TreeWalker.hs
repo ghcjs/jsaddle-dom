@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TreeWalker
        (parentNode, firstChild, lastChild, previousSibling, nextSibling,
         previousNode, nextNode, getRoot, getWhatToShow, getFilter,

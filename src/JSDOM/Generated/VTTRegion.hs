@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTRegion
        (newVTTRegion, getTrack, setId, getId, setWidth, getWidth,
         setHeight, getHeight, setRegionAnchorX, getRegionAnchorX,

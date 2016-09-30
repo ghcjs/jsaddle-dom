@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Screen
        (getHeight, getWidth, getColorDepth, getPixelDepth, getAvailLeft,
         getAvailTop, getAvailHeight, getAvailWidth, Screen, castToScreen,

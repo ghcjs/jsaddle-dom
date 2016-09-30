@@ -15,7 +15,6 @@ import Data.Maybe (fromJust)
 import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 import Control.Monad.IO.Class (MonadIO(..))
 
-import Language.Javascript.JSaddle (postGUIAsyncJS)
 import JSDOM.Types
        (RTCStatsResponse(..), IsMediaStreamTrack, RTCIceCandidate(..),
         withCallback, Callback(..), RTCSessionDescription(..), DOMError(..),
@@ -48,7 +47,7 @@ createOffer' self offerOptions = do
     result <- liftIO newEmptyMVar
     withCallback (newRTCSessionDescriptionCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
         withCallback (newRTCPeerConnectionErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            postGUIAsyncJS $ Generated.createOffer self (Just success) (Just error) offerOptions
+            Generated.createOffer self (Just success) (Just error) offerOptions
             liftIO $ takeMVar result
 
 createOffer :: MonadDOM m => RTCPeerConnection -> Maybe Dictionary -> m RTCSessionDescription
@@ -60,7 +59,7 @@ createAnswer' self answerOptions = do
     result <- liftIO newEmptyMVar
     withCallback (newRTCSessionDescriptionCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
         withCallback (newRTCPeerConnectionErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            postGUIAsyncJS $ Generated.createAnswer self (Just success) (Just error) answerOptions
+            Generated.createAnswer self (Just success) (Just error) answerOptions
             liftIO $ takeMVar result
 
 createAnswer :: MonadDOM m => RTCPeerConnection -> Maybe Dictionary -> m RTCSessionDescription
@@ -72,7 +71,7 @@ setLocalDescription' self description = do
     result <- liftIO newEmptyMVar
     withCallback (newVoidCallback (liftIO $ putMVar result Nothing)) $ \success ->
         withCallback (newRTCPeerConnectionErrorCallback (liftIO . putMVar result)) $ \error -> do
-            postGUIAsyncJS $ Generated.setLocalDescription self (Just description) (Just success) (Just error)
+            Generated.setLocalDescription self (Just description) (Just success) (Just error)
             liftIO $ takeMVar result
 
 setLocalDescription :: MonadDOM m => RTCPeerConnection -> RTCSessionDescription -> m ()
@@ -84,7 +83,7 @@ setRemoteDescription' self description = do
     result <- liftIO newEmptyMVar
     withCallback (newVoidCallback (liftIO $ putMVar result Nothing)) $ \success ->
         withCallback (newRTCPeerConnectionErrorCallback (liftIO . putMVar result)) $ \error -> do
-            postGUIAsyncJS $ Generated.setRemoteDescription self (Just description) (Just success) (Just error)
+            Generated.setRemoteDescription self (Just description) (Just success) (Just error)
             liftIO $ takeMVar result
 
 setRemoteDescription :: MonadDOM m => RTCPeerConnection -> RTCSessionDescription -> m ()
@@ -96,7 +95,7 @@ addIceCandidate' self candidate = do
     result <- liftIO newEmptyMVar
     withCallback (newVoidCallback (liftIO $ putMVar result Nothing)) $ \success ->
         withCallback (newRTCPeerConnectionErrorCallback (liftIO . putMVar result)) $ \error -> do
-            postGUIAsyncJS $ Generated.addIceCandidate self (Just candidate) (Just success) (Just error)
+            Generated.addIceCandidate self (Just candidate) (Just success) (Just error)
             liftIO $ takeMVar result
 
 addIceCandidate :: MonadDOM m => RTCPeerConnection -> RTCIceCandidate -> m ()
@@ -108,7 +107,7 @@ getStats' self selector = do
     result <- liftIO newEmptyMVar
     withCallback (newRTCStatsCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
         withCallback (newRTCPeerConnectionErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            postGUIAsyncJS $ Generated.getStats self (Just success) (Just error) selector
+            Generated.getStats self (Just success) (Just error) selector
             liftIO $ takeMVar result
 
 getStats :: (MonadDOM m, IsMediaStreamTrack selector) => RTCPeerConnection -> Maybe selector -> m RTCStatsResponse

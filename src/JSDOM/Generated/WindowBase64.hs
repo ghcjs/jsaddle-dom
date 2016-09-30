@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WindowBase64
        (atob, btoa, WindowBase64, castToWindowBase64, gTypeWindowBase64)
        where

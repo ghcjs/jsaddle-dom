@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableRowElement
        (insertCell, deleteCell, getRowIndex, getSectionRowIndex, getCells,
         setAlign, getAlign, setBgColor, getBgColor, setCh, getCh, setChOff,

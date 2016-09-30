@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Element
        (getAttribute, setAttribute, removeAttribute, getAttributeNode,
         setAttributeNode, removeAttributeNode, getElementsByTagName,

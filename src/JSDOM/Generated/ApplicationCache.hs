@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ApplicationCache
        (update, swapCache, abort, pattern UNCACHED, pattern IDLE,
         pattern CHECKING, pattern DOWNLOADING, pattern UPDATEREADY,

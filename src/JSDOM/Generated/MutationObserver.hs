@@ -1,4 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationObserver
        (newMutationObserver, observe, takeRecords, disconnect,
         MutationObserver, castToMutationObserver, gTypeMutationObserver)
