@@ -5,7 +5,7 @@ build-type: Simple
 license: MIT
 license-file: LICENSE
 maintainer: Hamish Mackenzie <Hamish.K.Mackenzie@googlemail.com>
-synopsis: DOM library that uses jsaddle to support both GHCJS and WebKitGTK
+synopsis: DOM library that uses jsaddle to support both GHCJS and GHC
 description:
     Documentent Object Model (DOM) functions implemented using jsaddle.
     It works with both GHCJS and GHC.
