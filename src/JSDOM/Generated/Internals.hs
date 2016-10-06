@@ -162,7 +162,7 @@ xhrResponseSource self xhr
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.clearMemoryCache Mozilla Internals.clearMemoryCache documentation> 
 clearMemoryCache :: (MonadDOM m) => Internals -> m ()
 clearMemoryCache self
-  = liftDOM (void (self ^. js "clearMemoryCache"))
+  = liftDOM (void (self ^. jsf "clearMemoryCache" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.pruneMemoryCacheToSize Mozilla Internals.pruneMemoryCacheToSize documentation> 
 pruneMemoryCacheToSize :: (MonadDOM m) => Internals -> Int -> m ()
@@ -174,17 +174,18 @@ pruneMemoryCacheToSize self size
 memoryCacheSize :: (MonadDOM m) => Internals -> m Int
 memoryCacheSize self
   = liftDOM
-      (round <$> ((self ^. js "memoryCacheSize") >>= valToNumber))
+      (round <$> ((self ^. jsf "memoryCacheSize" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.clearPageCache Mozilla Internals.clearPageCache documentation> 
 clearPageCache :: (MonadDOM m) => Internals -> m ()
-clearPageCache self = liftDOM (void (self ^. js "clearPageCache"))
+clearPageCache self
+  = liftDOM (void (self ^. jsf "clearPageCache" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.pageCacheSize Mozilla Internals.pageCacheSize documentation> 
 pageCacheSize :: (MonadDOM m) => Internals -> m Word
 pageCacheSize self
   = liftDOM
-      (round <$> ((self ^. js "pageCacheSize") >>= valToNumber))
+      (round <$> ((self ^. jsf "pageCacheSize" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.computedStyleIncludingVisitedInfo Mozilla Internals.computedStyleIncludingVisitedInfo documentation> 
 computedStyleIncludingVisitedInfo ::
@@ -275,7 +276,7 @@ lastSpatialNavigationCandidateCount ::
 lastSpatialNavigationCandidateCount self
   = liftDOM
       (round <$>
-         ((self ^. js "lastSpatialNavigationCandidateCount") >>=
+         ((self ^. jsf "lastSpatialNavigationCandidateCount" ()) >>=
             valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.numberOfActiveAnimations Mozilla Internals.numberOfActiveAnimations documentation> 
@@ -283,22 +284,22 @@ numberOfActiveAnimations :: (MonadDOM m) => Internals -> m Word
 numberOfActiveAnimations self
   = liftDOM
       (round <$>
-         ((self ^. js "numberOfActiveAnimations") >>= valToNumber))
+         ((self ^. jsf "numberOfActiveAnimations" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.suspendAnimations Mozilla Internals.suspendAnimations documentation> 
 suspendAnimations :: (MonadDOM m) => Internals -> m ()
 suspendAnimations self
-  = liftDOM (void (self ^. js "suspendAnimations"))
+  = liftDOM (void (self ^. jsf "suspendAnimations" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.resumeAnimations Mozilla Internals.resumeAnimations documentation> 
 resumeAnimations :: (MonadDOM m) => Internals -> m ()
 resumeAnimations self
-  = liftDOM (void (self ^. js "resumeAnimations"))
+  = liftDOM (void (self ^. jsf "resumeAnimations" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.animationsAreSuspended Mozilla Internals.animationsAreSuspended documentation> 
 animationsAreSuspended :: (MonadDOM m) => Internals -> m Bool
 animationsAreSuspended self
-  = liftDOM ((self ^. js "animationsAreSuspended") >>= valToBool)
+  = liftDOM ((self ^. jsf "animationsAreSuspended" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.pauseAnimationAtTimeOnElement Mozilla Internals.pauseAnimationAtTimeOnElement documentation> 
 pauseAnimationAtTimeOnElement ::
@@ -379,7 +380,7 @@ formControlStateOfPreviousHistoryItem ::
                                       (MonadDOM m, FromJSString result) => Internals -> m [result]
 formControlStateOfPreviousHistoryItem self
   = liftDOM
-      ((self ^. js "formControlStateOfPreviousHistoryItem") >>=
+      ((self ^. jsf "formControlStateOfPreviousHistoryItem" ()) >>=
          fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setFormControlStateOfPreviousHistoryItem Mozilla Internals.setFormControlStateOfPreviousHistoryItem documentation> 
@@ -396,7 +397,7 @@ setFormControlStateOfPreviousHistoryItem self values
 absoluteCaretBounds ::
                     (MonadDOM m) => Internals -> m (Maybe ClientRect)
 absoluteCaretBounds self
-  = liftDOM ((self ^. js "absoluteCaretBounds") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "absoluteCaretBounds" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.boundingBox Mozilla Internals.boundingBox documentation> 
 boundingBox ::
@@ -410,14 +411,16 @@ boundingBox self element
 inspectorHighlightRects ::
                         (MonadDOM m) => Internals -> m (Maybe ClientRectList)
 inspectorHighlightRects self
-  = liftDOM ((self ^. js "inspectorHighlightRects") >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "inspectorHighlightRects" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.inspectorHighlightObject Mozilla Internals.inspectorHighlightObject documentation> 
 inspectorHighlightObject ::
                          (MonadDOM m, FromJSString result) => Internals -> m result
 inspectorHighlightObject self
   = liftDOM
-      ((self ^. js "inspectorHighlightObject") >>= fromJSValUnchecked)
+      ((self ^. jsf "inspectorHighlightObject" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.markerCountForNode Mozilla Internals.markerCountForNode documentation> 
 markerCountForNode ::
@@ -471,7 +474,7 @@ setMarkedTextMatchesAreHighlighted self flag
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.invalidateFontCache Mozilla Internals.invalidateFontCache documentation> 
 invalidateFontCache :: (MonadDOM m) => Internals -> m ()
 invalidateFontCache self
-  = liftDOM (void (self ^. js "invalidateFontCache"))
+  = liftDOM (void (self ^. jsf "invalidateFontCache" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setScrollViewPosition Mozilla Internals.setScrollViewPosition documentation> 
 setScrollViewPosition ::
@@ -555,7 +558,7 @@ countMatchesForText self text findOptions markMatches
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.paintControlTints Mozilla Internals.paintControlTints documentation> 
 paintControlTints :: (MonadDOM m) => Internals -> m ()
 paintControlTints self
-  = liftDOM (void (self ^. js "paintControlTints"))
+  = liftDOM (void (self ^. jsf "paintControlTints" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.scrollElementToRect Mozilla Internals.scrollElementToRect documentation> 
 scrollElementToRect ::
@@ -636,7 +639,7 @@ lastSpellCheckRequestSequence :: (MonadDOM m) => Internals -> m Int
 lastSpellCheckRequestSequence self
   = liftDOM
       (round <$>
-         ((self ^. js "lastSpellCheckRequestSequence") >>= valToNumber))
+         ((self ^. jsf "lastSpellCheckRequestSequence" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.lastSpellCheckProcessedSequence Mozilla Internals.lastSpellCheckProcessedSequence documentation> 
 lastSpellCheckProcessedSequence ::
@@ -644,14 +647,16 @@ lastSpellCheckProcessedSequence ::
 lastSpellCheckProcessedSequence self
   = liftDOM
       (round <$>
-         ((self ^. js "lastSpellCheckProcessedSequence") >>= valToNumber))
+         ((self ^. jsf "lastSpellCheckProcessedSequence" ()) >>=
+            valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.userPreferredLanguages Mozilla Internals.userPreferredLanguages documentation> 
 userPreferredLanguages ::
                        (MonadDOM m, FromJSString result) => Internals -> m [result]
 userPreferredLanguages self
   = liftDOM
-      ((self ^. js "userPreferredLanguages") >>= fromJSArrayUnchecked)
+      ((self ^. jsf "userPreferredLanguages" ()) >>=
+         fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setUserPreferredLanguages Mozilla Internals.setUserPreferredLanguages documentation> 
 setUserPreferredLanguages ::
@@ -667,13 +672,15 @@ setUserPreferredLanguages self languages
 wheelEventHandlerCount :: (MonadDOM m) => Internals -> m Word
 wheelEventHandlerCount self
   = liftDOM
-      (round <$> ((self ^. js "wheelEventHandlerCount") >>= valToNumber))
+      (round <$>
+         ((self ^. jsf "wheelEventHandlerCount" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.touchEventHandlerCount Mozilla Internals.touchEventHandlerCount documentation> 
 touchEventHandlerCount :: (MonadDOM m) => Internals -> m Word
 touchEventHandlerCount self
   = liftDOM
-      (round <$> ((self ^. js "touchEventHandlerCount") >>= valToNumber))
+      (round <$>
+         ((self ^. jsf "touchEventHandlerCount" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.nodesFromRect Mozilla Internals.nodesFromRect documentation> 
 nodesFromRect ::
@@ -706,7 +713,7 @@ parserMetaData self func
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.updateEditorUINowIfScheduled Mozilla Internals.updateEditorUINowIfScheduled documentation> 
 updateEditorUINowIfScheduled :: (MonadDOM m) => Internals -> m ()
 updateEditorUINowIfScheduled self
-  = liftDOM (void (self ^. js "updateEditorUINowIfScheduled"))
+  = liftDOM (void (self ^. jsf "updateEditorUINowIfScheduled" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.hasSpellingMarker Mozilla Internals.hasSpellingMarker documentation> 
 hasSpellingMarker ::
@@ -789,19 +796,19 @@ setAutomaticSpellingCorrectionEnabled self enabled
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.isOverwriteModeEnabled Mozilla Internals.isOverwriteModeEnabled documentation> 
 isOverwriteModeEnabled :: (MonadDOM m) => Internals -> m Bool
 isOverwriteModeEnabled self
-  = liftDOM ((self ^. js "isOverwriteModeEnabled") >>= valToBool)
+  = liftDOM ((self ^. jsf "isOverwriteModeEnabled" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.toggleOverwriteModeEnabled Mozilla Internals.toggleOverwriteModeEnabled documentation> 
 toggleOverwriteModeEnabled :: (MonadDOM m) => Internals -> m ()
 toggleOverwriteModeEnabled self
-  = liftDOM (void (self ^. js "toggleOverwriteModeEnabled"))
+  = liftDOM (void (self ^. jsf "toggleOverwriteModeEnabled" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.numberOfScrollableAreas Mozilla Internals.numberOfScrollableAreas documentation> 
 numberOfScrollableAreas :: (MonadDOM m) => Internals -> m Word
 numberOfScrollableAreas self
   = liftDOM
       (round <$>
-         ((self ^. js "numberOfScrollableAreas") >>= valToNumber))
+         ((self ^. jsf "numberOfScrollableAreas" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.isPageBoxVisible Mozilla Internals.isPageBoxVisible documentation> 
 isPageBoxVisible :: (MonadDOM m) => Internals -> Int -> m Bool
@@ -824,38 +831,40 @@ scrollingStateTreeAsText ::
                          (MonadDOM m, FromJSString result) => Internals -> m result
 scrollingStateTreeAsText self
   = liftDOM
-      ((self ^. js "scrollingStateTreeAsText") >>= fromJSValUnchecked)
+      ((self ^. jsf "scrollingStateTreeAsText" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.mainThreadScrollingReasons Mozilla Internals.mainThreadScrollingReasons documentation> 
 mainThreadScrollingReasons ::
                            (MonadDOM m, FromJSString result) => Internals -> m result
 mainThreadScrollingReasons self
   = liftDOM
-      ((self ^. js "mainThreadScrollingReasons") >>= fromJSValUnchecked)
+      ((self ^. jsf "mainThreadScrollingReasons" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.nonFastScrollableRects Mozilla Internals.nonFastScrollableRects documentation> 
 nonFastScrollableRects ::
                        (MonadDOM m) => Internals -> m (Maybe ClientRectList)
 nonFastScrollableRects self
-  = liftDOM ((self ^. js "nonFastScrollableRects") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "nonFastScrollableRects" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.repaintRectsAsText Mozilla Internals.repaintRectsAsText documentation> 
 repaintRectsAsText ::
                    (MonadDOM m, FromJSString result) => Internals -> m result
 repaintRectsAsText self
   = liftDOM
-      ((self ^. js "repaintRectsAsText") >>= fromJSValUnchecked)
+      ((self ^. jsf "repaintRectsAsText" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.garbageCollectDocumentResources Mozilla Internals.garbageCollectDocumentResources documentation> 
 garbageCollectDocumentResources ::
                                 (MonadDOM m) => Internals -> m ()
 garbageCollectDocumentResources self
-  = liftDOM (void (self ^. js "garbageCollectDocumentResources"))
+  = liftDOM (void (self ^. jsf "garbageCollectDocumentResources" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.allowRoundingHacks Mozilla Internals.allowRoundingHacks documentation> 
 allowRoundingHacks :: (MonadDOM m) => Internals -> m ()
 allowRoundingHacks self
-  = liftDOM (void (self ^. js "allowRoundingHacks"))
+  = liftDOM (void (self ^. jsf "allowRoundingHacks" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.insertAuthorCSS Mozilla Internals.insertAuthorCSS documentation> 
 insertAuthorCSS ::
@@ -896,20 +905,21 @@ setDeviceProximity self eventType value min max
 numberOfLiveNodes :: (MonadDOM m) => Internals -> m Word
 numberOfLiveNodes self
   = liftDOM
-      (round <$> ((self ^. js "numberOfLiveNodes") >>= valToNumber))
+      (round <$> ((self ^. jsf "numberOfLiveNodes" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.numberOfLiveDocuments Mozilla Internals.numberOfLiveDocuments documentation> 
 numberOfLiveDocuments :: (MonadDOM m) => Internals -> m Word
 numberOfLiveDocuments self
   = liftDOM
-      (round <$> ((self ^. js "numberOfLiveDocuments") >>= valToNumber))
+      (round <$>
+         ((self ^. jsf "numberOfLiveDocuments" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.consoleMessageArgumentCounts Mozilla Internals.consoleMessageArgumentCounts documentation> 
 consoleMessageArgumentCounts ::
                              (MonadDOM m, FromJSString result) => Internals -> m [result]
 consoleMessageArgumentCounts self
   = liftDOM
-      ((self ^. js "consoleMessageArgumentCounts") >>=
+      ((self ^. jsf "consoleMessageArgumentCounts" ()) >>=
          fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.openDummyInspectorFrontend Mozilla Internals.openDummyInspectorFrontend documentation> 
@@ -924,7 +934,7 @@ openDummyInspectorFrontend self url
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.closeDummyInspectorFrontend Mozilla Internals.closeDummyInspectorFrontend documentation> 
 closeDummyInspectorFrontend :: (MonadDOM m) => Internals -> m ()
 closeDummyInspectorFrontend self
-  = liftDOM (void (self ^. js "closeDummyInspectorFrontend"))
+  = liftDOM (void (self ^. jsf "closeDummyInspectorFrontend" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setJavaScriptProfilingEnabled Mozilla Internals.setJavaScriptProfilingEnabled documentation> 
 setJavaScriptProfilingEnabled ::
@@ -967,13 +977,13 @@ shortcutIconURLs ::
                  (MonadDOM m, FromJSString result) => Internals -> m [result]
 shortcutIconURLs self
   = liftDOM
-      ((self ^. js "shortcutIconURLs") >>= fromJSArrayUnchecked)
+      ((self ^. jsf "shortcutIconURLs" ()) >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.allIconURLs Mozilla Internals.allIconURLs documentation> 
 allIconURLs ::
             (MonadDOM m, FromJSString result) => Internals -> m [result]
 allIconURLs self
-  = liftDOM ((self ^. js "allIconURLs") >>= fromJSArrayUnchecked)
+  = liftDOM ((self ^. jsf "allIconURLs" ()) >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.numberOfPages Mozilla Internals.numberOfPages documentation> 
 numberOfPages ::
@@ -1114,34 +1124,36 @@ removeURLSchemeRegisteredAsBypassingContentSecurityPolicy self
 mallocStatistics ::
                  (MonadDOM m) => Internals -> m (Maybe MallocStatistics)
 mallocStatistics self
-  = liftDOM ((self ^. js "mallocStatistics") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "mallocStatistics" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.typeConversions Mozilla Internals.typeConversions documentation> 
 typeConversions ::
                 (MonadDOM m) => Internals -> m (Maybe TypeConversions)
 typeConversions self
-  = liftDOM ((self ^. js "typeConversions") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "typeConversions" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.memoryInfo Mozilla Internals.memoryInfo documentation> 
 memoryInfo :: (MonadDOM m) => Internals -> m (Maybe MemoryInfo)
-memoryInfo self = liftDOM ((self ^. js "memoryInfo") >>= fromJSVal)
+memoryInfo self
+  = liftDOM ((self ^. jsf "memoryInfo" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.getReferencedFilePaths Mozilla Internals.getReferencedFilePaths documentation> 
 getReferencedFilePaths ::
                        (MonadDOM m, FromJSString result) => Internals -> m [result]
 getReferencedFilePaths self
   = liftDOM
-      ((self ^. js "getReferencedFilePaths") >>= fromJSArrayUnchecked)
+      ((self ^. jsf "getReferencedFilePaths" ()) >>=
+         fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.startTrackingRepaints Mozilla Internals.startTrackingRepaints documentation> 
 startTrackingRepaints :: (MonadDOM m) => Internals -> m ()
 startTrackingRepaints self
-  = liftDOM (void (self ^. js "startTrackingRepaints"))
+  = liftDOM (void (self ^. jsf "startTrackingRepaints" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.stopTrackingRepaints Mozilla Internals.stopTrackingRepaints documentation> 
 stopTrackingRepaints :: (MonadDOM m) => Internals -> m ()
 stopTrackingRepaints self
-  = liftDOM (void (self ^. js "stopTrackingRepaints"))
+  = liftDOM (void (self ^. jsf "stopTrackingRepaints" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.isTimerThrottled Mozilla Internals.isTimerThrottled documentation> 
 isTimerThrottled :: (MonadDOM m) => Internals -> Int -> m Bool
@@ -1166,7 +1178,7 @@ getCurrentCursorInfo ::
                      (MonadDOM m, FromJSString result) => Internals -> m result
 getCurrentCursorInfo self
   = liftDOM
-      ((self ^. js "getCurrentCursorInfo") >>= fromJSValUnchecked)
+      ((self ^. jsf "getCurrentCursorInfo" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.markerTextForListItem Mozilla Internals.markerTextForListItem documentation> 
 markerTextForListItem ::
@@ -1234,12 +1246,12 @@ mediaElementHasCharacteristic self node characteristic
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.initializeMockCDM Mozilla Internals.initializeMockCDM documentation> 
 initializeMockCDM :: (MonadDOM m) => Internals -> m ()
 initializeMockCDM self
-  = liftDOM (void (self ^. js "initializeMockCDM"))
+  = liftDOM (void (self ^. jsf "initializeMockCDM" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.enableMockSpeechSynthesizer Mozilla Internals.enableMockSpeechSynthesizer documentation> 
 enableMockSpeechSynthesizer :: (MonadDOM m) => Internals -> m ()
 enableMockSpeechSynthesizer self
-  = liftDOM (void (self ^. js "enableMockSpeechSynthesizer"))
+  = liftDOM (void (self ^. jsf "enableMockSpeechSynthesizer" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.getImageSourceURL Mozilla Internals.getImageSourceURL documentation> 
 getImageSourceURL ::
@@ -1255,7 +1267,8 @@ captionsStyleSheetOverride ::
                            (MonadDOM m, FromJSString result) => Internals -> m result
 captionsStyleSheetOverride self
   = liftDOM
-      ((self ^. js "captionsStyleSheetOverride") >>= fromJSValUnchecked)
+      ((self ^. jsf "captionsStyleSheetOverride" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setCaptionsStyleSheetOverride Mozilla Internals.setCaptionsStyleSheetOverride documentation> 
 setCaptionsStyleSheetOverride ::
@@ -1312,7 +1325,7 @@ isSelectPopupVisible self node
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.isVibrating Mozilla Internals.isVibrating documentation> 
 isVibrating :: (MonadDOM m) => Internals -> m Bool
 isVibrating self
-  = liftDOM ((self ^. js "isVibrating") >>= valToBool)
+  = liftDOM ((self ^. jsf "isVibrating" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.isPluginUnavailabilityIndicatorObscured Mozilla Internals.isPluginUnavailabilityIndicatorObscured documentation> 
 isPluginUnavailabilityIndicatorObscured ::
@@ -1337,12 +1350,12 @@ isPluginSnapshotted self element
 selectionBounds ::
                 (MonadDOM m) => Internals -> m (Maybe ClientRect)
 selectionBounds self
-  = liftDOM ((self ^. js "selectionBounds") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "selectionBounds" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.initializeMockMediaSource Mozilla Internals.initializeMockMediaSource documentation> 
 initializeMockMediaSource :: (MonadDOM m) => Internals -> m ()
 initializeMockMediaSource self
-  = liftDOM (void (self ^. js "initializeMockMediaSource"))
+  = liftDOM (void (self ^. jsf "initializeMockMediaSource" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.bufferedSamplesForTrackID Mozilla Internals.bufferedSamplesForTrackID documentation> 
 bufferedSamplesForTrackID ::
@@ -1357,7 +1370,7 @@ bufferedSamplesForTrackID self buffer trackID
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.beginMediaSessionInterruption Mozilla Internals.beginMediaSessionInterruption documentation> 
 beginMediaSessionInterruption :: (MonadDOM m) => Internals -> m ()
 beginMediaSessionInterruption self
-  = liftDOM (void (self ^. js "beginMediaSessionInterruption"))
+  = liftDOM (void (self ^. jsf "beginMediaSessionInterruption" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.endMediaSessionInterruption Mozilla Internals.endMediaSessionInterruption documentation> 
 endMediaSessionInterruption ::
@@ -1369,12 +1382,12 @@ endMediaSessionInterruption self flags
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.applicationWillEnterForeground Mozilla Internals.applicationWillEnterForeground documentation> 
 applicationWillEnterForeground :: (MonadDOM m) => Internals -> m ()
 applicationWillEnterForeground self
-  = liftDOM (void (self ^. js "applicationWillEnterForeground"))
+  = liftDOM (void (self ^. jsf "applicationWillEnterForeground" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.applicationWillEnterBackground Mozilla Internals.applicationWillEnterBackground documentation> 
 applicationWillEnterBackground :: (MonadDOM m) => Internals -> m ()
 applicationWillEnterBackground self
-  = liftDOM (void (self ^. js "applicationWillEnterBackground"))
+  = liftDOM (void (self ^. jsf "applicationWillEnterBackground" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setMediaSessionRestrictions Mozilla Internals.setMediaSessionRestrictions documentation> 
 setMediaSessionRestrictions ::
@@ -1396,12 +1409,12 @@ postRemoteControlCommand self command
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.simulateSystemSleep Mozilla Internals.simulateSystemSleep documentation> 
 simulateSystemSleep :: (MonadDOM m) => Internals -> m ()
 simulateSystemSleep self
-  = liftDOM (void (self ^. js "simulateSystemSleep"))
+  = liftDOM (void (self ^. jsf "simulateSystemSleep" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.simulateSystemWake Mozilla Internals.simulateSystemWake documentation> 
 simulateSystemWake :: (MonadDOM m) => Internals -> m ()
 simulateSystemWake self
-  = liftDOM (void (self ^. js "simulateSystemWake"))
+  = liftDOM (void (self ^. jsf "simulateSystemWake" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.elementIsBlockingDisplaySleep Mozilla Internals.elementIsBlockingDisplaySleep documentation> 
 elementIsBlockingDisplaySleep ::
@@ -1424,7 +1437,8 @@ pageOverlayLayerTreeAsText ::
                            (MonadDOM m, FromJSString result) => Internals -> m result
 pageOverlayLayerTreeAsText self
   = liftDOM
-      ((self ^. js "pageOverlayLayerTreeAsText") >>= fromJSValUnchecked)
+      ((self ^. jsf "pageOverlayLayerTreeAsText" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.setPageMuted Mozilla Internals.setPageMuted documentation> 
 setPageMuted :: (MonadDOM m) => Internals -> Bool -> m ()
@@ -1434,7 +1448,7 @@ setPageMuted self muted
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.isPagePlayingAudio Mozilla Internals.isPagePlayingAudio documentation> 
 isPagePlayingAudio :: (MonadDOM m) => Internals -> m Bool
 isPagePlayingAudio self
-  = liftDOM ((self ^. js "isPagePlayingAudio") >>= valToBool)
+  = liftDOM ((self ^. jsf "isPagePlayingAudio" ()) >>= valToBool)
 pattern LAYER_TREE_INCLUDES_VISIBLE_RECTS = 1
 pattern LAYER_TREE_INCLUDES_TILE_CACHES = 2
 pattern LAYER_TREE_INCLUDES_REPAINT_RECTS = 4

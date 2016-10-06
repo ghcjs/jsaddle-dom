@@ -25,7 +25,7 @@ getStartTime ::
 getStartTime self
   = liftDOM
       (realToFrac <$>
-         (((toSVGAnimationElement self) ^. js "getStartTime") >>=
+         (((toSVGAnimationElement self) ^. jsf "getStartTime" ()) >>=
             valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getCurrentTime Mozilla SVGAnimationElement.getCurrentTime documentation> 
@@ -34,7 +34,7 @@ getCurrentTime ::
 getCurrentTime self
   = liftDOM
       (realToFrac <$>
-         (((toSVGAnimationElement self) ^. js "getCurrentTime") >>=
+         (((toSVGAnimationElement self) ^. jsf "getCurrentTime" ()) >>=
             valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getSimpleDuration Mozilla SVGAnimationElement.getSimpleDuration documentation> 
@@ -43,7 +43,7 @@ getSimpleDuration ::
 getSimpleDuration self
   = liftDOM
       (realToFrac <$>
-         (((toSVGAnimationElement self) ^. js "getSimpleDuration") >>=
+         (((toSVGAnimationElement self) ^. jsf "getSimpleDuration" ()) >>=
             valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.beginElement Mozilla SVGAnimationElement.beginElement documentation> 
@@ -51,7 +51,7 @@ beginElement ::
              (MonadDOM m, IsSVGAnimationElement self) => self -> m ()
 beginElement self
   = liftDOM
-      (void ((toSVGAnimationElement self) ^. js "beginElement"))
+      (void ((toSVGAnimationElement self) ^. jsf "beginElement" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.beginElementAt Mozilla SVGAnimationElement.beginElementAt documentation> 
 beginElementAt ::
@@ -66,7 +66,8 @@ beginElementAt self offset
 endElement ::
            (MonadDOM m, IsSVGAnimationElement self) => self -> m ()
 endElement self
-  = liftDOM (void ((toSVGAnimationElement self) ^. js "endElement"))
+  = liftDOM
+      (void ((toSVGAnimationElement self) ^. jsf "endElement" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.endElementAt Mozilla SVGAnimationElement.endElementAt documentation> 
 endElementAt ::

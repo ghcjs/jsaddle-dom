@@ -45,7 +45,8 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.load Mozilla HTMLMediaElement.load documentation> 
 load :: (MonadDOM m, IsHTMLMediaElement self) => self -> m ()
-load self = liftDOM (void ((toHTMLMediaElement self) ^. js "load"))
+load self
+  = liftDOM (void ((toHTMLMediaElement self) ^. jsf "load" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.canPlayType Mozilla HTMLMediaElement.canPlayType documentation> 
 canPlayType ::
@@ -60,12 +61,13 @@ canPlayType self type' keySystem
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.play Mozilla HTMLMediaElement.play documentation> 
 play :: (MonadDOM m, IsHTMLMediaElement self) => self -> m ()
-play self = liftDOM (void ((toHTMLMediaElement self) ^. js "play"))
+play self
+  = liftDOM (void ((toHTMLMediaElement self) ^. jsf "play" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.pause Mozilla HTMLMediaElement.pause documentation> 
 pause :: (MonadDOM m, IsHTMLMediaElement self) => self -> m ()
 pause self
-  = liftDOM (void ((toHTMLMediaElement self) ^. js "pause"))
+  = liftDOM (void ((toHTMLMediaElement self) ^. jsf "pause" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.fastSeek Mozilla HTMLMediaElement.fastSeek documentation> 
 fastSeek ::
@@ -136,8 +138,8 @@ getVideoPlaybackQuality ::
                           self -> m (Maybe VideoPlaybackQuality)
 getVideoPlaybackQuality self
   = liftDOM
-      (((toHTMLMediaElement self) ^. js "getVideoPlaybackQuality") >>=
-         fromJSVal)
+      (((toHTMLMediaElement self) ^. jsf "getVideoPlaybackQuality" ())
+         >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.webkitShowPlaybackTargetPicker Mozilla HTMLMediaElement.webkitShowPlaybackTargetPicker documentation> 
 webkitShowPlaybackTargetPicker ::
@@ -145,7 +147,8 @@ webkitShowPlaybackTargetPicker ::
 webkitShowPlaybackTargetPicker self
   = liftDOM
       (void
-         ((toHTMLMediaElement self) ^. js "webkitShowPlaybackTargetPicker"))
+         ((toHTMLMediaElement self) ^. jsf "webkitShowPlaybackTargetPicker"
+            ()))
 pattern NETWORK_EMPTY = 0
 pattern NETWORK_IDLE = 1
 pattern NETWORK_LOADING = 2

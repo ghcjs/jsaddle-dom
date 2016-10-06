@@ -42,7 +42,7 @@ continue self key
 delete ::
        (MonadDOM m, IsIDBCursor self) => self -> m (Maybe IDBRequest)
 delete self
-  = liftDOM (((toIDBCursor self) ^. js "delete") >>= fromJSVal)
+  = liftDOM (((toIDBCursor self) ^. jsf "delete" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.source Mozilla IDBCursor.source documentation> 
 getSource ::

@@ -52,12 +52,12 @@ add self element index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
 remove :: (MonadDOM m) => HTMLSelectElement -> m ()
-remove self = liftDOM (void (self ^. js "remove"))
+remove self = liftDOM (void (self ^. jsf "remove" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.checkValidity Mozilla HTMLSelectElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLSelectElement -> m Bool
 checkValidity self
-  = liftDOM ((self ^. js "checkValidity") >>= valToBool)
+  = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.setCustomValidity Mozilla HTMLSelectElement.setCustomValidity documentation> 
 setCustomValidity ::

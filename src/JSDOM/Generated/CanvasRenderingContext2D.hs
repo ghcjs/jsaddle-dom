@@ -51,11 +51,11 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.save Mozilla CanvasRenderingContext2D.save documentation> 
 save :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
-save self = liftDOM (void (self ^. js "save"))
+save self = liftDOM (void (self ^. jsf "save" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.restore Mozilla CanvasRenderingContext2D.restore documentation> 
 restore :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
-restore self = liftDOM (void (self ^. js "restore"))
+restore self = liftDOM (void (self ^. jsf "restore" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.scale Mozilla CanvasRenderingContext2D.scale documentation> 
 scale ::
@@ -133,7 +133,7 @@ setLineDash self dash
 getLineDash ::
             (MonadDOM m) => CanvasRenderingContext2D -> m [Float]
 getLineDash self
-  = liftDOM ((self ^. js "getLineDash") >>= fromJSArrayUnchecked)
+  = liftDOM ((self ^. jsf "getLineDash" ()) >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.clearRect Mozilla CanvasRenderingContext2D.clearRect documentation> 
 clearRect ::
@@ -159,11 +159,11 @@ fillRect self x y width height
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.beginPath Mozilla CanvasRenderingContext2D.beginPath documentation> 
 beginPath :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
-beginPath self = liftDOM (void (self ^. js "beginPath"))
+beginPath self = liftDOM (void (self ^. jsf "beginPath" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.closePath Mozilla CanvasRenderingContext2D.closePath documentation> 
 closePath :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
-closePath self = liftDOM (void (self ^. js "closePath"))
+closePath self = liftDOM (void (self ^. jsf "closePath" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.moveTo Mozilla CanvasRenderingContext2D.moveTo documentation> 
 moveTo ::
@@ -267,7 +267,7 @@ fill self winding
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.stroke Mozilla CanvasRenderingContext2D.stroke documentation> 
 stroke :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
-stroke self = liftDOM (void (self ^. js "stroke"))
+stroke self = liftDOM (void (self ^. jsf "stroke" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.clip Mozilla CanvasRenderingContext2D.clip documentation> 
 clip ::
@@ -369,7 +369,7 @@ setMiterLimitFunction self limit
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.clearShadow Mozilla CanvasRenderingContext2D.clearShadow documentation> 
 clearShadow :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
-clearShadow self = liftDOM (void (self ^. js "clearShadow"))
+clearShadow self = liftDOM (void (self ^. jsf "clearShadow" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.fillText Mozilla CanvasRenderingContext2D.fillText documentation> 
 fillText ::

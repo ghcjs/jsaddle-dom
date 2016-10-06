@@ -58,24 +58,25 @@ setStringValue self stringType stringValue
 getStringValue ::
                (MonadDOM m, FromJSString result) => CSSPrimitiveValue -> m result
 getStringValue self
-  = liftDOM ((self ^. js "getStringValue") >>= fromJSValUnchecked)
+  = liftDOM
+      ((self ^. jsf "getStringValue" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getCounterValue Mozilla CSSPrimitiveValue.getCounterValue documentation> 
 getCounterValue ::
                 (MonadDOM m) => CSSPrimitiveValue -> m (Maybe Counter)
 getCounterValue self
-  = liftDOM ((self ^. js "getCounterValue") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getCounterValue" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRectValue Mozilla CSSPrimitiveValue.getRectValue documentation> 
 getRectValue :: (MonadDOM m) => CSSPrimitiveValue -> m (Maybe Rect)
 getRectValue self
-  = liftDOM ((self ^. js "getRectValue") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getRectValue" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRGBColorValue Mozilla CSSPrimitiveValue.getRGBColorValue documentation> 
 getRGBColorValue ::
                  (MonadDOM m) => CSSPrimitiveValue -> m (Maybe RGBColor)
 getRGBColorValue self
-  = liftDOM ((self ^. js "getRGBColorValue") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getRGBColorValue" ()) >>= fromJSVal)
 pattern CSS_UNKNOWN = 0
 pattern CSS_NUMBER = 1
 pattern CSS_PERCENTAGE = 2

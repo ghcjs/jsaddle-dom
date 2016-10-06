@@ -71,7 +71,8 @@ toString ::
            self -> m result
 toString self
   = liftDOM
-      (((toDOMTokenList self) ^. js "toString") >>= fromJSValUnchecked)
+      (((toDOMTokenList self) ^. jsf "toString" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.length Mozilla DOMTokenList.length documentation> 
 getLength :: (MonadDOM m, IsDOMTokenList self) => self -> m Word

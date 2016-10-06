@@ -20,13 +20,14 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.close Mozilla WorkerGlobalScope.close documentation> 
 close :: (MonadDOM m, IsWorkerGlobalScope self) => self -> m ()
 close self
-  = liftDOM (void ((toWorkerGlobalScope self) ^. js "close"))
+  = liftDOM (void ((toWorkerGlobalScope self) ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.importScripts Mozilla WorkerGlobalScope.importScripts documentation> 
 importScripts ::
               (MonadDOM m, IsWorkerGlobalScope self) => self -> m ()
 importScripts self
-  = liftDOM (void ((toWorkerGlobalScope self) ^. js "importScripts"))
+  = liftDOM
+      (void ((toWorkerGlobalScope self) ^. jsf "importScripts" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.self Mozilla WorkerGlobalScope.self documentation> 
 getSelf ::

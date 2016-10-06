@@ -36,7 +36,8 @@ import JSDOM.Enums
 getTotalLength :: (MonadDOM m) => SVGPathElement -> m Float
 getTotalLength self
   = liftDOM
-      (realToFrac <$> ((self ^. js "getTotalLength") >>= valToNumber))
+      (realToFrac <$>
+         ((self ^. jsf "getTotalLength" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.getPointAtLength Mozilla SVGPathElement.getPointAtLength documentation> 
 getPointAtLength ::
@@ -58,7 +59,8 @@ getPathSegAtLength self distance
 createSVGPathSegClosePath ::
                           (MonadDOM m) => SVGPathElement -> m (Maybe SVGPathSegClosePath)
 createSVGPathSegClosePath self
-  = liftDOM ((self ^. js "createSVGPathSegClosePath") >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "createSVGPathSegClosePath" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.createSVGPathSegMovetoAbs Mozilla SVGPathElement.createSVGPathSegMovetoAbs documentation> 
 createSVGPathSegMovetoAbs ::

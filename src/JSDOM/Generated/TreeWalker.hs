@@ -20,34 +20,37 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.parentNode Mozilla TreeWalker.parentNode documentation> 
 parentNode :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
-parentNode self = liftDOM ((self ^. js "parentNode") >>= fromJSVal)
+parentNode self
+  = liftDOM ((self ^. jsf "parentNode" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.firstChild Mozilla TreeWalker.firstChild documentation> 
 firstChild :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
-firstChild self = liftDOM ((self ^. js "firstChild") >>= fromJSVal)
+firstChild self
+  = liftDOM ((self ^. jsf "firstChild" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.lastChild Mozilla TreeWalker.lastChild documentation> 
 lastChild :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
-lastChild self = liftDOM ((self ^. js "lastChild") >>= fromJSVal)
+lastChild self
+  = liftDOM ((self ^. jsf "lastChild" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.previousSibling Mozilla TreeWalker.previousSibling documentation> 
 previousSibling :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
 previousSibling self
-  = liftDOM ((self ^. js "previousSibling") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "previousSibling" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.nextSibling Mozilla TreeWalker.nextSibling documentation> 
 nextSibling :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
 nextSibling self
-  = liftDOM ((self ^. js "nextSibling") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "nextSibling" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.previousNode Mozilla TreeWalker.previousNode documentation> 
 previousNode :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
 previousNode self
-  = liftDOM ((self ^. js "previousNode") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "previousNode" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.nextNode Mozilla TreeWalker.nextNode documentation> 
 nextNode :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
-nextNode self = liftDOM ((self ^. js "nextNode") >>= fromJSVal)
+nextNode self = liftDOM ((self ^. jsf "nextNode" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.root Mozilla TreeWalker.root documentation> 
 getRoot :: (MonadDOM m) => TreeWalker -> m (Maybe Node)

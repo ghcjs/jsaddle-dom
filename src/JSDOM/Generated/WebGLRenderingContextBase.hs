@@ -507,7 +507,7 @@ createBuffer ::
                self -> m (Maybe WebGLBuffer)
 createBuffer self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "createBuffer") >>=
+      (((toWebGLRenderingContextBase self) ^. jsf "createBuffer" ()) >>=
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createFramebuffer Mozilla WebGLRenderingContextBase.createFramebuffer documentation> 
@@ -516,8 +516,8 @@ createFramebuffer ::
                     self -> m (Maybe WebGLFramebuffer)
 createFramebuffer self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "createFramebuffer") >>=
-         fromJSVal)
+      (((toWebGLRenderingContextBase self) ^. jsf "createFramebuffer" ())
+         >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createProgram Mozilla WebGLRenderingContextBase.createProgram documentation> 
 createProgram ::
@@ -525,7 +525,7 @@ createProgram ::
                 self -> m (Maybe WebGLProgram)
 createProgram self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "createProgram") >>=
+      (((toWebGLRenderingContextBase self) ^. jsf "createProgram" ()) >>=
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createRenderbuffer Mozilla WebGLRenderingContextBase.createRenderbuffer documentation> 
@@ -534,7 +534,8 @@ createRenderbuffer ::
                      self -> m (Maybe WebGLRenderbuffer)
 createRenderbuffer self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "createRenderbuffer")
+      (((toWebGLRenderingContextBase self) ^. jsf "createRenderbuffer"
+          ())
          >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createShader Mozilla WebGLRenderingContextBase.createShader documentation> 
@@ -553,7 +554,7 @@ createTexture ::
                 self -> m (Maybe WebGLTexture)
 createTexture self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "createTexture") >>=
+      (((toWebGLRenderingContextBase self) ^. jsf "createTexture" ()) >>=
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.cullFace Mozilla WebGLRenderingContextBase.cullFace documentation> 
@@ -732,13 +733,14 @@ finish ::
        (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
 finish self
   = liftDOM
-      (void ((toWebGLRenderingContextBase self) ^. js "finish"))
+      (void ((toWebGLRenderingContextBase self) ^. jsf "finish" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.flush Mozilla WebGLRenderingContextBase.flush documentation> 
 flush ::
       (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
 flush self
-  = liftDOM (void ((toWebGLRenderingContextBase self) ^. js "flush"))
+  = liftDOM
+      (void ((toWebGLRenderingContextBase self) ^. jsf "flush" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.framebufferRenderbuffer Mozilla WebGLRenderingContextBase.framebufferRenderbuffer documentation> 
 framebufferRenderbuffer ::
@@ -842,7 +844,8 @@ getContextAttributes ::
                        self -> m (Maybe WebGLContextAttributes)
 getContextAttributes self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "getContextAttributes")
+      (((toWebGLRenderingContextBase self) ^. jsf "getContextAttributes"
+          ())
          >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getError Mozilla WebGLRenderingContextBase.getError documentation> 
@@ -850,7 +853,7 @@ getError ::
          (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m GLenum
 getError self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "getError") >>=
+      (((toWebGLRenderingContextBase self) ^. jsf "getError" ()) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getExtension Mozilla WebGLRenderingContextBase.getExtension documentation> 
@@ -967,7 +970,8 @@ getSupportedExtensions ::
 getSupportedExtensions self
   = liftDOM
       (((toWebGLRenderingContextBase self) ^.
-          js "getSupportedExtensions")
+          jsf "getSupportedExtensions"
+          ())
          >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getTexParameter Mozilla WebGLRenderingContextBase.getTexParameter documentation> 
@@ -1047,7 +1051,7 @@ isContextLost ::
                 self -> m GLboolean
 isContextLost self
   = liftDOM
-      (((toWebGLRenderingContextBase self) ^. js "isContextLost") >>=
+      (((toWebGLRenderingContextBase self) ^. jsf "isContextLost" ()) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isEnabled Mozilla WebGLRenderingContextBase.isEnabled documentation> 
@@ -1171,7 +1175,8 @@ releaseShaderCompiler ::
 releaseShaderCompiler self
   = liftDOM
       (void
-         ((toWebGLRenderingContextBase self) ^. js "releaseShaderCompiler"))
+         ((toWebGLRenderingContextBase self) ^. jsf "releaseShaderCompiler"
+            ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.renderbufferStorage Mozilla WebGLRenderingContextBase.renderbufferStorage documentation> 
 renderbufferStorage ::

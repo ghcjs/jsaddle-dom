@@ -19,7 +19,7 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.clear Mozilla SVGLengthList.clear documentation> 
 clear :: (MonadDOM m) => SVGLengthList -> m ()
-clear self = liftDOM (void (self ^. js "clear"))
+clear self = liftDOM (void (self ^. jsf "clear" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.initialize Mozilla SVGLengthList.initialize documentation> 
 initialize ::

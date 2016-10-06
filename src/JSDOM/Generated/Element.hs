@@ -112,7 +112,8 @@ getElementsByTagName self name
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributes Mozilla Element.hasAttributes documentation> 
 hasAttributes :: (MonadDOM m, IsElement self) => self -> m Bool
 hasAttributes self
-  = liftDOM (((toElement self) ^. js "hasAttributes") >>= valToBool)
+  = liftDOM
+      (((toElement self) ^. jsf "hasAttributes" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
 getAttributeNS ::
@@ -200,11 +201,11 @@ hasAttributeNS self namespaceURI localName
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.focus Mozilla Element.focus documentation> 
 focus :: (MonadDOM m, IsElement self) => self -> m ()
-focus self = liftDOM (void ((toElement self) ^. js "focus"))
+focus self = liftDOM (void ((toElement self) ^. jsf "focus" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.blur Mozilla Element.blur documentation> 
 blur :: (MonadDOM m, IsElement self) => self -> m ()
-blur self = liftDOM (void ((toElement self) ^. js "blur"))
+blur self = liftDOM (void ((toElement self) ^. jsf "blur" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollIntoView Mozilla Element.scrollIntoView documentation> 
 scrollIntoView ::
@@ -296,14 +297,16 @@ webkitMatchesSelector self selectors
 getClientRects ::
                (MonadDOM m, IsElement self) => self -> m (Maybe ClientRectList)
 getClientRects self
-  = liftDOM (((toElement self) ^. js "getClientRects") >>= fromJSVal)
+  = liftDOM
+      (((toElement self) ^. jsf "getClientRects" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
 getBoundingClientRect ::
                       (MonadDOM m, IsElement self) => self -> m (Maybe ClientRect)
 getBoundingClientRect self
   = liftDOM
-      (((toElement self) ^. js "getBoundingClientRect") >>= fromJSVal)
+      (((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitRequestFullScreen Mozilla Element.webkitRequestFullScreen documentation> 
 webkitRequestFullScreen ::
@@ -318,19 +321,20 @@ webkitRequestFullScreen self flags
 webkitRequestFullscreen ::
                         (MonadDOM m, IsElement self) => self -> m ()
 webkitRequestFullscreen self
-  = liftDOM (void ((toElement self) ^. js "webkitRequestFullscreen"))
+  = liftDOM
+      (void ((toElement self) ^. jsf "webkitRequestFullscreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.requestPointerLock Mozilla Element.requestPointerLock documentation> 
 requestPointerLock :: (MonadDOM m, IsElement self) => self -> m ()
 requestPointerLock self
-  = liftDOM (void ((toElement self) ^. js "requestPointerLock"))
+  = liftDOM (void ((toElement self) ^. jsf "requestPointerLock" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitGetRegionFlowRanges Mozilla Element.webkitGetRegionFlowRanges documentation> 
 webkitGetRegionFlowRanges ::
                           (MonadDOM m, IsElement self) => self -> m [Maybe Range]
 webkitGetRegionFlowRanges self
   = liftDOM
-      (((toElement self) ^. js "webkitGetRegionFlowRanges") >>=
+      (((toElement self) ^. jsf "webkitGetRegionFlowRanges" ()) >>=
          fromJSArray)
 pattern ALLOW_KEYBOARD_INPUT = 1
 

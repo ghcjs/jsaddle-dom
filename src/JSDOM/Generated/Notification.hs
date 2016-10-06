@@ -18,7 +18,7 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.show Mozilla Notification.show documentation> 
 show :: (MonadDOM m) => Notification -> m ()
-show self = liftDOM (void (self ^. js "show"))
+show self = liftDOM (void (self ^. jsf "show" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.onshow Mozilla Notification.onshow documentation> 
 showEvent :: EventName Notification MouseEvent

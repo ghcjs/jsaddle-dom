@@ -28,7 +28,7 @@ getNumberOfChars ::
 getNumberOfChars self
   = liftDOM
       (round <$>
-         (((toSVGTextContentElement self) ^. js "getNumberOfChars") >>=
+         (((toSVGTextContentElement self) ^. jsf "getNumberOfChars" ()) >>=
             valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getComputedTextLength Mozilla SVGTextContentElement.getComputedTextLength documentation> 
@@ -37,8 +37,8 @@ getComputedTextLength ::
 getComputedTextLength self
   = liftDOM
       (realToFrac <$>
-         (((toSVGTextContentElement self) ^. js "getComputedTextLength") >>=
-            valToNumber))
+         (((toSVGTextContentElement self) ^. jsf "getComputedTextLength" ())
+            >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getSubStringLength Mozilla SVGTextContentElement.getSubStringLength documentation> 
 getSubStringLength ::

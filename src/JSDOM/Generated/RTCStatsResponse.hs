@@ -19,7 +19,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsResponse.result Mozilla RTCStatsResponse.result documentation> 
 result ::
        (MonadDOM m) => RTCStatsResponse -> m [Maybe RTCStatsReport]
-result self = liftDOM ((self ^. js "result") >>= fromJSArray)
+result self = liftDOM ((self ^. jsf "result" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsResponse.namedItem Mozilla RTCStatsResponse.namedItem documentation> 
 namedItem ::

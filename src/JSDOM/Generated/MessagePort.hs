@@ -28,11 +28,11 @@ postMessage self message messagePorts
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessagePort.start Mozilla MessagePort.start documentation> 
 start :: (MonadDOM m) => MessagePort -> m ()
-start self = liftDOM (void (self ^. js "start"))
+start self = liftDOM (void (self ^. jsf "start" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessagePort.close Mozilla MessagePort.close documentation> 
 close :: (MonadDOM m) => MessagePort -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessagePort.onmessage Mozilla MessagePort.onmessage documentation> 
 message :: EventName MessagePort MessageEvent

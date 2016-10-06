@@ -27,7 +27,7 @@ objectStore self name
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.abort Mozilla IDBTransaction.abort documentation> 
 abort :: (MonadDOM m) => IDBTransaction -> m ()
-abort self = liftDOM (void (self ^. js "abort"))
+abort self = liftDOM (void (self ^. jsf "abort" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.mode Mozilla IDBTransaction.mode documentation> 
 getMode ::

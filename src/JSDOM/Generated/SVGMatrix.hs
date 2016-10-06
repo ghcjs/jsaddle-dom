@@ -27,7 +27,7 @@ multiply self secondMatrix
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.inverse Mozilla SVGMatrix.inverse documentation> 
 inverse :: (MonadDOM m) => SVGMatrix -> m (Maybe SVGMatrix)
-inverse self = liftDOM ((self ^. js "inverse") >>= fromJSVal)
+inverse self = liftDOM ((self ^. jsf "inverse" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.translate Mozilla SVGMatrix.translate documentation> 
 translate ::
@@ -66,11 +66,11 @@ rotateFromVector self x y
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipX Mozilla SVGMatrix.flipX documentation> 
 flipX :: (MonadDOM m) => SVGMatrix -> m (Maybe SVGMatrix)
-flipX self = liftDOM ((self ^. js "flipX") >>= fromJSVal)
+flipX self = liftDOM ((self ^. jsf "flipX" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipY Mozilla SVGMatrix.flipY documentation> 
 flipY :: (MonadDOM m) => SVGMatrix -> m (Maybe SVGMatrix)
-flipY self = liftDOM ((self ^. js "flipY") >>= fromJSVal)
+flipY self = liftDOM ((self ^. jsf "flipY" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.skewX Mozilla SVGMatrix.skewX documentation> 
 skewX :: (MonadDOM m) => SVGMatrix -> Float -> m (Maybe SVGMatrix)

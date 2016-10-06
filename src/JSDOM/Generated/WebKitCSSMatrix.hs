@@ -49,7 +49,7 @@ multiply self secondMatrix
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.inverse Mozilla WebKitCSSMatrix.inverse documentation> 
 inverse ::
         (MonadDOM m) => WebKitCSSMatrix -> m (Maybe WebKitCSSMatrix)
-inverse self = liftDOM ((self ^. js "inverse") >>= fromJSVal)
+inverse self = liftDOM ((self ^. jsf "inverse" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.translate Mozilla WebKitCSSMatrix.translate documentation> 
 translate ::
@@ -111,7 +111,7 @@ skewY self angle
 toString ::
          (MonadDOM m, FromJSString result) => WebKitCSSMatrix -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.a Mozilla WebKitCSSMatrix.a documentation> 
 setA :: (MonadDOM m) => WebKitCSSMatrix -> Double -> m ()

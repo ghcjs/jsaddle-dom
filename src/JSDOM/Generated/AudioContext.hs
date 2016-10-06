@@ -70,7 +70,8 @@ createBufferSource ::
                      self -> m (Maybe AudioBufferSourceNode)
 createBufferSource self
   = liftDOM
-      (((toAudioContext self) ^. js "createBufferSource") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createBufferSource" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaElementSource Mozilla AudioContext.createMediaElementSource documentation> 
 createMediaElementSource ::
@@ -99,15 +100,15 @@ createMediaStreamDestination ::
                                self -> m (Maybe MediaStreamAudioDestinationNode)
 createMediaStreamDestination self
   = liftDOM
-      (((toAudioContext self) ^. js "createMediaStreamDestination") >>=
-         fromJSVal)
+      (((toAudioContext self) ^. jsf "createMediaStreamDestination" ())
+         >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createGain Mozilla AudioContext.createGain documentation> 
 createGain ::
            (MonadDOM m, IsAudioContext self) => self -> m (Maybe GainNode)
 createGain self
   = liftDOM
-      (((toAudioContext self) ^. js "createGain") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createGain" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDelay Mozilla AudioContext.createDelay documentation> 
 createDelay ::
@@ -125,7 +126,8 @@ createBiquadFilter ::
                      self -> m (Maybe BiquadFilterNode)
 createBiquadFilter self
   = liftDOM
-      (((toAudioContext self) ^. js "createBiquadFilter") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createBiquadFilter" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createWaveShaper Mozilla AudioContext.createWaveShaper documentation> 
 createWaveShaper ::
@@ -133,14 +135,15 @@ createWaveShaper ::
                    self -> m (Maybe WaveShaperNode)
 createWaveShaper self
   = liftDOM
-      (((toAudioContext self) ^. js "createWaveShaper") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createWaveShaper" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createPanner Mozilla AudioContext.createPanner documentation> 
 createPanner ::
              (MonadDOM m, IsAudioContext self) => self -> m (Maybe PannerNode)
 createPanner self
   = liftDOM
-      (((toAudioContext self) ^. js "createPanner") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createPanner" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createConvolver Mozilla AudioContext.createConvolver documentation> 
 createConvolver ::
@@ -148,7 +151,7 @@ createConvolver ::
                   self -> m (Maybe ConvolverNode)
 createConvolver self
   = liftDOM
-      (((toAudioContext self) ^. js "createConvolver") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createConvolver" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDynamicsCompressor Mozilla AudioContext.createDynamicsCompressor documentation> 
 createDynamicsCompressor ::
@@ -156,7 +159,7 @@ createDynamicsCompressor ::
                            self -> m (Maybe DynamicsCompressorNode)
 createDynamicsCompressor self
   = liftDOM
-      (((toAudioContext self) ^. js "createDynamicsCompressor") >>=
+      (((toAudioContext self) ^. jsf "createDynamicsCompressor" ()) >>=
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createAnalyser Mozilla AudioContext.createAnalyser documentation> 
@@ -164,7 +167,7 @@ createAnalyser ::
                (MonadDOM m, IsAudioContext self) => self -> m (Maybe AnalyserNode)
 createAnalyser self
   = liftDOM
-      (((toAudioContext self) ^. js "createAnalyser") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createAnalyser" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createScriptProcessor Mozilla AudioContext.createScriptProcessor documentation> 
 createScriptProcessor ::
@@ -184,7 +187,8 @@ createOscillator ::
                    self -> m (Maybe OscillatorNode)
 createOscillator self
   = liftDOM
-      (((toAudioContext self) ^. js "createOscillator") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createOscillator" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createPeriodicWave Mozilla AudioContext.createPeriodicWave documentation> 
 createPeriodicWave ::
@@ -220,14 +224,14 @@ createChannelMerger self numberOfInputs
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.startRendering Mozilla AudioContext.startRendering documentation> 
 startRendering :: (MonadDOM m, IsAudioContext self) => self -> m ()
 startRendering self
-  = liftDOM (void ((toAudioContext self) ^. js "startRendering"))
+  = liftDOM (void ((toAudioContext self) ^. jsf "startRendering" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createGainNode Mozilla AudioContext.createGainNode documentation> 
 createGainNode ::
                (MonadDOM m, IsAudioContext self) => self -> m (Maybe GainNode)
 createGainNode self
   = liftDOM
-      (((toAudioContext self) ^. js "createGainNode") >>= fromJSVal)
+      (((toAudioContext self) ^. jsf "createGainNode" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDelayNode Mozilla AudioContext.createDelayNode documentation> 
 createDelayNode ::

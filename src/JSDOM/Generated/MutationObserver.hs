@@ -37,8 +37,8 @@ observe self target options
 takeRecords ::
             (MonadDOM m) => MutationObserver -> m [Maybe MutationRecord]
 takeRecords self
-  = liftDOM ((self ^. js "takeRecords") >>= fromJSArray)
+  = liftDOM ((self ^. jsf "takeRecords" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.disconnect Mozilla MutationObserver.disconnect documentation> 
 disconnect :: (MonadDOM m) => MutationObserver -> m ()
-disconnect self = liftDOM (void (self ^. js "disconnect"))
+disconnect self = liftDOM (void (self ^. jsf "disconnect" ()))

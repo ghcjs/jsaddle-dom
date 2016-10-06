@@ -27,7 +27,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathResult.iterateNext Mozilla XPathResult.iterateNext documentation> 
 iterateNext :: (MonadDOM m) => XPathResult -> m (Maybe Node)
 iterateNext self
-  = liftDOM ((self ^. js "iterateNext") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "iterateNext" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathResult.snapshotItem Mozilla XPathResult.snapshotItem documentation> 
 snapshotItem ::

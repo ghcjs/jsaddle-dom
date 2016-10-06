@@ -27,7 +27,7 @@ import JSDOM.Enums
 toString ::
          (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.charset Mozilla HTMLAnchorElement.charset documentation> 
 setCharset ::

@@ -63,7 +63,7 @@ get self key
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.clear Mozilla IDBObjectStore.clear documentation> 
 clear :: (MonadDOM m) => IDBObjectStore -> m (Maybe IDBRequest)
-clear self = liftDOM ((self ^. js "clear") >>= fromJSVal)
+clear self = liftDOM ((self ^. jsf "clear" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.openCursor Mozilla IDBObjectStore.openCursor documentation> 
 openCursorRange ::

@@ -18,11 +18,11 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.back Mozilla History.back documentation> 
 back :: (MonadDOM m) => History -> m ()
-back self = liftDOM (void (self ^. js "back"))
+back self = liftDOM (void (self ^. jsf "back" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.forward Mozilla History.forward documentation> 
 forward :: (MonadDOM m) => History -> m ()
-forward self = liftDOM (void (self ^. js "forward"))
+forward self = liftDOM (void (self ^. jsf "forward" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.go Mozilla History.go documentation> 
 go :: (MonadDOM m) => History -> Int -> m ()

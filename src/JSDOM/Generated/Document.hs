@@ -74,7 +74,8 @@ createDocumentFragment ::
                        (MonadDOM m, IsDocument self) => self -> m (Maybe DocumentFragment)
 createDocumentFragment self
   = liftDOM
-      (((toDocument self) ^. js "createDocumentFragment") >>= fromJSVal)
+      (((toDocument self) ^. jsf "createDocumentFragment" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTextNode Mozilla Document.createTextNode documentation> 
 createTextNode ::
@@ -217,7 +218,8 @@ createEvent self eventType
 createRange ::
             (MonadDOM m, IsDocument self) => self -> m (Maybe Range)
 createRange self
-  = liftDOM (((toDocument self) ^. js "createRange") >>= fromJSVal)
+  = liftDOM
+      (((toDocument self) ^. jsf "createRange" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createNodeIterator Mozilla Document.createNodeIterator documentation> 
 createNodeIterator ::
@@ -388,7 +390,8 @@ caretRangeFromPoint self x y
 getSelection ::
              (MonadDOM m, IsDocument self) => self -> m (Maybe Selection)
 getSelection self
-  = liftDOM (((toDocument self) ^. js "getSelection") >>= fromJSVal)
+  = liftDOM
+      (((toDocument self) ^. jsf "getSelection" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getCSSCanvasContext Mozilla Document.getCSSCanvasContext documentation> 
 getCSSCanvasContext ::
@@ -415,7 +418,7 @@ getElementsByClassName self tagname
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.hasFocus Mozilla Document.hasFocus documentation> 
 hasFocus :: (MonadDOM m, IsDocument self) => self -> m Bool
 hasFocus self
-  = liftDOM (((toDocument self) ^. js "hasFocus") >>= valToBool)
+  = liftDOM (((toDocument self) ^. jsf "hasFocus" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelector Mozilla Document.querySelector documentation> 
 querySelector ::
@@ -439,18 +442,20 @@ querySelectorAll self selectors
 webkitCancelFullScreen ::
                        (MonadDOM m, IsDocument self) => self -> m ()
 webkitCancelFullScreen self
-  = liftDOM (void ((toDocument self) ^. js "webkitCancelFullScreen"))
+  = liftDOM
+      (void ((toDocument self) ^. jsf "webkitCancelFullScreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitExitFullscreen Mozilla Document.webkitExitFullscreen documentation> 
 webkitExitFullscreen ::
                      (MonadDOM m, IsDocument self) => self -> m ()
 webkitExitFullscreen self
-  = liftDOM (void ((toDocument self) ^. js "webkitExitFullscreen"))
+  = liftDOM
+      (void ((toDocument self) ^. jsf "webkitExitFullscreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.exitPointerLock Mozilla Document.exitPointerLock documentation> 
 exitPointerLock :: (MonadDOM m, IsDocument self) => self -> m ()
 exitPointerLock self
-  = liftDOM (void ((toDocument self) ^. js "exitPointerLock"))
+  = liftDOM (void ((toDocument self) ^. jsf "exitPointerLock" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitGetNamedFlows Mozilla Document.webkitGetNamedFlows documentation> 
 webkitGetNamedFlows ::
@@ -458,7 +463,7 @@ webkitGetNamedFlows ::
                       self -> m (Maybe DOMNamedFlowCollection)
 webkitGetNamedFlows self
   = liftDOM
-      (((toDocument self) ^. js "webkitGetNamedFlows") >>= fromJSVal)
+      (((toDocument self) ^. jsf "webkitGetNamedFlows" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTouch Mozilla Document.createTouch documentation> 
 createTouch ::
@@ -485,7 +490,7 @@ createTouchList ::
                 (MonadDOM m, IsDocument self) => self -> m (Maybe TouchList)
 createTouchList self
   = liftDOM
-      (((toDocument self) ^. js "createTouchList") >>= fromJSVal)
+      (((toDocument self) ^. jsf "createTouchList" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.doctype Mozilla Document.doctype documentation> 
 getDoctype ::

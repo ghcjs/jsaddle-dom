@@ -47,7 +47,7 @@ sendString self data'
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.close Mozilla RTCDataChannel.close documentation> 
 close :: (MonadDOM m) => RTCDataChannel -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.label Mozilla RTCDataChannel.label documentation> 
 getLabel ::

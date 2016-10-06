@@ -26,7 +26,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.checkValidity Mozilla HTMLObjectElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLObjectElement -> m Bool
 checkValidity self
-  = liftDOM ((self ^. js "checkValidity") >>= valToBool)
+  = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.setCustomValidity Mozilla HTMLObjectElement.setCustomValidity documentation> 
 setCustomValidity ::
@@ -39,7 +39,7 @@ setCustomValidity self error
 getSVGDocument ::
                (MonadDOM m) => HTMLObjectElement -> m (Maybe SVGDocument)
 getSVGDocument self
-  = liftDOM ((self ^. js "getSVGDocument") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.form Mozilla HTMLObjectElement.form documentation> 
 getForm ::

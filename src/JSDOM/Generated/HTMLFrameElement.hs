@@ -24,7 +24,7 @@ import JSDOM.Enums
 getSVGDocument ::
                (MonadDOM m) => HTMLFrameElement -> m (Maybe SVGDocument)
 getSVGDocument self
-  = liftDOM ((self ^. js "getSVGDocument") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.frameBorder Mozilla HTMLFrameElement.frameBorder documentation> 
 setFrameBorder ::

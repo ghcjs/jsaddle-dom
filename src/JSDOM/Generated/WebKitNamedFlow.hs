@@ -28,11 +28,13 @@ getRegionsByContent self contentNode
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegions Mozilla WebKitNamedFlow.getRegions documentation> 
 getRegions :: (MonadDOM m) => WebKitNamedFlow -> m (Maybe NodeList)
-getRegions self = liftDOM ((self ^. js "getRegions") >>= fromJSVal)
+getRegions self
+  = liftDOM ((self ^. jsf "getRegions" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
 getContent :: (MonadDOM m) => WebKitNamedFlow -> m (Maybe NodeList)
-getContent self = liftDOM ((self ^. js "getContent") >>= fromJSVal)
+getContent self
+  = liftDOM ((self ^. jsf "getContent" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.name Mozilla WebKitNamedFlow.name documentation> 
 getName ::

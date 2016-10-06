@@ -21,7 +21,7 @@ import JSDOM.Enums
 getSVGDocument ::
                (MonadDOM m) => HTMLEmbedElement -> m (Maybe SVGDocument)
 getSVGDocument self
-  = liftDOM ((self ^. js "getSVGDocument") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.align Mozilla HTMLEmbedElement.align documentation> 
 setAlign ::

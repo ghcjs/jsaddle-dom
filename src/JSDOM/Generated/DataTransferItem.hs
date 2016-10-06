@@ -25,7 +25,8 @@ getAsString self callback
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem.getAsFile Mozilla DataTransferItem.getAsFile documentation> 
 getAsFile :: (MonadDOM m) => DataTransferItem -> m (Maybe Blob)
-getAsFile self = liftDOM ((self ^. js "getAsFile") >>= fromJSVal)
+getAsFile self
+  = liftDOM ((self ^. jsf "getAsFile" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem.kind Mozilla DataTransferItem.kind documentation> 
 getKind ::

@@ -28,22 +28,22 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitEnterFullscreen Mozilla HTMLVideoElement.webkitEnterFullscreen documentation> 
 webkitEnterFullscreen :: (MonadDOM m) => HTMLVideoElement -> m ()
 webkitEnterFullscreen self
-  = liftDOM (void (self ^. js "webkitEnterFullscreen"))
+  = liftDOM (void (self ^. jsf "webkitEnterFullscreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitExitFullscreen Mozilla HTMLVideoElement.webkitExitFullscreen documentation> 
 webkitExitFullscreen :: (MonadDOM m) => HTMLVideoElement -> m ()
 webkitExitFullscreen self
-  = liftDOM (void (self ^. js "webkitExitFullscreen"))
+  = liftDOM (void (self ^. jsf "webkitExitFullscreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitEnterFullScreen Mozilla HTMLVideoElement.webkitEnterFullScreen documentation> 
 webkitEnterFullScreen :: (MonadDOM m) => HTMLVideoElement -> m ()
 webkitEnterFullScreen self
-  = liftDOM (void (self ^. js "webkitEnterFullScreen"))
+  = liftDOM (void (self ^. jsf "webkitEnterFullScreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitExitFullScreen Mozilla HTMLVideoElement.webkitExitFullScreen documentation> 
 webkitExitFullScreen :: (MonadDOM m) => HTMLVideoElement -> m ()
 webkitExitFullScreen self
-  = liftDOM (void (self ^. js "webkitExitFullScreen"))
+  = liftDOM (void (self ^. jsf "webkitExitFullScreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitSupportsPresentationMode Mozilla HTMLVideoElement.webkitSupportsPresentationMode documentation> 
 webkitSupportsPresentationMode ::

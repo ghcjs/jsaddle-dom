@@ -27,15 +27,15 @@ newMediaController
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.play Mozilla MediaController.play documentation> 
 play :: (MonadDOM m) => MediaController -> m ()
-play self = liftDOM (void (self ^. js "play"))
+play self = liftDOM (void (self ^. jsf "play" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.pause Mozilla MediaController.pause documentation> 
 pause :: (MonadDOM m) => MediaController -> m ()
-pause self = liftDOM (void (self ^. js "pause"))
+pause self = liftDOM (void (self ^. jsf "pause" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.unpause Mozilla MediaController.unpause documentation> 
 unpause :: (MonadDOM m) => MediaController -> m ()
-unpause self = liftDOM (void (self ^. js "unpause"))
+unpause self = liftDOM (void (self ^. jsf "unpause" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.buffered Mozilla MediaController.buffered documentation> 
 getBuffered ::

@@ -30,17 +30,18 @@ collapse self node index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.collapseToEnd Mozilla Selection.collapseToEnd documentation> 
 collapseToEnd :: (MonadDOM m) => Selection -> m ()
-collapseToEnd self = liftDOM (void (self ^. js "collapseToEnd"))
+collapseToEnd self
+  = liftDOM (void (self ^. jsf "collapseToEnd" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.collapseToStart Mozilla Selection.collapseToStart documentation> 
 collapseToStart :: (MonadDOM m) => Selection -> m ()
 collapseToStart self
-  = liftDOM (void (self ^. js "collapseToStart"))
+  = liftDOM (void (self ^. jsf "collapseToStart" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.deleteFromDocument Mozilla Selection.deleteFromDocument documentation> 
 deleteFromDocument :: (MonadDOM m) => Selection -> m ()
 deleteFromDocument self
-  = liftDOM (void (self ^. js "deleteFromDocument"))
+  = liftDOM (void (self ^. jsf "deleteFromDocument" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.containsNode Mozilla Selection.containsNode documentation> 
 containsNode ::
@@ -73,7 +74,7 @@ getRangeAt self index
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.removeAllRanges Mozilla Selection.removeAllRanges documentation> 
 removeAllRanges :: (MonadDOM m) => Selection -> m ()
 removeAllRanges self
-  = liftDOM (void (self ^. js "removeAllRanges"))
+  = liftDOM (void (self ^. jsf "removeAllRanges" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.addRange Mozilla Selection.addRange documentation> 
 addRange :: (MonadDOM m) => Selection -> Maybe Range -> m ()
@@ -84,7 +85,7 @@ addRange self range
 toString ::
          (MonadDOM m, FromJSString result) => Selection -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.modify Mozilla Selection.modify documentation> 
 modify ::
@@ -118,7 +119,7 @@ setPosition self node offset
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.empty Mozilla Selection.empty documentation> 
 empty :: (MonadDOM m) => Selection -> m ()
-empty self = liftDOM (void (self ^. js "empty"))
+empty self = liftDOM (void (self ^. jsf "empty" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorNode Mozilla Selection.anchorNode documentation> 
 getAnchorNode :: (MonadDOM m) => Selection -> m (Maybe Node)

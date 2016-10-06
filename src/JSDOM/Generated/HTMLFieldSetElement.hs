@@ -21,7 +21,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.checkValidity Mozilla HTMLFieldSetElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLFieldSetElement -> m Bool
 checkValidity self
-  = liftDOM ((self ^. js "checkValidity") >>= valToBool)
+  = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.setCustomValidity Mozilla HTMLFieldSetElement.setCustomValidity documentation> 
 setCustomValidity ::

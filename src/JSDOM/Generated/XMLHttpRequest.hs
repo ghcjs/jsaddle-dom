@@ -52,11 +52,11 @@ setRequestHeader self header value
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.send Mozilla XMLHttpRequest.send documentation> 
 send :: (MonadDOM m) => XMLHttpRequest -> m ()
-send self = liftDOM (void (self ^. js "send"))
+send self = liftDOM (void (self ^. jsf "send" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.abort Mozilla XMLHttpRequest.abort documentation> 
 abort :: (MonadDOM m) => XMLHttpRequest -> m ()
-abort self = liftDOM (void (self ^. js "abort"))
+abort self = liftDOM (void (self ^. jsf "abort" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getAllResponseHeaders Mozilla XMLHttpRequest.getAllResponseHeaders documentation> 
 getAllResponseHeaders ::
@@ -64,7 +64,7 @@ getAllResponseHeaders ::
                         XMLHttpRequest -> m (Maybe result)
 getAllResponseHeaders self
   = liftDOM
-      ((self ^. js "getAllResponseHeaders") >>= fromMaybeJSString)
+      ((self ^. jsf "getAllResponseHeaders" ()) >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
 getResponseHeader ::

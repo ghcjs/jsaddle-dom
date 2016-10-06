@@ -26,7 +26,7 @@ update self key
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeySession.close Mozilla WebKitMediaKeySession.close documentation> 
 close :: (MonadDOM m) => MediaKeySession -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeySession.error Mozilla WebKitMediaKeySession.error documentation> 
 getError ::

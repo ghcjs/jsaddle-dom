@@ -26,37 +26,38 @@ import JSDOM.Enums
 createTHead ::
             (MonadDOM m) => HTMLTableElement -> m (Maybe HTMLElement)
 createTHead self
-  = liftDOM ((self ^. js "createTHead") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createTHead" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.deleteTHead Mozilla HTMLTableElement.deleteTHead documentation> 
 deleteTHead :: (MonadDOM m) => HTMLTableElement -> m ()
-deleteTHead self = liftDOM (void (self ^. js "deleteTHead"))
+deleteTHead self = liftDOM (void (self ^. jsf "deleteTHead" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTFoot Mozilla HTMLTableElement.createTFoot documentation> 
 createTFoot ::
             (MonadDOM m) => HTMLTableElement -> m (Maybe HTMLElement)
 createTFoot self
-  = liftDOM ((self ^. js "createTFoot") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createTFoot" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.deleteTFoot Mozilla HTMLTableElement.deleteTFoot documentation> 
 deleteTFoot :: (MonadDOM m) => HTMLTableElement -> m ()
-deleteTFoot self = liftDOM (void (self ^. js "deleteTFoot"))
+deleteTFoot self = liftDOM (void (self ^. jsf "deleteTFoot" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTBody Mozilla HTMLTableElement.createTBody documentation> 
 createTBody ::
             (MonadDOM m) => HTMLTableElement -> m (Maybe HTMLElement)
 createTBody self
-  = liftDOM ((self ^. js "createTBody") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createTBody" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createCaption Mozilla HTMLTableElement.createCaption documentation> 
 createCaption ::
               (MonadDOM m) => HTMLTableElement -> m (Maybe HTMLElement)
 createCaption self
-  = liftDOM ((self ^. js "createCaption") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createCaption" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.deleteCaption Mozilla HTMLTableElement.deleteCaption documentation> 
 deleteCaption :: (MonadDOM m) => HTMLTableElement -> m ()
-deleteCaption self = liftDOM (void (self ^. js "deleteCaption"))
+deleteCaption self
+  = liftDOM (void (self ^. jsf "deleteCaption" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.insertRow Mozilla HTMLTableElement.insertRow documentation> 
 insertRow ::

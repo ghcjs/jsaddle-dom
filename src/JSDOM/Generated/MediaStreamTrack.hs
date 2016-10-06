@@ -35,7 +35,8 @@ getConstraints ::
                  self -> m (Maybe MediaTrackConstraints)
 getConstraints self
   = liftDOM
-      (((toMediaStreamTrack self) ^. js "getConstraints") >>= fromJSVal)
+      (((toMediaStreamTrack self) ^. jsf "getConstraints" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.states Mozilla MediaStreamTrack.states documentation> 
 states ::
@@ -43,7 +44,7 @@ states ::
          self -> m (Maybe MediaSourceStates)
 states self
   = liftDOM
-      (((toMediaStreamTrack self) ^. js "states") >>= fromJSVal)
+      (((toMediaStreamTrack self) ^. jsf "states" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.getCapabilities Mozilla MediaStreamTrack.getCapabilities documentation> 
 getCapabilities ::
@@ -51,7 +52,8 @@ getCapabilities ::
                   self -> m (Maybe MediaStreamCapabilities)
 getCapabilities self
   = liftDOM
-      (((toMediaStreamTrack self) ^. js "getCapabilities") >>= fromJSVal)
+      (((toMediaStreamTrack self) ^. jsf "getCapabilities" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.applyConstraints Mozilla MediaStreamTrack.applyConstraints documentation> 
 applyConstraints ::
@@ -68,11 +70,13 @@ clone ::
       (MonadDOM m, IsMediaStreamTrack self) =>
         self -> m (Maybe MediaStreamTrack)
 clone self
-  = liftDOM (((toMediaStreamTrack self) ^. js "clone") >>= fromJSVal)
+  = liftDOM
+      (((toMediaStreamTrack self) ^. jsf "clone" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.stop Mozilla MediaStreamTrack.stop documentation> 
 stop :: (MonadDOM m, IsMediaStreamTrack self) => self -> m ()
-stop self = liftDOM (void ((toMediaStreamTrack self) ^. js "stop"))
+stop self
+  = liftDOM (void ((toMediaStreamTrack self) ^. jsf "stop" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.kind Mozilla MediaStreamTrack.kind documentation> 
 getKind ::

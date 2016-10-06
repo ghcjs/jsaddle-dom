@@ -813,7 +813,7 @@ clearBufferfi self buffer drawbuffer depth stencil
 createQuery ::
             (MonadDOM m) => WebGL2RenderingContext -> m (Maybe WebGLQuery)
 createQuery self
-  = liftDOM ((self ^. js "createQuery") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createQuery" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.deleteQuery Mozilla WebGL2RenderingContext.deleteQuery documentation> 
 deleteQuery ::
@@ -865,7 +865,7 @@ getQueryParameter self query pname
 createSampler ::
               (MonadDOM m) => WebGL2RenderingContext -> m (Maybe WebGLSampler)
 createSampler self
-  = liftDOM ((self ^. js "createSampler") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSampler" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.deleteSampler Mozilla WebGL2RenderingContext.deleteSampler documentation> 
 deleteSampler ::
@@ -983,7 +983,8 @@ createTransformFeedback ::
                         (MonadDOM m) =>
                           WebGL2RenderingContext -> m (Maybe WebGLTransformFeedback)
 createTransformFeedback self
-  = liftDOM ((self ^. js "createTransformFeedback") >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "createTransformFeedback" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.deleteTransformFeedback Mozilla WebGL2RenderingContext.deleteTransformFeedback documentation> 
 deleteTransformFeedback ::
@@ -1025,7 +1026,7 @@ beginTransformFeedback self primitiveMode
 endTransformFeedback ::
                      (MonadDOM m) => WebGL2RenderingContext -> m ()
 endTransformFeedback self
-  = liftDOM (void (self ^. js "endTransformFeedback"))
+  = liftDOM (void (self ^. jsf "endTransformFeedback" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.transformFeedbackVaryings Mozilla WebGL2RenderingContext.transformFeedbackVaryings documentation> 
 transformFeedbackVaryings ::
@@ -1053,13 +1054,13 @@ getTransformFeedbackVarying self program index
 pauseTransformFeedback ::
                        (MonadDOM m) => WebGL2RenderingContext -> m ()
 pauseTransformFeedback self
-  = liftDOM (void (self ^. js "pauseTransformFeedback"))
+  = liftDOM (void (self ^. jsf "pauseTransformFeedback" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.resumeTransformFeedback Mozilla WebGL2RenderingContext.resumeTransformFeedback documentation> 
 resumeTransformFeedback ::
                         (MonadDOM m) => WebGL2RenderingContext -> m ()
 resumeTransformFeedback self
-  = liftDOM (void (self ^. js "resumeTransformFeedback"))
+  = liftDOM (void (self ^. jsf "resumeTransformFeedback" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.bindBufferBase Mozilla WebGL2RenderingContext.bindBufferBase documentation> 
 bindBufferBase ::
@@ -1168,7 +1169,7 @@ createVertexArray ::
                   (MonadDOM m) =>
                     WebGL2RenderingContext -> m (Maybe WebGLVertexArrayObject)
 createVertexArray self
-  = liftDOM ((self ^. js "createVertexArray") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createVertexArray" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.deleteVertexArray Mozilla WebGL2RenderingContext.deleteVertexArray documentation> 
 deleteVertexArray ::

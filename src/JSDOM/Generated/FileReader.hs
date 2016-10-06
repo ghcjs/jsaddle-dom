@@ -51,7 +51,7 @@ readAsDataURL self blob
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.abort Mozilla FileReader.abort documentation> 
 abort :: (MonadDOM m) => FileReader -> m ()
-abort self = liftDOM (void (self ^. js "abort"))
+abort self = liftDOM (void (self ^. jsf "abort" ()))
 pattern EMPTY = 0
 pattern LOADING = 1
 pattern DONE = 2

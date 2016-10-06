@@ -22,7 +22,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.checkValidity Mozilla HTMLKeygenElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLKeygenElement -> m Bool
 checkValidity self
-  = liftDOM ((self ^. js "checkValidity") >>= valToBool)
+  = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.setCustomValidity Mozilla HTMLKeygenElement.setCustomValidity documentation> 
 setCustomValidity ::

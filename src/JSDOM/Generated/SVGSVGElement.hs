@@ -45,32 +45,33 @@ unsuspendRedraw self suspendHandleId
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.unsuspendRedrawAll Mozilla SVGSVGElement.unsuspendRedrawAll documentation> 
 unsuspendRedrawAll :: (MonadDOM m) => SVGSVGElement -> m ()
 unsuspendRedrawAll self
-  = liftDOM (void (self ^. js "unsuspendRedrawAll"))
+  = liftDOM (void (self ^. jsf "unsuspendRedrawAll" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.forceRedraw Mozilla SVGSVGElement.forceRedraw documentation> 
 forceRedraw :: (MonadDOM m) => SVGSVGElement -> m ()
-forceRedraw self = liftDOM (void (self ^. js "forceRedraw"))
+forceRedraw self = liftDOM (void (self ^. jsf "forceRedraw" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.pauseAnimations Mozilla SVGSVGElement.pauseAnimations documentation> 
 pauseAnimations :: (MonadDOM m) => SVGSVGElement -> m ()
 pauseAnimations self
-  = liftDOM (void (self ^. js "pauseAnimations"))
+  = liftDOM (void (self ^. jsf "pauseAnimations" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.unpauseAnimations Mozilla SVGSVGElement.unpauseAnimations documentation> 
 unpauseAnimations :: (MonadDOM m) => SVGSVGElement -> m ()
 unpauseAnimations self
-  = liftDOM (void (self ^. js "unpauseAnimations"))
+  = liftDOM (void (self ^. jsf "unpauseAnimations" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.animationsPaused Mozilla SVGSVGElement.animationsPaused documentation> 
 animationsPaused :: (MonadDOM m) => SVGSVGElement -> m Bool
 animationsPaused self
-  = liftDOM ((self ^. js "animationsPaused") >>= valToBool)
+  = liftDOM ((self ^. jsf "animationsPaused" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getCurrentTime Mozilla SVGSVGElement.getCurrentTime documentation> 
 getCurrentTime :: (MonadDOM m) => SVGSVGElement -> m Float
 getCurrentTime self
   = liftDOM
-      (realToFrac <$> ((self ^. js "getCurrentTime") >>= valToNumber))
+      (realToFrac <$>
+         ((self ^. jsf "getCurrentTime" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.setCurrentTime Mozilla SVGSVGElement.setCurrentTime documentation> 
 setCurrentTime :: (MonadDOM m) => SVGSVGElement -> Float -> m ()
@@ -119,48 +120,48 @@ checkEnclosure self element rect
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.deselectAll Mozilla SVGSVGElement.deselectAll documentation> 
 deselectAll :: (MonadDOM m) => SVGSVGElement -> m ()
-deselectAll self = liftDOM (void (self ^. js "deselectAll"))
+deselectAll self = liftDOM (void (self ^. jsf "deselectAll" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGNumber Mozilla SVGSVGElement.createSVGNumber documentation> 
 createSVGNumber ::
                 (MonadDOM m) => SVGSVGElement -> m (Maybe SVGNumber)
 createSVGNumber self
-  = liftDOM ((self ^. js "createSVGNumber") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGNumber" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGLength Mozilla SVGSVGElement.createSVGLength documentation> 
 createSVGLength ::
                 (MonadDOM m) => SVGSVGElement -> m (Maybe SVGLength)
 createSVGLength self
-  = liftDOM ((self ^. js "createSVGLength") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGLength" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGAngle Mozilla SVGSVGElement.createSVGAngle documentation> 
 createSVGAngle ::
                (MonadDOM m) => SVGSVGElement -> m (Maybe SVGAngle)
 createSVGAngle self
-  = liftDOM ((self ^. js "createSVGAngle") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGAngle" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGPoint Mozilla SVGSVGElement.createSVGPoint documentation> 
 createSVGPoint ::
                (MonadDOM m) => SVGSVGElement -> m (Maybe SVGPoint)
 createSVGPoint self
-  = liftDOM ((self ^. js "createSVGPoint") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGPoint" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGMatrix Mozilla SVGSVGElement.createSVGMatrix documentation> 
 createSVGMatrix ::
                 (MonadDOM m) => SVGSVGElement -> m (Maybe SVGMatrix)
 createSVGMatrix self
-  = liftDOM ((self ^. js "createSVGMatrix") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGMatrix" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGRect Mozilla SVGSVGElement.createSVGRect documentation> 
 createSVGRect :: (MonadDOM m) => SVGSVGElement -> m (Maybe SVGRect)
 createSVGRect self
-  = liftDOM ((self ^. js "createSVGRect") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGRect" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGTransform Mozilla SVGSVGElement.createSVGTransform documentation> 
 createSVGTransform ::
                    (MonadDOM m) => SVGSVGElement -> m (Maybe SVGTransform)
 createSVGTransform self
-  = liftDOM ((self ^. js "createSVGTransform") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createSVGTransform" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGTransformFromMatrix Mozilla SVGSVGElement.createSVGTransformFromMatrix documentation> 
 createSVGTransformFromMatrix ::

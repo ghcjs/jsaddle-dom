@@ -58,7 +58,8 @@ insertAdjacentText self where' text
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.click Mozilla HTMLElement.click documentation> 
 click :: (MonadDOM m, IsHTMLElement self) => self -> m ()
-click self = liftDOM (void ((toHTMLElement self) ^. js "click"))
+click self
+  = liftDOM (void ((toHTMLElement self) ^. jsf "click" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.title Mozilla HTMLElement.title documentation> 
 setTitle ::

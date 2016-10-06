@@ -28,7 +28,7 @@ newEventSource url eventSourceInit
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/EventSource.close Mozilla EventSource.close documentation> 
 close :: (MonadDOM m) => EventSource -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 pattern CONNECTING = 0
 pattern OPEN = 1
 pattern CLOSED = 2

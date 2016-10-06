@@ -19,7 +19,7 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.clear Mozilla SVGPathSegList.clear documentation> 
 clear :: (MonadDOM m) => SVGPathSegList -> m ()
-clear self = liftDOM (void (self ^. js "clear"))
+clear self = liftDOM (void (self ^. jsf "clear" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.initialize Mozilla SVGPathSegList.initialize documentation> 
 initialize ::

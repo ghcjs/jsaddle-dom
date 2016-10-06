@@ -19,7 +19,7 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.clear Mozilla SVGPointList.clear documentation> 
 clear :: (MonadDOM m) => SVGPointList -> m ()
-clear self = liftDOM (void (self ^. js "clear"))
+clear self = liftDOM (void (self ^. jsf "clear" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.initialize Mozilla SVGPointList.initialize documentation> 
 initialize ::

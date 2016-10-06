@@ -23,7 +23,7 @@ import JSDOM.Enums
 webkitGetEntries ::
                  (MonadDOM m) => Performance -> m (Maybe PerformanceEntryList)
 webkitGetEntries self
-  = liftDOM ((self ^. js "webkitGetEntries") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "webkitGetEntries" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByType Mozilla Performance.webkitGetEntriesByType documentation> 
 webkitGetEntriesByType ::
@@ -47,7 +47,7 @@ webkitGetEntriesByName self name entryType
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitClearResourceTimings Mozilla Performance.webkitClearResourceTimings documentation> 
 webkitClearResourceTimings :: (MonadDOM m) => Performance -> m ()
 webkitClearResourceTimings self
-  = liftDOM (void (self ^. js "webkitClearResourceTimings"))
+  = liftDOM (void (self ^. jsf "webkitClearResourceTimings" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitSetResourceTimingBufferSize Mozilla Performance.webkitSetResourceTimingBufferSize documentation> 
 webkitSetResourceTimingBufferSize ::
@@ -94,7 +94,7 @@ webkitClearMeasures self measureName
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.now Mozilla Performance.now documentation> 
 now :: (MonadDOM m) => Performance -> m Double
-now self = liftDOM ((self ^. js "now") >>= valToNumber)
+now self = liftDOM ((self ^. jsf "now" ()) >>= valToNumber)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.navigation Mozilla Performance.navigation documentation> 
 getNavigation ::

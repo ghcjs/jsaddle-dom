@@ -21,15 +21,15 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.update Mozilla ApplicationCache.update documentation> 
 update :: (MonadDOM m) => ApplicationCache -> m ()
-update self = liftDOM (void (self ^. js "update"))
+update self = liftDOM (void (self ^. jsf "update" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.swapCache Mozilla ApplicationCache.swapCache documentation> 
 swapCache :: (MonadDOM m) => ApplicationCache -> m ()
-swapCache self = liftDOM (void (self ^. js "swapCache"))
+swapCache self = liftDOM (void (self ^. jsf "swapCache" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.abort Mozilla ApplicationCache.abort documentation> 
 abort :: (MonadDOM m) => ApplicationCache -> m ()
-abort self = liftDOM (void (self ^. js "abort"))
+abort self = liftDOM (void (self ^. jsf "abort" ()))
 pattern UNCACHED = 0
 pattern IDLE = 1
 pattern CHECKING = 2

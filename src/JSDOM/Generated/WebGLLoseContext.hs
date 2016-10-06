@@ -18,8 +18,9 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLLoseContext.loseContext Mozilla WebGLLoseContext.loseContext documentation> 
 loseContext :: (MonadDOM m) => WebGLLoseContext -> m ()
-loseContext self = liftDOM (void (self ^. js "loseContext"))
+loseContext self = liftDOM (void (self ^. jsf "loseContext" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLLoseContext.restoreContext Mozilla WebGLLoseContext.restoreContext documentation> 
 restoreContext :: (MonadDOM m) => WebGLLoseContext -> m ()
-restoreContext self = liftDOM (void (self ^. js "restoreContext"))
+restoreContext self
+  = liftDOM (void (self ^. jsf "restoreContext" ()))

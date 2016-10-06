@@ -30,21 +30,21 @@ _get self index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.submit Mozilla HTMLFormElement.submit documentation> 
 submit :: (MonadDOM m) => HTMLFormElement -> m ()
-submit self = liftDOM (void (self ^. js "submit"))
+submit self = liftDOM (void (self ^. jsf "submit" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.reset Mozilla HTMLFormElement.reset documentation> 
 reset :: (MonadDOM m) => HTMLFormElement -> m ()
-reset self = liftDOM (void (self ^. js "reset"))
+reset self = liftDOM (void (self ^. jsf "reset" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.checkValidity Mozilla HTMLFormElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLFormElement -> m Bool
 checkValidity self
-  = liftDOM ((self ^. js "checkValidity") >>= valToBool)
+  = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.requestAutocomplete Mozilla HTMLFormElement.requestAutocomplete documentation> 
 requestAutocomplete :: (MonadDOM m) => HTMLFormElement -> m ()
 requestAutocomplete self
-  = liftDOM (void (self ^. js "requestAutocomplete"))
+  = liftDOM (void (self ^. jsf "requestAutocomplete" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.acceptCharset Mozilla HTMLFormElement.acceptCharset documentation> 
 setAcceptCharset ::

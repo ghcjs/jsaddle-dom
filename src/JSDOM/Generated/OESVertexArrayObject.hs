@@ -23,7 +23,7 @@ createVertexArrayOES ::
                      (MonadDOM m) =>
                        OESVertexArrayObject -> m (Maybe WebGLVertexArrayObjectOES)
 createVertexArrayOES self
-  = liftDOM ((self ^. js "createVertexArrayOES") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "createVertexArrayOES" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.deleteVertexArrayOES Mozilla OESVertexArrayObject.deleteVertexArrayOES documentation> 
 deleteVertexArrayOES ::

@@ -72,23 +72,23 @@ setSelectedTextTrack self track
 updateTextTrackContainer ::
                          (MonadDOM m) => MediaControlsHost -> m ()
 updateTextTrackContainer self
-  = liftDOM (void (self ^. js "updateTextTrackContainer"))
+  = liftDOM (void (self ^. jsf "updateTextTrackContainer" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.enteredFullscreen Mozilla MediaControlsHost.enteredFullscreen documentation> 
 enteredFullscreen :: (MonadDOM m) => MediaControlsHost -> m ()
 enteredFullscreen self
-  = liftDOM (void (self ^. js "enteredFullscreen"))
+  = liftDOM (void (self ^. jsf "enteredFullscreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.exitedFullscreen Mozilla MediaControlsHost.exitedFullscreen documentation> 
 exitedFullscreen :: (MonadDOM m) => MediaControlsHost -> m ()
 exitedFullscreen self
-  = liftDOM (void (self ^. js "exitedFullscreen"))
+  = liftDOM (void (self ^. jsf "exitedFullscreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.enterFullscreenOptimized Mozilla MediaControlsHost.enterFullscreenOptimized documentation> 
 enterFullscreenOptimized ::
                          (MonadDOM m) => MediaControlsHost -> m ()
 enterFullscreenOptimized self
-  = liftDOM (void (self ^. js "enterFullscreenOptimized"))
+  = liftDOM (void (self ^. jsf "enterFullscreenOptimized" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.mediaUIImageData Mozilla MediaControlsHost.mediaUIImageData documentation> 
 mediaUIImageData ::

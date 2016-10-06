@@ -42,18 +42,19 @@ newMediaStream'' tracks
 getAudioTracks ::
                (MonadDOM m) => MediaStream -> m [Maybe MediaStreamTrack]
 getAudioTracks self
-  = liftDOM ((self ^. js "getAudioTracks") >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getAudioTracks" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.getVideoTracks Mozilla webkitMediaStream.getVideoTracks documentation> 
 getVideoTracks ::
                (MonadDOM m) => MediaStream -> m [Maybe MediaStreamTrack]
 getVideoTracks self
-  = liftDOM ((self ^. js "getVideoTracks") >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getVideoTracks" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.getTracks Mozilla webkitMediaStream.getTracks documentation> 
 getTracks ::
           (MonadDOM m) => MediaStream -> m [Maybe MediaStreamTrack]
-getTracks self = liftDOM ((self ^. js "getTracks") >>= fromJSArray)
+getTracks self
+  = liftDOM ((self ^. jsf "getTracks" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.addTrack Mozilla webkitMediaStream.addTrack documentation> 
 addTrack ::
@@ -79,7 +80,7 @@ getTrackById self trackId
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.clone Mozilla webkitMediaStream.clone documentation> 
 clone :: (MonadDOM m) => MediaStream -> m (Maybe MediaStream)
-clone self = liftDOM ((self ^. js "clone") >>= fromJSVal)
+clone self = liftDOM ((self ^. jsf "clone" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.id Mozilla webkitMediaStream.id documentation> 
 getId ::

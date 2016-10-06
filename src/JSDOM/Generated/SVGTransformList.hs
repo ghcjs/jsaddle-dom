@@ -20,7 +20,7 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransformList.clear Mozilla SVGTransformList.clear documentation> 
 clear :: (MonadDOM m) => SVGTransformList -> m ()
-clear self = liftDOM (void (self ^. js "clear"))
+clear self = liftDOM (void (self ^. jsf "clear" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransformList.initialize Mozilla SVGTransformList.initialize documentation> 
 initialize ::
@@ -82,7 +82,7 @@ createSVGTransformFromMatrix self matrix
 consolidate ::
             (MonadDOM m) => SVGTransformList -> m (Maybe SVGTransform)
 consolidate self
-  = liftDOM ((self ^. js "consolidate") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "consolidate" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransformList.numberOfItems Mozilla SVGTransformList.numberOfItems documentation> 
 getNumberOfItems :: (MonadDOM m) => SVGTransformList -> m Word

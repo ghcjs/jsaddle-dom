@@ -16,4 +16,4 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ChildNode.remove Mozilla ChildNode.remove documentation> 
 remove :: (MonadDOM m) => ChildNode -> m ()
-remove self = liftDOM (void (self ^. js "remove"))
+remove self = liftDOM (void (self ^. jsf "remove" ()))

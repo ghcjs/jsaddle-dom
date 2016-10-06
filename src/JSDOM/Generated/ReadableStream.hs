@@ -26,7 +26,7 @@ newReadableStream properties
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.read Mozilla ReadableStream.read documentation> 
 read :: (MonadDOM m) => ReadableStream -> m (Maybe GObject)
-read self = liftDOM ((self ^. js "read") >>= fromJSVal)
+read self = liftDOM ((self ^. jsf "read" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.cancel Mozilla ReadableStream.cancel documentation> 
 cancel ::

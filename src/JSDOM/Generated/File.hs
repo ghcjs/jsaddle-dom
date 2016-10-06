@@ -8,17 +8,17 @@ import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, t
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
-import Control.Applicative ((<$>) )
+import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/File.name Mozilla File.name documentation>
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/File.name Mozilla File.name documentation> 
 getName :: (MonadDOM m, FromJSString result) => File -> m result
 getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/File.lastModifiedDate Mozilla File.lastModifiedDate documentation>
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/File.lastModifiedDate Mozilla File.lastModifiedDate documentation> 
 getLastModifiedDate :: (MonadDOM m) => File -> m (Maybe Date)
 getLastModifiedDate self
   = liftDOM ((self ^. js "lastModifiedDate") >>= fromJSVal)

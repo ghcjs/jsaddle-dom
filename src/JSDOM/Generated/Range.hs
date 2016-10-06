@@ -101,19 +101,20 @@ compareBoundaryPoints self how sourceRange
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.deleteContents Mozilla Range.deleteContents documentation> 
 deleteContents :: (MonadDOM m) => Range -> m ()
-deleteContents self = liftDOM (void (self ^. js "deleteContents"))
+deleteContents self
+  = liftDOM (void (self ^. jsf "deleteContents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
 extractContents ::
                 (MonadDOM m) => Range -> m (Maybe DocumentFragment)
 extractContents self
-  = liftDOM ((self ^. js "extractContents") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "extractContents" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
 cloneContents ::
               (MonadDOM m) => Range -> m (Maybe DocumentFragment)
 cloneContents self
-  = liftDOM ((self ^. js "cloneContents") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "cloneContents" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.insertNode Mozilla Range.insertNode documentation> 
 insertNode ::
@@ -130,27 +131,28 @@ surroundContents self newParent
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
 cloneRange :: (MonadDOM m) => Range -> m (Maybe Range)
-cloneRange self = liftDOM ((self ^. js "cloneRange") >>= fromJSVal)
+cloneRange self
+  = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.toString Mozilla Range.toString documentation> 
 toString :: (MonadDOM m, FromJSString result) => Range -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.detach Mozilla Range.detach documentation> 
 detach :: (MonadDOM m) => Range -> m ()
-detach self = liftDOM (void (self ^. js "detach"))
+detach self = liftDOM (void (self ^. jsf "detach" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
 getClientRects :: (MonadDOM m) => Range -> m (Maybe ClientRectList)
 getClientRects self
-  = liftDOM ((self ^. js "getClientRects") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getClientRects" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
 getBoundingClientRect ::
                       (MonadDOM m) => Range -> m (Maybe ClientRect)
 getBoundingClientRect self
-  = liftDOM ((self ^. js "getBoundingClientRect") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getBoundingClientRect" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
 createContextualFragment ::

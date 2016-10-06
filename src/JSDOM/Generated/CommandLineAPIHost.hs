@@ -20,7 +20,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.clearConsoleMessages Mozilla CommandLineAPIHost.clearConsoleMessages documentation> 
 clearConsoleMessages :: (MonadDOM m) => CommandLineAPIHost -> m ()
 clearConsoleMessages self
-  = liftDOM (void (self ^. js "clearConsoleMessages"))
+  = liftDOM (void (self ^. jsf "clearConsoleMessages" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.copyText Mozilla CommandLineAPIHost.copyText documentation> 
 copyText ::

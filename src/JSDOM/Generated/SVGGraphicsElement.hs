@@ -25,7 +25,7 @@ getBBox ::
           self -> m (Maybe SVGRect)
 getBBox self
   = liftDOM
-      (((toSVGGraphicsElement self) ^. js "getBBox") >>= fromJSVal)
+      (((toSVGGraphicsElement self) ^. jsf "getBBox" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.getCTM Mozilla SVGGraphicsElement.getCTM documentation> 
 getCTM ::
@@ -33,7 +33,7 @@ getCTM ::
          self -> m (Maybe SVGMatrix)
 getCTM self
   = liftDOM
-      (((toSVGGraphicsElement self) ^. js "getCTM") >>= fromJSVal)
+      (((toSVGGraphicsElement self) ^. jsf "getCTM" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.getScreenCTM Mozilla SVGGraphicsElement.getScreenCTM documentation> 
 getScreenCTM ::
@@ -41,7 +41,8 @@ getScreenCTM ::
                self -> m (Maybe SVGMatrix)
 getScreenCTM self
   = liftDOM
-      (((toSVGGraphicsElement self) ^. js "getScreenCTM") >>= fromJSVal)
+      (((toSVGGraphicsElement self) ^. jsf "getScreenCTM" ()) >>=
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.getTransformToElement Mozilla SVGGraphicsElement.getTransformToElement documentation> 
 getTransformToElement ::

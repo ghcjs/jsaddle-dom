@@ -76,7 +76,7 @@ appendChild self newChild
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.hasChildNodes Mozilla Node.hasChildNodes documentation> 
 hasChildNodes :: (MonadDOM m, IsNode self) => self -> m Bool
 hasChildNodes self
-  = liftDOM (((toNode self) ^. js "hasChildNodes") >>= valToBool)
+  = liftDOM (((toNode self) ^. jsf "hasChildNodes" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode Mozilla Node.cloneNode documentation> 
 cloneNode ::
@@ -87,7 +87,8 @@ cloneNode self deep
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.normalize Mozilla Node.normalize documentation> 
 normalize :: (MonadDOM m, IsNode self) => self -> m ()
-normalize self = liftDOM (void ((toNode self) ^. js "normalize"))
+normalize self
+  = liftDOM (void ((toNode self) ^. jsf "normalize" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isSupported Mozilla Node.isSupported documentation> 
 isSupported ::

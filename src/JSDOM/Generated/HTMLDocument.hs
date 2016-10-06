@@ -22,11 +22,11 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.open Mozilla HTMLDocument.open documentation> 
 open :: (MonadDOM m) => HTMLDocument -> m ()
-open self = liftDOM (void (self ^. js "open"))
+open self = liftDOM (void (self ^. jsf "open" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.close Mozilla HTMLDocument.close documentation> 
 close :: (MonadDOM m) => HTMLDocument -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.write Mozilla HTMLDocument.write documentation> 
 write ::
@@ -42,15 +42,17 @@ writeln self text
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.clear Mozilla HTMLDocument.clear documentation> 
 clear :: (MonadDOM m) => HTMLDocument -> m ()
-clear self = liftDOM (void (self ^. js "clear"))
+clear self = liftDOM (void (self ^. jsf "clear" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.captureEvents Mozilla HTMLDocument.captureEvents documentation> 
 captureEvents :: (MonadDOM m) => HTMLDocument -> m ()
-captureEvents self = liftDOM (void (self ^. js "captureEvents"))
+captureEvents self
+  = liftDOM (void (self ^. jsf "captureEvents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.releaseEvents Mozilla HTMLDocument.releaseEvents documentation> 
 releaseEvents :: (MonadDOM m) => HTMLDocument -> m ()
-releaseEvents self = liftDOM (void (self ^. js "releaseEvents"))
+releaseEvents self
+  = liftDOM (void (self ^. jsf "releaseEvents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.embeds Mozilla HTMLDocument.embeds documentation> 
 getEmbeds ::

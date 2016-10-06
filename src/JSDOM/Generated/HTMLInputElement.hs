@@ -50,7 +50,7 @@ stepDown self n
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.checkValidity Mozilla HTMLInputElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLInputElement -> m Bool
 checkValidity self
-  = liftDOM ((self ^. js "checkValidity") >>= valToBool)
+  = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.setCustomValidity Mozilla HTMLInputElement.setCustomValidity documentation> 
 setCustomValidity ::
@@ -61,7 +61,7 @@ setCustomValidity self error
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.select Mozilla HTMLInputElement.select documentation> 
 select :: (MonadDOM m) => HTMLInputElement -> m ()
-select self = liftDOM (void (self ^. js "select"))
+select self = liftDOM (void (self ^. jsf "select" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.setRangeText Mozilla HTMLInputElement.setRangeText documentation> 
 setRangeText ::

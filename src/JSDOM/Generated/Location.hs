@@ -31,13 +31,13 @@ replace self url
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.reload Mozilla Location.reload documentation> 
 reload :: (MonadDOM m) => Location -> m ()
-reload self = liftDOM (void (self ^. js "reload"))
+reload self = liftDOM (void (self ^. jsf "reload" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.toString Mozilla Location.toString documentation> 
 toString ::
          (MonadDOM m, FromJSString result) => Location -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.href Mozilla Location.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => Location -> val -> m ()

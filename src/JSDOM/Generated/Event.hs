@@ -28,12 +28,12 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.stopPropagation Mozilla Event.stopPropagation documentation> 
 stopPropagation :: (MonadDOM m, IsEvent self) => self -> m ()
 stopPropagation self
-  = liftDOM (void ((toEvent self) ^. js "stopPropagation"))
+  = liftDOM (void ((toEvent self) ^. jsf "stopPropagation" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.preventDefault Mozilla Event.preventDefault documentation> 
 preventDefault :: (MonadDOM m, IsEvent self) => self -> m ()
 preventDefault self
-  = liftDOM (void ((toEvent self) ^. js "preventDefault"))
+  = liftDOM (void ((toEvent self) ^. jsf "preventDefault" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.initEvent Mozilla Event.initEvent documentation> 
 initEvent ::
@@ -50,7 +50,8 @@ initEvent self eventTypeArg canBubbleArg cancelableArg
 stopImmediatePropagation ::
                          (MonadDOM m, IsEvent self) => self -> m ()
 stopImmediatePropagation self
-  = liftDOM (void ((toEvent self) ^. js "stopImmediatePropagation"))
+  = liftDOM
+      (void ((toEvent self) ^. jsf "stopImmediatePropagation" ()))
 pattern NONE = 0
 pattern CAPTURING_PHASE = 1
 pattern AT_TARGET = 2

@@ -36,7 +36,7 @@ appendBufferView self data'
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.abort Mozilla SourceBuffer.abort documentation> 
 abort :: (MonadDOM m) => SourceBuffer -> m ()
-abort self = liftDOM (void (self ^. js "abort"))
+abort self = liftDOM (void (self ^. jsf "abort" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.remove Mozilla SourceBuffer.remove documentation> 
 remove :: (MonadDOM m) => SourceBuffer -> Double -> Double -> m ()

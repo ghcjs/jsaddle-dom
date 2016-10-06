@@ -26,20 +26,21 @@ speak self utterance
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.cancel Mozilla SpeechSynthesis.cancel documentation> 
 cancel :: (MonadDOM m) => SpeechSynthesis -> m ()
-cancel self = liftDOM (void (self ^. js "cancel"))
+cancel self = liftDOM (void (self ^. jsf "cancel" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.pause Mozilla SpeechSynthesis.pause documentation> 
 pause :: (MonadDOM m) => SpeechSynthesis -> m ()
-pause self = liftDOM (void (self ^. js "pause"))
+pause self = liftDOM (void (self ^. jsf "pause" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.resume Mozilla SpeechSynthesis.resume documentation> 
 resume :: (MonadDOM m) => SpeechSynthesis -> m ()
-resume self = liftDOM (void (self ^. js "resume"))
+resume self = liftDOM (void (self ^. jsf "resume" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.getVoices Mozilla SpeechSynthesis.getVoices documentation> 
 getVoices ::
           (MonadDOM m) => SpeechSynthesis -> m [Maybe SpeechSynthesisVoice]
-getVoices self = liftDOM ((self ^. js "getVoices") >>= fromJSArray)
+getVoices self
+  = liftDOM ((self ^. jsf "getVoices" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.pending Mozilla SpeechSynthesis.pending documentation> 
 getPending :: (MonadDOM m) => SpeechSynthesis -> m Bool

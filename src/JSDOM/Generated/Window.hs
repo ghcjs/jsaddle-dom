@@ -73,27 +73,27 @@ openDatabase self name version displayName estimatedSize
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
 getSelection :: (MonadDOM m) => Window -> m (Maybe Selection)
 getSelection self
-  = liftDOM ((self ^. js "getSelection") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getSelection" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.focus Mozilla Window.focus documentation> 
 focus :: (MonadDOM m) => Window -> m ()
-focus self = liftDOM (void (self ^. js "focus"))
+focus self = liftDOM (void (self ^. jsf "focus" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.blur Mozilla Window.blur documentation> 
 blur :: (MonadDOM m) => Window -> m ()
-blur self = liftDOM (void (self ^. js "blur"))
+blur self = liftDOM (void (self ^. jsf "blur" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.close Mozilla Window.close documentation> 
 close :: (MonadDOM m) => Window -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.print Mozilla Window.print documentation> 
 print :: (MonadDOM m) => Window -> m ()
-print self = liftDOM (void (self ^. js "print"))
+print self = liftDOM (void (self ^. jsf "print" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.stop Mozilla Window.stop documentation> 
 stop :: (MonadDOM m) => Window -> m ()
-stop self = liftDOM (void (self ^. js "stop"))
+stop self = liftDOM (void (self ^. jsf "stop" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.open Mozilla Window.open documentation> 
 open ::
@@ -293,11 +293,13 @@ webkitCancelRequestAnimationFrame self id
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.captureEvents Mozilla Window.captureEvents documentation> 
 captureEvents :: (MonadDOM m) => Window -> m ()
-captureEvents self = liftDOM (void (self ^. js "captureEvents"))
+captureEvents self
+  = liftDOM (void (self ^. jsf "captureEvents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.releaseEvents Mozilla Window.releaseEvents documentation> 
 releaseEvents :: (MonadDOM m) => Window -> m ()
-releaseEvents self = liftDOM (void (self ^. js "releaseEvents"))
+releaseEvents self
+  = liftDOM (void (self ^. jsf "releaseEvents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitIndexedDB Mozilla Window.webkitIndexedDB documentation> 
 getWebkitIndexedDB ::

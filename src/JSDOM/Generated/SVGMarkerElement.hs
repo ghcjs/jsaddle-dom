@@ -25,7 +25,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.setOrientToAuto Mozilla SVGMarkerElement.setOrientToAuto documentation> 
 setOrientToAuto :: (MonadDOM m) => SVGMarkerElement -> m ()
 setOrientToAuto self
-  = liftDOM (void (self ^. js "setOrientToAuto"))
+  = liftDOM (void (self ^. jsf "setOrientToAuto" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.setOrientToAngle Mozilla SVGMarkerElement.setOrientToAngle documentation> 
 setOrientToAngle ::

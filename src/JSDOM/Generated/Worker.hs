@@ -35,7 +35,7 @@ postMessage self message messagePorts
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.terminate Mozilla Worker.terminate documentation> 
 terminate :: (MonadDOM m) => Worker -> m ()
-terminate self = liftDOM (void (self ^. js "terminate"))
+terminate self = liftDOM (void (self ^. jsf "terminate" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.onmessage Mozilla Worker.onmessage documentation> 
 message :: EventName Worker MessageEvent

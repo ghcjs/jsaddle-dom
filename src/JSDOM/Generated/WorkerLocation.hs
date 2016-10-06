@@ -21,7 +21,7 @@ import JSDOM.Enums
 toString ::
          (MonadDOM m, FromJSString result) => WorkerLocation -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.href Mozilla WorkerLocation.href documentation> 
 getHref ::

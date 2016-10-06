@@ -32,7 +32,7 @@ newVTTCue startTime endTime text
 getCueAsHTML ::
              (MonadDOM m) => VTTCue -> m (Maybe DocumentFragment)
 getCueAsHTML self
-  = liftDOM ((self ^. js "getCueAsHTML") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getCueAsHTML" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTCue.vertical Mozilla VTTCue.vertical documentation> 
 setVertical ::

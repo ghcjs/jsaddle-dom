@@ -28,7 +28,7 @@ stat self name
 names ::
       (MonadDOM m, FromJSString result) => RTCStatsReport -> m [result]
 names self
-  = liftDOM ((self ^. js "names") >>= fromJSArrayUnchecked)
+  = liftDOM ((self ^. jsf "names" ()) >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.timestamp Mozilla RTCStatsReport.timestamp documentation> 
 getTimestamp :: (MonadDOM m) => RTCStatsReport -> m (Maybe Date)

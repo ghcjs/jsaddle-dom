@@ -20,16 +20,16 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.nextNode Mozilla NodeIterator.nextNode documentation> 
 nextNode :: (MonadDOM m) => NodeIterator -> m (Maybe Node)
-nextNode self = liftDOM ((self ^. js "nextNode") >>= fromJSVal)
+nextNode self = liftDOM ((self ^. jsf "nextNode" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.previousNode Mozilla NodeIterator.previousNode documentation> 
 previousNode :: (MonadDOM m) => NodeIterator -> m (Maybe Node)
 previousNode self
-  = liftDOM ((self ^. js "previousNode") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "previousNode" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.detach Mozilla NodeIterator.detach documentation> 
 detach :: (MonadDOM m) => NodeIterator -> m ()
-detach self = liftDOM (void (self ^. js "detach"))
+detach self = liftDOM (void (self ^. jsf "detach" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.root Mozilla NodeIterator.root documentation> 
 getRoot :: (MonadDOM m) => NodeIterator -> m (Maybe Node)

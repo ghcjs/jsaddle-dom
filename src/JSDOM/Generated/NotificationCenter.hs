@@ -33,7 +33,7 @@ createNotification self iconUrl title body
 checkPermission :: (MonadDOM m) => NotificationCenter -> m Int
 checkPermission self
   = liftDOM
-      (round <$> ((self ^. js "checkPermission") >>= valToNumber))
+      (round <$> ((self ^. jsf "checkPermission" ()) >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NotificationCenter.requestPermission Mozilla NotificationCenter.requestPermission documentation> 
 requestPermission ::

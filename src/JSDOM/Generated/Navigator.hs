@@ -26,7 +26,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getGamepads Mozilla Navigator.getGamepads documentation> 
 getGamepads :: (MonadDOM m) => Navigator -> m [Maybe Gamepad]
 getGamepads self
-  = liftDOM ((self ^. js "getGamepads") >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getGamepads" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitGetUserMedia Mozilla Navigator.webkitGetUserMedia documentation> 
 webkitGetUserMedia ::
@@ -87,12 +87,12 @@ vibrate self time
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.javaEnabled Mozilla Navigator.javaEnabled documentation> 
 javaEnabled :: (MonadDOM m) => Navigator -> m Bool
 javaEnabled self
-  = liftDOM ((self ^. js "javaEnabled") >>= valToBool)
+  = liftDOM ((self ^. jsf "javaEnabled" ()) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getStorageUpdates Mozilla Navigator.getStorageUpdates documentation> 
 getStorageUpdates :: (MonadDOM m) => Navigator -> m ()
 getStorageUpdates self
-  = liftDOM (void (self ^. js "getStorageUpdates"))
+  = liftDOM (void (self ^. jsf "getStorageUpdates" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
 getWebkitBattery ::

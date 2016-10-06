@@ -86,8 +86,8 @@ removeParameter self namespaceURI localName
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.clearParameters Mozilla XSLTProcessor.clearParameters documentation> 
 clearParameters :: (MonadDOM m) => XSLTProcessor -> m ()
 clearParameters self
-  = liftDOM (void (self ^. js "clearParameters"))
+  = liftDOM (void (self ^. jsf "clearParameters" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.reset Mozilla XSLTProcessor.reset documentation> 
 reset :: (MonadDOM m) => XSLTProcessor -> m ()
-reset self = liftDOM (void (self ^. js "reset"))
+reset self = liftDOM (void (self ^. jsf "reset" ()))

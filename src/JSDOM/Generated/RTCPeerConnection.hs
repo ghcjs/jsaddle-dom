@@ -111,13 +111,13 @@ addIceCandidate self candidate successCallback failureCallback
 getLocalStreams ::
                 (MonadDOM m) => RTCPeerConnection -> m [Maybe MediaStream]
 getLocalStreams self
-  = liftDOM ((self ^. js "getLocalStreams") >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getLocalStreams" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getRemoteStreams Mozilla webkitRTCPeerConnection.getRemoteStreams documentation> 
 getRemoteStreams ::
                  (MonadDOM m) => RTCPeerConnection -> m [Maybe MediaStream]
 getRemoteStreams self
-  = liftDOM ((self ^. js "getRemoteStreams") >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getRemoteStreams" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getStreamById Mozilla webkitRTCPeerConnection.getStreamById documentation> 
 getStreamById ::
@@ -131,7 +131,7 @@ getStreamById self streamId
 getConfiguration ::
                  (MonadDOM m) => RTCPeerConnection -> m (Maybe RTCConfiguration)
 getConfiguration self
-  = liftDOM ((self ^. js "getConfiguration") >>= fromJSVal)
+  = liftDOM ((self ^. jsf "getConfiguration" ()) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.addStream Mozilla webkitRTCPeerConnection.addStream documentation> 
 addStream ::
@@ -178,7 +178,7 @@ createDTMFSender self track
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.close Mozilla webkitRTCPeerConnection.close documentation> 
 close :: (MonadDOM m) => RTCPeerConnection -> m ()
-close self = liftDOM (void (self ^. js "close"))
+close self = liftDOM (void (self ^. jsf "close" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.localDescription Mozilla webkitRTCPeerConnection.localDescription documentation> 
 getLocalDescription ::

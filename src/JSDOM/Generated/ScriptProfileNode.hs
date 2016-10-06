@@ -20,7 +20,8 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfileNode.children Mozilla ScriptProfileNode.children documentation> 
 children ::
          (MonadDOM m) => ScriptProfileNode -> m [Maybe ScriptProfileNode]
-children self = liftDOM ((self ^. js "children") >>= fromJSArray)
+children self
+  = liftDOM ((self ^. jsf "children" ()) >>= fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfileNode.id Mozilla ScriptProfileNode.id documentation> 
 getId :: (MonadDOM m) => ScriptProfileNode -> m Word

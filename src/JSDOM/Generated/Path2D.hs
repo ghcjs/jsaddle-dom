@@ -40,7 +40,7 @@ addPath self path transform
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Path2D.closePath Mozilla Path2D.closePath documentation> 
 closePath :: (MonadDOM m) => Path2D -> m ()
-closePath self = liftDOM (void (self ^. js "closePath"))
+closePath self = liftDOM (void (self ^. jsf "closePath" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Path2D.moveTo Mozilla Path2D.moveTo documentation> 
 moveTo :: (MonadDOM m) => Path2D -> Float -> Float -> m ()

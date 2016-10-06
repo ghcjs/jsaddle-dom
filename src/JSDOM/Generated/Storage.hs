@@ -48,7 +48,7 @@ removeItem self key
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.clear Mozilla Storage.clear documentation> 
 clear :: (MonadDOM m) => Storage -> m ()
-clear self = liftDOM (void (self ^. js "clear"))
+clear self = liftDOM (void (self ^. jsf "clear" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.length Mozilla Storage.length documentation> 
 getLength :: (MonadDOM m) => Storage -> m Word

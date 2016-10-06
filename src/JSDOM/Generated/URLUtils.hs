@@ -23,7 +23,7 @@ import JSDOM.Enums
 toString ::
          (MonadDOM m, FromJSString result) => URLUtils -> m result
 toString self
-  = liftDOM ((self ^. js "toString") >>= fromJSValUnchecked)
+  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.href Mozilla URLUtils.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => URLUtils -> val -> m ()

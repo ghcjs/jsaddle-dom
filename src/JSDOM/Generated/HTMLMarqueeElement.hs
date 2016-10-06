@@ -22,11 +22,11 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.start Mozilla HTMLMarqueeElement.start documentation> 
 start :: (MonadDOM m) => HTMLMarqueeElement -> m ()
-start self = liftDOM (void (self ^. js "start"))
+start self = liftDOM (void (self ^. jsf "start" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.stop Mozilla HTMLMarqueeElement.stop documentation> 
 stop :: (MonadDOM m) => HTMLMarqueeElement -> m ()
-stop self = liftDOM (void (self ^. js "stop"))
+stop self = liftDOM (void (self ^. jsf "stop" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.behavior Mozilla HTMLMarqueeElement.behavior documentation> 
 setBehavior ::
