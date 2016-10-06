@@ -1,5 +1,5 @@
 name: jsaddle-dom
-version: 0.4.0.0
+version: 0.4.0.1
 cabal-version: >=1.22
 build-type: Simple
 license: MIT
