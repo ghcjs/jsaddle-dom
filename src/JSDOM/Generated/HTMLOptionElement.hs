@@ -1,10 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionElement
-       (setDisabled, getDisabled, getForm, setLabel, getLabel,
-        setDefaultSelected, getDefaultSelected, setSelected, getSelected,
-        setValue, getValue, setText, getText, getIndex, HTMLOptionElement,
-        castToHTMLOptionElement, gTypeHTMLOptionElement)
+       (setDisabled, getDisabled, getForm, getFormUnchecked, setLabel,
+        getLabel, setDefaultSelected, getDefaultSelected, setSelected,
+        getSelected, setValue, getValue, setText, getText, getIndex,
+        HTMLOptionElement, castToHTMLOptionElement, gTypeHTMLOptionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -31,6 +31,12 @@ getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 getForm ::
         (MonadDOM m) => HTMLOptionElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.form Mozilla HTMLOptionElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLOptionElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.label Mozilla HTMLOptionElement.label documentation> 
 setLabel ::

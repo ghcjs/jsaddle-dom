@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Crypto
-       (getRandomValues, getWebkitSubtle, Crypto, castToCrypto,
+       (getRandomValues, getRandomValues_, getRandomValuesUnchecked,
+        getWebkitSubtle, getWebkitSubtleUnchecked, Crypto, castToCrypto,
         gTypeCrypto)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -24,7 +25,29 @@ getRandomValues self array
   = liftDOM
       ((self ^. jsf "getRandomValues" [toJSVal array]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Crypto.getRandomValues Mozilla Crypto.getRandomValues documentation> 
+getRandomValues_ ::
+                 (MonadDOM m, IsArrayBufferView array) =>
+                   Crypto -> Maybe array -> m ()
+getRandomValues_ self array
+  = liftDOM (void (self ^. jsf "getRandomValues" [toJSVal array]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Crypto.getRandomValues Mozilla Crypto.getRandomValues documentation> 
+getRandomValuesUnchecked ::
+                         (MonadDOM m, IsArrayBufferView array) =>
+                           Crypto -> Maybe array -> m ArrayBufferView
+getRandomValuesUnchecked self array
+  = liftDOM
+      ((self ^. jsf "getRandomValues" [toJSVal array]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Crypto.webkitSubtle Mozilla Crypto.webkitSubtle documentation> 
 getWebkitSubtle :: (MonadDOM m) => Crypto -> m (Maybe SubtleCrypto)
 getWebkitSubtle self
   = liftDOM ((self ^. js "webkitSubtle") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Crypto.webkitSubtle Mozilla Crypto.webkitSubtle documentation> 
+getWebkitSubtleUnchecked ::
+                         (MonadDOM m) => Crypto -> m SubtleCrypto
+getWebkitSubtleUnchecked self
+  = liftDOM ((self ^. js "webkitSubtle") >>= fromJSValUnchecked)

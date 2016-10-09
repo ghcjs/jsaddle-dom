@@ -2,7 +2,10 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XSLTProcessor
        (newXSLTProcessor, importStylesheet, transformToFragment,
-        transformToDocument, setParameter, getParameter, removeParameter,
+        transformToFragment_, transformToFragmentUnchecked,
+        transformToDocument, transformToDocument_,
+        transformToDocumentUnchecked, setParameter, getParameter,
+        getParameter_, getParameterUnchecked, removeParameter,
         clearParameters, reset, XSLTProcessor, castToXSLTProcessor,
         gTypeXSLTProcessor)
        where
@@ -42,6 +45,26 @@ transformToFragment self source docVal
           [toJSVal source, toJSVal docVal])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.transformToFragment Mozilla XSLTProcessor.transformToFragment documentation> 
+transformToFragment_ ::
+                     (MonadDOM m, IsNode source, IsDocument docVal) =>
+                       XSLTProcessor -> Maybe source -> Maybe docVal -> m ()
+transformToFragment_ self source docVal
+  = liftDOM
+      (void
+         (self ^. jsf "transformToFragment"
+            [toJSVal source, toJSVal docVal]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.transformToFragment Mozilla XSLTProcessor.transformToFragment documentation> 
+transformToFragmentUnchecked ::
+                             (MonadDOM m, IsNode source, IsDocument docVal) =>
+                               XSLTProcessor -> Maybe source -> Maybe docVal -> m DocumentFragment
+transformToFragmentUnchecked self source docVal
+  = liftDOM
+      ((self ^. jsf "transformToFragment"
+          [toJSVal source, toJSVal docVal])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.transformToDocument Mozilla XSLTProcessor.transformToDocument documentation> 
 transformToDocument ::
                     (MonadDOM m, IsNode source) =>
@@ -50,6 +73,23 @@ transformToDocument self source
   = liftDOM
       ((self ^. jsf "transformToDocument" [toJSVal source]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.transformToDocument Mozilla XSLTProcessor.transformToDocument documentation> 
+transformToDocument_ ::
+                     (MonadDOM m, IsNode source) =>
+                       XSLTProcessor -> Maybe source -> m ()
+transformToDocument_ self source
+  = liftDOM
+      (void (self ^. jsf "transformToDocument" [toJSVal source]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.transformToDocument Mozilla XSLTProcessor.transformToDocument documentation> 
+transformToDocumentUnchecked ::
+                             (MonadDOM m, IsNode source) =>
+                               XSLTProcessor -> Maybe source -> m Document
+transformToDocumentUnchecked self source
+  = liftDOM
+      ((self ^. jsf "transformToDocument" [toJSVal source]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.setParameter Mozilla XSLTProcessor.setParameter documentation> 
 setParameter ::
@@ -72,6 +112,27 @@ getParameter self namespaceURI localName
       ((self ^. jsf "getParameter"
           [toJSVal namespaceURI, toJSVal localName])
          >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.getParameter Mozilla XSLTProcessor.getParameter documentation> 
+getParameter_ ::
+              (MonadDOM m, ToJSString namespaceURI, ToJSString localName) =>
+                XSLTProcessor -> namespaceURI -> localName -> m ()
+getParameter_ self namespaceURI localName
+  = liftDOM
+      (void
+         (self ^. jsf "getParameter"
+            [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.getParameter Mozilla XSLTProcessor.getParameter documentation> 
+getParameterUnchecked ::
+                      (MonadDOM m, ToJSString namespaceURI, ToJSString localName,
+                       FromJSString result) =>
+                        XSLTProcessor -> namespaceURI -> localName -> m result
+getParameterUnchecked self namespaceURI localName
+  = liftDOM
+      ((self ^. jsf "getParameter"
+          [toJSVal namespaceURI, toJSVal localName])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.removeParameter Mozilla XSLTProcessor.removeParameter documentation> 
 removeParameter ::

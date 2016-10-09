@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLLegendElement
-       (getForm, setAlign, getAlign, HTMLLegendElement,
+       (getForm, getFormUnchecked, setAlign, getAlign, HTMLLegendElement,
         castToHTMLLegendElement, gTypeHTMLLegendElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -20,6 +20,12 @@ import JSDOM.Enums
 getForm ::
         (MonadDOM m) => HTMLLegendElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.form Mozilla HTMLLegendElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLLegendElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.align Mozilla HTMLLegendElement.align documentation> 
 setAlign ::

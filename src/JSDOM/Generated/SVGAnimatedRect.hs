@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedRect
-       (getBaseVal, getAnimVal, SVGAnimatedRect, castToSVGAnimatedRect,
-        gTypeSVGAnimatedRect)
+       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
+        SVGAnimatedRect, castToSVGAnimatedRect, gTypeSVGAnimatedRect)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,6 +20,16 @@ import JSDOM.Enums
 getBaseVal :: (MonadDOM m) => SVGAnimatedRect -> m (Maybe SVGRect)
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.baseVal Mozilla SVGAnimatedRect.baseVal documentation> 
+getBaseValUnchecked :: (MonadDOM m) => SVGAnimatedRect -> m SVGRect
+getBaseValUnchecked self
+  = liftDOM ((self ^. js "baseVal") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.animVal Mozilla SVGAnimatedRect.animVal documentation> 
 getAnimVal :: (MonadDOM m) => SVGAnimatedRect -> m (Maybe SVGRect)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.animVal Mozilla SVGAnimatedRect.animVal documentation> 
+getAnimValUnchecked :: (MonadDOM m) => SVGAnimatedRect -> m SVGRect
+getAnimValUnchecked self
+  = liftDOM ((self ^. js "animVal") >>= fromJSValUnchecked)

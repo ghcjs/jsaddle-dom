@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SQLResultSet
-       (getRows, getInsertId, getRowsAffected, SQLResultSet,
-        castToSQLResultSet, gTypeSQLResultSet)
+       (getRows, getRowsUnchecked, getInsertId, getRowsAffected,
+        SQLResultSet, castToSQLResultSet, gTypeSQLResultSet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,6 +20,12 @@ import JSDOM.Enums
 getRows ::
         (MonadDOM m) => SQLResultSet -> m (Maybe SQLResultSetRowList)
 getRows self = liftDOM ((self ^. js "rows") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLResultSet.rows Mozilla SQLResultSet.rows documentation> 
+getRowsUnchecked ::
+                 (MonadDOM m) => SQLResultSet -> m SQLResultSetRowList
+getRowsUnchecked self
+  = liftDOM ((self ^. js "rows") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLResultSet.insertId Mozilla SQLResultSet.insertId documentation> 
 getInsertId :: (MonadDOM m) => SQLResultSet -> m Int

@@ -5,8 +5,9 @@ module JSDOM.Generated.OscillatorNode
         pattern SQUARE, pattern SAWTOOTH, pattern TRIANGLE, pattern CUSTOM,
         pattern UNSCHEDULED_STATE, pattern SCHEDULED_STATE,
         pattern PLAYING_STATE, pattern FINISHED_STATE, setType, getType,
-        getPlaybackState, getFrequency, getDetune, ended, OscillatorNode,
-        castToOscillatorNode, gTypeOscillatorNode)
+        getPlaybackState, getFrequency, getFrequencyUnchecked, getDetune,
+        getDetuneUnchecked, ended, OscillatorNode, castToOscillatorNode,
+        gTypeOscillatorNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -76,9 +77,21 @@ getFrequency ::
 getFrequency self
   = liftDOM ((self ^. js "frequency") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode.frequency Mozilla OscillatorNode.frequency documentation> 
+getFrequencyUnchecked ::
+                      (MonadDOM m) => OscillatorNode -> m AudioParam
+getFrequencyUnchecked self
+  = liftDOM ((self ^. js "frequency") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode.detune Mozilla OscillatorNode.detune documentation> 
 getDetune :: (MonadDOM m) => OscillatorNode -> m (Maybe AudioParam)
 getDetune self = liftDOM ((self ^. js "detune") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode.detune Mozilla OscillatorNode.detune documentation> 
+getDetuneUnchecked ::
+                   (MonadDOM m) => OscillatorNode -> m AudioParam
+getDetuneUnchecked self
+  = liftDOM ((self ^. js "detune") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode.onended Mozilla OscillatorNode.onended documentation> 
 ended :: EventName OscillatorNode Event

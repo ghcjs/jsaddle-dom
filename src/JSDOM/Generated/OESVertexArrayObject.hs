@@ -1,10 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OESVertexArrayObject
-       (createVertexArrayOES, deleteVertexArrayOES, isVertexArrayOES,
-        bindVertexArrayOES, pattern VERTEX_ARRAY_BINDING_OES,
-        OESVertexArrayObject, castToOESVertexArrayObject,
-        gTypeOESVertexArrayObject)
+       (createVertexArrayOES, createVertexArrayOES_,
+        createVertexArrayOESUnchecked, deleteVertexArrayOES,
+        isVertexArrayOES, isVertexArrayOES_, bindVertexArrayOES,
+        pattern VERTEX_ARRAY_BINDING_OES, OESVertexArrayObject,
+        castToOESVertexArrayObject, gTypeOESVertexArrayObject)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -25,6 +26,19 @@ createVertexArrayOES ::
 createVertexArrayOES self
   = liftDOM ((self ^. jsf "createVertexArrayOES" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.createVertexArrayOES Mozilla OESVertexArrayObject.createVertexArrayOES documentation> 
+createVertexArrayOES_ ::
+                      (MonadDOM m) => OESVertexArrayObject -> m ()
+createVertexArrayOES_ self
+  = liftDOM (void (self ^. jsf "createVertexArrayOES" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.createVertexArrayOES Mozilla OESVertexArrayObject.createVertexArrayOES documentation> 
+createVertexArrayOESUnchecked ::
+                              (MonadDOM m) => OESVertexArrayObject -> m WebGLVertexArrayObjectOES
+createVertexArrayOESUnchecked self
+  = liftDOM
+      ((self ^. jsf "createVertexArrayOES" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.deleteVertexArrayOES Mozilla OESVertexArrayObject.deleteVertexArrayOES documentation> 
 deleteVertexArrayOES ::
                      (MonadDOM m) =>
@@ -41,6 +55,14 @@ isVertexArrayOES self arrayObject
   = liftDOM
       ((self ^. jsf "isVertexArrayOES" [toJSVal arrayObject]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.isVertexArrayOES Mozilla OESVertexArrayObject.isVertexArrayOES documentation> 
+isVertexArrayOES_ ::
+                  (MonadDOM m) =>
+                    OESVertexArrayObject -> Maybe WebGLVertexArrayObjectOES -> m ()
+isVertexArrayOES_ self arrayObject
+  = liftDOM
+      (void (self ^. jsf "isVertexArrayOES" [toJSVal arrayObject]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.bindVertexArrayOES Mozilla OESVertexArrayObject.bindVertexArrayOES documentation> 
 bindVertexArrayOES ::

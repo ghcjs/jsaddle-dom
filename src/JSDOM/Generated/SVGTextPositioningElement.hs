@@ -1,9 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTextPositioningElement
-       (getX, getY, getDx, getDy, getRotate, SVGTextPositioningElement,
-        castToSVGTextPositioningElement, gTypeSVGTextPositioningElement,
-        IsSVGTextPositioningElement, toSVGTextPositioningElement)
+       (getX, getXUnchecked, getY, getYUnchecked, getDx, getDxUnchecked,
+        getDy, getDyUnchecked, getRotate, getRotateUnchecked,
+        SVGTextPositioningElement, castToSVGTextPositioningElement,
+        gTypeSVGTextPositioningElement, IsSVGTextPositioningElement,
+        toSVGTextPositioningElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -25,6 +27,15 @@ getX self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "x") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.x Mozilla SVGTextPositioningElement.x documentation> 
+getXUnchecked ::
+              (MonadDOM m, IsSVGTextPositioningElement self) =>
+                self -> m SVGAnimatedLengthList
+getXUnchecked self
+  = liftDOM
+      (((toSVGTextPositioningElement self) ^. js "x") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.y Mozilla SVGTextPositioningElement.y documentation> 
 getY ::
      (MonadDOM m, IsSVGTextPositioningElement self) =>
@@ -32,6 +43,15 @@ getY ::
 getY self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.y Mozilla SVGTextPositioningElement.y documentation> 
+getYUnchecked ::
+              (MonadDOM m, IsSVGTextPositioningElement self) =>
+                self -> m SVGAnimatedLengthList
+getYUnchecked self
+  = liftDOM
+      (((toSVGTextPositioningElement self) ^. js "y") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dx Mozilla SVGTextPositioningElement.dx documentation> 
 getDx ::
@@ -41,6 +61,15 @@ getDx self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "dx") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dx Mozilla SVGTextPositioningElement.dx documentation> 
+getDxUnchecked ::
+               (MonadDOM m, IsSVGTextPositioningElement self) =>
+                 self -> m SVGAnimatedLengthList
+getDxUnchecked self
+  = liftDOM
+      (((toSVGTextPositioningElement self) ^. js "dx") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dy Mozilla SVGTextPositioningElement.dy documentation> 
 getDy ::
       (MonadDOM m, IsSVGTextPositioningElement self) =>
@@ -49,6 +78,15 @@ getDy self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "dy") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dy Mozilla SVGTextPositioningElement.dy documentation> 
+getDyUnchecked ::
+               (MonadDOM m, IsSVGTextPositioningElement self) =>
+                 self -> m SVGAnimatedLengthList
+getDyUnchecked self
+  = liftDOM
+      (((toSVGTextPositioningElement self) ^. js "dy") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.rotate Mozilla SVGTextPositioningElement.rotate documentation> 
 getRotate ::
           (MonadDOM m, IsSVGTextPositioningElement self) =>
@@ -56,3 +94,12 @@ getRotate ::
 getRotate self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "rotate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.rotate Mozilla SVGTextPositioningElement.rotate documentation> 
+getRotateUnchecked ::
+                   (MonadDOM m, IsSVGTextPositioningElement self) =>
+                     self -> m SVGAnimatedNumberList
+getRotateUnchecked self
+  = liftDOM
+      (((toSVGTextPositioningElement self) ^. js "rotate") >>=
+         fromJSValUnchecked)

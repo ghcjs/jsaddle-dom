@@ -1,12 +1,15 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFrameElement
-       (getSVGDocument, setFrameBorder, getFrameBorder, setLongDesc,
-        getLongDesc, setMarginHeight, getMarginHeight, setMarginWidth,
-        getMarginWidth, setName, getName, setNoResize, getNoResize,
-        setScrolling, getScrolling, setSrc, getSrc, getContentDocument,
-        getContentWindow, setLocation, getLocation, getWidth, getHeight,
-        HTMLFrameElement, castToHTMLFrameElement, gTypeHTMLFrameElement)
+       (getSVGDocument, getSVGDocument_, getSVGDocumentUnchecked,
+        setFrameBorder, getFrameBorder, setLongDesc, getLongDesc,
+        setMarginHeight, getMarginHeight, setMarginWidth, getMarginWidth,
+        setName, getName, setNoResize, getNoResize, setScrolling,
+        getScrolling, setSrc, getSrc, getContentDocument,
+        getContentDocumentUnchecked, getContentWindow,
+        getContentWindowUnchecked, setLocation, getLocation,
+        getLocationUnchecked, getWidth, getHeight, HTMLFrameElement,
+        castToHTMLFrameElement, gTypeHTMLFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -25,6 +28,18 @@ getSVGDocument ::
                (MonadDOM m) => HTMLFrameElement -> m (Maybe SVGDocument)
 getSVGDocument self
   = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.getSVGDocument Mozilla HTMLFrameElement.getSVGDocument documentation> 
+getSVGDocument_ :: (MonadDOM m) => HTMLFrameElement -> m ()
+getSVGDocument_ self
+  = liftDOM (void (self ^. jsf "getSVGDocument" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.getSVGDocument Mozilla HTMLFrameElement.getSVGDocument documentation> 
+getSVGDocumentUnchecked ::
+                        (MonadDOM m) => HTMLFrameElement -> m SVGDocument
+getSVGDocumentUnchecked self
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.frameBorder Mozilla HTMLFrameElement.frameBorder documentation> 
 setFrameBorder ::
@@ -121,11 +136,23 @@ getContentDocument ::
 getContentDocument self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentDocument Mozilla HTMLFrameElement.contentDocument documentation> 
+getContentDocumentUnchecked ::
+                            (MonadDOM m) => HTMLFrameElement -> m Document
+getContentDocumentUnchecked self
+  = liftDOM ((self ^. js "contentDocument") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
 getContentWindow ::
                  (MonadDOM m) => HTMLFrameElement -> m (Maybe Window)
 getContentWindow self
   = liftDOM ((self ^. js "contentWindow") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
+getContentWindowUnchecked ::
+                          (MonadDOM m) => HTMLFrameElement -> m Window
+getContentWindowUnchecked self
+  = liftDOM ((self ^. js "contentWindow") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
 setLocation ::
@@ -140,6 +167,12 @@ getLocation ::
               HTMLFrameElement -> m (Maybe result)
 getLocation self
   = liftDOM ((self ^. js "location") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
+getLocationUnchecked ::
+                     (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
+getLocationUnchecked self
+  = liftDOM ((self ^. js "location") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.width Mozilla HTMLFrameElement.width documentation> 
 getWidth :: (MonadDOM m) => HTMLFrameElement -> m Int

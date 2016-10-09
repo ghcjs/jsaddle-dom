@@ -1,35 +1,42 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMediaElement
-       (load, canPlayType, play, pause, fastSeek,
+       (load, canPlayType, canPlayType_, play, pause, fastSeek,
         webkitGenerateKeyRequest, webkitAddKey, webkitCancelKeyRequest,
-        webkitSetMediaKeys, addTextTrack, getVideoPlaybackQuality,
+        webkitSetMediaKeys, addTextTrack, addTextTrack_,
+        addTextTrackUnchecked, getVideoPlaybackQuality,
+        getVideoPlaybackQuality_, getVideoPlaybackQualityUnchecked,
         webkitShowPlaybackTargetPicker, pattern NETWORK_EMPTY,
         pattern NETWORK_IDLE, pattern NETWORK_LOADING,
         pattern NETWORK_NO_SOURCE, pattern HAVE_NOTHING,
         pattern HAVE_METADATA, pattern HAVE_CURRENT_DATA,
         pattern HAVE_FUTURE_DATA, pattern HAVE_ENOUGH_DATA, getError,
-        setSrc, getSrc, getCurrentSrc, getNetworkState, setPreload,
-        getPreload, getBuffered, getReadyState, getSeeking, setCurrentTime,
-        getCurrentTime, getDuration, getPaused, setDefaultPlaybackRate,
+        getErrorUnchecked, setSrc, getSrc, getCurrentSrc, getNetworkState,
+        setPreload, getPreload, getBuffered, getBufferedUnchecked,
+        getReadyState, getSeeking, setCurrentTime, getCurrentTime,
+        getDuration, getPaused, setDefaultPlaybackRate,
         getDefaultPlaybackRate, setPlaybackRate, getPlaybackRate,
-        getPlayed, getSeekable, getEnded, setAutoplay, getAutoplay,
-        setLoop, getLoop, setControls, getControls, setVolume, getVolume,
-        setMuted, getMuted, setDefaultMuted, getDefaultMuted, emptied,
-        loadedMetadata, loadedData, canPlay, canPlayThrough, playing,
-        ended, waiting, durationChange, timeUpdate, playEvent, pauseEvent,
-        rateChange, volumeChange, setWebkitPreservesPitch,
-        getWebkitPreservesPitch, getWebkitHasClosedCaptions,
-        setWebkitClosedCaptionsVisible, getWebkitClosedCaptionsVisible,
-        getWebkitAudioDecodedByteCount, getWebkitVideoDecodedByteCount,
-        webKitKeyAdded, webKitKeyError, webKitKeyMessage, webKitNeedKey,
-        getWebkitKeys, getAudioTracks, getTextTracks, getVideoTracks,
-        setMediaGroup, getMediaGroup, setController, getController,
-        getWebkitCurrentPlaybackTargetIsWireless,
+        getPlayed, getPlayedUnchecked, getSeekable, getSeekableUnchecked,
+        getEnded, setAutoplay, getAutoplay, setLoop, getLoop, setControls,
+        getControls, setVolume, getVolume, setMuted, getMuted,
+        setDefaultMuted, getDefaultMuted, emptied, loadedMetadata,
+        loadedData, canPlay, canPlayThrough, playing, ended, waiting,
+        durationChange, timeUpdate, playEvent, pauseEvent, rateChange,
+        volumeChange, setWebkitPreservesPitch, getWebkitPreservesPitch,
+        getWebkitHasClosedCaptions, setWebkitClosedCaptionsVisible,
+        getWebkitClosedCaptionsVisible, getWebkitAudioDecodedByteCount,
+        getWebkitVideoDecodedByteCount, webKitKeyAdded, webKitKeyError,
+        webKitKeyMessage, webKitNeedKey, getWebkitKeys,
+        getWebkitKeysUnchecked, getAudioTracks, getAudioTracksUnchecked,
+        getTextTracks, getTextTracksUnchecked, getVideoTracks,
+        getVideoTracksUnchecked, setMediaGroup, getMediaGroup,
+        getMediaGroupUnchecked, setController, getController,
+        getControllerUnchecked, getWebkitCurrentPlaybackTargetIsWireless,
         webKitCurrentPlaybackTargetIsWirelessChanged,
         webKitPlaybackTargetAvailabilityChanged, setSrcObject,
-        getSrcObject, HTMLMediaElement, castToHTMLMediaElement,
-        gTypeHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement)
+        getSrcObject, getSrcObjectUnchecked, HTMLMediaElement,
+        castToHTMLMediaElement, gTypeHTMLMediaElement, IsHTMLMediaElement,
+        toHTMLMediaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -58,6 +65,17 @@ canPlayType self type' keySystem
       (((toHTMLMediaElement self) ^. jsf "canPlayType"
           [toJSVal type', toJSVal keySystem])
          >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.canPlayType Mozilla HTMLMediaElement.canPlayType documentation> 
+canPlayType_ ::
+             (MonadDOM m, IsHTMLMediaElement self, ToJSString type',
+              ToJSString keySystem) =>
+               self -> type' -> Maybe keySystem -> m ()
+canPlayType_ self type' keySystem
+  = liftDOM
+      (void
+         ((toHTMLMediaElement self) ^. jsf "canPlayType"
+            [toJSVal type', toJSVal keySystem]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.play Mozilla HTMLMediaElement.play documentation> 
 play :: (MonadDOM m, IsHTMLMediaElement self) => self -> m ()
@@ -132,6 +150,28 @@ addTextTrack self kind label language
           [toJSVal kind, toJSVal label, toJSVal language])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.addTextTrack Mozilla HTMLMediaElement.addTextTrack documentation> 
+addTextTrack_ ::
+              (MonadDOM m, IsHTMLMediaElement self, ToJSString kind,
+               ToJSString label, ToJSString language) =>
+                self -> kind -> label -> language -> m ()
+addTextTrack_ self kind label language
+  = liftDOM
+      (void
+         ((toHTMLMediaElement self) ^. jsf "addTextTrack"
+            [toJSVal kind, toJSVal label, toJSVal language]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.addTextTrack Mozilla HTMLMediaElement.addTextTrack documentation> 
+addTextTrackUnchecked ::
+                      (MonadDOM m, IsHTMLMediaElement self, ToJSString kind,
+                       ToJSString label, ToJSString language) =>
+                        self -> kind -> label -> language -> m TextTrack
+addTextTrackUnchecked self kind label language
+  = liftDOM
+      (((toHTMLMediaElement self) ^. jsf "addTextTrack"
+          [toJSVal kind, toJSVal label, toJSVal language])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.getVideoPlaybackQuality Mozilla HTMLMediaElement.getVideoPlaybackQuality documentation> 
 getVideoPlaybackQuality ::
                         (MonadDOM m, IsHTMLMediaElement self) =>
@@ -140,6 +180,23 @@ getVideoPlaybackQuality self
   = liftDOM
       (((toHTMLMediaElement self) ^. jsf "getVideoPlaybackQuality" ())
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.getVideoPlaybackQuality Mozilla HTMLMediaElement.getVideoPlaybackQuality documentation> 
+getVideoPlaybackQuality_ ::
+                         (MonadDOM m, IsHTMLMediaElement self) => self -> m ()
+getVideoPlaybackQuality_ self
+  = liftDOM
+      (void
+         ((toHTMLMediaElement self) ^. jsf "getVideoPlaybackQuality" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.getVideoPlaybackQuality Mozilla HTMLMediaElement.getVideoPlaybackQuality documentation> 
+getVideoPlaybackQualityUnchecked ::
+                                 (MonadDOM m, IsHTMLMediaElement self) =>
+                                   self -> m VideoPlaybackQuality
+getVideoPlaybackQualityUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. jsf "getVideoPlaybackQuality" ())
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.webkitShowPlaybackTargetPicker Mozilla HTMLMediaElement.webkitShowPlaybackTargetPicker documentation> 
 webkitShowPlaybackTargetPicker ::
@@ -165,6 +222,13 @@ getError ::
            self -> m (Maybe MediaError)
 getError self
   = liftDOM (((toHTMLMediaElement self) ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.error Mozilla HTMLMediaElement.error documentation> 
+getErrorUnchecked ::
+                  (MonadDOM m, IsHTMLMediaElement self) => self -> m MediaError
+getErrorUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.src Mozilla HTMLMediaElement.src documentation> 
 setSrc ::
@@ -222,6 +286,14 @@ getBuffered ::
 getBuffered self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "buffered") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.buffered Mozilla HTMLMediaElement.buffered documentation> 
+getBufferedUnchecked ::
+                     (MonadDOM m, IsHTMLMediaElement self) => self -> m TimeRanges
+getBufferedUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "buffered") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.readyState Mozilla HTMLMediaElement.readyState documentation> 
 getReadyState ::
@@ -304,6 +376,13 @@ getPlayed self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "played") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.played Mozilla HTMLMediaElement.played documentation> 
+getPlayedUnchecked ::
+                   (MonadDOM m, IsHTMLMediaElement self) => self -> m TimeRanges
+getPlayedUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "played") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.seekable Mozilla HTMLMediaElement.seekable documentation> 
 getSeekable ::
             (MonadDOM m, IsHTMLMediaElement self) =>
@@ -311,6 +390,14 @@ getSeekable ::
 getSeekable self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "seekable") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.seekable Mozilla HTMLMediaElement.seekable documentation> 
+getSeekableUnchecked ::
+                     (MonadDOM m, IsHTMLMediaElement self) => self -> m TimeRanges
+getSeekableUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "seekable") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.ended Mozilla HTMLMediaElement.ended documentation> 
 getEnded :: (MonadDOM m, IsHTMLMediaElement self) => self -> m Bool
@@ -568,6 +655,14 @@ getWebkitKeys self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "webkitKeys") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.webkitKeys Mozilla HTMLMediaElement.webkitKeys documentation> 
+getWebkitKeysUnchecked ::
+                       (MonadDOM m, IsHTMLMediaElement self) => self -> m MediaKeys
+getWebkitKeysUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "webkitKeys") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.audioTracks Mozilla HTMLMediaElement.audioTracks documentation> 
 getAudioTracks ::
                (MonadDOM m, IsHTMLMediaElement self) =>
@@ -575,6 +670,14 @@ getAudioTracks ::
 getAudioTracks self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "audioTracks") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.audioTracks Mozilla HTMLMediaElement.audioTracks documentation> 
+getAudioTracksUnchecked ::
+                        (MonadDOM m, IsHTMLMediaElement self) => self -> m AudioTrackList
+getAudioTracksUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "audioTracks") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.textTracks Mozilla HTMLMediaElement.textTracks documentation> 
 getTextTracks ::
@@ -584,6 +687,14 @@ getTextTracks self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "textTracks") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.textTracks Mozilla HTMLMediaElement.textTracks documentation> 
+getTextTracksUnchecked ::
+                       (MonadDOM m, IsHTMLMediaElement self) => self -> m TextTrackList
+getTextTracksUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "textTracks") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.videoTracks Mozilla HTMLMediaElement.videoTracks documentation> 
 getVideoTracks ::
                (MonadDOM m, IsHTMLMediaElement self) =>
@@ -591,6 +702,14 @@ getVideoTracks ::
 getVideoTracks self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "videoTracks") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.videoTracks Mozilla HTMLMediaElement.videoTracks documentation> 
+getVideoTracksUnchecked ::
+                        (MonadDOM m, IsHTMLMediaElement self) => self -> m VideoTrackList
+getVideoTracksUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "videoTracks") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.mediaGroup Mozilla HTMLMediaElement.mediaGroup documentation> 
 setMediaGroup ::
@@ -609,6 +728,15 @@ getMediaGroup self
       (((toHTMLMediaElement self) ^. js "mediaGroup") >>=
          fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.mediaGroup Mozilla HTMLMediaElement.mediaGroup documentation> 
+getMediaGroupUnchecked ::
+                       (MonadDOM m, IsHTMLMediaElement self, FromJSString result) =>
+                         self -> m result
+getMediaGroupUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "mediaGroup") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.controller Mozilla HTMLMediaElement.controller documentation> 
 setController ::
               (MonadDOM m, IsHTMLMediaElement self) =>
@@ -624,6 +752,14 @@ getController ::
 getController self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "controller") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.controller Mozilla HTMLMediaElement.controller documentation> 
+getControllerUnchecked ::
+                       (MonadDOM m, IsHTMLMediaElement self) => self -> m MediaController
+getControllerUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "controller") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.webkitCurrentPlaybackTargetIsWireless Mozilla HTMLMediaElement.webkitCurrentPlaybackTargetIsWireless documentation> 
 getWebkitCurrentPlaybackTargetIsWireless ::
@@ -665,3 +801,11 @@ getSrcObject ::
 getSrcObject self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "srcObject") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.srcObject Mozilla HTMLMediaElement.srcObject documentation> 
+getSrcObjectUnchecked ::
+                      (MonadDOM m, IsHTMLMediaElement self) => self -> m MediaStream
+getSrcObjectUnchecked self
+  = liftDOM
+      (((toHTMLMediaElement self) ^. js "srcObject") >>=
+         fromJSValUnchecked)

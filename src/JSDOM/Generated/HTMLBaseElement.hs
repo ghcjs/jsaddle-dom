@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBaseElement
-       (setHref, getHref, setTarget, getTarget, HTMLBaseElement,
-        castToHTMLBaseElement, gTypeHTMLBaseElement)
+       (setHref, getHref, getHrefUnchecked, setTarget, getTarget,
+        HTMLBaseElement, castToHTMLBaseElement, gTypeHTMLBaseElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,6 +27,12 @@ getHref ::
         (MonadDOM m, FromJSString result) =>
           HTMLBaseElement -> m (Maybe result)
 getHref self = liftDOM ((self ^. js "href") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
+getHrefUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLBaseElement -> m result
+getHrefUnchecked self
+  = liftDOM ((self ^. js "href") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.target Mozilla HTMLBaseElement.target documentation> 
 setTarget ::

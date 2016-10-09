@@ -4,8 +4,9 @@ module JSDOM.Generated.SVGFEBlendElement
        (pattern SVG_FEBLEND_MODE_UNKNOWN, pattern SVG_FEBLEND_MODE_NORMAL,
         pattern SVG_FEBLEND_MODE_MULTIPLY, pattern SVG_FEBLEND_MODE_SCREEN,
         pattern SVG_FEBLEND_MODE_DARKEN, pattern SVG_FEBLEND_MODE_LIGHTEN,
-        getIn1, getIn2, getMode, SVGFEBlendElement,
-        castToSVGFEBlendElement, gTypeSVGFEBlendElement)
+        getIn1, getIn1Unchecked, getIn2, getIn2Unchecked, getMode,
+        getModeUnchecked, SVGFEBlendElement, castToSVGFEBlendElement,
+        gTypeSVGFEBlendElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -30,13 +31,31 @@ getIn1 ::
        (MonadDOM m) => SVGFEBlendElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEBlendElement.in1 Mozilla SVGFEBlendElement.in1 documentation> 
+getIn1Unchecked ::
+                (MonadDOM m) => SVGFEBlendElement -> m SVGAnimatedString
+getIn1Unchecked self
+  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEBlendElement.in2 Mozilla SVGFEBlendElement.in2 documentation> 
 getIn2 ::
        (MonadDOM m) => SVGFEBlendElement -> m (Maybe SVGAnimatedString)
 getIn2 self = liftDOM ((self ^. js "in2") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEBlendElement.in2 Mozilla SVGFEBlendElement.in2 documentation> 
+getIn2Unchecked ::
+                (MonadDOM m) => SVGFEBlendElement -> m SVGAnimatedString
+getIn2Unchecked self
+  = liftDOM ((self ^. js "in2") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEBlendElement.mode Mozilla SVGFEBlendElement.mode documentation> 
 getMode ::
         (MonadDOM m) =>
           SVGFEBlendElement -> m (Maybe SVGAnimatedEnumeration)
 getMode self = liftDOM ((self ^. js "mode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEBlendElement.mode Mozilla SVGFEBlendElement.mode documentation> 
+getModeUnchecked ::
+                 (MonadDOM m) => SVGFEBlendElement -> m SVGAnimatedEnumeration
+getModeUnchecked self
+  = liftDOM ((self ^. js "mode") >>= fromJSValUnchecked)

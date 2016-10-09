@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ScriptProfileNode
-       (children, getId, getFunctionName, getUrl, getLineNumber,
-        getColumnNumber, ScriptProfileNode, castToScriptProfileNode,
-        gTypeScriptProfileNode)
+       (children, children_, getId, getFunctionName, getUrl,
+        getLineNumber, getColumnNumber, ScriptProfileNode,
+        castToScriptProfileNode, gTypeScriptProfileNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,6 +22,10 @@ children ::
          (MonadDOM m) => ScriptProfileNode -> m [Maybe ScriptProfileNode]
 children self
   = liftDOM ((self ^. jsf "children" ()) >>= fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfileNode.children Mozilla ScriptProfileNode.children documentation> 
+children_ :: (MonadDOM m) => ScriptProfileNode -> m ()
+children_ self = liftDOM (void (self ^. jsf "children" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfileNode.id Mozilla ScriptProfileNode.id documentation> 
 getId :: (MonadDOM m) => ScriptProfileNode -> m Word

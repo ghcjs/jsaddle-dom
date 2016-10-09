@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleMedia
-       (matchMedium, getType, StyleMedia, castToStyleMedia,
+       (matchMedium, matchMedium_, getType, StyleMedia, castToStyleMedia,
         gTypeStyleMedia)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -23,6 +23,13 @@ matchMedium ::
 matchMedium self mediaquery
   = liftDOM
       ((self ^. jsf "matchMedium" [toJSVal mediaquery]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleMedia.matchMedium Mozilla StyleMedia.matchMedium documentation> 
+matchMedium_ ::
+             (MonadDOM m, ToJSString mediaquery) =>
+               StyleMedia -> mediaquery -> m ()
+matchMedium_ self mediaquery
+  = liftDOM (void (self ^. jsf "matchMedium" [toJSVal mediaquery]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleMedia.type Mozilla StyleMedia.type documentation> 
 getType ::

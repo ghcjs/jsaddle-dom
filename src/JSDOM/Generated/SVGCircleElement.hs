@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGCircleElement
-       (getCx, getCy, getR, SVGCircleElement, castToSVGCircleElement,
-        gTypeSVGCircleElement)
+       (getCx, getCxUnchecked, getCy, getCyUnchecked, getR, getRUnchecked,
+        SVGCircleElement, castToSVGCircleElement, gTypeSVGCircleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,12 +21,30 @@ getCx ::
       (MonadDOM m) => SVGCircleElement -> m (Maybe SVGAnimatedLength)
 getCx self = liftDOM ((self ^. js "cx") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cx Mozilla SVGCircleElement.cx documentation> 
+getCxUnchecked ::
+               (MonadDOM m) => SVGCircleElement -> m SVGAnimatedLength
+getCxUnchecked self
+  = liftDOM ((self ^. js "cx") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cy Mozilla SVGCircleElement.cy documentation> 
 getCy ::
       (MonadDOM m) => SVGCircleElement -> m (Maybe SVGAnimatedLength)
 getCy self = liftDOM ((self ^. js "cy") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cy Mozilla SVGCircleElement.cy documentation> 
+getCyUnchecked ::
+               (MonadDOM m) => SVGCircleElement -> m SVGAnimatedLength
+getCyUnchecked self
+  = liftDOM ((self ^. js "cy") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.r Mozilla SVGCircleElement.r documentation> 
 getR ::
      (MonadDOM m) => SVGCircleElement -> m (Maybe SVGAnimatedLength)
 getR self = liftDOM ((self ^. js "r") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.r Mozilla SVGCircleElement.r documentation> 
+getRUnchecked ::
+              (MonadDOM m) => SVGCircleElement -> m SVGAnimatedLength
+getRUnchecked self
+  = liftDOM ((self ^. js "r") >>= fromJSValUnchecked)

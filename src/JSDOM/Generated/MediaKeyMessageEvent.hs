@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyMessageEvent
-       (getMessage, getDestinationURL, MediaKeyMessageEvent,
-        castToMediaKeyMessageEvent, gTypeMediaKeyMessageEvent)
+       (getMessage, getMessageUnchecked, getDestinationURL,
+        MediaKeyMessageEvent, castToMediaKeyMessageEvent,
+        gTypeMediaKeyMessageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,6 +21,12 @@ import JSDOM.Enums
 getMessage ::
            (MonadDOM m) => MediaKeyMessageEvent -> m (Maybe Uint8Array)
 getMessage self = liftDOM ((self ^. js "message") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeyMessageEvent.message Mozilla WebKitMediaKeyMessageEvent.message documentation> 
+getMessageUnchecked ::
+                    (MonadDOM m) => MediaKeyMessageEvent -> m Uint8Array
+getMessageUnchecked self
+  = liftDOM ((self ^. js "message") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeyMessageEvent.destinationURL Mozilla WebKitMediaKeyMessageEvent.destinationURL documentation> 
 getDestinationURL ::

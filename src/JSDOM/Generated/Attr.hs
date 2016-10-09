@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Attr
-       (getName, getSpecified, setValue, getValue, getOwnerElement,
+       (getName, getNameUnchecked, getSpecified, setValue, getValue,
+        getValueUnchecked, getOwnerElement, getOwnerElementUnchecked,
         getIsId, Attr, castToAttr, gTypeAttr)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -21,6 +22,12 @@ getName ::
         (MonadDOM m, FromJSString result) => Attr -> m (Maybe result)
 getName self = liftDOM ((self ^. js "name") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.name Mozilla Attr.name documentation> 
+getNameUnchecked ::
+                 (MonadDOM m, FromJSString result) => Attr -> m result
+getNameUnchecked self
+  = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.specified Mozilla Attr.specified documentation> 
 getSpecified :: (MonadDOM m) => Attr -> m Bool
 getSpecified self
@@ -37,10 +44,21 @@ getValue ::
 getValue self
   = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.value Mozilla Attr.value documentation> 
+getValueUnchecked ::
+                  (MonadDOM m, FromJSString result) => Attr -> m result
+getValueUnchecked self
+  = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.ownerElement Mozilla Attr.ownerElement documentation> 
 getOwnerElement :: (MonadDOM m) => Attr -> m (Maybe Element)
 getOwnerElement self
   = liftDOM ((self ^. js "ownerElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.ownerElement Mozilla Attr.ownerElement documentation> 
+getOwnerElementUnchecked :: (MonadDOM m) => Attr -> m Element
+getOwnerElementUnchecked self
+  = liftDOM ((self ^. js "ownerElement") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.isId Mozilla Attr.isId documentation> 
 getIsId :: (MonadDOM m) => Attr -> m Bool

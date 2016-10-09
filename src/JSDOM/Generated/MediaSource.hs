@@ -1,10 +1,12 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaSource
-       (newMediaSource, addSourceBuffer, removeSourceBuffer, endOfStream,
-        isTypeSupported, getSourceBuffers, getActiveSourceBuffers,
-        setDuration, getDuration, getReadyState, MediaSource,
-        castToMediaSource, gTypeMediaSource)
+       (newMediaSource, addSourceBuffer, addSourceBuffer_,
+        addSourceBufferUnchecked, removeSourceBuffer, endOfStream,
+        isTypeSupported, isTypeSupported_, getSourceBuffers,
+        getSourceBuffersUnchecked, getActiveSourceBuffers,
+        getActiveSourceBuffersUnchecked, setDuration, getDuration,
+        getReadyState, MediaSource, castToMediaSource, gTypeMediaSource)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -31,6 +33,21 @@ addSourceBuffer self type'
   = liftDOM
       ((self ^. jsf "addSourceBuffer" [toJSVal type']) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.addSourceBuffer Mozilla MediaSource.addSourceBuffer documentation> 
+addSourceBuffer_ ::
+                 (MonadDOM m, ToJSString type') => MediaSource -> type' -> m ()
+addSourceBuffer_ self type'
+  = liftDOM (void (self ^. jsf "addSourceBuffer" [toJSVal type']))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.addSourceBuffer Mozilla MediaSource.addSourceBuffer documentation> 
+addSourceBufferUnchecked ::
+                         (MonadDOM m, ToJSString type') =>
+                           MediaSource -> type' -> m SourceBuffer
+addSourceBufferUnchecked self type'
+  = liftDOM
+      ((self ^. jsf "addSourceBuffer" [toJSVal type']) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.removeSourceBuffer Mozilla MediaSource.removeSourceBuffer documentation> 
 removeSourceBuffer ::
                    (MonadDOM m) => MediaSource -> Maybe SourceBuffer -> m ()
@@ -51,17 +68,36 @@ isTypeSupported self type'
   = liftDOM
       ((self ^. jsf "isTypeSupported" [toJSVal type']) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.isTypeSupported Mozilla MediaSource.isTypeSupported documentation> 
+isTypeSupported_ ::
+                 (MonadDOM m, ToJSString type') => MediaSource -> type' -> m ()
+isTypeSupported_ self type'
+  = liftDOM (void (self ^. jsf "isTypeSupported" [toJSVal type']))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
 getSourceBuffers ::
                  (MonadDOM m) => MediaSource -> m (Maybe SourceBufferList)
 getSourceBuffers self
   = liftDOM ((self ^. js "sourceBuffers") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
+getSourceBuffersUnchecked ::
+                          (MonadDOM m) => MediaSource -> m SourceBufferList
+getSourceBuffersUnchecked self
+  = liftDOM ((self ^. js "sourceBuffers") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
 getActiveSourceBuffers ::
                        (MonadDOM m) => MediaSource -> m (Maybe SourceBufferList)
 getActiveSourceBuffers self
   = liftDOM ((self ^. js "activeSourceBuffers") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
+getActiveSourceBuffersUnchecked ::
+                                (MonadDOM m) => MediaSource -> m SourceBufferList
+getActiveSourceBuffersUnchecked self
+  = liftDOM
+      ((self ^. js "activeSourceBuffers") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.duration Mozilla MediaSource.duration documentation> 
 setDuration :: (MonadDOM m) => MediaSource -> Double -> m ()

@@ -1,14 +1,17 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFormElement
-       (_get, submit, reset, checkValidity, requestAutocomplete,
-        setAcceptCharset, getAcceptCharset, setAction, getAction,
-        setAutocomplete, getAutocomplete, setEnctype, getEnctype,
-        setEncoding, getEncoding, setMethod, getMethod, setName, getName,
-        setNoValidate, getNoValidate, setTarget, getTarget, getElements,
-        getLength, setAutocorrect, getAutocorrect, setAutocapitalize,
-        getAutocapitalize, autocomplete, autocompleteerror,
-        HTMLFormElement, castToHTMLFormElement, gTypeHTMLFormElement)
+       (_get, _get_, _getUnchecked, submit, reset, checkValidity,
+        checkValidity_, requestAutocomplete, setAcceptCharset,
+        getAcceptCharset, setAction, getAction, setAutocomplete,
+        getAutocomplete, setEnctype, getEnctype, getEnctypeUnchecked,
+        setEncoding, getEncoding, getEncodingUnchecked, setMethod,
+        getMethod, getMethodUnchecked, setName, getName, setNoValidate,
+        getNoValidate, setTarget, getTarget, getElements,
+        getElementsUnchecked, getLength, setAutocorrect, getAutocorrect,
+        setAutocapitalize, getAutocapitalize, getAutocapitalizeUnchecked,
+        autocomplete, autocompleteerror, HTMLFormElement,
+        castToHTMLFormElement, gTypeHTMLFormElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -28,6 +31,18 @@ _get ::
 _get self index
   = liftDOM ((self ^. jsf "_get" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement._get Mozilla HTMLFormElement._get documentation> 
+_get_ :: (MonadDOM m) => HTMLFormElement -> Word -> m ()
+_get_ self index
+  = liftDOM (void (self ^. jsf "_get" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement._get Mozilla HTMLFormElement._get documentation> 
+_getUnchecked ::
+              (MonadDOM m) => HTMLFormElement -> Word -> m Element
+_getUnchecked self index
+  = liftDOM
+      ((self ^. jsf "_get" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.submit Mozilla HTMLFormElement.submit documentation> 
 submit :: (MonadDOM m) => HTMLFormElement -> m ()
 submit self = liftDOM (void (self ^. jsf "submit" ()))
@@ -40,6 +55,11 @@ reset self = liftDOM (void (self ^. jsf "reset" ()))
 checkValidity :: (MonadDOM m) => HTMLFormElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.checkValidity Mozilla HTMLFormElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLFormElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.requestAutocomplete Mozilla HTMLFormElement.requestAutocomplete documentation> 
 requestAutocomplete :: (MonadDOM m) => HTMLFormElement -> m ()
@@ -94,6 +114,12 @@ getEnctype ::
 getEnctype self
   = liftDOM ((self ^. js "enctype") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.enctype Mozilla HTMLFormElement.enctype documentation> 
+getEnctypeUnchecked ::
+                    (MonadDOM m, FromJSString result) => HTMLFormElement -> m result
+getEnctypeUnchecked self
+  = liftDOM ((self ^. js "enctype") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.encoding Mozilla HTMLFormElement.encoding documentation> 
 setEncoding ::
             (MonadDOM m, ToJSString val) =>
@@ -108,6 +134,12 @@ getEncoding ::
 getEncoding self
   = liftDOM ((self ^. js "encoding") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.encoding Mozilla HTMLFormElement.encoding documentation> 
+getEncodingUnchecked ::
+                     (MonadDOM m, FromJSString result) => HTMLFormElement -> m result
+getEncodingUnchecked self
+  = liftDOM ((self ^. js "encoding") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.method Mozilla HTMLFormElement.method documentation> 
 setMethod ::
           (MonadDOM m, ToJSString val) =>
@@ -120,6 +152,12 @@ getMethod ::
             HTMLFormElement -> m (Maybe result)
 getMethod self
   = liftDOM ((self ^. js "method") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.method Mozilla HTMLFormElement.method documentation> 
+getMethodUnchecked ::
+                   (MonadDOM m, FromJSString result) => HTMLFormElement -> m result
+getMethodUnchecked self
+  = liftDOM ((self ^. js "method") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.name Mozilla HTMLFormElement.name documentation> 
 setName ::
@@ -157,6 +195,12 @@ getElements ::
             (MonadDOM m) => HTMLFormElement -> m (Maybe HTMLCollection)
 getElements self = liftDOM ((self ^. js "elements") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.elements Mozilla HTMLFormElement.elements documentation> 
+getElementsUnchecked ::
+                     (MonadDOM m) => HTMLFormElement -> m HTMLCollection
+getElementsUnchecked self
+  = liftDOM ((self ^. js "elements") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.length Mozilla HTMLFormElement.length documentation> 
 getLength :: (MonadDOM m) => HTMLFormElement -> m Int
 getLength self
@@ -185,6 +229,12 @@ getAutocapitalize ::
                     HTMLFormElement -> m (Maybe result)
 getAutocapitalize self
   = liftDOM ((self ^. js "autocapitalize") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.autocapitalize Mozilla HTMLFormElement.autocapitalize documentation> 
+getAutocapitalizeUnchecked ::
+                           (MonadDOM m, FromJSString result) => HTMLFormElement -> m result
+getAutocapitalizeUnchecked self
+  = liftDOM ((self ^. js "autocapitalize") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.onautocomplete Mozilla HTMLFormElement.onautocomplete documentation> 
 autocomplete :: EventName HTMLFormElement onautocomplete

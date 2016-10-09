@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCDTMFSender
-       (insertDTMF, getCanInsertDTMF, getTrack, getToneBuffer,
-        getDuration, getInterToneGap, toneChange, RTCDTMFSender,
-        castToRTCDTMFSender, gTypeRTCDTMFSender)
+       (insertDTMF, getCanInsertDTMF, getTrack, getTrackUnchecked,
+        getToneBuffer, getDuration, getInterToneGap, toneChange,
+        RTCDTMFSender, castToRTCDTMFSender, gTypeRTCDTMFSender)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -36,6 +36,12 @@ getCanInsertDTMF self
 getTrack ::
          (MonadDOM m) => RTCDTMFSender -> m (Maybe MediaStreamTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.track Mozilla RTCDTMFSender.track documentation> 
+getTrackUnchecked ::
+                  (MonadDOM m) => RTCDTMFSender -> m MediaStreamTrack
+getTrackUnchecked self
+  = liftDOM ((self ^. js "track") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.toneBuffer Mozilla RTCDTMFSender.toneBuffer documentation> 
 getToneBuffer ::

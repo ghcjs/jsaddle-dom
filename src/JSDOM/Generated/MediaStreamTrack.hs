@@ -1,12 +1,14 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamTrack
-       (getSources, getConstraints, states, getCapabilities,
-        applyConstraints, clone, stop, getKind, getId, getLabel,
-        setEnabled, getEnabled, getMuted, mute, unmute, get_readonly,
-        getRemote, getReadyState, started, ended, overConstrained,
-        MediaStreamTrack, castToMediaStreamTrack, gTypeMediaStreamTrack,
-        IsMediaStreamTrack, toMediaStreamTrack)
+       (getSources, getConstraints, getConstraints_,
+        getConstraintsUnchecked, states, states_, statesUnchecked,
+        getCapabilities, getCapabilities_, getCapabilitiesUnchecked,
+        applyConstraints, clone, clone_, cloneUnchecked, stop, getKind,
+        getId, getLabel, setEnabled, getEnabled, getMuted, mute, unmute,
+        get_readonly, getRemote, getReadyState, started, ended,
+        overConstrained, MediaStreamTrack, castToMediaStreamTrack,
+        gTypeMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -38,6 +40,22 @@ getConstraints self
       (((toMediaStreamTrack self) ^. jsf "getConstraints" ()) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.getConstraints Mozilla MediaStreamTrack.getConstraints documentation> 
+getConstraints_ ::
+                (MonadDOM m, IsMediaStreamTrack self) => self -> m ()
+getConstraints_ self
+  = liftDOM
+      (void ((toMediaStreamTrack self) ^. jsf "getConstraints" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.getConstraints Mozilla MediaStreamTrack.getConstraints documentation> 
+getConstraintsUnchecked ::
+                        (MonadDOM m, IsMediaStreamTrack self) =>
+                          self -> m MediaTrackConstraints
+getConstraintsUnchecked self
+  = liftDOM
+      (((toMediaStreamTrack self) ^. jsf "getConstraints" ()) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.states Mozilla MediaStreamTrack.states documentation> 
 states ::
        (MonadDOM m, IsMediaStreamTrack self) =>
@@ -45,6 +63,20 @@ states ::
 states self
   = liftDOM
       (((toMediaStreamTrack self) ^. jsf "states" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.states Mozilla MediaStreamTrack.states documentation> 
+states_ :: (MonadDOM m, IsMediaStreamTrack self) => self -> m ()
+states_ self
+  = liftDOM (void ((toMediaStreamTrack self) ^. jsf "states" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.states Mozilla MediaStreamTrack.states documentation> 
+statesUnchecked ::
+                (MonadDOM m, IsMediaStreamTrack self) =>
+                  self -> m MediaSourceStates
+statesUnchecked self
+  = liftDOM
+      (((toMediaStreamTrack self) ^. jsf "states" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.getCapabilities Mozilla MediaStreamTrack.getCapabilities documentation> 
 getCapabilities ::
@@ -54,6 +86,22 @@ getCapabilities self
   = liftDOM
       (((toMediaStreamTrack self) ^. jsf "getCapabilities" ()) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.getCapabilities Mozilla MediaStreamTrack.getCapabilities documentation> 
+getCapabilities_ ::
+                 (MonadDOM m, IsMediaStreamTrack self) => self -> m ()
+getCapabilities_ self
+  = liftDOM
+      (void ((toMediaStreamTrack self) ^. jsf "getCapabilities" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.getCapabilities Mozilla MediaStreamTrack.getCapabilities documentation> 
+getCapabilitiesUnchecked ::
+                         (MonadDOM m, IsMediaStreamTrack self) =>
+                           self -> m MediaStreamCapabilities
+getCapabilitiesUnchecked self
+  = liftDOM
+      (((toMediaStreamTrack self) ^. jsf "getCapabilities" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.applyConstraints Mozilla MediaStreamTrack.applyConstraints documentation> 
 applyConstraints ::
@@ -72,6 +120,19 @@ clone ::
 clone self
   = liftDOM
       (((toMediaStreamTrack self) ^. jsf "clone" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.clone Mozilla MediaStreamTrack.clone documentation> 
+clone_ :: (MonadDOM m, IsMediaStreamTrack self) => self -> m ()
+clone_ self
+  = liftDOM (void ((toMediaStreamTrack self) ^. jsf "clone" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.clone Mozilla MediaStreamTrack.clone documentation> 
+cloneUnchecked ::
+               (MonadDOM m, IsMediaStreamTrack self) => self -> m MediaStreamTrack
+cloneUnchecked self
+  = liftDOM
+      (((toMediaStreamTrack self) ^. jsf "clone" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack.stop Mozilla MediaStreamTrack.stop documentation> 
 stop :: (MonadDOM m, IsMediaStreamTrack self) => self -> m ()

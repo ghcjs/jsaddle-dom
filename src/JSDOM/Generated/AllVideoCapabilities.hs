@@ -1,9 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AllVideoCapabilities
-       (getSourceType, getSourceId, getWidth, getHeight, getFrameRate,
-        getAspectRatio, getFacingMode, AllVideoCapabilities,
-        castToAllVideoCapabilities, gTypeAllVideoCapabilities)
+       (getSourceType, getSourceId, getWidth, getWidthUnchecked,
+        getHeight, getHeightUnchecked, getFrameRate, getFrameRateUnchecked,
+        getAspectRatio, getAspectRatioUnchecked, getFacingMode,
+        AllVideoCapabilities, castToAllVideoCapabilities,
+        gTypeAllVideoCapabilities)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -36,10 +38,22 @@ getWidth ::
          (MonadDOM m) => AllVideoCapabilities -> m (Maybe CapabilityRange)
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.width Mozilla AllVideoCapabilities.width documentation> 
+getWidthUnchecked ::
+                  (MonadDOM m) => AllVideoCapabilities -> m CapabilityRange
+getWidthUnchecked self
+  = liftDOM ((self ^. js "width") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.height Mozilla AllVideoCapabilities.height documentation> 
 getHeight ::
           (MonadDOM m) => AllVideoCapabilities -> m (Maybe CapabilityRange)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.height Mozilla AllVideoCapabilities.height documentation> 
+getHeightUnchecked ::
+                   (MonadDOM m) => AllVideoCapabilities -> m CapabilityRange
+getHeightUnchecked self
+  = liftDOM ((self ^. js "height") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.frameRate Mozilla AllVideoCapabilities.frameRate documentation> 
 getFrameRate ::
@@ -47,11 +61,23 @@ getFrameRate ::
 getFrameRate self
   = liftDOM ((self ^. js "frameRate") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.frameRate Mozilla AllVideoCapabilities.frameRate documentation> 
+getFrameRateUnchecked ::
+                      (MonadDOM m) => AllVideoCapabilities -> m CapabilityRange
+getFrameRateUnchecked self
+  = liftDOM ((self ^. js "frameRate") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.aspectRatio Mozilla AllVideoCapabilities.aspectRatio documentation> 
 getAspectRatio ::
                (MonadDOM m) => AllVideoCapabilities -> m (Maybe CapabilityRange)
 getAspectRatio self
   = liftDOM ((self ^. js "aspectRatio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.aspectRatio Mozilla AllVideoCapabilities.aspectRatio documentation> 
+getAspectRatioUnchecked ::
+                        (MonadDOM m) => AllVideoCapabilities -> m CapabilityRange
+getAspectRatioUnchecked self
+  = liftDOM ((self ^. js "aspectRatio") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AllVideoCapabilities.facingMode Mozilla AllVideoCapabilities.facingMode documentation> 
 getFacingMode ::

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGStopElement
-       (getOffset, SVGStopElement, castToSVGStopElement,
-        gTypeSVGStopElement)
+       (getOffset, getOffsetUnchecked, SVGStopElement,
+        castToSVGStopElement, gTypeSVGStopElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getOffset ::
           (MonadDOM m) => SVGStopElement -> m (Maybe SVGAnimatedNumber)
 getOffset self = liftDOM ((self ^. js "offset") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGStopElement.offset Mozilla SVGStopElement.offset documentation> 
+getOffsetUnchecked ::
+                   (MonadDOM m) => SVGStopElement -> m SVGAnimatedNumber
+getOffsetUnchecked self
+  = liftDOM ((self ^. js "offset") >>= fromJSValUnchecked)

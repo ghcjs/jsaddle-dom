@@ -5,8 +5,9 @@ module JSDOM.Generated.SVGTransform
         pattern SVG_TRANSFORM_UNKNOWN, pattern SVG_TRANSFORM_MATRIX,
         pattern SVG_TRANSFORM_TRANSLATE, pattern SVG_TRANSFORM_SCALE,
         pattern SVG_TRANSFORM_ROTATE, pattern SVG_TRANSFORM_SKEWX,
-        pattern SVG_TRANSFORM_SKEWY, getType, getMatrix, getAngle,
-        SVGTransform, castToSVGTransform, gTypeSVGTransform)
+        pattern SVG_TRANSFORM_SKEWY, getType, getMatrix,
+        getMatrixUnchecked, getAngle, SVGTransform, castToSVGTransform,
+        gTypeSVGTransform)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -71,6 +72,11 @@ getType self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
 getMatrix :: (MonadDOM m) => SVGTransform -> m (Maybe SVGMatrix)
 getMatrix self = liftDOM ((self ^. js "matrix") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
+getMatrixUnchecked :: (MonadDOM m) => SVGTransform -> m SVGMatrix
+getMatrixUnchecked self
+  = liftDOM ((self ^. js "matrix") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.angle Mozilla SVGTransform.angle documentation> 
 getAngle :: (MonadDOM m) => SVGTransform -> m Float

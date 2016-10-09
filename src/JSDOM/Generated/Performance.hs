@@ -1,11 +1,15 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Performance
-       (webkitGetEntries, webkitGetEntriesByType, webkitGetEntriesByName,
+       (webkitGetEntries, webkitGetEntries_, webkitGetEntriesUnchecked,
+        webkitGetEntriesByType, webkitGetEntriesByType_,
+        webkitGetEntriesByTypeUnchecked, webkitGetEntriesByName,
+        webkitGetEntriesByName_, webkitGetEntriesByNameUnchecked,
         webkitClearResourceTimings, webkitSetResourceTimingBufferSize,
         webkitMark, webkitClearMarks, webkitMeasure, webkitClearMeasures,
-        now, getNavigation, getTiming, webKitResourceTimingBufferFull,
-        Performance, castToPerformance, gTypePerformance)
+        now, now_, getNavigation, getNavigationUnchecked, getTiming,
+        getTimingUnchecked, webKitResourceTimingBufferFull, Performance,
+        castToPerformance, gTypePerformance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -25,6 +29,18 @@ webkitGetEntries ::
 webkitGetEntries self
   = liftDOM ((self ^. jsf "webkitGetEntries" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntries Mozilla Performance.webkitGetEntries documentation> 
+webkitGetEntries_ :: (MonadDOM m) => Performance -> m ()
+webkitGetEntries_ self
+  = liftDOM (void (self ^. jsf "webkitGetEntries" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntries Mozilla Performance.webkitGetEntries documentation> 
+webkitGetEntriesUnchecked ::
+                          (MonadDOM m) => Performance -> m PerformanceEntryList
+webkitGetEntriesUnchecked self
+  = liftDOM
+      ((self ^. jsf "webkitGetEntries" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByType Mozilla Performance.webkitGetEntriesByType documentation> 
 webkitGetEntriesByType ::
                        (MonadDOM m, ToJSString entryType) =>
@@ -33,6 +49,23 @@ webkitGetEntriesByType self entryType
   = liftDOM
       ((self ^. jsf "webkitGetEntriesByType" [toJSVal entryType]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByType Mozilla Performance.webkitGetEntriesByType documentation> 
+webkitGetEntriesByType_ ::
+                        (MonadDOM m, ToJSString entryType) =>
+                          Performance -> entryType -> m ()
+webkitGetEntriesByType_ self entryType
+  = liftDOM
+      (void (self ^. jsf "webkitGetEntriesByType" [toJSVal entryType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByType Mozilla Performance.webkitGetEntriesByType documentation> 
+webkitGetEntriesByTypeUnchecked ::
+                                (MonadDOM m, ToJSString entryType) =>
+                                  Performance -> entryType -> m PerformanceEntryList
+webkitGetEntriesByTypeUnchecked self entryType
+  = liftDOM
+      ((self ^. jsf "webkitGetEntriesByType" [toJSVal entryType]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByName Mozilla Performance.webkitGetEntriesByName documentation> 
 webkitGetEntriesByName ::
@@ -43,6 +76,26 @@ webkitGetEntriesByName self name entryType
       ((self ^. jsf "webkitGetEntriesByName"
           [toJSVal name, toJSVal entryType])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByName Mozilla Performance.webkitGetEntriesByName documentation> 
+webkitGetEntriesByName_ ::
+                        (MonadDOM m, ToJSString name, ToJSString entryType) =>
+                          Performance -> name -> entryType -> m ()
+webkitGetEntriesByName_ self name entryType
+  = liftDOM
+      (void
+         (self ^. jsf "webkitGetEntriesByName"
+            [toJSVal name, toJSVal entryType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByName Mozilla Performance.webkitGetEntriesByName documentation> 
+webkitGetEntriesByNameUnchecked ::
+                                (MonadDOM m, ToJSString name, ToJSString entryType) =>
+                                  Performance -> name -> entryType -> m PerformanceEntryList
+webkitGetEntriesByNameUnchecked self name entryType
+  = liftDOM
+      ((self ^. jsf "webkitGetEntriesByName"
+          [toJSVal name, toJSVal entryType])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitClearResourceTimings Mozilla Performance.webkitClearResourceTimings documentation> 
 webkitClearResourceTimings :: (MonadDOM m) => Performance -> m ()
@@ -96,16 +149,32 @@ webkitClearMeasures self measureName
 now :: (MonadDOM m) => Performance -> m Double
 now self = liftDOM ((self ^. jsf "now" ()) >>= valToNumber)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.now Mozilla Performance.now documentation> 
+now_ :: (MonadDOM m) => Performance -> m ()
+now_ self = liftDOM (void (self ^. jsf "now" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.navigation Mozilla Performance.navigation documentation> 
 getNavigation ::
               (MonadDOM m) => Performance -> m (Maybe PerformanceNavigation)
 getNavigation self
   = liftDOM ((self ^. js "navigation") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.navigation Mozilla Performance.navigation documentation> 
+getNavigationUnchecked ::
+                       (MonadDOM m) => Performance -> m PerformanceNavigation
+getNavigationUnchecked self
+  = liftDOM ((self ^. js "navigation") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.timing Mozilla Performance.timing documentation> 
 getTiming ::
           (MonadDOM m) => Performance -> m (Maybe PerformanceTiming)
 getTiming self = liftDOM ((self ^. js "timing") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.timing Mozilla Performance.timing documentation> 
+getTimingUnchecked ::
+                   (MonadDOM m) => Performance -> m PerformanceTiming
+getTimingUnchecked self
+  = liftDOM ((self ^. js "timing") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.onwebkitresourcetimingbufferfull Mozilla Performance.onwebkitresourcetimingbufferfull documentation> 
 webKitResourceTimingBufferFull :: EventName Performance Event

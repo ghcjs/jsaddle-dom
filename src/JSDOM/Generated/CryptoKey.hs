@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CryptoKey
-       (getType, getExtractable, getAlgorithm, getUsages, CryptoKey,
-        castToCryptoKey, gTypeCryptoKey)
+       (getType, getExtractable, getAlgorithm, getAlgorithmUnchecked,
+        getUsages, CryptoKey, castToCryptoKey, gTypeCryptoKey)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -29,6 +29,11 @@ getExtractable self
 getAlgorithm :: (MonadDOM m) => CryptoKey -> m (Maybe Algorithm)
 getAlgorithm self
   = liftDOM ((self ^. js "algorithm") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.algorithm Mozilla CryptoKey.algorithm documentation> 
+getAlgorithmUnchecked :: (MonadDOM m) => CryptoKey -> m Algorithm
+getAlgorithmUnchecked self
+  = liftDOM ((self ^. js "algorithm") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.usages Mozilla CryptoKey.usages documentation> 
 getUsages :: (MonadDOM m) => CryptoKey -> m [KeyUsage]

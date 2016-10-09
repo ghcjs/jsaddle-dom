@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSValueList
-       (item, getLength, CSSValueList, castToCSSValueList,
-        gTypeCSSValueList, IsCSSValueList, toCSSValueList)
+       (item, item_, itemUnchecked, getLength, CSSValueList,
+        castToCSSValueList, gTypeCSSValueList, IsCSSValueList,
+        toCSSValueList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,6 +25,20 @@ item self index
   = liftDOM
       (((toCSSValueList self) ^. jsf "item" [toJSVal index]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValueList.item Mozilla CSSValueList.item documentation> 
+item_ :: (MonadDOM m, IsCSSValueList self) => self -> Word -> m ()
+item_ self index
+  = liftDOM
+      (void ((toCSSValueList self) ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValueList.item Mozilla CSSValueList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m, IsCSSValueList self) => self -> Word -> m CSSValue
+itemUnchecked self index
+  = liftDOM
+      (((toCSSValueList self) ^. jsf "item" [toJSVal index]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValueList.length Mozilla CSSValueList.length documentation> 
 getLength :: (MonadDOM m, IsCSSValueList self) => self -> m Word

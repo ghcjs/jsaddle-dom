@@ -1,11 +1,13 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOutputElement
-       (checkValidity, setCustomValidity, getHtmlFor, getForm, setName,
-        getName, getType, setDefaultValue, getDefaultValue, setValue,
-        getValue, getWillValidate, getValidity, getValidationMessage,
-        getLabels, HTMLOutputElement, castToHTMLOutputElement,
-        gTypeHTMLOutputElement)
+       (checkValidity, checkValidity_, setCustomValidity, getHtmlFor,
+        getHtmlForUnchecked, getForm, getFormUnchecked, setName, getName,
+        getType, setDefaultValue, getDefaultValue,
+        getDefaultValueUnchecked, setValue, getValue, getValueUnchecked,
+        getWillValidate, getValidity, getValidityUnchecked,
+        getValidationMessage, getLabels, getLabelsUnchecked,
+        HTMLOutputElement, castToHTMLOutputElement, gTypeHTMLOutputElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,6 +26,11 @@ checkValidity :: (MonadDOM m) => HTMLOutputElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.checkValidity Mozilla HTMLOutputElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLOutputElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.setCustomValidity Mozilla HTMLOutputElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
@@ -36,10 +43,22 @@ getHtmlFor ::
            (MonadDOM m) => HTMLOutputElement -> m (Maybe DOMSettableTokenList)
 getHtmlFor self = liftDOM ((self ^. js "htmlFor") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.htmlFor Mozilla HTMLOutputElement.htmlFor documentation> 
+getHtmlForUnchecked ::
+                    (MonadDOM m) => HTMLOutputElement -> m DOMSettableTokenList
+getHtmlForUnchecked self
+  = liftDOM ((self ^. js "htmlFor") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.form Mozilla HTMLOutputElement.form documentation> 
 getForm ::
         (MonadDOM m) => HTMLOutputElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.form Mozilla HTMLOutputElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLOutputElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.name Mozilla HTMLOutputElement.name documentation> 
 setName ::
@@ -70,6 +89,12 @@ getDefaultValue ::
 getDefaultValue self
   = liftDOM ((self ^. js "defaultValue") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.defaultValue Mozilla HTMLOutputElement.defaultValue documentation> 
+getDefaultValueUnchecked ::
+                         (MonadDOM m, FromJSString result) => HTMLOutputElement -> m result
+getDefaultValueUnchecked self
+  = liftDOM ((self ^. js "defaultValue") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.value Mozilla HTMLOutputElement.value documentation> 
 setValue ::
          (MonadDOM m, ToJSString val) =>
@@ -83,6 +108,12 @@ getValue ::
 getValue self
   = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.value Mozilla HTMLOutputElement.value documentation> 
+getValueUnchecked ::
+                  (MonadDOM m, FromJSString result) => HTMLOutputElement -> m result
+getValueUnchecked self
+  = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.willValidate Mozilla HTMLOutputElement.willValidate documentation> 
 getWillValidate :: (MonadDOM m) => HTMLOutputElement -> m Bool
 getWillValidate self
@@ -92,6 +123,12 @@ getWillValidate self
 getValidity ::
             (MonadDOM m) => HTMLOutputElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.validity Mozilla HTMLOutputElement.validity documentation> 
+getValidityUnchecked ::
+                     (MonadDOM m) => HTMLOutputElement -> m ValidityState
+getValidityUnchecked self
+  = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.validationMessage Mozilla HTMLOutputElement.validationMessage documentation> 
 getValidationMessage ::
@@ -103,3 +140,9 @@ getValidationMessage self
 getLabels ::
           (MonadDOM m) => HTMLOutputElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.labels Mozilla HTMLOutputElement.labels documentation> 
+getLabelsUnchecked ::
+                   (MonadDOM m) => HTMLOutputElement -> m NodeList
+getLabelsUnchecked self
+  = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

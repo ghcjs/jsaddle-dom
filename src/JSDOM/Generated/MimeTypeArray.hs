@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MimeTypeArray
-       (item, namedItem, getLength, MimeTypeArray, castToMimeTypeArray,
+       (item, item_, itemUnchecked, namedItem, namedItem_,
+        namedItemUnchecked, getLength, MimeTypeArray, castToMimeTypeArray,
         gTypeMimeTypeArray)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -21,12 +22,38 @@ item :: (MonadDOM m) => MimeTypeArray -> Word -> m (Maybe MimeType)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray.item Mozilla MimeTypeArray.item documentation> 
+item_ :: (MonadDOM m) => MimeTypeArray -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray.item Mozilla MimeTypeArray.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => MimeTypeArray -> Word -> m MimeType
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray.namedItem Mozilla MimeTypeArray.namedItem documentation> 
 namedItem ::
           (MonadDOM m, ToJSString name) =>
             MimeTypeArray -> name -> m (Maybe MimeType)
 namedItem self name
   = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray.namedItem Mozilla MimeTypeArray.namedItem documentation> 
+namedItem_ ::
+           (MonadDOM m, ToJSString name) => MimeTypeArray -> name -> m ()
+namedItem_ self name
+  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray.namedItem Mozilla MimeTypeArray.namedItem documentation> 
+namedItemUnchecked ::
+                   (MonadDOM m, ToJSString name) =>
+                     MimeTypeArray -> name -> m MimeType
+namedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray.length Mozilla MimeTypeArray.length documentation> 
 getLength :: (MonadDOM m) => MimeTypeArray -> m Word

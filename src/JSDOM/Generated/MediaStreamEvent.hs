@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamEvent
-       (getStream, MediaStreamEvent, castToMediaStreamEvent,
-        gTypeMediaStreamEvent)
+       (getStream, getStreamUnchecked, MediaStreamEvent,
+        castToMediaStreamEvent, gTypeMediaStreamEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getStream ::
           (MonadDOM m) => MediaStreamEvent -> m (Maybe MediaStream)
 getStream self = liftDOM ((self ^. js "stream") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamEvent.stream Mozilla MediaStreamEvent.stream documentation> 
+getStreamUnchecked ::
+                   (MonadDOM m) => MediaStreamEvent -> m MediaStream
+getStreamUnchecked self
+  = liftDOM ((self ^. js "stream") >>= fromJSValUnchecked)

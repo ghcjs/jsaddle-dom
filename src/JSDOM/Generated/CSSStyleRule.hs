@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleRule
-       (setSelectorText, getSelectorText, getStyle, CSSStyleRule,
-        castToCSSStyleRule, gTypeCSSStyleRule)
+       (setSelectorText, getSelectorText, getSelectorTextUnchecked,
+        getStyle, getStyleUnchecked, CSSStyleRule, castToCSSStyleRule,
+        gTypeCSSStyleRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -29,7 +30,19 @@ getSelectorText ::
 getSelectorText self
   = liftDOM ((self ^. js "selectorText") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.selectorText Mozilla CSSStyleRule.selectorText documentation> 
+getSelectorTextUnchecked ::
+                         (MonadDOM m, FromJSString result) => CSSStyleRule -> m result
+getSelectorTextUnchecked self
+  = liftDOM ((self ^. js "selectorText") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.style Mozilla CSSStyleRule.style documentation> 
 getStyle ::
          (MonadDOM m) => CSSStyleRule -> m (Maybe CSSStyleDeclaration)
 getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.style Mozilla CSSStyleRule.style documentation> 
+getStyleUnchecked ::
+                  (MonadDOM m) => CSSStyleRule -> m CSSStyleDeclaration
+getStyleUnchecked self
+  = liftDOM ((self ^. js "style") >>= fromJSValUnchecked)

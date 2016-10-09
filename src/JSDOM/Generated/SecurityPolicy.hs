@@ -1,11 +1,15 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SecurityPolicy
-       (allowsConnectionTo, allowsFontFrom, allowsFormAction,
-        allowsFrameFrom, allowsImageFrom, allowsMediaFrom,
-        allowsObjectFrom, allowsPluginType, allowsScriptFrom,
-        allowsStyleFrom, getAllowsEval, getAllowsInlineScript,
-        getAllowsInlineStyle, getIsActive, getReportURIs, SecurityPolicy,
+       (allowsConnectionTo, allowsConnectionTo_, allowsFontFrom,
+        allowsFontFrom_, allowsFormAction, allowsFormAction_,
+        allowsFrameFrom, allowsFrameFrom_, allowsImageFrom,
+        allowsImageFrom_, allowsMediaFrom, allowsMediaFrom_,
+        allowsObjectFrom, allowsObjectFrom_, allowsPluginType,
+        allowsPluginType_, allowsScriptFrom, allowsScriptFrom_,
+        allowsStyleFrom, allowsStyleFrom_, getAllowsEval,
+        getAllowsInlineScript, getAllowsInlineStyle, getIsActive,
+        getReportURIs, getReportURIsUnchecked, SecurityPolicy,
         castToSecurityPolicy, gTypeSecurityPolicy)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -27,12 +31,24 @@ allowsConnectionTo self url
   = liftDOM
       ((self ^. jsf "allowsConnectionTo" [toJSVal url]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsConnectionTo Mozilla SecurityPolicy.allowsConnectionTo documentation> 
+allowsConnectionTo_ ::
+                    (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsConnectionTo_ self url
+  = liftDOM (void (self ^. jsf "allowsConnectionTo" [toJSVal url]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsFontFrom Mozilla SecurityPolicy.allowsFontFrom documentation> 
 allowsFontFrom ::
                (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m Bool
 allowsFontFrom self url
   = liftDOM
       ((self ^. jsf "allowsFontFrom" [toJSVal url]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsFontFrom Mozilla SecurityPolicy.allowsFontFrom documentation> 
+allowsFontFrom_ ::
+                (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsFontFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsFontFrom" [toJSVal url]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsFormAction Mozilla SecurityPolicy.allowsFormAction documentation> 
 allowsFormAction ::
@@ -41,12 +57,24 @@ allowsFormAction self url
   = liftDOM
       ((self ^. jsf "allowsFormAction" [toJSVal url]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsFormAction Mozilla SecurityPolicy.allowsFormAction documentation> 
+allowsFormAction_ ::
+                  (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsFormAction_ self url
+  = liftDOM (void (self ^. jsf "allowsFormAction" [toJSVal url]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsFrameFrom Mozilla SecurityPolicy.allowsFrameFrom documentation> 
 allowsFrameFrom ::
                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m Bool
 allowsFrameFrom self url
   = liftDOM
       ((self ^. jsf "allowsFrameFrom" [toJSVal url]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsFrameFrom Mozilla SecurityPolicy.allowsFrameFrom documentation> 
+allowsFrameFrom_ ::
+                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsFrameFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsFrameFrom" [toJSVal url]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsImageFrom Mozilla SecurityPolicy.allowsImageFrom documentation> 
 allowsImageFrom ::
@@ -55,12 +83,24 @@ allowsImageFrom self url
   = liftDOM
       ((self ^. jsf "allowsImageFrom" [toJSVal url]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsImageFrom Mozilla SecurityPolicy.allowsImageFrom documentation> 
+allowsImageFrom_ ::
+                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsImageFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsImageFrom" [toJSVal url]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsMediaFrom Mozilla SecurityPolicy.allowsMediaFrom documentation> 
 allowsMediaFrom ::
                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m Bool
 allowsMediaFrom self url
   = liftDOM
       ((self ^. jsf "allowsMediaFrom" [toJSVal url]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsMediaFrom Mozilla SecurityPolicy.allowsMediaFrom documentation> 
+allowsMediaFrom_ ::
+                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsMediaFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsMediaFrom" [toJSVal url]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsObjectFrom Mozilla SecurityPolicy.allowsObjectFrom documentation> 
 allowsObjectFrom ::
@@ -69,12 +109,24 @@ allowsObjectFrom self url
   = liftDOM
       ((self ^. jsf "allowsObjectFrom" [toJSVal url]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsObjectFrom Mozilla SecurityPolicy.allowsObjectFrom documentation> 
+allowsObjectFrom_ ::
+                  (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsObjectFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsObjectFrom" [toJSVal url]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsPluginType Mozilla SecurityPolicy.allowsPluginType documentation> 
 allowsPluginType ::
                  (MonadDOM m, ToJSString type') => SecurityPolicy -> type' -> m Bool
 allowsPluginType self type'
   = liftDOM
       ((self ^. jsf "allowsPluginType" [toJSVal type']) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsPluginType Mozilla SecurityPolicy.allowsPluginType documentation> 
+allowsPluginType_ ::
+                  (MonadDOM m, ToJSString type') => SecurityPolicy -> type' -> m ()
+allowsPluginType_ self type'
+  = liftDOM (void (self ^. jsf "allowsPluginType" [toJSVal type']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsScriptFrom Mozilla SecurityPolicy.allowsScriptFrom documentation> 
 allowsScriptFrom ::
@@ -83,12 +135,24 @@ allowsScriptFrom self url
   = liftDOM
       ((self ^. jsf "allowsScriptFrom" [toJSVal url]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsScriptFrom Mozilla SecurityPolicy.allowsScriptFrom documentation> 
+allowsScriptFrom_ ::
+                  (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsScriptFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsScriptFrom" [toJSVal url]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsStyleFrom Mozilla SecurityPolicy.allowsStyleFrom documentation> 
 allowsStyleFrom ::
                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m Bool
 allowsStyleFrom self url
   = liftDOM
       ((self ^. jsf "allowsStyleFrom" [toJSVal url]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsStyleFrom Mozilla SecurityPolicy.allowsStyleFrom documentation> 
+allowsStyleFrom_ ::
+                 (MonadDOM m, ToJSString url) => SecurityPolicy -> url -> m ()
+allowsStyleFrom_ self url
+  = liftDOM (void (self ^. jsf "allowsStyleFrom" [toJSVal url]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.allowsEval Mozilla SecurityPolicy.allowsEval documentation> 
 getAllowsEval :: (MonadDOM m) => SecurityPolicy -> m Bool
@@ -114,3 +178,9 @@ getReportURIs ::
               (MonadDOM m) => SecurityPolicy -> m (Maybe DOMStringList)
 getReportURIs self
   = liftDOM ((self ^. js "reportURIs") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.reportURIs Mozilla SecurityPolicy.reportURIs documentation> 
+getReportURIsUnchecked ::
+                       (MonadDOM m) => SecurityPolicy -> m DOMStringList
+getReportURIsUnchecked self
+  = liftDOM ((self ^. js "reportURIs") >>= fromJSValUnchecked)

@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBTransaction
-       (objectStore, abort, getMode, getDb, getError, abortEvent,
+       (objectStore, objectStore_, objectStoreUnchecked, abort, getMode,
+        getDb, getDbUnchecked, getError, getErrorUnchecked, abortEvent,
         complete, error, IDBTransaction, castToIDBTransaction,
         gTypeIDBTransaction)
        where
@@ -25,6 +26,20 @@ objectStore self name
   = liftDOM
       ((self ^. jsf "objectStore" [toJSVal name]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStore Mozilla IDBTransaction.objectStore documentation> 
+objectStore_ ::
+             (MonadDOM m, ToJSString name) => IDBTransaction -> name -> m ()
+objectStore_ self name
+  = liftDOM (void (self ^. jsf "objectStore" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStore Mozilla IDBTransaction.objectStore documentation> 
+objectStoreUnchecked ::
+                     (MonadDOM m, ToJSString name) =>
+                       IDBTransaction -> name -> m IDBObjectStore
+objectStoreUnchecked self name
+  = liftDOM
+      ((self ^. jsf "objectStore" [toJSVal name]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.abort Mozilla IDBTransaction.abort documentation> 
 abort :: (MonadDOM m) => IDBTransaction -> m ()
 abort self = liftDOM (void (self ^. jsf "abort" ()))
@@ -38,9 +53,19 @@ getMode self = liftDOM ((self ^. js "mode") >>= fromJSValUnchecked)
 getDb :: (MonadDOM m) => IDBTransaction -> m (Maybe IDBDatabase)
 getDb self = liftDOM ((self ^. js "db") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.db Mozilla IDBTransaction.db documentation> 
+getDbUnchecked :: (MonadDOM m) => IDBTransaction -> m IDBDatabase
+getDbUnchecked self
+  = liftDOM ((self ^. js "db") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
 getError :: (MonadDOM m) => IDBTransaction -> m (Maybe DOMError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
+getErrorUnchecked :: (MonadDOM m) => IDBTransaction -> m DOMError
+getErrorUnchecked self
+  = liftDOM ((self ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.onabort Mozilla IDBTransaction.onabort documentation> 
 abortEvent :: EventName IDBTransaction Event

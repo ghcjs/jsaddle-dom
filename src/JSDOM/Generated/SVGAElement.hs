@@ -1,7 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAElement
-       (getTarget, SVGAElement, castToSVGAElement, gTypeSVGAElement) where
+       (getTarget, getTargetUnchecked, SVGAElement, castToSVGAElement,
+        gTypeSVGAElement)
+       where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
@@ -18,3 +20,9 @@ import JSDOM.Enums
 getTarget ::
           (MonadDOM m) => SVGAElement -> m (Maybe SVGAnimatedString)
 getTarget self = liftDOM ((self ^. js "target") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAElement.target Mozilla SVGAElement.target documentation> 
+getTargetUnchecked ::
+                   (MonadDOM m) => SVGAElement -> m SVGAnimatedString
+getTargetUnchecked self
+  = liftDOM ((self ^. js "target") >>= fromJSValUnchecked)

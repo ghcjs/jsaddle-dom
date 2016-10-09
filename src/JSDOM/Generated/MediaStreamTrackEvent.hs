@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamTrackEvent
-       (getTrack, MediaStreamTrackEvent, castToMediaStreamTrackEvent,
-        gTypeMediaStreamTrackEvent)
+       (getTrack, getTrackUnchecked, MediaStreamTrackEvent,
+        castToMediaStreamTrackEvent, gTypeMediaStreamTrackEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getTrack ::
          (MonadDOM m) => MediaStreamTrackEvent -> m (Maybe MediaStreamTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrackEvent.track Mozilla MediaStreamTrackEvent.track documentation> 
+getTrackUnchecked ::
+                  (MonadDOM m) => MediaStreamTrackEvent -> m MediaStreamTrack
+getTrackUnchecked self
+  = liftDOM ((self ^. js "track") >>= fromJSValUnchecked)

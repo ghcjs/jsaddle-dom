@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFieldSetElement
-       (checkValidity, setCustomValidity, setDisabled, getDisabled,
-        getForm, setName, getName, getType, getElements, getWillValidate,
-        getValidity, getValidationMessage, HTMLFieldSetElement,
+       (checkValidity, checkValidity_, setCustomValidity, setDisabled,
+        getDisabled, getForm, getFormUnchecked, setName, getName, getType,
+        getElements, getElementsUnchecked, getWillValidate, getValidity,
+        getValidityUnchecked, getValidationMessage, HTMLFieldSetElement,
         castToHTMLFieldSetElement, gTypeHTMLFieldSetElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,6 +23,11 @@ import JSDOM.Enums
 checkValidity :: (MonadDOM m) => HTMLFieldSetElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.checkValidity Mozilla HTMLFieldSetElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLFieldSetElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.setCustomValidity Mozilla HTMLFieldSetElement.setCustomValidity documentation> 
 setCustomValidity ::
@@ -43,6 +49,12 @@ getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 getForm ::
         (MonadDOM m) => HTMLFieldSetElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.form Mozilla HTMLFieldSetElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLFieldSetElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.name Mozilla HTMLFieldSetElement.name documentation> 
 setName ::
@@ -66,6 +78,12 @@ getElements ::
             (MonadDOM m) => HTMLFieldSetElement -> m (Maybe HTMLCollection)
 getElements self = liftDOM ((self ^. js "elements") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.elements Mozilla HTMLFieldSetElement.elements documentation> 
+getElementsUnchecked ::
+                     (MonadDOM m) => HTMLFieldSetElement -> m HTMLCollection
+getElementsUnchecked self
+  = liftDOM ((self ^. js "elements") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.willValidate Mozilla HTMLFieldSetElement.willValidate documentation> 
 getWillValidate :: (MonadDOM m) => HTMLFieldSetElement -> m Bool
 getWillValidate self
@@ -75,6 +93,12 @@ getWillValidate self
 getValidity ::
             (MonadDOM m) => HTMLFieldSetElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validity Mozilla HTMLFieldSetElement.validity documentation> 
+getValidityUnchecked ::
+                     (MonadDOM m) => HTMLFieldSetElement -> m ValidityState
+getValidityUnchecked self
+  = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validationMessage Mozilla HTMLFieldSetElement.validationMessage documentation> 
 getValidationMessage ::

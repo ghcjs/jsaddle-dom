@@ -3,9 +3,9 @@
 module JSDOM.Generated.FileReader
        (newFileReader, readAsArrayBuffer, readAsBinaryString, readAsText,
         readAsDataURL, abort, pattern EMPTY, pattern LOADING, pattern DONE,
-        getReadyState, getResult, getError, loadStart, progress, load,
-        abortEvent, error, loadEnd, FileReader, castToFileReader,
-        gTypeFileReader)
+        getReadyState, getResult, getError, getErrorUnchecked, loadStart,
+        progress, load, abortEvent, error, loadEnd, FileReader,
+        castToFileReader, gTypeFileReader)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -68,6 +68,11 @@ getResult self = liftDOM ((self ^. js "result") >>= toJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
 getError :: (MonadDOM m) => FileReader -> m (Maybe FileError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
+getErrorUnchecked :: (MonadDOM m) => FileReader -> m FileError
+getErrorUnchecked self
+  = liftDOM ((self ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.onloadstart Mozilla FileReader.onloadstart documentation> 
 loadStart :: EventName FileReader ProgressEvent

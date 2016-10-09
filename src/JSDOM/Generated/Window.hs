@@ -1,28 +1,51 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Window
-       (openDatabase, getSelection, focus, blur, close, print, stop, open,
-        showModalDialog, alert, confirm, prompt, find, scrollBy, scrollTo,
-        scroll, moveBy, moveTo, resizeBy, resizeTo, matchMedia,
-        getComputedStyle, getMatchedCSSRules,
-        webkitConvertPointFromPageToNode, webkitConvertPointFromNodeToPage,
-        postMessage, requestAnimationFrame, cancelAnimationFrame,
-        webkitRequestAnimationFrame, webkitCancelAnimationFrame,
+       (openDatabase, openDatabase_, openDatabaseUnchecked, getSelection,
+        getSelection_, getSelectionUnchecked, focus, blur, close, print,
+        stop, open, open_, openUnchecked, showModalDialog,
+        showModalDialog_, alert, confirm, confirm_, prompt, prompt_,
+        promptUnchecked, find, find_, scrollBy, scrollTo, scroll, moveBy,
+        moveTo, resizeBy, resizeTo, matchMedia, matchMedia_,
+        matchMediaUnchecked, getComputedStyle, getComputedStyle_,
+        getComputedStyleUnchecked, getMatchedCSSRules, getMatchedCSSRules_,
+        getMatchedCSSRulesUnchecked, webkitConvertPointFromPageToNode,
+        webkitConvertPointFromPageToNode_,
+        webkitConvertPointFromPageToNodeUnchecked,
+        webkitConvertPointFromNodeToPage,
+        webkitConvertPointFromNodeToPage_,
+        webkitConvertPointFromNodeToPageUnchecked, postMessage,
+        requestAnimationFrame, requestAnimationFrame_,
+        cancelAnimationFrame, webkitRequestAnimationFrame,
+        webkitRequestAnimationFrame_, webkitCancelAnimationFrame,
         webkitCancelRequestAnimationFrame, captureEvents, releaseEvents,
-        getWebkitIndexedDB, getIndexedDB, getWebkitStorageInfo,
-        getSpeechSynthesis, getScreen, getHistory, getLocationbar,
-        getMenubar, getPersonalbar, getScrollbars, getStatusbar,
-        getToolbar, getNavigator, getClientInformation, getCrypto,
-        setLocation, getLocation, getEvent, getFrameElement,
+        getWebkitIndexedDB, getWebkitIndexedDBUnchecked, getIndexedDB,
+        getIndexedDBUnchecked, getWebkitStorageInfo,
+        getWebkitStorageInfoUnchecked, getSpeechSynthesis,
+        getSpeechSynthesisUnchecked, getScreen, getScreenUnchecked,
+        getHistory, getHistoryUnchecked, getLocationbar,
+        getLocationbarUnchecked, getMenubar, getMenubarUnchecked,
+        getPersonalbar, getPersonalbarUnchecked, getScrollbars,
+        getScrollbarsUnchecked, getStatusbar, getStatusbarUnchecked,
+        getToolbar, getToolbarUnchecked, getNavigator,
+        getNavigatorUnchecked, getClientInformation,
+        getClientInformationUnchecked, getCrypto, getCryptoUnchecked,
+        setLocation, getLocation, getLocationUnchecked, getEvent,
+        getEventUnchecked, getFrameElement, getFrameElementUnchecked,
         getOffscreenBuffering, getOuterHeight, getOuterWidth,
         getInnerHeight, getInnerWidth, getScreenX, getScreenY,
         getScreenLeft, getScreenTop, getScrollX, getScrollY,
         getPageXOffset, getPageYOffset, getClosed, getLength, setName,
         getName, setStatus, getStatus, setDefaultStatus, getDefaultStatus,
-        setDefaultstatus, getDefaultstatus, getSelf, getWindow, getFrames,
-        getOpener, getParent, getTop, getDocument, getStyleMedia,
-        getDevicePixelRatio, getApplicationCache, getSessionStorage,
-        getLocalStorage, getOrientation, getPerformance, getCSS, abort,
+        setDefaultstatus, getDefaultstatus, getSelf, getSelfUnchecked,
+        getWindow, getWindowUnchecked, getFrames, getFramesUnchecked,
+        getOpener, getOpenerUnchecked, getParent, getParentUnchecked,
+        getTop, getTopUnchecked, getDocument, getDocumentUnchecked,
+        getStyleMedia, getStyleMediaUnchecked, getDevicePixelRatio,
+        getApplicationCache, getApplicationCacheUnchecked,
+        getSessionStorage, getSessionStorageUnchecked, getLocalStorage,
+        getLocalStorageUnchecked, getOrientation, getPerformance,
+        getPerformanceUnchecked, getCSS, getCSSUnchecked, abort,
         beforeUnload, blurEvent, canPlay, canPlayThrough, change, click,
         contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
         dragOver, dragStart, drop, durationChange, emptied, ended, error,
@@ -70,10 +93,50 @@ openDatabase self name version displayName estimatedSize
            toJSVal estimatedSize, toJSVal creationCallback])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.openDatabase Mozilla Window.openDatabase documentation> 
+openDatabase_ ::
+              (MonadDOM m, ToJSString name, ToJSString version,
+               ToJSString displayName) =>
+                Window ->
+                  name ->
+                    version -> displayName -> Word -> Maybe DatabaseCallback -> m ()
+openDatabase_ self name version displayName estimatedSize
+  creationCallback
+  = liftDOM
+      (void
+         (self ^. jsf "openDatabase"
+            [toJSVal name, toJSVal version, toJSVal displayName,
+             toJSVal estimatedSize, toJSVal creationCallback]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.openDatabase Mozilla Window.openDatabase documentation> 
+openDatabaseUnchecked ::
+                      (MonadDOM m, ToJSString name, ToJSString version,
+                       ToJSString displayName) =>
+                        Window ->
+                          name ->
+                            version ->
+                              displayName -> Word -> Maybe DatabaseCallback -> m Database
+openDatabaseUnchecked self name version displayName estimatedSize
+  creationCallback
+  = liftDOM
+      ((self ^. jsf "openDatabase"
+          [toJSVal name, toJSVal version, toJSVal displayName,
+           toJSVal estimatedSize, toJSVal creationCallback])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
 getSelection :: (MonadDOM m) => Window -> m (Maybe Selection)
 getSelection self
   = liftDOM ((self ^. jsf "getSelection" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
+getSelection_ :: (MonadDOM m) => Window -> m ()
+getSelection_ self = liftDOM (void (self ^. jsf "getSelection" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
+getSelectionUnchecked :: (MonadDOM m) => Window -> m Selection
+getSelectionUnchecked self
+  = liftDOM ((self ^. jsf "getSelection" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.focus Mozilla Window.focus documentation> 
 focus :: (MonadDOM m) => Window -> m ()
@@ -105,6 +168,26 @@ open self url name options
       ((self ^. jsf "open" [toJSVal url, toJSVal name, toJSVal options])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.open Mozilla Window.open documentation> 
+open_ ::
+      (MonadDOM m, ToJSString url, ToJSString name,
+       ToJSString options) =>
+        Window -> url -> name -> options -> m ()
+open_ self url name options
+  = liftDOM
+      (void
+         (self ^. jsf "open" [toJSVal url, toJSVal name, toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.open Mozilla Window.open documentation> 
+openUnchecked ::
+              (MonadDOM m, ToJSString url, ToJSString name,
+               ToJSString options) =>
+                Window -> url -> name -> options -> m Window
+openUnchecked self url name options
+  = liftDOM
+      ((self ^. jsf "open" [toJSVal url, toJSVal name, toJSVal options])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.showModalDialog Mozilla Window.showModalDialog documentation> 
 showModalDialog ::
                 (MonadDOM m, ToJSString url, ToJSString featureArgs) =>
@@ -114,6 +197,16 @@ showModalDialog self url dialogArgs featureArgs
       ((self ^. jsf "showModalDialog"
           [toJSVal url, toJSVal dialogArgs, toJSVal featureArgs])
          >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.showModalDialog Mozilla Window.showModalDialog documentation> 
+showModalDialog_ ::
+                 (MonadDOM m, ToJSString url, ToJSString featureArgs) =>
+                   Window -> url -> JSVal -> featureArgs -> m ()
+showModalDialog_ self url dialogArgs featureArgs
+  = liftDOM
+      (void
+         (self ^. jsf "showModalDialog"
+            [toJSVal url, toJSVal dialogArgs, toJSVal featureArgs]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.alert Mozilla Window.alert documentation> 
 alert ::
@@ -127,6 +220,12 @@ confirm ::
 confirm self message
   = liftDOM ((self ^. jsf "confirm" [toJSVal message]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.confirm Mozilla Window.confirm documentation> 
+confirm_ ::
+         (MonadDOM m, ToJSString message) => Window -> message -> m ()
+confirm_ self message
+  = liftDOM (void (self ^. jsf "confirm" [toJSVal message]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 
 prompt ::
        (MonadDOM m, ToJSString message, ToJSString defaultValue,
@@ -136,6 +235,25 @@ prompt self message defaultValue
   = liftDOM
       ((self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue]) >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 
+prompt_ ::
+        (MonadDOM m, ToJSString message, ToJSString defaultValue) =>
+          Window -> message -> Maybe defaultValue -> m ()
+prompt_ self message defaultValue
+  = liftDOM
+      (void
+         (self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 
+promptUnchecked ::
+                (MonadDOM m, ToJSString message, ToJSString defaultValue,
+                 FromJSString result) =>
+                  Window -> message -> Maybe defaultValue -> m result
+promptUnchecked self message defaultValue
+  = liftDOM
+      ((self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.find Mozilla Window.find documentation> 
 find ::
@@ -150,6 +268,20 @@ find self string caseSensitive backwards wrap wholeWord
            toJSVal wrap, toJSVal wholeWord, toJSVal searchInFrames,
            toJSVal showDialog])
          >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.find Mozilla Window.find documentation> 
+find_ ::
+      (MonadDOM m, ToJSString string) =>
+        Window ->
+          string -> Bool -> Bool -> Bool -> Bool -> Bool -> Bool -> m ()
+find_ self string caseSensitive backwards wrap wholeWord
+  searchInFrames showDialog
+  = liftDOM
+      (void
+         (self ^. jsf "find"
+            [toJSVal string, toJSVal caseSensitive, toJSVal backwards,
+             toJSVal wrap, toJSVal wholeWord, toJSVal searchInFrames,
+             toJSVal showDialog]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollBy Mozilla Window.scrollBy documentation> 
 scrollBy :: (MonadDOM m) => Window -> Int -> Int -> m ()
@@ -195,6 +327,20 @@ matchMedia self query
   = liftDOM
       ((self ^. jsf "matchMedia" [toJSVal query]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.matchMedia Mozilla Window.matchMedia documentation> 
+matchMedia_ ::
+            (MonadDOM m, ToJSString query) => Window -> query -> m ()
+matchMedia_ self query
+  = liftDOM (void (self ^. jsf "matchMedia" [toJSVal query]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.matchMedia Mozilla Window.matchMedia documentation> 
+matchMediaUnchecked ::
+                    (MonadDOM m, ToJSString query) =>
+                      Window -> query -> m MediaQueryList
+matchMediaUnchecked self query
+  = liftDOM
+      ((self ^. jsf "matchMedia" [toJSVal query]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getComputedStyle Mozilla Window.getComputedStyle documentation> 
 getComputedStyle ::
                  (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
@@ -207,6 +353,27 @@ getComputedStyle self element pseudoElement
           [toJSVal element, toJSVal pseudoElement])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getComputedStyle Mozilla Window.getComputedStyle documentation> 
+getComputedStyle_ ::
+                  (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
+                    Window -> Maybe element -> Maybe pseudoElement -> m ()
+getComputedStyle_ self element pseudoElement
+  = liftDOM
+      (void
+         (self ^. jsf "getComputedStyle"
+            [toJSVal element, toJSVal pseudoElement]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getComputedStyle Mozilla Window.getComputedStyle documentation> 
+getComputedStyleUnchecked ::
+                          (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
+                            Window ->
+                              Maybe element -> Maybe pseudoElement -> m CSSStyleDeclaration
+getComputedStyleUnchecked self element pseudoElement
+  = liftDOM
+      ((self ^. jsf "getComputedStyle"
+          [toJSVal element, toJSVal pseudoElement])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getMatchedCSSRules Mozilla Window.getMatchedCSSRules documentation> 
 getMatchedCSSRules ::
                    (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
@@ -217,6 +384,26 @@ getMatchedCSSRules self element pseudoElement
       ((self ^. jsf "getMatchedCSSRules"
           [toJSVal element, toJSVal pseudoElement])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getMatchedCSSRules Mozilla Window.getMatchedCSSRules documentation> 
+getMatchedCSSRules_ ::
+                    (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
+                      Window -> Maybe element -> Maybe pseudoElement -> m ()
+getMatchedCSSRules_ self element pseudoElement
+  = liftDOM
+      (void
+         (self ^. jsf "getMatchedCSSRules"
+            [toJSVal element, toJSVal pseudoElement]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getMatchedCSSRules Mozilla Window.getMatchedCSSRules documentation> 
+getMatchedCSSRulesUnchecked ::
+                            (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
+                              Window -> Maybe element -> Maybe pseudoElement -> m CSSRuleList
+getMatchedCSSRulesUnchecked self element pseudoElement
+  = liftDOM
+      ((self ^. jsf "getMatchedCSSRules"
+          [toJSVal element, toJSVal pseudoElement])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromPageToNode Mozilla Window.webkitConvertPointFromPageToNode documentation> 
 webkitConvertPointFromPageToNode ::
@@ -229,6 +416,27 @@ webkitConvertPointFromPageToNode self node p
           [toJSVal node, toJSVal p])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromPageToNode Mozilla Window.webkitConvertPointFromPageToNode documentation> 
+webkitConvertPointFromPageToNode_ ::
+                                  (MonadDOM m, IsNode node) =>
+                                    Window -> Maybe node -> Maybe WebKitPoint -> m ()
+webkitConvertPointFromPageToNode_ self node p
+  = liftDOM
+      (void
+         (self ^. jsf "webkitConvertPointFromPageToNode"
+            [toJSVal node, toJSVal p]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromPageToNode Mozilla Window.webkitConvertPointFromPageToNode documentation> 
+webkitConvertPointFromPageToNodeUnchecked ::
+                                          (MonadDOM m, IsNode node) =>
+                                            Window ->
+                                              Maybe node -> Maybe WebKitPoint -> m WebKitPoint
+webkitConvertPointFromPageToNodeUnchecked self node p
+  = liftDOM
+      ((self ^. jsf "webkitConvertPointFromPageToNode"
+          [toJSVal node, toJSVal p])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromNodeToPage Mozilla Window.webkitConvertPointFromNodeToPage documentation> 
 webkitConvertPointFromNodeToPage ::
                                  (MonadDOM m, IsNode node) =>
@@ -239,6 +447,27 @@ webkitConvertPointFromNodeToPage self node p
       ((self ^. jsf "webkitConvertPointFromNodeToPage"
           [toJSVal node, toJSVal p])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromNodeToPage Mozilla Window.webkitConvertPointFromNodeToPage documentation> 
+webkitConvertPointFromNodeToPage_ ::
+                                  (MonadDOM m, IsNode node) =>
+                                    Window -> Maybe node -> Maybe WebKitPoint -> m ()
+webkitConvertPointFromNodeToPage_ self node p
+  = liftDOM
+      (void
+         (self ^. jsf "webkitConvertPointFromNodeToPage"
+            [toJSVal node, toJSVal p]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromNodeToPage Mozilla Window.webkitConvertPointFromNodeToPage documentation> 
+webkitConvertPointFromNodeToPageUnchecked ::
+                                          (MonadDOM m, IsNode node) =>
+                                            Window ->
+                                              Maybe node -> Maybe WebKitPoint -> m WebKitPoint
+webkitConvertPointFromNodeToPageUnchecked self node p
+  = liftDOM
+      ((self ^. jsf "webkitConvertPointFromNodeToPage"
+          [toJSVal node, toJSVal p])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.postMessage Mozilla Window.postMessage documentation> 
 postMessage ::
@@ -262,6 +491,14 @@ requestAnimationFrame self callback
          ((self ^. jsf "requestAnimationFrame" [toJSVal callback]) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.requestAnimationFrame Mozilla Window.requestAnimationFrame documentation> 
+requestAnimationFrame_ ::
+                       (MonadDOM m) =>
+                         Window -> Maybe RequestAnimationFrameCallback -> m ()
+requestAnimationFrame_ self callback
+  = liftDOM
+      (void (self ^. jsf "requestAnimationFrame" [toJSVal callback]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.cancelAnimationFrame Mozilla Window.cancelAnimationFrame documentation> 
 cancelAnimationFrame :: (MonadDOM m) => Window -> Int -> m ()
 cancelAnimationFrame self id
@@ -276,6 +513,15 @@ webkitRequestAnimationFrame self callback
       (round <$>
          ((self ^. jsf "webkitRequestAnimationFrame" [toJSVal callback]) >>=
             valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitRequestAnimationFrame Mozilla Window.webkitRequestAnimationFrame documentation> 
+webkitRequestAnimationFrame_ ::
+                             (MonadDOM m) =>
+                               Window -> Maybe RequestAnimationFrameCallback -> m ()
+webkitRequestAnimationFrame_ self callback
+  = liftDOM
+      (void
+         (self ^. jsf "webkitRequestAnimationFrame" [toJSVal callback]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitCancelAnimationFrame Mozilla Window.webkitCancelAnimationFrame documentation> 
 webkitCancelAnimationFrame :: (MonadDOM m) => Window -> Int -> m ()
@@ -307,10 +553,21 @@ getWebkitIndexedDB ::
 getWebkitIndexedDB self
   = liftDOM ((self ^. js "webkitIndexedDB") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitIndexedDB Mozilla Window.webkitIndexedDB documentation> 
+getWebkitIndexedDBUnchecked ::
+                            (MonadDOM m) => Window -> m IDBFactory
+getWebkitIndexedDBUnchecked self
+  = liftDOM ((self ^. js "webkitIndexedDB") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.indexedDB Mozilla Window.indexedDB documentation> 
 getIndexedDB :: (MonadDOM m) => Window -> m (Maybe IDBFactory)
 getIndexedDB self
   = liftDOM ((self ^. js "indexedDB") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.indexedDB Mozilla Window.indexedDB documentation> 
+getIndexedDBUnchecked :: (MonadDOM m) => Window -> m IDBFactory
+getIndexedDBUnchecked self
+  = liftDOM ((self ^. js "indexedDB") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitStorageInfo Mozilla Window.webkitStorageInfo documentation> 
 getWebkitStorageInfo ::
@@ -318,52 +575,109 @@ getWebkitStorageInfo ::
 getWebkitStorageInfo self
   = liftDOM ((self ^. js "webkitStorageInfo") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitStorageInfo Mozilla Window.webkitStorageInfo documentation> 
+getWebkitStorageInfoUnchecked ::
+                              (MonadDOM m) => Window -> m StorageInfo
+getWebkitStorageInfoUnchecked self
+  = liftDOM ((self ^. js "webkitStorageInfo") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.speechSynthesis Mozilla Window.speechSynthesis documentation> 
 getSpeechSynthesis ::
                    (MonadDOM m) => Window -> m (Maybe SpeechSynthesis)
 getSpeechSynthesis self
   = liftDOM ((self ^. js "speechSynthesis") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.speechSynthesis Mozilla Window.speechSynthesis documentation> 
+getSpeechSynthesisUnchecked ::
+                            (MonadDOM m) => Window -> m SpeechSynthesis
+getSpeechSynthesisUnchecked self
+  = liftDOM ((self ^. js "speechSynthesis") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.screen Mozilla Window.screen documentation> 
 getScreen :: (MonadDOM m) => Window -> m (Maybe Screen)
 getScreen self = liftDOM ((self ^. js "screen") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.screen Mozilla Window.screen documentation> 
+getScreenUnchecked :: (MonadDOM m) => Window -> m Screen
+getScreenUnchecked self
+  = liftDOM ((self ^. js "screen") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.history Mozilla Window.history documentation> 
 getHistory :: (MonadDOM m) => Window -> m (Maybe History)
 getHistory self = liftDOM ((self ^. js "history") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.history Mozilla Window.history documentation> 
+getHistoryUnchecked :: (MonadDOM m) => Window -> m History
+getHistoryUnchecked self
+  = liftDOM ((self ^. js "history") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.locationbar Mozilla Window.locationbar documentation> 
 getLocationbar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getLocationbar self
   = liftDOM ((self ^. js "locationbar") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.locationbar Mozilla Window.locationbar documentation> 
+getLocationbarUnchecked :: (MonadDOM m) => Window -> m BarProp
+getLocationbarUnchecked self
+  = liftDOM ((self ^. js "locationbar") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.menubar Mozilla Window.menubar documentation> 
 getMenubar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getMenubar self = liftDOM ((self ^. js "menubar") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.menubar Mozilla Window.menubar documentation> 
+getMenubarUnchecked :: (MonadDOM m) => Window -> m BarProp
+getMenubarUnchecked self
+  = liftDOM ((self ^. js "menubar") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.personalbar Mozilla Window.personalbar documentation> 
 getPersonalbar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getPersonalbar self
   = liftDOM ((self ^. js "personalbar") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.personalbar Mozilla Window.personalbar documentation> 
+getPersonalbarUnchecked :: (MonadDOM m) => Window -> m BarProp
+getPersonalbarUnchecked self
+  = liftDOM ((self ^. js "personalbar") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollbars Mozilla Window.scrollbars documentation> 
 getScrollbars :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getScrollbars self
   = liftDOM ((self ^. js "scrollbars") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollbars Mozilla Window.scrollbars documentation> 
+getScrollbarsUnchecked :: (MonadDOM m) => Window -> m BarProp
+getScrollbarsUnchecked self
+  = liftDOM ((self ^. js "scrollbars") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.statusbar Mozilla Window.statusbar documentation> 
 getStatusbar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getStatusbar self
   = liftDOM ((self ^. js "statusbar") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.statusbar Mozilla Window.statusbar documentation> 
+getStatusbarUnchecked :: (MonadDOM m) => Window -> m BarProp
+getStatusbarUnchecked self
+  = liftDOM ((self ^. js "statusbar") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.toolbar Mozilla Window.toolbar documentation> 
 getToolbar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getToolbar self = liftDOM ((self ^. js "toolbar") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.toolbar Mozilla Window.toolbar documentation> 
+getToolbarUnchecked :: (MonadDOM m) => Window -> m BarProp
+getToolbarUnchecked self
+  = liftDOM ((self ^. js "toolbar") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.navigator Mozilla Window.navigator documentation> 
 getNavigator :: (MonadDOM m) => Window -> m (Maybe Navigator)
 getNavigator self
   = liftDOM ((self ^. js "navigator") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.navigator Mozilla Window.navigator documentation> 
+getNavigatorUnchecked :: (MonadDOM m) => Window -> m Navigator
+getNavigatorUnchecked self
+  = liftDOM ((self ^. js "navigator") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.clientInformation Mozilla Window.clientInformation documentation> 
 getClientInformation ::
@@ -371,9 +685,20 @@ getClientInformation ::
 getClientInformation self
   = liftDOM ((self ^. js "clientInformation") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.clientInformation Mozilla Window.clientInformation documentation> 
+getClientInformationUnchecked ::
+                              (MonadDOM m) => Window -> m Navigator
+getClientInformationUnchecked self
+  = liftDOM ((self ^. js "clientInformation") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.crypto Mozilla Window.crypto documentation> 
 getCrypto :: (MonadDOM m) => Window -> m (Maybe Crypto)
 getCrypto self = liftDOM ((self ^. js "crypto") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.crypto Mozilla Window.crypto documentation> 
+getCryptoUnchecked :: (MonadDOM m) => Window -> m Crypto
+getCryptoUnchecked self
+  = liftDOM ((self ^. js "crypto") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.location Mozilla Window.location documentation> 
 setLocation :: (MonadDOM m) => Window -> Maybe Location -> m ()
@@ -384,14 +709,29 @@ setLocation self val
 getLocation :: (MonadDOM m) => Window -> m (Maybe Location)
 getLocation self = liftDOM ((self ^. js "location") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.location Mozilla Window.location documentation> 
+getLocationUnchecked :: (MonadDOM m) => Window -> m Location
+getLocationUnchecked self
+  = liftDOM ((self ^. js "location") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.event Mozilla Window.event documentation> 
 getEvent :: (MonadDOM m) => Window -> m (Maybe Event)
 getEvent self = liftDOM ((self ^. js "event") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.event Mozilla Window.event documentation> 
+getEventUnchecked :: (MonadDOM m) => Window -> m Event
+getEventUnchecked self
+  = liftDOM ((self ^. js "event") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frameElement Mozilla Window.frameElement documentation> 
 getFrameElement :: (MonadDOM m) => Window -> m (Maybe Element)
 getFrameElement self
   = liftDOM ((self ^. js "frameElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frameElement Mozilla Window.frameElement documentation> 
+getFrameElementUnchecked :: (MonadDOM m) => Window -> m Element
+getFrameElementUnchecked self
+  = liftDOM ((self ^. js "frameElement") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.offscreenBuffering Mozilla Window.offscreenBuffering documentation> 
 getOffscreenBuffering :: (MonadDOM m) => Window -> m Bool
@@ -513,34 +853,74 @@ getDefaultstatus self
 getSelf :: (MonadDOM m) => Window -> m (Maybe Window)
 getSelf self = liftDOM ((self ^. js "self") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.self Mozilla Window.self documentation> 
+getSelfUnchecked :: (MonadDOM m) => Window -> m Window
+getSelfUnchecked self
+  = liftDOM ((self ^. js "self") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.window Mozilla Window.window documentation> 
 getWindow :: (MonadDOM m) => Window -> m (Maybe Window)
 getWindow self = liftDOM ((self ^. js "window") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.window Mozilla Window.window documentation> 
+getWindowUnchecked :: (MonadDOM m) => Window -> m Window
+getWindowUnchecked self
+  = liftDOM ((self ^. js "window") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frames Mozilla Window.frames documentation> 
 getFrames :: (MonadDOM m) => Window -> m (Maybe Window)
 getFrames self = liftDOM ((self ^. js "frames") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frames Mozilla Window.frames documentation> 
+getFramesUnchecked :: (MonadDOM m) => Window -> m Window
+getFramesUnchecked self
+  = liftDOM ((self ^. js "frames") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.opener Mozilla Window.opener documentation> 
 getOpener :: (MonadDOM m) => Window -> m (Maybe Window)
 getOpener self = liftDOM ((self ^. js "opener") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.opener Mozilla Window.opener documentation> 
+getOpenerUnchecked :: (MonadDOM m) => Window -> m Window
+getOpenerUnchecked self
+  = liftDOM ((self ^. js "opener") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.parent Mozilla Window.parent documentation> 
 getParent :: (MonadDOM m) => Window -> m (Maybe Window)
 getParent self = liftDOM ((self ^. js "parent") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.parent Mozilla Window.parent documentation> 
+getParentUnchecked :: (MonadDOM m) => Window -> m Window
+getParentUnchecked self
+  = liftDOM ((self ^. js "parent") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.top Mozilla Window.top documentation> 
 getTop :: (MonadDOM m) => Window -> m (Maybe Window)
 getTop self = liftDOM ((self ^. js "top") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.top Mozilla Window.top documentation> 
+getTopUnchecked :: (MonadDOM m) => Window -> m Window
+getTopUnchecked self
+  = liftDOM ((self ^. js "top") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.document Mozilla Window.document documentation> 
 getDocument :: (MonadDOM m) => Window -> m (Maybe Document)
 getDocument self = liftDOM ((self ^. js "document") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.document Mozilla Window.document documentation> 
+getDocumentUnchecked :: (MonadDOM m) => Window -> m Document
+getDocumentUnchecked self
+  = liftDOM ((self ^. js "document") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.styleMedia Mozilla Window.styleMedia documentation> 
 getStyleMedia :: (MonadDOM m) => Window -> m (Maybe StyleMedia)
 getStyleMedia self
   = liftDOM ((self ^. js "styleMedia") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.styleMedia Mozilla Window.styleMedia documentation> 
+getStyleMediaUnchecked :: (MonadDOM m) => Window -> m StyleMedia
+getStyleMediaUnchecked self
+  = liftDOM ((self ^. js "styleMedia") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.devicePixelRatio Mozilla Window.devicePixelRatio documentation> 
 getDevicePixelRatio :: (MonadDOM m) => Window -> m Double
@@ -553,15 +933,31 @@ getApplicationCache ::
 getApplicationCache self
   = liftDOM ((self ^. js "applicationCache") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.applicationCache Mozilla Window.applicationCache documentation> 
+getApplicationCacheUnchecked ::
+                             (MonadDOM m) => Window -> m ApplicationCache
+getApplicationCacheUnchecked self
+  = liftDOM ((self ^. js "applicationCache") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.sessionStorage Mozilla Window.sessionStorage documentation> 
 getSessionStorage :: (MonadDOM m) => Window -> m (Maybe Storage)
 getSessionStorage self
   = liftDOM ((self ^. js "sessionStorage") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.sessionStorage Mozilla Window.sessionStorage documentation> 
+getSessionStorageUnchecked :: (MonadDOM m) => Window -> m Storage
+getSessionStorageUnchecked self
+  = liftDOM ((self ^. js "sessionStorage") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.localStorage Mozilla Window.localStorage documentation> 
 getLocalStorage :: (MonadDOM m) => Window -> m (Maybe Storage)
 getLocalStorage self
   = liftDOM ((self ^. js "localStorage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.localStorage Mozilla Window.localStorage documentation> 
+getLocalStorageUnchecked :: (MonadDOM m) => Window -> m Storage
+getLocalStorageUnchecked self
+  = liftDOM ((self ^. js "localStorage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.orientation Mozilla Window.orientation documentation> 
 getOrientation :: (MonadDOM m) => Window -> m Int
@@ -573,9 +969,19 @@ getPerformance :: (MonadDOM m) => Window -> m (Maybe Performance)
 getPerformance self
   = liftDOM ((self ^. js "performance") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.performance Mozilla Window.performance documentation> 
+getPerformanceUnchecked :: (MonadDOM m) => Window -> m Performance
+getPerformanceUnchecked self
+  = liftDOM ((self ^. js "performance") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.CSS Mozilla Window.CSS documentation> 
 getCSS :: (MonadDOM m) => Window -> m (Maybe CSS)
 getCSS self = liftDOM ((self ^. js "CSS") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.CSS Mozilla Window.CSS documentation> 
+getCSSUnchecked :: (MonadDOM m) => Window -> m CSS
+getCSSUnchecked self
+  = liftDOM ((self ^. js "CSS") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.onabort Mozilla Window.onabort documentation> 
 abort :: EventName Window UIEvent

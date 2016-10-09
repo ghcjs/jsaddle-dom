@@ -6,9 +6,11 @@ module JSDOM.Generated.SVGFETurbulenceElement
         pattern SVG_TURBULENCE_TYPE_TURBULENCE,
         pattern SVG_STITCHTYPE_UNKNOWN, pattern SVG_STITCHTYPE_STITCH,
         pattern SVG_STITCHTYPE_NOSTITCH, getBaseFrequencyX,
-        getBaseFrequencyY, getNumOctaves, getSeed, getStitchTiles, getType,
-        SVGFETurbulenceElement, castToSVGFETurbulenceElement,
-        gTypeSVGFETurbulenceElement)
+        getBaseFrequencyXUnchecked, getBaseFrequencyY,
+        getBaseFrequencyYUnchecked, getNumOctaves, getNumOctavesUnchecked,
+        getSeed, getSeedUnchecked, getStitchTiles, getStitchTilesUnchecked,
+        getType, getTypeUnchecked, SVGFETurbulenceElement,
+        castToSVGFETurbulenceElement, gTypeSVGFETurbulenceElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -35,12 +37,24 @@ getBaseFrequencyX ::
 getBaseFrequencyX self
   = liftDOM ((self ^. js "baseFrequencyX") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.baseFrequencyX Mozilla SVGFETurbulenceElement.baseFrequencyX documentation> 
+getBaseFrequencyXUnchecked ::
+                           (MonadDOM m) => SVGFETurbulenceElement -> m SVGAnimatedNumber
+getBaseFrequencyXUnchecked self
+  = liftDOM ((self ^. js "baseFrequencyX") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.baseFrequencyY Mozilla SVGFETurbulenceElement.baseFrequencyY documentation> 
 getBaseFrequencyY ::
                   (MonadDOM m) =>
                     SVGFETurbulenceElement -> m (Maybe SVGAnimatedNumber)
 getBaseFrequencyY self
   = liftDOM ((self ^. js "baseFrequencyY") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.baseFrequencyY Mozilla SVGFETurbulenceElement.baseFrequencyY documentation> 
+getBaseFrequencyYUnchecked ::
+                           (MonadDOM m) => SVGFETurbulenceElement -> m SVGAnimatedNumber
+getBaseFrequencyYUnchecked self
+  = liftDOM ((self ^. js "baseFrequencyY") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.numOctaves Mozilla SVGFETurbulenceElement.numOctaves documentation> 
 getNumOctaves ::
@@ -49,11 +63,23 @@ getNumOctaves ::
 getNumOctaves self
   = liftDOM ((self ^. js "numOctaves") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.numOctaves Mozilla SVGFETurbulenceElement.numOctaves documentation> 
+getNumOctavesUnchecked ::
+                       (MonadDOM m) => SVGFETurbulenceElement -> m SVGAnimatedInteger
+getNumOctavesUnchecked self
+  = liftDOM ((self ^. js "numOctaves") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.seed Mozilla SVGFETurbulenceElement.seed documentation> 
 getSeed ::
         (MonadDOM m) =>
           SVGFETurbulenceElement -> m (Maybe SVGAnimatedNumber)
 getSeed self = liftDOM ((self ^. js "seed") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.seed Mozilla SVGFETurbulenceElement.seed documentation> 
+getSeedUnchecked ::
+                 (MonadDOM m) => SVGFETurbulenceElement -> m SVGAnimatedNumber
+getSeedUnchecked self
+  = liftDOM ((self ^. js "seed") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.stitchTiles Mozilla SVGFETurbulenceElement.stitchTiles documentation> 
 getStitchTiles ::
@@ -62,8 +88,20 @@ getStitchTiles ::
 getStitchTiles self
   = liftDOM ((self ^. js "stitchTiles") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.stitchTiles Mozilla SVGFETurbulenceElement.stitchTiles documentation> 
+getStitchTilesUnchecked ::
+                        (MonadDOM m) => SVGFETurbulenceElement -> m SVGAnimatedEnumeration
+getStitchTilesUnchecked self
+  = liftDOM ((self ^. js "stitchTiles") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.type Mozilla SVGFETurbulenceElement.type documentation> 
 getType ::
         (MonadDOM m) =>
           SVGFETurbulenceElement -> m (Maybe SVGAnimatedEnumeration)
 getType self = liftDOM ((self ^. js "type") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement.type Mozilla SVGFETurbulenceElement.type documentation> 
+getTypeUnchecked ::
+                 (MonadDOM m) => SVGFETurbulenceElement -> m SVGAnimatedEnumeration
+getTypeUnchecked self
+  = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)

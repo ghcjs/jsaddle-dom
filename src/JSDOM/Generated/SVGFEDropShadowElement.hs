@@ -1,9 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEDropShadowElement
-       (setStdDeviation, getIn1, getDx, getDy, getStdDeviationX,
-        getStdDeviationY, SVGFEDropShadowElement,
-        castToSVGFEDropShadowElement, gTypeSVGFEDropShadowElement)
+       (setStdDeviation, getIn1, getIn1Unchecked, getDx, getDxUnchecked,
+        getDy, getDyUnchecked, getStdDeviationX, getStdDeviationXUnchecked,
+        getStdDeviationY, getStdDeviationYUnchecked,
+        SVGFEDropShadowElement, castToSVGFEDropShadowElement,
+        gTypeSVGFEDropShadowElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -32,17 +34,35 @@ getIn1 ::
          SVGFEDropShadowElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.in1 Mozilla SVGFEDropShadowElement.in1 documentation> 
+getIn1Unchecked ::
+                (MonadDOM m) => SVGFEDropShadowElement -> m SVGAnimatedString
+getIn1Unchecked self
+  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.dx Mozilla SVGFEDropShadowElement.dx documentation> 
 getDx ::
       (MonadDOM m) =>
         SVGFEDropShadowElement -> m (Maybe SVGAnimatedNumber)
 getDx self = liftDOM ((self ^. js "dx") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.dx Mozilla SVGFEDropShadowElement.dx documentation> 
+getDxUnchecked ::
+               (MonadDOM m) => SVGFEDropShadowElement -> m SVGAnimatedNumber
+getDxUnchecked self
+  = liftDOM ((self ^. js "dx") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.dy Mozilla SVGFEDropShadowElement.dy documentation> 
 getDy ::
       (MonadDOM m) =>
         SVGFEDropShadowElement -> m (Maybe SVGAnimatedNumber)
 getDy self = liftDOM ((self ^. js "dy") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.dy Mozilla SVGFEDropShadowElement.dy documentation> 
+getDyUnchecked ::
+               (MonadDOM m) => SVGFEDropShadowElement -> m SVGAnimatedNumber
+getDyUnchecked self
+  = liftDOM ((self ^. js "dy") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.stdDeviationX Mozilla SVGFEDropShadowElement.stdDeviationX documentation> 
 getStdDeviationX ::
@@ -51,9 +71,21 @@ getStdDeviationX ::
 getStdDeviationX self
   = liftDOM ((self ^. js "stdDeviationX") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.stdDeviationX Mozilla SVGFEDropShadowElement.stdDeviationX documentation> 
+getStdDeviationXUnchecked ::
+                          (MonadDOM m) => SVGFEDropShadowElement -> m SVGAnimatedNumber
+getStdDeviationXUnchecked self
+  = liftDOM ((self ^. js "stdDeviationX") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.stdDeviationY Mozilla SVGFEDropShadowElement.stdDeviationY documentation> 
 getStdDeviationY ::
                  (MonadDOM m) =>
                    SVGFEDropShadowElement -> m (Maybe SVGAnimatedNumber)
 getStdDeviationY self
   = liftDOM ((self ^. js "stdDeviationY") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement.stdDeviationY Mozilla SVGFEDropShadowElement.stdDeviationY documentation> 
+getStdDeviationYUnchecked ::
+                          (MonadDOM m) => SVGFEDropShadowElement -> m SVGAnimatedNumber
+getStdDeviationYUnchecked self
+  = liftDOM ((self ^. js "stdDeviationY") >>= fromJSValUnchecked)

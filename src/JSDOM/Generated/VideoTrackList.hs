@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VideoTrackList
-       (item, getTrackById, getLength, getSelectedIndex, change, addTrack,
-        removeTrack, VideoTrackList, castToVideoTrackList,
+       (item, item_, itemUnchecked, getTrackById, getTrackById_,
+        getTrackByIdUnchecked, getLength, getSelectedIndex, change,
+        addTrack, removeTrack, VideoTrackList, castToVideoTrackList,
         gTypeVideoTrackList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -23,12 +24,37 @@ item ::
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrackList.item Mozilla VideoTrackList.item documentation> 
+item_ :: (MonadDOM m) => VideoTrackList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrackList.item Mozilla VideoTrackList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => VideoTrackList -> Word -> m VideoTrack
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrackList.getTrackById Mozilla VideoTrackList.getTrackById documentation> 
 getTrackById ::
              (MonadDOM m, ToJSString id) =>
                VideoTrackList -> id -> m (Maybe VideoTrack)
 getTrackById self id
   = liftDOM ((self ^. jsf "getTrackById" [toJSVal id]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrackList.getTrackById Mozilla VideoTrackList.getTrackById documentation> 
+getTrackById_ ::
+              (MonadDOM m, ToJSString id) => VideoTrackList -> id -> m ()
+getTrackById_ self id
+  = liftDOM (void (self ^. jsf "getTrackById" [toJSVal id]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrackList.getTrackById Mozilla VideoTrackList.getTrackById documentation> 
+getTrackByIdUnchecked ::
+                      (MonadDOM m, ToJSString id) => VideoTrackList -> id -> m VideoTrack
+getTrackByIdUnchecked self id
+  = liftDOM
+      ((self ^. jsf "getTrackById" [toJSVal id]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrackList.length Mozilla VideoTrackList.length documentation> 
 getLength :: (MonadDOM m) => VideoTrackList -> m Word

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataCue
-       (newDataCue, newDataCue', setData, getData, setValue, getValue,
-        getType, DataCue, castToDataCue, gTypeDataCue)
+       (newDataCue, newDataCue', setData, getData, getDataUnchecked,
+        setValue, getValue, getType, DataCue, castToDataCue, gTypeDataCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -38,6 +38,11 @@ setData self val = liftDOM (self ^. jss "data" (toJSVal val))
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.data Mozilla WebKitDataCue.data documentation> 
 getData :: (MonadDOM m) => DataCue -> m (Maybe ArrayBuffer)
 getData self = liftDOM ((self ^. js "data") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.data Mozilla WebKitDataCue.data documentation> 
+getDataUnchecked :: (MonadDOM m) => DataCue -> m ArrayBuffer
+getDataUnchecked self
+  = liftDOM ((self ^. js "data") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.value Mozilla WebKitDataCue.value documentation> 
 setValue :: (MonadDOM m) => DataCue -> JSVal -> m ()

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XMLSerializer
-       (newXMLSerializer, serializeToString, XMLSerializer,
-        castToXMLSerializer, gTypeXMLSerializer)
+       (newXMLSerializer, serializeToString, serializeToString_,
+        XMLSerializer, castToXMLSerializer, gTypeXMLSerializer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -29,3 +29,9 @@ serializeToString self node
   = liftDOM
       ((self ^. jsf "serializeToString" [toJSVal node]) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLSerializer.serializeToString Mozilla XMLSerializer.serializeToString documentation> 
+serializeToString_ ::
+                   (MonadDOM m, IsNode node) => XMLSerializer -> Maybe node -> m ()
+serializeToString_ self node
+  = liftDOM (void (self ^. jsf "serializeToString" [toJSVal node]))

@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBVersionChangeEvent
-       (getOldVersion, getNewVersion, IDBVersionChangeEvent,
-        castToIDBVersionChangeEvent, gTypeIDBVersionChangeEvent)
+       (getOldVersion, getNewVersion, getNewVersionUnchecked,
+        IDBVersionChangeEvent, castToIDBVersionChangeEvent,
+        gTypeIDBVersionChangeEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,3 +27,9 @@ getNewVersion ::
               (MonadDOM m) => IDBVersionChangeEvent -> m (Maybe Word64)
 getNewVersion self
   = liftDOM ((self ^. js "newVersion") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBVersionChangeEvent.newVersion Mozilla IDBVersionChangeEvent.newVersion documentation> 
+getNewVersionUnchecked ::
+                       (MonadDOM m) => IDBVersionChangeEvent -> m Word64
+getNewVersionUnchecked self
+  = liftDOM ((self ^. js "newVersion") >>= fromJSValUnchecked)

@@ -1,14 +1,20 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTextContentElement
-       (getNumberOfChars, getComputedTextLength, getSubStringLength,
-        getStartPositionOfChar, getEndPositionOfChar, getExtentOfChar,
-        getRotationOfChar, getCharNumAtPosition, selectSubString,
+       (getNumberOfChars, getNumberOfChars_, getComputedTextLength,
+        getComputedTextLength_, getSubStringLength, getSubStringLength_,
+        getStartPositionOfChar, getStartPositionOfChar_,
+        getStartPositionOfCharUnchecked, getEndPositionOfChar,
+        getEndPositionOfChar_, getEndPositionOfCharUnchecked,
+        getExtentOfChar, getExtentOfChar_, getExtentOfCharUnchecked,
+        getRotationOfChar, getRotationOfChar_, getCharNumAtPosition,
+        getCharNumAtPosition_, selectSubString,
         pattern LENGTHADJUST_UNKNOWN, pattern LENGTHADJUST_SPACING,
         pattern LENGTHADJUST_SPACINGANDGLYPHS, getTextLength,
-        getLengthAdjust, SVGTextContentElement,
-        castToSVGTextContentElement, gTypeSVGTextContentElement,
-        IsSVGTextContentElement, toSVGTextContentElement)
+        getTextLengthUnchecked, getLengthAdjust, getLengthAdjustUnchecked,
+        SVGTextContentElement, castToSVGTextContentElement,
+        gTypeSVGTextContentElement, IsSVGTextContentElement,
+        toSVGTextContentElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -31,6 +37,14 @@ getNumberOfChars self
          (((toSVGTextContentElement self) ^. jsf "getNumberOfChars" ()) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getNumberOfChars Mozilla SVGTextContentElement.getNumberOfChars documentation> 
+getNumberOfChars_ ::
+                  (MonadDOM m, IsSVGTextContentElement self) => self -> m ()
+getNumberOfChars_ self
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getNumberOfChars" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getComputedTextLength Mozilla SVGTextContentElement.getComputedTextLength documentation> 
 getComputedTextLength ::
                       (MonadDOM m, IsSVGTextContentElement self) => self -> m Float
@@ -39,6 +53,14 @@ getComputedTextLength self
       (realToFrac <$>
          (((toSVGTextContentElement self) ^. jsf "getComputedTextLength" ())
             >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getComputedTextLength Mozilla SVGTextContentElement.getComputedTextLength documentation> 
+getComputedTextLength_ ::
+                       (MonadDOM m, IsSVGTextContentElement self) => self -> m ()
+getComputedTextLength_ self
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getComputedTextLength" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getSubStringLength Mozilla SVGTextContentElement.getSubStringLength documentation> 
 getSubStringLength ::
@@ -51,6 +73,16 @@ getSubStringLength self offset length
              [toJSVal offset, toJSVal length])
             >>= valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getSubStringLength Mozilla SVGTextContentElement.getSubStringLength documentation> 
+getSubStringLength_ ::
+                    (MonadDOM m, IsSVGTextContentElement self) =>
+                      self -> Word -> Word -> m ()
+getSubStringLength_ self offset length
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getSubStringLength"
+            [toJSVal offset, toJSVal length]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getStartPositionOfChar Mozilla SVGTextContentElement.getStartPositionOfChar documentation> 
 getStartPositionOfChar ::
                        (MonadDOM m, IsSVGTextContentElement self) =>
@@ -60,6 +92,25 @@ getStartPositionOfChar self offset
       (((toSVGTextContentElement self) ^. jsf "getStartPositionOfChar"
           [toJSVal offset])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getStartPositionOfChar Mozilla SVGTextContentElement.getStartPositionOfChar documentation> 
+getStartPositionOfChar_ ::
+                        (MonadDOM m, IsSVGTextContentElement self) => self -> Word -> m ()
+getStartPositionOfChar_ self offset
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getStartPositionOfChar"
+            [toJSVal offset]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getStartPositionOfChar Mozilla SVGTextContentElement.getStartPositionOfChar documentation> 
+getStartPositionOfCharUnchecked ::
+                                (MonadDOM m, IsSVGTextContentElement self) =>
+                                  self -> Word -> m SVGPoint
+getStartPositionOfCharUnchecked self offset
+  = liftDOM
+      (((toSVGTextContentElement self) ^. jsf "getStartPositionOfChar"
+          [toJSVal offset])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getEndPositionOfChar Mozilla SVGTextContentElement.getEndPositionOfChar documentation> 
 getEndPositionOfChar ::
@@ -71,6 +122,25 @@ getEndPositionOfChar self offset
           [toJSVal offset])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getEndPositionOfChar Mozilla SVGTextContentElement.getEndPositionOfChar documentation> 
+getEndPositionOfChar_ ::
+                      (MonadDOM m, IsSVGTextContentElement self) => self -> Word -> m ()
+getEndPositionOfChar_ self offset
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getEndPositionOfChar"
+            [toJSVal offset]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getEndPositionOfChar Mozilla SVGTextContentElement.getEndPositionOfChar documentation> 
+getEndPositionOfCharUnchecked ::
+                              (MonadDOM m, IsSVGTextContentElement self) =>
+                                self -> Word -> m SVGPoint
+getEndPositionOfCharUnchecked self offset
+  = liftDOM
+      (((toSVGTextContentElement self) ^. jsf "getEndPositionOfChar"
+          [toJSVal offset])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getExtentOfChar Mozilla SVGTextContentElement.getExtentOfChar documentation> 
 getExtentOfChar ::
                 (MonadDOM m, IsSVGTextContentElement self) =>
@@ -80,6 +150,25 @@ getExtentOfChar self offset
       (((toSVGTextContentElement self) ^. jsf "getExtentOfChar"
           [toJSVal offset])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getExtentOfChar Mozilla SVGTextContentElement.getExtentOfChar documentation> 
+getExtentOfChar_ ::
+                 (MonadDOM m, IsSVGTextContentElement self) => self -> Word -> m ()
+getExtentOfChar_ self offset
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getExtentOfChar"
+            [toJSVal offset]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getExtentOfChar Mozilla SVGTextContentElement.getExtentOfChar documentation> 
+getExtentOfCharUnchecked ::
+                         (MonadDOM m, IsSVGTextContentElement self) =>
+                           self -> Word -> m SVGRect
+getExtentOfCharUnchecked self offset
+  = liftDOM
+      (((toSVGTextContentElement self) ^. jsf "getExtentOfChar"
+          [toJSVal offset])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getRotationOfChar Mozilla SVGTextContentElement.getRotationOfChar documentation> 
 getRotationOfChar ::
@@ -92,6 +181,15 @@ getRotationOfChar self offset
              [toJSVal offset])
             >>= valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getRotationOfChar Mozilla SVGTextContentElement.getRotationOfChar documentation> 
+getRotationOfChar_ ::
+                   (MonadDOM m, IsSVGTextContentElement self) => self -> Word -> m ()
+getRotationOfChar_ self offset
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getRotationOfChar"
+            [toJSVal offset]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getCharNumAtPosition Mozilla SVGTextContentElement.getCharNumAtPosition documentation> 
 getCharNumAtPosition ::
                      (MonadDOM m, IsSVGTextContentElement self) =>
@@ -102,6 +200,16 @@ getCharNumAtPosition self point
          (((toSVGTextContentElement self) ^. jsf "getCharNumAtPosition"
              [toJSVal point])
             >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getCharNumAtPosition Mozilla SVGTextContentElement.getCharNumAtPosition documentation> 
+getCharNumAtPosition_ ::
+                      (MonadDOM m, IsSVGTextContentElement self) =>
+                        self -> Maybe SVGPoint -> m ()
+getCharNumAtPosition_ self point
+  = liftDOM
+      (void
+         ((toSVGTextContentElement self) ^. jsf "getCharNumAtPosition"
+            [toJSVal point]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.selectSubString Mozilla SVGTextContentElement.selectSubString documentation> 
 selectSubString ::
@@ -124,6 +232,15 @@ getTextLength self
   = liftDOM
       (((toSVGTextContentElement self) ^. js "textLength") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.textLength Mozilla SVGTextContentElement.textLength documentation> 
+getTextLengthUnchecked ::
+                       (MonadDOM m, IsSVGTextContentElement self) =>
+                         self -> m SVGAnimatedLength
+getTextLengthUnchecked self
+  = liftDOM
+      (((toSVGTextContentElement self) ^. js "textLength") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.lengthAdjust Mozilla SVGTextContentElement.lengthAdjust documentation> 
 getLengthAdjust ::
                 (MonadDOM m, IsSVGTextContentElement self) =>
@@ -132,3 +249,12 @@ getLengthAdjust self
   = liftDOM
       (((toSVGTextContentElement self) ^. js "lengthAdjust") >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.lengthAdjust Mozilla SVGTextContentElement.lengthAdjust documentation> 
+getLengthAdjustUnchecked ::
+                         (MonadDOM m, IsSVGTextContentElement self) =>
+                           self -> m SVGAnimatedEnumeration
+getLengthAdjustUnchecked self
+  = liftDOM
+      (((toSVGTextContentElement self) ^. js "lengthAdjust") >>=
+         fromJSValUnchecked)

@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageEvent
-       (initStorageEvent, getKey, getOldValue, getNewValue, getUrl,
-        getStorageArea, StorageEvent, castToStorageEvent,
+       (initStorageEvent, getKey, getOldValue, getOldValueUnchecked,
+        getNewValue, getNewValueUnchecked, getUrl, getStorageArea,
+        getStorageAreaUnchecked, StorageEvent, castToStorageEvent,
         gTypeStorageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -50,12 +51,24 @@ getOldValue ::
 getOldValue self
   = liftDOM ((self ^. js "oldValue") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.oldValue Mozilla StorageEvent.oldValue documentation> 
+getOldValueUnchecked ::
+                     (MonadDOM m, FromJSString result) => StorageEvent -> m result
+getOldValueUnchecked self
+  = liftDOM ((self ^. js "oldValue") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.newValue Mozilla StorageEvent.newValue documentation> 
 getNewValue ::
             (MonadDOM m, FromJSString result) =>
               StorageEvent -> m (Maybe result)
 getNewValue self
   = liftDOM ((self ^. js "newValue") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.newValue Mozilla StorageEvent.newValue documentation> 
+getNewValueUnchecked ::
+                     (MonadDOM m, FromJSString result) => StorageEvent -> m result
+getNewValueUnchecked self
+  = liftDOM ((self ^. js "newValue") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.url Mozilla StorageEvent.url documentation> 
 getUrl ::
@@ -66,3 +79,9 @@ getUrl self = liftDOM ((self ^. js "url") >>= fromJSValUnchecked)
 getStorageArea :: (MonadDOM m) => StorageEvent -> m (Maybe Storage)
 getStorageArea self
   = liftDOM ((self ^. js "storageArea") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.storageArea Mozilla StorageEvent.storageArea documentation> 
+getStorageAreaUnchecked ::
+                        (MonadDOM m) => StorageEvent -> m Storage
+getStorageAreaUnchecked self
+  = liftDOM ((self ^. js "storageArea") >>= fromJSValUnchecked)

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSRegionRule
-       (getCssRules, WebKitCSSRegionRule, castToWebKitCSSRegionRule,
-        gTypeWebKitCSSRegionRule)
+       (getCssRules, getCssRulesUnchecked, WebKitCSSRegionRule,
+        castToWebKitCSSRegionRule, gTypeWebKitCSSRegionRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getCssRules ::
             (MonadDOM m) => WebKitCSSRegionRule -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSRegionRule.cssRules Mozilla WebKitCSSRegionRule.cssRules documentation> 
+getCssRulesUnchecked ::
+                     (MonadDOM m) => WebKitCSSRegionRule -> m CSSRuleList
+getCssRulesUnchecked self
+  = liftDOM ((self ^. js "cssRules") >>= fromJSValUnchecked)

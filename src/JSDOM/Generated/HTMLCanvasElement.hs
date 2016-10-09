@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLCanvasElement
-       (toDataURL, getContext, probablySupportsContext, setWidth,
+       (toDataURL, toDataURL_, getContext, getContext_,
+        probablySupportsContext, probablySupportsContext_, setWidth,
         getWidth, setHeight, getHeight, HTMLCanvasElement,
         castToHTMLCanvasElement, gTypeHTMLCanvasElement)
        where
@@ -25,6 +26,13 @@ toDataURL self type'
   = liftDOM
       ((self ^. jsf "toDataURL" [toJSVal type']) >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.toDataURL Mozilla HTMLCanvasElement.toDataURL documentation> 
+toDataURL_ ::
+           (MonadDOM m, ToJSString type') =>
+             HTMLCanvasElement -> Maybe type' -> m ()
+toDataURL_ self type'
+  = liftDOM (void (self ^. jsf "toDataURL" [toJSVal type']))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.getContext Mozilla HTMLCanvasElement.getContext documentation> 
 getContext ::
            (MonadDOM m, ToJSString contextId) =>
@@ -32,6 +40,13 @@ getContext ::
 getContext self contextId
   = liftDOM
       ((self ^. jsf "getContext" [toJSVal contextId]) >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.getContext Mozilla HTMLCanvasElement.getContext documentation> 
+getContext_ ::
+            (MonadDOM m, ToJSString contextId) =>
+              HTMLCanvasElement -> contextId -> m ()
+getContext_ self contextId
+  = liftDOM (void (self ^. jsf "getContext" [toJSVal contextId]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.probablySupportsContext Mozilla HTMLCanvasElement.probablySupportsContext documentation> 
 probablySupportsContext ::
@@ -41,6 +56,14 @@ probablySupportsContext self contextId
   = liftDOM
       ((self ^. jsf "probablySupportsContext" [toJSVal contextId]) >>=
          toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.probablySupportsContext Mozilla HTMLCanvasElement.probablySupportsContext documentation> 
+probablySupportsContext_ ::
+                         (MonadDOM m, ToJSString contextId) =>
+                           HTMLCanvasElement -> contextId -> m ()
+probablySupportsContext_ self contextId
+  = liftDOM
+      (void (self ^. jsf "probablySupportsContext" [toJSVal contextId]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.width Mozilla HTMLCanvasElement.width documentation> 
 setWidth :: (MonadDOM m) => HTMLCanvasElement -> Int -> m ()

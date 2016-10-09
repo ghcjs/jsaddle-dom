@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMParser
-       (newDOMParser, parseFromString, DOMParser, castToDOMParser,
+       (newDOMParser, parseFromString, parseFromString_,
+        parseFromStringUnchecked, DOMParser, castToDOMParser,
         gTypeDOMParser)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -28,3 +29,21 @@ parseFromString self str contentType
   = liftDOM
       ((self ^. jsf "parseFromString" [toJSVal str, toJSVal contentType])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMParser.parseFromString Mozilla DOMParser.parseFromString documentation> 
+parseFromString_ ::
+                 (MonadDOM m, ToJSString str, ToJSString contentType) =>
+                   DOMParser -> str -> contentType -> m ()
+parseFromString_ self str contentType
+  = liftDOM
+      (void
+         (self ^. jsf "parseFromString" [toJSVal str, toJSVal contentType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMParser.parseFromString Mozilla DOMParser.parseFromString documentation> 
+parseFromStringUnchecked ::
+                         (MonadDOM m, ToJSString str, ToJSString contentType) =>
+                           DOMParser -> str -> contentType -> m Document
+parseFromStringUnchecked self str contentType
+  = liftDOM
+      ((self ^. jsf "parseFromString" [toJSVal str, toJSVal contentType])
+         >>= fromJSValUnchecked)

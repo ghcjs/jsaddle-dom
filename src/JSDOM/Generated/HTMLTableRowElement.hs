@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableRowElement
-       (insertCell, deleteCell, getRowIndex, getSectionRowIndex, getCells,
+       (insertCell, insertCell_, insertCellUnchecked, deleteCell,
+        getRowIndex, getSectionRowIndex, getCells, getCellsUnchecked,
         setAlign, getAlign, setBgColor, getBgColor, setCh, getCh, setChOff,
         getChOff, setVAlign, getVAlign, HTMLTableRowElement,
         castToHTMLTableRowElement, gTypeHTMLTableRowElement)
@@ -25,6 +26,18 @@ insertCell self index
   = liftDOM
       ((self ^. jsf "insertCell" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.insertCell Mozilla HTMLTableRowElement.insertCell documentation> 
+insertCell_ :: (MonadDOM m) => HTMLTableRowElement -> Int -> m ()
+insertCell_ self index
+  = liftDOM (void (self ^. jsf "insertCell" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.insertCell Mozilla HTMLTableRowElement.insertCell documentation> 
+insertCellUnchecked ::
+                    (MonadDOM m) => HTMLTableRowElement -> Int -> m HTMLElement
+insertCellUnchecked self index
+  = liftDOM
+      ((self ^. jsf "insertCell" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.deleteCell Mozilla HTMLTableRowElement.deleteCell documentation> 
 deleteCell :: (MonadDOM m) => HTMLTableRowElement -> Int -> m ()
 deleteCell self index
@@ -45,6 +58,12 @@ getSectionRowIndex self
 getCells ::
          (MonadDOM m) => HTMLTableRowElement -> m (Maybe HTMLCollection)
 getCells self = liftDOM ((self ^. js "cells") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.cells Mozilla HTMLTableRowElement.cells documentation> 
+getCellsUnchecked ::
+                  (MonadDOM m) => HTMLTableRowElement -> m HTMLCollection
+getCellsUnchecked self
+  = liftDOM ((self ^. js "cells") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.align Mozilla HTMLTableRowElement.align documentation> 
 setAlign ::

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SQLResultSetRowList
-       (item, getLength, SQLResultSetRowList, castToSQLResultSetRowList,
-        gTypeSQLResultSetRowList)
+       (item, item_, getLength, SQLResultSetRowList,
+        castToSQLResultSetRowList, gTypeSQLResultSetRowList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,6 +20,11 @@ import JSDOM.Enums
 item :: (MonadDOM m) => SQLResultSetRowList -> Word -> m JSVal
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLResultSetRowList.item Mozilla SQLResultSetRowList.item documentation> 
+item_ :: (MonadDOM m) => SQLResultSetRowList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLResultSetRowList.length Mozilla SQLResultSetRowList.length documentation> 
 getLength :: (MonadDOM m) => SQLResultSetRowList -> m Word

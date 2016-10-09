@@ -7,8 +7,11 @@ module JSDOM.Generated.SVGComponentTransferFunctionElement
         pattern SVG_FECOMPONENTTRANSFER_TYPE_DISCRETE,
         pattern SVG_FECOMPONENTTRANSFER_TYPE_LINEAR,
         pattern SVG_FECOMPONENTTRANSFER_TYPE_GAMMA, getType,
-        getTableValues, getSlope, getIntercept, getAmplitude, getExponent,
-        getOffset, SVGComponentTransferFunctionElement,
+        getTypeUnchecked, getTableValues, getTableValuesUnchecked,
+        getSlope, getSlopeUnchecked, getIntercept, getInterceptUnchecked,
+        getAmplitude, getAmplitudeUnchecked, getExponent,
+        getExponentUnchecked, getOffset, getOffsetUnchecked,
+        SVGComponentTransferFunctionElement,
         castToSVGComponentTransferFunctionElement,
         gTypeSVGComponentTransferFunctionElement,
         IsSVGComponentTransferFunctionElement,
@@ -41,6 +44,15 @@ getType self
       (((toSVGComponentTransferFunctionElement self) ^. js "type") >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.type Mozilla SVGComponentTransferFunctionElement.type documentation> 
+getTypeUnchecked ::
+                 (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                   self -> m SVGAnimatedEnumeration
+getTypeUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "type") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.tableValues Mozilla SVGComponentTransferFunctionElement.tableValues documentation> 
 getTableValues ::
                (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
@@ -49,6 +61,15 @@ getTableValues self
   = liftDOM
       (((toSVGComponentTransferFunctionElement self) ^. js "tableValues")
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.tableValues Mozilla SVGComponentTransferFunctionElement.tableValues documentation> 
+getTableValuesUnchecked ::
+                        (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                          self -> m SVGAnimatedNumberList
+getTableValuesUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "tableValues")
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.slope Mozilla SVGComponentTransferFunctionElement.slope documentation> 
 getSlope ::
@@ -59,6 +80,15 @@ getSlope self
       (((toSVGComponentTransferFunctionElement self) ^. js "slope") >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.slope Mozilla SVGComponentTransferFunctionElement.slope documentation> 
+getSlopeUnchecked ::
+                  (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                    self -> m SVGAnimatedNumber
+getSlopeUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "slope") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.intercept Mozilla SVGComponentTransferFunctionElement.intercept documentation> 
 getIntercept ::
              (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
@@ -67,6 +97,15 @@ getIntercept self
   = liftDOM
       (((toSVGComponentTransferFunctionElement self) ^. js "intercept")
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.intercept Mozilla SVGComponentTransferFunctionElement.intercept documentation> 
+getInterceptUnchecked ::
+                      (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                        self -> m SVGAnimatedNumber
+getInterceptUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "intercept")
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.amplitude Mozilla SVGComponentTransferFunctionElement.amplitude documentation> 
 getAmplitude ::
@@ -77,6 +116,15 @@ getAmplitude self
       (((toSVGComponentTransferFunctionElement self) ^. js "amplitude")
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.amplitude Mozilla SVGComponentTransferFunctionElement.amplitude documentation> 
+getAmplitudeUnchecked ::
+                      (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                        self -> m SVGAnimatedNumber
+getAmplitudeUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "amplitude")
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.exponent Mozilla SVGComponentTransferFunctionElement.exponent documentation> 
 getExponent ::
             (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
@@ -86,6 +134,15 @@ getExponent self
       (((toSVGComponentTransferFunctionElement self) ^. js "exponent")
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.exponent Mozilla SVGComponentTransferFunctionElement.exponent documentation> 
+getExponentUnchecked ::
+                     (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                       self -> m SVGAnimatedNumber
+getExponentUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "exponent")
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.offset Mozilla SVGComponentTransferFunctionElement.offset documentation> 
 getOffset ::
           (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
@@ -94,3 +151,12 @@ getOffset self
   = liftDOM
       (((toSVGComponentTransferFunctionElement self) ^. js "offset") >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement.offset Mozilla SVGComponentTransferFunctionElement.offset documentation> 
+getOffsetUnchecked ::
+                   (MonadDOM m, IsSVGComponentTransferFunctionElement self) =>
+                     self -> m SVGAnimatedNumber
+getOffsetUnchecked self
+  = liftDOM
+      (((toSVGComponentTransferFunctionElement self) ^. js "offset") >>=
+         fromJSValUnchecked)

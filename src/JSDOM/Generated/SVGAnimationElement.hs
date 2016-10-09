@@ -1,11 +1,12 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimationElement
-       (getStartTime, getCurrentTime, getSimpleDuration, beginElement,
+       (getStartTime, getStartTime_, getCurrentTime, getCurrentTime_,
+        getSimpleDuration, getSimpleDuration_, beginElement,
         beginElementAt, endElement, endElementAt, getTargetElement,
-        SVGAnimationElement, castToSVGAnimationElement,
-        gTypeSVGAnimationElement, IsSVGAnimationElement,
-        toSVGAnimationElement)
+        getTargetElementUnchecked, SVGAnimationElement,
+        castToSVGAnimationElement, gTypeSVGAnimationElement,
+        IsSVGAnimationElement, toSVGAnimationElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -28,6 +29,13 @@ getStartTime self
          (((toSVGAnimationElement self) ^. jsf "getStartTime" ()) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getStartTime Mozilla SVGAnimationElement.getStartTime documentation> 
+getStartTime_ ::
+              (MonadDOM m, IsSVGAnimationElement self) => self -> m ()
+getStartTime_ self
+  = liftDOM
+      (void ((toSVGAnimationElement self) ^. jsf "getStartTime" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getCurrentTime Mozilla SVGAnimationElement.getCurrentTime documentation> 
 getCurrentTime ::
                (MonadDOM m, IsSVGAnimationElement self) => self -> m Float
@@ -37,6 +45,13 @@ getCurrentTime self
          (((toSVGAnimationElement self) ^. jsf "getCurrentTime" ()) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getCurrentTime Mozilla SVGAnimationElement.getCurrentTime documentation> 
+getCurrentTime_ ::
+                (MonadDOM m, IsSVGAnimationElement self) => self -> m ()
+getCurrentTime_ self
+  = liftDOM
+      (void ((toSVGAnimationElement self) ^. jsf "getCurrentTime" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getSimpleDuration Mozilla SVGAnimationElement.getSimpleDuration documentation> 
 getSimpleDuration ::
                   (MonadDOM m, IsSVGAnimationElement self) => self -> m Float
@@ -45,6 +60,13 @@ getSimpleDuration self
       (realToFrac <$>
          (((toSVGAnimationElement self) ^. jsf "getSimpleDuration" ()) >>=
             valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.getSimpleDuration Mozilla SVGAnimationElement.getSimpleDuration documentation> 
+getSimpleDuration_ ::
+                   (MonadDOM m, IsSVGAnimationElement self) => self -> m ()
+getSimpleDuration_ self
+  = liftDOM
+      (void ((toSVGAnimationElement self) ^. jsf "getSimpleDuration" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.beginElement Mozilla SVGAnimationElement.beginElement documentation> 
 beginElement ::
@@ -86,3 +108,11 @@ getTargetElement self
   = liftDOM
       (((toSVGAnimationElement self) ^. js "targetElement") >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.targetElement Mozilla SVGAnimationElement.targetElement documentation> 
+getTargetElementUnchecked ::
+                          (MonadDOM m, IsSVGAnimationElement self) => self -> m SVGElement
+getTargetElementUnchecked self
+  = liftDOM
+      (((toSVGAnimationElement self) ^. js "targetElement") >>=
+         fromJSValUnchecked)

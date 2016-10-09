@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEImageElement
-       (getPreserveAspectRatio, SVGFEImageElement,
-        castToSVGFEImageElement, gTypeSVGFEImageElement)
+       (getPreserveAspectRatio, getPreserveAspectRatioUnchecked,
+        SVGFEImageElement, castToSVGFEImageElement, gTypeSVGFEImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,3 +22,11 @@ getPreserveAspectRatio ::
                          SVGFEImageElement -> m (Maybe SVGAnimatedPreserveAspectRatio)
 getPreserveAspectRatio self
   = liftDOM ((self ^. js "preserveAspectRatio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEImageElement.preserveAspectRatio Mozilla SVGFEImageElement.preserveAspectRatio documentation> 
+getPreserveAspectRatioUnchecked ::
+                                (MonadDOM m) =>
+                                  SVGFEImageElement -> m SVGAnimatedPreserveAspectRatio
+getPreserveAspectRatioUnchecked self
+  = liftDOM
+      ((self ^. js "preserveAspectRatio") >>= fromJSValUnchecked)

@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaList
-       (item, deleteMedium, appendMedium, setMediaText, getMediaText,
-        getLength, MediaList, castToMediaList, gTypeMediaList)
+       (item, item_, itemUnchecked, deleteMedium, appendMedium,
+        setMediaText, getMediaText, getMediaTextUnchecked, getLength,
+        MediaList, castToMediaList, gTypeMediaList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,6 +24,18 @@ item ::
 item self index
   = liftDOM
       ((self ^. jsf "item" [toJSVal index]) >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.item Mozilla MediaList.item documentation> 
+item_ :: (MonadDOM m) => MediaList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.item Mozilla MediaList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m, FromJSString result) => MediaList -> Word -> m result
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.deleteMedium Mozilla MediaList.deleteMedium documentation> 
 deleteMedium ::
@@ -49,6 +62,12 @@ getMediaText ::
              (MonadDOM m, FromJSString result) => MediaList -> m (Maybe result)
 getMediaText self
   = liftDOM ((self ^. js "mediaText") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
+getMediaTextUnchecked ::
+                      (MonadDOM m, FromJSString result) => MediaList -> m result
+getMediaTextUnchecked self
+  = liftDOM ((self ^. js "mediaText") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.length Mozilla MediaList.length documentation> 
 getLength :: (MonadDOM m) => MediaList -> m Word

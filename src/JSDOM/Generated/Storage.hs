@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Storage
-       (key, getItem, setItem, removeItem, clear, getLength, Storage,
-        castToStorage, gTypeStorage)
+       (key, key_, keyUnchecked, getItem, getItem_, getItemUnchecked,
+        setItem, removeItem, clear, getLength, Storage, castToStorage,
+        gTypeStorage)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,6 +25,18 @@ key self index
   = liftDOM
       ((self ^. jsf "key" [toJSVal index]) >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.key Mozilla Storage.key documentation> 
+key_ :: (MonadDOM m) => Storage -> Word -> m ()
+key_ self index
+  = liftDOM (void (self ^. jsf "key" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.key Mozilla Storage.key documentation> 
+keyUnchecked ::
+             (MonadDOM m, FromJSString result) => Storage -> Word -> m result
+keyUnchecked self index
+  = liftDOM
+      ((self ^. jsf "key" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
 getItem ::
         (MonadDOM m, ToJSString key, FromJSString result) =>
@@ -31,6 +44,19 @@ getItem ::
 getItem self key
   = liftDOM
       ((self ^. jsf "getItem" [toJSVal key]) >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
+getItem_ :: (MonadDOM m, ToJSString key) => Storage -> key -> m ()
+getItem_ self key
+  = liftDOM (void (self ^. jsf "getItem" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
+getItemUnchecked ::
+                 (MonadDOM m, ToJSString key, FromJSString result) =>
+                   Storage -> key -> m result
+getItemUnchecked self key
+  = liftDOM
+      ((self ^. jsf "getItem" [toJSVal key]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.setItem Mozilla Storage.setItem documentation> 
 setItem ::

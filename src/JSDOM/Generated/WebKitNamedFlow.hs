@@ -1,9 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitNamedFlow
-       (getRegionsByContent, getRegions, getContent, getName, getOverset,
-        getFirstEmptyRegionIndex, WebKitNamedFlow, castToWebKitNamedFlow,
-        gTypeWebKitNamedFlow)
+       (getRegionsByContent, getRegionsByContent_,
+        getRegionsByContentUnchecked, getRegions, getRegions_,
+        getRegionsUnchecked, getContent, getContent_, getContentUnchecked,
+        getName, getOverset, getFirstEmptyRegionIndex, WebKitNamedFlow,
+        castToWebKitNamedFlow, gTypeWebKitNamedFlow)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,15 +28,52 @@ getRegionsByContent self contentNode
       ((self ^. jsf "getRegionsByContent" [toJSVal contentNode]) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegionsByContent Mozilla WebKitNamedFlow.getRegionsByContent documentation> 
+getRegionsByContent_ ::
+                     (MonadDOM m, IsNode contentNode) =>
+                       WebKitNamedFlow -> Maybe contentNode -> m ()
+getRegionsByContent_ self contentNode
+  = liftDOM
+      (void (self ^. jsf "getRegionsByContent" [toJSVal contentNode]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegionsByContent Mozilla WebKitNamedFlow.getRegionsByContent documentation> 
+getRegionsByContentUnchecked ::
+                             (MonadDOM m, IsNode contentNode) =>
+                               WebKitNamedFlow -> Maybe contentNode -> m NodeList
+getRegionsByContentUnchecked self contentNode
+  = liftDOM
+      ((self ^. jsf "getRegionsByContent" [toJSVal contentNode]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegions Mozilla WebKitNamedFlow.getRegions documentation> 
 getRegions :: (MonadDOM m) => WebKitNamedFlow -> m (Maybe NodeList)
 getRegions self
   = liftDOM ((self ^. jsf "getRegions" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegions Mozilla WebKitNamedFlow.getRegions documentation> 
+getRegions_ :: (MonadDOM m) => WebKitNamedFlow -> m ()
+getRegions_ self = liftDOM (void (self ^. jsf "getRegions" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegions Mozilla WebKitNamedFlow.getRegions documentation> 
+getRegionsUnchecked ::
+                    (MonadDOM m) => WebKitNamedFlow -> m NodeList
+getRegionsUnchecked self
+  = liftDOM ((self ^. jsf "getRegions" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
 getContent :: (MonadDOM m) => WebKitNamedFlow -> m (Maybe NodeList)
 getContent self
   = liftDOM ((self ^. jsf "getContent" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
+getContent_ :: (MonadDOM m) => WebKitNamedFlow -> m ()
+getContent_ self = liftDOM (void (self ^. jsf "getContent" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
+getContentUnchecked ::
+                    (MonadDOM m) => WebKitNamedFlow -> m NodeList
+getContentUnchecked self
+  = liftDOM ((self ^. jsf "getContent" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.name Mozilla WebKitNamedFlow.name documentation> 
 getName ::

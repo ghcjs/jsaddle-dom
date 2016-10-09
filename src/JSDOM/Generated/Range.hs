@@ -3,16 +3,24 @@
 module JSDOM.Generated.Range
        (newRange, setStart, setEnd, setStartBefore, setStartAfter,
         setEndBefore, setEndAfter, collapse, selectNode,
-        selectNodeContents, compareBoundaryPoints, deleteContents,
-        extractContents, cloneContents, insertNode, surroundContents,
-        cloneRange, toString, detach, getClientRects,
-        getBoundingClientRect, createContextualFragment, intersectsNode,
-        compareNode, comparePoint, isPointInRange, expand,
-        pattern START_TO_START, pattern START_TO_END, pattern END_TO_END,
-        pattern END_TO_START, pattern NODE_BEFORE, pattern NODE_AFTER,
-        pattern NODE_BEFORE_AND_AFTER, pattern NODE_INSIDE,
-        getStartContainer, getStartOffset, getEndContainer, getEndOffset,
-        getCollapsed, getCommonAncestorContainer, Range, castToRange,
+        selectNodeContents, compareBoundaryPoints, compareBoundaryPoints_,
+        deleteContents, extractContents, extractContents_,
+        extractContentsUnchecked, cloneContents, cloneContents_,
+        cloneContentsUnchecked, insertNode, surroundContents, cloneRange,
+        cloneRange_, cloneRangeUnchecked, toString, toString_, detach,
+        getClientRects, getClientRects_, getClientRectsUnchecked,
+        getBoundingClientRect, getBoundingClientRect_,
+        getBoundingClientRectUnchecked, createContextualFragment,
+        createContextualFragment_, createContextualFragmentUnchecked,
+        intersectsNode, intersectsNode_, compareNode, compareNode_,
+        comparePoint, comparePoint_, isPointInRange, isPointInRange_,
+        expand, pattern START_TO_START, pattern START_TO_END,
+        pattern END_TO_END, pattern END_TO_START, pattern NODE_BEFORE,
+        pattern NODE_AFTER, pattern NODE_BEFORE_AND_AFTER,
+        pattern NODE_INSIDE, getStartContainer, getStartContainerUnchecked,
+        getStartOffset, getEndContainer, getEndContainerUnchecked,
+        getEndOffset, getCollapsed, getCommonAncestorContainer,
+        getCommonAncestorContainerUnchecked, Range, castToRange,
         gTypeRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -99,6 +107,15 @@ compareBoundaryPoints self how sourceRange
              [toJSVal how, toJSVal sourceRange])
             >>= valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareBoundaryPoints Mozilla Range.compareBoundaryPoints documentation> 
+compareBoundaryPoints_ ::
+                       (MonadDOM m) => Range -> Word -> Maybe Range -> m ()
+compareBoundaryPoints_ self how sourceRange
+  = liftDOM
+      (void
+         (self ^. jsf "compareBoundaryPoints"
+            [toJSVal how, toJSVal sourceRange]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.deleteContents Mozilla Range.deleteContents documentation> 
 deleteContents :: (MonadDOM m) => Range -> m ()
 deleteContents self
@@ -110,11 +127,34 @@ extractContents ::
 extractContents self
   = liftDOM ((self ^. jsf "extractContents" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
+extractContents_ :: (MonadDOM m) => Range -> m ()
+extractContents_ self
+  = liftDOM (void (self ^. jsf "extractContents" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
+extractContentsUnchecked ::
+                         (MonadDOM m) => Range -> m DocumentFragment
+extractContentsUnchecked self
+  = liftDOM
+      ((self ^. jsf "extractContents" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
 cloneContents ::
               (MonadDOM m) => Range -> m (Maybe DocumentFragment)
 cloneContents self
   = liftDOM ((self ^. jsf "cloneContents" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
+cloneContents_ :: (MonadDOM m) => Range -> m ()
+cloneContents_ self
+  = liftDOM (void (self ^. jsf "cloneContents" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
+cloneContentsUnchecked ::
+                       (MonadDOM m) => Range -> m DocumentFragment
+cloneContentsUnchecked self
+  = liftDOM ((self ^. jsf "cloneContents" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.insertNode Mozilla Range.insertNode documentation> 
 insertNode ::
@@ -134,10 +174,23 @@ cloneRange :: (MonadDOM m) => Range -> m (Maybe Range)
 cloneRange self
   = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
+cloneRange_ :: (MonadDOM m) => Range -> m ()
+cloneRange_ self = liftDOM (void (self ^. jsf "cloneRange" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
+cloneRangeUnchecked :: (MonadDOM m) => Range -> m Range
+cloneRangeUnchecked self
+  = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.toString Mozilla Range.toString documentation> 
 toString :: (MonadDOM m, FromJSString result) => Range -> m result
 toString self
   = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.toString Mozilla Range.toString documentation> 
+toString_ :: (MonadDOM m) => Range -> m ()
+toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.detach Mozilla Range.detach documentation> 
 detach :: (MonadDOM m) => Range -> m ()
@@ -148,11 +201,35 @@ getClientRects :: (MonadDOM m) => Range -> m (Maybe ClientRectList)
 getClientRects self
   = liftDOM ((self ^. jsf "getClientRects" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
+getClientRects_ :: (MonadDOM m) => Range -> m ()
+getClientRects_ self
+  = liftDOM (void (self ^. jsf "getClientRects" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
+getClientRectsUnchecked ::
+                        (MonadDOM m) => Range -> m ClientRectList
+getClientRectsUnchecked self
+  = liftDOM
+      ((self ^. jsf "getClientRects" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
 getBoundingClientRect ::
                       (MonadDOM m) => Range -> m (Maybe ClientRect)
 getBoundingClientRect self
   = liftDOM ((self ^. jsf "getBoundingClientRect" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
+getBoundingClientRect_ :: (MonadDOM m) => Range -> m ()
+getBoundingClientRect_ self
+  = liftDOM (void (self ^. jsf "getBoundingClientRect" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
+getBoundingClientRectUnchecked ::
+                               (MonadDOM m) => Range -> m ClientRect
+getBoundingClientRectUnchecked self
+  = liftDOM
+      ((self ^. jsf "getBoundingClientRect" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
 createContextualFragment ::
@@ -163,12 +240,34 @@ createContextualFragment self html
       ((self ^. jsf "createContextualFragment" [toJSVal html]) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
+createContextualFragment_ ::
+                          (MonadDOM m, ToJSString html) => Range -> html -> m ()
+createContextualFragment_ self html
+  = liftDOM
+      (void (self ^. jsf "createContextualFragment" [toJSVal html]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
+createContextualFragmentUnchecked ::
+                                  (MonadDOM m, ToJSString html) =>
+                                    Range -> html -> m DocumentFragment
+createContextualFragmentUnchecked self html
+  = liftDOM
+      ((self ^. jsf "createContextualFragment" [toJSVal html]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.intersectsNode Mozilla Range.intersectsNode documentation> 
 intersectsNode ::
                (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m Bool
 intersectsNode self refNode
   = liftDOM
       ((self ^. jsf "intersectsNode" [toJSVal refNode]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.intersectsNode Mozilla Range.intersectsNode documentation> 
+intersectsNode_ ::
+                (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+intersectsNode_ self refNode
+  = liftDOM (void (self ^. jsf "intersectsNode" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareNode Mozilla Range.compareNode documentation> 
 compareNode ::
@@ -177,6 +276,12 @@ compareNode self refNode
   = liftDOM
       (round <$>
          ((self ^. jsf "compareNode" [toJSVal refNode]) >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareNode Mozilla Range.compareNode documentation> 
+compareNode_ ::
+             (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+compareNode_ self refNode
+  = liftDOM (void (self ^. jsf "compareNode" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.comparePoint Mozilla Range.comparePoint documentation> 
 comparePoint ::
@@ -188,6 +293,15 @@ comparePoint self refNode offset
          ((self ^. jsf "comparePoint" [toJSVal refNode, toJSVal offset]) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.comparePoint Mozilla Range.comparePoint documentation> 
+comparePoint_ ::
+              (MonadDOM m, IsNode refNode) =>
+                Range -> Maybe refNode -> Int -> m ()
+comparePoint_ self refNode offset
+  = liftDOM
+      (void
+         (self ^. jsf "comparePoint" [toJSVal refNode, toJSVal offset]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.isPointInRange Mozilla Range.isPointInRange documentation> 
 isPointInRange ::
                (MonadDOM m, IsNode refNode) =>
@@ -196,6 +310,15 @@ isPointInRange self refNode offset
   = liftDOM
       ((self ^. jsf "isPointInRange" [toJSVal refNode, toJSVal offset])
          >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.isPointInRange Mozilla Range.isPointInRange documentation> 
+isPointInRange_ ::
+                (MonadDOM m, IsNode refNode) =>
+                  Range -> Maybe refNode -> Int -> m ()
+isPointInRange_ self refNode offset
+  = liftDOM
+      (void
+         (self ^. jsf "isPointInRange" [toJSVal refNode, toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.expand Mozilla Range.expand documentation> 
 expand :: (MonadDOM m, ToJSString unit) => Range -> unit -> m ()
@@ -215,6 +338,11 @@ getStartContainer :: (MonadDOM m) => Range -> m (Maybe Node)
 getStartContainer self
   = liftDOM ((self ^. js "startContainer") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startContainer Mozilla Range.startContainer documentation> 
+getStartContainerUnchecked :: (MonadDOM m) => Range -> m Node
+getStartContainerUnchecked self
+  = liftDOM ((self ^. js "startContainer") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startOffset Mozilla Range.startOffset documentation> 
 getStartOffset :: (MonadDOM m) => Range -> m Int
 getStartOffset self
@@ -224,6 +352,11 @@ getStartOffset self
 getEndContainer :: (MonadDOM m) => Range -> m (Maybe Node)
 getEndContainer self
   = liftDOM ((self ^. js "endContainer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endContainer Mozilla Range.endContainer documentation> 
+getEndContainerUnchecked :: (MonadDOM m) => Range -> m Node
+getEndContainerUnchecked self
+  = liftDOM ((self ^. js "endContainer") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endOffset Mozilla Range.endOffset documentation> 
 getEndOffset :: (MonadDOM m) => Range -> m Int
@@ -240,3 +373,10 @@ getCommonAncestorContainer ::
                            (MonadDOM m) => Range -> m (Maybe Node)
 getCommonAncestorContainer self
   = liftDOM ((self ^. js "commonAncestorContainer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.commonAncestorContainer Mozilla Range.commonAncestorContainer documentation> 
+getCommonAncestorContainerUnchecked ::
+                                    (MonadDOM m) => Range -> m Node
+getCommonAncestorContainerUnchecked self
+  = liftDOM
+      ((self ^. js "commonAncestorContainer") >>= fromJSValUnchecked)

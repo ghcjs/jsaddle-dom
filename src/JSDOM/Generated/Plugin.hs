@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Plugin
-       (item, namedItem, getName, getFilename, getDescription, getLength,
-        Plugin, castToPlugin, gTypePlugin)
+       (item, item_, itemUnchecked, namedItem, namedItem_,
+        namedItemUnchecked, getName, getFilename, getDescription,
+        getLength, Plugin, castToPlugin, gTypePlugin)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,12 +22,36 @@ item :: (MonadDOM m) => Plugin -> Word -> m (Maybe MimeType)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.item Mozilla Plugin.item documentation> 
+item_ :: (MonadDOM m) => Plugin -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.item Mozilla Plugin.item documentation> 
+itemUnchecked :: (MonadDOM m) => Plugin -> Word -> m MimeType
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.namedItem Mozilla Plugin.namedItem documentation> 
 namedItem ::
           (MonadDOM m, ToJSString name) =>
             Plugin -> name -> m (Maybe MimeType)
 namedItem self name
   = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.namedItem Mozilla Plugin.namedItem documentation> 
+namedItem_ ::
+           (MonadDOM m, ToJSString name) => Plugin -> name -> m ()
+namedItem_ self name
+  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.namedItem Mozilla Plugin.namedItem documentation> 
+namedItemUnchecked ::
+                   (MonadDOM m, ToJSString name) => Plugin -> name -> m MimeType
+namedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.name Mozilla Plugin.name documentation> 
 getName :: (MonadDOM m, FromJSString result) => Plugin -> m result

@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeySession
-       (update, close, getError, getKeySystem, getSessionId,
-        webKitKeyAdded, webKitKeyError, webKitKeyMessage, MediaKeySession,
-        castToMediaKeySession, gTypeMediaKeySession)
+       (update, close, getError, getErrorUnchecked, getKeySystem,
+        getSessionId, webKitKeyAdded, webKitKeyError, webKitKeyMessage,
+        MediaKeySession, castToMediaKeySession, gTypeMediaKeySession)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -32,6 +32,12 @@ close self = liftDOM (void (self ^. jsf "close" ()))
 getError ::
          (MonadDOM m) => MediaKeySession -> m (Maybe MediaKeyError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeySession.error Mozilla WebKitMediaKeySession.error documentation> 
+getErrorUnchecked ::
+                  (MonadDOM m) => MediaKeySession -> m MediaKeyError
+getErrorUnchecked self
+  = liftDOM ((self ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeySession.keySystem Mozilla WebKitMediaKeySession.keySystem documentation> 
 getKeySystem ::

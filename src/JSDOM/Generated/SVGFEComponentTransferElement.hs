@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEComponentTransferElement
-       (getIn1, SVGFEComponentTransferElement,
+       (getIn1, getIn1Unchecked, SVGFEComponentTransferElement,
         castToSVGFEComponentTransferElement,
         gTypeSVGFEComponentTransferElement)
        where
@@ -22,3 +22,10 @@ getIn1 ::
        (MonadDOM m) =>
          SVGFEComponentTransferElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEComponentTransferElement.in1 Mozilla SVGFEComponentTransferElement.in1 documentation> 
+getIn1Unchecked ::
+                (MonadDOM m) =>
+                  SVGFEComponentTransferElement -> m SVGAnimatedString
+getIn1Unchecked self
+  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)

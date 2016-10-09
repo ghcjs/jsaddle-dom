@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Text
-       (newText, splitText, replaceWholeText, getWholeText, Text,
-        castToText, gTypeText, IsText, toText)
+       (newText, splitText, splitText_, splitTextUnchecked,
+        replaceWholeText, replaceWholeText_, replaceWholeTextUnchecked,
+        getWholeText, Text, castToText, gTypeText, IsText, toText)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,6 +28,20 @@ splitText self offset
   = liftDOM
       (((toText self) ^. jsf "splitText" [toJSVal offset]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Text.splitText Mozilla Text.splitText documentation> 
+splitText_ :: (MonadDOM m, IsText self) => self -> Word -> m ()
+splitText_ self offset
+  = liftDOM
+      (void ((toText self) ^. jsf "splitText" [toJSVal offset]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Text.splitText Mozilla Text.splitText documentation> 
+splitTextUnchecked ::
+                   (MonadDOM m, IsText self) => self -> Word -> m Text
+splitTextUnchecked self offset
+  = liftDOM
+      (((toText self) ^. jsf "splitText" [toJSVal offset]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Text.replaceWholeText Mozilla Text.replaceWholeText documentation> 
 replaceWholeText ::
                  (MonadDOM m, IsText self, ToJSString content) =>
@@ -35,6 +50,23 @@ replaceWholeText self content
   = liftDOM
       (((toText self) ^. jsf "replaceWholeText" [toJSVal content]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Text.replaceWholeText Mozilla Text.replaceWholeText documentation> 
+replaceWholeText_ ::
+                  (MonadDOM m, IsText self, ToJSString content) =>
+                    self -> content -> m ()
+replaceWholeText_ self content
+  = liftDOM
+      (void ((toText self) ^. jsf "replaceWholeText" [toJSVal content]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Text.replaceWholeText Mozilla Text.replaceWholeText documentation> 
+replaceWholeTextUnchecked ::
+                          (MonadDOM m, IsText self, ToJSString content) =>
+                            self -> content -> m Text
+replaceWholeTextUnchecked self content
+  = liftDOM
+      (((toText self) ^. jsf "replaceWholeText" [toJSVal content]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Text.wholeText Mozilla Text.wholeText documentation> 
 getWholeText ::

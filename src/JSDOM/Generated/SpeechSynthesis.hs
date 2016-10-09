@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SpeechSynthesis
-       (speak, cancel, pause, resume, getVoices, getPending, getSpeaking,
-        getPaused, SpeechSynthesis, castToSpeechSynthesis,
+       (speak, cancel, pause, resume, getVoices, getVoices_, getPending,
+        getSpeaking, getPaused, SpeechSynthesis, castToSpeechSynthesis,
         gTypeSpeechSynthesis)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -41,6 +41,10 @@ getVoices ::
           (MonadDOM m) => SpeechSynthesis -> m [Maybe SpeechSynthesisVoice]
 getVoices self
   = liftDOM ((self ^. jsf "getVoices" ()) >>= fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.getVoices Mozilla SpeechSynthesis.getVoices documentation> 
+getVoices_ :: (MonadDOM m) => SpeechSynthesis -> m ()
+getVoices_ self = liftDOM (void (self ^. jsf "getVoices" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.pending Mozilla SpeechSynthesis.pending documentation> 
 getPending :: (MonadDOM m) => SpeechSynthesis -> m Bool

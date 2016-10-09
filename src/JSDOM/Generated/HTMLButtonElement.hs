@@ -1,13 +1,16 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLButtonElement
-       (checkValidity, setCustomValidity, setAutofocus, getAutofocus,
-        setDisabled, getDisabled, getForm, setFormAction, getFormAction,
-        setFormEnctype, getFormEnctype, setFormMethod, getFormMethod,
-        setFormNoValidate, getFormNoValidate, setFormTarget, getFormTarget,
-        setName, getName, setType, getType, setValue, getValue,
-        getWillValidate, getValidity, getValidationMessage, getLabels,
-        HTMLButtonElement, castToHTMLButtonElement, gTypeHTMLButtonElement)
+       (checkValidity, checkValidity_, setCustomValidity, setAutofocus,
+        getAutofocus, setDisabled, getDisabled, getForm, getFormUnchecked,
+        setFormAction, getFormAction, setFormEnctype, getFormEnctype,
+        getFormEnctypeUnchecked, setFormMethod, getFormMethod,
+        getFormMethodUnchecked, setFormNoValidate, getFormNoValidate,
+        setFormTarget, getFormTarget, setName, getName, setType, getType,
+        getTypeUnchecked, setValue, getValue, getWillValidate, getValidity,
+        getValidityUnchecked, getValidationMessage, getLabels,
+        getLabelsUnchecked, HTMLButtonElement, castToHTMLButtonElement,
+        gTypeHTMLButtonElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -25,6 +28,11 @@ import JSDOM.Enums
 checkValidity :: (MonadDOM m) => HTMLButtonElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.checkValidity Mozilla HTMLButtonElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLButtonElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.setCustomValidity Mozilla HTMLButtonElement.setCustomValidity documentation> 
 setCustomValidity ::
@@ -57,6 +65,12 @@ getForm ::
         (MonadDOM m) => HTMLButtonElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.form Mozilla HTMLButtonElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLButtonElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formAction Mozilla HTMLButtonElement.formAction documentation> 
 setFormAction ::
               (MonadDOM m, ToJSString val) => HTMLButtonElement -> val -> m ()
@@ -83,6 +97,12 @@ getFormEnctype ::
 getFormEnctype self
   = liftDOM ((self ^. js "formEnctype") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formEnctype Mozilla HTMLButtonElement.formEnctype documentation> 
+getFormEnctypeUnchecked ::
+                        (MonadDOM m, FromJSString result) => HTMLButtonElement -> m result
+getFormEnctypeUnchecked self
+  = liftDOM ((self ^. js "formEnctype") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formMethod Mozilla HTMLButtonElement.formMethod documentation> 
 setFormMethod ::
               (MonadDOM m, ToJSString val) =>
@@ -96,6 +116,12 @@ getFormMethod ::
                 HTMLButtonElement -> m (Maybe result)
 getFormMethod self
   = liftDOM ((self ^. js "formMethod") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formMethod Mozilla HTMLButtonElement.formMethod documentation> 
+getFormMethodUnchecked ::
+                       (MonadDOM m, FromJSString result) => HTMLButtonElement -> m result
+getFormMethodUnchecked self
+  = liftDOM ((self ^. js "formMethod") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formNoValidate Mozilla HTMLButtonElement.formNoValidate documentation> 
 setFormNoValidate ::
@@ -142,6 +168,12 @@ getType ::
           HTMLButtonElement -> m (Maybe result)
 getType self = liftDOM ((self ^. js "type") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.type Mozilla HTMLButtonElement.type documentation> 
+getTypeUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLButtonElement -> m result
+getTypeUnchecked self
+  = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.value Mozilla HTMLButtonElement.value documentation> 
 setValue ::
          (MonadDOM m, ToJSString val) => HTMLButtonElement -> val -> m ()
@@ -163,6 +195,12 @@ getValidity ::
             (MonadDOM m) => HTMLButtonElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.validity Mozilla HTMLButtonElement.validity documentation> 
+getValidityUnchecked ::
+                     (MonadDOM m) => HTMLButtonElement -> m ValidityState
+getValidityUnchecked self
+  = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.validationMessage Mozilla HTMLButtonElement.validationMessage documentation> 
 getValidationMessage ::
                      (MonadDOM m, FromJSString result) => HTMLButtonElement -> m result
@@ -173,3 +211,9 @@ getValidationMessage self
 getLabels ::
           (MonadDOM m) => HTMLButtonElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.labels Mozilla HTMLButtonElement.labels documentation> 
+getLabelsUnchecked ::
+                   (MonadDOM m) => HTMLButtonElement -> m NodeList
+getLabelsUnchecked self
+  = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

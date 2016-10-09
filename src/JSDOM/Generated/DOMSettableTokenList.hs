@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMSettableTokenList
-       (_get, setValue, getValue, DOMSettableTokenList,
-        castToDOMSettableTokenList, gTypeDOMSettableTokenList)
+       (_get, _get_, _getUnchecked, setValue, getValue,
+        DOMSettableTokenList, castToDOMSettableTokenList,
+        gTypeDOMSettableTokenList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,6 +24,19 @@ _get ::
 _get self index
   = liftDOM
       ((self ^. jsf "_get" [toJSVal index]) >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMSettableTokenList._get Mozilla DOMSettableTokenList._get documentation> 
+_get_ :: (MonadDOM m) => DOMSettableTokenList -> Word -> m ()
+_get_ self index
+  = liftDOM (void (self ^. jsf "_get" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMSettableTokenList._get Mozilla DOMSettableTokenList._get documentation> 
+_getUnchecked ::
+              (MonadDOM m, FromJSString result) =>
+                DOMSettableTokenList -> Word -> m result
+_getUnchecked self index
+  = liftDOM
+      ((self ^. jsf "_get" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMSettableTokenList.value Mozilla DOMSettableTokenList.value documentation> 
 setValue ::

@@ -2,10 +2,10 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SpeechSynthesisUtterance
        (newSpeechSynthesisUtterance, setText, getText, setLang, getLang,
-        setVoice, getVoice, setVolume, getVolume, setRate, getRate,
-        setPitch, getPitch, start, end, error, pause, resume, mark,
-        boundary, SpeechSynthesisUtterance, castToSpeechSynthesisUtterance,
-        gTypeSpeechSynthesisUtterance)
+        setVoice, getVoice, getVoiceUnchecked, setVolume, getVolume,
+        setRate, getRate, setPitch, getPitch, start, end, error, pause,
+        resume, mark, boundary, SpeechSynthesisUtterance,
+        castToSpeechSynthesisUtterance, gTypeSpeechSynthesisUtterance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -62,6 +62,12 @@ getVoice ::
          (MonadDOM m) =>
            SpeechSynthesisUtterance -> m (Maybe SpeechSynthesisVoice)
 getVoice self = liftDOM ((self ^. js "voice") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance.voice Mozilla SpeechSynthesisUtterance.voice documentation> 
+getVoiceUnchecked ::
+                  (MonadDOM m) => SpeechSynthesisUtterance -> m SpeechSynthesisVoice
+getVoiceUnchecked self
+  = liftDOM ((self ^. js "voice") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance.volume Mozilla SpeechSynthesisUtterance.volume documentation> 
 setVolume ::

@@ -4,9 +4,9 @@ module JSDOM.Generated.WebSocket
        (newWebSocket, newWebSocket', send, sendView, sendBlob, sendString,
         close, pattern CONNECTING, pattern OPEN, pattern CLOSING,
         pattern CLOSED, getUrl, getReadyState, getBufferedAmount, open,
-        message, error, closeEvent, getProtocol, getExtensions,
-        setBinaryType, getBinaryType, WebSocket, castToWebSocket,
-        gTypeWebSocket)
+        message, error, closeEvent, getProtocol, getProtocolUnchecked,
+        getExtensions, getExtensionsUnchecked, setBinaryType,
+        getBinaryType, WebSocket, castToWebSocket, gTypeWebSocket)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -115,11 +115,23 @@ getProtocol ::
 getProtocol self
   = liftDOM ((self ^. js "protocol") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
+getProtocolUnchecked ::
+                     (MonadDOM m, FromJSString result) => WebSocket -> m result
+getProtocolUnchecked self
+  = liftDOM ((self ^. js "protocol") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.extensions Mozilla WebSocket.extensions documentation> 
 getExtensions ::
               (MonadDOM m, FromJSString result) => WebSocket -> m (Maybe result)
 getExtensions self
   = liftDOM ((self ^. js "extensions") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.extensions Mozilla WebSocket.extensions documentation> 
+getExtensionsUnchecked ::
+                       (MonadDOM m, FromJSString result) => WebSocket -> m result
+getExtensionsUnchecked self
+  = liftDOM ((self ^. js "extensions") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.binaryType Mozilla WebSocket.binaryType documentation> 
 setBinaryType ::

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SourceBufferList
-       (item, getLength, SourceBufferList, castToSourceBufferList,
-        gTypeSourceBufferList)
+       (item, item_, itemUnchecked, getLength, SourceBufferList,
+        castToSourceBufferList, gTypeSourceBufferList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,6 +21,18 @@ item ::
      (MonadDOM m) => SourceBufferList -> Word -> m (Maybe SourceBuffer)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBufferList.item Mozilla SourceBufferList.item documentation> 
+item_ :: (MonadDOM m) => SourceBufferList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBufferList.item Mozilla SourceBufferList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => SourceBufferList -> Word -> m SourceBuffer
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBufferList.length Mozilla SourceBufferList.length documentation> 
 getLength :: (MonadDOM m) => SourceBufferList -> m Word

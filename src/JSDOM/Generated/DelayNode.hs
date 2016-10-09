@@ -1,7 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DelayNode
-       (getDelayTime, DelayNode, castToDelayNode, gTypeDelayNode) where
+       (getDelayTime, getDelayTimeUnchecked, DelayNode, castToDelayNode,
+        gTypeDelayNode)
+       where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
@@ -18,3 +20,8 @@ import JSDOM.Enums
 getDelayTime :: (MonadDOM m) => DelayNode -> m (Maybe AudioParam)
 getDelayTime self
   = liftDOM ((self ^. js "delayTime") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DelayNode.delayTime Mozilla DelayNode.delayTime documentation> 
+getDelayTimeUnchecked :: (MonadDOM m) => DelayNode -> m AudioParam
+getDelayTimeUnchecked self
+  = liftDOM ((self ^. js "delayTime") >>= fromJSValUnchecked)

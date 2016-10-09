@@ -2,12 +2,15 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Selection
        (collapse, collapseToEnd, collapseToStart, deleteFromDocument,
-        containsNode, selectAllChildren, extend, getRangeAt,
-        removeAllRanges, addRange, toString, modify, setBaseAndExtent,
-        setPosition, empty, getAnchorNode, getAnchorOffset, getFocusNode,
-        getFocusOffset, getIsCollapsed, getRangeCount, getBaseNode,
-        getBaseOffset, getExtentNode, getExtentOffset, getType, Selection,
-        castToSelection, gTypeSelection)
+        containsNode, containsNode_, selectAllChildren, extend, getRangeAt,
+        getRangeAt_, getRangeAtUnchecked, removeAllRanges, addRange,
+        toString, toString_, modify, setBaseAndExtent, setPosition, empty,
+        getAnchorNode, getAnchorNodeUnchecked, getAnchorOffset,
+        getFocusNode, getFocusNodeUnchecked, getFocusOffset,
+        getIsCollapsed, getRangeCount, getBaseNode, getBaseNodeUnchecked,
+        getBaseOffset, getExtentNode, getExtentNodeUnchecked,
+        getExtentOffset, getType, Selection, castToSelection,
+        gTypeSelection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -52,6 +55,15 @@ containsNode self node allowPartial
       ((self ^. jsf "containsNode" [toJSVal node, toJSVal allowPartial])
          >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.containsNode Mozilla Selection.containsNode documentation> 
+containsNode_ ::
+              (MonadDOM m, IsNode node) =>
+                Selection -> Maybe node -> Bool -> m ()
+containsNode_ self node allowPartial
+  = liftDOM
+      (void
+         (self ^. jsf "containsNode" [toJSVal node, toJSVal allowPartial]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.selectAllChildren Mozilla Selection.selectAllChildren documentation> 
 selectAllChildren ::
                   (MonadDOM m, IsNode node) => Selection -> Maybe node -> m ()
@@ -71,6 +83,17 @@ getRangeAt self index
   = liftDOM
       ((self ^. jsf "getRangeAt" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.getRangeAt Mozilla Selection.getRangeAt documentation> 
+getRangeAt_ :: (MonadDOM m) => Selection -> Int -> m ()
+getRangeAt_ self index
+  = liftDOM (void (self ^. jsf "getRangeAt" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.getRangeAt Mozilla Selection.getRangeAt documentation> 
+getRangeAtUnchecked :: (MonadDOM m) => Selection -> Int -> m Range
+getRangeAtUnchecked self index
+  = liftDOM
+      ((self ^. jsf "getRangeAt" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.removeAllRanges Mozilla Selection.removeAllRanges documentation> 
 removeAllRanges :: (MonadDOM m) => Selection -> m ()
 removeAllRanges self
@@ -86,6 +109,10 @@ toString ::
          (MonadDOM m, FromJSString result) => Selection -> m result
 toString self
   = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.toString Mozilla Selection.toString documentation> 
+toString_ :: (MonadDOM m) => Selection -> m ()
+toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.modify Mozilla Selection.modify documentation> 
 modify ::
@@ -126,6 +153,11 @@ getAnchorNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getAnchorNode self
   = liftDOM ((self ^. js "anchorNode") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorNode Mozilla Selection.anchorNode documentation> 
+getAnchorNodeUnchecked :: (MonadDOM m) => Selection -> m Node
+getAnchorNodeUnchecked self
+  = liftDOM ((self ^. js "anchorNode") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorOffset Mozilla Selection.anchorOffset documentation> 
 getAnchorOffset :: (MonadDOM m) => Selection -> m Int
 getAnchorOffset self
@@ -135,6 +167,11 @@ getAnchorOffset self
 getFocusNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getFocusNode self
   = liftDOM ((self ^. js "focusNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.focusNode Mozilla Selection.focusNode documentation> 
+getFocusNodeUnchecked :: (MonadDOM m) => Selection -> m Node
+getFocusNodeUnchecked self
+  = liftDOM ((self ^. js "focusNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.focusOffset Mozilla Selection.focusOffset documentation> 
 getFocusOffset :: (MonadDOM m) => Selection -> m Int
@@ -155,6 +192,11 @@ getRangeCount self
 getBaseNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getBaseNode self = liftDOM ((self ^. js "baseNode") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.baseNode Mozilla Selection.baseNode documentation> 
+getBaseNodeUnchecked :: (MonadDOM m) => Selection -> m Node
+getBaseNodeUnchecked self
+  = liftDOM ((self ^. js "baseNode") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.baseOffset Mozilla Selection.baseOffset documentation> 
 getBaseOffset :: (MonadDOM m) => Selection -> m Int
 getBaseOffset self
@@ -164,6 +206,11 @@ getBaseOffset self
 getExtentNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getExtentNode self
   = liftDOM ((self ^. js "extentNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.extentNode Mozilla Selection.extentNode documentation> 
+getExtentNodeUnchecked :: (MonadDOM m) => Selection -> m Node
+getExtentNodeUnchecked self
+  = liftDOM ((self ^. js "extentNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.extentOffset Mozilla Selection.extentOffset documentation> 
 getExtentOffset :: (MonadDOM m) => Selection -> m Int

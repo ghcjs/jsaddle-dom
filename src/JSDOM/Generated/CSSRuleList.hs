@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSRuleList
-       (item, getLength, CSSRuleList, castToCSSRuleList, gTypeCSSRuleList)
+       (item, item_, itemUnchecked, getLength, CSSRuleList,
+        castToCSSRuleList, gTypeCSSRuleList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -19,6 +20,17 @@ import JSDOM.Enums
 item :: (MonadDOM m) => CSSRuleList -> Word -> m (Maybe CSSRule)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRuleList.item Mozilla CSSRuleList.item documentation> 
+item_ :: (MonadDOM m) => CSSRuleList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRuleList.item Mozilla CSSRuleList.item documentation> 
+itemUnchecked :: (MonadDOM m) => CSSRuleList -> Word -> m CSSRule
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRuleList.length Mozilla CSSRuleList.length documentation> 
 getLength :: (MonadDOM m) => CSSRuleList -> m Word

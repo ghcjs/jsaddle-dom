@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTitleElement
-       (setText, getText, HTMLTitleElement, castToHTMLTitleElement,
-        gTypeHTMLTitleElement)
+       (setText, getText, getTextUnchecked, HTMLTitleElement,
+        castToHTMLTitleElement, gTypeHTMLTitleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,3 +27,9 @@ getText ::
         (MonadDOM m, FromJSString result) =>
           HTMLTitleElement -> m (Maybe result)
 getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTitleElement.text Mozilla HTMLTitleElement.text documentation> 
+getTextUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLTitleElement -> m result
+getTextUnchecked self
+  = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)

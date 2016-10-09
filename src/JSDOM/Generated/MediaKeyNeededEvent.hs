@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyNeededEvent
-       (getInitData, MediaKeyNeededEvent, castToMediaKeyNeededEvent,
-        gTypeMediaKeyNeededEvent)
+       (getInitData, getInitDataUnchecked, MediaKeyNeededEvent,
+        castToMediaKeyNeededEvent, gTypeMediaKeyNeededEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getInitData ::
             (MonadDOM m) => MediaKeyNeededEvent -> m (Maybe Uint8Array)
 getInitData self = liftDOM ((self ^. js "initData") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyNeededEvent.initData Mozilla MediaKeyNeededEvent.initData documentation> 
+getInitDataUnchecked ::
+                     (MonadDOM m) => MediaKeyNeededEvent -> m Uint8Array
+getInitDataUnchecked self
+  = liftDOM ((self ^. js "initData") >>= fromJSValUnchecked)

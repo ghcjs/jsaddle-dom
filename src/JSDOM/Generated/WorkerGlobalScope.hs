@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerGlobalScope
-       (close, importScripts, getSelf, getLocation, error, offline,
-        online, getNavigator, WorkerGlobalScope, castToWorkerGlobalScope,
+       (close, importScripts, getSelf, getSelfUnchecked, getLocation,
+        getLocationUnchecked, error, offline, online, getNavigator,
+        getNavigatorUnchecked, WorkerGlobalScope, castToWorkerGlobalScope,
         gTypeWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -36,6 +37,14 @@ getSelf ::
 getSelf self
   = liftDOM (((toWorkerGlobalScope self) ^. js "self") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.self Mozilla WorkerGlobalScope.self documentation> 
+getSelfUnchecked ::
+                 (MonadDOM m, IsWorkerGlobalScope self) =>
+                   self -> m WorkerGlobalScope
+getSelfUnchecked self
+  = liftDOM
+      (((toWorkerGlobalScope self) ^. js "self") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.location Mozilla WorkerGlobalScope.location documentation> 
 getLocation ::
             (MonadDOM m, IsWorkerGlobalScope self) =>
@@ -43,6 +52,14 @@ getLocation ::
 getLocation self
   = liftDOM
       (((toWorkerGlobalScope self) ^. js "location") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.location Mozilla WorkerGlobalScope.location documentation> 
+getLocationUnchecked ::
+                     (MonadDOM m, IsWorkerGlobalScope self) => self -> m WorkerLocation
+getLocationUnchecked self
+  = liftDOM
+      (((toWorkerGlobalScope self) ^. js "location") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.onerror Mozilla WorkerGlobalScope.onerror documentation> 
 error ::
@@ -69,3 +86,11 @@ getNavigator ::
 getNavigator self
   = liftDOM
       (((toWorkerGlobalScope self) ^. js "navigator") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.navigator Mozilla WorkerGlobalScope.navigator documentation> 
+getNavigatorUnchecked ::
+                      (MonadDOM m, IsWorkerGlobalScope self) => self -> m WorkerNavigator
+getNavigatorUnchecked self
+  = liftDOM
+      (((toWorkerGlobalScope self) ^. js "navigator") >>=
+         fromJSValUnchecked)

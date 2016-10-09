@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaController
        (newMediaController, play, pause, unpause, getBuffered,
-        getSeekable, getDuration, setCurrentTime, getCurrentTime,
-        getPaused, getPlayed, getPlaybackState, setDefaultPlaybackRate,
+        getBufferedUnchecked, getSeekable, getSeekableUnchecked,
+        getDuration, setCurrentTime, getCurrentTime, getPaused, getPlayed,
+        getPlayedUnchecked, getPlaybackState, setDefaultPlaybackRate,
         getDefaultPlaybackRate, setPlaybackRate, getPlaybackRate,
         setVolume, getVolume, setMuted, getMuted, MediaController,
         castToMediaController, gTypeMediaController)
@@ -42,10 +43,22 @@ getBuffered ::
             (MonadDOM m) => MediaController -> m (Maybe TimeRanges)
 getBuffered self = liftDOM ((self ^. js "buffered") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.buffered Mozilla MediaController.buffered documentation> 
+getBufferedUnchecked ::
+                     (MonadDOM m) => MediaController -> m TimeRanges
+getBufferedUnchecked self
+  = liftDOM ((self ^. js "buffered") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.seekable Mozilla MediaController.seekable documentation> 
 getSeekable ::
             (MonadDOM m) => MediaController -> m (Maybe TimeRanges)
 getSeekable self = liftDOM ((self ^. js "seekable") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.seekable Mozilla MediaController.seekable documentation> 
+getSeekableUnchecked ::
+                     (MonadDOM m) => MediaController -> m TimeRanges
+getSeekableUnchecked self
+  = liftDOM ((self ^. js "seekable") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.duration Mozilla MediaController.duration documentation> 
 getDuration :: (MonadDOM m) => MediaController -> m Double
@@ -70,6 +83,12 @@ getPaused self = liftDOM ((self ^. js "paused") >>= valToBool)
 getPlayed ::
           (MonadDOM m) => MediaController -> m (Maybe TimeRanges)
 getPlayed self = liftDOM ((self ^. js "played") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.played Mozilla MediaController.played documentation> 
+getPlayedUnchecked ::
+                   (MonadDOM m) => MediaController -> m TimeRanges
+getPlayedUnchecked self
+  = liftDOM ((self ^. js "played") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.playbackState Mozilla MediaController.playbackState documentation> 
 getPlaybackState ::

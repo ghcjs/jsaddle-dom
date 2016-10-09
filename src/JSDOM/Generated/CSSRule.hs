@@ -7,8 +7,10 @@ module JSDOM.Generated.CSSRule
         pattern SUPPORTS_RULE, pattern WEBKIT_VIEWPORT_RULE,
         pattern WEBKIT_REGION_RULE, pattern WEBKIT_KEYFRAMES_RULE,
         pattern WEBKIT_KEYFRAME_RULE, getType, setCssText, getCssText,
-        getParentStyleSheet, getParentRule, CSSRule, castToCSSRule,
-        gTypeCSSRule, IsCSSRule, toCSSRule)
+        getCssTextUnchecked, getParentStyleSheet,
+        getParentStyleSheetUnchecked, getParentRule,
+        getParentRuleUnchecked, CSSRule, castToCSSRule, gTypeCSSRule,
+        IsCSSRule, toCSSRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -57,6 +59,14 @@ getCssText self
   = liftDOM
       (((toCSSRule self) ^. js "cssText") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.cssText Mozilla CSSRule.cssText documentation> 
+getCssTextUnchecked ::
+                    (MonadDOM m, IsCSSRule self, FromJSString result) =>
+                      self -> m result
+getCssTextUnchecked self
+  = liftDOM
+      (((toCSSRule self) ^. js "cssText") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.parentStyleSheet Mozilla CSSRule.parentStyleSheet documentation> 
 getParentStyleSheet ::
                     (MonadDOM m, IsCSSRule self) => self -> m (Maybe CSSStyleSheet)
@@ -64,8 +74,23 @@ getParentStyleSheet self
   = liftDOM
       (((toCSSRule self) ^. js "parentStyleSheet") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.parentStyleSheet Mozilla CSSRule.parentStyleSheet documentation> 
+getParentStyleSheetUnchecked ::
+                             (MonadDOM m, IsCSSRule self) => self -> m CSSStyleSheet
+getParentStyleSheetUnchecked self
+  = liftDOM
+      (((toCSSRule self) ^. js "parentStyleSheet") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.parentRule Mozilla CSSRule.parentRule documentation> 
 getParentRule ::
               (MonadDOM m, IsCSSRule self) => self -> m (Maybe CSSRule)
 getParentRule self
   = liftDOM (((toCSSRule self) ^. js "parentRule") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.parentRule Mozilla CSSRule.parentRule documentation> 
+getParentRuleUnchecked ::
+                       (MonadDOM m, IsCSSRule self) => self -> m CSSRule
+getParentRuleUnchecked self
+  = liftDOM
+      (((toCSSRule self) ^. js "parentRule") >>= fromJSValUnchecked)

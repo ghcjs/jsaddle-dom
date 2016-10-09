@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedLength
-       (getBaseVal, getAnimVal, SVGAnimatedLength,
-        castToSVGAnimatedLength, gTypeSVGAnimatedLength)
+       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
+        SVGAnimatedLength, castToSVGAnimatedLength, gTypeSVGAnimatedLength)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,7 +21,19 @@ getBaseVal ::
            (MonadDOM m) => SVGAnimatedLength -> m (Maybe SVGLength)
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.baseVal Mozilla SVGAnimatedLength.baseVal documentation> 
+getBaseValUnchecked ::
+                    (MonadDOM m) => SVGAnimatedLength -> m SVGLength
+getBaseValUnchecked self
+  = liftDOM ((self ^. js "baseVal") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.animVal Mozilla SVGAnimatedLength.animVal documentation> 
 getAnimVal ::
            (MonadDOM m) => SVGAnimatedLength -> m (Maybe SVGLength)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.animVal Mozilla SVGAnimatedLength.animVal documentation> 
+getAnimValUnchecked ::
+                    (MonadDOM m) => SVGAnimatedLength -> m SVGLength
+getAnimValUnchecked self
+  = liftDOM ((self ^. js "animVal") >>= fromJSValUnchecked)

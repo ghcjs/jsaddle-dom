@@ -1,15 +1,18 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLElement
-       (insertAdjacentElement, insertAdjacentHTML, insertAdjacentText,
-        click, setTitle, getTitle, setLang, getLang, setTranslate,
-        getTranslate, setDir, getDir, setTabIndex, getTabIndex,
-        setDraggable, getDraggable, setWebkitdropzone, getWebkitdropzone,
-        setHidden, getHidden, setAccessKey, getAccessKey, setInnerText,
-        getInnerText, setOuterText, getOuterText, getChildren,
-        setContentEditable, getContentEditable, getIsContentEditable,
-        setSpellcheck, getSpellcheck, HTMLElement, castToHTMLElement,
-        gTypeHTMLElement, IsHTMLElement, toHTMLElement)
+       (insertAdjacentElement, insertAdjacentElement_,
+        insertAdjacentElementUnchecked, insertAdjacentHTML,
+        insertAdjacentText, click, setTitle, getTitle, setLang, getLang,
+        setTranslate, getTranslate, setDir, getDir, setTabIndex,
+        getTabIndex, setDraggable, getDraggable, setWebkitdropzone,
+        getWebkitdropzone, setHidden, getHidden, setAccessKey,
+        getAccessKey, setInnerText, getInnerText, getInnerTextUnchecked,
+        setOuterText, getOuterText, getOuterTextUnchecked, getChildren,
+        getChildrenUnchecked, setContentEditable, getContentEditable,
+        getContentEditableUnchecked, getIsContentEditable, setSpellcheck,
+        getSpellcheck, HTMLElement, castToHTMLElement, gTypeHTMLElement,
+        IsHTMLElement, toHTMLElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -33,6 +36,28 @@ insertAdjacentElement self where' element
       (((toHTMLElement self) ^. jsf "insertAdjacentElement"
           [toJSVal where', toJSVal element])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
+insertAdjacentElement_ ::
+                       (MonadDOM m, IsHTMLElement self, ToJSString where',
+                        IsElement element) =>
+                         self -> where' -> Maybe element -> m ()
+insertAdjacentElement_ self where' element
+  = liftDOM
+      (void
+         ((toHTMLElement self) ^. jsf "insertAdjacentElement"
+            [toJSVal where', toJSVal element]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
+insertAdjacentElementUnchecked ::
+                               (MonadDOM m, IsHTMLElement self, ToJSString where',
+                                IsElement element) =>
+                                 self -> where' -> Maybe element -> m Element
+insertAdjacentElementUnchecked self where' element
+  = liftDOM
+      (((toHTMLElement self) ^. jsf "insertAdjacentElement"
+          [toJSVal where', toJSVal element])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentHTML Mozilla HTMLElement.insertAdjacentHTML documentation> 
 insertAdjacentHTML ::
@@ -199,6 +224,14 @@ getInnerText self
   = liftDOM
       (((toHTMLElement self) ^. js "innerText") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
+getInnerTextUnchecked ::
+                      (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                        self -> m result
+getInnerTextUnchecked self
+  = liftDOM
+      (((toHTMLElement self) ^. js "innerText") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
 setOuterText ::
              (MonadDOM m, IsHTMLElement self, ToJSString val) =>
@@ -214,12 +247,27 @@ getOuterText self
   = liftDOM
       (((toHTMLElement self) ^. js "outerText") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
+getOuterTextUnchecked ::
+                      (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                        self -> m result
+getOuterTextUnchecked self
+  = liftDOM
+      (((toHTMLElement self) ^. js "outerText") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
 getChildren ::
             (MonadDOM m, IsHTMLElement self) =>
               self -> m (Maybe HTMLCollection)
 getChildren self
   = liftDOM (((toHTMLElement self) ^. js "children") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
+getChildrenUnchecked ::
+                     (MonadDOM m, IsHTMLElement self) => self -> m HTMLCollection
+getChildrenUnchecked self
+  = liftDOM
+      (((toHTMLElement self) ^. js "children") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
 setContentEditable ::
@@ -237,6 +285,15 @@ getContentEditable self
   = liftDOM
       (((toHTMLElement self) ^. js "contentEditable") >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
+getContentEditableUnchecked ::
+                            (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                              self -> m result
+getContentEditableUnchecked self
+  = liftDOM
+      (((toHTMLElement self) ^. js "contentEditable") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.isContentEditable Mozilla HTMLElement.isContentEditable documentation> 
 getIsContentEditable ::

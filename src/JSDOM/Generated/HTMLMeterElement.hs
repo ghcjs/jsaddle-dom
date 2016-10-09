@@ -3,7 +3,8 @@
 module JSDOM.Generated.HTMLMeterElement
        (setValue, getValue, setMin, getMin, setMax, getMax, setLow,
         getLow, setHigh, getHigh, setOptimum, getOptimum, getLabels,
-        HTMLMeterElement, castToHTMLMeterElement, gTypeHTMLMeterElement)
+        getLabelsUnchecked, HTMLMeterElement, castToHTMLMeterElement,
+        gTypeHTMLMeterElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -68,3 +69,9 @@ getOptimum self = liftDOM ((self ^. js "optimum") >>= valToNumber)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
 getLabels :: (MonadDOM m) => HTMLMeterElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
+getLabelsUnchecked ::
+                   (MonadDOM m) => HTMLMeterElement -> m NodeList
+getLabelsUnchecked self
+  = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

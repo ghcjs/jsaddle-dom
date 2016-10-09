@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEDistantLightElement
-       (getAzimuth, getElevation, SVGFEDistantLightElement,
+       (getAzimuth, getAzimuthUnchecked, getElevation,
+        getElevationUnchecked, SVGFEDistantLightElement,
         castToSVGFEDistantLightElement, gTypeSVGFEDistantLightElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,9 +23,21 @@ getAzimuth ::
              SVGFEDistantLightElement -> m (Maybe SVGAnimatedNumber)
 getAzimuth self = liftDOM ((self ^. js "azimuth") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDistantLightElement.azimuth Mozilla SVGFEDistantLightElement.azimuth documentation> 
+getAzimuthUnchecked ::
+                    (MonadDOM m) => SVGFEDistantLightElement -> m SVGAnimatedNumber
+getAzimuthUnchecked self
+  = liftDOM ((self ^. js "azimuth") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDistantLightElement.elevation Mozilla SVGFEDistantLightElement.elevation documentation> 
 getElevation ::
              (MonadDOM m) =>
                SVGFEDistantLightElement -> m (Maybe SVGAnimatedNumber)
 getElevation self
   = liftDOM ((self ^. js "elevation") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDistantLightElement.elevation Mozilla SVGFEDistantLightElement.elevation documentation> 
+getElevationUnchecked ::
+                      (MonadDOM m) => SVGFEDistantLightElement -> m SVGAnimatedNumber
+getElevationUnchecked self
+  = liftDOM ((self ^. js "elevation") >>= fromJSValUnchecked)

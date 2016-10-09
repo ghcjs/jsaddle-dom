@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGCursorElement
-       (getX, getY, SVGCursorElement, castToSVGCursorElement,
-        gTypeSVGCursorElement)
+       (getX, getXUnchecked, getY, getYUnchecked, SVGCursorElement,
+        castToSVGCursorElement, gTypeSVGCursorElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,7 +21,19 @@ getX ::
      (MonadDOM m) => SVGCursorElement -> m (Maybe SVGAnimatedLength)
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.x Mozilla SVGCursorElement.x documentation> 
+getXUnchecked ::
+              (MonadDOM m) => SVGCursorElement -> m SVGAnimatedLength
+getXUnchecked self
+  = liftDOM ((self ^. js "x") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.y Mozilla SVGCursorElement.y documentation> 
 getY ::
      (MonadDOM m) => SVGCursorElement -> m (Maybe SVGAnimatedLength)
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.y Mozilla SVGCursorElement.y documentation> 
+getYUnchecked ::
+              (MonadDOM m) => SVGCursorElement -> m SVGAnimatedLength
+getYUnchecked self
+  = liftDOM ((self ^. js "y") >>= fromJSValUnchecked)

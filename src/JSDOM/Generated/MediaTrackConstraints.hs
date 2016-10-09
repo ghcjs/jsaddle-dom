@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaTrackConstraints
-       (getMandatory, getOptional, MediaTrackConstraints,
-        castToMediaTrackConstraints, gTypeMediaTrackConstraints)
+       (getMandatory, getMandatoryUnchecked, getOptional,
+        MediaTrackConstraints, castToMediaTrackConstraints,
+        gTypeMediaTrackConstraints)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,6 +23,12 @@ getMandatory ::
                MediaTrackConstraints -> m (Maybe MediaTrackConstraintSet)
 getMandatory self
   = liftDOM ((self ^. js "mandatory") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints.mandatory Mozilla MediaTrackConstraints.mandatory documentation> 
+getMandatoryUnchecked ::
+                      (MonadDOM m) => MediaTrackConstraints -> m MediaTrackConstraintSet
+getMandatoryUnchecked self
+  = liftDOM ((self ^. js "mandatory") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints.optional Mozilla MediaTrackConstraints.optional documentation> 
 getOptional ::

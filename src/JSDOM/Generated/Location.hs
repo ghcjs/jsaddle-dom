@@ -1,10 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Location
-       (assign, replace, reload, toString, setHref, getHref, setProtocol,
-        getProtocol, setHost, getHost, setHostname, getHostname, setPort,
-        getPort, setPathname, getPathname, setSearch, getSearch, setHash,
-        getHash, getOrigin, getAncestorOrigins, Location, castToLocation,
+       (assign, replace, reload, toString, toString_, setHref, getHref,
+        setProtocol, getProtocol, setHost, getHost, setHostname,
+        getHostname, setPort, getPort, setPathname, getPathname, setSearch,
+        getSearch, setHash, getHash, getOrigin, getAncestorOrigins,
+        getAncestorOriginsUnchecked, Location, castToLocation,
         gTypeLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -38,6 +39,10 @@ toString ::
          (MonadDOM m, FromJSString result) => Location -> m result
 toString self
   = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.toString Mozilla Location.toString documentation> 
+toString_ :: (MonadDOM m) => Location -> m ()
+toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.href Mozilla Location.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => Location -> val -> m ()
@@ -133,3 +138,9 @@ getAncestorOrigins ::
                    (MonadDOM m) => Location -> m (Maybe DOMStringList)
 getAncestorOrigins self
   = liftDOM ((self ^. js "ancestorOrigins") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.ancestorOrigins Mozilla Location.ancestorOrigins documentation> 
+getAncestorOriginsUnchecked ::
+                            (MonadDOM m) => Location -> m DOMStringList
+getAncestorOriginsUnchecked self
+  = liftDOM ((self ^. js "ancestorOrigins") >>= fromJSValUnchecked)

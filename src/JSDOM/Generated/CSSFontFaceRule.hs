@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSFontFaceRule
-       (getStyle, CSSFontFaceRule, castToCSSFontFaceRule,
-        gTypeCSSFontFaceRule)
+       (getStyle, getStyleUnchecked, CSSFontFaceRule,
+        castToCSSFontFaceRule, gTypeCSSFontFaceRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getStyle ::
          (MonadDOM m) => CSSFontFaceRule -> m (Maybe CSSStyleDeclaration)
 getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceRule.style Mozilla CSSFontFaceRule.style documentation> 
+getStyleUnchecked ::
+                  (MonadDOM m) => CSSFontFaceRule -> m CSSStyleDeclaration
+getStyleUnchecked self
+  = liftDOM ((self ^. js "style") >>= fromJSValUnchecked)

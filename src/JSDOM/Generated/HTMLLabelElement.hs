@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLLabelElement
-       (getForm, setHtmlFor, getHtmlFor, getControl, HTMLLabelElement,
-        castToHTMLLabelElement, gTypeHTMLLabelElement)
+       (getForm, getFormUnchecked, setHtmlFor, getHtmlFor, getControl,
+        getControlUnchecked, HTMLLabelElement, castToHTMLLabelElement,
+        gTypeHTMLLabelElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,6 +22,12 @@ getForm ::
         (MonadDOM m) => HTMLLabelElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement.form Mozilla HTMLLabelElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLLabelElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement.htmlFor Mozilla HTMLLabelElement.htmlFor documentation> 
 setHtmlFor ::
            (MonadDOM m, ToJSString val) => HTMLLabelElement -> val -> m ()
@@ -36,3 +43,9 @@ getHtmlFor self
 getControl ::
            (MonadDOM m) => HTMLLabelElement -> m (Maybe HTMLElement)
 getControl self = liftDOM ((self ^. js "control") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement.control Mozilla HTMLLabelElement.control documentation> 
+getControlUnchecked ::
+                    (MonadDOM m) => HTMLLabelElement -> m HTMLElement
+getControlUnchecked self
+  = liftDOM ((self ^. js "control") >>= fromJSValUnchecked)

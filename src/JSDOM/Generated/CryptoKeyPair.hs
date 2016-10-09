@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CryptoKeyPair
-       (getPublicKey, getPrivateKey, CryptoKeyPair, castToCryptoKeyPair,
+       (getPublicKey, getPublicKeyUnchecked, getPrivateKey,
+        getPrivateKeyUnchecked, CryptoKeyPair, castToCryptoKeyPair,
         gTypeCryptoKeyPair)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,8 +23,20 @@ getPublicKey ::
 getPublicKey self
   = liftDOM ((self ^. js "publicKey") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.publicKey Mozilla CryptoKeyPair.publicKey documentation> 
+getPublicKeyUnchecked ::
+                      (MonadDOM m) => CryptoKeyPair -> m CryptoKey
+getPublicKeyUnchecked self
+  = liftDOM ((self ^. js "publicKey") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.privateKey Mozilla CryptoKeyPair.privateKey documentation> 
 getPrivateKey ::
               (MonadDOM m) => CryptoKeyPair -> m (Maybe CryptoKey)
 getPrivateKey self
   = liftDOM ((self ^. js "privateKey") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.privateKey Mozilla CryptoKeyPair.privateKey documentation> 
+getPrivateKeyUnchecked ::
+                       (MonadDOM m) => CryptoKeyPair -> m CryptoKey
+getPrivateKeyUnchecked self
+  = liftDOM ((self ^. js "privateKey") >>= fromJSValUnchecked)

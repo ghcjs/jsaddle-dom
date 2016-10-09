@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VideoTrack
        (getId, setKind, getKind, getLabel, setLanguage, getLanguage,
-        setSelected, getSelected, getSourceBuffer, VideoTrack,
-        castToVideoTrack, gTypeVideoTrack)
+        setSelected, getSelected, getSourceBuffer,
+        getSourceBufferUnchecked, VideoTrack, castToVideoTrack,
+        gTypeVideoTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -64,3 +65,9 @@ getSourceBuffer ::
                 (MonadDOM m) => VideoTrack -> m (Maybe SourceBuffer)
 getSourceBuffer self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrack.sourceBuffer Mozilla VideoTrack.sourceBuffer documentation> 
+getSourceBufferUnchecked ::
+                         (MonadDOM m) => VideoTrack -> m SourceBuffer
+getSourceBufferUnchecked self
+  = liftDOM ((self ^. js "sourceBuffer") >>= fromJSValUnchecked)

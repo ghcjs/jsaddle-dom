@@ -8,11 +8,13 @@ module JSDOM.Generated.Event
         pattern MOUSEMOVE, pattern MOUSEDRAG, pattern CLICK,
         pattern DBLCLICK, pattern KEYDOWN, pattern KEYUP, pattern KEYPRESS,
         pattern DRAGDROP, pattern FOCUS, pattern BLUR, pattern SELECT,
-        pattern CHANGE, getType, getTarget, getCurrentTarget,
-        getEventPhase, getBubbles, getCancelable, getTimeStamp,
-        getDefaultPrevented, getSrcElement, setReturnValue, getReturnValue,
-        setCancelBubble, getCancelBubble, getClipboardData, Event,
-        castToEvent, gTypeEvent, IsEvent, toEvent)
+        pattern CHANGE, getType, getTarget, getTargetUnchecked,
+        getCurrentTarget, getCurrentTargetUnchecked, getEventPhase,
+        getBubbles, getCancelable, getTimeStamp, getDefaultPrevented,
+        getSrcElement, getSrcElementUnchecked, setReturnValue,
+        getReturnValue, setCancelBubble, getCancelBubble, getClipboardData,
+        getClipboardDataUnchecked, Event, castToEvent, gTypeEvent, IsEvent,
+        toEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -85,11 +87,24 @@ getTarget ::
 getTarget self
   = liftDOM (((toEvent self) ^. js "target") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.target Mozilla Event.target documentation> 
+getTargetUnchecked ::
+                   (MonadDOM m, IsEvent self) => self -> m EventTarget
+getTargetUnchecked self
+  = liftDOM (((toEvent self) ^. js "target") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
 getCurrentTarget ::
                  (MonadDOM m, IsEvent self) => self -> m (Maybe EventTarget)
 getCurrentTarget self
   = liftDOM (((toEvent self) ^. js "currentTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
+getCurrentTargetUnchecked ::
+                          (MonadDOM m, IsEvent self) => self -> m EventTarget
+getCurrentTargetUnchecked self
+  = liftDOM
+      (((toEvent self) ^. js "currentTarget") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.eventPhase Mozilla Event.eventPhase documentation> 
 getEventPhase :: (MonadDOM m, IsEvent self) => self -> m Word
@@ -124,6 +139,13 @@ getSrcElement ::
 getSrcElement self
   = liftDOM (((toEvent self) ^. js "srcElement") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.srcElement Mozilla Event.srcElement documentation> 
+getSrcElementUnchecked ::
+                       (MonadDOM m, IsEvent self) => self -> m EventTarget
+getSrcElementUnchecked self
+  = liftDOM
+      (((toEvent self) ^. js "srcElement") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.returnValue Mozilla Event.returnValue documentation> 
 setReturnValue ::
                (MonadDOM m, IsEvent self) => self -> Bool -> m ()
@@ -151,3 +173,10 @@ getClipboardData ::
                  (MonadDOM m, IsEvent self) => self -> m (Maybe DataTransfer)
 getClipboardData self
   = liftDOM (((toEvent self) ^. js "clipboardData") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.clipboardData Mozilla Event.clipboardData documentation> 
+getClipboardDataUnchecked ::
+                          (MonadDOM m, IsEvent self) => self -> m DataTransfer
+getClipboardDataUnchecked self
+  = liftDOM
+      (((toEvent self) ^. js "clipboardData") >>= fromJSValUnchecked)

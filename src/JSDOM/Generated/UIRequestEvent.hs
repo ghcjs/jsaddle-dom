@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.UIRequestEvent
-       (getReceiver, UIRequestEvent, castToUIRequestEvent,
-        gTypeUIRequestEvent)
+       (getReceiver, getReceiverUnchecked, UIRequestEvent,
+        castToUIRequestEvent, gTypeUIRequestEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getReceiver ::
             (MonadDOM m) => UIRequestEvent -> m (Maybe EventTarget)
 getReceiver self = liftDOM ((self ^. js "receiver") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/UIRequestEvent.receiver Mozilla UIRequestEvent.receiver documentation> 
+getReceiverUnchecked ::
+                     (MonadDOM m) => UIRequestEvent -> m EventTarget
+getReceiverUnchecked self
+  = liftDOM ((self ^. js "receiver") >>= fromJSValUnchecked)

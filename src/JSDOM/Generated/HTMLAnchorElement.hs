@@ -1,14 +1,17 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLAnchorElement
-       (toString, setCharset, getCharset, setCoords, getCoords,
+       (toString, toString_, setCharset, getCharset, setCoords, getCoords,
         setDownload, getDownload, setHref, getHref, setHreflang,
         getHreflang, setName, getName, setPing, getPing, setRel, getRel,
         setRev, getRev, setShape, getShape, setTarget, getTarget, setType,
-        getType, setHash, getHash, setHost, getHost, setHostname,
-        getHostname, setPathname, getPathname, setPort, getPort,
-        setProtocol, getProtocol, setSearch, getSearch, getOrigin, setText,
-        getText, getRelList, HTMLAnchorElement, castToHTMLAnchorElement,
+        getType, setHash, getHash, getHashUnchecked, setHost, getHost,
+        getHostUnchecked, setHostname, getHostname, getHostnameUnchecked,
+        setPathname, getPathname, getPathnameUnchecked, setPort, getPort,
+        getPortUnchecked, setProtocol, getProtocol, getProtocolUnchecked,
+        setSearch, getSearch, getSearchUnchecked, getOrigin,
+        getOriginUnchecked, setText, getText, getRelList,
+        getRelListUnchecked, HTMLAnchorElement, castToHTMLAnchorElement,
         gTypeHTMLAnchorElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -28,6 +31,10 @@ toString ::
          (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
 toString self
   = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.toString Mozilla HTMLAnchorElement.toString documentation> 
+toString_ :: (MonadDOM m) => HTMLAnchorElement -> m ()
+toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.charset Mozilla HTMLAnchorElement.charset documentation> 
 setCharset ::
@@ -169,6 +176,12 @@ getHash ::
           HTMLAnchorElement -> m (Maybe result)
 getHash self = liftDOM ((self ^. js "hash") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.hash Mozilla HTMLAnchorElement.hash documentation> 
+getHashUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getHashUnchecked self
+  = liftDOM ((self ^. js "hash") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.host Mozilla HTMLAnchorElement.host documentation> 
 setHost ::
         (MonadDOM m, ToJSString val) =>
@@ -180,6 +193,12 @@ getHost ::
         (MonadDOM m, FromJSString result) =>
           HTMLAnchorElement -> m (Maybe result)
 getHost self = liftDOM ((self ^. js "host") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.host Mozilla HTMLAnchorElement.host documentation> 
+getHostUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getHostUnchecked self
+  = liftDOM ((self ^. js "host") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.hostname Mozilla HTMLAnchorElement.hostname documentation> 
 setHostname ::
@@ -195,6 +214,12 @@ getHostname ::
 getHostname self
   = liftDOM ((self ^. js "hostname") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.hostname Mozilla HTMLAnchorElement.hostname documentation> 
+getHostnameUnchecked ::
+                     (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getHostnameUnchecked self
+  = liftDOM ((self ^. js "hostname") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.pathname Mozilla HTMLAnchorElement.pathname documentation> 
 setPathname ::
             (MonadDOM m, ToJSString val) =>
@@ -209,6 +234,12 @@ getPathname ::
 getPathname self
   = liftDOM ((self ^. js "pathname") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.pathname Mozilla HTMLAnchorElement.pathname documentation> 
+getPathnameUnchecked ::
+                     (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getPathnameUnchecked self
+  = liftDOM ((self ^. js "pathname") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.port Mozilla HTMLAnchorElement.port documentation> 
 setPort ::
         (MonadDOM m, ToJSString val) =>
@@ -220,6 +251,12 @@ getPort ::
         (MonadDOM m, FromJSString result) =>
           HTMLAnchorElement -> m (Maybe result)
 getPort self = liftDOM ((self ^. js "port") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.port Mozilla HTMLAnchorElement.port documentation> 
+getPortUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getPortUnchecked self
+  = liftDOM ((self ^. js "port") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.protocol Mozilla HTMLAnchorElement.protocol documentation> 
 setProtocol ::
@@ -235,6 +272,12 @@ getProtocol ::
 getProtocol self
   = liftDOM ((self ^. js "protocol") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.protocol Mozilla HTMLAnchorElement.protocol documentation> 
+getProtocolUnchecked ::
+                     (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getProtocolUnchecked self
+  = liftDOM ((self ^. js "protocol") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.search Mozilla HTMLAnchorElement.search documentation> 
 setSearch ::
           (MonadDOM m, ToJSString val) =>
@@ -248,12 +291,24 @@ getSearch ::
 getSearch self
   = liftDOM ((self ^. js "search") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.search Mozilla HTMLAnchorElement.search documentation> 
+getSearchUnchecked ::
+                   (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getSearchUnchecked self
+  = liftDOM ((self ^. js "search") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.origin Mozilla HTMLAnchorElement.origin documentation> 
 getOrigin ::
           (MonadDOM m, FromJSString result) =>
             HTMLAnchorElement -> m (Maybe result)
 getOrigin self
   = liftDOM ((self ^. js "origin") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.origin Mozilla HTMLAnchorElement.origin documentation> 
+getOriginUnchecked ::
+                   (MonadDOM m, FromJSString result) => HTMLAnchorElement -> m result
+getOriginUnchecked self
+  = liftDOM ((self ^. js "origin") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.text Mozilla HTMLAnchorElement.text documentation> 
 setText ::
@@ -269,3 +324,9 @@ getText self = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
 getRelList ::
            (MonadDOM m) => HTMLAnchorElement -> m (Maybe DOMTokenList)
 getRelList self = liftDOM ((self ^. js "relList") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement.relList Mozilla HTMLAnchorElement.relList documentation> 
+getRelListUnchecked ::
+                    (MonadDOM m) => HTMLAnchorElement -> m DOMTokenList
+getRelListUnchecked self
+  = liftDOM ((self ^. js "relList") >>= fromJSValUnchecked)

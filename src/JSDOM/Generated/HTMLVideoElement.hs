@@ -3,10 +3,10 @@
 module JSDOM.Generated.HTMLVideoElement
        (webkitEnterFullscreen, webkitExitFullscreen,
         webkitEnterFullScreen, webkitExitFullScreen,
-        webkitSupportsPresentationMode, webkitSetPresentationMode,
-        setWidth, getWidth, setHeight, getHeight, getVideoWidth,
-        getVideoHeight, setPoster, getPoster, getWebkitSupportsFullscreen,
-        getWebkitDisplayingFullscreen,
+        webkitSupportsPresentationMode, webkitSupportsPresentationMode_,
+        webkitSetPresentationMode, setWidth, getWidth, setHeight,
+        getHeight, getVideoWidth, getVideoHeight, setPoster, getPoster,
+        getWebkitSupportsFullscreen, getWebkitDisplayingFullscreen,
         setWebkitWirelessVideoPlaybackDisabled,
         getWebkitWirelessVideoPlaybackDisabled, getWebkitDecodedFrameCount,
         getWebkitDroppedFrameCount, getWebkitPresentationMode,
@@ -52,6 +52,14 @@ webkitSupportsPresentationMode self mode
   = liftDOM
       ((self ^. jsf "webkitSupportsPresentationMode" [toJSVal mode]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitSupportsPresentationMode Mozilla HTMLVideoElement.webkitSupportsPresentationMode documentation> 
+webkitSupportsPresentationMode_ ::
+                                (MonadDOM m) => HTMLVideoElement -> VideoPresentationMode -> m ()
+webkitSupportsPresentationMode_ self mode
+  = liftDOM
+      (void
+         (self ^. jsf "webkitSupportsPresentationMode" [toJSVal mode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitSetPresentationMode Mozilla HTMLVideoElement.webkitSetPresentationMode documentation> 
 webkitSetPresentationMode ::

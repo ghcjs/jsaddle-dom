@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedPreserveAspectRatio
-       (getBaseVal, getAnimVal, SVGAnimatedPreserveAspectRatio,
+       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
+        SVGAnimatedPreserveAspectRatio,
         castToSVGAnimatedPreserveAspectRatio,
         gTypeSVGAnimatedPreserveAspectRatio)
        where
@@ -23,8 +24,22 @@ getBaseVal ::
              SVGAnimatedPreserveAspectRatio -> m (Maybe SVGPreserveAspectRatio)
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.baseVal Mozilla SVGAnimatedPreserveAspectRatio.baseVal documentation> 
+getBaseValUnchecked ::
+                    (MonadDOM m) =>
+                      SVGAnimatedPreserveAspectRatio -> m SVGPreserveAspectRatio
+getBaseValUnchecked self
+  = liftDOM ((self ^. js "baseVal") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.animVal Mozilla SVGAnimatedPreserveAspectRatio.animVal documentation> 
 getAnimVal ::
            (MonadDOM m) =>
              SVGAnimatedPreserveAspectRatio -> m (Maybe SVGPreserveAspectRatio)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.animVal Mozilla SVGAnimatedPreserveAspectRatio.animVal documentation> 
+getAnimValUnchecked ::
+                    (MonadDOM m) =>
+                      SVGAnimatedPreserveAspectRatio -> m SVGPreserveAspectRatio
+getAnimValUnchecked self
+  = liftDOM ((self ^. js "animVal") >>= fromJSValUnchecked)

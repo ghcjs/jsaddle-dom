@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitNamespace
-       (getMessageHandlers, WebKitNamespace, castToWebKitNamespace,
-        gTypeWebKitNamespace)
+       (getMessageHandlers, getMessageHandlersUnchecked, WebKitNamespace,
+        castToWebKitNamespace, gTypeWebKitNamespace)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,3 +22,9 @@ getMessageHandlers ::
                      WebKitNamespace -> m (Maybe UserMessageHandlersNamespace)
 getMessageHandlers self
   = liftDOM ((self ^. js "messageHandlers") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamespace.messageHandlers Mozilla WebKitNamespace.messageHandlers documentation> 
+getMessageHandlersUnchecked ::
+                            (MonadDOM m) => WebKitNamespace -> m UserMessageHandlersNamespace
+getMessageHandlersUnchecked self
+  = liftDOM ((self ^. js "messageHandlers") >>= fromJSValUnchecked)

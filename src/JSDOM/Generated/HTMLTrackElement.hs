@@ -4,7 +4,8 @@ module JSDOM.Generated.HTMLTrackElement
        (pattern NONE, pattern LOADING, pattern LOADED, pattern ERROR,
         setKind, getKind, setSrc, getSrc, setSrclang, getSrclang, setLabel,
         getLabel, setDefault, getDefault, getReadyState, getTrack,
-        HTMLTrackElement, castToHTMLTrackElement, gTypeHTMLTrackElement)
+        getTrackUnchecked, HTMLTrackElement, castToHTMLTrackElement,
+        gTypeHTMLTrackElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -80,3 +81,9 @@ getReadyState self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement.track Mozilla HTMLTrackElement.track documentation> 
 getTrack :: (MonadDOM m) => HTMLTrackElement -> m (Maybe TextTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement.track Mozilla HTMLTrackElement.track documentation> 
+getTrackUnchecked ::
+                  (MonadDOM m) => HTMLTrackElement -> m TextTrack
+getTrackUnchecked self
+  = liftDOM ((self ^. js "track") >>= fromJSValUnchecked)

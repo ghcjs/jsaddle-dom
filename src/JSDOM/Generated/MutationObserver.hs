@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationObserver
-       (newMutationObserver, observe, takeRecords, disconnect,
-        MutationObserver, castToMutationObserver, gTypeMutationObserver)
+       (newMutationObserver, observe, takeRecords, takeRecords_,
+        disconnect, MutationObserver, castToMutationObserver,
+        gTypeMutationObserver)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -38,6 +39,10 @@ takeRecords ::
             (MonadDOM m) => MutationObserver -> m [Maybe MutationRecord]
 takeRecords self
   = liftDOM ((self ^. jsf "takeRecords" ()) >>= fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.takeRecords Mozilla MutationObserver.takeRecords documentation> 
+takeRecords_ :: (MonadDOM m) => MutationObserver -> m ()
+takeRecords_ self = liftDOM (void (self ^. jsf "takeRecords" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.disconnect Mozilla MutationObserver.disconnect documentation> 
 disconnect :: (MonadDOM m) => MutationObserver -> m ()

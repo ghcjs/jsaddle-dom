@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.UIEvent
-       (initUIEvent, getView, getDetail, getKeyCode, getCharCode,
-        getLayerX, getLayerY, getPageX, getPageY, getWhich, UIEvent,
-        castToUIEvent, gTypeUIEvent, IsUIEvent, toUIEvent)
+       (initUIEvent, getView, getViewUnchecked, getDetail, getKeyCode,
+        getCharCode, getLayerX, getLayerY, getPageX, getPageY, getWhich,
+        UIEvent, castToUIEvent, gTypeUIEvent, IsUIEvent, toUIEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -31,6 +31,12 @@ initUIEvent self type' canBubble cancelable view detail
 getView :: (MonadDOM m, IsUIEvent self) => self -> m (Maybe Window)
 getView self
   = liftDOM (((toUIEvent self) ^. js "view") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/UIEvent.view Mozilla UIEvent.view documentation> 
+getViewUnchecked ::
+                 (MonadDOM m, IsUIEvent self) => self -> m Window
+getViewUnchecked self
+  = liftDOM (((toUIEvent self) ^. js "view") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/UIEvent.detail Mozilla UIEvent.detail documentation> 
 getDetail :: (MonadDOM m, IsUIEvent self) => self -> m Int

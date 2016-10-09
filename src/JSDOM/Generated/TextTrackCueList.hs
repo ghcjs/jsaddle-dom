@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrackCueList
-       (item, getCueById, getLength, TextTrackCueList,
+       (item, item_, itemUnchecked, getCueById, getCueById_,
+        getCueByIdUnchecked, getLength, TextTrackCueList,
         castToTextTrackCueList, gTypeTextTrackCueList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,12 +23,38 @@ item ::
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.item Mozilla TextTrackCueList.item documentation> 
+item_ :: (MonadDOM m) => TextTrackCueList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.item Mozilla TextTrackCueList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => TextTrackCueList -> Word -> m TextTrackCue
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.getCueById Mozilla TextTrackCueList.getCueById documentation> 
 getCueById ::
            (MonadDOM m, ToJSString id) =>
              TextTrackCueList -> id -> m (Maybe TextTrackCue)
 getCueById self id
   = liftDOM ((self ^. jsf "getCueById" [toJSVal id]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.getCueById Mozilla TextTrackCueList.getCueById documentation> 
+getCueById_ ::
+            (MonadDOM m, ToJSString id) => TextTrackCueList -> id -> m ()
+getCueById_ self id
+  = liftDOM (void (self ^. jsf "getCueById" [toJSVal id]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.getCueById Mozilla TextTrackCueList.getCueById documentation> 
+getCueByIdUnchecked ::
+                    (MonadDOM m, ToJSString id) =>
+                      TextTrackCueList -> id -> m TextTrackCue
+getCueByIdUnchecked self id
+  = liftDOM
+      ((self ^. jsf "getCueById" [toJSVal id]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.length Mozilla TextTrackCueList.length documentation> 
 getLength :: (MonadDOM m) => TextTrackCueList -> m Word

@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FocusEvent
-       (getRelatedTarget, FocusEvent, castToFocusEvent, gTypeFocusEvent)
+       (getRelatedTarget, getRelatedTargetUnchecked, FocusEvent,
+        castToFocusEvent, gTypeFocusEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +21,9 @@ getRelatedTarget ::
                  (MonadDOM m) => FocusEvent -> m (Maybe EventTarget)
 getRelatedTarget self
   = liftDOM ((self ^. js "relatedTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent.relatedTarget Mozilla FocusEvent.relatedTarget documentation> 
+getRelatedTargetUnchecked ::
+                          (MonadDOM m) => FocusEvent -> m EventTarget
+getRelatedTargetUnchecked self
+  = liftDOM ((self ^. js "relatedTarget") >>= fromJSValUnchecked)

@@ -5,40 +5,57 @@ module JSDOM.Generated.WebGLRenderingContextBase
         bindFramebuffer, bindRenderbuffer, bindTexture, blendColor,
         blendEquation, blendEquationSeparate, blendFunc, blendFuncSeparate,
         bufferData, bufferDataView, bufferDataPtr, bufferSubData,
-        bufferSubDataView, checkFramebufferStatus, clear, clearColor,
-        clearDepth, clearStencil, colorMask, compileShader,
-        compressedTexImage2D, compressedTexSubImage2D, copyTexImage2D,
-        copyTexSubImage2D, createBuffer, createFramebuffer, createProgram,
-        createRenderbuffer, createShader, createTexture, cullFace,
-        deleteBuffer, deleteFramebuffer, deleteProgram, deleteRenderbuffer,
-        deleteShader, deleteTexture, depthFunc, depthMask, depthRange,
-        detachShader, disable, disableVertexAttribArray, drawArrays,
-        drawElements, enable, enableVertexAttribArray, finish, flush,
-        framebufferRenderbuffer, framebufferTexture2D, frontFace,
-        generateMipmap, getActiveAttrib, getActiveUniform,
-        getAttachedShaders, getAttribLocation, getBufferParameter,
-        getContextAttributes, getError, getExtension,
-        getFramebufferAttachmentParameter, getParameter,
-        getProgramParameter, getProgramInfoLog, getRenderbufferParameter,
-        getShaderParameter, getShaderInfoLog, getShaderPrecisionFormat,
-        getShaderSource, getSupportedExtensions, getTexParameter,
-        getUniform, getUniformLocation, getVertexAttrib,
-        getVertexAttribOffset, hint, isBuffer, isContextLost, isEnabled,
-        isFramebuffer, isProgram, isRenderbuffer, isShader, isTexture,
-        lineWidth, linkProgram, pixelStorei, polygonOffset, readPixels,
-        releaseShaderCompiler, renderbufferStorage, sampleCoverage,
-        scissor, shaderSource, stencilFunc, stencilFuncSeparate,
-        stencilMask, stencilMaskSeparate, stencilOp, stencilOpSeparate,
-        texParameterf, texParameteri, texImage2DView, texImage2DData,
-        texImage2D, texImage2DCanvas, texImage2DVideo, texSubImage2DView,
-        texSubImage2DData, texSubImage2D, texSubImage2DCanvas,
-        texSubImage2DVideo, uniform1f, uniform1fv, uniform1i, uniform1iv,
-        uniform2f, uniform2fv, uniform2i, uniform2iv, uniform3f,
-        uniform3fv, uniform3i, uniform3iv, uniform4f, uniform4fv,
-        uniform4i, uniform4iv, uniformMatrix2fv, uniformMatrix3fv,
-        uniformMatrix4fv, useProgram, validateProgram, vertexAttrib1f,
-        vertexAttrib1fv, vertexAttrib2f, vertexAttrib2fv, vertexAttrib3f,
-        vertexAttrib3fv, vertexAttrib4f, vertexAttrib4fv,
+        bufferSubDataView, checkFramebufferStatus, checkFramebufferStatus_,
+        clear, clearColor, clearDepth, clearStencil, colorMask,
+        compileShader, compressedTexImage2D, compressedTexSubImage2D,
+        copyTexImage2D, copyTexSubImage2D, createBuffer, createBuffer_,
+        createBufferUnchecked, createFramebuffer, createFramebuffer_,
+        createFramebufferUnchecked, createProgram, createProgram_,
+        createProgramUnchecked, createRenderbuffer, createRenderbuffer_,
+        createRenderbufferUnchecked, createShader, createShader_,
+        createShaderUnchecked, createTexture, createTexture_,
+        createTextureUnchecked, cullFace, deleteBuffer, deleteFramebuffer,
+        deleteProgram, deleteRenderbuffer, deleteShader, deleteTexture,
+        depthFunc, depthMask, depthRange, detachShader, disable,
+        disableVertexAttribArray, drawArrays, drawElements, enable,
+        enableVertexAttribArray, finish, flush, framebufferRenderbuffer,
+        framebufferTexture2D, frontFace, generateMipmap, getActiveAttrib,
+        getActiveAttrib_, getActiveAttribUnchecked, getActiveUniform,
+        getActiveUniform_, getActiveUniformUnchecked, getAttachedShaders,
+        getAttribLocation, getAttribLocation_, getBufferParameter,
+        getBufferParameter_, getContextAttributes, getContextAttributes_,
+        getContextAttributesUnchecked, getError, getError_, getExtension,
+        getExtension_, getFramebufferAttachmentParameter,
+        getFramebufferAttachmentParameter_, getParameter, getParameter_,
+        getProgramParameter, getProgramParameter_, getProgramInfoLog,
+        getProgramInfoLog_, getProgramInfoLogUnchecked,
+        getRenderbufferParameter, getRenderbufferParameter_,
+        getShaderParameter, getShaderParameter_, getShaderInfoLog,
+        getShaderInfoLog_, getShaderInfoLogUnchecked,
+        getShaderPrecisionFormat, getShaderPrecisionFormat_,
+        getShaderPrecisionFormatUnchecked, getShaderSource,
+        getShaderSource_, getShaderSourceUnchecked, getSupportedExtensions,
+        getSupportedExtensions_, getTexParameter, getTexParameter_,
+        getUniform, getUniform_, getUniformLocation, getUniformLocation_,
+        getUniformLocationUnchecked, getVertexAttrib, getVertexAttrib_,
+        getVertexAttribOffset, getVertexAttribOffset_, hint, isBuffer,
+        isBuffer_, isContextLost, isContextLost_, isEnabled, isEnabled_,
+        isFramebuffer, isFramebuffer_, isProgram, isProgram_,
+        isRenderbuffer, isRenderbuffer_, isShader, isShader_, isTexture,
+        isTexture_, lineWidth, linkProgram, pixelStorei, polygonOffset,
+        readPixels, releaseShaderCompiler, renderbufferStorage,
+        sampleCoverage, scissor, shaderSource, stencilFunc,
+        stencilFuncSeparate, stencilMask, stencilMaskSeparate, stencilOp,
+        stencilOpSeparate, texParameterf, texParameteri, texImage2DView,
+        texImage2DData, texImage2D, texImage2DCanvas, texImage2DVideo,
+        texSubImage2DView, texSubImage2DData, texSubImage2D,
+        texSubImage2DCanvas, texSubImage2DVideo, uniform1f, uniform1fv,
+        uniform1i, uniform1iv, uniform2f, uniform2fv, uniform2i,
+        uniform2iv, uniform3f, uniform3fv, uniform3i, uniform3iv,
+        uniform4f, uniform4fv, uniform4i, uniform4iv, uniformMatrix2fv,
+        uniformMatrix3fv, uniformMatrix4fv, useProgram, validateProgram,
+        vertexAttrib1f, vertexAttrib1fv, vertexAttrib2f, vertexAttrib2fv,
+        vertexAttrib3f, vertexAttrib3fv, vertexAttrib4f, vertexAttrib4fv,
         vertexAttribPointer, viewport, pattern DEPTH_BUFFER_BIT,
         pattern STENCIL_BUFFER_BIT, pattern COLOR_BUFFER_BIT,
         pattern POINTS, pattern LINES, pattern LINE_LOOP,
@@ -378,6 +395,16 @@ checkFramebufferStatus self target
           [toJSVal target])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.checkFramebufferStatus Mozilla WebGLRenderingContextBase.checkFramebufferStatus documentation> 
+checkFramebufferStatus_ ::
+                        (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                          self -> GLenum -> m ()
+checkFramebufferStatus_ self target
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "checkFramebufferStatus"
+            [toJSVal target]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.clear Mozilla WebGLRenderingContextBase.clear documentation> 
 clear ::
       (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -510,6 +537,23 @@ createBuffer self
       (((toWebGLRenderingContextBase self) ^. jsf "createBuffer" ()) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createBuffer Mozilla WebGLRenderingContextBase.createBuffer documentation> 
+createBuffer_ ::
+              (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+createBuffer_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "createBuffer" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createBuffer Mozilla WebGLRenderingContextBase.createBuffer documentation> 
+createBufferUnchecked ::
+                      (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                        self -> m WebGLBuffer
+createBufferUnchecked self
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "createBuffer" ()) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createFramebuffer Mozilla WebGLRenderingContextBase.createFramebuffer documentation> 
 createFramebuffer ::
                   (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -519,6 +563,23 @@ createFramebuffer self
       (((toWebGLRenderingContextBase self) ^. jsf "createFramebuffer" ())
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createFramebuffer Mozilla WebGLRenderingContextBase.createFramebuffer documentation> 
+createFramebuffer_ ::
+                   (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+createFramebuffer_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "createFramebuffer" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createFramebuffer Mozilla WebGLRenderingContextBase.createFramebuffer documentation> 
+createFramebufferUnchecked ::
+                           (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                             self -> m WebGLFramebuffer
+createFramebufferUnchecked self
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "createFramebuffer" ())
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createProgram Mozilla WebGLRenderingContextBase.createProgram documentation> 
 createProgram ::
               (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -527,6 +588,23 @@ createProgram self
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "createProgram" ()) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createProgram Mozilla WebGLRenderingContextBase.createProgram documentation> 
+createProgram_ ::
+               (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+createProgram_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "createProgram" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createProgram Mozilla WebGLRenderingContextBase.createProgram documentation> 
+createProgramUnchecked ::
+                       (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                         self -> m WebGLProgram
+createProgramUnchecked self
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "createProgram" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createRenderbuffer Mozilla WebGLRenderingContextBase.createRenderbuffer documentation> 
 createRenderbuffer ::
@@ -538,6 +616,25 @@ createRenderbuffer self
           ())
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createRenderbuffer Mozilla WebGLRenderingContextBase.createRenderbuffer documentation> 
+createRenderbuffer_ ::
+                    (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+createRenderbuffer_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "createRenderbuffer"
+            ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createRenderbuffer Mozilla WebGLRenderingContextBase.createRenderbuffer documentation> 
+createRenderbufferUnchecked ::
+                            (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                              self -> m WebGLRenderbuffer
+createRenderbufferUnchecked self
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "createRenderbuffer"
+          ())
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createShader Mozilla WebGLRenderingContextBase.createShader documentation> 
 createShader ::
              (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -548,6 +645,26 @@ createShader self type'
           [toJSVal type'])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createShader Mozilla WebGLRenderingContextBase.createShader documentation> 
+createShader_ ::
+              (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                self -> GLenum -> m ()
+createShader_ self type'
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "createShader"
+            [toJSVal type']))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createShader Mozilla WebGLRenderingContextBase.createShader documentation> 
+createShaderUnchecked ::
+                      (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                        self -> GLenum -> m WebGLShader
+createShaderUnchecked self type'
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "createShader"
+          [toJSVal type'])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createTexture Mozilla WebGLRenderingContextBase.createTexture documentation> 
 createTexture ::
               (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -556,6 +673,23 @@ createTexture self
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "createTexture" ()) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createTexture Mozilla WebGLRenderingContextBase.createTexture documentation> 
+createTexture_ ::
+               (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+createTexture_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "createTexture" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.createTexture Mozilla WebGLRenderingContextBase.createTexture documentation> 
+createTextureUnchecked ::
+                       (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                         self -> m WebGLTexture
+createTextureUnchecked self
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "createTexture" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.cullFace Mozilla WebGLRenderingContextBase.cullFace documentation> 
 cullFace ::
@@ -798,6 +932,26 @@ getActiveAttrib self program index
           [toJSVal program, toJSVal index])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getActiveAttrib Mozilla WebGLRenderingContextBase.getActiveAttrib documentation> 
+getActiveAttrib_ ::
+                 (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                   self -> Maybe WebGLProgram -> GLuint -> m ()
+getActiveAttrib_ self program index
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getActiveAttrib"
+            [toJSVal program, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getActiveAttrib Mozilla WebGLRenderingContextBase.getActiveAttrib documentation> 
+getActiveAttribUnchecked ::
+                         (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                           self -> Maybe WebGLProgram -> GLuint -> m WebGLActiveInfo
+getActiveAttribUnchecked self program index
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getActiveAttrib"
+          [toJSVal program, toJSVal index])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getActiveUniform Mozilla WebGLRenderingContextBase.getActiveUniform documentation> 
 getActiveUniform ::
                  (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -807,6 +961,26 @@ getActiveUniform self program index
       (((toWebGLRenderingContextBase self) ^. jsf "getActiveUniform"
           [toJSVal program, toJSVal index])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getActiveUniform Mozilla WebGLRenderingContextBase.getActiveUniform documentation> 
+getActiveUniform_ ::
+                  (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                    self -> Maybe WebGLProgram -> GLuint -> m ()
+getActiveUniform_ self program index
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getActiveUniform"
+            [toJSVal program, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getActiveUniform Mozilla WebGLRenderingContextBase.getActiveUniform documentation> 
+getActiveUniformUnchecked ::
+                          (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                            self -> Maybe WebGLProgram -> GLuint -> m WebGLActiveInfo
+getActiveUniformUnchecked self program index
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getActiveUniform"
+          [toJSVal program, toJSVal index])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getAttachedShaders Mozilla WebGLRenderingContextBase.getAttachedShaders documentation> 
 getAttachedShaders ::
@@ -828,6 +1002,16 @@ getAttribLocation self program name
           [toJSVal program, toJSVal name])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getAttribLocation Mozilla WebGLRenderingContextBase.getAttribLocation documentation> 
+getAttribLocation_ ::
+                   (MonadDOM m, IsWebGLRenderingContextBase self, ToJSString name) =>
+                     self -> Maybe WebGLProgram -> name -> m ()
+getAttribLocation_ self program name
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getAttribLocation"
+            [toJSVal program, toJSVal name]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getBufferParameter Mozilla WebGLRenderingContextBase.getBufferParameter documentation> 
 getBufferParameter ::
                    (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -837,6 +1021,16 @@ getBufferParameter self target pname
       (((toWebGLRenderingContextBase self) ^. jsf "getBufferParameter"
           [toJSVal target, toJSVal pname])
          >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getBufferParameter Mozilla WebGLRenderingContextBase.getBufferParameter documentation> 
+getBufferParameter_ ::
+                    (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                      self -> GLenum -> GLenum -> m ()
+getBufferParameter_ self target pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getBufferParameter"
+            [toJSVal target, toJSVal pname]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getContextAttributes Mozilla WebGLRenderingContextBase.getContextAttributes documentation> 
 getContextAttributes ::
@@ -848,6 +1042,25 @@ getContextAttributes self
           ())
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getContextAttributes Mozilla WebGLRenderingContextBase.getContextAttributes documentation> 
+getContextAttributes_ ::
+                      (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+getContextAttributes_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getContextAttributes"
+            ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getContextAttributes Mozilla WebGLRenderingContextBase.getContextAttributes documentation> 
+getContextAttributesUnchecked ::
+                              (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                                self -> m WebGLContextAttributes
+getContextAttributesUnchecked self
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getContextAttributes"
+          ())
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getError Mozilla WebGLRenderingContextBase.getError documentation> 
 getError ::
          (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m GLenum
@@ -855,6 +1068,13 @@ getError self
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "getError" ()) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getError Mozilla WebGLRenderingContextBase.getError documentation> 
+getError_ ::
+          (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+getError_ self
+  = liftDOM
+      (void ((toWebGLRenderingContextBase self) ^. jsf "getError" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getExtension Mozilla WebGLRenderingContextBase.getExtension documentation> 
 getExtension ::
@@ -865,6 +1085,16 @@ getExtension self name
       (((toWebGLRenderingContextBase self) ^. jsf "getExtension"
           [toJSVal name])
          >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getExtension Mozilla WebGLRenderingContextBase.getExtension documentation> 
+getExtension_ ::
+              (MonadDOM m, IsWebGLRenderingContextBase self, ToJSString name) =>
+                self -> name -> m ()
+getExtension_ self name
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getExtension"
+            [toJSVal name]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getFramebufferAttachmentParameter Mozilla WebGLRenderingContextBase.getFramebufferAttachmentParameter documentation> 
 getFramebufferAttachmentParameter ::
@@ -877,6 +1107,17 @@ getFramebufferAttachmentParameter self target attachment pname
           [toJSVal target, toJSVal attachment, toJSVal pname])
          >>= toJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getFramebufferAttachmentParameter Mozilla WebGLRenderingContextBase.getFramebufferAttachmentParameter documentation> 
+getFramebufferAttachmentParameter_ ::
+                                   (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                                     self -> GLenum -> GLenum -> GLenum -> m ()
+getFramebufferAttachmentParameter_ self target attachment pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^.
+            jsf "getFramebufferAttachmentParameter"
+            [toJSVal target, toJSVal attachment, toJSVal pname]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getParameter Mozilla WebGLRenderingContextBase.getParameter documentation> 
 getParameter ::
              (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -887,6 +1128,16 @@ getParameter self pname
           [toJSVal pname])
          >>= toJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getParameter Mozilla WebGLRenderingContextBase.getParameter documentation> 
+getParameter_ ::
+              (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                self -> GLenum -> m ()
+getParameter_ self pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getParameter"
+            [toJSVal pname]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramParameter Mozilla WebGLRenderingContextBase.getProgramParameter documentation> 
 getProgramParameter ::
                     (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -896,6 +1147,16 @@ getProgramParameter self program pname
       (((toWebGLRenderingContextBase self) ^. jsf "getProgramParameter"
           [toJSVal program, toJSVal pname])
          >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramParameter Mozilla WebGLRenderingContextBase.getProgramParameter documentation> 
+getProgramParameter_ ::
+                     (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                       self -> Maybe WebGLProgram -> GLenum -> m ()
+getProgramParameter_ self program pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getProgramParameter"
+            [toJSVal program, toJSVal pname]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramInfoLog Mozilla WebGLRenderingContextBase.getProgramInfoLog documentation> 
 getProgramInfoLog ::
@@ -908,6 +1169,27 @@ getProgramInfoLog self program
           [toJSVal program])
          >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramInfoLog Mozilla WebGLRenderingContextBase.getProgramInfoLog documentation> 
+getProgramInfoLog_ ::
+                   (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                     self -> Maybe WebGLProgram -> m ()
+getProgramInfoLog_ self program
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getProgramInfoLog"
+            [toJSVal program]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramInfoLog Mozilla WebGLRenderingContextBase.getProgramInfoLog documentation> 
+getProgramInfoLogUnchecked ::
+                           (MonadDOM m, IsWebGLRenderingContextBase self,
+                            FromJSString result) =>
+                             self -> Maybe WebGLProgram -> m result
+getProgramInfoLogUnchecked self program
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getProgramInfoLog"
+          [toJSVal program])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getRenderbufferParameter Mozilla WebGLRenderingContextBase.getRenderbufferParameter documentation> 
 getRenderbufferParameter ::
                          (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -919,6 +1201,17 @@ getRenderbufferParameter self target pname
           [toJSVal target, toJSVal pname])
          >>= toJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getRenderbufferParameter Mozilla WebGLRenderingContextBase.getRenderbufferParameter documentation> 
+getRenderbufferParameter_ ::
+                          (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                            self -> GLenum -> GLenum -> m ()
+getRenderbufferParameter_ self target pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^.
+            jsf "getRenderbufferParameter"
+            [toJSVal target, toJSVal pname]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderParameter Mozilla WebGLRenderingContextBase.getShaderParameter documentation> 
 getShaderParameter ::
                    (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -928,6 +1221,16 @@ getShaderParameter self shader pname
       (((toWebGLRenderingContextBase self) ^. jsf "getShaderParameter"
           [toJSVal shader, toJSVal pname])
          >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderParameter Mozilla WebGLRenderingContextBase.getShaderParameter documentation> 
+getShaderParameter_ ::
+                    (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                      self -> Maybe WebGLShader -> GLenum -> m ()
+getShaderParameter_ self shader pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getShaderParameter"
+            [toJSVal shader, toJSVal pname]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderInfoLog Mozilla WebGLRenderingContextBase.getShaderInfoLog documentation> 
 getShaderInfoLog ::
@@ -940,6 +1243,27 @@ getShaderInfoLog self shader
           [toJSVal shader])
          >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderInfoLog Mozilla WebGLRenderingContextBase.getShaderInfoLog documentation> 
+getShaderInfoLog_ ::
+                  (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                    self -> Maybe WebGLShader -> m ()
+getShaderInfoLog_ self shader
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getShaderInfoLog"
+            [toJSVal shader]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderInfoLog Mozilla WebGLRenderingContextBase.getShaderInfoLog documentation> 
+getShaderInfoLogUnchecked ::
+                          (MonadDOM m, IsWebGLRenderingContextBase self,
+                           FromJSString result) =>
+                            self -> Maybe WebGLShader -> m result
+getShaderInfoLogUnchecked self shader
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getShaderInfoLog"
+          [toJSVal shader])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderPrecisionFormat Mozilla WebGLRenderingContextBase.getShaderPrecisionFormat documentation> 
 getShaderPrecisionFormat ::
                          (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -951,6 +1275,28 @@ getShaderPrecisionFormat self shadertype precisiontype
           [toJSVal shadertype, toJSVal precisiontype])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderPrecisionFormat Mozilla WebGLRenderingContextBase.getShaderPrecisionFormat documentation> 
+getShaderPrecisionFormat_ ::
+                          (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                            self -> GLenum -> GLenum -> m ()
+getShaderPrecisionFormat_ self shadertype precisiontype
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^.
+            jsf "getShaderPrecisionFormat"
+            [toJSVal shadertype, toJSVal precisiontype]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderPrecisionFormat Mozilla WebGLRenderingContextBase.getShaderPrecisionFormat documentation> 
+getShaderPrecisionFormatUnchecked ::
+                                  (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                                    self -> GLenum -> GLenum -> m WebGLShaderPrecisionFormat
+getShaderPrecisionFormatUnchecked self shadertype precisiontype
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^.
+          jsf "getShaderPrecisionFormat"
+          [toJSVal shadertype, toJSVal precisiontype])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderSource Mozilla WebGLRenderingContextBase.getShaderSource documentation> 
 getShaderSource ::
                 (MonadDOM m, IsWebGLRenderingContextBase self,
@@ -961,6 +1307,27 @@ getShaderSource self shader
       (((toWebGLRenderingContextBase self) ^. jsf "getShaderSource"
           [toJSVal shader])
          >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderSource Mozilla WebGLRenderingContextBase.getShaderSource documentation> 
+getShaderSource_ ::
+                 (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                   self -> Maybe WebGLShader -> m ()
+getShaderSource_ self shader
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getShaderSource"
+            [toJSVal shader]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderSource Mozilla WebGLRenderingContextBase.getShaderSource documentation> 
+getShaderSourceUnchecked ::
+                         (MonadDOM m, IsWebGLRenderingContextBase self,
+                          FromJSString result) =>
+                           self -> Maybe WebGLShader -> m result
+getShaderSourceUnchecked self shader
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getShaderSource"
+          [toJSVal shader])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getSupportedExtensions Mozilla WebGLRenderingContextBase.getSupportedExtensions documentation> 
 getSupportedExtensions ::
@@ -974,6 +1341,15 @@ getSupportedExtensions self
           ())
          >>= fromJSArrayUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getSupportedExtensions Mozilla WebGLRenderingContextBase.getSupportedExtensions documentation> 
+getSupportedExtensions_ ::
+                        (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+getSupportedExtensions_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getSupportedExtensions"
+            ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getTexParameter Mozilla WebGLRenderingContextBase.getTexParameter documentation> 
 getTexParameter ::
                 (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -984,6 +1360,16 @@ getTexParameter self target pname
           [toJSVal target, toJSVal pname])
          >>= toJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getTexParameter Mozilla WebGLRenderingContextBase.getTexParameter documentation> 
+getTexParameter_ ::
+                 (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                   self -> GLenum -> GLenum -> m ()
+getTexParameter_ self target pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getTexParameter"
+            [toJSVal target, toJSVal pname]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getUniform Mozilla WebGLRenderingContextBase.getUniform documentation> 
 getUniform ::
            (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -993,6 +1379,16 @@ getUniform self program location
       (((toWebGLRenderingContextBase self) ^. jsf "getUniform"
           [toJSVal program, toJSVal location])
          >>= toJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getUniform Mozilla WebGLRenderingContextBase.getUniform documentation> 
+getUniform_ ::
+            (MonadDOM m, IsWebGLRenderingContextBase self) =>
+              self -> Maybe WebGLProgram -> Maybe WebGLUniformLocation -> m ()
+getUniform_ self program location
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getUniform"
+            [toJSVal program, toJSVal location]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getUniformLocation Mozilla WebGLRenderingContextBase.getUniformLocation documentation> 
 getUniformLocation ::
@@ -1005,6 +1401,26 @@ getUniformLocation self program name
           [toJSVal program, toJSVal name])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getUniformLocation Mozilla WebGLRenderingContextBase.getUniformLocation documentation> 
+getUniformLocation_ ::
+                    (MonadDOM m, IsWebGLRenderingContextBase self, ToJSString name) =>
+                      self -> Maybe WebGLProgram -> name -> m ()
+getUniformLocation_ self program name
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getUniformLocation"
+            [toJSVal program, toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getUniformLocation Mozilla WebGLRenderingContextBase.getUniformLocation documentation> 
+getUniformLocationUnchecked ::
+                            (MonadDOM m, IsWebGLRenderingContextBase self, ToJSString name) =>
+                              self -> Maybe WebGLProgram -> name -> m WebGLUniformLocation
+getUniformLocationUnchecked self program name
+  = liftDOM
+      (((toWebGLRenderingContextBase self) ^. jsf "getUniformLocation"
+          [toJSVal program, toJSVal name])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getVertexAttrib Mozilla WebGLRenderingContextBase.getVertexAttrib documentation> 
 getVertexAttrib ::
                 (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -1015,6 +1431,16 @@ getVertexAttrib self index pname
           [toJSVal index, toJSVal pname])
          >>= toJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getVertexAttrib Mozilla WebGLRenderingContextBase.getVertexAttrib documentation> 
+getVertexAttrib_ ::
+                 (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                   self -> GLuint -> GLenum -> m ()
+getVertexAttrib_ self index pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getVertexAttrib"
+            [toJSVal index, toJSVal pname]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getVertexAttribOffset Mozilla WebGLRenderingContextBase.getVertexAttribOffset documentation> 
 getVertexAttribOffset ::
                       (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -1024,6 +1450,16 @@ getVertexAttribOffset self index pname
       (((toWebGLRenderingContextBase self) ^. jsf "getVertexAttribOffset"
           [toJSVal index, toJSVal pname])
          >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getVertexAttribOffset Mozilla WebGLRenderingContextBase.getVertexAttribOffset documentation> 
+getVertexAttribOffset_ ::
+                       (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                         self -> GLuint -> GLenum -> m ()
+getVertexAttribOffset_ self index pname
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "getVertexAttribOffset"
+            [toJSVal index, toJSVal pname]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.hint Mozilla WebGLRenderingContextBase.hint documentation> 
 hint ::
@@ -1045,6 +1481,16 @@ isBuffer self buffer
           [toJSVal buffer])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isBuffer Mozilla WebGLRenderingContextBase.isBuffer documentation> 
+isBuffer_ ::
+          (MonadDOM m, IsWebGLRenderingContextBase self) =>
+            self -> Maybe WebGLBuffer -> m ()
+isBuffer_ self buffer
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isBuffer"
+            [toJSVal buffer]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isContextLost Mozilla WebGLRenderingContextBase.isContextLost documentation> 
 isContextLost ::
               (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -1053,6 +1499,14 @@ isContextLost self
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "isContextLost" ()) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isContextLost Mozilla WebGLRenderingContextBase.isContextLost documentation> 
+isContextLost_ ::
+               (MonadDOM m, IsWebGLRenderingContextBase self) => self -> m ()
+isContextLost_ self
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isContextLost" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isEnabled Mozilla WebGLRenderingContextBase.isEnabled documentation> 
 isEnabled ::
@@ -1064,6 +1518,16 @@ isEnabled self cap
           [toJSVal cap])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isEnabled Mozilla WebGLRenderingContextBase.isEnabled documentation> 
+isEnabled_ ::
+           (MonadDOM m, IsWebGLRenderingContextBase self) =>
+             self -> GLenum -> m ()
+isEnabled_ self cap
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isEnabled"
+            [toJSVal cap]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isFramebuffer Mozilla WebGLRenderingContextBase.isFramebuffer documentation> 
 isFramebuffer ::
               (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -1073,6 +1537,16 @@ isFramebuffer self framebuffer
       (((toWebGLRenderingContextBase self) ^. jsf "isFramebuffer"
           [toJSVal framebuffer])
          >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isFramebuffer Mozilla WebGLRenderingContextBase.isFramebuffer documentation> 
+isFramebuffer_ ::
+               (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                 self -> Maybe WebGLFramebuffer -> m ()
+isFramebuffer_ self framebuffer
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isFramebuffer"
+            [toJSVal framebuffer]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isProgram Mozilla WebGLRenderingContextBase.isProgram documentation> 
 isProgram ::
@@ -1084,6 +1558,16 @@ isProgram self program
           [toJSVal program])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isProgram Mozilla WebGLRenderingContextBase.isProgram documentation> 
+isProgram_ ::
+           (MonadDOM m, IsWebGLRenderingContextBase self) =>
+             self -> Maybe WebGLProgram -> m ()
+isProgram_ self program
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isProgram"
+            [toJSVal program]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isRenderbuffer Mozilla WebGLRenderingContextBase.isRenderbuffer documentation> 
 isRenderbuffer ::
                (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -1093,6 +1577,16 @@ isRenderbuffer self renderbuffer
       (((toWebGLRenderingContextBase self) ^. jsf "isRenderbuffer"
           [toJSVal renderbuffer])
          >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isRenderbuffer Mozilla WebGLRenderingContextBase.isRenderbuffer documentation> 
+isRenderbuffer_ ::
+                (MonadDOM m, IsWebGLRenderingContextBase self) =>
+                  self -> Maybe WebGLRenderbuffer -> m ()
+isRenderbuffer_ self renderbuffer
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isRenderbuffer"
+            [toJSVal renderbuffer]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isShader Mozilla WebGLRenderingContextBase.isShader documentation> 
 isShader ::
@@ -1104,6 +1598,16 @@ isShader self shader
           [toJSVal shader])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isShader Mozilla WebGLRenderingContextBase.isShader documentation> 
+isShader_ ::
+          (MonadDOM m, IsWebGLRenderingContextBase self) =>
+            self -> Maybe WebGLShader -> m ()
+isShader_ self shader
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isShader"
+            [toJSVal shader]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isTexture Mozilla WebGLRenderingContextBase.isTexture documentation> 
 isTexture ::
           (MonadDOM m, IsWebGLRenderingContextBase self) =>
@@ -1113,6 +1617,16 @@ isTexture self texture
       (((toWebGLRenderingContextBase self) ^. jsf "isTexture"
           [toJSVal texture])
          >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.isTexture Mozilla WebGLRenderingContextBase.isTexture documentation> 
+isTexture_ ::
+           (MonadDOM m, IsWebGLRenderingContextBase self) =>
+             self -> Maybe WebGLTexture -> m ()
+isTexture_ self texture
+  = liftDOM
+      (void
+         ((toWebGLRenderingContextBase self) ^. jsf "isTexture"
+            [toJSVal texture]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.lineWidth Mozilla WebGLRenderingContextBase.lineWidth documentation> 
 lineWidth ::

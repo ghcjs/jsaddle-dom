@@ -3,9 +3,10 @@
 module JSDOM.Generated.HTMLLinkElement
        (setDisabled, getDisabled, setCharset, getCharset, setHref,
         getHref, setHreflang, getHreflang, setMedia, getMedia, setRel,
-        getRel, setRev, getRev, setSizes, getSizes, setTarget, getTarget,
-        setType, getType, getSheet, getRelList, HTMLLinkElement,
-        castToHTMLLinkElement, gTypeHTMLLinkElement)
+        getRel, setRev, getRev, setSizes, getSizes, getSizesUnchecked,
+        setTarget, getTarget, setType, getType, getSheet,
+        getSheetUnchecked, getRelList, getRelListUnchecked,
+        HTMLLinkElement, castToHTMLLinkElement, gTypeHTMLLinkElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -103,6 +104,12 @@ getSizes ::
          (MonadDOM m) => HTMLLinkElement -> m (Maybe DOMSettableTokenList)
 getSizes self = liftDOM ((self ^. js "sizes") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
+getSizesUnchecked ::
+                  (MonadDOM m) => HTMLLinkElement -> m DOMSettableTokenList
+getSizesUnchecked self
+  = liftDOM ((self ^. js "sizes") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.target Mozilla HTMLLinkElement.target documentation> 
 setTarget ::
           (MonadDOM m, ToJSString val) => HTMLLinkElement -> val -> m ()
@@ -128,7 +135,19 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 getSheet :: (MonadDOM m) => HTMLLinkElement -> m (Maybe StyleSheet)
 getSheet self = liftDOM ((self ^. js "sheet") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sheet Mozilla HTMLLinkElement.sheet documentation> 
+getSheetUnchecked ::
+                  (MonadDOM m) => HTMLLinkElement -> m StyleSheet
+getSheetUnchecked self
+  = liftDOM ((self ^. js "sheet") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
 getRelList ::
            (MonadDOM m) => HTMLLinkElement -> m (Maybe DOMTokenList)
 getRelList self = liftDOM ((self ^. js "relList") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
+getRelListUnchecked ::
+                    (MonadDOM m) => HTMLLinkElement -> m DOMTokenList
+getRelListUnchecked self
+  = liftDOM ((self ^. js "relList") >>= fromJSValUnchecked)

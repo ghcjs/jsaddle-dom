@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBCursor
-       (update, advance, continue, delete, getSource, getDirection,
-        getKey, getPrimaryKey, IDBCursor, castToIDBCursor, gTypeIDBCursor,
-        IsIDBCursor, toIDBCursor)
+       (update, update_, updateUnchecked, advance, continue, delete,
+        delete_, deleteUnchecked, getSource, getSourceUnchecked,
+        getDirection, getKey, getPrimaryKey, IDBCursor, castToIDBCursor,
+        gTypeIDBCursor, IsIDBCursor, toIDBCursor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,6 +27,20 @@ update self value
       (((toIDBCursor self) ^. jsf "update" [toJSVal value]) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.update Mozilla IDBCursor.update documentation> 
+update_ :: (MonadDOM m, IsIDBCursor self) => self -> JSVal -> m ()
+update_ self value
+  = liftDOM
+      (void ((toIDBCursor self) ^. jsf "update" [toJSVal value]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.update Mozilla IDBCursor.update documentation> 
+updateUnchecked ::
+                (MonadDOM m, IsIDBCursor self) => self -> JSVal -> m IDBRequest
+updateUnchecked self value
+  = liftDOM
+      (((toIDBCursor self) ^. jsf "update" [toJSVal value]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.advance Mozilla IDBCursor.advance documentation> 
 advance :: (MonadDOM m, IsIDBCursor self) => self -> Word -> m ()
 advance self count
@@ -44,11 +59,30 @@ delete ::
 delete self
   = liftDOM (((toIDBCursor self) ^. jsf "delete" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.delete Mozilla IDBCursor.delete documentation> 
+delete_ :: (MonadDOM m, IsIDBCursor self) => self -> m ()
+delete_ self
+  = liftDOM (void ((toIDBCursor self) ^. jsf "delete" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.delete Mozilla IDBCursor.delete documentation> 
+deleteUnchecked ::
+                (MonadDOM m, IsIDBCursor self) => self -> m IDBRequest
+deleteUnchecked self
+  = liftDOM
+      (((toIDBCursor self) ^. jsf "delete" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.source Mozilla IDBCursor.source documentation> 
 getSource ::
           (MonadDOM m, IsIDBCursor self) => self -> m (Maybe IDBAny)
 getSource self
   = liftDOM (((toIDBCursor self) ^. js "source") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.source Mozilla IDBCursor.source documentation> 
+getSourceUnchecked ::
+                   (MonadDOM m, IsIDBCursor self) => self -> m IDBAny
+getSourceUnchecked self
+  = liftDOM
+      (((toIDBCursor self) ^. js "source") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.direction Mozilla IDBCursor.direction documentation> 
 getDirection ::

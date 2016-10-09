@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioTrackList
-       (item, getTrackById, getLength, change, addTrack, removeTrack,
+       (item, item_, itemUnchecked, getTrackById, getTrackById_,
+        getTrackByIdUnchecked, getLength, change, addTrack, removeTrack,
         AudioTrackList, castToAudioTrackList, gTypeAudioTrackList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,12 +23,37 @@ item ::
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrackList.item Mozilla AudioTrackList.item documentation> 
+item_ :: (MonadDOM m) => AudioTrackList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrackList.item Mozilla AudioTrackList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => AudioTrackList -> Word -> m AudioTrack
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrackList.getTrackById Mozilla AudioTrackList.getTrackById documentation> 
 getTrackById ::
              (MonadDOM m, ToJSString id) =>
                AudioTrackList -> id -> m (Maybe AudioTrack)
 getTrackById self id
   = liftDOM ((self ^. jsf "getTrackById" [toJSVal id]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrackList.getTrackById Mozilla AudioTrackList.getTrackById documentation> 
+getTrackById_ ::
+              (MonadDOM m, ToJSString id) => AudioTrackList -> id -> m ()
+getTrackById_ self id
+  = liftDOM (void (self ^. jsf "getTrackById" [toJSVal id]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrackList.getTrackById Mozilla AudioTrackList.getTrackById documentation> 
+getTrackByIdUnchecked ::
+                      (MonadDOM m, ToJSString id) => AudioTrackList -> id -> m AudioTrack
+getTrackByIdUnchecked self id
+  = liftDOM
+      ((self ^. jsf "getTrackById" [toJSVal id]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrackList.length Mozilla AudioTrackList.length documentation> 
 getLength :: (MonadDOM m) => AudioTrackList -> m Word

@@ -1,8 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTests
-       (hasExtension, getRequiredFeatures, getRequiredExtensions,
-        getSystemLanguage, SVGTests, castToSVGTests, gTypeSVGTests)
+       (hasExtension, hasExtension_, getRequiredFeatures,
+        getRequiredFeaturesUnchecked, getRequiredExtensions,
+        getRequiredExtensionsUnchecked, getSystemLanguage,
+        getSystemLanguageUnchecked, SVGTests, castToSVGTests,
+        gTypeSVGTests)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,11 +27,23 @@ hasExtension self extension
   = liftDOM
       ((self ^. jsf "hasExtension" [toJSVal extension]) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.hasExtension Mozilla SVGTests.hasExtension documentation> 
+hasExtension_ ::
+              (MonadDOM m, ToJSString extension) => SVGTests -> extension -> m ()
+hasExtension_ self extension
+  = liftDOM (void (self ^. jsf "hasExtension" [toJSVal extension]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredFeatures Mozilla SVGTests.requiredFeatures documentation> 
 getRequiredFeatures ::
                     (MonadDOM m) => SVGTests -> m (Maybe SVGStringList)
 getRequiredFeatures self
   = liftDOM ((self ^. js "requiredFeatures") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredFeatures Mozilla SVGTests.requiredFeatures documentation> 
+getRequiredFeaturesUnchecked ::
+                             (MonadDOM m) => SVGTests -> m SVGStringList
+getRequiredFeaturesUnchecked self
+  = liftDOM ((self ^. js "requiredFeatures") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredExtensions Mozilla SVGTests.requiredExtensions documentation> 
 getRequiredExtensions ::
@@ -36,8 +51,21 @@ getRequiredExtensions ::
 getRequiredExtensions self
   = liftDOM ((self ^. js "requiredExtensions") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredExtensions Mozilla SVGTests.requiredExtensions documentation> 
+getRequiredExtensionsUnchecked ::
+                               (MonadDOM m) => SVGTests -> m SVGStringList
+getRequiredExtensionsUnchecked self
+  = liftDOM
+      ((self ^. js "requiredExtensions") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.systemLanguage Mozilla SVGTests.systemLanguage documentation> 
 getSystemLanguage ::
                   (MonadDOM m) => SVGTests -> m (Maybe SVGStringList)
 getSystemLanguage self
   = liftDOM ((self ^. js "systemLanguage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.systemLanguage Mozilla SVGTests.systemLanguage documentation> 
+getSystemLanguageUnchecked ::
+                           (MonadDOM m) => SVGTests -> m SVGStringList
+getSystemLanguageUnchecked self
+  = liftDOM ((self ^. js "systemLanguage") >>= fromJSValUnchecked)

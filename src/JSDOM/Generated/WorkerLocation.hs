@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerLocation
-       (toString, getHref, getProtocol, getHost, getHostname, getPort,
-        getPathname, getSearch, getHash, WorkerLocation,
+       (toString, toString_, getHref, getProtocol, getHost, getHostname,
+        getPort, getPathname, getSearch, getHash, WorkerLocation,
         castToWorkerLocation, gTypeWorkerLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,6 +22,10 @@ toString ::
          (MonadDOM m, FromJSString result) => WorkerLocation -> m result
 toString self
   = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.toString Mozilla WorkerLocation.toString documentation> 
+toString_ :: (MonadDOM m) => WorkerLocation -> m ()
+toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.href Mozilla WorkerLocation.href documentation> 
 getHref ::

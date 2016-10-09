@@ -3,10 +3,11 @@
 module JSDOM.Generated.MouseEvent
        (initMouseEvent, getScreenX, getScreenY, getClientX, getClientY,
         getCtrlKey, getShiftKey, getAltKey, getMetaKey, getButton,
-        getRelatedTarget, getMovementX, getMovementY, getOffsetX,
-        getOffsetY, getX, getY, getFromElement, getToElement,
-        getDataTransfer, MouseEvent, castToMouseEvent, gTypeMouseEvent,
-        IsMouseEvent, toMouseEvent)
+        getRelatedTarget, getRelatedTargetUnchecked, getMovementX,
+        getMovementY, getOffsetX, getOffsetY, getX, getY, getFromElement,
+        getFromElementUnchecked, getToElement, getToElementUnchecked,
+        getDataTransfer, getDataTransferUnchecked, MouseEvent,
+        castToMouseEvent, gTypeMouseEvent, IsMouseEvent, toMouseEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -104,6 +105,14 @@ getRelatedTarget self
   = liftDOM
       (((toMouseEvent self) ^. js "relatedTarget") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.relatedTarget Mozilla MouseEvent.relatedTarget documentation> 
+getRelatedTargetUnchecked ::
+                          (MonadDOM m, IsMouseEvent self) => self -> m EventTarget
+getRelatedTargetUnchecked self
+  = liftDOM
+      (((toMouseEvent self) ^. js "relatedTarget") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.movementX Mozilla MouseEvent.movementX documentation> 
 getMovementX :: (MonadDOM m, IsMouseEvent self) => self -> m Int
 getMovementX self
@@ -148,11 +157,25 @@ getFromElement ::
 getFromElement self
   = liftDOM (((toMouseEvent self) ^. js "fromElement") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.fromElement Mozilla MouseEvent.fromElement documentation> 
+getFromElementUnchecked ::
+                        (MonadDOM m, IsMouseEvent self) => self -> m Node
+getFromElementUnchecked self
+  = liftDOM
+      (((toMouseEvent self) ^. js "fromElement") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.toElement Mozilla MouseEvent.toElement documentation> 
 getToElement ::
              (MonadDOM m, IsMouseEvent self) => self -> m (Maybe Node)
 getToElement self
   = liftDOM (((toMouseEvent self) ^. js "toElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.toElement Mozilla MouseEvent.toElement documentation> 
+getToElementUnchecked ::
+                      (MonadDOM m, IsMouseEvent self) => self -> m Node
+getToElementUnchecked self
+  = liftDOM
+      (((toMouseEvent self) ^. js "toElement") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.dataTransfer Mozilla MouseEvent.dataTransfer documentation> 
 getDataTransfer ::
@@ -160,3 +183,10 @@ getDataTransfer ::
 getDataTransfer self
   = liftDOM
       (((toMouseEvent self) ^. js "dataTransfer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.dataTransfer Mozilla MouseEvent.dataTransfer documentation> 
+getDataTransferUnchecked ::
+                         (MonadDOM m, IsMouseEvent self) => self -> m DataTransfer
+getDataTransferUnchecked self
+  = liftDOM
+      (((toMouseEvent self) ^. js "dataTransfer") >>= fromJSValUnchecked)

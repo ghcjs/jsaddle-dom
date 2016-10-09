@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFilterPrimitiveStandardAttributes
-       (getX, getY, getWidth, getHeight, getResult,
-        SVGFilterPrimitiveStandardAttributes,
+       (getX, getXUnchecked, getY, getYUnchecked, getWidth,
+        getWidthUnchecked, getHeight, getHeightUnchecked, getResult,
+        getResultUnchecked, SVGFilterPrimitiveStandardAttributes,
         castToSVGFilterPrimitiveStandardAttributes,
         gTypeSVGFilterPrimitiveStandardAttributes)
        where
@@ -24,11 +25,25 @@ getX ::
        SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.x Mozilla SVGFilterPrimitiveStandardAttributes.x documentation> 
+getXUnchecked ::
+              (MonadDOM m) =>
+                SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
+getXUnchecked self
+  = liftDOM ((self ^. js "x") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.y Mozilla SVGFilterPrimitiveStandardAttributes.y documentation> 
 getY ::
      (MonadDOM m) =>
        SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.y Mozilla SVGFilterPrimitiveStandardAttributes.y documentation> 
+getYUnchecked ::
+              (MonadDOM m) =>
+                SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
+getYUnchecked self
+  = liftDOM ((self ^. js "y") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.width Mozilla SVGFilterPrimitiveStandardAttributes.width documentation> 
 getWidth ::
@@ -36,14 +51,35 @@ getWidth ::
            SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.width Mozilla SVGFilterPrimitiveStandardAttributes.width documentation> 
+getWidthUnchecked ::
+                  (MonadDOM m) =>
+                    SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
+getWidthUnchecked self
+  = liftDOM ((self ^. js "width") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.height Mozilla SVGFilterPrimitiveStandardAttributes.height documentation> 
 getHeight ::
           (MonadDOM m) =>
             SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.height Mozilla SVGFilterPrimitiveStandardAttributes.height documentation> 
+getHeightUnchecked ::
+                   (MonadDOM m) =>
+                     SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
+getHeightUnchecked self
+  = liftDOM ((self ^. js "height") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.result Mozilla SVGFilterPrimitiveStandardAttributes.result documentation> 
 getResult ::
           (MonadDOM m) =>
             SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedString)
 getResult self = liftDOM ((self ^. js "result") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.result Mozilla SVGFilterPrimitiveStandardAttributes.result documentation> 
+getResultUnchecked ::
+                   (MonadDOM m) =>
+                     SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedString
+getResultUnchecked self
+  = liftDOM ((self ^. js "result") >>= fromJSValUnchecked)

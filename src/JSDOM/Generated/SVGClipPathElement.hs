@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGClipPathElement
-       (getClipPathUnits, SVGClipPathElement, castToSVGClipPathElement,
-        gTypeSVGClipPathElement)
+       (getClipPathUnits, getClipPathUnitsUnchecked, SVGClipPathElement,
+        castToSVGClipPathElement, gTypeSVGClipPathElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,3 +22,9 @@ getClipPathUnits ::
                    SVGClipPathElement -> m (Maybe SVGAnimatedEnumeration)
 getClipPathUnits self
   = liftDOM ((self ^. js "clipPathUnits") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGClipPathElement.clipPathUnits Mozilla SVGClipPathElement.clipPathUnits documentation> 
+getClipPathUnitsUnchecked ::
+                          (MonadDOM m) => SVGClipPathElement -> m SVGAnimatedEnumeration
+getClipPathUnitsUnchecked self
+  = liftDOM ((self ^. js "clipPathUnits") >>= fromJSValUnchecked)

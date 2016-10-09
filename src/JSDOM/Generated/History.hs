@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.History
        (back, forward, go, pushState, replaceState, getLength, getState,
-        History, castToHistory, gTypeHistory)
+        getStateUnchecked, History, castToHistory, gTypeHistory)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -58,3 +58,9 @@ getLength self
 getState ::
          (MonadDOM m) => History -> m (Maybe SerializedScriptValue)
 getState self = liftDOM ((self ^. js "state") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
+getStateUnchecked ::
+                  (MonadDOM m) => History -> m SerializedScriptValue
+getStateUnchecked self
+  = liftDOM ((self ^. js "state") >>= fromJSValUnchecked)

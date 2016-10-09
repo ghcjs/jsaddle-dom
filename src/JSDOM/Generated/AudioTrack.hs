@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioTrack
        (getId, setKind, getKind, getLabel, setLanguage, getLanguage,
-        setEnabled, getEnabled, getSourceBuffer, AudioTrack,
-        castToAudioTrack, gTypeAudioTrack)
+        setEnabled, getEnabled, getSourceBuffer, getSourceBufferUnchecked,
+        AudioTrack, castToAudioTrack, gTypeAudioTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -63,3 +63,9 @@ getSourceBuffer ::
                 (MonadDOM m) => AudioTrack -> m (Maybe SourceBuffer)
 getSourceBuffer self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrack.sourceBuffer Mozilla AudioTrack.sourceBuffer documentation> 
+getSourceBufferUnchecked ::
+                         (MonadDOM m) => AudioTrack -> m SourceBuffer
+getSourceBufferUnchecked self
+  = liftDOM ((self ^. js "sourceBuffer") >>= fromJSValUnchecked)

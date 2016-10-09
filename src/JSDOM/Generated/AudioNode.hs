@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioNode
-       (connect, connectParam, disconnect, getContext, getNumberOfInputs,
-        getNumberOfOutputs, setChannelCount, getChannelCount,
-        setChannelCountMode, getChannelCountMode, setChannelInterpretation,
+       (connect, connectParam, disconnect, getContext,
+        getContextUnchecked, getNumberOfInputs, getNumberOfOutputs,
+        setChannelCount, getChannelCount, setChannelCountMode,
+        getChannelCountMode, setChannelInterpretation,
         getChannelInterpretation, AudioNode, castToAudioNode,
         gTypeAudioNode, IsAudioNode, toAudioNode)
        where
@@ -51,6 +52,13 @@ getContext ::
            (MonadDOM m, IsAudioNode self) => self -> m (Maybe AudioContext)
 getContext self
   = liftDOM (((toAudioNode self) ^. js "context") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.context Mozilla AudioNode.context documentation> 
+getContextUnchecked ::
+                    (MonadDOM m, IsAudioNode self) => self -> m AudioContext
+getContextUnchecked self
+  = liftDOM
+      (((toAudioNode self) ^. js "context") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.numberOfInputs Mozilla AudioNode.numberOfInputs documentation> 
 getNumberOfInputs ::

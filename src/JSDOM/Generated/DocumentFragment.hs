@@ -1,8 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DocumentFragment
-       (newDocumentFragment, querySelector, querySelectorAll,
-        DocumentFragment, castToDocumentFragment, gTypeDocumentFragment)
+       (newDocumentFragment, querySelector, querySelector_,
+        querySelectorUnchecked, querySelectorAll, querySelectorAll_,
+        querySelectorAllUnchecked, DocumentFragment,
+        castToDocumentFragment, gTypeDocumentFragment)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -29,6 +31,22 @@ querySelector self selectors
   = liftDOM
       ((self ^. jsf "querySelector" [toJSVal selectors]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelector Mozilla DocumentFragment.querySelector documentation> 
+querySelector_ ::
+               (MonadDOM m, ToJSString selectors) =>
+                 DocumentFragment -> selectors -> m ()
+querySelector_ self selectors
+  = liftDOM (void (self ^. jsf "querySelector" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelector Mozilla DocumentFragment.querySelector documentation> 
+querySelectorUnchecked ::
+                       (MonadDOM m, ToJSString selectors) =>
+                         DocumentFragment -> selectors -> m Element
+querySelectorUnchecked self selectors
+  = liftDOM
+      ((self ^. jsf "querySelector" [toJSVal selectors]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelectorAll Mozilla DocumentFragment.querySelectorAll documentation> 
 querySelectorAll ::
                  (MonadDOM m, ToJSString selectors) =>
@@ -37,3 +55,20 @@ querySelectorAll self selectors
   = liftDOM
       ((self ^. jsf "querySelectorAll" [toJSVal selectors]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelectorAll Mozilla DocumentFragment.querySelectorAll documentation> 
+querySelectorAll_ ::
+                  (MonadDOM m, ToJSString selectors) =>
+                    DocumentFragment -> selectors -> m ()
+querySelectorAll_ self selectors
+  = liftDOM
+      (void (self ^. jsf "querySelectorAll" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelectorAll Mozilla DocumentFragment.querySelectorAll documentation> 
+querySelectorAllUnchecked ::
+                          (MonadDOM m, ToJSString selectors) =>
+                            DocumentFragment -> selectors -> m NodeList
+querySelectorAllUnchecked self selectors
+  = liftDOM
+      ((self ^. jsf "querySelectorAll" [toJSVal selectors]) >>=
+         fromJSValUnchecked)

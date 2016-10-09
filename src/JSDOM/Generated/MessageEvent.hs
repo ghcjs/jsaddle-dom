@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MessageEvent
        (initMessageEvent, webkitInitMessageEvent, getOrigin,
-        getLastEventId, getSource, getData, getPorts, MessageEvent,
-        castToMessageEvent, gTypeMessageEvent)
+        getLastEventId, getSource, getSourceUnchecked, getData, getPorts,
+        MessageEvent, castToMessageEvent, gTypeMessageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -72,6 +72,11 @@ getLastEventId self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.source Mozilla MessageEvent.source documentation> 
 getSource :: (MonadDOM m) => MessageEvent -> m (Maybe EventTarget)
 getSource self = liftDOM ((self ^. js "source") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.source Mozilla MessageEvent.source documentation> 
+getSourceUnchecked :: (MonadDOM m) => MessageEvent -> m EventTarget
+getSourceUnchecked self
+  = liftDOM ((self ^. js "source") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.data Mozilla MessageEvent.data documentation> 
 getData :: (MonadDOM m) => MessageEvent -> m JSVal

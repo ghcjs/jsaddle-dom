@@ -6,8 +6,8 @@ module JSDOM.Generated.SVGAngle
         pattern SVG_ANGLETYPE_DEG, pattern SVG_ANGLETYPE_RAD,
         pattern SVG_ANGLETYPE_GRAD, getUnitType, setValue, getValue,
         setValueInSpecifiedUnits, getValueInSpecifiedUnits,
-        setValueAsString, getValueAsString, SVGAngle, castToSVGAngle,
-        gTypeSVGAngle)
+        setValueAsString, getValueAsString, getValueAsStringUnchecked,
+        SVGAngle, castToSVGAngle, gTypeSVGAngle)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -79,3 +79,9 @@ getValueAsString ::
                  (MonadDOM m, FromJSString result) => SVGAngle -> m (Maybe result)
 getValueAsString self
   = liftDOM ((self ^. js "valueAsString") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAngle.valueAsString Mozilla SVGAngle.valueAsString documentation> 
+getValueAsStringUnchecked ::
+                          (MonadDOM m, FromJSString result) => SVGAngle -> m result
+getValueAsStringUnchecked self
+  = liftDOM ((self ^. js "valueAsString") >>= fromJSValUnchecked)

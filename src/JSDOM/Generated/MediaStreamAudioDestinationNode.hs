@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamAudioDestinationNode
-       (getStream, MediaStreamAudioDestinationNode,
+       (getStream, getStreamUnchecked, MediaStreamAudioDestinationNode,
         castToMediaStreamAudioDestinationNode,
         gTypeMediaStreamAudioDestinationNode)
        where
@@ -22,3 +22,9 @@ getStream ::
           (MonadDOM m) =>
             MediaStreamAudioDestinationNode -> m (Maybe MediaStream)
 getStream self = liftDOM ((self ^. js "stream") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamAudioDestinationNode.stream Mozilla MediaStreamAudioDestinationNode.stream documentation> 
+getStreamUnchecked ::
+                   (MonadDOM m) => MediaStreamAudioDestinationNode -> m MediaStream
+getStreamUnchecked self
+  = liftDOM ((self ^. js "stream") >>= fromJSValUnchecked)

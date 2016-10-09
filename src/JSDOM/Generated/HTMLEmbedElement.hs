@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLEmbedElement
-       (getSVGDocument, setAlign, getAlign, setHeight, getHeight, setName,
-        getName, setSrc, getSrc, setType, getType, setWidth, getWidth,
-        HTMLEmbedElement, castToHTMLEmbedElement, gTypeHTMLEmbedElement)
+       (getSVGDocument, getSVGDocument_, getSVGDocumentUnchecked,
+        setAlign, getAlign, setHeight, getHeight, setName, getName, setSrc,
+        getSrc, setType, getType, setWidth, getWidth, HTMLEmbedElement,
+        castToHTMLEmbedElement, gTypeHTMLEmbedElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,6 +23,18 @@ getSVGDocument ::
                (MonadDOM m) => HTMLEmbedElement -> m (Maybe SVGDocument)
 getSVGDocument self
   = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.getSVGDocument Mozilla HTMLEmbedElement.getSVGDocument documentation> 
+getSVGDocument_ :: (MonadDOM m) => HTMLEmbedElement -> m ()
+getSVGDocument_ self
+  = liftDOM (void (self ^. jsf "getSVGDocument" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.getSVGDocument Mozilla HTMLEmbedElement.getSVGDocument documentation> 
+getSVGDocumentUnchecked ::
+                        (MonadDOM m) => HTMLEmbedElement -> m SVGDocument
+getSVGDocumentUnchecked self
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.align Mozilla HTMLEmbedElement.align documentation> 
 setAlign ::

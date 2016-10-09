@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CharacterData
-       (substringData, appendData, insertData, deleteData, replaceData,
-        setData, getData, getLength, CharacterData, castToCharacterData,
+       (substringData, substringData_, substringDataUnchecked, appendData,
+        insertData, deleteData, replaceData, setData, getData,
+        getDataUnchecked, getLength, CharacterData, castToCharacterData,
         gTypeCharacterData, IsCharacterData, toCharacterData)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -26,6 +27,25 @@ substringData self offset length
       (((toCharacterData self) ^. jsf "substringData"
           [toJSVal offset, toJSVal length])
          >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.substringData Mozilla CharacterData.substringData documentation> 
+substringData_ ::
+               (MonadDOM m, IsCharacterData self) => self -> Word -> Word -> m ()
+substringData_ self offset length
+  = liftDOM
+      (void
+         ((toCharacterData self) ^. jsf "substringData"
+            [toJSVal offset, toJSVal length]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.substringData Mozilla CharacterData.substringData documentation> 
+substringDataUnchecked ::
+                       (MonadDOM m, IsCharacterData self, FromJSString result) =>
+                         self -> Word -> Word -> m result
+substringDataUnchecked self offset length
+  = liftDOM
+      (((toCharacterData self) ^. jsf "substringData"
+          [toJSVal offset, toJSVal length])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.appendData Mozilla CharacterData.appendData documentation> 
 appendData ::
@@ -78,6 +98,14 @@ getData ::
 getData self
   = liftDOM
       (((toCharacterData self) ^. js "data") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
+getDataUnchecked ::
+                 (MonadDOM m, IsCharacterData self, FromJSString result) =>
+                   self -> m result
+getDataUnchecked self
+  = liftDOM
+      (((toCharacterData self) ^. js "data") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.length Mozilla CharacterData.length documentation> 
 getLength :: (MonadDOM m, IsCharacterData self) => self -> m Word

@@ -2,12 +2,16 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CanvasRenderingContext2D
        (save, restore, scale, rotate, translate, transform, setTransform,
-        createLinearGradient, createRadialGradient, setLineDash,
-        getLineDash, clearRect, fillRect, beginPath, closePath, moveTo,
-        lineTo, quadraticCurveTo, bezierCurveTo, arcTo, rect, arc,
-        fillPath, strokePath, clipPath, fill, stroke, clip,
-        isPointInPathPath, isPointInStrokePath, isPointInPath,
-        isPointInStroke, measureText, setAlpha, setCompositeOperation,
+        createLinearGradient, createLinearGradient_,
+        createLinearGradientUnchecked, createRadialGradient,
+        createRadialGradient_, createRadialGradientUnchecked, setLineDash,
+        getLineDash, getLineDash_, clearRect, fillRect, beginPath,
+        closePath, moveTo, lineTo, quadraticCurveTo, bezierCurveTo, arcTo,
+        rect, arc, fillPath, strokePath, clipPath, fill, stroke, clip,
+        isPointInPathPath, isPointInPathPath_, isPointInStrokePath,
+        isPointInStrokePath_, isPointInPath, isPointInPath_,
+        isPointInStroke, isPointInStroke_, measureText, measureText_,
+        measureTextUnchecked, setAlpha, setCompositeOperation,
         setLineWidthFunction, setLineCapFunction, setLineJoinFunction,
         setMiterLimitFunction, clearShadow, fillText, strokeText,
         setStrokeColor, setStrokeColorGray, setStrokeColorRGB,
@@ -19,20 +23,29 @@ module JSDOM.Generated.CanvasRenderingContext2D
         drawImageFromVideoPart, drawImageFromRect, setShadow,
         setShadowGray, setShadowRGB, setShadowCYMK, putImageData,
         putImageDataDirty, webkitPutImageDataHD, webkitPutImageDataHDDirty,
-        createPatternFromCanvas, createPattern, createImageData,
-        createImageDataSize, getImageData, webkitGetImageDataHD,
+        createPatternFromCanvas, createPatternFromCanvas_,
+        createPatternFromCanvasUnchecked, createPattern, createPattern_,
+        createPatternUnchecked, createImageData, createImageData_,
+        createImageDataUnchecked, createImageDataSize,
+        createImageDataSize_, createImageDataSizeUnchecked, getImageData,
+        getImageData_, getImageDataUnchecked, webkitGetImageDataHD,
+        webkitGetImageDataHD_, webkitGetImageDataHDUnchecked,
         drawFocusIfNeeded, drawFocusIfNeededPath, setGlobalAlpha,
         getGlobalAlpha, setGlobalCompositeOperation,
-        getGlobalCompositeOperation, setLineWidth, getLineWidth,
-        setLineCap, getLineCap, setLineJoin, getLineJoin, setMiterLimit,
-        getMiterLimit, setShadowOffsetX, getShadowOffsetX,
-        setShadowOffsetY, getShadowOffsetY, setShadowBlur, getShadowBlur,
-        setShadowColor, getShadowColor, setLineDashOffset,
+        getGlobalCompositeOperation, getGlobalCompositeOperationUnchecked,
+        setLineWidth, getLineWidth, setLineCap, getLineCap,
+        getLineCapUnchecked, setLineJoin, getLineJoin,
+        getLineJoinUnchecked, setMiterLimit, getMiterLimit,
+        setShadowOffsetX, getShadowOffsetX, setShadowOffsetY,
+        getShadowOffsetY, setShadowBlur, getShadowBlur, setShadowColor,
+        getShadowColor, getShadowColorUnchecked, setLineDashOffset,
         getLineDashOffset, setWebkitLineDash, getWebkitLineDash,
-        setWebkitLineDashOffset, getWebkitLineDashOffset, setFont, getFont,
-        setTextAlign, getTextAlign, setTextBaseline, getTextBaseline,
-        setDirection, getDirection, setStrokeStyle, getStrokeStyle,
-        setFillStyle, getFillStyle, getWebkitBackingStorePixelRatio,
+        getWebkitLineDashUnchecked, setWebkitLineDashOffset,
+        getWebkitLineDashOffset, setFont, getFont, setTextAlign,
+        getTextAlign, setTextBaseline, getTextBaseline, setDirection,
+        getDirection, setStrokeStyle, getStrokeStyle,
+        getStrokeStyleUnchecked, setFillStyle, getFillStyle,
+        getFillStyleUnchecked, getWebkitBackingStorePixelRatio,
         setWebkitImageSmoothingEnabled, getWebkitImageSmoothingEnabled,
         CanvasRenderingContext2D, castToCanvasRenderingContext2D,
         gTypeCanvasRenderingContext2D)
@@ -109,6 +122,28 @@ createLinearGradient self x0 y0 x1 y1
           [toJSVal x0, toJSVal y0, toJSVal x1, toJSVal y1])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createLinearGradient Mozilla CanvasRenderingContext2D.createLinearGradient documentation> 
+createLinearGradient_ ::
+                      (MonadDOM m) =>
+                        CanvasRenderingContext2D ->
+                          Float -> Float -> Float -> Float -> m ()
+createLinearGradient_ self x0 y0 x1 y1
+  = liftDOM
+      (void
+         (self ^. jsf "createLinearGradient"
+            [toJSVal x0, toJSVal y0, toJSVal x1, toJSVal y1]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createLinearGradient Mozilla CanvasRenderingContext2D.createLinearGradient documentation> 
+createLinearGradientUnchecked ::
+                              (MonadDOM m) =>
+                                CanvasRenderingContext2D ->
+                                  Float -> Float -> Float -> Float -> m CanvasGradient
+createLinearGradientUnchecked self x0 y0 x1 y1
+  = liftDOM
+      ((self ^. jsf "createLinearGradient"
+          [toJSVal x0, toJSVal y0, toJSVal x1, toJSVal y1])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createRadialGradient Mozilla CanvasRenderingContext2D.createRadialGradient documentation> 
 createRadialGradient ::
                      (MonadDOM m) =>
@@ -123,6 +158,31 @@ createRadialGradient self x0 y0 r0 x1 y1 r1
            toJSVal r1])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createRadialGradient Mozilla CanvasRenderingContext2D.createRadialGradient documentation> 
+createRadialGradient_ ::
+                      (MonadDOM m) =>
+                        CanvasRenderingContext2D ->
+                          Float -> Float -> Float -> Float -> Float -> Float -> m ()
+createRadialGradient_ self x0 y0 r0 x1 y1 r1
+  = liftDOM
+      (void
+         (self ^. jsf "createRadialGradient"
+            [toJSVal x0, toJSVal y0, toJSVal r0, toJSVal x1, toJSVal y1,
+             toJSVal r1]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createRadialGradient Mozilla CanvasRenderingContext2D.createRadialGradient documentation> 
+createRadialGradientUnchecked ::
+                              (MonadDOM m) =>
+                                CanvasRenderingContext2D ->
+                                  Float ->
+                                    Float -> Float -> Float -> Float -> Float -> m CanvasGradient
+createRadialGradientUnchecked self x0 y0 r0 x1 y1 r1
+  = liftDOM
+      ((self ^. jsf "createRadialGradient"
+          [toJSVal x0, toJSVal y0, toJSVal r0, toJSVal x1, toJSVal y1,
+           toJSVal r1])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.setLineDash Mozilla CanvasRenderingContext2D.setLineDash documentation> 
 setLineDash ::
             (MonadDOM m) => CanvasRenderingContext2D -> [Float] -> m ()
@@ -134,6 +194,10 @@ getLineDash ::
             (MonadDOM m) => CanvasRenderingContext2D -> m [Float]
 getLineDash self
   = liftDOM ((self ^. jsf "getLineDash" ()) >>= fromJSArrayUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.getLineDash Mozilla CanvasRenderingContext2D.getLineDash documentation> 
+getLineDash_ :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
+getLineDash_ self = liftDOM (void (self ^. jsf "getLineDash" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.clearRect Mozilla CanvasRenderingContext2D.clearRect documentation> 
 clearRect ::
@@ -287,6 +351,17 @@ isPointInPathPath self path x y winding
           [toJSVal path, toJSVal x, toJSVal y, toJSVal winding])
          >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInPath Mozilla CanvasRenderingContext2D.isPointInPath documentation> 
+isPointInPathPath_ ::
+                   (MonadDOM m) =>
+                     CanvasRenderingContext2D ->
+                       Maybe Path2D -> Float -> Float -> CanvasWindingRule -> m ()
+isPointInPathPath_ self path x y winding
+  = liftDOM
+      (void
+         (self ^. jsf "isPointInPath"
+            [toJSVal path, toJSVal x, toJSVal y, toJSVal winding]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInStroke Mozilla CanvasRenderingContext2D.isPointInStroke documentation> 
 isPointInStrokePath ::
                     (MonadDOM m) =>
@@ -297,6 +372,16 @@ isPointInStrokePath self path x y
       ((self ^. jsf "isPointInStroke"
           [toJSVal path, toJSVal x, toJSVal y])
          >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInStroke Mozilla CanvasRenderingContext2D.isPointInStroke documentation> 
+isPointInStrokePath_ ::
+                     (MonadDOM m) =>
+                       CanvasRenderingContext2D -> Maybe Path2D -> Float -> Float -> m ()
+isPointInStrokePath_ self path x y
+  = liftDOM
+      (void
+         (self ^. jsf "isPointInStroke"
+            [toJSVal path, toJSVal x, toJSVal y]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInPath Mozilla CanvasRenderingContext2D.isPointInPath documentation> 
 isPointInPath ::
@@ -309,6 +394,17 @@ isPointInPath self x y winding
           [toJSVal x, toJSVal y, toJSVal winding])
          >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInPath Mozilla CanvasRenderingContext2D.isPointInPath documentation> 
+isPointInPath_ ::
+               (MonadDOM m) =>
+                 CanvasRenderingContext2D ->
+                   Float -> Float -> CanvasWindingRule -> m ()
+isPointInPath_ self x y winding
+  = liftDOM
+      (void
+         (self ^. jsf "isPointInPath"
+            [toJSVal x, toJSVal y, toJSVal winding]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInStroke Mozilla CanvasRenderingContext2D.isPointInStroke documentation> 
 isPointInStroke ::
                 (MonadDOM m) =>
@@ -318,6 +414,13 @@ isPointInStroke self x y
       ((self ^. jsf "isPointInStroke" [toJSVal x, toJSVal y]) >>=
          valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInStroke Mozilla CanvasRenderingContext2D.isPointInStroke documentation> 
+isPointInStroke_ ::
+                 (MonadDOM m) => CanvasRenderingContext2D -> Float -> Float -> m ()
+isPointInStroke_ self x y
+  = liftDOM
+      (void (self ^. jsf "isPointInStroke" [toJSVal x, toJSVal y]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.measureText Mozilla CanvasRenderingContext2D.measureText documentation> 
 measureText ::
             (MonadDOM m, ToJSString text) =>
@@ -325,6 +428,21 @@ measureText ::
 measureText self text
   = liftDOM
       ((self ^. jsf "measureText" [toJSVal text]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.measureText Mozilla CanvasRenderingContext2D.measureText documentation> 
+measureText_ ::
+             (MonadDOM m, ToJSString text) =>
+               CanvasRenderingContext2D -> text -> m ()
+measureText_ self text
+  = liftDOM (void (self ^. jsf "measureText" [toJSVal text]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.measureText Mozilla CanvasRenderingContext2D.measureText documentation> 
+measureTextUnchecked ::
+                     (MonadDOM m, ToJSString text) =>
+                       CanvasRenderingContext2D -> text -> m TextMetrics
+measureTextUnchecked self text
+  = liftDOM
+      ((self ^. jsf "measureText" [toJSVal text]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.setAlpha Mozilla CanvasRenderingContext2D.setAlpha documentation> 
 setAlpha ::
@@ -718,6 +836,29 @@ createPatternFromCanvas self canvas repetitionType
          >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
+createPatternFromCanvas_ ::
+                         (MonadDOM m, ToJSString repetitionType) =>
+                           CanvasRenderingContext2D ->
+                             Maybe HTMLCanvasElement -> Maybe repetitionType -> m ()
+createPatternFromCanvas_ self canvas repetitionType
+  = liftDOM
+      (void
+         (self ^. jsf "createPattern"
+            [toJSVal canvas, toJSVal repetitionType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
+createPatternFromCanvasUnchecked ::
+                                 (MonadDOM m, ToJSString repetitionType) =>
+                                   CanvasRenderingContext2D ->
+                                     Maybe HTMLCanvasElement ->
+                                       Maybe repetitionType -> m CanvasPattern
+createPatternFromCanvasUnchecked self canvas repetitionType
+  = liftDOM
+      ((self ^. jsf "createPattern"
+          [toJSVal canvas, toJSVal repetitionType])
+         >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
 createPattern ::
               (MonadDOM m, ToJSString repetitionType) =>
                 CanvasRenderingContext2D ->
@@ -729,6 +870,28 @@ createPattern self image repetitionType
           [toJSVal image, toJSVal repetitionType])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
+createPattern_ ::
+               (MonadDOM m, ToJSString repetitionType) =>
+                 CanvasRenderingContext2D ->
+                   Maybe HTMLImageElement -> Maybe repetitionType -> m ()
+createPattern_ self image repetitionType
+  = liftDOM
+      (void
+         (self ^. jsf "createPattern"
+            [toJSVal image, toJSVal repetitionType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
+createPatternUnchecked ::
+                       (MonadDOM m, ToJSString repetitionType) =>
+                         CanvasRenderingContext2D ->
+                           Maybe HTMLImageElement -> Maybe repetitionType -> m CanvasPattern
+createPatternUnchecked self image repetitionType
+  = liftDOM
+      ((self ^. jsf "createPattern"
+          [toJSVal image, toJSVal repetitionType])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
 createImageData ::
                 (MonadDOM m) =>
@@ -738,6 +901,22 @@ createImageData self imagedata
       ((self ^. jsf "createImageData" [toJSVal imagedata]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
+createImageData_ ::
+                 (MonadDOM m) => CanvasRenderingContext2D -> Maybe ImageData -> m ()
+createImageData_ self imagedata
+  = liftDOM
+      (void (self ^. jsf "createImageData" [toJSVal imagedata]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
+createImageDataUnchecked ::
+                         (MonadDOM m) =>
+                           CanvasRenderingContext2D -> Maybe ImageData -> m ImageData
+createImageDataUnchecked self imagedata
+  = liftDOM
+      ((self ^. jsf "createImageData" [toJSVal imagedata]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
 createImageDataSize ::
                     (MonadDOM m) =>
                       CanvasRenderingContext2D -> Float -> Float -> m (Maybe ImageData)
@@ -745,6 +924,22 @@ createImageDataSize self sw sh
   = liftDOM
       ((self ^. jsf "createImageData" [toJSVal sw, toJSVal sh]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
+createImageDataSize_ ::
+                     (MonadDOM m) => CanvasRenderingContext2D -> Float -> Float -> m ()
+createImageDataSize_ self sw sh
+  = liftDOM
+      (void (self ^. jsf "createImageData" [toJSVal sw, toJSVal sh]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
+createImageDataSizeUnchecked ::
+                             (MonadDOM m) =>
+                               CanvasRenderingContext2D -> Float -> Float -> m ImageData
+createImageDataSizeUnchecked self sw sh
+  = liftDOM
+      ((self ^. jsf "createImageData" [toJSVal sw, toJSVal sh]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.getImageData Mozilla CanvasRenderingContext2D.getImageData documentation> 
 getImageData ::
@@ -757,6 +952,28 @@ getImageData self sx sy sw sh
           [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.getImageData Mozilla CanvasRenderingContext2D.getImageData documentation> 
+getImageData_ ::
+              (MonadDOM m) =>
+                CanvasRenderingContext2D ->
+                  Float -> Float -> Float -> Float -> m ()
+getImageData_ self sx sy sw sh
+  = liftDOM
+      (void
+         (self ^. jsf "getImageData"
+            [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.getImageData Mozilla CanvasRenderingContext2D.getImageData documentation> 
+getImageDataUnchecked ::
+                      (MonadDOM m) =>
+                        CanvasRenderingContext2D ->
+                          Float -> Float -> Float -> Float -> m ImageData
+getImageDataUnchecked self sx sy sw sh
+  = liftDOM
+      ((self ^. jsf "getImageData"
+          [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitGetImageDataHD Mozilla CanvasRenderingContext2D.webkitGetImageDataHD documentation> 
 webkitGetImageDataHD ::
                      (MonadDOM m) =>
@@ -767,6 +984,28 @@ webkitGetImageDataHD self sx sy sw sh
       ((self ^. jsf "webkitGetImageDataHD"
           [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitGetImageDataHD Mozilla CanvasRenderingContext2D.webkitGetImageDataHD documentation> 
+webkitGetImageDataHD_ ::
+                      (MonadDOM m) =>
+                        CanvasRenderingContext2D ->
+                          Float -> Float -> Float -> Float -> m ()
+webkitGetImageDataHD_ self sx sy sw sh
+  = liftDOM
+      (void
+         (self ^. jsf "webkitGetImageDataHD"
+            [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitGetImageDataHD Mozilla CanvasRenderingContext2D.webkitGetImageDataHD documentation> 
+webkitGetImageDataHDUnchecked ::
+                              (MonadDOM m) =>
+                                CanvasRenderingContext2D ->
+                                  Float -> Float -> Float -> Float -> m ImageData
+webkitGetImageDataHDUnchecked self sx sy sw sh
+  = liftDOM
+      ((self ^. jsf "webkitGetImageDataHD"
+          [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawFocusIfNeeded Mozilla CanvasRenderingContext2D.drawFocusIfNeeded documentation> 
 drawFocusIfNeeded ::
@@ -813,6 +1052,14 @@ getGlobalCompositeOperation self
   = liftDOM
       ((self ^. js "globalCompositeOperation") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.globalCompositeOperation Mozilla CanvasRenderingContext2D.globalCompositeOperation documentation> 
+getGlobalCompositeOperationUnchecked ::
+                                     (MonadDOM m, FromJSString result) =>
+                                       CanvasRenderingContext2D -> m result
+getGlobalCompositeOperationUnchecked self
+  = liftDOM
+      ((self ^. js "globalCompositeOperation") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineWidth Mozilla CanvasRenderingContext2D.lineWidth documentation> 
 setLineWidth ::
              (MonadDOM m) => CanvasRenderingContext2D -> Float -> m ()
@@ -838,6 +1085,13 @@ getLineCap ::
 getLineCap self
   = liftDOM ((self ^. js "lineCap") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineCap Mozilla CanvasRenderingContext2D.lineCap documentation> 
+getLineCapUnchecked ::
+                    (MonadDOM m, FromJSString result) =>
+                      CanvasRenderingContext2D -> m result
+getLineCapUnchecked self
+  = liftDOM ((self ^. js "lineCap") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineJoin Mozilla CanvasRenderingContext2D.lineJoin documentation> 
 setLineJoin ::
             (MonadDOM m, ToJSString val) =>
@@ -851,6 +1105,13 @@ getLineJoin ::
               CanvasRenderingContext2D -> m (Maybe result)
 getLineJoin self
   = liftDOM ((self ^. js "lineJoin") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineJoin Mozilla CanvasRenderingContext2D.lineJoin documentation> 
+getLineJoinUnchecked ::
+                     (MonadDOM m, FromJSString result) =>
+                       CanvasRenderingContext2D -> m result
+getLineJoinUnchecked self
+  = liftDOM ((self ^. js "lineJoin") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.miterLimit Mozilla CanvasRenderingContext2D.miterLimit documentation> 
 setMiterLimit ::
@@ -918,6 +1179,13 @@ getShadowColor ::
 getShadowColor self
   = liftDOM ((self ^. js "shadowColor") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.shadowColor Mozilla CanvasRenderingContext2D.shadowColor documentation> 
+getShadowColorUnchecked ::
+                        (MonadDOM m, FromJSString result) =>
+                          CanvasRenderingContext2D -> m result
+getShadowColorUnchecked self
+  = liftDOM ((self ^. js "shadowColor") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineDashOffset Mozilla CanvasRenderingContext2D.lineDashOffset documentation> 
 setLineDashOffset ::
                   (MonadDOM m) => CanvasRenderingContext2D -> Float -> m ()
@@ -943,6 +1211,12 @@ getWebkitLineDash ::
                   (MonadDOM m) => CanvasRenderingContext2D -> m (Maybe Array)
 getWebkitLineDash self
   = liftDOM ((self ^. js "webkitLineDash") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitLineDash Mozilla CanvasRenderingContext2D.webkitLineDash documentation> 
+getWebkitLineDashUnchecked ::
+                           (MonadDOM m) => CanvasRenderingContext2D -> m Array
+getWebkitLineDashUnchecked self
+  = liftDOM ((self ^. js "webkitLineDash") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitLineDashOffset Mozilla CanvasRenderingContext2D.webkitLineDashOffset documentation> 
 setWebkitLineDashOffset ::
@@ -1025,6 +1299,12 @@ getStrokeStyle ::
 getStrokeStyle self
   = liftDOM ((self ^. js "strokeStyle") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.strokeStyle Mozilla CanvasRenderingContext2D.strokeStyle documentation> 
+getStrokeStyleUnchecked ::
+                        (MonadDOM m) => CanvasRenderingContext2D -> m CanvasStyle
+getStrokeStyleUnchecked self
+  = liftDOM ((self ^. js "strokeStyle") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.fillStyle Mozilla CanvasRenderingContext2D.fillStyle documentation> 
 setFillStyle ::
              (MonadDOM m, IsCanvasStyle val) =>
@@ -1037,6 +1317,12 @@ getFillStyle ::
              (MonadDOM m) => CanvasRenderingContext2D -> m (Maybe CanvasStyle)
 getFillStyle self
   = liftDOM ((self ^. js "fillStyle") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.fillStyle Mozilla CanvasRenderingContext2D.fillStyle documentation> 
+getFillStyleUnchecked ::
+                      (MonadDOM m) => CanvasRenderingContext2D -> m CanvasStyle
+getFillStyleUnchecked self
+  = liftDOM ((self ^. js "fillStyle") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitBackingStorePixelRatio Mozilla CanvasRenderingContext2D.webkitBackingStorePixelRatio documentation> 
 getWebkitBackingStorePixelRatio ::

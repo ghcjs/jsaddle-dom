@@ -3,8 +3,9 @@
 module JSDOM.Generated.SVGFEMorphologyElement
        (setRadius, pattern SVG_MORPHOLOGY_OPERATOR_UNKNOWN,
         pattern SVG_MORPHOLOGY_OPERATOR_ERODE,
-        pattern SVG_MORPHOLOGY_OPERATOR_DILATE, getIn1, getOperator,
-        getRadiusX, getRadiusY, SVGFEMorphologyElement,
+        pattern SVG_MORPHOLOGY_OPERATOR_DILATE, getIn1, getIn1Unchecked,
+        getOperator, getOperatorUnchecked, getRadiusX, getRadiusXUnchecked,
+        getRadiusY, getRadiusYUnchecked, SVGFEMorphologyElement,
         castToSVGFEMorphologyElement, gTypeSVGFEMorphologyElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -35,11 +36,23 @@ getIn1 ::
          SVGFEMorphologyElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.in1 Mozilla SVGFEMorphologyElement.in1 documentation> 
+getIn1Unchecked ::
+                (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedString
+getIn1Unchecked self
+  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.operator Mozilla SVGFEMorphologyElement.operator documentation> 
 getOperator ::
             (MonadDOM m) =>
               SVGFEMorphologyElement -> m (Maybe SVGAnimatedEnumeration)
 getOperator self = liftDOM ((self ^. js "operator") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.operator Mozilla SVGFEMorphologyElement.operator documentation> 
+getOperatorUnchecked ::
+                     (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedEnumeration
+getOperatorUnchecked self
+  = liftDOM ((self ^. js "operator") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusX Mozilla SVGFEMorphologyElement.radiusX documentation> 
 getRadiusX ::
@@ -47,8 +60,20 @@ getRadiusX ::
              SVGFEMorphologyElement -> m (Maybe SVGAnimatedNumber)
 getRadiusX self = liftDOM ((self ^. js "radiusX") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusX Mozilla SVGFEMorphologyElement.radiusX documentation> 
+getRadiusXUnchecked ::
+                    (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedNumber
+getRadiusXUnchecked self
+  = liftDOM ((self ^. js "radiusX") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusY Mozilla SVGFEMorphologyElement.radiusY documentation> 
 getRadiusY ::
            (MonadDOM m) =>
              SVGFEMorphologyElement -> m (Maybe SVGAnimatedNumber)
 getRadiusY self = liftDOM ((self ^. js "radiusY") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusY Mozilla SVGFEMorphologyElement.radiusY documentation> 
+getRadiusYUnchecked ::
+                    (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedNumber
+getRadiusYUnchecked self
+  = liftDOM ((self ^. js "radiusY") >>= fromJSValUnchecked)

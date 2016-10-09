@@ -1,15 +1,19 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Navigator
-       (getGamepads, webkitGetUserMedia, registerProtocolHandler,
-        isProtocolHandlerRegistered, unregisterProtocolHandler,
-        vibratePattern, vibrate, javaEnabled, getStorageUpdates,
-        getWebkitBattery, getGeolocation, getWebkitTemporaryStorage,
-        getWebkitPersistentStorage, getAppCodeName, getAppName,
-        getAppVersion, getLanguage, getUserAgent, getPlatform, getPlugins,
-        getMimeTypes, getProduct, getProductSub, getVendor, getVendorSub,
-        getCookieEnabled, getOnLine, getHardwareConcurrency, Navigator,
-        castToNavigator, gTypeNavigator)
+       (getGamepads, getGamepads_, webkitGetUserMedia,
+        registerProtocolHandler, isProtocolHandlerRegistered,
+        isProtocolHandlerRegistered_, unregisterProtocolHandler,
+        vibratePattern, vibratePattern_, vibrate, vibrate_, javaEnabled,
+        javaEnabled_, getStorageUpdates, getWebkitBattery,
+        getWebkitBatteryUnchecked, getGeolocation, getGeolocationUnchecked,
+        getWebkitTemporaryStorage, getWebkitTemporaryStorageUnchecked,
+        getWebkitPersistentStorage, getWebkitPersistentStorageUnchecked,
+        getAppCodeName, getAppName, getAppVersion, getLanguage,
+        getUserAgent, getPlatform, getPlugins, getPluginsUnchecked,
+        getMimeTypes, getMimeTypesUnchecked, getProduct, getProductSub,
+        getVendor, getVendorSub, getCookieEnabled, getOnLine,
+        getHardwareConcurrency, Navigator, castToNavigator, gTypeNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,6 +31,10 @@ import JSDOM.Enums
 getGamepads :: (MonadDOM m) => Navigator -> m [Maybe Gamepad]
 getGamepads self
   = liftDOM ((self ^. jsf "getGamepads" ()) >>= fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getGamepads Mozilla Navigator.getGamepads documentation> 
+getGamepads_ :: (MonadDOM m) => Navigator -> m ()
+getGamepads_ self = liftDOM (void (self ^. jsf "getGamepads" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitGetUserMedia Mozilla Navigator.webkitGetUserMedia documentation> 
 webkitGetUserMedia ::
@@ -63,6 +71,16 @@ isProtocolHandlerRegistered self scheme url
           [toJSVal scheme, toJSVal url])
          >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.isProtocolHandlerRegistered Mozilla Navigator.isProtocolHandlerRegistered documentation> 
+isProtocolHandlerRegistered_ ::
+                             (MonadDOM m, ToJSString scheme, ToJSString url) =>
+                               Navigator -> scheme -> url -> m ()
+isProtocolHandlerRegistered_ self scheme url
+  = liftDOM
+      (void
+         (self ^. jsf "isProtocolHandlerRegistered"
+            [toJSVal scheme, toJSVal url]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.unregisterProtocolHandler Mozilla Navigator.unregisterProtocolHandler documentation> 
 unregisterProtocolHandler ::
                           (MonadDOM m, ToJSString scheme, ToJSString url) =>
@@ -80,14 +98,28 @@ vibratePattern self pattern'
       ((self ^. jsf "vibrate" [toJSVal (array pattern')]) >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.vibrate Mozilla Navigator.vibrate documentation> 
+vibratePattern_ :: (MonadDOM m) => Navigator -> [Word] -> m ()
+vibratePattern_ self pattern'
+  = liftDOM (void (self ^. jsf "vibrate" [toJSVal (array pattern')]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.vibrate Mozilla Navigator.vibrate documentation> 
 vibrate :: (MonadDOM m) => Navigator -> Word -> m Bool
 vibrate self time
   = liftDOM ((self ^. jsf "vibrate" [toJSVal time]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.vibrate Mozilla Navigator.vibrate documentation> 
+vibrate_ :: (MonadDOM m) => Navigator -> Word -> m ()
+vibrate_ self time
+  = liftDOM (void (self ^. jsf "vibrate" [toJSVal time]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.javaEnabled Mozilla Navigator.javaEnabled documentation> 
 javaEnabled :: (MonadDOM m) => Navigator -> m Bool
 javaEnabled self
   = liftDOM ((self ^. jsf "javaEnabled" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.javaEnabled Mozilla Navigator.javaEnabled documentation> 
+javaEnabled_ :: (MonadDOM m) => Navigator -> m ()
+javaEnabled_ self = liftDOM (void (self ^. jsf "javaEnabled" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getStorageUpdates Mozilla Navigator.getStorageUpdates documentation> 
 getStorageUpdates :: (MonadDOM m) => Navigator -> m ()
@@ -100,11 +132,23 @@ getWebkitBattery ::
 getWebkitBattery self
   = liftDOM ((self ^. js "webkitBattery") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
+getWebkitBatteryUnchecked ::
+                          (MonadDOM m) => Navigator -> m BatteryManager
+getWebkitBatteryUnchecked self
+  = liftDOM ((self ^. js "webkitBattery") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
 getGeolocation ::
                (MonadDOM m) => Navigator -> m (Maybe Geolocation)
 getGeolocation self
   = liftDOM ((self ^. js "geolocation") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
+getGeolocationUnchecked ::
+                        (MonadDOM m) => Navigator -> m Geolocation
+getGeolocationUnchecked self
+  = liftDOM ((self ^. js "geolocation") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
 getWebkitTemporaryStorage ::
@@ -112,11 +156,25 @@ getWebkitTemporaryStorage ::
 getWebkitTemporaryStorage self
   = liftDOM ((self ^. js "webkitTemporaryStorage") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
+getWebkitTemporaryStorageUnchecked ::
+                                   (MonadDOM m) => Navigator -> m StorageQuota
+getWebkitTemporaryStorageUnchecked self
+  = liftDOM
+      ((self ^. js "webkitTemporaryStorage") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
 getWebkitPersistentStorage ::
                            (MonadDOM m) => Navigator -> m (Maybe StorageQuota)
 getWebkitPersistentStorage self
   = liftDOM ((self ^. js "webkitPersistentStorage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
+getWebkitPersistentStorageUnchecked ::
+                                    (MonadDOM m) => Navigator -> m StorageQuota
+getWebkitPersistentStorageUnchecked self
+  = liftDOM
+      ((self ^. js "webkitPersistentStorage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.appCodeName Mozilla Navigator.appCodeName documentation> 
 getAppCodeName ::
@@ -158,11 +216,22 @@ getPlatform self
 getPlugins :: (MonadDOM m) => Navigator -> m (Maybe PluginArray)
 getPlugins self = liftDOM ((self ^. js "plugins") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.plugins Mozilla Navigator.plugins documentation> 
+getPluginsUnchecked :: (MonadDOM m) => Navigator -> m PluginArray
+getPluginsUnchecked self
+  = liftDOM ((self ^. js "plugins") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
 getMimeTypes ::
              (MonadDOM m) => Navigator -> m (Maybe MimeTypeArray)
 getMimeTypes self
   = liftDOM ((self ^. js "mimeTypes") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
+getMimeTypesUnchecked ::
+                      (MonadDOM m) => Navigator -> m MimeTypeArray
+getMimeTypesUnchecked self
+  = liftDOM ((self ^. js "mimeTypes") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.product Mozilla Navigator.product documentation> 
 getProduct ::

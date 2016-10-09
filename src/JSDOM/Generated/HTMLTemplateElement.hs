@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTemplateElement
-       (getContent, HTMLTemplateElement, castToHTMLTemplateElement,
-        gTypeHTMLTemplateElement)
+       (getContent, getContentUnchecked, HTMLTemplateElement,
+        castToHTMLTemplateElement, gTypeHTMLTemplateElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getContent ::
            (MonadDOM m) => HTMLTemplateElement -> m (Maybe DocumentFragment)
 getContent self = liftDOM ((self ^. js "content") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTemplateElement.content Mozilla HTMLTemplateElement.content documentation> 
+getContentUnchecked ::
+                    (MonadDOM m) => HTMLTemplateElement -> m DocumentFragment
+getContentUnchecked self
+  = liftDOM ((self ^. js "content") >>= fromJSValUnchecked)

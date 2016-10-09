@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WindowBase64
-       (atob, btoa, WindowBase64, castToWindowBase64, gTypeWindowBase64)
+       (atob, atob_, btoa, btoa_, WindowBase64, castToWindowBase64,
+        gTypeWindowBase64)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,6 +24,12 @@ atob self string
   = liftDOM
       ((self ^. jsf "atob" [toJSVal string]) >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.atob Mozilla WindowBase64.atob documentation> 
+atob_ ::
+      (MonadDOM m, ToJSString string) => WindowBase64 -> string -> m ()
+atob_ self string
+  = liftDOM (void (self ^. jsf "atob" [toJSVal string]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.btoa Mozilla WindowBase64.btoa documentation> 
 btoa ::
      (MonadDOM m, ToJSString string, FromJSString result) =>
@@ -30,3 +37,9 @@ btoa ::
 btoa self string
   = liftDOM
       ((self ^. jsf "btoa" [toJSVal string]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.btoa Mozilla WindowBase64.btoa documentation> 
+btoa_ ::
+      (MonadDOM m, ToJSString string) => WindowBase64 -> string -> m ()
+btoa_ self string
+  = liftDOM (void (self ^. jsf "btoa" [toJSVal string]))

@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFitToViewBox
-       (getViewBox, getPreserveAspectRatio, SVGFitToViewBox,
+       (getViewBox, getViewBoxUnchecked, getPreserveAspectRatio,
+        getPreserveAspectRatioUnchecked, SVGFitToViewBox,
         castToSVGFitToViewBox, gTypeSVGFitToViewBox)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -21,9 +22,22 @@ getViewBox ::
            (MonadDOM m) => SVGFitToViewBox -> m (Maybe SVGAnimatedRect)
 getViewBox self = liftDOM ((self ^. js "viewBox") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.viewBox Mozilla SVGFitToViewBox.viewBox documentation> 
+getViewBoxUnchecked ::
+                    (MonadDOM m) => SVGFitToViewBox -> m SVGAnimatedRect
+getViewBoxUnchecked self
+  = liftDOM ((self ^. js "viewBox") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.preserveAspectRatio Mozilla SVGFitToViewBox.preserveAspectRatio documentation> 
 getPreserveAspectRatio ::
                        (MonadDOM m) =>
                          SVGFitToViewBox -> m (Maybe SVGAnimatedPreserveAspectRatio)
 getPreserveAspectRatio self
   = liftDOM ((self ^. js "preserveAspectRatio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.preserveAspectRatio Mozilla SVGFitToViewBox.preserveAspectRatio documentation> 
+getPreserveAspectRatioUnchecked ::
+                                (MonadDOM m) => SVGFitToViewBox -> m SVGAnimatedPreserveAspectRatio
+getPreserveAspectRatioUnchecked self
+  = liftDOM
+      ((self ^. js "preserveAspectRatio") >>= fromJSValUnchecked)

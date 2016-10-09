@@ -1,14 +1,16 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLObjectElement
-       (checkValidity, setCustomValidity, getSVGDocument, getForm,
-        setCode, getCode, setAlign, getAlign, setArchive, getArchive,
-        setBorder, getBorder, setCodeBase, getCodeBase, setCodeType,
-        getCodeType, setData, getData, setDeclare, getDeclare, setHeight,
-        getHeight, setHspace, getHspace, setName, getName, setStandby,
-        getStandby, setType, getType, setUseMap, getUseMap, setVspace,
-        getVspace, setWidth, getWidth, getWillValidate, getValidity,
-        getValidationMessage, getContentDocument, HTMLObjectElement,
+       (checkValidity, checkValidity_, setCustomValidity, getSVGDocument,
+        getSVGDocument_, getSVGDocumentUnchecked, getForm,
+        getFormUnchecked, setCode, getCode, setAlign, getAlign, setArchive,
+        getArchive, setBorder, getBorder, setCodeBase, getCodeBase,
+        setCodeType, getCodeType, setData, getData, setDeclare, getDeclare,
+        setHeight, getHeight, setHspace, getHspace, setName, getName,
+        setStandby, getStandby, setType, getType, setUseMap, getUseMap,
+        setVspace, getVspace, setWidth, getWidth, getWillValidate,
+        getValidity, getValidityUnchecked, getValidationMessage,
+        getContentDocument, getContentDocumentUnchecked, HTMLObjectElement,
         castToHTMLObjectElement, gTypeHTMLObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -28,6 +30,11 @@ checkValidity :: (MonadDOM m) => HTMLObjectElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.checkValidity Mozilla HTMLObjectElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLObjectElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.setCustomValidity Mozilla HTMLObjectElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
@@ -41,10 +48,28 @@ getSVGDocument ::
 getSVGDocument self
   = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
+getSVGDocument_ :: (MonadDOM m) => HTMLObjectElement -> m ()
+getSVGDocument_ self
+  = liftDOM (void (self ^. jsf "getSVGDocument" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
+getSVGDocumentUnchecked ::
+                        (MonadDOM m) => HTMLObjectElement -> m SVGDocument
+getSVGDocumentUnchecked self
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.form Mozilla HTMLObjectElement.form documentation> 
 getForm ::
         (MonadDOM m) => HTMLObjectElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.form Mozilla HTMLObjectElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLObjectElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.code Mozilla HTMLObjectElement.code documentation> 
 setCode ::
@@ -223,6 +248,12 @@ getValidity ::
             (MonadDOM m) => HTMLObjectElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.validity Mozilla HTMLObjectElement.validity documentation> 
+getValidityUnchecked ::
+                     (MonadDOM m) => HTMLObjectElement -> m ValidityState
+getValidityUnchecked self
+  = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.validationMessage Mozilla HTMLObjectElement.validationMessage documentation> 
 getValidationMessage ::
                      (MonadDOM m, FromJSString result) => HTMLObjectElement -> m result
@@ -234,3 +265,9 @@ getContentDocument ::
                    (MonadDOM m) => HTMLObjectElement -> m (Maybe Document)
 getContentDocument self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.contentDocument Mozilla HTMLObjectElement.contentDocument documentation> 
+getContentDocumentUnchecked ::
+                            (MonadDOM m) => HTMLObjectElement -> m Document
+getContentDocumentUnchecked self
+  = liftDOM ((self ^. js "contentDocument") >>= fromJSValUnchecked)

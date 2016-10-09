@@ -1,7 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Rect
-       (getTop, getRight, getBottom, getLeft, Rect, castToRect, gTypeRect)
+       (getTop, getTopUnchecked, getRight, getRightUnchecked, getBottom,
+        getBottomUnchecked, getLeft, getLeftUnchecked, Rect, castToRect,
+        gTypeRect)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -19,14 +21,34 @@ import JSDOM.Enums
 getTop :: (MonadDOM m) => Rect -> m (Maybe CSSPrimitiveValue)
 getTop self = liftDOM ((self ^. js "top") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.top Mozilla Rect.top documentation> 
+getTopUnchecked :: (MonadDOM m) => Rect -> m CSSPrimitiveValue
+getTopUnchecked self
+  = liftDOM ((self ^. js "top") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.right Mozilla Rect.right documentation> 
 getRight :: (MonadDOM m) => Rect -> m (Maybe CSSPrimitiveValue)
 getRight self = liftDOM ((self ^. js "right") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.right Mozilla Rect.right documentation> 
+getRightUnchecked :: (MonadDOM m) => Rect -> m CSSPrimitiveValue
+getRightUnchecked self
+  = liftDOM ((self ^. js "right") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.bottom Mozilla Rect.bottom documentation> 
 getBottom :: (MonadDOM m) => Rect -> m (Maybe CSSPrimitiveValue)
 getBottom self = liftDOM ((self ^. js "bottom") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.bottom Mozilla Rect.bottom documentation> 
+getBottomUnchecked :: (MonadDOM m) => Rect -> m CSSPrimitiveValue
+getBottomUnchecked self
+  = liftDOM ((self ^. js "bottom") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.left Mozilla Rect.left documentation> 
 getLeft :: (MonadDOM m) => Rect -> m (Maybe CSSPrimitiveValue)
 getLeft self = liftDOM ((self ^. js "left") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Rect.left Mozilla Rect.left documentation> 
+getLeftUnchecked :: (MonadDOM m) => Rect -> m CSSPrimitiveValue
+getLeftUnchecked self
+  = liftDOM ((self ^. js "left") >>= fromJSValUnchecked)

@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioBuffer
-       (getChannelData, getLength, getDuration, getSampleRate, setGain,
-        getGain, getNumberOfChannels, AudioBuffer, castToAudioBuffer,
+       (getChannelData, getChannelData_, getChannelDataUnchecked,
+        getLength, getDuration, getSampleRate, setGain, getGain,
+        getNumberOfChannels, AudioBuffer, castToAudioBuffer,
         gTypeAudioBuffer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -24,6 +25,20 @@ getChannelData self channelIndex
   = liftDOM
       ((self ^. jsf "getChannelData" [toJSVal channelIndex]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.getChannelData Mozilla AudioBuffer.getChannelData documentation> 
+getChannelData_ :: (MonadDOM m) => AudioBuffer -> Word -> m ()
+getChannelData_ self channelIndex
+  = liftDOM
+      (void (self ^. jsf "getChannelData" [toJSVal channelIndex]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.getChannelData Mozilla AudioBuffer.getChannelData documentation> 
+getChannelDataUnchecked ::
+                        (MonadDOM m) => AudioBuffer -> Word -> m Float32Array
+getChannelDataUnchecked self channelIndex
+  = liftDOM
+      ((self ^. jsf "getChannelData" [toJSVal channelIndex]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.length Mozilla AudioBuffer.length documentation> 
 getLength :: (MonadDOM m) => AudioBuffer -> m Int

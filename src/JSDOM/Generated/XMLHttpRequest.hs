@@ -2,15 +2,18 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XMLHttpRequest
        (newXMLHttpRequest, open, setRequestHeader, send, abort,
-        getAllResponseHeaders, getResponseHeader, overrideMimeType,
+        getAllResponseHeaders, getAllResponseHeaders_,
+        getAllResponseHeadersUnchecked, getResponseHeader,
+        getResponseHeader_, getResponseHeaderUnchecked, overrideMimeType,
         pattern UNSENT, pattern OPENED, pattern HEADERS_RECEIVED,
         pattern LOADING, pattern DONE, abortEvent, error, load, loadEnd,
         loadStart, progress, timeout, readyStateChange, setTimeout,
         getTimeout, getReadyState, setWithCredentials, getWithCredentials,
-        getUpload, getResponseText, getResponseXML, setResponseType,
-        getResponseType, getResponse, getStatus, getStatusText,
-        getResponseURL, XMLHttpRequest, castToXMLHttpRequest,
-        gTypeXMLHttpRequest)
+        getUpload, getUploadUnchecked, getResponseText,
+        getResponseTextUnchecked, getResponseXML, getResponseXMLUnchecked,
+        setResponseType, getResponseType, getResponse,
+        getResponseUnchecked, getStatus, getStatusText, getResponseURL,
+        XMLHttpRequest, castToXMLHttpRequest, gTypeXMLHttpRequest)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -66,6 +69,18 @@ getAllResponseHeaders self
   = liftDOM
       ((self ^. jsf "getAllResponseHeaders" ()) >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getAllResponseHeaders Mozilla XMLHttpRequest.getAllResponseHeaders documentation> 
+getAllResponseHeaders_ :: (MonadDOM m) => XMLHttpRequest -> m ()
+getAllResponseHeaders_ self
+  = liftDOM (void (self ^. jsf "getAllResponseHeaders" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getAllResponseHeaders Mozilla XMLHttpRequest.getAllResponseHeaders documentation> 
+getAllResponseHeadersUnchecked ::
+                               (MonadDOM m, FromJSString result) => XMLHttpRequest -> m result
+getAllResponseHeadersUnchecked self
+  = liftDOM
+      ((self ^. jsf "getAllResponseHeaders" ()) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
 getResponseHeader ::
                   (MonadDOM m, ToJSString header, FromJSString result) =>
@@ -74,6 +89,21 @@ getResponseHeader self header
   = liftDOM
       ((self ^. jsf "getResponseHeader" [toJSVal header]) >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
+getResponseHeader_ ::
+                   (MonadDOM m, ToJSString header) => XMLHttpRequest -> header -> m ()
+getResponseHeader_ self header
+  = liftDOM (void (self ^. jsf "getResponseHeader" [toJSVal header]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
+getResponseHeaderUnchecked ::
+                           (MonadDOM m, ToJSString header, FromJSString result) =>
+                             XMLHttpRequest -> header -> m result
+getResponseHeaderUnchecked self header
+  = liftDOM
+      ((self ^. jsf "getResponseHeader" [toJSVal header]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.overrideMimeType Mozilla XMLHttpRequest.overrideMimeType documentation> 
 overrideMimeType ::
@@ -150,6 +180,12 @@ getUpload ::
           (MonadDOM m) => XMLHttpRequest -> m (Maybe XMLHttpRequestUpload)
 getUpload self = liftDOM ((self ^. js "upload") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.upload Mozilla XMLHttpRequest.upload documentation> 
+getUploadUnchecked ::
+                   (MonadDOM m) => XMLHttpRequest -> m XMLHttpRequestUpload
+getUploadUnchecked self
+  = liftDOM ((self ^. js "upload") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseText Mozilla XMLHttpRequest.responseText documentation> 
 getResponseText ::
                 (MonadDOM m, FromJSString result) =>
@@ -157,11 +193,23 @@ getResponseText ::
 getResponseText self
   = liftDOM ((self ^. js "responseText") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseText Mozilla XMLHttpRequest.responseText documentation> 
+getResponseTextUnchecked ::
+                         (MonadDOM m, FromJSString result) => XMLHttpRequest -> m result
+getResponseTextUnchecked self
+  = liftDOM ((self ^. js "responseText") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseXML Mozilla XMLHttpRequest.responseXML documentation> 
 getResponseXML ::
                (MonadDOM m) => XMLHttpRequest -> m (Maybe Document)
 getResponseXML self
   = liftDOM ((self ^. js "responseXML") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseXML Mozilla XMLHttpRequest.responseXML documentation> 
+getResponseXMLUnchecked ::
+                        (MonadDOM m) => XMLHttpRequest -> m Document
+getResponseXMLUnchecked self
+  = liftDOM ((self ^. js "responseXML") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseType Mozilla XMLHttpRequest.responseType documentation> 
 setResponseType ::
@@ -179,6 +227,11 @@ getResponseType self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.response Mozilla XMLHttpRequest.response documentation> 
 getResponse :: (MonadDOM m) => XMLHttpRequest -> m (Maybe GObject)
 getResponse self = liftDOM ((self ^. js "response") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.response Mozilla XMLHttpRequest.response documentation> 
+getResponseUnchecked :: (MonadDOM m) => XMLHttpRequest -> m GObject
+getResponseUnchecked self
+  = liftDOM ((self ^. js "response") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.status Mozilla XMLHttpRequest.status documentation> 
 getStatus :: (MonadDOM m) => XMLHttpRequest -> m Word

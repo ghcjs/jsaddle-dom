@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MimeType
-       (getType, getSuffixes, getDescription, getEnabledPlugin, MimeType,
-        castToMimeType, gTypeMimeType)
+       (getType, getSuffixes, getDescription, getEnabledPlugin,
+        getEnabledPluginUnchecked, MimeType, castToMimeType, gTypeMimeType)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -37,3 +37,8 @@ getDescription self
 getEnabledPlugin :: (MonadDOM m) => MimeType -> m (Maybe Plugin)
 getEnabledPlugin self
   = liftDOM ((self ^. js "enabledPlugin") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeType.enabledPlugin Mozilla MimeType.enabledPlugin documentation> 
+getEnabledPluginUnchecked :: (MonadDOM m) => MimeType -> m Plugin
+getEnabledPluginUnchecked self
+  = liftDOM ((self ^. js "enabledPlugin") >>= fromJSValUnchecked)

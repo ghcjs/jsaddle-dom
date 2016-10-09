@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.GamepadEvent
-       (getGamepad, GamepadEvent, castToGamepadEvent, gTypeGamepadEvent)
+       (getGamepad, getGamepadUnchecked, GamepadEvent, castToGamepadEvent,
+        gTypeGamepadEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -18,3 +19,8 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/GamepadEvent.gamepad Mozilla GamepadEvent.gamepad documentation> 
 getGamepad :: (MonadDOM m) => GamepadEvent -> m (Maybe Gamepad)
 getGamepad self = liftDOM ((self ^. js "gamepad") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/GamepadEvent.gamepad Mozilla GamepadEvent.gamepad documentation> 
+getGamepadUnchecked :: (MonadDOM m) => GamepadEvent -> m Gamepad
+getGamepadUnchecked self
+  = liftDOM ((self ^. js "gamepad") >>= fromJSValUnchecked)

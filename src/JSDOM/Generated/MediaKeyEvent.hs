@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyEvent
-       (getKeySystem, getSessionId, getInitData, getMessage,
-        getDefaultURL, getErrorCode, getSystemCode, MediaKeyEvent,
+       (getKeySystem, getSessionId, getInitData, getInitDataUnchecked,
+        getMessage, getMessageUnchecked, getDefaultURL, getErrorCode,
+        getErrorCodeUnchecked, getSystemCode, MediaKeyEvent,
         castToMediaKeyEvent, gTypeMediaKeyEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -34,9 +35,21 @@ getInitData ::
             (MonadDOM m) => MediaKeyEvent -> m (Maybe Uint8Array)
 getInitData self = liftDOM ((self ^. js "initData") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.initData Mozilla MediaKeyEvent.initData documentation> 
+getInitDataUnchecked ::
+                     (MonadDOM m) => MediaKeyEvent -> m Uint8Array
+getInitDataUnchecked self
+  = liftDOM ((self ^. js "initData") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.message Mozilla MediaKeyEvent.message documentation> 
 getMessage :: (MonadDOM m) => MediaKeyEvent -> m (Maybe Uint8Array)
 getMessage self = liftDOM ((self ^. js "message") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.message Mozilla MediaKeyEvent.message documentation> 
+getMessageUnchecked ::
+                    (MonadDOM m) => MediaKeyEvent -> m Uint8Array
+getMessageUnchecked self
+  = liftDOM ((self ^. js "message") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.defaultURL Mozilla MediaKeyEvent.defaultURL documentation> 
 getDefaultURL ::
@@ -49,6 +62,12 @@ getErrorCode ::
              (MonadDOM m) => MediaKeyEvent -> m (Maybe MediaKeyError)
 getErrorCode self
   = liftDOM ((self ^. js "errorCode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.errorCode Mozilla MediaKeyEvent.errorCode documentation> 
+getErrorCodeUnchecked ::
+                      (MonadDOM m) => MediaKeyEvent -> m MediaKeyError
+getErrorCodeUnchecked self
+  = liftDOM ((self ^. js "errorCode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.systemCode Mozilla MediaKeyEvent.systemCode documentation> 
 getSystemCode :: (MonadDOM m) => MediaKeyEvent -> m Word

@@ -1,10 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTCue
-       (newVTTCue, getCueAsHTML, setVertical, getVertical, setSnapToLines,
-        getSnapToLines, setLine, getLine, setPosition, getPosition,
-        setSize, getSize, setAlign, getAlign, setText, getText,
-        setRegionId, getRegionId, VTTCue, castToVTTCue, gTypeVTTCue)
+       (newVTTCue, getCueAsHTML, getCueAsHTML_, getCueAsHTMLUnchecked,
+        setVertical, getVertical, setSnapToLines, getSnapToLines, setLine,
+        getLine, setPosition, getPosition, setSize, getSize, setAlign,
+        getAlign, setText, getText, setRegionId, getRegionId, VTTCue,
+        castToVTTCue, gTypeVTTCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -33,6 +34,16 @@ getCueAsHTML ::
              (MonadDOM m) => VTTCue -> m (Maybe DocumentFragment)
 getCueAsHTML self
   = liftDOM ((self ^. jsf "getCueAsHTML" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTCue.getCueAsHTML Mozilla VTTCue.getCueAsHTML documentation> 
+getCueAsHTML_ :: (MonadDOM m) => VTTCue -> m ()
+getCueAsHTML_ self = liftDOM (void (self ^. jsf "getCueAsHTML" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTCue.getCueAsHTML Mozilla VTTCue.getCueAsHTML documentation> 
+getCueAsHTMLUnchecked ::
+                      (MonadDOM m) => VTTCue -> m DocumentFragment
+getCueAsHTMLUnchecked self
+  = liftDOM ((self ^. jsf "getCueAsHTML" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTCue.vertical Mozilla VTTCue.vertical documentation> 
 setVertical ::

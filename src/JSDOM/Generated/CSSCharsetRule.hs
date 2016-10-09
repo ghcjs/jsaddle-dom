@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSCharsetRule
-       (setEncoding, getEncoding, CSSCharsetRule, castToCSSCharsetRule,
-        gTypeCSSCharsetRule)
+       (setEncoding, getEncoding, getEncodingUnchecked, CSSCharsetRule,
+        castToCSSCharsetRule, gTypeCSSCharsetRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -28,3 +28,9 @@ getEncoding ::
               CSSCharsetRule -> m (Maybe result)
 getEncoding self
   = liftDOM ((self ^. js "encoding") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSCharsetRule.encoding Mozilla CSSCharsetRule.encoding documentation> 
+getEncodingUnchecked ::
+                     (MonadDOM m, FromJSString result) => CSSCharsetRule -> m result
+getEncodingUnchecked self
+  = liftDOM ((self ^. js "encoding") >>= fromJSValUnchecked)

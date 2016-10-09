@@ -1,8 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleSheet
-       (getType, setDisabled, getDisabled, getOwnerNode,
-        getParentStyleSheet, getHref, getTitle, getMedia, StyleSheet,
+       (getType, getTypeUnchecked, setDisabled, getDisabled, getOwnerNode,
+        getOwnerNodeUnchecked, getParentStyleSheet,
+        getParentStyleSheetUnchecked, getHref, getHrefUnchecked, getTitle,
+        getTitleUnchecked, getMedia, getMediaUnchecked, StyleSheet,
         castToStyleSheet, gTypeStyleSheet, IsStyleSheet, toStyleSheet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -25,6 +27,14 @@ getType self
   = liftDOM
       (((toStyleSheet self) ^. js "type") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.type Mozilla StyleSheet.type documentation> 
+getTypeUnchecked ::
+                 (MonadDOM m, IsStyleSheet self, FromJSString result) =>
+                   self -> m result
+getTypeUnchecked self
+  = liftDOM
+      (((toStyleSheet self) ^. js "type") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.disabled Mozilla StyleSheet.disabled documentation> 
 setDisabled ::
             (MonadDOM m, IsStyleSheet self) => self -> Bool -> m ()
@@ -42,12 +52,27 @@ getOwnerNode ::
 getOwnerNode self
   = liftDOM (((toStyleSheet self) ^. js "ownerNode") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.ownerNode Mozilla StyleSheet.ownerNode documentation> 
+getOwnerNodeUnchecked ::
+                      (MonadDOM m, IsStyleSheet self) => self -> m Node
+getOwnerNodeUnchecked self
+  = liftDOM
+      (((toStyleSheet self) ^. js "ownerNode") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.parentStyleSheet Mozilla StyleSheet.parentStyleSheet documentation> 
 getParentStyleSheet ::
                     (MonadDOM m, IsStyleSheet self) => self -> m (Maybe StyleSheet)
 getParentStyleSheet self
   = liftDOM
       (((toStyleSheet self) ^. js "parentStyleSheet") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.parentStyleSheet Mozilla StyleSheet.parentStyleSheet documentation> 
+getParentStyleSheetUnchecked ::
+                             (MonadDOM m, IsStyleSheet self) => self -> m StyleSheet
+getParentStyleSheetUnchecked self
+  = liftDOM
+      (((toStyleSheet self) ^. js "parentStyleSheet") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.href Mozilla StyleSheet.href documentation> 
 getHref ::
@@ -57,6 +82,14 @@ getHref self
   = liftDOM
       (((toStyleSheet self) ^. js "href") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.href Mozilla StyleSheet.href documentation> 
+getHrefUnchecked ::
+                 (MonadDOM m, IsStyleSheet self, FromJSString result) =>
+                   self -> m result
+getHrefUnchecked self
+  = liftDOM
+      (((toStyleSheet self) ^. js "href") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.title Mozilla StyleSheet.title documentation> 
 getTitle ::
          (MonadDOM m, IsStyleSheet self, FromJSString result) =>
@@ -65,8 +98,23 @@ getTitle self
   = liftDOM
       (((toStyleSheet self) ^. js "title") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.title Mozilla StyleSheet.title documentation> 
+getTitleUnchecked ::
+                  (MonadDOM m, IsStyleSheet self, FromJSString result) =>
+                    self -> m result
+getTitleUnchecked self
+  = liftDOM
+      (((toStyleSheet self) ^. js "title") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.media Mozilla StyleSheet.media documentation> 
 getMedia ::
          (MonadDOM m, IsStyleSheet self) => self -> m (Maybe MediaList)
 getMedia self
   = liftDOM (((toStyleSheet self) ^. js "media") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.media Mozilla StyleSheet.media documentation> 
+getMediaUnchecked ::
+                  (MonadDOM m, IsStyleSheet self) => self -> m MediaList
+getMediaUnchecked self
+  = liftDOM
+      (((toStyleSheet self) ^. js "media") >>= fromJSValUnchecked)

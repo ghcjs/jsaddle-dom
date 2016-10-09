@@ -1,8 +1,13 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NamedNodeMap
-       (getNamedItem, setNamedItem, removeNamedItem, item, getNamedItemNS,
-        setNamedItemNS, removeNamedItemNS, getLength, NamedNodeMap,
+       (getNamedItem, getNamedItem_, getNamedItemUnchecked, setNamedItem,
+        setNamedItem_, setNamedItemUnchecked, removeNamedItem,
+        removeNamedItem_, removeNamedItemUnchecked, item, item_,
+        itemUnchecked, getNamedItemNS, getNamedItemNS_,
+        getNamedItemNSUnchecked, setNamedItemNS, setNamedItemNS_,
+        setNamedItemNSUnchecked, removeNamedItemNS, removeNamedItemNS_,
+        removeNamedItemNSUnchecked, getLength, NamedNodeMap,
         castToNamedNodeMap, gTypeNamedNodeMap)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -25,6 +30,20 @@ getNamedItem self name
   = liftDOM
       ((self ^. jsf "getNamedItem" [toJSVal name]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
+getNamedItem_ ::
+              (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m ()
+getNamedItem_ self name
+  = liftDOM (void (self ^. jsf "getNamedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
+getNamedItemUnchecked ::
+                      (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m Node
+getNamedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "getNamedItem" [toJSVal name]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItem Mozilla NamedNodeMap.setNamedItem documentation> 
 setNamedItem ::
              (MonadDOM m, IsNode node) =>
@@ -32,6 +51,20 @@ setNamedItem ::
 setNamedItem self node
   = liftDOM
       ((self ^. jsf "setNamedItem" [toJSVal node]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItem Mozilla NamedNodeMap.setNamedItem documentation> 
+setNamedItem_ ::
+              (MonadDOM m, IsNode node) => NamedNodeMap -> Maybe node -> m ()
+setNamedItem_ self node
+  = liftDOM (void (self ^. jsf "setNamedItem" [toJSVal node]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItem Mozilla NamedNodeMap.setNamedItem documentation> 
+setNamedItemUnchecked ::
+                      (MonadDOM m, IsNode node) => NamedNodeMap -> Maybe node -> m Node
+setNamedItemUnchecked self node
+  = liftDOM
+      ((self ^. jsf "setNamedItem" [toJSVal node]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
 removeNamedItem ::
@@ -41,10 +74,35 @@ removeNamedItem self name
   = liftDOM
       ((self ^. jsf "removeNamedItem" [toJSVal name]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
+removeNamedItem_ ::
+                 (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m ()
+removeNamedItem_ self name
+  = liftDOM (void (self ^. jsf "removeNamedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
+removeNamedItemUnchecked ::
+                         (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m Node
+removeNamedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "removeNamedItem" [toJSVal name]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.item Mozilla NamedNodeMap.item documentation> 
 item :: (MonadDOM m) => NamedNodeMap -> Word -> m (Maybe Node)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.item Mozilla NamedNodeMap.item documentation> 
+item_ :: (MonadDOM m) => NamedNodeMap -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.item Mozilla NamedNodeMap.item documentation> 
+itemUnchecked :: (MonadDOM m) => NamedNodeMap -> Word -> m Node
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItemNS Mozilla NamedNodeMap.getNamedItemNS documentation> 
 getNamedItemNS ::
@@ -56,6 +114,26 @@ getNamedItemNS self namespaceURI localName
           [toJSVal namespaceURI, toJSVal localName])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItemNS Mozilla NamedNodeMap.getNamedItemNS documentation> 
+getNamedItemNS_ ::
+                (MonadDOM m, ToJSString namespaceURI, ToJSString localName) =>
+                  NamedNodeMap -> Maybe namespaceURI -> localName -> m ()
+getNamedItemNS_ self namespaceURI localName
+  = liftDOM
+      (void
+         (self ^. jsf "getNamedItemNS"
+            [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItemNS Mozilla NamedNodeMap.getNamedItemNS documentation> 
+getNamedItemNSUnchecked ::
+                        (MonadDOM m, ToJSString namespaceURI, ToJSString localName) =>
+                          NamedNodeMap -> Maybe namespaceURI -> localName -> m Node
+getNamedItemNSUnchecked self namespaceURI localName
+  = liftDOM
+      ((self ^. jsf "getNamedItemNS"
+          [toJSVal namespaceURI, toJSVal localName])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItemNS Mozilla NamedNodeMap.setNamedItemNS documentation> 
 setNamedItemNS ::
                (MonadDOM m, IsNode node) =>
@@ -63,6 +141,20 @@ setNamedItemNS ::
 setNamedItemNS self node
   = liftDOM
       ((self ^. jsf "setNamedItemNS" [toJSVal node]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItemNS Mozilla NamedNodeMap.setNamedItemNS documentation> 
+setNamedItemNS_ ::
+                (MonadDOM m, IsNode node) => NamedNodeMap -> Maybe node -> m ()
+setNamedItemNS_ self node
+  = liftDOM (void (self ^. jsf "setNamedItemNS" [toJSVal node]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItemNS Mozilla NamedNodeMap.setNamedItemNS documentation> 
+setNamedItemNSUnchecked ::
+                        (MonadDOM m, IsNode node) => NamedNodeMap -> Maybe node -> m Node
+setNamedItemNSUnchecked self node
+  = liftDOM
+      ((self ^. jsf "setNamedItemNS" [toJSVal node]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItemNS Mozilla NamedNodeMap.removeNamedItemNS documentation> 
 removeNamedItemNS ::
@@ -73,6 +165,26 @@ removeNamedItemNS self namespaceURI localName
       ((self ^. jsf "removeNamedItemNS"
           [toJSVal namespaceURI, toJSVal localName])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItemNS Mozilla NamedNodeMap.removeNamedItemNS documentation> 
+removeNamedItemNS_ ::
+                   (MonadDOM m, ToJSString namespaceURI, ToJSString localName) =>
+                     NamedNodeMap -> Maybe namespaceURI -> localName -> m ()
+removeNamedItemNS_ self namespaceURI localName
+  = liftDOM
+      (void
+         (self ^. jsf "removeNamedItemNS"
+            [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItemNS Mozilla NamedNodeMap.removeNamedItemNS documentation> 
+removeNamedItemNSUnchecked ::
+                           (MonadDOM m, ToJSString namespaceURI, ToJSString localName) =>
+                             NamedNodeMap -> Maybe namespaceURI -> localName -> m Node
+removeNamedItemNSUnchecked self namespaceURI localName
+  = liftDOM
+      ((self ^. jsf "removeNamedItemNS"
+          [toJSVal namespaceURI, toJSVal localName])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.length Mozilla NamedNodeMap.length documentation> 
 getLength :: (MonadDOM m) => NamedNodeMap -> m Word

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaElementAudioSourceNode
-       (getMediaElement, MediaElementAudioSourceNode,
-        castToMediaElementAudioSourceNode,
+       (getMediaElement, getMediaElementUnchecked,
+        MediaElementAudioSourceNode, castToMediaElementAudioSourceNode,
         gTypeMediaElementAudioSourceNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -23,3 +23,9 @@ getMediaElement ::
                   MediaElementAudioSourceNode -> m (Maybe HTMLMediaElement)
 getMediaElement self
   = liftDOM ((self ^. js "mediaElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode.mediaElement Mozilla MediaElementAudioSourceNode.mediaElement documentation> 
+getMediaElementUnchecked ::
+                         (MonadDOM m) => MediaElementAudioSourceNode -> m HTMLMediaElement
+getMediaElementUnchecked self
+  = liftDOM ((self ^. js "mediaElement") >>= fromJSValUnchecked)

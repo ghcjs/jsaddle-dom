@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSSupportsRule
-       (insertRule, deleteRule, getCssRules, getConditionText,
-        CSSSupportsRule, castToCSSSupportsRule, gTypeCSSSupportsRule)
+       (insertRule, insertRule_, deleteRule, getCssRules,
+        getCssRulesUnchecked, getConditionText, CSSSupportsRule,
+        castToCSSSupportsRule, gTypeCSSSupportsRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,6 +27,14 @@ insertRule self rule index
          ((self ^. jsf "insertRule" [toJSVal rule, toJSVal index]) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.insertRule Mozilla CSSSupportsRule.insertRule documentation> 
+insertRule_ ::
+            (MonadDOM m, ToJSString rule) =>
+              CSSSupportsRule -> rule -> Word -> m ()
+insertRule_ self rule index
+  = liftDOM
+      (void (self ^. jsf "insertRule" [toJSVal rule, toJSVal index]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.deleteRule Mozilla CSSSupportsRule.deleteRule documentation> 
 deleteRule :: (MonadDOM m) => CSSSupportsRule -> Word -> m ()
 deleteRule self index
@@ -35,6 +44,12 @@ deleteRule self index
 getCssRules ::
             (MonadDOM m) => CSSSupportsRule -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.cssRules Mozilla CSSSupportsRule.cssRules documentation> 
+getCssRulesUnchecked ::
+                     (MonadDOM m) => CSSSupportsRule -> m CSSRuleList
+getCssRulesUnchecked self
+  = liftDOM ((self ^. js "cssRules") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.conditionText Mozilla CSSSupportsRule.conditionText documentation> 
 getConditionText ::

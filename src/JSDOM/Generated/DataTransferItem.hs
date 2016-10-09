@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataTransferItem
-       (getAsString, getAsFile, getKind, getType, DataTransferItem,
-        castToDataTransferItem, gTypeDataTransferItem)
+       (getAsString, getAsFile, getAsFile_, getAsFileUnchecked, getKind,
+        getType, DataTransferItem, castToDataTransferItem,
+        gTypeDataTransferItem)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,6 +28,15 @@ getAsString self callback
 getAsFile :: (MonadDOM m) => DataTransferItem -> m (Maybe Blob)
 getAsFile self
   = liftDOM ((self ^. jsf "getAsFile" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem.getAsFile Mozilla DataTransferItem.getAsFile documentation> 
+getAsFile_ :: (MonadDOM m) => DataTransferItem -> m ()
+getAsFile_ self = liftDOM (void (self ^. jsf "getAsFile" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem.getAsFile Mozilla DataTransferItem.getAsFile documentation> 
+getAsFileUnchecked :: (MonadDOM m) => DataTransferItem -> m Blob
+getAsFileUnchecked self
+  = liftDOM ((self ^. jsf "getAsFile" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem.kind Mozilla DataTransferItem.kind documentation> 
 getKind ::

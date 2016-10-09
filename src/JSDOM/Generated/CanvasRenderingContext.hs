@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CanvasRenderingContext
-       (getCanvas, CanvasRenderingContext, castToCanvasRenderingContext,
-        gTypeCanvasRenderingContext, IsCanvasRenderingContext,
-        toCanvasRenderingContext)
+       (getCanvas, getCanvasUnchecked, CanvasRenderingContext,
+        castToCanvasRenderingContext, gTypeCanvasRenderingContext,
+        IsCanvasRenderingContext, toCanvasRenderingContext)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,3 +24,12 @@ getCanvas ::
 getCanvas self
   = liftDOM
       (((toCanvasRenderingContext self) ^. js "canvas") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext.canvas Mozilla CanvasRenderingContext.canvas documentation> 
+getCanvasUnchecked ::
+                   (MonadDOM m, IsCanvasRenderingContext self) =>
+                     self -> m HTMLCanvasElement
+getCanvasUnchecked self
+  = liftDOM
+      (((toCanvasRenderingContext self) ^. js "canvas") >>=
+         fromJSValUnchecked)

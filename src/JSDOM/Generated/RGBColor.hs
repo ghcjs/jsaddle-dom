@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RGBColor
-       (getRed, getGreen, getBlue, RGBColor, castToRGBColor,
-        gTypeRGBColor)
+       (getRed, getRedUnchecked, getGreen, getGreenUnchecked, getBlue,
+        getBlueUnchecked, RGBColor, castToRGBColor, gTypeRGBColor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,10 +20,26 @@ import JSDOM.Enums
 getRed :: (MonadDOM m) => RGBColor -> m (Maybe CSSPrimitiveValue)
 getRed self = liftDOM ((self ^. js "red") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RGBColor.red Mozilla RGBColor.red documentation> 
+getRedUnchecked :: (MonadDOM m) => RGBColor -> m CSSPrimitiveValue
+getRedUnchecked self
+  = liftDOM ((self ^. js "red") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RGBColor.green Mozilla RGBColor.green documentation> 
 getGreen :: (MonadDOM m) => RGBColor -> m (Maybe CSSPrimitiveValue)
 getGreen self = liftDOM ((self ^. js "green") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RGBColor.green Mozilla RGBColor.green documentation> 
+getGreenUnchecked ::
+                  (MonadDOM m) => RGBColor -> m CSSPrimitiveValue
+getGreenUnchecked self
+  = liftDOM ((self ^. js "green") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RGBColor.blue Mozilla RGBColor.blue documentation> 
 getBlue :: (MonadDOM m) => RGBColor -> m (Maybe CSSPrimitiveValue)
 getBlue self = liftDOM ((self ^. js "blue") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RGBColor.blue Mozilla RGBColor.blue documentation> 
+getBlueUnchecked :: (MonadDOM m) => RGBColor -> m CSSPrimitiveValue
+getBlueUnchecked self
+  = liftDOM ((self ^. js "blue") >>= fromJSValUnchecked)

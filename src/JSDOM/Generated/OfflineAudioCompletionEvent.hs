@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OfflineAudioCompletionEvent
-       (getRenderedBuffer, OfflineAudioCompletionEvent,
-        castToOfflineAudioCompletionEvent,
+       (getRenderedBuffer, getRenderedBufferUnchecked,
+        OfflineAudioCompletionEvent, castToOfflineAudioCompletionEvent,
         gTypeOfflineAudioCompletionEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -23,3 +23,9 @@ getRenderedBuffer ::
                     OfflineAudioCompletionEvent -> m (Maybe AudioBuffer)
 getRenderedBuffer self
   = liftDOM ((self ^. js "renderedBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioCompletionEvent.renderedBuffer Mozilla OfflineAudioCompletionEvent.renderedBuffer documentation> 
+getRenderedBufferUnchecked ::
+                           (MonadDOM m) => OfflineAudioCompletionEvent -> m AudioBuffer
+getRenderedBufferUnchecked self
+  = liftDOM ((self ^. js "renderedBuffer") >>= fromJSValUnchecked)

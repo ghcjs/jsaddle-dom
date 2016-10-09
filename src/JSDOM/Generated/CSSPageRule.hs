@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSPageRule
-       (setSelectorText, getSelectorText, getStyle, CSSPageRule,
-        castToCSSPageRule, gTypeCSSPageRule)
+       (setSelectorText, getSelectorText, getSelectorTextUnchecked,
+        getStyle, getStyleUnchecked, CSSPageRule, castToCSSPageRule,
+        gTypeCSSPageRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -29,7 +30,19 @@ getSelectorText ::
 getSelectorText self
   = liftDOM ((self ^. js "selectorText") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.selectorText Mozilla CSSPageRule.selectorText documentation> 
+getSelectorTextUnchecked ::
+                         (MonadDOM m, FromJSString result) => CSSPageRule -> m result
+getSelectorTextUnchecked self
+  = liftDOM ((self ^. js "selectorText") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.style Mozilla CSSPageRule.style documentation> 
 getStyle ::
          (MonadDOM m) => CSSPageRule -> m (Maybe CSSStyleDeclaration)
 getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.style Mozilla CSSPageRule.style documentation> 
+getStyleUnchecked ::
+                  (MonadDOM m) => CSSPageRule -> m CSSStyleDeclaration
+getStyleUnchecked self
+  = liftDOM ((self ^. js "style") >>= fromJSValUnchecked)

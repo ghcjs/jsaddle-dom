@@ -4,8 +4,10 @@ module JSDOM.Generated.TextTrack
        (addCue, removeCue, addRegion, removeRegion, getId, setKind,
         getKind, getLabel, setLanguage, getLanguage,
         getInBandMetadataTrackDispatchType, setMode, getMode, getCues,
-        getActiveCues, cueChange, getRegions, getSourceBuffer, TextTrack,
-        castToTextTrack, gTypeTextTrack)
+        getCuesUnchecked, getActiveCues, getActiveCuesUnchecked, cueChange,
+        getRegions, getRegionsUnchecked, getSourceBuffer,
+        getSourceBufferUnchecked, TextTrack, castToTextTrack,
+        gTypeTextTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -92,11 +94,22 @@ getMode self = liftDOM ((self ^. js "mode") >>= fromJSValUnchecked)
 getCues :: (MonadDOM m) => TextTrack -> m (Maybe TextTrackCueList)
 getCues self = liftDOM ((self ^. js "cues") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.cues Mozilla TextTrack.cues documentation> 
+getCuesUnchecked :: (MonadDOM m) => TextTrack -> m TextTrackCueList
+getCuesUnchecked self
+  = liftDOM ((self ^. js "cues") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.activeCues Mozilla TextTrack.activeCues documentation> 
 getActiveCues ::
               (MonadDOM m) => TextTrack -> m (Maybe TextTrackCueList)
 getActiveCues self
   = liftDOM ((self ^. js "activeCues") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.activeCues Mozilla TextTrack.activeCues documentation> 
+getActiveCuesUnchecked ::
+                       (MonadDOM m) => TextTrack -> m TextTrackCueList
+getActiveCuesUnchecked self
+  = liftDOM ((self ^. js "activeCues") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.oncuechange Mozilla TextTrack.oncuechange documentation> 
 cueChange :: EventName TextTrack Event
@@ -106,8 +119,19 @@ cueChange = unsafeEventName (toJSString "cuechange")
 getRegions :: (MonadDOM m) => TextTrack -> m (Maybe VTTRegionList)
 getRegions self = liftDOM ((self ^. js "regions") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.regions Mozilla TextTrack.regions documentation> 
+getRegionsUnchecked :: (MonadDOM m) => TextTrack -> m VTTRegionList
+getRegionsUnchecked self
+  = liftDOM ((self ^. js "regions") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
 getSourceBuffer ::
                 (MonadDOM m) => TextTrack -> m (Maybe SourceBuffer)
 getSourceBuffer self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
+getSourceBufferUnchecked ::
+                         (MonadDOM m) => TextTrack -> m SourceBuffer
+getSourceBufferUnchecked self
+  = liftDOM ((self ^. js "sourceBuffer") >>= fromJSValUnchecked)

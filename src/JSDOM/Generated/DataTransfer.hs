@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataTransfer
-       (clearData, getData, setData, setDragImage, setDropEffect,
-        getDropEffect, setEffectAllowed, getEffectAllowed, getTypes,
-        getFiles, getItems, DataTransfer, castToDataTransfer,
+       (clearData, getData, getData_, setData, setDragImage,
+        setDropEffect, getDropEffect, setEffectAllowed, getEffectAllowed,
+        getTypes, getTypesUnchecked, getFiles, getFilesUnchecked, getItems,
+        getItemsUnchecked, DataTransfer, castToDataTransfer,
         gTypeDataTransfer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -31,6 +32,12 @@ getData ::
 getData self type'
   = liftDOM
       ((self ^. jsf "getData" [toJSVal type']) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.getData Mozilla DataTransfer.getData documentation> 
+getData_ ::
+         (MonadDOM m, ToJSString type') => DataTransfer -> type' -> m ()
+getData_ self type'
+  = liftDOM (void (self ^. jsf "getData" [toJSVal type']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.setData Mozilla DataTransfer.setData documentation> 
 setData ::
@@ -77,11 +84,27 @@ getEffectAllowed self
 getTypes :: (MonadDOM m) => DataTransfer -> m (Maybe Array)
 getTypes self = liftDOM ((self ^. js "types") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.types Mozilla DataTransfer.types documentation> 
+getTypesUnchecked :: (MonadDOM m) => DataTransfer -> m Array
+getTypesUnchecked self
+  = liftDOM ((self ^. js "types") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.files Mozilla DataTransfer.files documentation> 
 getFiles :: (MonadDOM m) => DataTransfer -> m (Maybe FileList)
 getFiles self = liftDOM ((self ^. js "files") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.files Mozilla DataTransfer.files documentation> 
+getFilesUnchecked :: (MonadDOM m) => DataTransfer -> m FileList
+getFilesUnchecked self
+  = liftDOM ((self ^. js "files") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.items Mozilla DataTransfer.items documentation> 
 getItems ::
          (MonadDOM m) => DataTransfer -> m (Maybe DataTransferItemList)
 getItems self = liftDOM ((self ^. js "items") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.items Mozilla DataTransfer.items documentation> 
+getItemsUnchecked ::
+                  (MonadDOM m) => DataTransfer -> m DataTransferItemList
+getItemsUnchecked self
+  = liftDOM ((self ^. js "items") >>= fromJSValUnchecked)

@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionsCollection
-       (namedItem, addBefore, add, remove, setSelectedIndex,
-        getSelectedIndex, setLength, getLength, HTMLOptionsCollection,
-        castToHTMLOptionsCollection, gTypeHTMLOptionsCollection)
+       (namedItem, namedItem_, namedItemUnchecked, addBefore, add, remove,
+        setSelectedIndex, getSelectedIndex, setLength, getLength,
+        HTMLOptionsCollection, castToHTMLOptionsCollection,
+        gTypeHTMLOptionsCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,6 +24,21 @@ namedItem ::
             HTMLOptionsCollection -> name -> m (Maybe Node)
 namedItem self name
   = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionsCollection.namedItem Mozilla HTMLOptionsCollection.namedItem documentation> 
+namedItem_ ::
+           (MonadDOM m, ToJSString name) =>
+             HTMLOptionsCollection -> name -> m ()
+namedItem_ self name
+  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionsCollection.namedItem Mozilla HTMLOptionsCollection.namedItem documentation> 
+namedItemUnchecked ::
+                   (MonadDOM m, ToJSString name) =>
+                     HTMLOptionsCollection -> name -> m Node
+namedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionsCollection.add Mozilla HTMLOptionsCollection.add documentation> 
 addBefore ::

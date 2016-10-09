@@ -4,9 +4,10 @@ module JSDOM.Generated.AudioBufferSourceNode
        (start, stop, noteOn, noteGrainOn, noteOff,
         pattern UNSCHEDULED_STATE, pattern SCHEDULED_STATE,
         pattern PLAYING_STATE, pattern FINISHED_STATE, setBuffer,
-        getBuffer, getPlaybackState, getGain, getPlaybackRate, setLoop,
-        getLoop, setLoopStart, getLoopStart, setLoopEnd, getLoopEnd,
-        setLooping, getLooping, ended, AudioBufferSourceNode,
+        getBuffer, getBufferUnchecked, getPlaybackState, getGain,
+        getGainUnchecked, getPlaybackRate, getPlaybackRateUnchecked,
+        setLoop, getLoop, setLoopStart, getLoopStart, setLoopEnd,
+        getLoopEnd, setLooping, getLooping, ended, AudioBufferSourceNode,
         castToAudioBufferSourceNode, gTypeAudioBufferSourceNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -69,6 +70,12 @@ getBuffer ::
           (MonadDOM m) => AudioBufferSourceNode -> m (Maybe AudioBuffer)
 getBuffer self = liftDOM ((self ^. js "buffer") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.buffer Mozilla AudioBufferSourceNode.buffer documentation> 
+getBufferUnchecked ::
+                   (MonadDOM m) => AudioBufferSourceNode -> m AudioBuffer
+getBufferUnchecked self
+  = liftDOM ((self ^. js "buffer") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.playbackState Mozilla AudioBufferSourceNode.playbackState documentation> 
 getPlaybackState :: (MonadDOM m) => AudioBufferSourceNode -> m Word
 getPlaybackState self
@@ -80,11 +87,23 @@ getGain ::
         (MonadDOM m) => AudioBufferSourceNode -> m (Maybe AudioParam)
 getGain self = liftDOM ((self ^. js "gain") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.gain Mozilla AudioBufferSourceNode.gain documentation> 
+getGainUnchecked ::
+                 (MonadDOM m) => AudioBufferSourceNode -> m AudioParam
+getGainUnchecked self
+  = liftDOM ((self ^. js "gain") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.playbackRate Mozilla AudioBufferSourceNode.playbackRate documentation> 
 getPlaybackRate ::
                 (MonadDOM m) => AudioBufferSourceNode -> m (Maybe AudioParam)
 getPlaybackRate self
   = liftDOM ((self ^. js "playbackRate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.playbackRate Mozilla AudioBufferSourceNode.playbackRate documentation> 
+getPlaybackRateUnchecked ::
+                         (MonadDOM m) => AudioBufferSourceNode -> m AudioParam
+getPlaybackRateUnchecked self
+  = liftDOM ((self ^. js "playbackRate") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.loop Mozilla AudioBufferSourceNode.loop documentation> 
 setLoop :: (MonadDOM m) => AudioBufferSourceNode -> Bool -> m ()

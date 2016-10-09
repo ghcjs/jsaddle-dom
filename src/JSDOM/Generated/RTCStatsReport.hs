@@ -1,8 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCStatsReport
-       (stat, names, getTimestamp, getId, getType, getLocal, getRemote,
-        RTCStatsReport, castToRTCStatsReport, gTypeRTCStatsReport)
+       (stat, stat_, names, names_, getTimestamp, getTimestampUnchecked,
+        getId, getType, getLocal, getLocalUnchecked, getRemote,
+        getRemoteUnchecked, RTCStatsReport, castToRTCStatsReport,
+        gTypeRTCStatsReport)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,16 +26,31 @@ stat self name
   = liftDOM
       ((self ^. jsf "stat" [toJSVal name]) >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.stat Mozilla RTCStatsReport.stat documentation> 
+stat_ ::
+      (MonadDOM m, ToJSString name) => RTCStatsReport -> name -> m ()
+stat_ self name
+  = liftDOM (void (self ^. jsf "stat" [toJSVal name]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.names Mozilla RTCStatsReport.names documentation> 
 names ::
       (MonadDOM m, FromJSString result) => RTCStatsReport -> m [result]
 names self
   = liftDOM ((self ^. jsf "names" ()) >>= fromJSArrayUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.names Mozilla RTCStatsReport.names documentation> 
+names_ :: (MonadDOM m) => RTCStatsReport -> m ()
+names_ self = liftDOM (void (self ^. jsf "names" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.timestamp Mozilla RTCStatsReport.timestamp documentation> 
 getTimestamp :: (MonadDOM m) => RTCStatsReport -> m (Maybe Date)
 getTimestamp self
   = liftDOM ((self ^. js "timestamp") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.timestamp Mozilla RTCStatsReport.timestamp documentation> 
+getTimestampUnchecked :: (MonadDOM m) => RTCStatsReport -> m Date
+getTimestampUnchecked self
+  = liftDOM ((self ^. js "timestamp") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.id Mozilla RTCStatsReport.id documentation> 
 getId ::
@@ -50,7 +67,19 @@ getLocal ::
          (MonadDOM m) => RTCStatsReport -> m (Maybe RTCStatsReport)
 getLocal self = liftDOM ((self ^. js "local") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.local Mozilla RTCStatsReport.local documentation> 
+getLocalUnchecked ::
+                  (MonadDOM m) => RTCStatsReport -> m RTCStatsReport
+getLocalUnchecked self
+  = liftDOM ((self ^. js "local") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.remote Mozilla RTCStatsReport.remote documentation> 
 getRemote ::
           (MonadDOM m) => RTCStatsReport -> m (Maybe RTCStatsReport)
 getRemote self = liftDOM ((self ^. js "remote") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.remote Mozilla RTCStatsReport.remote documentation> 
+getRemoteUnchecked ::
+                   (MonadDOM m) => RTCStatsReport -> m RTCStatsReport
+getRemoteUnchecked self
+  = liftDOM ((self ^. js "remote") >>= fromJSValUnchecked)

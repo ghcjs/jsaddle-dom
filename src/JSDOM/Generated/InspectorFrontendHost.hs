@@ -4,12 +4,13 @@ module JSDOM.Generated.InspectorFrontendHost
        (loaded, closeWindow, bringToFront, setZoomFactor,
         inspectedURLChanged, requestSetDockSide, setAttachedWindowHeight,
         setAttachedWindowWidth, setToolbarHeight, moveWindowBy,
-        localizedStringsURL, debuggableType, copyText, openInNewTab,
-        canSave, save, append, close, platform, port, showContextMenu,
+        localizedStringsURL, localizedStringsURL_, debuggableType,
+        debuggableType_, copyText, openInNewTab, canSave, canSave_, save,
+        append, close, platform, platform_, port, port_, showContextMenu,
         dispatchEventAsContextMenuEvent, sendMessageToBackend,
-        unbufferedLog, isUnderTest, beep, canInspectWorkers, canSaveAs,
-        InspectorFrontendHost, castToInspectorFrontendHost,
-        gTypeInspectorFrontendHost)
+        unbufferedLog, isUnderTest, isUnderTest_, beep, canInspectWorkers,
+        canInspectWorkers_, canSaveAs, canSaveAs_, InspectorFrontendHost,
+        castToInspectorFrontendHost, gTypeInspectorFrontendHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -91,6 +92,12 @@ localizedStringsURL self
   = liftDOM
       ((self ^. jsf "localizedStringsURL" ()) >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.localizedStringsURL Mozilla InspectorFrontendHost.localizedStringsURL documentation> 
+localizedStringsURL_ ::
+                     (MonadDOM m) => InspectorFrontendHost -> m ()
+localizedStringsURL_ self
+  = liftDOM (void (self ^. jsf "localizedStringsURL" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.debuggableType Mozilla InspectorFrontendHost.debuggableType documentation> 
 debuggableType ::
                (MonadDOM m, FromJSString result) =>
@@ -98,6 +105,11 @@ debuggableType ::
 debuggableType self
   = liftDOM
       ((self ^. jsf "debuggableType" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.debuggableType Mozilla InspectorFrontendHost.debuggableType documentation> 
+debuggableType_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+debuggableType_ self
+  = liftDOM (void (self ^. jsf "debuggableType" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.copyText Mozilla InspectorFrontendHost.copyText documentation> 
 copyText ::
@@ -116,6 +128,10 @@ openInNewTab self url
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canSave Mozilla InspectorFrontendHost.canSave documentation> 
 canSave :: (MonadDOM m) => InspectorFrontendHost -> m Bool
 canSave self = liftDOM ((self ^. jsf "canSave" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canSave Mozilla InspectorFrontendHost.canSave documentation> 
+canSave_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+canSave_ self = liftDOM (void (self ^. jsf "canSave" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.save Mozilla InspectorFrontendHost.save documentation> 
 save ::
@@ -149,12 +165,20 @@ platform ::
 platform self
   = liftDOM ((self ^. jsf "platform" ()) >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.platform Mozilla InspectorFrontendHost.platform documentation> 
+platform_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+platform_ self = liftDOM (void (self ^. jsf "platform" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.port Mozilla InspectorFrontendHost.port documentation> 
 port ::
      (MonadDOM m, FromJSString result) =>
        InspectorFrontendHost -> m result
 port self
   = liftDOM ((self ^. jsf "port" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.port Mozilla InspectorFrontendHost.port documentation> 
+port_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+port_ self = liftDOM (void (self ^. jsf "port" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.showContextMenu Mozilla InspectorFrontendHost.showContextMenu documentation> 
 showContextMenu ::
@@ -194,6 +218,10 @@ isUnderTest :: (MonadDOM m) => InspectorFrontendHost -> m Bool
 isUnderTest self
   = liftDOM ((self ^. jsf "isUnderTest" ()) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.isUnderTest Mozilla InspectorFrontendHost.isUnderTest documentation> 
+isUnderTest_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+isUnderTest_ self = liftDOM (void (self ^. jsf "isUnderTest" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.beep Mozilla InspectorFrontendHost.beep documentation> 
 beep :: (MonadDOM m) => InspectorFrontendHost -> m ()
 beep self = liftDOM (void (self ^. jsf "beep" ()))
@@ -204,7 +232,16 @@ canInspectWorkers ::
 canInspectWorkers self
   = liftDOM ((self ^. jsf "canInspectWorkers" ()) >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canInspectWorkers Mozilla InspectorFrontendHost.canInspectWorkers documentation> 
+canInspectWorkers_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+canInspectWorkers_ self
+  = liftDOM (void (self ^. jsf "canInspectWorkers" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canSaveAs Mozilla InspectorFrontendHost.canSaveAs documentation> 
 canSaveAs :: (MonadDOM m) => InspectorFrontendHost -> m Bool
 canSaveAs self
   = liftDOM ((self ^. jsf "canSaveAs" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canSaveAs Mozilla InspectorFrontendHost.canSaveAs documentation> 
+canSaveAs_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+canSaveAs_ self = liftDOM (void (self ^. jsf "canSaveAs" ()))

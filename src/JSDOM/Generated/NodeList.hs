@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeList
-       (item, getLength, NodeList, castToNodeList, gTypeNodeList,
-        IsNodeList, toNodeList)
+       (item, item_, itemUnchecked, getLength, NodeList, castToNodeList,
+        gTypeNodeList, IsNodeList, toNodeList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,6 +22,19 @@ item ::
 item self index
   = liftDOM
       (((toNodeList self) ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeList.item Mozilla NodeList.item documentation> 
+item_ :: (MonadDOM m, IsNodeList self) => self -> Word -> m ()
+item_ self index
+  = liftDOM (void ((toNodeList self) ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeList.item Mozilla NodeList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m, IsNodeList self) => self -> Word -> m Node
+itemUnchecked self index
+  = liftDOM
+      (((toNodeList self) ^. jsf "item" [toJSVal index]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeList.length Mozilla NodeList.length documentation> 
 getLength :: (MonadDOM m, IsNodeList self) => self -> m Word

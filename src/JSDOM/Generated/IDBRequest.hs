@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBRequest
-       (getResult, getError, getSource, getTransaction, getReadyState,
-        success, error, IDBRequest, castToIDBRequest, gTypeIDBRequest,
-        IsIDBRequest, toIDBRequest)
+       (getResult, getResultUnchecked, getError, getErrorUnchecked,
+        getSource, getSourceUnchecked, getTransaction,
+        getTransactionUnchecked, getReadyState, success, error, IDBRequest,
+        castToIDBRequest, gTypeIDBRequest, IsIDBRequest, toIDBRequest)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,11 +24,25 @@ getResult ::
 getResult self
   = liftDOM (((toIDBRequest self) ^. js "result") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.result Mozilla IDBRequest.result documentation> 
+getResultUnchecked ::
+                   (MonadDOM m, IsIDBRequest self) => self -> m IDBAny
+getResultUnchecked self
+  = liftDOM
+      (((toIDBRequest self) ^. js "result") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.error Mozilla IDBRequest.error documentation> 
 getError ::
          (MonadDOM m, IsIDBRequest self) => self -> m (Maybe DOMError)
 getError self
   = liftDOM (((toIDBRequest self) ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.error Mozilla IDBRequest.error documentation> 
+getErrorUnchecked ::
+                  (MonadDOM m, IsIDBRequest self) => self -> m DOMError
+getErrorUnchecked self
+  = liftDOM
+      (((toIDBRequest self) ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.source Mozilla IDBRequest.source documentation> 
 getSource ::
@@ -35,11 +50,25 @@ getSource ::
 getSource self
   = liftDOM (((toIDBRequest self) ^. js "source") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.source Mozilla IDBRequest.source documentation> 
+getSourceUnchecked ::
+                   (MonadDOM m, IsIDBRequest self) => self -> m IDBAny
+getSourceUnchecked self
+  = liftDOM
+      (((toIDBRequest self) ^. js "source") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.transaction Mozilla IDBRequest.transaction documentation> 
 getTransaction ::
                (MonadDOM m, IsIDBRequest self) => self -> m (Maybe IDBTransaction)
 getTransaction self
   = liftDOM (((toIDBRequest self) ^. js "transaction") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.transaction Mozilla IDBRequest.transaction documentation> 
+getTransactionUnchecked ::
+                        (MonadDOM m, IsIDBRequest self) => self -> m IDBTransaction
+getTransactionUnchecked self
+  = liftDOM
+      (((toIDBRequest self) ^. js "transaction") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.readyState Mozilla IDBRequest.readyState documentation> 
 getReadyState ::

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCIceCandidateEvent
-       (getCandidate, RTCIceCandidateEvent, castToRTCIceCandidateEvent,
-        gTypeRTCIceCandidateEvent)
+       (getCandidate, getCandidateUnchecked, RTCIceCandidateEvent,
+        castToRTCIceCandidateEvent, gTypeRTCIceCandidateEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,3 +21,9 @@ getCandidate ::
              (MonadDOM m) => RTCIceCandidateEvent -> m (Maybe RTCIceCandidate)
 getCandidate self
   = liftDOM ((self ^. js "candidate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidateEvent.candidate Mozilla RTCIceCandidateEvent.candidate documentation> 
+getCandidateUnchecked ::
+                      (MonadDOM m) => RTCIceCandidateEvent -> m RTCIceCandidate
+getCandidateUnchecked self
+  = liftDOM ((self ^. js "candidate") >>= fromJSValUnchecked)

@@ -1,8 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FileReaderSync
-       (newFileReaderSync, readAsArrayBuffer, readAsBinaryString,
-        readAsText, readAsDataURL, FileReaderSync, castToFileReaderSync,
+       (newFileReaderSync, readAsArrayBuffer, readAsArrayBuffer_,
+        readAsArrayBufferUnchecked, readAsBinaryString,
+        readAsBinaryString_, readAsText, readAsText_, readAsDataURL,
+        readAsDataURL_, FileReaderSync, castToFileReaderSync,
         gTypeFileReaderSync)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -30,6 +32,21 @@ readAsArrayBuffer self blob
   = liftDOM
       ((self ^. jsf "readAsArrayBuffer" [toJSVal blob]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsArrayBuffer Mozilla FileReaderSync.readAsArrayBuffer documentation> 
+readAsArrayBuffer_ ::
+                   (MonadDOM m, IsBlob blob) => FileReaderSync -> Maybe blob -> m ()
+readAsArrayBuffer_ self blob
+  = liftDOM (void (self ^. jsf "readAsArrayBuffer" [toJSVal blob]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsArrayBuffer Mozilla FileReaderSync.readAsArrayBuffer documentation> 
+readAsArrayBufferUnchecked ::
+                           (MonadDOM m, IsBlob blob) =>
+                             FileReaderSync -> Maybe blob -> m ArrayBuffer
+readAsArrayBufferUnchecked self blob
+  = liftDOM
+      ((self ^. jsf "readAsArrayBuffer" [toJSVal blob]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsBinaryString Mozilla FileReaderSync.readAsBinaryString documentation> 
 readAsBinaryString ::
                    (MonadDOM m, IsBlob blob, FromJSString result) =>
@@ -38,6 +55,12 @@ readAsBinaryString self blob
   = liftDOM
       ((self ^. jsf "readAsBinaryString" [toJSVal blob]) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsBinaryString Mozilla FileReaderSync.readAsBinaryString documentation> 
+readAsBinaryString_ ::
+                    (MonadDOM m, IsBlob blob) => FileReaderSync -> Maybe blob -> m ()
+readAsBinaryString_ self blob
+  = liftDOM (void (self ^. jsf "readAsBinaryString" [toJSVal blob]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsText Mozilla FileReaderSync.readAsText documentation> 
 readAsText ::
@@ -49,6 +72,14 @@ readAsText self blob encoding
       ((self ^. jsf "readAsText" [toJSVal blob, toJSVal encoding]) >>=
          fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsText Mozilla FileReaderSync.readAsText documentation> 
+readAsText_ ::
+            (MonadDOM m, IsBlob blob, ToJSString encoding) =>
+              FileReaderSync -> Maybe blob -> encoding -> m ()
+readAsText_ self blob encoding
+  = liftDOM
+      (void (self ^. jsf "readAsText" [toJSVal blob, toJSVal encoding]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsDataURL Mozilla FileReaderSync.readAsDataURL documentation> 
 readAsDataURL ::
               (MonadDOM m, IsBlob blob, FromJSString result) =>
@@ -57,3 +88,9 @@ readAsDataURL self blob
   = liftDOM
       ((self ^. jsf "readAsDataURL" [toJSVal blob]) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReaderSync.readAsDataURL Mozilla FileReaderSync.readAsDataURL documentation> 
+readAsDataURL_ ::
+               (MonadDOM m, IsBlob blob) => FileReaderSync -> Maybe blob -> m ()
+readAsDataURL_ self blob
+  = liftDOM (void (self ^. jsf "readAsDataURL" [toJSVal blob]))

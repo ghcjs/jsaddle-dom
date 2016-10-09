@@ -1,10 +1,16 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBIndex
-       (openCursorRange, openCursor, openKeyCursorRange, openKeyCursor,
-        getRange, get, getKeyRange, getKey, countRange, count, getName,
-        getObjectStore, getKeyPath, getMultiEntry, getUnique, IDBIndex,
-        castToIDBIndex, gTypeIDBIndex)
+       (openCursorRange, openCursorRange_, openCursorRangeUnchecked,
+        openCursor, openCursor_, openCursorUnchecked, openKeyCursorRange,
+        openKeyCursorRange_, openKeyCursorRangeUnchecked, openKeyCursor,
+        openKeyCursor_, openKeyCursorUnchecked, getRange, getRange_,
+        getRangeUnchecked, get, get_, getUnchecked, getKeyRange,
+        getKeyRange_, getKeyRangeUnchecked, getKey, getKey_,
+        getKeyUnchecked, countRange, countRange_, countRangeUnchecked,
+        count, count_, countUnchecked, getName, getObjectStore,
+        getObjectStoreUnchecked, getKeyPath, getKeyPathUnchecked,
+        getMultiEntry, getUnique, IDBIndex, castToIDBIndex, gTypeIDBIndex)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -28,6 +34,24 @@ openCursorRange self range direction
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openCursor Mozilla IDBIndex.openCursor documentation> 
+openCursorRange_ ::
+                 (MonadDOM m, ToJSString direction) =>
+                   IDBIndex -> Maybe IDBKeyRange -> direction -> m ()
+openCursorRange_ self range direction
+  = liftDOM
+      (void
+         (self ^. jsf "openCursor" [toJSVal range, toJSVal direction]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openCursor Mozilla IDBIndex.openCursor documentation> 
+openCursorRangeUnchecked ::
+                         (MonadDOM m, ToJSString direction) =>
+                           IDBIndex -> Maybe IDBKeyRange -> direction -> m IDBRequest
+openCursorRangeUnchecked self range direction
+  = liftDOM
+      ((self ^. jsf "openCursor" [toJSVal range, toJSVal direction]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openCursor Mozilla IDBIndex.openCursor documentation> 
 openCursor ::
            (MonadDOM m, ToJSString direction) =>
              IDBIndex -> JSVal -> direction -> m (Maybe IDBRequest)
@@ -35,6 +59,23 @@ openCursor self key direction
   = liftDOM
       ((self ^. jsf "openCursor" [toJSVal key, toJSVal direction]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openCursor Mozilla IDBIndex.openCursor documentation> 
+openCursor_ ::
+            (MonadDOM m, ToJSString direction) =>
+              IDBIndex -> JSVal -> direction -> m ()
+openCursor_ self key direction
+  = liftDOM
+      (void (self ^. jsf "openCursor" [toJSVal key, toJSVal direction]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openCursor Mozilla IDBIndex.openCursor documentation> 
+openCursorUnchecked ::
+                    (MonadDOM m, ToJSString direction) =>
+                      IDBIndex -> JSVal -> direction -> m IDBRequest
+openCursorUnchecked self key direction
+  = liftDOM
+      ((self ^. jsf "openCursor" [toJSVal key, toJSVal direction]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openKeyCursor Mozilla IDBIndex.openKeyCursor documentation> 
 openKeyCursorRange ::
@@ -46,6 +87,24 @@ openKeyCursorRange self range direction
          >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openKeyCursor Mozilla IDBIndex.openKeyCursor documentation> 
+openKeyCursorRange_ ::
+                    (MonadDOM m, ToJSString direction) =>
+                      IDBIndex -> Maybe IDBKeyRange -> direction -> m ()
+openKeyCursorRange_ self range direction
+  = liftDOM
+      (void
+         (self ^. jsf "openKeyCursor" [toJSVal range, toJSVal direction]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openKeyCursor Mozilla IDBIndex.openKeyCursor documentation> 
+openKeyCursorRangeUnchecked ::
+                            (MonadDOM m, ToJSString direction) =>
+                              IDBIndex -> Maybe IDBKeyRange -> direction -> m IDBRequest
+openKeyCursorRangeUnchecked self range direction
+  = liftDOM
+      ((self ^. jsf "openKeyCursor" [toJSVal range, toJSVal direction])
+         >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openKeyCursor Mozilla IDBIndex.openKeyCursor documentation> 
 openKeyCursor ::
               (MonadDOM m, ToJSString direction) =>
                 IDBIndex -> JSVal -> direction -> m (Maybe IDBRequest)
@@ -53,6 +112,24 @@ openKeyCursor self key direction
   = liftDOM
       ((self ^. jsf "openKeyCursor" [toJSVal key, toJSVal direction]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openKeyCursor Mozilla IDBIndex.openKeyCursor documentation> 
+openKeyCursor_ ::
+               (MonadDOM m, ToJSString direction) =>
+                 IDBIndex -> JSVal -> direction -> m ()
+openKeyCursor_ self key direction
+  = liftDOM
+      (void
+         (self ^. jsf "openKeyCursor" [toJSVal key, toJSVal direction]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.openKeyCursor Mozilla IDBIndex.openKeyCursor documentation> 
+openKeyCursorUnchecked ::
+                       (MonadDOM m, ToJSString direction) =>
+                         IDBIndex -> JSVal -> direction -> m IDBRequest
+openKeyCursorUnchecked self key direction
+  = liftDOM
+      ((self ^. jsf "openKeyCursor" [toJSVal key, toJSVal direction]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.get Mozilla IDBIndex.get documentation> 
 getRange ::
@@ -62,9 +139,31 @@ getRange self key
   = liftDOM ((self ^. jsf "get" [toJSVal key]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.get Mozilla IDBIndex.get documentation> 
+getRange_ :: (MonadDOM m) => IDBIndex -> Maybe IDBKeyRange -> m ()
+getRange_ self key
+  = liftDOM (void (self ^. jsf "get" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.get Mozilla IDBIndex.get documentation> 
+getRangeUnchecked ::
+                  (MonadDOM m) => IDBIndex -> Maybe IDBKeyRange -> m IDBRequest
+getRangeUnchecked self key
+  = liftDOM
+      ((self ^. jsf "get" [toJSVal key]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.get Mozilla IDBIndex.get documentation> 
 get :: (MonadDOM m) => IDBIndex -> JSVal -> m (Maybe IDBRequest)
 get self key
   = liftDOM ((self ^. jsf "get" [toJSVal key]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.get Mozilla IDBIndex.get documentation> 
+get_ :: (MonadDOM m) => IDBIndex -> JSVal -> m ()
+get_ self key = liftDOM (void (self ^. jsf "get" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.get Mozilla IDBIndex.get documentation> 
+getUnchecked :: (MonadDOM m) => IDBIndex -> JSVal -> m IDBRequest
+getUnchecked self key
+  = liftDOM
+      ((self ^. jsf "get" [toJSVal key]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.getKey Mozilla IDBIndex.getKey documentation> 
 getKeyRange ::
@@ -74,9 +173,34 @@ getKeyRange self key
   = liftDOM ((self ^. jsf "getKey" [toJSVal key]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.getKey Mozilla IDBIndex.getKey documentation> 
+getKeyRange_ ::
+             (MonadDOM m) => IDBIndex -> Maybe IDBKeyRange -> m ()
+getKeyRange_ self key
+  = liftDOM (void (self ^. jsf "getKey" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.getKey Mozilla IDBIndex.getKey documentation> 
+getKeyRangeUnchecked ::
+                     (MonadDOM m) => IDBIndex -> Maybe IDBKeyRange -> m IDBRequest
+getKeyRangeUnchecked self key
+  = liftDOM
+      ((self ^. jsf "getKey" [toJSVal key]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.getKey Mozilla IDBIndex.getKey documentation> 
 getKey :: (MonadDOM m) => IDBIndex -> JSVal -> m (Maybe IDBRequest)
 getKey self key
   = liftDOM ((self ^. jsf "getKey" [toJSVal key]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.getKey Mozilla IDBIndex.getKey documentation> 
+getKey_ :: (MonadDOM m) => IDBIndex -> JSVal -> m ()
+getKey_ self key
+  = liftDOM (void (self ^. jsf "getKey" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.getKey Mozilla IDBIndex.getKey documentation> 
+getKeyUnchecked ::
+                (MonadDOM m) => IDBIndex -> JSVal -> m IDBRequest
+getKeyUnchecked self key
+  = liftDOM
+      ((self ^. jsf "getKey" [toJSVal key]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.count Mozilla IDBIndex.count documentation> 
 countRange ::
@@ -86,9 +210,33 @@ countRange self range
   = liftDOM ((self ^. jsf "count" [toJSVal range]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.count Mozilla IDBIndex.count documentation> 
+countRange_ ::
+            (MonadDOM m) => IDBIndex -> Maybe IDBKeyRange -> m ()
+countRange_ self range
+  = liftDOM (void (self ^. jsf "count" [toJSVal range]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.count Mozilla IDBIndex.count documentation> 
+countRangeUnchecked ::
+                    (MonadDOM m) => IDBIndex -> Maybe IDBKeyRange -> m IDBRequest
+countRangeUnchecked self range
+  = liftDOM
+      ((self ^. jsf "count" [toJSVal range]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.count Mozilla IDBIndex.count documentation> 
 count :: (MonadDOM m) => IDBIndex -> JSVal -> m (Maybe IDBRequest)
 count self key
   = liftDOM ((self ^. jsf "count" [toJSVal key]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.count Mozilla IDBIndex.count documentation> 
+count_ :: (MonadDOM m) => IDBIndex -> JSVal -> m ()
+count_ self key
+  = liftDOM (void (self ^. jsf "count" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.count Mozilla IDBIndex.count documentation> 
+countUnchecked :: (MonadDOM m) => IDBIndex -> JSVal -> m IDBRequest
+countUnchecked self key
+  = liftDOM
+      ((self ^. jsf "count" [toJSVal key]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.name Mozilla IDBIndex.name documentation> 
 getName ::
@@ -101,9 +249,20 @@ getObjectStore ::
 getObjectStore self
   = liftDOM ((self ^. js "objectStore") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.objectStore Mozilla IDBIndex.objectStore documentation> 
+getObjectStoreUnchecked ::
+                        (MonadDOM m) => IDBIndex -> m IDBObjectStore
+getObjectStoreUnchecked self
+  = liftDOM ((self ^. js "objectStore") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.keyPath Mozilla IDBIndex.keyPath documentation> 
 getKeyPath :: (MonadDOM m) => IDBIndex -> m (Maybe IDBAny)
 getKeyPath self = liftDOM ((self ^. js "keyPath") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.keyPath Mozilla IDBIndex.keyPath documentation> 
+getKeyPathUnchecked :: (MonadDOM m) => IDBIndex -> m IDBAny
+getKeyPathUnchecked self
+  = liftDOM ((self ^. js "keyPath") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.multiEntry Mozilla IDBIndex.multiEntry documentation> 
 getMultiEntry :: (MonadDOM m) => IDBIndex -> m Bool

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCDataChannelEvent
-       (getChannel, RTCDataChannelEvent, castToRTCDataChannelEvent,
-        gTypeRTCDataChannelEvent)
+       (getChannel, getChannelUnchecked, RTCDataChannelEvent,
+        castToRTCDataChannelEvent, gTypeRTCDataChannelEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getChannel ::
            (MonadDOM m) => RTCDataChannelEvent -> m (Maybe RTCDataChannel)
 getChannel self = liftDOM ((self ^. js "channel") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannelEvent.channel Mozilla RTCDataChannelEvent.channel documentation> 
+getChannelUnchecked ::
+                    (MonadDOM m) => RTCDataChannelEvent -> m RTCDataChannel
+getChannelUnchecked self
+  = liftDOM ((self ^. js "channel") >>= fromJSValUnchecked)

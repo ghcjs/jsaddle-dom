@@ -1,11 +1,13 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLKeygenElement
-       (checkValidity, setCustomValidity, setAutofocus, getAutofocus,
-        setChallenge, getChallenge, setDisabled, getDisabled, getForm,
-        setKeytype, getKeytype, setName, getName, getType, getWillValidate,
-        getValidity, getValidationMessage, getLabels, HTMLKeygenElement,
-        castToHTMLKeygenElement, gTypeHTMLKeygenElement)
+       (checkValidity, checkValidity_, setCustomValidity, setAutofocus,
+        getAutofocus, setChallenge, getChallenge, setDisabled, getDisabled,
+        getForm, getFormUnchecked, setKeytype, getKeytype, setName,
+        getName, getType, getWillValidate, getValidity,
+        getValidityUnchecked, getValidationMessage, getLabels,
+        getLabelsUnchecked, HTMLKeygenElement, castToHTMLKeygenElement,
+        gTypeHTMLKeygenElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,6 +25,11 @@ import JSDOM.Enums
 checkValidity :: (MonadDOM m) => HTMLKeygenElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.checkValidity Mozilla HTMLKeygenElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLKeygenElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.setCustomValidity Mozilla HTMLKeygenElement.setCustomValidity documentation> 
 setCustomValidity ::
@@ -67,6 +74,12 @@ getForm ::
         (MonadDOM m) => HTMLKeygenElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.form Mozilla HTMLKeygenElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLKeygenElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.keytype Mozilla HTMLKeygenElement.keytype documentation> 
 setKeytype ::
            (MonadDOM m, ToJSString val) => HTMLKeygenElement -> val -> m ()
@@ -103,6 +116,12 @@ getValidity ::
             (MonadDOM m) => HTMLKeygenElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.validity Mozilla HTMLKeygenElement.validity documentation> 
+getValidityUnchecked ::
+                     (MonadDOM m) => HTMLKeygenElement -> m ValidityState
+getValidityUnchecked self
+  = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.validationMessage Mozilla HTMLKeygenElement.validationMessage documentation> 
 getValidationMessage ::
                      (MonadDOM m, FromJSString result) => HTMLKeygenElement -> m result
@@ -113,3 +132,9 @@ getValidationMessage self
 getLabels ::
           (MonadDOM m) => HTMLKeygenElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.labels Mozilla HTMLKeygenElement.labels documentation> 
+getLabelsUnchecked ::
+                   (MonadDOM m) => HTMLKeygenElement -> m NodeList
+getLabelsUnchecked self
+  = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

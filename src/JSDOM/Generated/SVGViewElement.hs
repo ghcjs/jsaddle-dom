@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGViewElement
-       (getViewTarget, SVGViewElement, castToSVGViewElement,
-        gTypeSVGViewElement)
+       (getViewTarget, getViewTargetUnchecked, SVGViewElement,
+        castToSVGViewElement, gTypeSVGViewElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,3 +21,9 @@ getViewTarget ::
               (MonadDOM m) => SVGViewElement -> m (Maybe SVGStringList)
 getViewTarget self
   = liftDOM ((self ^. js "viewTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewElement.viewTarget Mozilla SVGViewElement.viewTarget documentation> 
+getViewTargetUnchecked ::
+                       (MonadDOM m) => SVGViewElement -> m SVGStringList
+getViewTargetUnchecked self
+  = liftDOM ((self ^. js "viewTarget") >>= fromJSValUnchecked)

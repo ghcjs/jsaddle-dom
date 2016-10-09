@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPoint
-       (matrixTransform, setX, getX, setY, getY, SVGPoint, castToSVGPoint,
-        gTypeSVGPoint)
+       (matrixTransform, matrixTransform_, matrixTransformUnchecked, setX,
+        getX, setY, getY, SVGPoint, castToSVGPoint, gTypeSVGPoint)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,6 +22,20 @@ matrixTransform ::
 matrixTransform self matrix
   = liftDOM
       ((self ^. jsf "matrixTransform" [toJSVal matrix]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPoint.matrixTransform Mozilla SVGPoint.matrixTransform documentation> 
+matrixTransform_ ::
+                 (MonadDOM m) => SVGPoint -> Maybe SVGMatrix -> m ()
+matrixTransform_ self matrix
+  = liftDOM (void (self ^. jsf "matrixTransform" [toJSVal matrix]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPoint.matrixTransform Mozilla SVGPoint.matrixTransform documentation> 
+matrixTransformUnchecked ::
+                         (MonadDOM m) => SVGPoint -> Maybe SVGMatrix -> m SVGPoint
+matrixTransformUnchecked self matrix
+  = liftDOM
+      ((self ^. jsf "matrixTransform" [toJSVal matrix]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPoint.x Mozilla SVGPoint.x documentation> 
 setX :: (MonadDOM m) => SVGPoint -> Float -> m ()

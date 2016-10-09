@@ -1,9 +1,12 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBDatabase
-       (createObjectStore, deleteObjectStore, transaction, transaction',
-        close, getName, getVersion, getObjectStoreNames, abort, error,
-        versionChange, IDBDatabase, castToIDBDatabase, gTypeIDBDatabase)
+       (createObjectStore, createObjectStore_, createObjectStoreUnchecked,
+        deleteObjectStore, transaction, transaction_, transactionUnchecked,
+        transaction', transaction'_, transaction'Unchecked, close, getName,
+        getVersion, getObjectStoreNames, getObjectStoreNamesUnchecked,
+        abort, error, versionChange, IDBDatabase, castToIDBDatabase,
+        gTypeIDBDatabase)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,6 +29,24 @@ createObjectStore self name options
       ((self ^. jsf "createObjectStore" [toJSVal name, toJSVal options])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.createObjectStore Mozilla IDBDatabase.createObjectStore documentation> 
+createObjectStore_ ::
+                   (MonadDOM m, ToJSString name, IsDictionary options) =>
+                     IDBDatabase -> name -> Maybe options -> m ()
+createObjectStore_ self name options
+  = liftDOM
+      (void
+         (self ^. jsf "createObjectStore" [toJSVal name, toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.createObjectStore Mozilla IDBDatabase.createObjectStore documentation> 
+createObjectStoreUnchecked ::
+                           (MonadDOM m, ToJSString name, IsDictionary options) =>
+                             IDBDatabase -> name -> Maybe options -> m IDBObjectStore
+createObjectStoreUnchecked self name options
+  = liftDOM
+      ((self ^. jsf "createObjectStore" [toJSVal name, toJSVal options])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.deleteObjectStore Mozilla IDBDatabase.deleteObjectStore documentation> 
 deleteObjectStore ::
                   (MonadDOM m, ToJSString name) => IDBDatabase -> name -> m ()
@@ -42,6 +63,24 @@ transaction self storeName mode
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
+transaction_ ::
+             (MonadDOM m, ToJSString storeName, ToJSString mode) =>
+               IDBDatabase -> storeName -> mode -> m ()
+transaction_ self storeName mode
+  = liftDOM
+      (void
+         (self ^. jsf "transaction" [toJSVal storeName, toJSVal mode]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
+transactionUnchecked ::
+                     (MonadDOM m, ToJSString storeName, ToJSString mode) =>
+                       IDBDatabase -> storeName -> mode -> m IDBTransaction
+transactionUnchecked self storeName mode
+  = liftDOM
+      ((self ^. jsf "transaction" [toJSVal storeName, toJSVal mode]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
 transaction' ::
              (MonadDOM m, ToJSString storeNames, ToJSString mode) =>
                IDBDatabase -> [storeNames] -> mode -> m (Maybe IDBTransaction)
@@ -50,6 +89,26 @@ transaction' self storeNames mode
       ((self ^. jsf "transaction"
           [toJSVal (array storeNames), toJSVal mode])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
+transaction'_ ::
+              (MonadDOM m, ToJSString storeNames, ToJSString mode) =>
+                IDBDatabase -> [storeNames] -> mode -> m ()
+transaction'_ self storeNames mode
+  = liftDOM
+      (void
+         (self ^. jsf "transaction"
+            [toJSVal (array storeNames), toJSVal mode]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
+transaction'Unchecked ::
+                      (MonadDOM m, ToJSString storeNames, ToJSString mode) =>
+                        IDBDatabase -> [storeNames] -> mode -> m IDBTransaction
+transaction'Unchecked self storeNames mode
+  = liftDOM
+      ((self ^. jsf "transaction"
+          [toJSVal (array storeNames), toJSVal mode])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.close Mozilla IDBDatabase.close documentation> 
 close :: (MonadDOM m) => IDBDatabase -> m ()
@@ -70,6 +129,12 @@ getObjectStoreNames ::
                     (MonadDOM m) => IDBDatabase -> m (Maybe DOMStringList)
 getObjectStoreNames self
   = liftDOM ((self ^. js "objectStoreNames") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.objectStoreNames Mozilla IDBDatabase.objectStoreNames documentation> 
+getObjectStoreNamesUnchecked ::
+                             (MonadDOM m) => IDBDatabase -> m DOMStringList
+getObjectStoreNamesUnchecked self
+  = liftDOM ((self ^. js "objectStoreNames") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.onabort Mozilla IDBDatabase.onabort documentation> 
 abort :: EventName IDBDatabase Event

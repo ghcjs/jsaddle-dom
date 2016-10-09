@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLDebugShaders
-       (getTranslatedShaderSource, WebGLDebugShaders,
+       (getTranslatedShaderSource, getTranslatedShaderSource_,
+        getTranslatedShaderSourceUnchecked, WebGLDebugShaders,
         castToWebGLDebugShaders, gTypeWebGLDebugShaders)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -24,3 +25,19 @@ getTranslatedShaderSource self shader
   = liftDOM
       ((self ^. jsf "getTranslatedShaderSource" [toJSVal shader]) >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLDebugShaders.getTranslatedShaderSource Mozilla WebGLDebugShaders.getTranslatedShaderSource documentation> 
+getTranslatedShaderSource_ ::
+                           (MonadDOM m) => WebGLDebugShaders -> Maybe WebGLShader -> m ()
+getTranslatedShaderSource_ self shader
+  = liftDOM
+      (void (self ^. jsf "getTranslatedShaderSource" [toJSVal shader]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLDebugShaders.getTranslatedShaderSource Mozilla WebGLDebugShaders.getTranslatedShaderSource documentation> 
+getTranslatedShaderSourceUnchecked ::
+                                   (MonadDOM m, FromJSString result) =>
+                                     WebGLDebugShaders -> Maybe WebGLShader -> m result
+getTranslatedShaderSourceUnchecked self shader
+  = liftDOM
+      ((self ^. jsf "getTranslatedShaderSource" [toJSVal shader]) >>=
+         fromJSValUnchecked)

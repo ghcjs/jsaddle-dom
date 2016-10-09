@@ -1,12 +1,14 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLIFrameElement
-       (getSVGDocument, setAlign, getAlign, setFrameBorder,
-        getFrameBorder, setHeight, getHeight, setLongDesc, getLongDesc,
-        setMarginHeight, getMarginHeight, setMarginWidth, getMarginWidth,
-        setName, getName, setSandbox, getSandbox, setScrolling,
-        getScrolling, setSrc, getSrc, setSrcdoc, getSrcdoc, setWidth,
-        getWidth, getContentDocument, getContentWindow, HTMLIFrameElement,
+       (getSVGDocument, getSVGDocument_, getSVGDocumentUnchecked,
+        setAlign, getAlign, setFrameBorder, getFrameBorder, setHeight,
+        getHeight, setLongDesc, getLongDesc, setMarginHeight,
+        getMarginHeight, setMarginWidth, getMarginWidth, setName, getName,
+        setSandbox, getSandbox, setScrolling, getScrolling, setSrc, getSrc,
+        setSrcdoc, getSrcdoc, setWidth, getWidth, getContentDocument,
+        getContentDocumentUnchecked, getContentWindow,
+        getContentWindowUnchecked, HTMLIFrameElement,
         castToHTMLIFrameElement, gTypeHTMLIFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -26,6 +28,18 @@ getSVGDocument ::
                (MonadDOM m) => HTMLIFrameElement -> m (Maybe SVGDocument)
 getSVGDocument self
   = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.getSVGDocument Mozilla HTMLIFrameElement.getSVGDocument documentation> 
+getSVGDocument_ :: (MonadDOM m) => HTMLIFrameElement -> m ()
+getSVGDocument_ self
+  = liftDOM (void (self ^. jsf "getSVGDocument" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.getSVGDocument Mozilla HTMLIFrameElement.getSVGDocument documentation> 
+getSVGDocumentUnchecked ::
+                        (MonadDOM m) => HTMLIFrameElement -> m SVGDocument
+getSVGDocumentUnchecked self
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.align Mozilla HTMLIFrameElement.align documentation> 
 setAlign ::
@@ -168,8 +182,20 @@ getContentDocument ::
 getContentDocument self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentDocument Mozilla HTMLIFrameElement.contentDocument documentation> 
+getContentDocumentUnchecked ::
+                            (MonadDOM m) => HTMLIFrameElement -> m Document
+getContentDocumentUnchecked self
+  = liftDOM ((self ^. js "contentDocument") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
 getContentWindow ::
                  (MonadDOM m) => HTMLIFrameElement -> m (Maybe Window)
 getContentWindow self
   = liftDOM ((self ^. js "contentWindow") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
+getContentWindowUnchecked ::
+                          (MonadDOM m) => HTMLIFrameElement -> m Window
+getContentWindowUnchecked self
+  = liftDOM ((self ^. js "contentWindow") >>= fromJSValUnchecked)

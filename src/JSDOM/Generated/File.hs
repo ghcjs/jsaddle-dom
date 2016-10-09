@@ -1,7 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.File
-       (getName, getLastModifiedDate, File, castToFile, gTypeFile) where
+       (getName, getLastModifiedDate, getLastModifiedDateUnchecked, File,
+        castToFile, gTypeFile)
+       where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
@@ -22,3 +24,8 @@ getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
 getLastModifiedDate :: (MonadDOM m) => File -> m (Maybe Date)
 getLastModifiedDate self
   = liftDOM ((self ^. js "lastModifiedDate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/File.lastModifiedDate Mozilla File.lastModifiedDate documentation> 
+getLastModifiedDateUnchecked :: (MonadDOM m) => File -> m Date
+getLastModifiedDateUnchecked self
+  = liftDOM ((self ^. js "lastModifiedDate") >>= fromJSValUnchecked)

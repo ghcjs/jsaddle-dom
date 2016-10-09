@@ -1,9 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DeviceMotionEvent
-       (initDeviceMotionEvent, getAcceleration,
-        getAccelerationIncludingGravity, getRotationRate, getInterval,
-        DeviceMotionEvent, castToDeviceMotionEvent, gTypeDeviceMotionEvent)
+       (initDeviceMotionEvent, getAcceleration, getAccelerationUnchecked,
+        getAccelerationIncludingGravity,
+        getAccelerationIncludingGravityUnchecked, getRotationRate,
+        getRotationRateUnchecked, getInterval, DeviceMotionEvent,
+        castToDeviceMotionEvent, gTypeDeviceMotionEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -44,6 +46,12 @@ getAcceleration ::
 getAcceleration self
   = liftDOM ((self ^. js "acceleration") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.acceleration Mozilla DeviceMotionEvent.acceleration documentation> 
+getAccelerationUnchecked ::
+                         (MonadDOM m) => DeviceMotionEvent -> m Acceleration
+getAccelerationUnchecked self
+  = liftDOM ((self ^. js "acceleration") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.accelerationIncludingGravity Mozilla DeviceMotionEvent.accelerationIncludingGravity documentation> 
 getAccelerationIncludingGravity ::
                                 (MonadDOM m) => DeviceMotionEvent -> m (Maybe Acceleration)
@@ -51,11 +59,25 @@ getAccelerationIncludingGravity self
   = liftDOM
       ((self ^. js "accelerationIncludingGravity") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.accelerationIncludingGravity Mozilla DeviceMotionEvent.accelerationIncludingGravity documentation> 
+getAccelerationIncludingGravityUnchecked ::
+                                         (MonadDOM m) => DeviceMotionEvent -> m Acceleration
+getAccelerationIncludingGravityUnchecked self
+  = liftDOM
+      ((self ^. js "accelerationIncludingGravity") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.rotationRate Mozilla DeviceMotionEvent.rotationRate documentation> 
 getRotationRate ::
                 (MonadDOM m) => DeviceMotionEvent -> m (Maybe RotationRate)
 getRotationRate self
   = liftDOM ((self ^. js "rotationRate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.rotationRate Mozilla DeviceMotionEvent.rotationRate documentation> 
+getRotationRateUnchecked ::
+                         (MonadDOM m) => DeviceMotionEvent -> m RotationRate
+getRotationRateUnchecked self
+  = liftDOM ((self ^. js "rotationRate") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.interval Mozilla DeviceMotionEvent.interval documentation> 
 getInterval :: (MonadDOM m) => DeviceMotionEvent -> m Double

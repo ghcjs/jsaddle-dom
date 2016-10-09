@@ -9,8 +9,8 @@ module JSDOM.Generated.SVGLength
         pattern SVG_LENGTHTYPE_IN, pattern SVG_LENGTHTYPE_PT,
         pattern SVG_LENGTHTYPE_PC, getUnitType, setValue, getValue,
         setValueInSpecifiedUnits, getValueInSpecifiedUnits,
-        setValueAsString, getValueAsString, SVGLength, castToSVGLength,
-        gTypeSVGLength)
+        setValueAsString, getValueAsString, getValueAsStringUnchecked,
+        SVGLength, castToSVGLength, gTypeSVGLength)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -89,3 +89,9 @@ getValueAsString ::
                  (MonadDOM m, FromJSString result) => SVGLength -> m (Maybe result)
 getValueAsString self
   = liftDOM ((self ^. js "valueAsString") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLength.valueAsString Mozilla SVGLength.valueAsString documentation> 
+getValueAsStringUnchecked ::
+                          (MonadDOM m, FromJSString result) => SVGLength -> m result
+getValueAsStringUnchecked self
+  = liftDOM ((self ^. js "valueAsString") >>= fromJSValUnchecked)

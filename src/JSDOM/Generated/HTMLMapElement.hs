@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMapElement
-       (getAreas, setName, getName, HTMLMapElement, castToHTMLMapElement,
-        gTypeHTMLMapElement)
+       (getAreas, getAreasUnchecked, setName, getName, HTMLMapElement,
+        castToHTMLMapElement, gTypeHTMLMapElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,6 +20,12 @@ import JSDOM.Enums
 getAreas ::
          (MonadDOM m) => HTMLMapElement -> m (Maybe HTMLCollection)
 getAreas self = liftDOM ((self ^. js "areas") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMapElement.areas Mozilla HTMLMapElement.areas documentation> 
+getAreasUnchecked ::
+                  (MonadDOM m) => HTMLMapElement -> m HTMLCollection
+getAreasUnchecked self
+  = liftDOM ((self ^. js "areas") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMapElement.name Mozilla HTMLMapElement.name documentation> 
 setName ::

@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTRegionList
-       (item, getRegionById, getLength, VTTRegionList,
+       (item, item_, itemUnchecked, getRegionById, getRegionById_,
+        getRegionByIdUnchecked, getLength, VTTRegionList,
         castToVTTRegionList, gTypeVTTRegionList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,6 +23,18 @@ item ::
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegionList.item Mozilla VTTRegionList.item documentation> 
+item_ :: (MonadDOM m) => VTTRegionList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegionList.item Mozilla VTTRegionList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => VTTRegionList -> Word -> m VTTRegion
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegionList.getRegionById Mozilla VTTRegionList.getRegionById documentation> 
 getRegionById ::
               (MonadDOM m, ToJSString id) =>
@@ -29,6 +42,19 @@ getRegionById ::
 getRegionById self id
   = liftDOM
       ((self ^. jsf "getRegionById" [toJSVal id]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegionList.getRegionById Mozilla VTTRegionList.getRegionById documentation> 
+getRegionById_ ::
+               (MonadDOM m, ToJSString id) => VTTRegionList -> id -> m ()
+getRegionById_ self id
+  = liftDOM (void (self ^. jsf "getRegionById" [toJSVal id]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegionList.getRegionById Mozilla VTTRegionList.getRegionById documentation> 
+getRegionByIdUnchecked ::
+                       (MonadDOM m, ToJSString id) => VTTRegionList -> id -> m VTTRegion
+getRegionByIdUnchecked self id
+  = liftDOM
+      ((self ^. jsf "getRegionById" [toJSVal id]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegionList.length Mozilla VTTRegionList.length documentation> 
 getLength :: (MonadDOM m) => VTTRegionList -> m Word

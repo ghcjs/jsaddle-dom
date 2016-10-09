@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WaveShaperNode
-       (setCurve, getCurve, setOversample, getOversample, WaveShaperNode,
-        castToWaveShaperNode, gTypeWaveShaperNode)
+       (setCurve, getCurve, getCurveUnchecked, setOversample,
+        getOversample, WaveShaperNode, castToWaveShaperNode,
+        gTypeWaveShaperNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,6 +27,12 @@ setCurve self val = liftDOM (self ^. jss "curve" (toJSVal val))
 getCurve ::
          (MonadDOM m) => WaveShaperNode -> m (Maybe Float32Array)
 getCurve self = liftDOM ((self ^. js "curve") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode.curve Mozilla WaveShaperNode.curve documentation> 
+getCurveUnchecked ::
+                  (MonadDOM m) => WaveShaperNode -> m Float32Array
+getCurveUnchecked self
+  = liftDOM ((self ^. js "curve") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode.oversample Mozilla WaveShaperNode.oversample documentation> 
 setOversample ::

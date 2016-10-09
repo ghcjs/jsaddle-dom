@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEMergeNodeElement
-       (getIn1, SVGFEMergeNodeElement, castToSVGFEMergeNodeElement,
-        gTypeSVGFEMergeNodeElement)
+       (getIn1, getIn1Unchecked, SVGFEMergeNodeElement,
+        castToSVGFEMergeNodeElement, gTypeSVGFEMergeNodeElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,3 +21,9 @@ getIn1 ::
        (MonadDOM m) =>
          SVGFEMergeNodeElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMergeNodeElement.in1 Mozilla SVGFEMergeNodeElement.in1 documentation> 
+getIn1Unchecked ::
+                (MonadDOM m) => SVGFEMergeNodeElement -> m SVGAnimatedString
+getIn1Unchecked self
+  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)

@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGExternalResourcesRequired
-       (getExternalResourcesRequired, SVGExternalResourcesRequired,
-        castToSVGExternalResourcesRequired,
+       (getExternalResourcesRequired,
+        getExternalResourcesRequiredUnchecked,
+        SVGExternalResourcesRequired, castToSVGExternalResourcesRequired,
         gTypeSVGExternalResourcesRequired)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -23,3 +24,11 @@ getExternalResourcesRequired ::
                                SVGExternalResourcesRequired -> m (Maybe SVGAnimatedBoolean)
 getExternalResourcesRequired self
   = liftDOM ((self ^. js "externalResourcesRequired") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGExternalResourcesRequired.externalResourcesRequired Mozilla SVGExternalResourcesRequired.externalResourcesRequired documentation> 
+getExternalResourcesRequiredUnchecked ::
+                                      (MonadDOM m) =>
+                                        SVGExternalResourcesRequired -> m SVGAnimatedBoolean
+getExternalResourcesRequiredUnchecked self
+  = liftDOM
+      ((self ^. js "externalResourcesRequired") >>= fromJSValUnchecked)

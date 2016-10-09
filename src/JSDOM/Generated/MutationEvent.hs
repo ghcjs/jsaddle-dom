@@ -2,9 +2,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationEvent
        (initMutationEvent, pattern MODIFICATION, pattern ADDITION,
-        pattern REMOVAL, getRelatedNode, getPrevValue, getNewValue,
-        getAttrName, getAttrChange, MutationEvent, castToMutationEvent,
-        gTypeMutationEvent)
+        pattern REMOVAL, getRelatedNode, getRelatedNodeUnchecked,
+        getPrevValue, getNewValue, getAttrName, getAttrChange,
+        MutationEvent, castToMutationEvent, gTypeMutationEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -44,6 +44,11 @@ pattern REMOVAL = 3
 getRelatedNode :: (MonadDOM m) => MutationEvent -> m (Maybe Node)
 getRelatedNode self
   = liftDOM ((self ^. js "relatedNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent.relatedNode Mozilla MutationEvent.relatedNode documentation> 
+getRelatedNodeUnchecked :: (MonadDOM m) => MutationEvent -> m Node
+getRelatedNodeUnchecked self
+  = liftDOM ((self ^. js "relatedNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent.prevValue Mozilla MutationEvent.prevValue documentation> 
 getPrevValue ::

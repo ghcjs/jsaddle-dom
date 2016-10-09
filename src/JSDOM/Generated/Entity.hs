@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Entity
-       (getPublicId, getSystemId, getNotationName, Entity, castToEntity,
-        gTypeEntity)
+       (getPublicId, getPublicIdUnchecked, getSystemId,
+        getSystemIdUnchecked, getNotationName, getNotationNameUnchecked,
+        Entity, castToEntity, gTypeEntity)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -22,14 +23,32 @@ getPublicId ::
 getPublicId self
   = liftDOM ((self ^. js "publicId") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Entity.publicId Mozilla Entity.publicId documentation> 
+getPublicIdUnchecked ::
+                     (MonadDOM m, FromJSString result) => Entity -> m result
+getPublicIdUnchecked self
+  = liftDOM ((self ^. js "publicId") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Entity.systemId Mozilla Entity.systemId documentation> 
 getSystemId ::
             (MonadDOM m, FromJSString result) => Entity -> m (Maybe result)
 getSystemId self
   = liftDOM ((self ^. js "systemId") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Entity.systemId Mozilla Entity.systemId documentation> 
+getSystemIdUnchecked ::
+                     (MonadDOM m, FromJSString result) => Entity -> m result
+getSystemIdUnchecked self
+  = liftDOM ((self ^. js "systemId") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Entity.notationName Mozilla Entity.notationName documentation> 
 getNotationName ::
                 (MonadDOM m, FromJSString result) => Entity -> m (Maybe result)
 getNotationName self
   = liftDOM ((self ^. js "notationName") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Entity.notationName Mozilla Entity.notationName documentation> 
+getNotationNameUnchecked ::
+                         (MonadDOM m, FromJSString result) => Entity -> m result
+getNotationNameUnchecked self
+  = liftDOM ((self ^. js "notationName") >>= fromJSValUnchecked)

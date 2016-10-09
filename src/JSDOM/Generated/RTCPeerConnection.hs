@@ -3,14 +3,19 @@
 module JSDOM.Generated.RTCPeerConnection
        (newRTCPeerConnection, createOffer, createAnswer,
         setLocalDescription, setRemoteDescription, updateIce,
-        addIceCandidate, getLocalStreams, getRemoteStreams, getStreamById,
-        getConfiguration, addStream, removeStream, getStats,
-        createDataChannel, createDTMFSender, close, getLocalDescription,
-        getRemoteDescription, getSignalingState, getIceGatheringState,
-        getIceConnectionState, negotiationNeeded, iceCandidate,
-        signalingStateChange, addStreamEvent, removeStreamEvent,
-        iceConnectionStateChange, dataChannel, RTCPeerConnection,
-        castToRTCPeerConnection, gTypeRTCPeerConnection)
+        addIceCandidate, getLocalStreams, getLocalStreams_,
+        getRemoteStreams, getRemoteStreams_, getStreamById, getStreamById_,
+        getStreamByIdUnchecked, getConfiguration, getConfiguration_,
+        getConfigurationUnchecked, addStream, removeStream, getStats,
+        createDataChannel, createDataChannel_, createDataChannelUnchecked,
+        createDTMFSender, createDTMFSender_, createDTMFSenderUnchecked,
+        close, getLocalDescription, getLocalDescriptionUnchecked,
+        getRemoteDescription, getRemoteDescriptionUnchecked,
+        getSignalingState, getIceGatheringState, getIceConnectionState,
+        negotiationNeeded, iceCandidate, signalingStateChange,
+        addStreamEvent, removeStreamEvent, iceConnectionStateChange,
+        dataChannel, RTCPeerConnection, castToRTCPeerConnection,
+        gTypeRTCPeerConnection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -113,11 +118,21 @@ getLocalStreams ::
 getLocalStreams self
   = liftDOM ((self ^. jsf "getLocalStreams" ()) >>= fromJSArray)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getLocalStreams Mozilla webkitRTCPeerConnection.getLocalStreams documentation> 
+getLocalStreams_ :: (MonadDOM m) => RTCPeerConnection -> m ()
+getLocalStreams_ self
+  = liftDOM (void (self ^. jsf "getLocalStreams" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getRemoteStreams Mozilla webkitRTCPeerConnection.getRemoteStreams documentation> 
 getRemoteStreams ::
                  (MonadDOM m) => RTCPeerConnection -> m [Maybe MediaStream]
 getRemoteStreams self
   = liftDOM ((self ^. jsf "getRemoteStreams" ()) >>= fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getRemoteStreams Mozilla webkitRTCPeerConnection.getRemoteStreams documentation> 
+getRemoteStreams_ :: (MonadDOM m) => RTCPeerConnection -> m ()
+getRemoteStreams_ self
+  = liftDOM (void (self ^. jsf "getRemoteStreams" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getStreamById Mozilla webkitRTCPeerConnection.getStreamById documentation> 
 getStreamById ::
@@ -127,11 +142,39 @@ getStreamById self streamId
   = liftDOM
       ((self ^. jsf "getStreamById" [toJSVal streamId]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getStreamById Mozilla webkitRTCPeerConnection.getStreamById documentation> 
+getStreamById_ ::
+               (MonadDOM m, ToJSString streamId) =>
+                 RTCPeerConnection -> streamId -> m ()
+getStreamById_ self streamId
+  = liftDOM (void (self ^. jsf "getStreamById" [toJSVal streamId]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getStreamById Mozilla webkitRTCPeerConnection.getStreamById documentation> 
+getStreamByIdUnchecked ::
+                       (MonadDOM m, ToJSString streamId) =>
+                         RTCPeerConnection -> streamId -> m MediaStream
+getStreamByIdUnchecked self streamId
+  = liftDOM
+      ((self ^. jsf "getStreamById" [toJSVal streamId]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getConfiguration Mozilla webkitRTCPeerConnection.getConfiguration documentation> 
 getConfiguration ::
                  (MonadDOM m) => RTCPeerConnection -> m (Maybe RTCConfiguration)
 getConfiguration self
   = liftDOM ((self ^. jsf "getConfiguration" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getConfiguration Mozilla webkitRTCPeerConnection.getConfiguration documentation> 
+getConfiguration_ :: (MonadDOM m) => RTCPeerConnection -> m ()
+getConfiguration_ self
+  = liftDOM (void (self ^. jsf "getConfiguration" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getConfiguration Mozilla webkitRTCPeerConnection.getConfiguration documentation> 
+getConfigurationUnchecked ::
+                          (MonadDOM m) => RTCPeerConnection -> m RTCConfiguration
+getConfigurationUnchecked self
+  = liftDOM
+      ((self ^. jsf "getConfiguration" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.addStream Mozilla webkitRTCPeerConnection.addStream documentation> 
 addStream ::
@@ -168,6 +211,25 @@ createDataChannel self label options
       ((self ^. jsf "createDataChannel" [toJSVal label, toJSVal options])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDataChannel Mozilla webkitRTCPeerConnection.createDataChannel documentation> 
+createDataChannel_ ::
+                   (MonadDOM m, ToJSString label, IsDictionary options) =>
+                     RTCPeerConnection -> Maybe label -> Maybe options -> m ()
+createDataChannel_ self label options
+  = liftDOM
+      (void
+         (self ^. jsf "createDataChannel" [toJSVal label, toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDataChannel Mozilla webkitRTCPeerConnection.createDataChannel documentation> 
+createDataChannelUnchecked ::
+                           (MonadDOM m, ToJSString label, IsDictionary options) =>
+                             RTCPeerConnection ->
+                               Maybe label -> Maybe options -> m RTCDataChannel
+createDataChannelUnchecked self label options
+  = liftDOM
+      ((self ^. jsf "createDataChannel" [toJSVal label, toJSVal options])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDTMFSender Mozilla webkitRTCPeerConnection.createDTMFSender documentation> 
 createDTMFSender ::
                  (MonadDOM m, IsMediaStreamTrack track) =>
@@ -175,6 +237,22 @@ createDTMFSender ::
 createDTMFSender self track
   = liftDOM
       ((self ^. jsf "createDTMFSender" [toJSVal track]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDTMFSender Mozilla webkitRTCPeerConnection.createDTMFSender documentation> 
+createDTMFSender_ ::
+                  (MonadDOM m, IsMediaStreamTrack track) =>
+                    RTCPeerConnection -> Maybe track -> m ()
+createDTMFSender_ self track
+  = liftDOM (void (self ^. jsf "createDTMFSender" [toJSVal track]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDTMFSender Mozilla webkitRTCPeerConnection.createDTMFSender documentation> 
+createDTMFSenderUnchecked ::
+                          (MonadDOM m, IsMediaStreamTrack track) =>
+                            RTCPeerConnection -> Maybe track -> m RTCDTMFSender
+createDTMFSenderUnchecked self track
+  = liftDOM
+      ((self ^. jsf "createDTMFSender" [toJSVal track]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.close Mozilla webkitRTCPeerConnection.close documentation> 
 close :: (MonadDOM m) => RTCPeerConnection -> m ()
@@ -187,12 +265,24 @@ getLocalDescription ::
 getLocalDescription self
   = liftDOM ((self ^. js "localDescription") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.localDescription Mozilla webkitRTCPeerConnection.localDescription documentation> 
+getLocalDescriptionUnchecked ::
+                             (MonadDOM m) => RTCPeerConnection -> m RTCSessionDescription
+getLocalDescriptionUnchecked self
+  = liftDOM ((self ^. js "localDescription") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.remoteDescription Mozilla webkitRTCPeerConnection.remoteDescription documentation> 
 getRemoteDescription ::
                      (MonadDOM m) =>
                        RTCPeerConnection -> m (Maybe RTCSessionDescription)
 getRemoteDescription self
   = liftDOM ((self ^. js "remoteDescription") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.remoteDescription Mozilla webkitRTCPeerConnection.remoteDescription documentation> 
+getRemoteDescriptionUnchecked ::
+                              (MonadDOM m) => RTCPeerConnection -> m RTCSessionDescription
+getRemoteDescriptionUnchecked self
+  = liftDOM ((self ^. js "remoteDescription") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.signalingState Mozilla webkitRTCPeerConnection.signalingState documentation> 
 getSignalingState ::

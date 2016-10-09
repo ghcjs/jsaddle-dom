@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AbstractView
-       (getDocument, getStyleMedia, AbstractView, castToAbstractView,
+       (getDocument, getDocumentUnchecked, getStyleMedia,
+        getStyleMediaUnchecked, AbstractView, castToAbstractView,
         gTypeAbstractView)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -20,8 +21,19 @@ import JSDOM.Enums
 getDocument :: (MonadDOM m) => AbstractView -> m (Maybe Document)
 getDocument self = liftDOM ((self ^. js "document") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.document Mozilla AbstractView.document documentation> 
+getDocumentUnchecked :: (MonadDOM m) => AbstractView -> m Document
+getDocumentUnchecked self
+  = liftDOM ((self ^. js "document") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.styleMedia Mozilla AbstractView.styleMedia documentation> 
 getStyleMedia ::
               (MonadDOM m) => AbstractView -> m (Maybe StyleMedia)
 getStyleMedia self
   = liftDOM ((self ^. js "styleMedia") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.styleMedia Mozilla AbstractView.styleMedia documentation> 
+getStyleMediaUnchecked ::
+                       (MonadDOM m) => AbstractView -> m StyleMedia
+getStyleMediaUnchecked self
+  = liftDOM ((self ^. js "styleMedia") >>= fromJSValUnchecked)

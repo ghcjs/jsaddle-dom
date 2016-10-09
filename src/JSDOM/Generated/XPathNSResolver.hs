@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XPathNSResolver
-       (lookupNamespaceURI, XPathNSResolver, castToXPathNSResolver,
-        gTypeXPathNSResolver)
+       (lookupNamespaceURI, lookupNamespaceURI_,
+        lookupNamespaceURIUnchecked, XPathNSResolver,
+        castToXPathNSResolver, gTypeXPathNSResolver)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,3 +25,20 @@ lookupNamespaceURI self prefix
   = liftDOM
       ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 
+lookupNamespaceURI_ ::
+                    (MonadDOM m, ToJSString prefix) =>
+                      XPathNSResolver -> prefix -> m ()
+lookupNamespaceURI_ self prefix
+  = liftDOM
+      (void (self ^. jsf "lookupNamespaceURI" [toJSVal prefix]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 
+lookupNamespaceURIUnchecked ::
+                            (MonadDOM m, ToJSString prefix, FromJSString result) =>
+                              XPathNSResolver -> prefix -> m result
+lookupNamespaceURIUnchecked self prefix
+  = liftDOM
+      ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
+         fromJSValUnchecked)

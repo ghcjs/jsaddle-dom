@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FontLoader
-       (checkFont, loadFont, notifyWhenFontsReady, loading, loadingDone,
-        loadStart, load, error, getLoading, FontLoader, castToFontLoader,
-        gTypeFontLoader)
+       (checkFont, checkFont_, loadFont, notifyWhenFontsReady, loading,
+        loadingDone, loadStart, load, error, getLoading, FontLoader,
+        castToFontLoader, gTypeFontLoader)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -25,6 +25,14 @@ checkFont self font text
   = liftDOM
       ((self ^. jsf "checkFont" [toJSVal font, toJSVal text]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FontLoader.checkFont Mozilla FontLoader.checkFont documentation> 
+checkFont_ ::
+           (MonadDOM m, ToJSString font, ToJSString text) =>
+             FontLoader -> font -> text -> m ()
+checkFont_ self font text
+  = liftDOM
+      (void (self ^. jsf "checkFont" [toJSVal font, toJSVal text]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FontLoader.loadFont Mozilla FontLoader.loadFont documentation> 
 loadFont ::

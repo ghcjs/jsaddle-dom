@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFETileElement
-       (getIn1, SVGFETileElement, castToSVGFETileElement,
+       (getIn1, getIn1Unchecked, SVGFETileElement, castToSVGFETileElement,
         gTypeSVGFETileElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getIn1 ::
        (MonadDOM m) => SVGFETileElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETileElement.in1 Mozilla SVGFETileElement.in1 documentation> 
+getIn1Unchecked ::
+                (MonadDOM m) => SVGFETileElement -> m SVGAnimatedString
+getIn1Unchecked self
+  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)

@@ -1,11 +1,14 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.URLUtils
-       (toString, setHref, getHref, getOrigin, setProtocol, getProtocol,
-        setUsername, getUsername, setPassword, getPassword, setHost,
-        getHost, setHostname, getHostname, setPort, getPort, setPathname,
-        getPathname, setSearch, getSearch, setHash, getHash, URLUtils,
-        castToURLUtils, gTypeURLUtils)
+       (toString, toString_, setHref, getHref, getOrigin, setProtocol,
+        getProtocol, getProtocolUnchecked, setUsername, getUsername,
+        getUsernameUnchecked, setPassword, getPassword,
+        getPasswordUnchecked, setHost, getHost, getHostUnchecked,
+        setHostname, getHostname, getHostnameUnchecked, setPort, getPort,
+        getPortUnchecked, setPathname, getPathname, getPathnameUnchecked,
+        setSearch, getSearch, getSearchUnchecked, setHash, getHash,
+        getHashUnchecked, URLUtils, castToURLUtils, gTypeURLUtils)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,6 +27,10 @@ toString ::
          (MonadDOM m, FromJSString result) => URLUtils -> m result
 toString self
   = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.toString Mozilla URLUtils.toString documentation> 
+toString_ :: (MonadDOM m) => URLUtils -> m ()
+toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.href Mozilla URLUtils.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => URLUtils -> val -> m ()
@@ -52,6 +59,12 @@ getProtocol ::
 getProtocol self
   = liftDOM ((self ^. js "protocol") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.protocol Mozilla URLUtils.protocol documentation> 
+getProtocolUnchecked ::
+                     (MonadDOM m, FromJSString result) => URLUtils -> m result
+getProtocolUnchecked self
+  = liftDOM ((self ^. js "protocol") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.username Mozilla URLUtils.username documentation> 
 setUsername ::
             (MonadDOM m, ToJSString val) => URLUtils -> Maybe val -> m ()
@@ -63,6 +76,12 @@ getUsername ::
             (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getUsername self
   = liftDOM ((self ^. js "username") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.username Mozilla URLUtils.username documentation> 
+getUsernameUnchecked ::
+                     (MonadDOM m, FromJSString result) => URLUtils -> m result
+getUsernameUnchecked self
+  = liftDOM ((self ^. js "username") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.password Mozilla URLUtils.password documentation> 
 setPassword ::
@@ -76,6 +95,12 @@ getPassword ::
 getPassword self
   = liftDOM ((self ^. js "password") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.password Mozilla URLUtils.password documentation> 
+getPasswordUnchecked ::
+                     (MonadDOM m, FromJSString result) => URLUtils -> m result
+getPasswordUnchecked self
+  = liftDOM ((self ^. js "password") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.host Mozilla URLUtils.host documentation> 
 setHost ::
         (MonadDOM m, ToJSString val) => URLUtils -> Maybe val -> m ()
@@ -85,6 +110,12 @@ setHost self val = liftDOM (self ^. jss "host" (toJSVal val))
 getHost ::
         (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getHost self = liftDOM ((self ^. js "host") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.host Mozilla URLUtils.host documentation> 
+getHostUnchecked ::
+                 (MonadDOM m, FromJSString result) => URLUtils -> m result
+getHostUnchecked self
+  = liftDOM ((self ^. js "host") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hostname Mozilla URLUtils.hostname documentation> 
 setHostname ::
@@ -98,6 +129,12 @@ getHostname ::
 getHostname self
   = liftDOM ((self ^. js "hostname") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hostname Mozilla URLUtils.hostname documentation> 
+getHostnameUnchecked ::
+                     (MonadDOM m, FromJSString result) => URLUtils -> m result
+getHostnameUnchecked self
+  = liftDOM ((self ^. js "hostname") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.port Mozilla URLUtils.port documentation> 
 setPort ::
         (MonadDOM m, ToJSString val) => URLUtils -> Maybe val -> m ()
@@ -107,6 +144,12 @@ setPort self val = liftDOM (self ^. jss "port" (toJSVal val))
 getPort ::
         (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getPort self = liftDOM ((self ^. js "port") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.port Mozilla URLUtils.port documentation> 
+getPortUnchecked ::
+                 (MonadDOM m, FromJSString result) => URLUtils -> m result
+getPortUnchecked self
+  = liftDOM ((self ^. js "port") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.pathname Mozilla URLUtils.pathname documentation> 
 setPathname ::
@@ -120,6 +163,12 @@ getPathname ::
 getPathname self
   = liftDOM ((self ^. js "pathname") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.pathname Mozilla URLUtils.pathname documentation> 
+getPathnameUnchecked ::
+                     (MonadDOM m, FromJSString result) => URLUtils -> m result
+getPathnameUnchecked self
+  = liftDOM ((self ^. js "pathname") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.search Mozilla URLUtils.search documentation> 
 setSearch ::
           (MonadDOM m, ToJSString val) => URLUtils -> Maybe val -> m ()
@@ -131,6 +180,12 @@ getSearch ::
 getSearch self
   = liftDOM ((self ^. js "search") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.search Mozilla URLUtils.search documentation> 
+getSearchUnchecked ::
+                   (MonadDOM m, FromJSString result) => URLUtils -> m result
+getSearchUnchecked self
+  = liftDOM ((self ^. js "search") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hash Mozilla URLUtils.hash documentation> 
 setHash ::
         (MonadDOM m, ToJSString val) => URLUtils -> Maybe val -> m ()
@@ -140,3 +195,9 @@ setHash self val = liftDOM (self ^. jss "hash" (toJSVal val))
 getHash ::
         (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getHash self = liftDOM ((self ^. js "hash") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hash Mozilla URLUtils.hash documentation> 
+getHashUnchecked ::
+                 (MonadDOM m, FromJSString result) => URLUtils -> m result
+getHashUnchecked self
+  = liftDOM ((self ^. js "hash") >>= fromJSValUnchecked)

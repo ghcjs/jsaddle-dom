@@ -1,12 +1,16 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaControlsHost
-       (sortedTrackListForMenu, sortedTrackListForMenuAudio,
-        displayNameForTrack, displayNameForTrackAudio,
+       (sortedTrackListForMenu, sortedTrackListForMenu_,
+        sortedTrackListForMenuAudio, sortedTrackListForMenuAudio_,
+        displayNameForTrack, displayNameForTrack_,
+        displayNameForTrackAudio, displayNameForTrackAudio_,
         setSelectedTextTrack, updateTextTrackContainer, enteredFullscreen,
         exitedFullscreen, enterFullscreenOptimized, mediaUIImageData,
-        getCaptionMenuOffItem, getCaptionMenuAutomaticItem,
-        getCaptionDisplayMode, getTextTrackContainer,
+        mediaUIImageData_, getCaptionMenuOffItem,
+        getCaptionMenuOffItemUnchecked, getCaptionMenuAutomaticItem,
+        getCaptionMenuAutomaticItemUnchecked, getCaptionDisplayMode,
+        getTextTrackContainer, getTextTrackContainerUnchecked,
         getMediaPlaybackAllowsInline, getSupportsFullscreen,
         getUserGestureRequired, getExternalDeviceDisplayName,
         getExternalDeviceType, setControlsDependOnPageScaleFactor,
@@ -35,6 +39,13 @@ sortedTrackListForMenu self trackList
          fromJSArray)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
+sortedTrackListForMenu_ ::
+                        (MonadDOM m) => MediaControlsHost -> Maybe TextTrackList -> m ()
+sortedTrackListForMenu_ self trackList
+  = liftDOM
+      (void (self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
 sortedTrackListForMenuAudio ::
                             (MonadDOM m) =>
                               MediaControlsHost -> Maybe AudioTrackList -> m [Maybe AudioTrack]
@@ -42,6 +53,13 @@ sortedTrackListForMenuAudio self trackList
   = liftDOM
       ((self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]) >>=
          fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
+sortedTrackListForMenuAudio_ ::
+                             (MonadDOM m) => MediaControlsHost -> Maybe AudioTrackList -> m ()
+sortedTrackListForMenuAudio_ self trackList
+  = liftDOM
+      (void (self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
 displayNameForTrack ::
@@ -53,6 +71,13 @@ displayNameForTrack self track
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
+displayNameForTrack_ ::
+                     (MonadDOM m) => MediaControlsHost -> Maybe TextTrack -> m ()
+displayNameForTrack_ self track
+  = liftDOM
+      (void (self ^. jsf "displayNameForTrack" [toJSVal track]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
 displayNameForTrackAudio ::
                          (MonadDOM m, FromJSString result) =>
                            MediaControlsHost -> Maybe AudioTrack -> m result
@@ -60,6 +85,13 @@ displayNameForTrackAudio self track
   = liftDOM
       ((self ^. jsf "displayNameForTrack" [toJSVal track]) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
+displayNameForTrackAudio_ ::
+                          (MonadDOM m) => MediaControlsHost -> Maybe AudioTrack -> m ()
+displayNameForTrackAudio_ self track
+  = liftDOM
+      (void (self ^. jsf "displayNameForTrack" [toJSVal track]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.setSelectedTextTrack Mozilla MediaControlsHost.setSelectedTextTrack documentation> 
 setSelectedTextTrack ::
@@ -99,17 +131,37 @@ mediaUIImageData self partID
       ((self ^. jsf "mediaUIImageData" [toJSVal partID]) >>=
          fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.mediaUIImageData Mozilla MediaControlsHost.mediaUIImageData documentation> 
+mediaUIImageData_ ::
+                  (MonadDOM m) => MediaControlsHost -> MediaUIPartID -> m ()
+mediaUIImageData_ self partID
+  = liftDOM (void (self ^. jsf "mediaUIImageData" [toJSVal partID]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
 getCaptionMenuOffItem ::
                       (MonadDOM m) => MediaControlsHost -> m (Maybe TextTrack)
 getCaptionMenuOffItem self
   = liftDOM ((self ^. js "captionMenuOffItem") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
+getCaptionMenuOffItemUnchecked ::
+                               (MonadDOM m) => MediaControlsHost -> m TextTrack
+getCaptionMenuOffItemUnchecked self
+  = liftDOM
+      ((self ^. js "captionMenuOffItem") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
 getCaptionMenuAutomaticItem ::
                             (MonadDOM m) => MediaControlsHost -> m (Maybe TextTrack)
 getCaptionMenuAutomaticItem self
   = liftDOM ((self ^. js "captionMenuAutomaticItem") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
+getCaptionMenuAutomaticItemUnchecked ::
+                                     (MonadDOM m) => MediaControlsHost -> m TextTrack
+getCaptionMenuAutomaticItemUnchecked self
+  = liftDOM
+      ((self ^. js "captionMenuAutomaticItem") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionDisplayMode Mozilla MediaControlsHost.captionDisplayMode documentation> 
 getCaptionDisplayMode ::
@@ -123,6 +175,13 @@ getTextTrackContainer ::
                       (MonadDOM m) => MediaControlsHost -> m (Maybe HTMLElement)
 getTextTrackContainer self
   = liftDOM ((self ^. js "textTrackContainer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.textTrackContainer Mozilla MediaControlsHost.textTrackContainer documentation> 
+getTextTrackContainerUnchecked ::
+                               (MonadDOM m) => MediaControlsHost -> m HTMLElement
+getTextTrackContainerUnchecked self
+  = liftDOM
+      ((self ^. js "textTrackContainer") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.mediaPlaybackAllowsInline Mozilla MediaControlsHost.mediaPlaybackAllowsInline documentation> 
 getMediaPlaybackAllowsInline ::

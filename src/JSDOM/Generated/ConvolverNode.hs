@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ConvolverNode
-       (setBuffer, getBuffer, setNormalize, getNormalize, ConvolverNode,
-        castToConvolverNode, gTypeConvolverNode)
+       (setBuffer, getBuffer, getBufferUnchecked, setNormalize,
+        getNormalize, ConvolverNode, castToConvolverNode,
+        gTypeConvolverNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -24,6 +25,12 @@ setBuffer self val = liftDOM (self ^. jss "buffer" (toJSVal val))
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ConvolverNode.buffer Mozilla ConvolverNode.buffer documentation> 
 getBuffer :: (MonadDOM m) => ConvolverNode -> m (Maybe AudioBuffer)
 getBuffer self = liftDOM ((self ^. js "buffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ConvolverNode.buffer Mozilla ConvolverNode.buffer documentation> 
+getBufferUnchecked ::
+                   (MonadDOM m) => ConvolverNode -> m AudioBuffer
+getBufferUnchecked self
+  = liftDOM ((self ^. js "buffer") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ConvolverNode.normalize Mozilla ConvolverNode.normalize documentation> 
 setNormalize :: (MonadDOM m) => ConvolverNode -> Bool -> m ()

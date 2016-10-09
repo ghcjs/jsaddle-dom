@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PluginArray
-       (item, namedItem, refresh, getLength, PluginArray,
+       (item, item_, itemUnchecked, namedItem, namedItem_,
+        namedItemUnchecked, refresh, getLength, PluginArray,
         castToPluginArray, gTypePluginArray)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -21,12 +22,36 @@ item :: (MonadDOM m) => PluginArray -> Word -> m (Maybe Plugin)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray.item Mozilla PluginArray.item documentation> 
+item_ :: (MonadDOM m) => PluginArray -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray.item Mozilla PluginArray.item documentation> 
+itemUnchecked :: (MonadDOM m) => PluginArray -> Word -> m Plugin
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray.namedItem Mozilla PluginArray.namedItem documentation> 
 namedItem ::
           (MonadDOM m, ToJSString name) =>
             PluginArray -> name -> m (Maybe Plugin)
 namedItem self name
   = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray.namedItem Mozilla PluginArray.namedItem documentation> 
+namedItem_ ::
+           (MonadDOM m, ToJSString name) => PluginArray -> name -> m ()
+namedItem_ self name
+  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray.namedItem Mozilla PluginArray.namedItem documentation> 
+namedItemUnchecked ::
+                   (MonadDOM m, ToJSString name) => PluginArray -> name -> m Plugin
+namedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray.refresh Mozilla PluginArray.refresh documentation> 
 refresh :: (MonadDOM m) => PluginArray -> Bool -> m ()

@@ -1,28 +1,48 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Element
-       (getAttribute, setAttribute, removeAttribute, getAttributeNode,
-        setAttributeNode, removeAttributeNode, getElementsByTagName,
-        hasAttributes, getAttributeNS, setAttributeNS, removeAttributeNS,
-        getElementsByTagNameNS, getAttributeNodeNS, setAttributeNodeNS,
-        hasAttribute, hasAttributeNS, focus, blur, scrollIntoView,
+       (getAttribute, getAttribute_, getAttributeUnchecked, setAttribute,
+        removeAttribute, getAttributeNode, getAttributeNode_,
+        getAttributeNodeUnchecked, setAttributeNode, setAttributeNode_,
+        setAttributeNodeUnchecked, removeAttributeNode,
+        removeAttributeNode_, removeAttributeNodeUnchecked,
+        getElementsByTagName, getElementsByTagName_,
+        getElementsByTagNameUnchecked, hasAttributes, hasAttributes_,
+        getAttributeNS, getAttributeNS_, setAttributeNS, removeAttributeNS,
+        getElementsByTagNameNS, getElementsByTagNameNS_,
+        getElementsByTagNameNSUnchecked, getAttributeNodeNS,
+        getAttributeNodeNS_, getAttributeNodeNSUnchecked,
+        setAttributeNodeNS, setAttributeNodeNS_,
+        setAttributeNodeNSUnchecked, hasAttribute, hasAttribute_,
+        hasAttributeNS, hasAttributeNS_, focus, blur, scrollIntoView,
         scrollIntoViewIfNeeded, scrollByLines, scrollByPages,
-        getElementsByClassName, querySelector, querySelectorAll, matches,
-        closest, webkitMatchesSelector, getClientRects,
-        getBoundingClientRect, webkitRequestFullScreen,
+        getElementsByClassName, getElementsByClassName_,
+        getElementsByClassNameUnchecked, querySelector, querySelector_,
+        querySelectorUnchecked, querySelectorAll, querySelectorAll_,
+        querySelectorAllUnchecked, matches, matches_, closest, closest_,
+        closestUnchecked, webkitMatchesSelector, webkitMatchesSelector_,
+        getClientRects, getClientRects_, getClientRectsUnchecked,
+        getBoundingClientRect, getBoundingClientRect_,
+        getBoundingClientRectUnchecked, webkitRequestFullScreen,
         webkitRequestFullscreen, requestPointerLock,
-        webkitGetRegionFlowRanges, pattern ALLOW_KEYBOARD_INPUT,
-        getTagName, getAttributes, getStyle, setId, getId, getOffsetLeft,
-        getOffsetTop, getOffsetWidth, getOffsetHeight, getClientLeft,
-        getClientTop, getClientWidth, getClientHeight, setScrollLeft,
-        getScrollLeft, setScrollTop, getScrollTop, getScrollWidth,
-        getScrollHeight, getOffsetParent, setInnerHTML, getInnerHTML,
-        setOuterHTML, getOuterHTML, setClassName, getClassName,
-        getClassList, getDataset, getFirstElementChild,
-        getLastElementChild, getPreviousElementSibling,
-        getNextElementSibling, getChildElementCount, setUiactions,
-        getUiactions, getWebkitRegionOverset, abort, blurEvent, change,
-        click, contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
+        webkitGetRegionFlowRanges, webkitGetRegionFlowRanges_,
+        pattern ALLOW_KEYBOARD_INPUT, getTagName, getTagNameUnchecked,
+        getAttributes, getAttributesUnchecked, getStyle, getStyleUnchecked,
+        setId, getId, getOffsetLeft, getOffsetTop, getOffsetWidth,
+        getOffsetHeight, getClientLeft, getClientTop, getClientWidth,
+        getClientHeight, setScrollLeft, getScrollLeft, setScrollTop,
+        getScrollTop, getScrollWidth, getScrollHeight, getOffsetParent,
+        getOffsetParentUnchecked, setInnerHTML, getInnerHTML,
+        getInnerHTMLUnchecked, setOuterHTML, getOuterHTML,
+        getOuterHTMLUnchecked, setClassName, getClassName, getClassList,
+        getClassListUnchecked, getDataset, getDatasetUnchecked,
+        getFirstElementChild, getFirstElementChildUnchecked,
+        getLastElementChild, getLastElementChildUnchecked,
+        getPreviousElementSibling, getPreviousElementSiblingUnchecked,
+        getNextElementSibling, getNextElementSiblingUnchecked,
+        getChildElementCount, setUiactions, getUiactions,
+        getWebkitRegionOverset, abort, blurEvent, change, click,
+        contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
         dragOver, dragStart, drop, error, focusEvent, input, invalid,
         keyDown, keyPress, keyUp, load, mouseDown, mouseEnter, mouseLeave,
         mouseMove, mouseOut, mouseOver, mouseUp, mouseWheel, scroll,
@@ -55,6 +75,24 @@ getAttribute self name
       (((toElement self) ^. jsf "getAttribute" [toJSVal name]) >>=
          fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
+getAttribute_ ::
+              (MonadDOM m, IsElement self, ToJSString name) =>
+                self -> name -> m ()
+getAttribute_ self name
+  = liftDOM
+      (void ((toElement self) ^. jsf "getAttribute" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
+getAttributeUnchecked ::
+                      (MonadDOM m, IsElement self, ToJSString name,
+                       FromJSString result) =>
+                        self -> name -> m result
+getAttributeUnchecked self name
+  = liftDOM
+      (((toElement self) ^. jsf "getAttribute" [toJSVal name]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute Mozilla Element.setAttribute documentation> 
 setAttribute ::
              (MonadDOM m, IsElement self, ToJSString name, ToJSString value) =>
@@ -82,6 +120,23 @@ getAttributeNode self name
       (((toElement self) ^. jsf "getAttributeNode" [toJSVal name]) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNode Mozilla Element.getAttributeNode documentation> 
+getAttributeNode_ ::
+                  (MonadDOM m, IsElement self, ToJSString name) =>
+                    self -> name -> m ()
+getAttributeNode_ self name
+  = liftDOM
+      (void ((toElement self) ^. jsf "getAttributeNode" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNode Mozilla Element.getAttributeNode documentation> 
+getAttributeNodeUnchecked ::
+                          (MonadDOM m, IsElement self, ToJSString name) =>
+                            self -> name -> m Attr
+getAttributeNodeUnchecked self name
+  = liftDOM
+      (((toElement self) ^. jsf "getAttributeNode" [toJSVal name]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
 setAttributeNode ::
                  (MonadDOM m, IsElement self) =>
@@ -90,6 +145,22 @@ setAttributeNode self newAttr
   = liftDOM
       (((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
+setAttributeNode_ ::
+                  (MonadDOM m, IsElement self) => self -> Maybe Attr -> m ()
+setAttributeNode_ self newAttr
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
+setAttributeNodeUnchecked ::
+                          (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
+setAttributeNodeUnchecked self newAttr
+  = liftDOM
+      (((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
 removeAttributeNode ::
@@ -100,6 +171,22 @@ removeAttributeNode self oldAttr
       (((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
+removeAttributeNode_ ::
+                     (MonadDOM m, IsElement self) => self -> Maybe Attr -> m ()
+removeAttributeNode_ self oldAttr
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
+removeAttributeNodeUnchecked ::
+                             (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
+removeAttributeNodeUnchecked self oldAttr
+  = liftDOM
+      (((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
 getElementsByTagName ::
                      (MonadDOM m, IsElement self, ToJSString name) =>
@@ -109,11 +196,34 @@ getElementsByTagName self name
       (((toElement self) ^. jsf "getElementsByTagName" [toJSVal name])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
+getElementsByTagName_ ::
+                      (MonadDOM m, IsElement self, ToJSString name) =>
+                        self -> name -> m ()
+getElementsByTagName_ self name
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "getElementsByTagName" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
+getElementsByTagNameUnchecked ::
+                              (MonadDOM m, IsElement self, ToJSString name) =>
+                                self -> name -> m NodeList
+getElementsByTagNameUnchecked self name
+  = liftDOM
+      (((toElement self) ^. jsf "getElementsByTagName" [toJSVal name])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributes Mozilla Element.hasAttributes documentation> 
 hasAttributes :: (MonadDOM m, IsElement self) => self -> m Bool
 hasAttributes self
   = liftDOM
       (((toElement self) ^. jsf "hasAttributes" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributes Mozilla Element.hasAttributes documentation> 
+hasAttributes_ :: (MonadDOM m, IsElement self) => self -> m ()
+hasAttributes_ self
+  = liftDOM (void ((toElement self) ^. jsf "hasAttributes" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
 getAttributeNS ::
@@ -125,6 +235,17 @@ getAttributeNS self namespaceURI localName
       (((toElement self) ^. jsf "getAttributeNS"
           [toJSVal namespaceURI, toJSVal localName])
          >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
+getAttributeNS_ ::
+                (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                 ToJSString localName) =>
+                  self -> Maybe namespaceURI -> localName -> m ()
+getAttributeNS_ self namespaceURI localName
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "getAttributeNS"
+            [toJSVal namespaceURI, toJSVal localName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNS Mozilla Element.setAttributeNS documentation> 
 setAttributeNS ::
@@ -159,6 +280,28 @@ getElementsByTagNameNS self namespaceURI localName
           [toJSVal namespaceURI, toJSVal localName])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
+getElementsByTagNameNS_ ::
+                        (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                         ToJSString localName) =>
+                          self -> Maybe namespaceURI -> localName -> m ()
+getElementsByTagNameNS_ self namespaceURI localName
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "getElementsByTagNameNS"
+            [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
+getElementsByTagNameNSUnchecked ::
+                                (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                                 ToJSString localName) =>
+                                  self -> Maybe namespaceURI -> localName -> m NodeList
+getElementsByTagNameNSUnchecked self namespaceURI localName
+  = liftDOM
+      (((toElement self) ^. jsf "getElementsByTagNameNS"
+          [toJSVal namespaceURI, toJSVal localName])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNodeNS Mozilla Element.getAttributeNodeNS documentation> 
 getAttributeNodeNS ::
                    (MonadDOM m, IsElement self, ToJSString namespaceURI,
@@ -170,6 +313,28 @@ getAttributeNodeNS self namespaceURI localName
           [toJSVal namespaceURI, toJSVal localName])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNodeNS Mozilla Element.getAttributeNodeNS documentation> 
+getAttributeNodeNS_ ::
+                    (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                     ToJSString localName) =>
+                      self -> Maybe namespaceURI -> localName -> m ()
+getAttributeNodeNS_ self namespaceURI localName
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "getAttributeNodeNS"
+            [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNodeNS Mozilla Element.getAttributeNodeNS documentation> 
+getAttributeNodeNSUnchecked ::
+                            (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                             ToJSString localName) =>
+                              self -> Maybe namespaceURI -> localName -> m Attr
+getAttributeNodeNSUnchecked self namespaceURI localName
+  = liftDOM
+      (((toElement self) ^. jsf "getAttributeNodeNS"
+          [toJSVal namespaceURI, toJSVal localName])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
 setAttributeNodeNS ::
                    (MonadDOM m, IsElement self) =>
@@ -179,6 +344,22 @@ setAttributeNodeNS self newAttr
       (((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
+setAttributeNodeNS_ ::
+                    (MonadDOM m, IsElement self) => self -> Maybe Attr -> m ()
+setAttributeNodeNS_ self newAttr
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
+setAttributeNodeNSUnchecked ::
+                            (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
+setAttributeNodeNSUnchecked self newAttr
+  = liftDOM
+      (((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttribute Mozilla Element.hasAttribute documentation> 
 hasAttribute ::
              (MonadDOM m, IsElement self, ToJSString name) =>
@@ -187,6 +368,14 @@ hasAttribute self name
   = liftDOM
       (((toElement self) ^. jsf "hasAttribute" [toJSVal name]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttribute Mozilla Element.hasAttribute documentation> 
+hasAttribute_ ::
+              (MonadDOM m, IsElement self, ToJSString name) =>
+                self -> name -> m ()
+hasAttribute_ self name
+  = liftDOM
+      (void ((toElement self) ^. jsf "hasAttribute" [toJSVal name]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributeNS Mozilla Element.hasAttributeNS documentation> 
 hasAttributeNS ::
@@ -198,6 +387,17 @@ hasAttributeNS self namespaceURI localName
       (((toElement self) ^. jsf "hasAttributeNS"
           [toJSVal namespaceURI, toJSVal localName])
          >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributeNS Mozilla Element.hasAttributeNS documentation> 
+hasAttributeNS_ ::
+                (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                 ToJSString localName) =>
+                  self -> Maybe namespaceURI -> localName -> m ()
+hasAttributeNS_ self namespaceURI localName
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "hasAttributeNS"
+            [toJSVal namespaceURI, toJSVal localName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.focus Mozilla Element.focus documentation> 
 focus :: (MonadDOM m, IsElement self) => self -> m ()
@@ -247,6 +447,24 @@ getElementsByClassName self name
       (((toElement self) ^. jsf "getElementsByClassName" [toJSVal name])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
+getElementsByClassName_ ::
+                        (MonadDOM m, IsElement self, ToJSString name) =>
+                          self -> name -> m ()
+getElementsByClassName_ self name
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "getElementsByClassName" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
+getElementsByClassNameUnchecked ::
+                                (MonadDOM m, IsElement self, ToJSString name) =>
+                                  self -> name -> m NodeList
+getElementsByClassNameUnchecked self name
+  = liftDOM
+      (((toElement self) ^. jsf "getElementsByClassName" [toJSVal name])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
 querySelector ::
               (MonadDOM m, IsElement self, ToJSString selectors) =>
@@ -255,6 +473,24 @@ querySelector self selectors
   = liftDOM
       (((toElement self) ^. jsf "querySelector" [toJSVal selectors]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
+querySelector_ ::
+               (MonadDOM m, IsElement self, ToJSString selectors) =>
+                 self -> selectors -> m ()
+querySelector_ self selectors
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "querySelector" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
+querySelectorUnchecked ::
+                       (MonadDOM m, IsElement self, ToJSString selectors) =>
+                         self -> selectors -> m Element
+querySelectorUnchecked self selectors
+  = liftDOM
+      (((toElement self) ^. jsf "querySelector" [toJSVal selectors]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
 querySelectorAll ::
@@ -265,6 +501,24 @@ querySelectorAll self selectors
       (((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
+querySelectorAll_ ::
+                  (MonadDOM m, IsElement self, ToJSString selectors) =>
+                    self -> selectors -> m ()
+querySelectorAll_ self selectors
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
+querySelectorAllUnchecked ::
+                          (MonadDOM m, IsElement self, ToJSString selectors) =>
+                            self -> selectors -> m NodeList
+querySelectorAllUnchecked self selectors
+  = liftDOM
+      (((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.matches Mozilla Element.matches documentation> 
 matches ::
         (MonadDOM m, IsElement self, ToJSString selectors) =>
@@ -274,6 +528,14 @@ matches self selectors
       (((toElement self) ^. jsf "matches" [toJSVal selectors]) >>=
          valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.matches Mozilla Element.matches documentation> 
+matches_ ::
+         (MonadDOM m, IsElement self, ToJSString selectors) =>
+           self -> selectors -> m ()
+matches_ self selectors
+  = liftDOM
+      (void ((toElement self) ^. jsf "matches" [toJSVal selectors]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.closest Mozilla Element.closest documentation> 
 closest ::
         (MonadDOM m, IsElement self, ToJSString selectors) =>
@@ -282,6 +544,23 @@ closest self selectors
   = liftDOM
       (((toElement self) ^. jsf "closest" [toJSVal selectors]) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.closest Mozilla Element.closest documentation> 
+closest_ ::
+         (MonadDOM m, IsElement self, ToJSString selectors) =>
+           self -> selectors -> m ()
+closest_ self selectors
+  = liftDOM
+      (void ((toElement self) ^. jsf "closest" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.closest Mozilla Element.closest documentation> 
+closestUnchecked ::
+                 (MonadDOM m, IsElement self, ToJSString selectors) =>
+                   self -> selectors -> m Element
+closestUnchecked self selectors
+  = liftDOM
+      (((toElement self) ^. jsf "closest" [toJSVal selectors]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitMatchesSelector Mozilla Element.webkitMatchesSelector documentation> 
 webkitMatchesSelector ::
@@ -293,12 +572,35 @@ webkitMatchesSelector self selectors
           [toJSVal selectors])
          >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitMatchesSelector Mozilla Element.webkitMatchesSelector documentation> 
+webkitMatchesSelector_ ::
+                       (MonadDOM m, IsElement self, ToJSString selectors) =>
+                         self -> selectors -> m ()
+webkitMatchesSelector_ self selectors
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "webkitMatchesSelector"
+            [toJSVal selectors]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
 getClientRects ::
                (MonadDOM m, IsElement self) => self -> m (Maybe ClientRectList)
 getClientRects self
   = liftDOM
       (((toElement self) ^. jsf "getClientRects" ()) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
+getClientRects_ :: (MonadDOM m, IsElement self) => self -> m ()
+getClientRects_ self
+  = liftDOM (void ((toElement self) ^. jsf "getClientRects" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
+getClientRectsUnchecked ::
+                        (MonadDOM m, IsElement self) => self -> m ClientRectList
+getClientRectsUnchecked self
+  = liftDOM
+      (((toElement self) ^. jsf "getClientRects" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
 getBoundingClientRect ::
@@ -307,6 +609,21 @@ getBoundingClientRect self
   = liftDOM
       (((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
+getBoundingClientRect_ ::
+                       (MonadDOM m, IsElement self) => self -> m ()
+getBoundingClientRect_ self
+  = liftDOM
+      (void ((toElement self) ^. jsf "getBoundingClientRect" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
+getBoundingClientRectUnchecked ::
+                               (MonadDOM m, IsElement self) => self -> m ClientRect
+getBoundingClientRectUnchecked self
+  = liftDOM
+      (((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitRequestFullScreen Mozilla Element.webkitRequestFullScreen documentation> 
 webkitRequestFullScreen ::
@@ -336,6 +653,13 @@ webkitGetRegionFlowRanges self
   = liftDOM
       (((toElement self) ^. jsf "webkitGetRegionFlowRanges" ()) >>=
          fromJSArray)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitGetRegionFlowRanges Mozilla Element.webkitGetRegionFlowRanges documentation> 
+webkitGetRegionFlowRanges_ ::
+                           (MonadDOM m, IsElement self) => self -> m ()
+webkitGetRegionFlowRanges_ self
+  = liftDOM
+      (void ((toElement self) ^. jsf "webkitGetRegionFlowRanges" ()))
 pattern ALLOW_KEYBOARD_INPUT = 1
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
@@ -346,11 +670,26 @@ getTagName self
   = liftDOM
       (((toElement self) ^. js "tagName") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
+getTagNameUnchecked ::
+                    (MonadDOM m, IsElement self, FromJSString result) =>
+                      self -> m result
+getTagNameUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "tagName") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
 getAttributes ::
               (MonadDOM m, IsElement self) => self -> m (Maybe NamedNodeMap)
 getAttributes self
   = liftDOM (((toElement self) ^. js "attributes") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
+getAttributesUnchecked ::
+                       (MonadDOM m, IsElement self) => self -> m NamedNodeMap
+getAttributesUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "attributes") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
 getStyle ::
@@ -358,6 +697,12 @@ getStyle ::
            self -> m (Maybe CSSStyleDeclaration)
 getStyle self
   = liftDOM (((toElement self) ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
+getStyleUnchecked ::
+                  (MonadDOM m, IsElement self) => self -> m CSSStyleDeclaration
+getStyleUnchecked self
+  = liftDOM (((toElement self) ^. js "style") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.id Mozilla Element.id documentation> 
 setId ::
@@ -455,6 +800,13 @@ getOffsetParent ::
 getOffsetParent self
   = liftDOM (((toElement self) ^. js "offsetParent") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetParent Mozilla Element.offsetParent documentation> 
+getOffsetParentUnchecked ::
+                         (MonadDOM m, IsElement self) => self -> m Element
+getOffsetParentUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "offsetParent") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
 setInnerHTML ::
              (MonadDOM m, IsElement self, ToJSString val) =>
@@ -470,6 +822,14 @@ getInnerHTML self
   = liftDOM
       (((toElement self) ^. js "innerHTML") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
+getInnerHTMLUnchecked ::
+                      (MonadDOM m, IsElement self, FromJSString result) =>
+                        self -> m result
+getInnerHTMLUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "innerHTML") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
 setOuterHTML ::
              (MonadDOM m, IsElement self, ToJSString val) =>
@@ -484,6 +844,14 @@ getOuterHTML ::
 getOuterHTML self
   = liftDOM
       (((toElement self) ^. js "outerHTML") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
+getOuterHTMLUnchecked ::
+                      (MonadDOM m, IsElement self, FromJSString result) =>
+                        self -> m result
+getOuterHTMLUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "outerHTML") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.className Mozilla Element.className documentation> 
 setClassName ::
@@ -505,11 +873,25 @@ getClassList ::
 getClassList self
   = liftDOM (((toElement self) ^. js "classList") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.classList Mozilla Element.classList documentation> 
+getClassListUnchecked ::
+                      (MonadDOM m, IsElement self) => self -> m DOMTokenList
+getClassListUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "classList") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
 getDataset ::
            (MonadDOM m, IsElement self) => self -> m (Maybe DOMStringMap)
 getDataset self
   = liftDOM (((toElement self) ^. js "dataset") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
+getDatasetUnchecked ::
+                    (MonadDOM m, IsElement self) => self -> m DOMStringMap
+getDatasetUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "dataset") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
 getFirstElementChild ::
@@ -518,12 +900,28 @@ getFirstElementChild self
   = liftDOM
       (((toElement self) ^. js "firstElementChild") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
+getFirstElementChildUnchecked ::
+                              (MonadDOM m, IsElement self) => self -> m Element
+getFirstElementChildUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "firstElementChild") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
 getLastElementChild ::
                     (MonadDOM m, IsElement self) => self -> m (Maybe Element)
 getLastElementChild self
   = liftDOM
       (((toElement self) ^. js "lastElementChild") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
+getLastElementChildUnchecked ::
+                             (MonadDOM m, IsElement self) => self -> m Element
+getLastElementChildUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "lastElementChild") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
 getPreviousElementSibling ::
@@ -532,12 +930,28 @@ getPreviousElementSibling self
   = liftDOM
       (((toElement self) ^. js "previousElementSibling") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
+getPreviousElementSiblingUnchecked ::
+                                   (MonadDOM m, IsElement self) => self -> m Element
+getPreviousElementSiblingUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "previousElementSibling") >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
 getNextElementSibling ::
                       (MonadDOM m, IsElement self) => self -> m (Maybe Element)
 getNextElementSibling self
   = liftDOM
       (((toElement self) ^. js "nextElementSibling") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
+getNextElementSiblingUnchecked ::
+                               (MonadDOM m, IsElement self) => self -> m Element
+getNextElementSiblingUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "nextElementSibling") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.childElementCount Mozilla Element.childElementCount documentation> 
 getChildElementCount ::

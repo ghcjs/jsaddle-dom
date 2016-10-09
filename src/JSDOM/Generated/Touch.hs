@@ -2,9 +2,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Touch
        (getClientX, getClientY, getScreenX, getScreenY, getPageX,
-        getPageY, getTarget, getIdentifier, getWebkitRadiusX,
-        getWebkitRadiusY, getWebkitRotationAngle, getWebkitForce, Touch,
-        castToTouch, gTypeTouch)
+        getPageY, getTarget, getTargetUnchecked, getIdentifier,
+        getWebkitRadiusX, getWebkitRadiusY, getWebkitRotationAngle,
+        getWebkitForce, Touch, castToTouch, gTypeTouch)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -51,6 +51,11 @@ getPageY self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Touch.target Mozilla Touch.target documentation> 
 getTarget :: (MonadDOM m) => Touch -> m (Maybe EventTarget)
 getTarget self = liftDOM ((self ^. js "target") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Touch.target Mozilla Touch.target documentation> 
+getTargetUnchecked :: (MonadDOM m) => Touch -> m EventTarget
+getTargetUnchecked self
+  = liftDOM ((self ^. js "target") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Touch.identifier Mozilla Touch.identifier documentation> 
 getIdentifier :: (MonadDOM m) => Touch -> m Word

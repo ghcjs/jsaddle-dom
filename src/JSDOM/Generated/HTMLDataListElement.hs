@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLDataListElement
-       (getOptions, HTMLDataListElement, castToHTMLDataListElement,
-        gTypeHTMLDataListElement)
+       (getOptions, getOptionsUnchecked, HTMLDataListElement,
+        castToHTMLDataListElement, gTypeHTMLDataListElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -20,3 +20,9 @@ import JSDOM.Enums
 getOptions ::
            (MonadDOM m) => HTMLDataListElement -> m (Maybe HTMLCollection)
 getOptions self = liftDOM ((self ^. js "options") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDataListElement.options Mozilla HTMLDataListElement.options documentation> 
+getOptionsUnchecked ::
+                    (MonadDOM m) => HTMLDataListElement -> m HTMLCollection
+getOptionsUnchecked self
+  = liftDOM ((self ^. js "options") >>= fromJSValUnchecked)

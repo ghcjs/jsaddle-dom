@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.EventTarget
-       (addEventListener, removeEventListener, dispatchEvent, EventTarget,
-        castToEventTarget, gTypeEventTarget, IsEventTarget, toEventTarget)
+       (addEventListener, removeEventListener, dispatchEvent,
+        dispatchEvent_, EventTarget, castToEventTarget, gTypeEventTarget,
+        IsEventTarget, toEventTarget)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -43,3 +44,12 @@ dispatchEvent self event
   = liftDOM
       (((toEventTarget self) ^. jsf "dispatchEvent" [toJSVal event]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.dispatchEvent Mozilla EventTarget.dispatchEvent documentation> 
+dispatchEvent_ ::
+               (MonadDOM m, IsEventTarget self, IsEvent event) =>
+                 self -> Maybe event -> m ()
+dispatchEvent_ self event
+  = liftDOM
+      (void
+         ((toEventTarget self) ^. jsf "dispatchEvent" [toJSVal event]))

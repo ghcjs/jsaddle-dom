@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AllAudioCapabilities
-       (getSourceId, getVolume, AllAudioCapabilities,
+       (getSourceId, getVolume, getVolumeUnchecked, AllAudioCapabilities,
         castToAllAudioCapabilities, gTypeAllAudioCapabilities)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -27,3 +27,9 @@ getSourceId self
 getVolume ::
           (MonadDOM m) => AllAudioCapabilities -> m (Maybe CapabilityRange)
 getVolume self = liftDOM ((self ^. js "volume") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AllAudioCapabilities.volume Mozilla AllAudioCapabilities.volume documentation> 
+getVolumeUnchecked ::
+                   (MonadDOM m) => AllAudioCapabilities -> m CapabilityRange
+getVolumeUnchecked self
+  = liftDOM ((self ^. js "volume") >>= fromJSValUnchecked)

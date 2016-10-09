@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMTokenList
-       (item, contains, add, remove, toggle, toString, getLength,
-        DOMTokenList, castToDOMTokenList, gTypeDOMTokenList,
-        IsDOMTokenList, toDOMTokenList)
+       (item, item_, itemUnchecked, contains, contains_, add, remove,
+        toggle, toggle_, toString, toString_, getLength, DOMTokenList,
+        castToDOMTokenList, gTypeDOMTokenList, IsDOMTokenList,
+        toDOMTokenList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -26,6 +27,21 @@ item self index
       (((toDOMTokenList self) ^. jsf "item" [toJSVal index]) >>=
          fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.item Mozilla DOMTokenList.item documentation> 
+item_ :: (MonadDOM m, IsDOMTokenList self) => self -> Word -> m ()
+item_ self index
+  = liftDOM
+      (void ((toDOMTokenList self) ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.item Mozilla DOMTokenList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m, IsDOMTokenList self, FromJSString result) =>
+                self -> Word -> m result
+itemUnchecked self index
+  = liftDOM
+      (((toDOMTokenList self) ^. jsf "item" [toJSVal index]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.contains Mozilla DOMTokenList.contains documentation> 
 contains ::
          (MonadDOM m, IsDOMTokenList self, ToJSString token) =>
@@ -34,6 +50,14 @@ contains self token
   = liftDOM
       (((toDOMTokenList self) ^. jsf "contains" [toJSVal token]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.contains Mozilla DOMTokenList.contains documentation> 
+contains_ ::
+          (MonadDOM m, IsDOMTokenList self, ToJSString token) =>
+            self -> token -> m ()
+contains_ self token
+  = liftDOM
+      (void ((toDOMTokenList self) ^. jsf "contains" [toJSVal token]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.add Mozilla DOMTokenList.add documentation> 
 add ::
@@ -65,6 +89,16 @@ toggle self token force
           [toJSVal token, toJSVal force])
          >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.toggle Mozilla DOMTokenList.toggle documentation> 
+toggle_ ::
+        (MonadDOM m, IsDOMTokenList self, ToJSString token) =>
+          self -> token -> Bool -> m ()
+toggle_ self token force
+  = liftDOM
+      (void
+         ((toDOMTokenList self) ^. jsf "toggle"
+            [toJSVal token, toJSVal force]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.toString Mozilla DOMTokenList.toString documentation> 
 toString ::
          (MonadDOM m, IsDOMTokenList self, FromJSString result) =>
@@ -73,6 +107,11 @@ toString self
   = liftDOM
       (((toDOMTokenList self) ^. jsf "toString" ()) >>=
          fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.toString Mozilla DOMTokenList.toString documentation> 
+toString_ :: (MonadDOM m, IsDOMTokenList self) => self -> m ()
+toString_ self
+  = liftDOM (void ((toDOMTokenList self) ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.length Mozilla DOMTokenList.length documentation> 
 getLength :: (MonadDOM m, IsDOMTokenList self) => self -> m Word

@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleSheet
-       (insertRule, deleteRule, addRule, removeRule, getOwnerRule,
-        getCssRules, getRules, CSSStyleSheet, castToCSSStyleSheet,
-        gTypeCSSStyleSheet)
+       (insertRule, insertRule_, deleteRule, addRule, addRule_,
+        removeRule, getOwnerRule, getOwnerRuleUnchecked, getCssRules,
+        getCssRulesUnchecked, getRules, getRulesUnchecked, CSSStyleSheet,
+        castToCSSStyleSheet, gTypeCSSStyleSheet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,6 +28,14 @@ insertRule self rule index
          ((self ^. jsf "insertRule" [toJSVal rule, toJSVal index]) >>=
             valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.insertRule Mozilla CSSStyleSheet.insertRule documentation> 
+insertRule_ ::
+            (MonadDOM m, ToJSString rule) =>
+              CSSStyleSheet -> rule -> Word -> m ()
+insertRule_ self rule index
+  = liftDOM
+      (void (self ^. jsf "insertRule" [toJSVal rule, toJSVal index]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.deleteRule Mozilla CSSStyleSheet.deleteRule documentation> 
 deleteRule :: (MonadDOM m) => CSSStyleSheet -> Word -> m ()
 deleteRule self index
@@ -43,6 +52,16 @@ addRule self selector style index
              [toJSVal selector, toJSVal style, toJSVal index])
             >>= valToNumber))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.addRule Mozilla CSSStyleSheet.addRule documentation> 
+addRule_ ::
+         (MonadDOM m, ToJSString selector, ToJSString style) =>
+           CSSStyleSheet -> selector -> style -> Word -> m ()
+addRule_ self selector style index
+  = liftDOM
+      (void
+         (self ^. jsf "addRule"
+            [toJSVal selector, toJSVal style, toJSVal index]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.removeRule Mozilla CSSStyleSheet.removeRule documentation> 
 removeRule :: (MonadDOM m) => CSSStyleSheet -> Word -> m ()
 removeRule self index
@@ -53,11 +72,27 @@ getOwnerRule :: (MonadDOM m) => CSSStyleSheet -> m (Maybe CSSRule)
 getOwnerRule self
   = liftDOM ((self ^. js "ownerRule") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.ownerRule Mozilla CSSStyleSheet.ownerRule documentation> 
+getOwnerRuleUnchecked :: (MonadDOM m) => CSSStyleSheet -> m CSSRule
+getOwnerRuleUnchecked self
+  = liftDOM ((self ^. js "ownerRule") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.cssRules Mozilla CSSStyleSheet.cssRules documentation> 
 getCssRules ::
             (MonadDOM m) => CSSStyleSheet -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.cssRules Mozilla CSSStyleSheet.cssRules documentation> 
+getCssRulesUnchecked ::
+                     (MonadDOM m) => CSSStyleSheet -> m CSSRuleList
+getCssRulesUnchecked self
+  = liftDOM ((self ^. js "cssRules") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.rules Mozilla CSSStyleSheet.rules documentation> 
 getRules :: (MonadDOM m) => CSSStyleSheet -> m (Maybe CSSRuleList)
 getRules self = liftDOM ((self ^. js "rules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.rules Mozilla CSSStyleSheet.rules documentation> 
+getRulesUnchecked :: (MonadDOM m) => CSSStyleSheet -> m CSSRuleList
+getRulesUnchecked self
+  = liftDOM ((self ^. js "rules") >>= fromJSValUnchecked)

@@ -1,9 +1,12 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegList
-       (clear, initialize, getItem, insertItemBefore, replaceItem,
-        removeItem, appendItem, getNumberOfItems, SVGPathSegList,
-        castToSVGPathSegList, gTypeSVGPathSegList)
+       (clear, initialize, initialize_, initializeUnchecked, getItem,
+        getItem_, getItemUnchecked, insertItemBefore, insertItemBefore_,
+        insertItemBeforeUnchecked, replaceItem, replaceItem_,
+        replaceItemUnchecked, removeItem, removeItem_, removeItemUnchecked,
+        appendItem, appendItem_, appendItemUnchecked, getNumberOfItems,
+        SVGPathSegList, castToSVGPathSegList, gTypeSVGPathSegList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -29,11 +32,39 @@ initialize self newItem
   = liftDOM
       ((self ^. jsf "initialize" [toJSVal newItem]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.initialize Mozilla SVGPathSegList.initialize documentation> 
+initialize_ ::
+            (MonadDOM m, IsSVGPathSeg newItem) =>
+              SVGPathSegList -> Maybe newItem -> m ()
+initialize_ self newItem
+  = liftDOM (void (self ^. jsf "initialize" [toJSVal newItem]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.initialize Mozilla SVGPathSegList.initialize documentation> 
+initializeUnchecked ::
+                    (MonadDOM m, IsSVGPathSeg newItem) =>
+                      SVGPathSegList -> Maybe newItem -> m SVGPathSeg
+initializeUnchecked self newItem
+  = liftDOM
+      ((self ^. jsf "initialize" [toJSVal newItem]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.getItem Mozilla SVGPathSegList.getItem documentation> 
 getItem ::
         (MonadDOM m) => SVGPathSegList -> Word -> m (Maybe SVGPathSeg)
 getItem self index
   = liftDOM ((self ^. jsf "getItem" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.getItem Mozilla SVGPathSegList.getItem documentation> 
+getItem_ :: (MonadDOM m) => SVGPathSegList -> Word -> m ()
+getItem_ self index
+  = liftDOM (void (self ^. jsf "getItem" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.getItem Mozilla SVGPathSegList.getItem documentation> 
+getItemUnchecked ::
+                 (MonadDOM m) => SVGPathSegList -> Word -> m SVGPathSeg
+getItemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "getItem" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.insertItemBefore Mozilla SVGPathSegList.insertItemBefore documentation> 
 insertItemBefore ::
@@ -44,6 +75,24 @@ insertItemBefore self newItem index
       ((self ^. jsf "insertItemBefore" [toJSVal newItem, toJSVal index])
          >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.insertItemBefore Mozilla SVGPathSegList.insertItemBefore documentation> 
+insertItemBefore_ ::
+                  (MonadDOM m, IsSVGPathSeg newItem) =>
+                    SVGPathSegList -> Maybe newItem -> Word -> m ()
+insertItemBefore_ self newItem index
+  = liftDOM
+      (void
+         (self ^. jsf "insertItemBefore" [toJSVal newItem, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.insertItemBefore Mozilla SVGPathSegList.insertItemBefore documentation> 
+insertItemBeforeUnchecked ::
+                          (MonadDOM m, IsSVGPathSeg newItem) =>
+                            SVGPathSegList -> Maybe newItem -> Word -> m SVGPathSeg
+insertItemBeforeUnchecked self newItem index
+  = liftDOM
+      ((self ^. jsf "insertItemBefore" [toJSVal newItem, toJSVal index])
+         >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.replaceItem Mozilla SVGPathSegList.replaceItem documentation> 
 replaceItem ::
             (MonadDOM m, IsSVGPathSeg newItem) =>
@@ -53,12 +102,41 @@ replaceItem self newItem index
       ((self ^. jsf "replaceItem" [toJSVal newItem, toJSVal index]) >>=
          fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.replaceItem Mozilla SVGPathSegList.replaceItem documentation> 
+replaceItem_ ::
+             (MonadDOM m, IsSVGPathSeg newItem) =>
+               SVGPathSegList -> Maybe newItem -> Word -> m ()
+replaceItem_ self newItem index
+  = liftDOM
+      (void (self ^. jsf "replaceItem" [toJSVal newItem, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.replaceItem Mozilla SVGPathSegList.replaceItem documentation> 
+replaceItemUnchecked ::
+                     (MonadDOM m, IsSVGPathSeg newItem) =>
+                       SVGPathSegList -> Maybe newItem -> Word -> m SVGPathSeg
+replaceItemUnchecked self newItem index
+  = liftDOM
+      ((self ^. jsf "replaceItem" [toJSVal newItem, toJSVal index]) >>=
+         fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.removeItem Mozilla SVGPathSegList.removeItem documentation> 
 removeItem ::
            (MonadDOM m) => SVGPathSegList -> Word -> m (Maybe SVGPathSeg)
 removeItem self index
   = liftDOM
       ((self ^. jsf "removeItem" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.removeItem Mozilla SVGPathSegList.removeItem documentation> 
+removeItem_ :: (MonadDOM m) => SVGPathSegList -> Word -> m ()
+removeItem_ self index
+  = liftDOM (void (self ^. jsf "removeItem" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.removeItem Mozilla SVGPathSegList.removeItem documentation> 
+removeItemUnchecked ::
+                    (MonadDOM m) => SVGPathSegList -> Word -> m SVGPathSeg
+removeItemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "removeItem" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.appendItem Mozilla SVGPathSegList.appendItem documentation> 
 appendItem ::
@@ -67,6 +145,22 @@ appendItem ::
 appendItem self newItem
   = liftDOM
       ((self ^. jsf "appendItem" [toJSVal newItem]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.appendItem Mozilla SVGPathSegList.appendItem documentation> 
+appendItem_ ::
+            (MonadDOM m, IsSVGPathSeg newItem) =>
+              SVGPathSegList -> Maybe newItem -> m ()
+appendItem_ self newItem
+  = liftDOM (void (self ^. jsf "appendItem" [toJSVal newItem]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.appendItem Mozilla SVGPathSegList.appendItem documentation> 
+appendItemUnchecked ::
+                    (MonadDOM m, IsSVGPathSeg newItem) =>
+                      SVGPathSegList -> Maybe newItem -> m SVGPathSeg
+appendItemUnchecked self newItem
+  = liftDOM
+      ((self ^. jsf "appendItem" [toJSVal newItem]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.numberOfItems Mozilla SVGPathSegList.numberOfItems documentation> 
 getNumberOfItems :: (MonadDOM m) => SVGPathSegList -> m Word

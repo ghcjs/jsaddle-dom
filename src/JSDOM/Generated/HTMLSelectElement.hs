@@ -1,14 +1,18 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSelectElement
-       (item, namedItem, addBefore, add, remove, checkValidity,
-        setCustomValidity, setAutofocus, getAutofocus, setDisabled,
-        getDisabled, getForm, setMultiple, getMultiple, setName, getName,
-        setRequired, getRequired, setSize, getSize, getType, getOptions,
-        setLength, getLength, getSelectedOptions, setSelectedIndex,
-        getSelectedIndex, setValue, getValue, getWillValidate, getValidity,
-        getValidationMessage, getLabels, HTMLSelectElement,
-        castToHTMLSelectElement, gTypeHTMLSelectElement)
+       (item, item_, itemUnchecked, namedItem, namedItem_,
+        namedItemUnchecked, addBefore, add, remove, checkValidity,
+        checkValidity_, setCustomValidity, setAutofocus, getAutofocus,
+        setDisabled, getDisabled, getForm, getFormUnchecked, setMultiple,
+        getMultiple, setName, getName, setRequired, getRequired, setSize,
+        getSize, getType, getOptions, getOptionsUnchecked, setLength,
+        getLength, getSelectedOptions, getSelectedOptionsUnchecked,
+        setSelectedIndex, getSelectedIndex, setValue, getValue,
+        getValueUnchecked, getWillValidate, getValidity,
+        getValidityUnchecked, getValidationMessage, getLabels,
+        getLabelsUnchecked, HTMLSelectElement, castToHTMLSelectElement,
+        gTypeHTMLSelectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -27,12 +31,38 @@ item :: (MonadDOM m) => HTMLSelectElement -> Word -> m (Maybe Node)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
+item_ :: (MonadDOM m) => HTMLSelectElement -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => HTMLSelectElement -> Word -> m Node
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
 namedItem ::
           (MonadDOM m, ToJSString name) =>
             HTMLSelectElement -> name -> m (Maybe Node)
 namedItem self name
   = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
+namedItem_ ::
+           (MonadDOM m, ToJSString name) => HTMLSelectElement -> name -> m ()
+namedItem_ self name
+  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
+namedItemUnchecked ::
+                   (MonadDOM m, ToJSString name) =>
+                     HTMLSelectElement -> name -> m Node
+namedItemUnchecked self name
+  = liftDOM
+      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.add Mozilla HTMLSelectElement.add documentation> 
 addBefore ::
@@ -58,6 +88,11 @@ remove self = liftDOM (void (self ^. jsf "remove" ()))
 checkValidity :: (MonadDOM m) => HTMLSelectElement -> m Bool
 checkValidity self
   = liftDOM ((self ^. jsf "checkValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.checkValidity Mozilla HTMLSelectElement.checkValidity documentation> 
+checkValidity_ :: (MonadDOM m) => HTMLSelectElement -> m ()
+checkValidity_ self
+  = liftDOM (void (self ^. jsf "checkValidity" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.setCustomValidity Mozilla HTMLSelectElement.setCustomValidity documentation> 
 setCustomValidity ::
@@ -89,6 +124,12 @@ getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 getForm ::
         (MonadDOM m) => HTMLSelectElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.form Mozilla HTMLSelectElement.form documentation> 
+getFormUnchecked ::
+                 (MonadDOM m) => HTMLSelectElement -> m HTMLFormElement
+getFormUnchecked self
+  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.multiple Mozilla HTMLSelectElement.multiple documentation> 
 setMultiple :: (MonadDOM m) => HTMLSelectElement -> Bool -> m ()
@@ -138,6 +179,12 @@ getOptions ::
              HTMLSelectElement -> m (Maybe HTMLOptionsCollection)
 getOptions self = liftDOM ((self ^. js "options") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.options Mozilla HTMLSelectElement.options documentation> 
+getOptionsUnchecked ::
+                    (MonadDOM m) => HTMLSelectElement -> m HTMLOptionsCollection
+getOptionsUnchecked self
+  = liftDOM ((self ^. js "options") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.length Mozilla HTMLSelectElement.length documentation> 
 setLength :: (MonadDOM m) => HTMLSelectElement -> Word -> m ()
 setLength self val = liftDOM (self ^. jss "length" (toJSVal val))
@@ -152,6 +199,12 @@ getSelectedOptions ::
                    (MonadDOM m) => HTMLSelectElement -> m (Maybe HTMLCollection)
 getSelectedOptions self
   = liftDOM ((self ^. js "selectedOptions") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedOptions Mozilla HTMLSelectElement.selectedOptions documentation> 
+getSelectedOptionsUnchecked ::
+                            (MonadDOM m) => HTMLSelectElement -> m HTMLCollection
+getSelectedOptionsUnchecked self
+  = liftDOM ((self ^. js "selectedOptions") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedIndex Mozilla HTMLSelectElement.selectedIndex documentation> 
 setSelectedIndex ::
@@ -178,6 +231,12 @@ getValue ::
 getValue self
   = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
+getValueUnchecked ::
+                  (MonadDOM m, FromJSString result) => HTMLSelectElement -> m result
+getValueUnchecked self
+  = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.willValidate Mozilla HTMLSelectElement.willValidate documentation> 
 getWillValidate :: (MonadDOM m) => HTMLSelectElement -> m Bool
 getWillValidate self
@@ -187,6 +246,12 @@ getWillValidate self
 getValidity ::
             (MonadDOM m) => HTMLSelectElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validity Mozilla HTMLSelectElement.validity documentation> 
+getValidityUnchecked ::
+                     (MonadDOM m) => HTMLSelectElement -> m ValidityState
+getValidityUnchecked self
+  = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validationMessage Mozilla HTMLSelectElement.validationMessage documentation> 
 getValidationMessage ::
@@ -198,3 +263,9 @@ getValidationMessage self
 getLabels ::
           (MonadDOM m) => HTMLSelectElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.labels Mozilla HTMLSelectElement.labels documentation> 
+getLabelsUnchecked ::
+                   (MonadDOM m) => HTMLSelectElement -> m NodeList
+getLabelsUnchecked self
+  = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPolylineElement
-       (getPoints, getAnimatedPoints, SVGPolylineElement,
+       (getPoints, getPointsUnchecked, getAnimatedPoints,
+        getAnimatedPointsUnchecked, SVGPolylineElement,
         castToSVGPolylineElement, gTypeSVGPolylineElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -21,8 +22,20 @@ getPoints ::
           (MonadDOM m) => SVGPolylineElement -> m (Maybe SVGPointList)
 getPoints self = liftDOM ((self ^. js "points") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolylineElement.points Mozilla SVGPolylineElement.points documentation> 
+getPointsUnchecked ::
+                   (MonadDOM m) => SVGPolylineElement -> m SVGPointList
+getPointsUnchecked self
+  = liftDOM ((self ^. js "points") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolylineElement.animatedPoints Mozilla SVGPolylineElement.animatedPoints documentation> 
 getAnimatedPoints ::
                   (MonadDOM m) => SVGPolylineElement -> m (Maybe SVGPointList)
 getAnimatedPoints self
   = liftDOM ((self ^. js "animatedPoints") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolylineElement.animatedPoints Mozilla SVGPolylineElement.animatedPoints documentation> 
+getAnimatedPointsUnchecked ::
+                           (MonadDOM m) => SVGPolylineElement -> m SVGPointList
+getAnimatedPointsUnchecked self
+  = liftDOM ((self ^. js "animatedPoints") >>= fromJSValUnchecked)

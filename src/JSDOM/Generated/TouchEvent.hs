@@ -1,9 +1,10 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TouchEvent
-       (initTouchEvent, getTouches, getTargetTouches, getChangedTouches,
-        getCtrlKey, getShiftKey, getAltKey, getMetaKey, TouchEvent,
-        castToTouchEvent, gTypeTouchEvent)
+       (initTouchEvent, getTouches, getTouchesUnchecked, getTargetTouches,
+        getTargetTouchesUnchecked, getChangedTouches,
+        getChangedTouchesUnchecked, getCtrlKey, getShiftKey, getAltKey,
+        getMetaKey, TouchEvent, castToTouchEvent, gTypeTouchEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -41,17 +42,34 @@ initTouchEvent self touches targetTouches changedTouches type' view
 getTouches :: (MonadDOM m) => TouchEvent -> m (Maybe TouchList)
 getTouches self = liftDOM ((self ^. js "touches") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.touches Mozilla TouchEvent.touches documentation> 
+getTouchesUnchecked :: (MonadDOM m) => TouchEvent -> m TouchList
+getTouchesUnchecked self
+  = liftDOM ((self ^. js "touches") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.targetTouches Mozilla TouchEvent.targetTouches documentation> 
 getTargetTouches ::
                  (MonadDOM m) => TouchEvent -> m (Maybe TouchList)
 getTargetTouches self
   = liftDOM ((self ^. js "targetTouches") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.targetTouches Mozilla TouchEvent.targetTouches documentation> 
+getTargetTouchesUnchecked ::
+                          (MonadDOM m) => TouchEvent -> m TouchList
+getTargetTouchesUnchecked self
+  = liftDOM ((self ^. js "targetTouches") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.changedTouches Mozilla TouchEvent.changedTouches documentation> 
 getChangedTouches ::
                   (MonadDOM m) => TouchEvent -> m (Maybe TouchList)
 getChangedTouches self
   = liftDOM ((self ^. js "changedTouches") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.changedTouches Mozilla TouchEvent.changedTouches documentation> 
+getChangedTouchesUnchecked ::
+                           (MonadDOM m) => TouchEvent -> m TouchList
+getChangedTouchesUnchecked self
+  = liftDOM ((self ^. js "changedTouches") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.ctrlKey Mozilla TouchEvent.ctrlKey documentation> 
 getCtrlKey :: (MonadDOM m) => TouchEvent -> m Bool

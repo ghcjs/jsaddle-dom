@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSFontFaceLoadEvent
-       (getFontface, getError, CSSFontFaceLoadEvent,
-        castToCSSFontFaceLoadEvent, gTypeCSSFontFaceLoadEvent)
+       (getFontface, getFontfaceUnchecked, getError, getErrorUnchecked,
+        CSSFontFaceLoadEvent, castToCSSFontFaceLoadEvent,
+        gTypeCSSFontFaceLoadEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,7 +22,19 @@ getFontface ::
             (MonadDOM m) => CSSFontFaceLoadEvent -> m (Maybe CSSFontFaceRule)
 getFontface self = liftDOM ((self ^. js "fontface") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.fontface Mozilla CSSFontFaceLoadEvent.fontface documentation> 
+getFontfaceUnchecked ::
+                     (MonadDOM m) => CSSFontFaceLoadEvent -> m CSSFontFaceRule
+getFontfaceUnchecked self
+  = liftDOM ((self ^. js "fontface") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.error Mozilla CSSFontFaceLoadEvent.error documentation> 
 getError ::
          (MonadDOM m) => CSSFontFaceLoadEvent -> m (Maybe DOMError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.error Mozilla CSSFontFaceLoadEvent.error documentation> 
+getErrorUnchecked ::
+                  (MonadDOM m) => CSSFontFaceLoadEvent -> m DOMError
+getErrorUnchecked self
+  = liftDOM ((self ^. js "error") >>= fromJSValUnchecked)

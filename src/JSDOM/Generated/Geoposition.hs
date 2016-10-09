@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Geoposition
-       (getCoords, getTimestamp, Geoposition, castToGeoposition,
-        gTypeGeoposition)
+       (getCoords, getCoordsUnchecked, getTimestamp, Geoposition,
+        castToGeoposition, gTypeGeoposition)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -19,6 +19,11 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geoposition.coords Mozilla Geoposition.coords documentation> 
 getCoords :: (MonadDOM m) => Geoposition -> m (Maybe Coordinates)
 getCoords self = liftDOM ((self ^. js "coords") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Geoposition.coords Mozilla Geoposition.coords documentation> 
+getCoordsUnchecked :: (MonadDOM m) => Geoposition -> m Coordinates
+getCoordsUnchecked self
+  = liftDOM ((self ^. js "coords") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geoposition.timestamp Mozilla Geoposition.timestamp documentation> 
 getTimestamp :: (MonadDOM m) => Geoposition -> m Word

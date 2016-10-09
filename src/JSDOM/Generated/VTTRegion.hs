@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTRegion
-       (newVTTRegion, getTrack, setId, getId, setWidth, getWidth,
-        setHeight, getHeight, setRegionAnchorX, getRegionAnchorX,
+       (newVTTRegion, getTrack, getTrackUnchecked, setId, getId, setWidth,
+        getWidth, setHeight, getHeight, setRegionAnchorX, getRegionAnchorX,
         setRegionAnchorY, getRegionAnchorY, setViewportAnchorX,
         getViewportAnchorX, setViewportAnchorY, getViewportAnchorY,
         setScroll, getScroll, VTTRegion, castToVTTRegion, gTypeVTTRegion)
@@ -26,6 +26,11 @@ newVTTRegion = liftDOM (VTTRegion <$> new (jsg "VTTRegion") ())
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.track Mozilla VTTRegion.track documentation> 
 getTrack :: (MonadDOM m) => VTTRegion -> m (Maybe TextTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.track Mozilla VTTRegion.track documentation> 
+getTrackUnchecked :: (MonadDOM m) => VTTRegion -> m TextTrack
+getTrackUnchecked self
+  = liftDOM ((self ^. js "track") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.id Mozilla VTTRegion.id documentation> 
 setId :: (MonadDOM m, ToJSString val) => VTTRegion -> val -> m ()

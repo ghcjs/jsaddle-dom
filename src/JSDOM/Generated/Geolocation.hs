@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Geolocation
-       (getCurrentPosition, watchPosition, clearWatch, Geolocation,
-        castToGeolocation, gTypeGeolocation)
+       (getCurrentPosition, watchPosition, watchPosition_, clearWatch,
+        Geolocation, castToGeolocation, gTypeGeolocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -40,6 +40,18 @@ watchPosition self successCallback errorCallback options
          ((self ^. jsf "watchPosition"
              [toJSVal successCallback, toJSVal errorCallback, toJSVal options])
             >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.watchPosition Mozilla Geolocation.watchPosition documentation> 
+watchPosition_ ::
+               (MonadDOM m, IsPositionOptions options) =>
+                 Geolocation ->
+                   Maybe PositionCallback ->
+                     Maybe PositionErrorCallback -> Maybe options -> m ()
+watchPosition_ self successCallback errorCallback options
+  = liftDOM
+      (void
+         (self ^. jsf "watchPosition"
+            [toJSVal successCallback, toJSVal errorCallback, toJSVal options]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.clearWatch Mozilla Geolocation.clearWatch documentation> 
 clearWatch :: (MonadDOM m) => Geolocation -> Int -> m ()

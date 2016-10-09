@@ -6,8 +6,9 @@ module JSDOM.Generated.SVGTextPathElement
         pattern TEXTPATH_METHODTYPE_STRETCH,
         pattern TEXTPATH_SPACINGTYPE_UNKNOWN,
         pattern TEXTPATH_SPACINGTYPE_AUTO,
-        pattern TEXTPATH_SPACINGTYPE_EXACT, getStartOffset, getMethod,
-        getSpacing, SVGTextPathElement, castToSVGTextPathElement,
+        pattern TEXTPATH_SPACINGTYPE_EXACT, getStartOffset,
+        getStartOffsetUnchecked, getMethod, getMethodUnchecked, getSpacing,
+        getSpacingUnchecked, SVGTextPathElement, castToSVGTextPathElement,
         gTypeSVGTextPathElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -34,14 +35,32 @@ getStartOffset ::
 getStartOffset self
   = liftDOM ((self ^. js "startOffset") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.startOffset Mozilla SVGTextPathElement.startOffset documentation> 
+getStartOffsetUnchecked ::
+                        (MonadDOM m) => SVGTextPathElement -> m SVGAnimatedLength
+getStartOffsetUnchecked self
+  = liftDOM ((self ^. js "startOffset") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.method Mozilla SVGTextPathElement.method documentation> 
 getMethod ::
           (MonadDOM m) =>
             SVGTextPathElement -> m (Maybe SVGAnimatedEnumeration)
 getMethod self = liftDOM ((self ^. js "method") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.method Mozilla SVGTextPathElement.method documentation> 
+getMethodUnchecked ::
+                   (MonadDOM m) => SVGTextPathElement -> m SVGAnimatedEnumeration
+getMethodUnchecked self
+  = liftDOM ((self ^. js "method") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.spacing Mozilla SVGTextPathElement.spacing documentation> 
 getSpacing ::
            (MonadDOM m) =>
              SVGTextPathElement -> m (Maybe SVGAnimatedEnumeration)
 getSpacing self = liftDOM ((self ^. js "spacing") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.spacing Mozilla SVGTextPathElement.spacing documentation> 
+getSpacingUnchecked ::
+                    (MonadDOM m) => SVGTextPathElement -> m SVGAnimatedEnumeration
+getSpacingUnchecked self
+  = liftDOM ((self ^. js "spacing") >>= fromJSValUnchecked)

@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSImportRule
-       (getHref, getMedia, getStyleSheet, CSSImportRule,
+       (getHref, getHrefUnchecked, getMedia, getMediaUnchecked,
+        getStyleSheet, getStyleSheetUnchecked, CSSImportRule,
         castToCSSImportRule, gTypeCSSImportRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -22,12 +23,29 @@ getHref ::
           CSSImportRule -> m (Maybe result)
 getHref self = liftDOM ((self ^. js "href") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.href Mozilla CSSImportRule.href documentation> 
+getHrefUnchecked ::
+                 (MonadDOM m, FromJSString result) => CSSImportRule -> m result
+getHrefUnchecked self
+  = liftDOM ((self ^. js "href") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.media Mozilla CSSImportRule.media documentation> 
 getMedia :: (MonadDOM m) => CSSImportRule -> m (Maybe MediaList)
 getMedia self = liftDOM ((self ^. js "media") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.media Mozilla CSSImportRule.media documentation> 
+getMediaUnchecked :: (MonadDOM m) => CSSImportRule -> m MediaList
+getMediaUnchecked self
+  = liftDOM ((self ^. js "media") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.styleSheet Mozilla CSSImportRule.styleSheet documentation> 
 getStyleSheet ::
               (MonadDOM m) => CSSImportRule -> m (Maybe CSSStyleSheet)
 getStyleSheet self
   = liftDOM ((self ^. js "styleSheet") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.styleSheet Mozilla CSSImportRule.styleSheet documentation> 
+getStyleSheetUnchecked ::
+                       (MonadDOM m) => CSSImportRule -> m CSSStyleSheet
+getStyleSheetUnchecked self
+  = liftDOM ((self ^. js "styleSheet") >>= fromJSValUnchecked)

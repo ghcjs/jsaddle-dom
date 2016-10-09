@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Blob
-       (newBlob, newBlob', slice, getSize, getType, Blob, castToBlob,
-        gTypeBlob, IsBlob, toBlob)
+       (newBlob, newBlob', slice, slice_, sliceUnchecked, getSize,
+        getType, Blob, castToBlob, gTypeBlob, IsBlob, toBlob)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -38,6 +38,26 @@ slice self start end contentType
       (((toBlob self) ^. jsf "slice"
           [toJSVal start, toJSVal end, toJSVal contentType])
          >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Blob.slice Mozilla Blob.slice documentation> 
+slice_ ::
+       (MonadDOM m, IsBlob self, ToJSString contentType) =>
+         self -> Int64 -> Int64 -> Maybe contentType -> m ()
+slice_ self start end contentType
+  = liftDOM
+      (void
+         ((toBlob self) ^. jsf "slice"
+            [toJSVal start, toJSVal end, toJSVal contentType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Blob.slice Mozilla Blob.slice documentation> 
+sliceUnchecked ::
+               (MonadDOM m, IsBlob self, ToJSString contentType) =>
+                 self -> Int64 -> Int64 -> Maybe contentType -> m Blob
+sliceUnchecked self start end contentType
+  = liftDOM
+      (((toBlob self) ^. jsf "slice"
+          [toJSVal start, toJSVal end, toJSVal contentType])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Blob.size Mozilla Blob.size documentation> 
 getSize :: (MonadDOM m, IsBlob self) => self -> m Word64

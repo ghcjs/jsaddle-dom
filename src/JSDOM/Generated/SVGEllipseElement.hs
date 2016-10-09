@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGEllipseElement
-       (getCx, getCy, getRx, getRy, SVGEllipseElement,
+       (getCx, getCxUnchecked, getCy, getCyUnchecked, getRx,
+        getRxUnchecked, getRy, getRyUnchecked, SVGEllipseElement,
         castToSVGEllipseElement, gTypeSVGEllipseElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -21,17 +22,41 @@ getCx ::
       (MonadDOM m) => SVGEllipseElement -> m (Maybe SVGAnimatedLength)
 getCx self = liftDOM ((self ^. js "cx") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.cx Mozilla SVGEllipseElement.cx documentation> 
+getCxUnchecked ::
+               (MonadDOM m) => SVGEllipseElement -> m SVGAnimatedLength
+getCxUnchecked self
+  = liftDOM ((self ^. js "cx") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.cy Mozilla SVGEllipseElement.cy documentation> 
 getCy ::
       (MonadDOM m) => SVGEllipseElement -> m (Maybe SVGAnimatedLength)
 getCy self = liftDOM ((self ^. js "cy") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.cy Mozilla SVGEllipseElement.cy documentation> 
+getCyUnchecked ::
+               (MonadDOM m) => SVGEllipseElement -> m SVGAnimatedLength
+getCyUnchecked self
+  = liftDOM ((self ^. js "cy") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.rx Mozilla SVGEllipseElement.rx documentation> 
 getRx ::
       (MonadDOM m) => SVGEllipseElement -> m (Maybe SVGAnimatedLength)
 getRx self = liftDOM ((self ^. js "rx") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.rx Mozilla SVGEllipseElement.rx documentation> 
+getRxUnchecked ::
+               (MonadDOM m) => SVGEllipseElement -> m SVGAnimatedLength
+getRxUnchecked self
+  = liftDOM ((self ^. js "rx") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.ry Mozilla SVGEllipseElement.ry documentation> 
 getRy ::
       (MonadDOM m) => SVGEllipseElement -> m (Maybe SVGAnimatedLength)
 getRy self = liftDOM ((self ^. js "ry") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement.ry Mozilla SVGEllipseElement.ry documentation> 
+getRyUnchecked ::
+               (MonadDOM m) => SVGEllipseElement -> m SVGAnimatedLength
+getRyUnchecked self
+  = liftDOM ((self ^. js "ry") >>= fromJSValUnchecked)

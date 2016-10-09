@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLProgressElement
        (setValue, getValue, setMax, getMax, getPosition, getLabels,
-        HTMLProgressElement, castToHTMLProgressElement,
+        getLabelsUnchecked, HTMLProgressElement, castToHTMLProgressElement,
         gTypeHTMLProgressElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -42,3 +42,9 @@ getPosition self
 getLabels ::
           (MonadDOM m) => HTMLProgressElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLProgressElement.labels Mozilla HTMLProgressElement.labels documentation> 
+getLabelsUnchecked ::
+                   (MonadDOM m) => HTMLProgressElement -> m NodeList
+getLabelsUnchecked self
+  = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

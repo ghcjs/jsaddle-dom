@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ClientRectList
-       (item, getLength, ClientRectList, castToClientRectList,
-        gTypeClientRectList)
+       (item, item_, itemUnchecked, getLength, ClientRectList,
+        castToClientRectList, gTypeClientRectList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -21,6 +21,18 @@ item ::
      (MonadDOM m) => ClientRectList -> Word -> m (Maybe ClientRect)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ClientRectList.item Mozilla ClientRectList.item documentation> 
+item_ :: (MonadDOM m) => ClientRectList -> Word -> m ()
+item_ self index
+  = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ClientRectList.item Mozilla ClientRectList.item documentation> 
+itemUnchecked ::
+              (MonadDOM m) => ClientRectList -> Word -> m ClientRect
+itemUnchecked self index
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ClientRectList.length Mozilla ClientRectList.length documentation> 
 getLength :: (MonadDOM m) => ClientRectList -> m Word

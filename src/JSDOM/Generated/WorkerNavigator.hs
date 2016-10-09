@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerNavigator
-       (getWebkitTemporaryStorage, getWebkitPersistentStorage, getAppName,
-        getAppVersion, getPlatform, getUserAgent, getOnLine,
+       (getWebkitTemporaryStorage, getWebkitTemporaryStorageUnchecked,
+        getWebkitPersistentStorage, getWebkitPersistentStorageUnchecked,
+        getAppName, getAppVersion, getPlatform, getUserAgent, getOnLine,
         WorkerNavigator, castToWorkerNavigator, gTypeWorkerNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -23,11 +24,25 @@ getWebkitTemporaryStorage ::
 getWebkitTemporaryStorage self
   = liftDOM ((self ^. js "webkitTemporaryStorage") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitTemporaryStorage Mozilla WorkerNavigator.webkitTemporaryStorage documentation> 
+getWebkitTemporaryStorageUnchecked ::
+                                   (MonadDOM m) => WorkerNavigator -> m StorageQuota
+getWebkitTemporaryStorageUnchecked self
+  = liftDOM
+      ((self ^. js "webkitTemporaryStorage") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitPersistentStorage Mozilla WorkerNavigator.webkitPersistentStorage documentation> 
 getWebkitPersistentStorage ::
                            (MonadDOM m) => WorkerNavigator -> m (Maybe StorageQuota)
 getWebkitPersistentStorage self
   = liftDOM ((self ^. js "webkitPersistentStorage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitPersistentStorage Mozilla WorkerNavigator.webkitPersistentStorage documentation> 
+getWebkitPersistentStorageUnchecked ::
+                                    (MonadDOM m) => WorkerNavigator -> m StorageQuota
+getWebkitPersistentStorageUnchecked self
+  = liftDOM
+      ((self ^. js "webkitPersistentStorage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.appName Mozilla WorkerNavigator.appName documentation> 
 getAppName ::

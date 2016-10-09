@@ -8,7 +8,8 @@ module JSDOM.Generated.InternalSettings
         setTextAutosizingEnabled, setTextAutosizingWindowSizeOverride,
         setTextAutosizingFontScaleFactor, setCSSShapesEnabled,
         setCanStartMedia, setShouldDisplayTrackKind,
-        shouldDisplayTrackKind, setDefaultVideoPosterURL,
+        shouldDisplayTrackKind, shouldDisplayTrackKind_,
+        setDefaultVideoPosterURL,
         setTimeWithoutMouseMovementBeforeHidingControls,
         setMediaTypeOverride, setPluginReplacementEnabled,
         setEditingBehavior, setShouldConvertPositionStyleOnCopy,
@@ -175,6 +176,14 @@ shouldDisplayTrackKind self trackKind
   = liftDOM
       ((self ^. jsf "shouldDisplayTrackKind" [toJSVal trackKind]) >>=
          valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InternalSettings.shouldDisplayTrackKind Mozilla InternalSettings.shouldDisplayTrackKind documentation> 
+shouldDisplayTrackKind_ ::
+                        (MonadDOM m, ToJSString trackKind) =>
+                          InternalSettings -> trackKind -> m ()
+shouldDisplayTrackKind_ self trackKind
+  = liftDOM
+      (void (self ^. jsf "shouldDisplayTrackKind" [toJSVal trackKind]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InternalSettings.setDefaultVideoPosterURL Mozilla InternalSettings.setDefaultVideoPosterURL documentation> 
 setDefaultVideoPosterURL ::

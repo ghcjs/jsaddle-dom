@@ -1,11 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLScriptElement
-       (setText, getText, setHtmlFor, getHtmlFor, setEvent, getEvent,
-        setCharset, getCharset, setAsync, getAsync, setDefer, getDefer,
-        setSrc, getSrc, setType, getType, setCrossOrigin, getCrossOrigin,
-        setNonce, getNonce, HTMLScriptElement, castToHTMLScriptElement,
-        gTypeHTMLScriptElement)
+       (setText, getText, getTextUnchecked, setHtmlFor, getHtmlFor,
+        setEvent, getEvent, setCharset, getCharset, setAsync, getAsync,
+        setDefer, getDefer, setSrc, getSrc, setType, getType,
+        setCrossOrigin, getCrossOrigin, setNonce, getNonce,
+        HTMLScriptElement, castToHTMLScriptElement, gTypeHTMLScriptElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -30,6 +30,12 @@ getText ::
         (MonadDOM m, FromJSString result) =>
           HTMLScriptElement -> m (Maybe result)
 getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
+getTextUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
+getTextUnchecked self
+  = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.htmlFor Mozilla HTMLScriptElement.htmlFor documentation> 
 setHtmlFor ::

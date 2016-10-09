@@ -1,7 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGViewSpec
-       (getTransform, getViewTarget, getViewBoxString,
+       (getTransform, getTransformUnchecked, getViewTarget,
+        getViewTargetUnchecked, getViewBoxString,
         getPreserveAspectRatioString, getTransformString,
         getViewTargetString, setZoomAndPan, getZoomAndPan, SVGViewSpec,
         castToSVGViewSpec, gTypeSVGViewSpec)
@@ -24,11 +25,23 @@ getTransform ::
 getTransform self
   = liftDOM ((self ^. js "transform") >>= fromJSVal)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.transform Mozilla SVGViewSpec.transform documentation> 
+getTransformUnchecked ::
+                      (MonadDOM m) => SVGViewSpec -> m SVGTransformList
+getTransformUnchecked self
+  = liftDOM ((self ^. js "transform") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
 getViewTarget ::
               (MonadDOM m) => SVGViewSpec -> m (Maybe SVGElement)
 getViewTarget self
   = liftDOM ((self ^. js "viewTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
+getViewTargetUnchecked ::
+                       (MonadDOM m) => SVGViewSpec -> m SVGElement
+getViewTargetUnchecked self
+  = liftDOM ((self ^. js "viewTarget") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewBoxString Mozilla SVGViewSpec.viewBoxString documentation> 
 getViewBoxString ::

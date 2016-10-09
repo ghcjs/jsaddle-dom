@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ScriptProfile
-       (getTitle, getUid, getRootNode, ScriptProfile, castToScriptProfile,
-        gTypeScriptProfile)
+       (getTitle, getUid, getRootNode, getRootNodeUnchecked,
+        ScriptProfile, castToScriptProfile, gTypeScriptProfile)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -31,3 +31,9 @@ getUid self
 getRootNode ::
             (MonadDOM m) => ScriptProfile -> m (Maybe ScriptProfileNode)
 getRootNode self = liftDOM ((self ^. js "rootNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfile.rootNode Mozilla ScriptProfile.rootNode documentation> 
+getRootNodeUnchecked ::
+                     (MonadDOM m) => ScriptProfile -> m ScriptProfileNode
+getRootNodeUnchecked self
+  = liftDOM ((self ^. js "rootNode") >>= fromJSValUnchecked)

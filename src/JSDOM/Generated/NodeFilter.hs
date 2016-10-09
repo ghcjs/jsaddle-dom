@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeFilter
-       (acceptNode, pattern FILTER_ACCEPT, pattern FILTER_REJECT,
-        pattern FILTER_SKIP, pattern SHOW_ALL, pattern SHOW_ELEMENT,
-        pattern SHOW_ATTRIBUTE, pattern SHOW_TEXT,
+       (acceptNode, acceptNode_, pattern FILTER_ACCEPT,
+        pattern FILTER_REJECT, pattern FILTER_SKIP, pattern SHOW_ALL,
+        pattern SHOW_ELEMENT, pattern SHOW_ATTRIBUTE, pattern SHOW_TEXT,
         pattern SHOW_CDATA_SECTION, pattern SHOW_ENTITY_REFERENCE,
         pattern SHOW_ENTITY, pattern SHOW_PROCESSING_INSTRUCTION,
         pattern SHOW_COMMENT, pattern SHOW_DOCUMENT,
@@ -30,6 +30,12 @@ acceptNode self n
   = liftDOM
       (round <$>
          ((self ^. jsf "acceptNode" [toJSVal n]) >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter.acceptNode Mozilla NodeFilter.acceptNode documentation> 
+acceptNode_ ::
+            (MonadDOM m, IsNode n) => NodeFilter -> Maybe n -> m ()
+acceptNode_ self n
+  = liftDOM (void (self ^. jsf "acceptNode" [toJSVal n]))
 pattern FILTER_ACCEPT = 1
 pattern FILTER_REJECT = 2
 pattern FILTER_SKIP = 3

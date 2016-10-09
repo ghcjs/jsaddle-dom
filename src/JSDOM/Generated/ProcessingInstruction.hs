@@ -1,8 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ProcessingInstruction
-       (getTarget, getSheet, ProcessingInstruction,
-        castToProcessingInstruction, gTypeProcessingInstruction)
+       (getTarget, getTargetUnchecked, getSheet, getSheetUnchecked,
+        ProcessingInstruction, castToProcessingInstruction,
+        gTypeProcessingInstruction)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
@@ -23,7 +24,20 @@ getTarget ::
 getTarget self
   = liftDOM ((self ^. js "target") >>= fromMaybeJSString)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ProcessingInstruction.target Mozilla ProcessingInstruction.target documentation> 
+getTargetUnchecked ::
+                   (MonadDOM m, FromJSString result) =>
+                     ProcessingInstruction -> m result
+getTargetUnchecked self
+  = liftDOM ((self ^. js "target") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ProcessingInstruction.sheet Mozilla ProcessingInstruction.sheet documentation> 
 getSheet ::
          (MonadDOM m) => ProcessingInstruction -> m (Maybe StyleSheet)
 getSheet self = liftDOM ((self ^. js "sheet") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ProcessingInstruction.sheet Mozilla ProcessingInstruction.sheet documentation> 
+getSheetUnchecked ::
+                  (MonadDOM m) => ProcessingInstruction -> m StyleSheet
+getSheetUnchecked self
+  = liftDOM ((self ^. js "sheet") >>= fromJSValUnchecked)

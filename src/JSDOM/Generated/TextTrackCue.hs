@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrackCue
-       (newTextTrackCue, getTrack, setId, getId, setStartTime,
-        getStartTime, setEndTime, getEndTime, setPauseOnExit,
+       (newTextTrackCue, getTrack, getTrackUnchecked, setId, getId,
+        setStartTime, getStartTime, setEndTime, getEndTime, setPauseOnExit,
         getPauseOnExit, enter, exit, TextTrackCue, castToTextTrackCue,
         gTypeTextTrackCue, IsTextTrackCue, toTextTrackCue)
        where
@@ -33,6 +33,13 @@ getTrack ::
          (MonadDOM m, IsTextTrackCue self) => self -> m (Maybe TextTrack)
 getTrack self
   = liftDOM (((toTextTrackCue self) ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCue.track Mozilla TextTrackCue.track documentation> 
+getTrackUnchecked ::
+                  (MonadDOM m, IsTextTrackCue self) => self -> m TextTrack
+getTrackUnchecked self
+  = liftDOM
+      (((toTextTrackCue self) ^. js "track") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCue.id Mozilla TextTrackCue.id documentation> 
 setId ::
