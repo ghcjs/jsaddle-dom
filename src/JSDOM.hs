@@ -5,13 +5,17 @@ module JSDOM (
 , run
 , syncPoint
 , syncAfter
+, waitForAnimationFrame
+, nextAnimationFrame
 , catch
 , bracket
 ) where
 
 import JSDOM.Types
-       (FromJSVal(..), MonadDOM(..), Document(..), Window(..))
-import Language.Javascript.JSaddle (run, syncPoint, syncAfter, catch, bracket)
+       (FromJSVal(..), MonadDOM, liftDOM, Document(..), Window(..))
+import Language.Javascript.JSaddle
+       (run, syncPoint, syncAfter, waitForAnimationFrame,
+        nextAnimationFrame, catch, bracket)
 import Language.Javascript.JSaddle.Object (jsg)
 
 currentWindow :: MonadDOM m => m (Maybe Window)

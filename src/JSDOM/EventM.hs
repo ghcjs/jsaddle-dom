@@ -79,9 +79,6 @@ import           Data.Foldable (forM_)
 
 type EventM t e = ReaderT e DOM
 
-instance MonadDOM (ReaderT e DOM) where
-    liftDOM = lift
-
 newListener :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListener f = eventListenerNew (runReaderT f)
 

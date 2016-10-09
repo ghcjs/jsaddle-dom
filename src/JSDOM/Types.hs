@@ -6,18 +6,34 @@
 {-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Types (
-  -- * Monad
-    DOM, DOMContext, askDOM, runDOM, MonadDOM(..)
+  -- * JavaScript Context and Monad
+    JSContextRef(..), JSM, askJSM, runJSM, MonadJSM(..), liftJSM
+
+  -- * DOM Context and Monad
+  , DOMContext(..), DOM, askDOM, runDOM, MonadDOM(..), liftDOM
+
+  -- * JavaScript Value
+  , JSVal(..), ToJSVal(..), FromJSVal(..)
+
+  -- * JavaScript String
+  , JSString(..), ToJSString(..), FromJSString(..)
+  , toMaybeJSString, fromMaybeJSString
+
+  -- * JavaScript Array
+  , fromJSArray, fromJSArrayUnchecked
+
+  -- * JavaScript Object
+  , Object(..)
+
+  -- * Nullable
+  , Nullable(..), nullableToMaybe, maybeToNullable
+
+  -- * DOM String
+  , DOMString(..), ToDOMString(..), FromDOMString(..), IsDOMString
 
   -- * Object
-  , maybeNullOrUndefined, maybeNullOrUndefined', maybeToNullable
-  , propagateGError, GType(..)
+  , maybeNullOrUndefined, maybeNullOrUndefined', GType(..)
   , GObject(..), IsGObject, toGObject, castToGObject, gTypeGObject, unsafeCastGObject, isA, objectToString
-  , ToJSVal(..), FromJSVal(..), fromJSArray, fromJSArrayUnchecked
-
-  -- * DOMString
-  , DOMString(..), ToDOMString(..), FromDOMString(..), IsDOMString, ToJSString(..), FromJSString(..)
-  , toMaybeJSString, fromMaybeJSString
 
   -- * Callbacks
   , Callback(..)
@@ -672,7 +688,8 @@ import Language.Javascript.JSaddle
        (Object(..), valToBool, valNull, valToNumber, (!!), js,
         JSVal, JSString, JSM, maybeNullOrUndefined, maybeNullOrUndefined',
         valToStr, jsg, ToJSString(..), strToText, MakeObject(..),
-        Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef)
+        Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef,
+        askJSM, runJSM, MonadJSM(..), liftJSM)
 import Foreign.Ptr (nullPtr)
 import Control.Lens.Operators ((^.))
 import Data.Maybe (catMaybes)
@@ -682,33 +699,24 @@ import Data.Coerce (coerce, Coercible)
 import Control.Monad.Trans.Reader (ReaderT(..), ask)
 import Control.Exception (bracket)
 
+-- | This is the same as 'JSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
 type DOM = JSM
+-- | This is the same as 'JSContextRef' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
 type DOMContext = JSContextRef
+-- | This is the same as 'MonadJSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
+type MonadDOM = MonadJSM
 
+-- | This is the same as 'liftJSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
+liftDOM :: MonadDOM m => DOM a -> m a
+liftDOM = liftJSM
+
+-- | This is the same as 'askJSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
 askDOM :: MonadDOM m => m DOMContext
-askDOM = liftDOM ask
+askDOM = askJSM
 
-runDOM :: DOM a -> DOMContext -> IO a
-runDOM = runReaderT
-
-class (Applicative m, MonadIO m) => MonadDOM m where
-    liftDOM :: JSM a -> m a
-    {-# MINIMAL liftDOM #-}
-
-instance MonadDOM JSM where
-    liftDOM = id
-    {-# INLINE liftDOM #-}
-
-#ifdef ghcjs_HOST_OS
-postGUIAsync :: IO () -> IO ()
-postGUIAsync = id
-
-postGUISync :: IO a -> IO a
-postGUISync = id
-#endif
-
-propagateGError :: a -> a
-propagateGError = id
+-- | This is the same as 'runJSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
+runDOM :: MonadIO m => DOM a -> DOMContext -> m a
+runDOM = runJSM
 
 newtype GType = GType Object
 
@@ -892,7 +900,6 @@ instance FromJSString JSString where
 
 type ToDOMString s = ToJSString s
 type FromDOMString s = FromJSString s
-
 type IsDOMString s = (ToDOMString s, FromDOMString s)
 
 -- Callbacks
@@ -901,11 +908,11 @@ newtype Callback a = Callback Function
 withCallback :: (MonadDOM m, Coercible c Function)
              => JSM c -> (c -> JSM a) -> m a
 withCallback aquire f = do
-    jsCtx <- liftDOM ask
+    jsCtx <- askJSM
     liftIO $ bracket
-        (runReaderT aquire jsCtx)
-        ((`runReaderT` jsCtx) . freeFunction . coerce)
-        (\t -> runReaderT (f t) jsCtx)
+        (runJSM aquire jsCtx)
+        ((`runJSM` jsCtx) . freeFunction . coerce)
+        (\t -> runJSM (f t) jsCtx)
 
 newtype AudioBufferCallback = AudioBufferCallback (Callback (JSVal -> IO ()))
 instance ToJSVal AudioBufferCallback where toJSVal (AudioBufferCallback (Callback r)) = toJSVal r

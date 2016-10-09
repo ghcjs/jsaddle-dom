@@ -22,7 +22,7 @@ import Language.Javascript.JSaddle
        (js0, js1, bracket,
         ToJSString, ToJSVal(..), JSVal)
 import JSDOM.Types
-       (DOM, MonadDOM(..), FormData(..), IsDocument, IsBlob, IsArrayBufferView)
+       (DOM, MonadDOM, liftDOM, FormData(..), IsDocument, IsBlob, IsArrayBufferView)
 import JSDOM.EventM (on)
 
 import JSDOM.Generated.XMLHttpRequest as Generated hiding (send)
