@@ -13,7 +13,7 @@ module JSDOM.Types (
   , DOMContext(..), DOM, askDOM, runDOM, MonadDOM(..), liftDOM
 
   -- * JavaScript Value
-  , JSVal(..), ToJSVal(..), FromJSVal(..)
+  , JSVal(..), ToJSVal(..), FromJSVal(..), PToJSVal(..), PFromJSVal(..)
 
   -- * JavaScript String
   , JSString(..), ToJSString(..), FromJSString(..)
@@ -34,6 +34,7 @@ module JSDOM.Types (
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', GType(..)
   , GObject(..), IsGObject, toGObject, castToGObject, gTypeGObject, unsafeCastGObject, isA, objectToString
+  , strictEqual
 
   -- * Callbacks
   , Callback(..)
@@ -689,7 +690,7 @@ import Language.Javascript.JSaddle
         JSVal, JSString, JSM, maybeNullOrUndefined, maybeNullOrUndefined',
         valToStr, jsg, ToJSString(..), strToText, MakeObject(..),
         Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef,
-        askJSM, runJSM, MonadJSM(..), liftJSM)
+        askJSM, runJSM, MonadJSM(..), liftJSM, strictEqual)
 import Foreign.Ptr (nullPtr)
 import Control.Lens.Operators ((^.))
 import Data.Maybe (catMaybes)
@@ -698,6 +699,9 @@ import Control.Monad ((>=>))
 import Data.Coerce (coerce, Coercible)
 import Control.Monad.Trans.Reader (ReaderT(..), ask)
 import Control.Exception (bracket)
+#ifdef ghcjs_HOST_OS
+import GHCJS.Marshal.Pure (PToJSVal(..), PFromJSVal(..))
+#endif
 
 -- | This is the same as 'JSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
 type DOM = JSM
@@ -748,11 +752,13 @@ class (ToJSVal o, FromJSVal o) => IsGObject o where
   -- | Unchecked downcast.
   unsafeCastGObject :: GObject -> o
 
+#ifndef ghcjs_HOST_OS
 class PToJSVal o where
   pToJSVal :: o -> JSVal
 
 class PFromJSVal o where
   pFromJSVal :: JSVal -> o
+#endif
 
 --class ToJSVal o where
 --  toJSVal :: o -> JSM JSVal
