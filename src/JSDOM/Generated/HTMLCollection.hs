@@ -2,9 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLCollection
        (item, item_, itemUnchecked, namedItem, namedItem_,
-        namedItemUnchecked, getLength, HTMLCollection,
-        castToHTMLCollection, gTypeHTMLCollection, IsHTMLCollection,
-        toHTMLCollection)
+        namedItemUnchecked, getLength, HTMLCollection(..),
+        gTypeHTMLCollection, IsHTMLCollection, toHTMLCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -1,8 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSS
-       (supports2, supports2_, supports, supports_, CSS, castToCSS,
-        gTypeCSS)
+       (supports2, supports2_, supports, supports_, CSS(..), gTypeCSS)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

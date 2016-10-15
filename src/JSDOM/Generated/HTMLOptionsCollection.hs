@@ -3,8 +3,7 @@
 module JSDOM.Generated.HTMLOptionsCollection
        (namedItem, namedItem_, namedItemUnchecked, addBefore, add, remove,
         setSelectedIndex, getSelectedIndex, setLength, getLength,
-        HTMLOptionsCollection, castToHTMLOptionsCollection,
-        gTypeHTMLOptionsCollection)
+        HTMLOptionsCollection(..), gTypeHTMLOptionsCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

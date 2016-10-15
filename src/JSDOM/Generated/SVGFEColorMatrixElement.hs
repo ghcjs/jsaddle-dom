@@ -7,8 +7,8 @@ module JSDOM.Generated.SVGFEColorMatrixElement
         pattern SVG_FECOLORMATRIX_TYPE_HUEROTATE,
         pattern SVG_FECOLORMATRIX_TYPE_LUMINANCETOALPHA, getIn1,
         getIn1Unchecked, getType, getTypeUnchecked, getValues,
-        getValuesUnchecked, SVGFEColorMatrixElement,
-        castToSVGFEColorMatrixElement, gTypeSVGFEColorMatrixElement)
+        getValuesUnchecked, SVGFEColorMatrixElement(..),
+        gTypeSVGFEColorMatrixElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Path2D
        (newPath2D, newPath2D', newPath2D'', addPath, closePath, moveTo,
-        lineTo, quadraticCurveTo, bezierCurveTo, arcTo, rect, arc, Path2D,
-        castToPath2D, gTypePath2D)
+        lineTo, quadraticCurveTo, bezierCurveTo, arcTo, rect, arc,
+        Path2D(..), gTypePath2D)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

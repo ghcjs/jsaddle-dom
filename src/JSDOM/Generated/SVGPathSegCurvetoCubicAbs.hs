@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoCubicAbs
        (setX, getX, setY, getY, setX1, getX1, setY1, getY1, setX2, getX2,
-        setY2, getY2, SVGPathSegCurvetoCubicAbs,
-        castToSVGPathSegCurvetoCubicAbs, gTypeSVGPathSegCurvetoCubicAbs)
+        setY2, getY2, SVGPathSegCurvetoCubicAbs(..),
+        gTypeSVGPathSegCurvetoCubicAbs)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

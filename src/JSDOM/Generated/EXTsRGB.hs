@@ -3,8 +3,8 @@
 module JSDOM.Generated.EXTsRGB
        (pattern SRGB_EXT, pattern SRGB_ALPHA_EXT,
         pattern SRGB8_ALPHA8_EXT,
-        pattern FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT, EXTsRGB,
-        castToEXTsRGB, gTypeEXTsRGB)
+        pattern FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT, EXTsRGB(..),
+        gTypeEXTsRGB)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

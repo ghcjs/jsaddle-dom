@@ -1,9 +1,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CanvasRenderingContext
-       (getCanvas, getCanvasUnchecked, CanvasRenderingContext,
-        castToCanvasRenderingContext, gTypeCanvasRenderingContext,
-        IsCanvasRenderingContext, toCanvasRenderingContext)
+       (getCanvas, getCanvasUnchecked, CanvasRenderingContext(..),
+        gTypeCanvasRenderingContext, IsCanvasRenderingContext,
+        toCanvasRenderingContext)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -3,7 +3,7 @@
 module JSDOM.Generated.MediaList
        (item, item_, itemUnchecked, deleteMedium, appendMedium,
         setMediaText, getMediaText, getMediaTextUnchecked, getLength,
-        MediaList, castToMediaList, gTypeMediaList)
+        MediaList(..), gTypeMediaList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

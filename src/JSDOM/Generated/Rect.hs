@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Rect
        (getTop, getTopUnchecked, getRight, getRightUnchecked, getBottom,
-        getBottomUnchecked, getLeft, getLeftUnchecked, Rect, castToRect,
-        gTypeRect)
+        getBottomUnchecked, getLeft, getLeftUnchecked, Rect(..), gTypeRect)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLHRElement
        (setAlign, getAlign, setNoShade, getNoShade, setSize, getSize,
-        setWidth, getWidth, HTMLHRElement, castToHTMLHRElement,
-        gTypeHTMLHRElement)
+        setWidth, getWidth, HTMLHRElement(..), gTypeHTMLHRElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

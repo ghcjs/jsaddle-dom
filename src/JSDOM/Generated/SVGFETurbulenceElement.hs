@@ -9,8 +9,8 @@ module JSDOM.Generated.SVGFETurbulenceElement
         getBaseFrequencyXUnchecked, getBaseFrequencyY,
         getBaseFrequencyYUnchecked, getNumOctaves, getNumOctavesUnchecked,
         getSeed, getSeedUnchecked, getStitchTiles, getStitchTilesUnchecked,
-        getType, getTypeUnchecked, SVGFETurbulenceElement,
-        castToSVGFETurbulenceElement, gTypeSVGFETurbulenceElement)
+        getType, getTypeUnchecked, SVGFETurbulenceElement(..),
+        gTypeSVGFETurbulenceElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

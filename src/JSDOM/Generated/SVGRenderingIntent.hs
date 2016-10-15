@@ -5,8 +5,8 @@ module JSDOM.Generated.SVGRenderingIntent
         pattern RENDERING_INTENT_PERCEPTUAL,
         pattern RENDERING_INTENT_RELATIVE_COLORIMETRIC,
         pattern RENDERING_INTENT_SATURATION,
-        pattern RENDERING_INTENT_ABSOLUTE_COLORIMETRIC, SVGRenderingIntent,
-        castToSVGRenderingIntent, gTypeSVGRenderingIntent)
+        pattern RENDERING_INTENT_ABSOLUTE_COLORIMETRIC,
+        SVGRenderingIntent(..), gTypeSVGRenderingIntent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

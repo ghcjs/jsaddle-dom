@@ -4,8 +4,7 @@ module JSDOM.Generated.MediaKeyError
        (pattern MEDIA_KEYERR_UNKNOWN, pattern MEDIA_KEYERR_CLIENT,
         pattern MEDIA_KEYERR_SERVICE, pattern MEDIA_KEYERR_OUTPUT,
         pattern MEDIA_KEYERR_HARDWARECHANGE, pattern MEDIA_KEYERR_DOMAIN,
-        getCode, getSystemCode, MediaKeyError, castToMediaKeyError,
-        gTypeMediaKeyError)
+        getCode, getSystemCode, MediaKeyError(..), gTypeMediaKeyError)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

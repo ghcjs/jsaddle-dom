@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WindowTimers
        (setTimeout, setTimeout_, clearTimeout, setInterval, setInterval_,
-        clearInterval, WindowTimers, castToWindowTimers, gTypeWindowTimers)
+        clearInterval, WindowTimers(..), gTypeWindowTimers)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

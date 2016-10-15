@@ -6,7 +6,7 @@ module JSDOM.Generated.SVGPointList
         insertItemBeforeUnchecked, replaceItem, replaceItem_,
         replaceItemUnchecked, removeItem, removeItem_, removeItemUnchecked,
         appendItem, appendItem_, appendItemUnchecked, getNumberOfItems,
-        SVGPointList, castToSVGPointList, gTypeSVGPointList)
+        SVGPointList(..), gTypeSVGPointList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -9,8 +9,8 @@ module JSDOM.Generated.SVGPaint
         pattern SVG_PAINTTYPE_URI_CURRENTCOLOR,
         pattern SVG_PAINTTYPE_URI_RGBCOLOR,
         pattern SVG_PAINTTYPE_URI_RGBCOLOR_ICCCOLOR,
-        pattern SVG_PAINTTYPE_URI, getPaintType, getUri, SVGPaint,
-        castToSVGPaint, gTypeSVGPaint)
+        pattern SVG_PAINTTYPE_URI, getPaintType, getUri, SVGPaint(..),
+        gTypeSVGPaint)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -6,8 +6,7 @@ module JSDOM.Generated.SVGTransform
         pattern SVG_TRANSFORM_TRANSLATE, pattern SVG_TRANSFORM_SCALE,
         pattern SVG_TRANSFORM_ROTATE, pattern SVG_TRANSFORM_SKEWX,
         pattern SVG_TRANSFORM_SKEWY, getType, getMatrix,
-        getMatrixUnchecked, getAngle, SVGTransform, castToSVGTransform,
-        gTypeSVGTransform)
+        getMatrixUnchecked, getAngle, SVGTransform(..), gTypeSVGTransform)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

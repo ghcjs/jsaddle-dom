@@ -20,8 +20,7 @@ module JSDOM.Generated.Range
         pattern NODE_INSIDE, getStartContainer, getStartContainerUnchecked,
         getStartOffset, getEndContainer, getEndContainerUnchecked,
         getEndOffset, getCollapsed, getCommonAncestorContainer,
-        getCommonAncestorContainerUnchecked, Range, castToRange,
-        gTypeRange)
+        getCommonAncestorContainerUnchecked, Range(..), gTypeRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

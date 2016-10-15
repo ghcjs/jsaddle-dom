@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFitToViewBox
        (getViewBox, getViewBoxUnchecked, getPreserveAspectRatio,
-        getPreserveAspectRatioUnchecked, SVGFitToViewBox,
-        castToSVGFitToViewBox, gTypeSVGFitToViewBox)
+        getPreserveAspectRatioUnchecked, SVGFitToViewBox(..),
+        gTypeSVGFitToViewBox)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

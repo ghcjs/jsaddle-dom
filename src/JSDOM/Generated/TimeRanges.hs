@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TimeRanges
-       (start, start_, end, end_, getLength, TimeRanges, castToTimeRanges,
+       (start, start_, end, end_, getLength, TimeRanges(..),
         gTypeTimeRanges)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

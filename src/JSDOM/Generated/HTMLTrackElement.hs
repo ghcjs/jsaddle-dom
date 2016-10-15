@@ -4,8 +4,7 @@ module JSDOM.Generated.HTMLTrackElement
        (pattern NONE, pattern LOADING, pattern LOADED, pattern ERROR,
         setKind, getKind, setSrc, getSrc, setSrclang, getSrclang, setLabel,
         getLabel, setDefault, getDefault, getReadyState, getTrack,
-        getTrackUnchecked, HTMLTrackElement, castToHTMLTrackElement,
-        gTypeHTMLTrackElement)
+        getTrackUnchecked, HTMLTrackElement(..), gTypeHTMLTrackElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

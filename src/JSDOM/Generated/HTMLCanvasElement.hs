@@ -3,8 +3,8 @@
 module JSDOM.Generated.HTMLCanvasElement
        (toDataURL, toDataURL_, getContext, getContext_,
         probablySupportsContext, probablySupportsContext_, setWidth,
-        getWidth, setHeight, getHeight, HTMLCanvasElement,
-        castToHTMLCanvasElement, gTypeHTMLCanvasElement)
+        getWidth, setHeight, getHeight, HTMLCanvasElement(..),
+        gTypeHTMLCanvasElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

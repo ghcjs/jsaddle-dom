@@ -14,8 +14,7 @@ module JSDOM.Generated.RTCPeerConnection
         getSignalingState, getIceGatheringState, getIceConnectionState,
         negotiationNeeded, iceCandidate, signalingStateChange,
         addStreamEvent, removeStreamEvent, iceConnectionStateChange,
-        dataChannel, RTCPeerConnection, castToRTCPeerConnection,
-        gTypeRTCPeerConnection)
+        dataChannel, RTCPeerConnection(..), gTypeRTCPeerConnection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

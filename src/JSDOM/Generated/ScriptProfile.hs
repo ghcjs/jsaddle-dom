@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ScriptProfile
        (getTitle, getUid, getRootNode, getRootNodeUnchecked,
-        ScriptProfile, castToScriptProfile, gTypeScriptProfile)
+        ScriptProfile(..), gTypeScriptProfile)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

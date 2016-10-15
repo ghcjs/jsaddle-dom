@@ -4,8 +4,8 @@ module JSDOM.Generated.OESVertexArrayObject
        (createVertexArrayOES, createVertexArrayOES_,
         createVertexArrayOESUnchecked, deleteVertexArrayOES,
         isVertexArrayOES, isVertexArrayOES_, bindVertexArrayOES,
-        pattern VERTEX_ARRAY_BINDING_OES, OESVertexArrayObject,
-        castToOESVertexArrayObject, gTypeOESVertexArrayObject)
+        pattern VERTEX_ARRAY_BINDING_OES, OESVertexArrayObject(..),
+        gTypeOESVertexArrayObject)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

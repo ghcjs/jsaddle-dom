@@ -10,8 +10,8 @@ module JSDOM.Generated.HTMLVideoElement
         setWebkitWirelessVideoPlaybackDisabled,
         getWebkitWirelessVideoPlaybackDisabled, getWebkitDecodedFrameCount,
         getWebkitDroppedFrameCount, getWebkitPresentationMode,
-        webKitPresentationModeChanged, HTMLVideoElement,
-        castToHTMLVideoElement, gTypeHTMLVideoElement)
+        webKitPresentationModeChanged, HTMLVideoElement(..),
+        gTypeHTMLVideoElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

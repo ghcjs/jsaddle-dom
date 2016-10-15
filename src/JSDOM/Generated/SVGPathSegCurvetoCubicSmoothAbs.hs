@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoCubicSmoothAbs
        (setX, getX, setY, getY, setX2, getX2, setY2, getY2,
-        SVGPathSegCurvetoCubicSmoothAbs,
-        castToSVGPathSegCurvetoCubicSmoothAbs,
+        SVGPathSegCurvetoCubicSmoothAbs(..),
         gTypeSVGPathSegCurvetoCubicSmoothAbs)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

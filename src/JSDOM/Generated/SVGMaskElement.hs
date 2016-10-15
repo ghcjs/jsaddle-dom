@@ -4,8 +4,7 @@ module JSDOM.Generated.SVGMaskElement
        (getMaskUnits, getMaskUnitsUnchecked, getMaskContentUnits,
         getMaskContentUnitsUnchecked, getX, getXUnchecked, getY,
         getYUnchecked, getWidth, getWidthUnchecked, getHeight,
-        getHeightUnchecked, SVGMaskElement, castToSVGMaskElement,
-        gTypeSVGMaskElement)
+        getHeightUnchecked, SVGMaskElement(..), gTypeSVGMaskElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

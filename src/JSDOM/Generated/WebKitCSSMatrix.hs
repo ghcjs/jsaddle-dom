@@ -12,8 +12,7 @@ module JSDOM.Generated.WebKitCSSMatrix
         getM14, setM21, getM21, setM22, getM22, setM23, getM23, setM24,
         getM24, setM31, getM31, setM32, getM32, setM33, getM33, setM34,
         getM34, setM41, getM41, setM42, getM42, setM43, getM43, setM44,
-        getM44, WebKitCSSMatrix, castToWebKitCSSMatrix,
-        gTypeWebKitCSSMatrix)
+        getM44, WebKitCSSMatrix(..), gTypeWebKitCSSMatrix)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

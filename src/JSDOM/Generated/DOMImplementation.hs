@@ -6,7 +6,7 @@ module JSDOM.Generated.DOMImplementation
         createDocumentUnchecked, createCSSStyleSheet, createCSSStyleSheet_,
         createCSSStyleSheetUnchecked, createHTMLDocument,
         createHTMLDocument_, createHTMLDocumentUnchecked,
-        DOMImplementation, castToDOMImplementation, gTypeDOMImplementation)
+        DOMImplementation(..), gTypeDOMImplementation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

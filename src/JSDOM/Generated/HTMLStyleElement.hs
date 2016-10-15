@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLStyleElement
        (setDisabled, getDisabled, setMedia, getMedia, setType, getType,
-        getSheet, getSheetUnchecked, HTMLStyleElement,
-        castToHTMLStyleElement, gTypeHTMLStyleElement)
+        getSheet, getSheetUnchecked, HTMLStyleElement(..),
+        gTypeHTMLStyleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

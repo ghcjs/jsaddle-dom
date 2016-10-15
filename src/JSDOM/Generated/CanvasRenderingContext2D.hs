@@ -47,8 +47,7 @@ module JSDOM.Generated.CanvasRenderingContext2D
         getStrokeStyleUnchecked, setFillStyle, getFillStyle,
         getFillStyleUnchecked, getWebkitBackingStorePixelRatio,
         setWebkitImageSmoothingEnabled, getWebkitImageSmoothingEnabled,
-        CanvasRenderingContext2D, castToCanvasRenderingContext2D,
-        gTypeCanvasRenderingContext2D)
+        CanvasRenderingContext2D(..), gTypeCanvasRenderingContext2D)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

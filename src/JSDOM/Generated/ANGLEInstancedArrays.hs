@@ -3,8 +3,8 @@
 module JSDOM.Generated.ANGLEInstancedArrays
        (drawArraysInstancedANGLE, drawElementsInstancedANGLE,
         vertexAttribDivisorANGLE,
-        pattern VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE, ANGLEInstancedArrays,
-        castToANGLEInstancedArrays, gTypeANGLEInstancedArrays)
+        pattern VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE,
+        ANGLEInstancedArrays(..), gTypeANGLEInstancedArrays)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGLinearGradientElement
        (getX1, getX1Unchecked, getY1, getY1Unchecked, getX2,
-        getX2Unchecked, getY2, getY2Unchecked, SVGLinearGradientElement,
-        castToSVGLinearGradientElement, gTypeSVGLinearGradientElement)
+        getX2Unchecked, getY2, getY2Unchecked,
+        SVGLinearGradientElement(..), gTypeSVGLinearGradientElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

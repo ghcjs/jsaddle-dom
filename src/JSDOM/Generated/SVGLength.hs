@@ -10,7 +10,7 @@ module JSDOM.Generated.SVGLength
         pattern SVG_LENGTHTYPE_PC, getUnitType, setValue, getValue,
         setValueInSpecifiedUnits, getValueInSpecifiedUnits,
         setValueAsString, getValueAsString, getValueAsStringUnchecked,
-        SVGLength, castToSVGLength, gTypeSVGLength)
+        SVGLength(..), gTypeSVGLength)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

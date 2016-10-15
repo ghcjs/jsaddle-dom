@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedLengthList
        (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
-        SVGAnimatedLengthList, castToSVGAnimatedLengthList,
-        gTypeSVGAnimatedLengthList)
+        SVGAnimatedLengthList(..), gTypeSVGAnimatedLengthList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

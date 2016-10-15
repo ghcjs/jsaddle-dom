@@ -3,8 +3,8 @@
 module JSDOM.Generated.HTMLTableSectionElement
        (insertRow, insertRow_, insertRowUnchecked, deleteRow, setAlign,
         getAlign, setCh, getCh, setChOff, getChOff, setVAlign, getVAlign,
-        getRows, getRowsUnchecked, HTMLTableSectionElement,
-        castToHTMLTableSectionElement, gTypeHTMLTableSectionElement)
+        getRows, getRowsUnchecked, HTMLTableSectionElement(..),
+        gTypeHTMLTableSectionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

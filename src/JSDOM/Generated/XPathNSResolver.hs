@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XPathNSResolver
        (lookupNamespaceURI, lookupNamespaceURI_,
-        lookupNamespaceURIUnchecked, XPathNSResolver,
-        castToXPathNSResolver, gTypeXPathNSResolver)
+        lookupNamespaceURIUnchecked, XPathNSResolver(..),
+        gTypeXPathNSResolver)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

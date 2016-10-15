@@ -3,8 +3,7 @@
 module JSDOM.Generated.SVGPathSegArcAbs
        (setX, getX, setY, getY, setR1, getR1, setR2, getR2, setAngle,
         getAngle, setLargeArcFlag, getLargeArcFlag, setSweepFlag,
-        getSweepFlag, SVGPathSegArcAbs, castToSVGPathSegArcAbs,
-        gTypeSVGPathSegArcAbs)
+        getSweepFlag, SVGPathSegArcAbs(..), gTypeSVGPathSegArcAbs)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

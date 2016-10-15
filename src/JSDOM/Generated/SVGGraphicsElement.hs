@@ -7,9 +7,9 @@ module JSDOM.Generated.SVGGraphicsElement
         getTransformToElement_, getTransformToElementUnchecked,
         getTransform, getTransformUnchecked, getNearestViewportElement,
         getNearestViewportElementUnchecked, getFarthestViewportElement,
-        getFarthestViewportElementUnchecked, SVGGraphicsElement,
-        castToSVGGraphicsElement, gTypeSVGGraphicsElement,
-        IsSVGGraphicsElement, toSVGGraphicsElement)
+        getFarthestViewportElementUnchecked, SVGGraphicsElement(..),
+        gTypeSVGGraphicsElement, IsSVGGraphicsElement,
+        toSVGGraphicsElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OverflowEvent
        (pattern HORIZONTAL, pattern VERTICAL, pattern BOTH, getOrient,
-        getHorizontalOverflow, getVerticalOverflow, OverflowEvent,
-        castToOverflowEvent, gTypeOverflowEvent)
+        getHorizontalOverflow, getVerticalOverflow, OverflowEvent(..),
+        gTypeOverflowEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

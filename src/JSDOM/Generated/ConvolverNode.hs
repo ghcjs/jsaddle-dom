@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ConvolverNode
        (setBuffer, getBuffer, getBufferUnchecked, setNormalize,
-        getNormalize, ConvolverNode, castToConvolverNode,
-        gTypeConvolverNode)
+        getNormalize, ConvolverNode(..), gTypeConvolverNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

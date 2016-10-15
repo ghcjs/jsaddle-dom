@@ -4,8 +4,8 @@ module JSDOM.Generated.PerformanceResourceTiming
        (getInitiatorType, getRedirectStart, getRedirectEnd, getFetchStart,
         getDomainLookupStart, getDomainLookupEnd, getConnectStart,
         getConnectEnd, getSecureConnectionStart, getRequestStart,
-        getResponseEnd, PerformanceResourceTiming,
-        castToPerformanceResourceTiming, gTypePerformanceResourceTiming)
+        getResponseEnd, PerformanceResourceTiming(..),
+        gTypePerformanceResourceTiming)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

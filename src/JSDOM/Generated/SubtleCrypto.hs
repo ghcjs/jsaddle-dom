@@ -7,8 +7,7 @@ module JSDOM.Generated.SubtleCrypto
         generateKey_, generateKeyUnchecked, importKey, importKey_,
         importKeyUnchecked, exportKey, exportKey_, exportKeyUnchecked,
         wrapKey, wrapKey_, wrapKeyUnchecked, unwrapKey, unwrapKey_,
-        unwrapKeyUnchecked, SubtleCrypto, castToSubtleCrypto,
-        gTypeSubtleCrypto)
+        unwrapKeyUnchecked, SubtleCrypto(..), gTypeSubtleCrypto)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

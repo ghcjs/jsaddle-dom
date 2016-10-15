@@ -4,7 +4,7 @@ module JSDOM.Generated.TouchEvent
        (initTouchEvent, getTouches, getTouchesUnchecked, getTargetTouches,
         getTargetTouchesUnchecked, getChangedTouches,
         getChangedTouchesUnchecked, getCtrlKey, getShiftKey, getAltKey,
-        getMetaKey, TouchEvent, castToTouchEvent, gTypeTouchEvent)
+        getMetaKey, TouchEvent(..), gTypeTouchEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

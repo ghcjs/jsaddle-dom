@@ -3,8 +3,8 @@
 module JSDOM.Generated.IDBCursor
        (update, update_, updateUnchecked, advance, continue, delete,
         delete_, deleteUnchecked, getSource, getSourceUnchecked,
-        getDirection, getKey, getPrimaryKey, IDBCursor, castToIDBCursor,
-        gTypeIDBCursor, IsIDBCursor, toIDBCursor)
+        getDirection, getKey, getPrimaryKey, IDBCursor(..), gTypeIDBCursor,
+        IsIDBCursor, toIDBCursor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -5,7 +5,7 @@ module JSDOM.Generated.HTMLBodyElement
         getBgColor, setLink, getLink, setText, getText, setVLink, getVLink,
         beforeUnload, hashChange, message, offline, online, popState,
         resize, storage, unload, orientationChange, blur, error, focus,
-        load, HTMLBodyElement, castToHTMLBodyElement, gTypeHTMLBodyElement)
+        load, HTMLBodyElement(..), gTypeHTMLBodyElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

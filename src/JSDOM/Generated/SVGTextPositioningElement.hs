@@ -3,9 +3,8 @@
 module JSDOM.Generated.SVGTextPositioningElement
        (getX, getXUnchecked, getY, getYUnchecked, getDx, getDxUnchecked,
         getDy, getDyUnchecked, getRotate, getRotateUnchecked,
-        SVGTextPositioningElement, castToSVGTextPositioningElement,
-        gTypeSVGTextPositioningElement, IsSVGTextPositioningElement,
-        toSVGTextPositioningElement)
+        SVGTextPositioningElement(..), gTypeSVGTextPositioningElement,
+        IsSVGTextPositioningElement, toSVGTextPositioningElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MessageChannel
        (newMessageChannel, getPort1, getPort1Unchecked, getPort2,
-        getPort2Unchecked, MessageChannel, castToMessageChannel,
-        gTypeMessageChannel)
+        getPort2Unchecked, MessageChannel(..), gTypeMessageChannel)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

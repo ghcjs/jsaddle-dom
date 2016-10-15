@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DelayNode
-       (getDelayTime, getDelayTimeUnchecked, DelayNode, castToDelayNode,
+       (getDelayTime, getDelayTimeUnchecked, DelayNode(..),
         gTypeDelayNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

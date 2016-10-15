@@ -13,7 +13,7 @@ module JSDOM.Generated.IDBObjectStore
         countUnchecked, getName, getNameUnchecked, getKeyPath,
         getKeyPathUnchecked, getIndexNames, getIndexNamesUnchecked,
         getTransaction, getTransactionUnchecked, getAutoIncrement,
-        IDBObjectStore, castToIDBObjectStore, gTypeIDBObjectStore)
+        IDBObjectStore(..), gTypeIDBObjectStore)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

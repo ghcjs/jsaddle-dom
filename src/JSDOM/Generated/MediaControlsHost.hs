@@ -14,8 +14,8 @@ module JSDOM.Generated.MediaControlsHost
         getMediaPlaybackAllowsInline, getSupportsFullscreen,
         getUserGestureRequired, getExternalDeviceDisplayName,
         getExternalDeviceType, setControlsDependOnPageScaleFactor,
-        getControlsDependOnPageScaleFactor, MediaControlsHost,
-        castToMediaControlsHost, gTypeMediaControlsHost)
+        getControlsDependOnPageScaleFactor, MediaControlsHost(..),
+        gTypeMediaControlsHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

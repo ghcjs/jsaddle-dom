@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGLineElement
        (getX1, getX1Unchecked, getY1, getY1Unchecked, getX2,
-        getX2Unchecked, getY2, getY2Unchecked, SVGLineElement,
-        castToSVGLineElement, gTypeSVGLineElement)
+        getX2Unchecked, getY2, getY2Unchecked, SVGLineElement(..),
+        gTypeSVGLineElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

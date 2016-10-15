@@ -11,8 +11,8 @@ module JSDOM.Generated.HTMLElement
         setOuterText, getOuterText, getOuterTextUnchecked, getChildren,
         getChildrenUnchecked, setContentEditable, getContentEditable,
         getContentEditableUnchecked, getIsContentEditable, setSpellcheck,
-        getSpellcheck, HTMLElement, castToHTMLElement, gTypeHTMLElement,
-        IsHTMLElement, toHTMLElement)
+        getSpellcheck, HTMLElement(..), gTypeHTMLElement, IsHTMLElement,
+        toHTMLElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

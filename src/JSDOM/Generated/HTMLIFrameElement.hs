@@ -8,8 +8,8 @@ module JSDOM.Generated.HTMLIFrameElement
         setSandbox, getSandbox, setScrolling, getScrolling, setSrc, getSrc,
         setSrcdoc, getSrcdoc, setWidth, getWidth, getContentDocument,
         getContentDocumentUnchecked, getContentWindow,
-        getContentWindowUnchecked, HTMLIFrameElement,
-        castToHTMLIFrameElement, gTypeHTMLIFrameElement)
+        getContentWindowUnchecked, HTMLIFrameElement(..),
+        gTypeHTMLIFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

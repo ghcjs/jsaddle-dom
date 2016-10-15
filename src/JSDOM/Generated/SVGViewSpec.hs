@@ -4,8 +4,8 @@ module JSDOM.Generated.SVGViewSpec
        (getTransform, getTransformUnchecked, getViewTarget,
         getViewTargetUnchecked, getViewBoxString,
         getPreserveAspectRatioString, getTransformString,
-        getViewTargetString, setZoomAndPan, getZoomAndPan, SVGViewSpec,
-        castToSVGViewSpec, gTypeSVGViewSpec)
+        getViewTargetString, setZoomAndPan, getZoomAndPan, SVGViewSpec(..),
+        gTypeSVGViewSpec)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

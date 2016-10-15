@@ -10,7 +10,7 @@ module JSDOM.Generated.IDBIndex
         getKeyUnchecked, countRange, countRange_, countRangeUnchecked,
         count, count_, countUnchecked, getName, getObjectStore,
         getObjectStoreUnchecked, getKeyPath, getKeyPathUnchecked,
-        getMultiEntry, getUnique, IDBIndex, castToIDBIndex, gTypeIDBIndex)
+        getMultiEntry, getUnique, IDBIndex(..), gTypeIDBIndex)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

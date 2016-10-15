@@ -7,7 +7,7 @@ module JSDOM.Generated.SVGAngle
         pattern SVG_ANGLETYPE_GRAD, getUnitType, setValue, getValue,
         setValueInSpecifiedUnits, getValueInSpecifiedUnits,
         setValueAsString, getValueAsString, getValueAsStringUnchecked,
-        SVGAngle, castToSVGAngle, gTypeSVGAngle)
+        SVGAngle(..), gTypeSVGAngle)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

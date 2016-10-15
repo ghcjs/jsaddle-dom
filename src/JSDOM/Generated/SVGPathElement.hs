@@ -52,8 +52,8 @@ module JSDOM.Generated.SVGPathElement
         getNormalizedPathSegList, getNormalizedPathSegListUnchecked,
         getAnimatedPathSegList, getAnimatedPathSegListUnchecked,
         getAnimatedNormalizedPathSegList,
-        getAnimatedNormalizedPathSegListUnchecked, SVGPathElement,
-        castToSVGPathElement, gTypeSVGPathElement)
+        getAnimatedNormalizedPathSegListUnchecked, SVGPathElement(..),
+        gTypeSVGPathElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

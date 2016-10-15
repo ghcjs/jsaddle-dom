@@ -5,7 +5,7 @@ module JSDOM.Generated.RTCDataChannel
         getMaxRetransmitTime, getMaxRetransmits, getProtocol,
         getNegotiated, getId, getReadyState, getBufferedAmount,
         setBinaryType, getBinaryType, open, error, closeEvent, message,
-        RTCDataChannel, castToRTCDataChannel, gTypeRTCDataChannel)
+        RTCDataChannel(..), gTypeRTCDataChannel)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

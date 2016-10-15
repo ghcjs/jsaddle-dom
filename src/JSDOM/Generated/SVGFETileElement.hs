@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFETileElement
-       (getIn1, getIn1Unchecked, SVGFETileElement, castToSVGFETileElement,
+       (getIn1, getIn1Unchecked, SVGFETileElement(..),
         gTypeSVGFETileElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

@@ -5,8 +5,7 @@ module JSDOM.Generated.SVGPatternElement
         getPatternContentUnitsUnchecked, getPatternTransform,
         getPatternTransformUnchecked, getX, getXUnchecked, getY,
         getYUnchecked, getWidth, getWidthUnchecked, getHeight,
-        getHeightUnchecked, SVGPatternElement, castToSVGPatternElement,
-        gTypeSVGPatternElement)
+        getHeightUnchecked, SVGPatternElement(..), gTypeSVGPatternElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

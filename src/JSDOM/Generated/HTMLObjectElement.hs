@@ -10,8 +10,8 @@ module JSDOM.Generated.HTMLObjectElement
         setStandby, getStandby, setType, getType, setUseMap, getUseMap,
         setVspace, getVspace, setWidth, getWidth, getWillValidate,
         getValidity, getValidityUnchecked, getValidationMessage,
-        getContentDocument, getContentDocumentUnchecked, HTMLObjectElement,
-        castToHTMLObjectElement, gTypeHTMLObjectElement)
+        getContentDocument, getContentDocumentUnchecked,
+        HTMLObjectElement(..), gTypeHTMLObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

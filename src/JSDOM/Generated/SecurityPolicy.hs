@@ -9,8 +9,8 @@ module JSDOM.Generated.SecurityPolicy
         allowsPluginType_, allowsScriptFrom, allowsScriptFrom_,
         allowsStyleFrom, allowsStyleFrom_, getAllowsEval,
         getAllowsInlineScript, getAllowsInlineStyle, getIsActive,
-        getReportURIs, getReportURIsUnchecked, SecurityPolicy,
-        castToSecurityPolicy, gTypeSecurityPolicy)
+        getReportURIs, getReportURIsUnchecked, SecurityPolicy(..),
+        gTypeSecurityPolicy)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

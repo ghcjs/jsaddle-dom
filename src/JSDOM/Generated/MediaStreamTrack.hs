@@ -7,8 +7,8 @@ module JSDOM.Generated.MediaStreamTrack
         applyConstraints, clone, clone_, cloneUnchecked, stop, getKind,
         getId, getLabel, setEnabled, getEnabled, getMuted, mute, unmute,
         get_readonly, getRemote, getReadyState, started, ended,
-        overConstrained, MediaStreamTrack, castToMediaStreamTrack,
-        gTypeMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack)
+        overConstrained, MediaStreamTrack(..), gTypeMediaStreamTrack,
+        IsMediaStreamTrack, toMediaStreamTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCIceServer
-       (getUrls, getUsername, getCredential, RTCIceServer,
-        castToRTCIceServer, gTypeRTCIceServer)
+       (getUrls, getUsername, getCredential, RTCIceServer(..),
+        gTypeRTCIceServer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

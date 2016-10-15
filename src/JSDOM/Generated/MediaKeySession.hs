@@ -3,7 +3,7 @@
 module JSDOM.Generated.MediaKeySession
        (update, close, getError, getErrorUnchecked, getKeySystem,
         getSessionId, webKitKeyAdded, webKitKeyError, webKitKeyMessage,
-        MediaKeySession, castToMediaKeySession, gTypeMediaKeySession)
+        MediaKeySession(..), gTypeMediaKeySession)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -4,8 +4,8 @@ module JSDOM.Generated.VTTCue
        (newVTTCue, getCueAsHTML, getCueAsHTML_, getCueAsHTMLUnchecked,
         setVertical, getVertical, setSnapToLines, getSnapToLines, setLine,
         getLine, setPosition, getPosition, setSize, getSize, setAlign,
-        getAlign, setText, getText, setRegionId, getRegionId, VTTCue,
-        castToVTTCue, gTypeVTTCue)
+        getAlign, setText, getText, setRegionId, getRegionId, VTTCue(..),
+        gTypeVTTCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

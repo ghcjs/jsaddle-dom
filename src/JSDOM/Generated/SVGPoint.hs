@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPoint
        (matrixTransform, matrixTransform_, matrixTransformUnchecked, setX,
-        getX, setY, getY, SVGPoint, castToSVGPoint, gTypeSVGPoint)
+        getX, setY, getY, SVGPoint(..), gTypeSVGPoint)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

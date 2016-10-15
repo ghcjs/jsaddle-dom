@@ -26,8 +26,8 @@ module JSDOM.Generated.SVGSVGElement
         getPixelUnitToMillimeterY, getScreenPixelToMillimeterX,
         getScreenPixelToMillimeterY, getUseCurrentView, getCurrentView,
         getCurrentViewUnchecked, setCurrentScale, getCurrentScale,
-        getCurrentTranslate, getCurrentTranslateUnchecked, SVGSVGElement,
-        castToSVGSVGElement, gTypeSVGSVGElement)
+        getCurrentTranslate, getCurrentTranslateUnchecked,
+        SVGSVGElement(..), gTypeSVGSVGElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

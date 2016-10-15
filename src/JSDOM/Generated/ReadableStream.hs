@@ -4,8 +4,8 @@ module JSDOM.Generated.ReadableStream
        (newReadableStream, read, read_, readUnchecked, cancel, cancel_,
         cancelUnchecked, pipeTo, pipeTo_, pipeToUnchecked, pipeThrough,
         pipeThrough_, pipeThroughUnchecked, getState, getClosed,
-        getClosedUnchecked, getReady, getReadyUnchecked, ReadableStream,
-        castToReadableStream, gTypeReadableStream)
+        getClosedUnchecked, getReady, getReadyUnchecked,
+        ReadableStream(..), gTypeReadableStream)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

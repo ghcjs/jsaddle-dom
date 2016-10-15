@@ -9,8 +9,8 @@ module JSDOM.Generated.TreeWalker
         previousNodeUnchecked, nextNode, nextNode_, nextNodeUnchecked,
         getRoot, getRootUnchecked, getWhatToShow, getFilter,
         getFilterUnchecked, getExpandEntityReferences, setCurrentNode,
-        getCurrentNode, getCurrentNodeUnchecked, TreeWalker,
-        castToTreeWalker, gTypeTreeWalker)
+        getCurrentNode, getCurrentNodeUnchecked, TreeWalker(..),
+        gTypeTreeWalker)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

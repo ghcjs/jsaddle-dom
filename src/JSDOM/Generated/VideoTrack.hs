@@ -3,8 +3,7 @@
 module JSDOM.Generated.VideoTrack
        (getId, setKind, getKind, getLabel, setLanguage, getLanguage,
         setSelected, getSelected, getSourceBuffer,
-        getSourceBufferUnchecked, VideoTrack, castToVideoTrack,
-        gTypeVideoTrack)
+        getSourceBufferUnchecked, VideoTrack(..), gTypeVideoTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

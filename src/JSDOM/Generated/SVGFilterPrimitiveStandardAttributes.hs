@@ -3,8 +3,7 @@
 module JSDOM.Generated.SVGFilterPrimitiveStandardAttributes
        (getX, getXUnchecked, getY, getYUnchecked, getWidth,
         getWidthUnchecked, getHeight, getHeightUnchecked, getResult,
-        getResultUnchecked, SVGFilterPrimitiveStandardAttributes,
-        castToSVGFilterPrimitiveStandardAttributes,
+        getResultUnchecked, SVGFilterPrimitiveStandardAttributes(..),
         gTypeSVGFilterPrimitiveStandardAttributes)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

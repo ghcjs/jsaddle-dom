@@ -4,8 +4,8 @@ module JSDOM.Generated.WebGLContextAttributes
        (setAlpha, getAlpha, setDepth, getDepth, setStencil, getStencil,
         setAntialias, getAntialias, setPremultipliedAlpha,
         getPremultipliedAlpha, setPreserveDrawingBuffer,
-        getPreserveDrawingBuffer, WebGLContextAttributes,
-        castToWebGLContextAttributes, gTypeWebGLContextAttributes)
+        getPreserveDrawingBuffer, WebGLContextAttributes(..),
+        gTypeWebGLContextAttributes)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

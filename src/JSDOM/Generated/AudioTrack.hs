@@ -3,7 +3,7 @@
 module JSDOM.Generated.AudioTrack
        (getId, setKind, getKind, getLabel, setLanguage, getLanguage,
         setEnabled, getEnabled, getSourceBuffer, getSourceBufferUnchecked,
-        AudioTrack, castToAudioTrack, gTypeAudioTrack)
+        AudioTrack(..), gTypeAudioTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

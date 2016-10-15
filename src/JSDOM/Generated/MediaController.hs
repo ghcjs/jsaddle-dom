@@ -6,8 +6,8 @@ module JSDOM.Generated.MediaController
         getDuration, setCurrentTime, getCurrentTime, getPaused, getPlayed,
         getPlayedUnchecked, getPlaybackState, setDefaultPlaybackRate,
         getDefaultPlaybackRate, setPlaybackRate, getPlaybackRate,
-        setVolume, getVolume, setMuted, getMuted, MediaController,
-        castToMediaController, gTypeMediaController)
+        setVolume, getVolume, setMuted, getMuted, MediaController(..),
+        gTypeMediaController)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

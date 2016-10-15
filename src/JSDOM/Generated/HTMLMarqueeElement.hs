@@ -5,8 +5,8 @@ module JSDOM.Generated.HTMLMarqueeElement
         setDirection, getDirection, setHeight, getHeight, setHspace,
         getHspace, setLoop, getLoop, setScrollAmount, getScrollAmount,
         setScrollDelay, getScrollDelay, setTrueSpeed, getTrueSpeed,
-        setVspace, getVspace, setWidth, getWidth, HTMLMarqueeElement,
-        castToHTMLMarqueeElement, gTypeHTMLMarqueeElement)
+        setVspace, getVspace, setWidth, getWidth, HTMLMarqueeElement(..),
+        gTypeHTMLMarqueeElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

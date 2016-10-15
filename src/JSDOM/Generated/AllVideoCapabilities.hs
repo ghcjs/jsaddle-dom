@@ -4,8 +4,7 @@ module JSDOM.Generated.AllVideoCapabilities
        (getSourceType, getSourceId, getWidth, getWidthUnchecked,
         getHeight, getHeightUnchecked, getFrameRate, getFrameRateUnchecked,
         getAspectRatio, getAspectRatioUnchecked, getFacingMode,
-        AllVideoCapabilities, castToAllVideoCapabilities,
-        gTypeAllVideoCapabilities)
+        AllVideoCapabilities(..), gTypeAllVideoCapabilities)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

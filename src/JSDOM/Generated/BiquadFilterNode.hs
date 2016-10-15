@@ -5,8 +5,8 @@ module JSDOM.Generated.BiquadFilterNode
         pattern BANDPASS, pattern LOWSHELF, pattern HIGHSHELF,
         pattern PEAKING, pattern NOTCH, pattern ALLPASS, setType, getType,
         getFrequency, getFrequencyUnchecked, getDetune, getDetuneUnchecked,
-        getQ, getQUnchecked, getGain, getGainUnchecked, BiquadFilterNode,
-        castToBiquadFilterNode, gTypeBiquadFilterNode)
+        getQ, getQUnchecked, getGain, getGainUnchecked,
+        BiquadFilterNode(..), gTypeBiquadFilterNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

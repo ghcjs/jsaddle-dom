@@ -8,8 +8,8 @@ module JSDOM.Generated.SVGTransformList
         appendItem, appendItem_, appendItemUnchecked,
         createSVGTransformFromMatrix, createSVGTransformFromMatrix_,
         createSVGTransformFromMatrixUnchecked, consolidate, consolidate_,
-        consolidateUnchecked, getNumberOfItems, SVGTransformList,
-        castToSVGTransformList, gTypeSVGTransformList)
+        consolidateUnchecked, getNumberOfItems, SVGTransformList(..),
+        gTypeSVGTransformList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

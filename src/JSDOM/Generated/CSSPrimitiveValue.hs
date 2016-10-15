@@ -14,8 +14,7 @@ module JSDOM.Generated.CSSPrimitiveValue
         pattern CSS_URI, pattern CSS_IDENT, pattern CSS_ATTR,
         pattern CSS_COUNTER, pattern CSS_RECT, pattern CSS_RGBCOLOR,
         pattern CSS_VW, pattern CSS_VH, pattern CSS_VMIN, pattern CSS_VMAX,
-        getPrimitiveType, CSSPrimitiveValue, castToCSSPrimitiveValue,
-        gTypeCSSPrimitiveValue)
+        getPrimitiveType, CSSPrimitiveValue(..), gTypeCSSPrimitiveValue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

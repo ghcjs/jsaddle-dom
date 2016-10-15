@@ -3,8 +3,7 @@
 module JSDOM.Generated.HTMLMeterElement
        (setValue, getValue, setMin, getMin, setMax, getMax, setLow,
         getLow, setHigh, getHigh, setOptimum, getOptimum, getLabels,
-        getLabelsUnchecked, HTMLMeterElement, castToHTMLMeterElement,
-        gTypeHTMLMeterElement)
+        getLabelsUnchecked, HTMLMeterElement(..), gTypeHTMLMeterElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

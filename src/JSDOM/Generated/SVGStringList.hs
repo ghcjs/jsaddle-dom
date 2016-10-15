@@ -4,7 +4,7 @@ module JSDOM.Generated.SVGStringList
        (clear, initialize, initialize_, getItem, getItem_,
         insertItemBefore, insertItemBefore_, replaceItem, replaceItem_,
         removeItem, removeItem_, appendItem, appendItem_, getNumberOfItems,
-        SVGStringList, castToSVGStringList, gTypeSVGStringList)
+        SVGStringList(..), gTypeSVGStringList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

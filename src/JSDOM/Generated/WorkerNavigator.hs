@@ -4,7 +4,7 @@ module JSDOM.Generated.WorkerNavigator
        (getWebkitTemporaryStorage, getWebkitTemporaryStorageUnchecked,
         getWebkitPersistentStorage, getWebkitPersistentStorageUnchecked,
         getAppName, getAppVersion, getPlatform, getUserAgent, getOnLine,
-        WorkerNavigator, castToWorkerNavigator, gTypeWorkerNavigator)
+        WorkerNavigator(..), gTypeWorkerNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

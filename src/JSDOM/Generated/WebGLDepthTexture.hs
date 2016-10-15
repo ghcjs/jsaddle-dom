@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGLDepthTexture
-       (pattern UNSIGNED_INT_24_8_WEBGL, WebGLDepthTexture,
-        castToWebGLDepthTexture, gTypeWebGLDepthTexture)
+       (pattern UNSIGNED_INT_24_8_WEBGL, WebGLDepthTexture(..),
+        gTypeWebGLDepthTexture)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

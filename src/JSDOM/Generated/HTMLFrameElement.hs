@@ -8,8 +8,8 @@ module JSDOM.Generated.HTMLFrameElement
         getScrolling, setSrc, getSrc, getContentDocument,
         getContentDocumentUnchecked, getContentWindow,
         getContentWindowUnchecked, setLocation, getLocation,
-        getLocationUnchecked, getWidth, getHeight, HTMLFrameElement,
-        castToHTMLFrameElement, gTypeHTMLFrameElement)
+        getLocationUnchecked, getWidth, getHeight, HTMLFrameElement(..),
+        gTypeHTMLFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

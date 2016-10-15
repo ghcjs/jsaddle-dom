@@ -5,8 +5,7 @@ module JSDOM.Generated.AnalyserNode
         getByteTimeDomainData, setFftSize, getFftSize,
         getFrequencyBinCount, setMinDecibels, getMinDecibels,
         setMaxDecibels, getMaxDecibels, setSmoothingTimeConstant,
-        getSmoothingTimeConstant, AnalyserNode, castToAnalyserNode,
-        gTypeAnalyserNode)
+        getSmoothingTimeConstant, AnalyserNode(..), gTypeAnalyserNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

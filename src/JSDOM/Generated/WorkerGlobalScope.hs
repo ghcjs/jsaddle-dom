@@ -3,7 +3,7 @@
 module JSDOM.Generated.WorkerGlobalScope
        (close, importScripts, getSelf, getSelfUnchecked, getLocation,
         getLocationUnchecked, error, offline, online, getNavigator,
-        getNavigatorUnchecked, WorkerGlobalScope, castToWorkerGlobalScope,
+        getNavigatorUnchecked, WorkerGlobalScope(..),
         gTypeWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

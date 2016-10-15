@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLParamElement
        (setName, getName, setType, getType, setValue, getValue,
-        setValueType, getValueType, HTMLParamElement,
-        castToHTMLParamElement, gTypeHTMLParamElement)
+        setValueType, getValueType, HTMLParamElement(..),
+        gTypeHTMLParamElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

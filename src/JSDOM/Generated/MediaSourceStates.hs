@@ -5,7 +5,7 @@ module JSDOM.Generated.MediaSourceStates
         getHeight, getHeightUnchecked, getFrameRate, getFrameRateUnchecked,
         getAspectRatio, getAspectRatioUnchecked, getFacingMode,
         getFacingModeUnchecked, getVolume, getVolumeUnchecked,
-        MediaSourceStates, castToMediaSourceStates, gTypeMediaSourceStates)
+        MediaSourceStates(..), gTypeMediaSourceStates)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

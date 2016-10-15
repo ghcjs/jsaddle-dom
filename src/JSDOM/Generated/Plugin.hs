@@ -3,7 +3,7 @@
 module JSDOM.Generated.Plugin
        (item, item_, itemUnchecked, namedItem, namedItem_,
         namedItemUnchecked, getName, getFilename, getDescription,
-        getLength, Plugin, castToPlugin, gTypePlugin)
+        getLength, Plugin(..), gTypePlugin)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

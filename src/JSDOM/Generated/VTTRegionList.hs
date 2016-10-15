@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTRegionList
        (item, item_, itemUnchecked, getRegionById, getRegionById_,
-        getRegionByIdUnchecked, getLength, VTTRegionList,
-        castToVTTRegionList, gTypeVTTRegionList)
+        getRegionByIdUnchecked, getLength, VTTRegionList(..),
+        gTypeVTTRegionList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

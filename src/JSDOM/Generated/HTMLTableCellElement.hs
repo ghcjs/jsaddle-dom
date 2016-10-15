@@ -6,8 +6,7 @@ module JSDOM.Generated.HTMLTableCellElement
         setColSpan, getColSpan, setHeaders, getHeaders, setHeight,
         getHeight, setNoWrap, getNoWrap, setRowSpan, getRowSpan, setScope,
         getScope, setVAlign, getVAlign, setWidth, getWidth,
-        HTMLTableCellElement, castToHTMLTableCellElement,
-        gTypeHTMLTableCellElement)
+        HTMLTableCellElement(..), gTypeHTMLTableCellElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

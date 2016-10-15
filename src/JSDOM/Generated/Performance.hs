@@ -8,8 +8,8 @@ module JSDOM.Generated.Performance
         webkitClearResourceTimings, webkitSetResourceTimingBufferSize,
         webkitMark, webkitClearMarks, webkitMeasure, webkitClearMeasures,
         now, now_, getNavigation, getNavigationUnchecked, getTiming,
-        getTimingUnchecked, webKitResourceTimingBufferFull, Performance,
-        castToPerformance, gTypePerformance)
+        getTimingUnchecked, webKitResourceTimingBufferFull,
+        Performance(..), gTypePerformance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

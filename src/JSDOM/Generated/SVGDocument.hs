@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGDocument
        (createEvent, createEvent_, createEventUnchecked, getRootElement,
-        getRootElementUnchecked, SVGDocument, castToSVGDocument,
-        gTypeSVGDocument)
+        getRootElementUnchecked, SVGDocument(..), gTypeSVGDocument)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

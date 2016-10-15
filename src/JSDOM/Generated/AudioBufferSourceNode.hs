@@ -7,8 +7,8 @@ module JSDOM.Generated.AudioBufferSourceNode
         getBuffer, getBufferUnchecked, getPlaybackState, getGain,
         getGainUnchecked, getPlaybackRate, getPlaybackRateUnchecked,
         setLoop, getLoop, setLoopStart, getLoopStart, setLoopEnd,
-        getLoopEnd, setLooping, getLooping, ended, AudioBufferSourceNode,
-        castToAudioBufferSourceNode, gTypeAudioBufferSourceNode)
+        getLoopEnd, setLooping, getLooping, ended,
+        AudioBufferSourceNode(..), gTypeAudioBufferSourceNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

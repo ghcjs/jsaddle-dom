@@ -3,8 +3,7 @@
 module JSDOM.Generated.RTCStatsReport
        (stat, stat_, names, names_, getTimestamp, getTimestampUnchecked,
         getId, getType, getLocal, getLocalUnchecked, getRemote,
-        getRemoteUnchecked, RTCStatsReport, castToRTCStatsReport,
-        gTypeRTCStatsReport)
+        getRemoteUnchecked, RTCStatsReport(..), gTypeRTCStatsReport)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

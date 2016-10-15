@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegMovetoRel
-       (setX, getX, setY, getY, SVGPathSegMovetoRel,
-        castToSVGPathSegMovetoRel, gTypeSVGPathSegMovetoRel)
+       (setX, getX, setY, getY, SVGPathSegMovetoRel(..),
+        gTypeSVGPathSegMovetoRel)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DeviceOrientationEvent
        (initDeviceOrientationEvent, getAlpha, getBeta, getGamma,
-        getAbsolute, DeviceOrientationEvent, castToDeviceOrientationEvent,
+        getAbsolute, DeviceOrientationEvent(..),
         gTypeDeviceOrientationEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

@@ -1,8 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoQuadraticSmoothRel
-       (setX, getX, setY, getY, SVGPathSegCurvetoQuadraticSmoothRel,
-        castToSVGPathSegCurvetoQuadraticSmoothRel,
+       (setX, getX, setY, getY, SVGPathSegCurvetoQuadraticSmoothRel(..),
         gTypeSVGPathSegCurvetoQuadraticSmoothRel)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

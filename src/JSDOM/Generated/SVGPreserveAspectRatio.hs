@@ -14,8 +14,8 @@ module JSDOM.Generated.SVGPreserveAspectRatio
         pattern SVG_PRESERVEASPECTRATIO_XMAXYMAX,
         pattern SVG_MEETORSLICE_UNKNOWN, pattern SVG_MEETORSLICE_MEET,
         pattern SVG_MEETORSLICE_SLICE, setAlign, getAlign, setMeetOrSlice,
-        getMeetOrSlice, SVGPreserveAspectRatio,
-        castToSVGPreserveAspectRatio, gTypeSVGPreserveAspectRatio)
+        getMeetOrSlice, SVGPreserveAspectRatio(..),
+        gTypeSVGPreserveAspectRatio)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

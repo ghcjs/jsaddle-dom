@@ -10,8 +10,8 @@ module JSDOM.Generated.HTMLFormElement
         getNoValidate, setTarget, getTarget, getElements,
         getElementsUnchecked, getLength, setAutocorrect, getAutocorrect,
         setAutocapitalize, getAutocapitalize, getAutocapitalizeUnchecked,
-        autocomplete, autocompleteerror, HTMLFormElement,
-        castToHTMLFormElement, gTypeHTMLFormElement)
+        autocomplete, autocompleteerror, HTMLFormElement(..),
+        gTypeHTMLFormElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

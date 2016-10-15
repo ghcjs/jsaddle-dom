@@ -3,8 +3,7 @@
 module JSDOM.Generated.SVGForeignObjectElement
        (getX, getXUnchecked, getY, getYUnchecked, getWidth,
         getWidthUnchecked, getHeight, getHeightUnchecked,
-        SVGForeignObjectElement, castToSVGForeignObjectElement,
-        gTypeSVGForeignObjectElement)
+        SVGForeignObjectElement(..), gTypeSVGForeignObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

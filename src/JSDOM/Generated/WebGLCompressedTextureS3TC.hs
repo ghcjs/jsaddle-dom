@@ -4,8 +4,8 @@ module JSDOM.Generated.WebGLCompressedTextureS3TC
        (pattern COMPRESSED_RGB_S3TC_DXT1_EXT,
         pattern COMPRESSED_RGBA_S3TC_DXT1_EXT,
         pattern COMPRESSED_RGBA_S3TC_DXT3_EXT,
-        pattern COMPRESSED_RGBA_S3TC_DXT5_EXT, WebGLCompressedTextureS3TC,
-        castToWebGLCompressedTextureS3TC, gTypeWebGLCompressedTextureS3TC)
+        pattern COMPRESSED_RGBA_S3TC_DXT5_EXT,
+        WebGLCompressedTextureS3TC(..), gTypeWebGLCompressedTextureS3TC)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

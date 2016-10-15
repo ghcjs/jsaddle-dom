@@ -9,7 +9,7 @@ module JSDOM.Generated.SVGMatrix
         flipX, flipX_, flipXUnchecked, flipY, flipY_, flipYUnchecked,
         skewX, skewX_, skewXUnchecked, skewY, skewY_, skewYUnchecked, setA,
         getA, setB, getB, setC, getC, setD, getD, setE, getE, setF, getF,
-        SVGMatrix, castToSVGMatrix, gTypeSVGMatrix)
+        SVGMatrix(..), gTypeSVGMatrix)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

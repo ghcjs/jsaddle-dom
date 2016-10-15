@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSImportRule
        (getHref, getHrefUnchecked, getMedia, getMediaUnchecked,
-        getStyleSheet, getStyleSheetUnchecked, CSSImportRule,
-        castToCSSImportRule, gTypeCSSImportRule)
+        getStyleSheet, getStyleSheetUnchecked, CSSImportRule(..),
+        gTypeCSSImportRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

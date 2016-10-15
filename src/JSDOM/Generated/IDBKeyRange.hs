@@ -4,7 +4,7 @@ module JSDOM.Generated.IDBKeyRange
        (only, only_, onlyUnchecked, lowerBound, lowerBound_,
         lowerBoundUnchecked, upperBound, upperBound_, upperBoundUnchecked,
         bound, bound_, boundUnchecked, getLower, getUpper, getLowerOpen,
-        getUpperOpen, IDBKeyRange, castToIDBKeyRange, gTypeIDBKeyRange)
+        getUpperOpen, IDBKeyRange(..), gTypeIDBKeyRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

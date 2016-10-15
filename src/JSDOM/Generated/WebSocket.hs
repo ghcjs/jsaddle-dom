@@ -6,7 +6,7 @@ module JSDOM.Generated.WebSocket
         pattern CLOSED, getUrl, getReadyState, getBufferedAmount, open,
         message, error, closeEvent, getProtocol, getProtocolUnchecked,
         getExtensions, getExtensionsUnchecked, setBinaryType,
-        getBinaryType, WebSocket, castToWebSocket, gTypeWebSocket)
+        getBinaryType, WebSocket(..), gTypeWebSocket)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

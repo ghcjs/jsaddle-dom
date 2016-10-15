@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLProgressElement
        (setValue, getValue, setMax, getMax, getPosition, getLabels,
-        getLabelsUnchecked, HTMLProgressElement, castToHTMLProgressElement,
+        getLabelsUnchecked, HTMLProgressElement(..),
         gTypeHTMLProgressElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

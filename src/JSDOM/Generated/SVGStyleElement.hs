@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGStyleElement
        (setDisabled, getDisabled, setType, getType, setMedia, getMedia,
-        setTitle, getTitle, SVGStyleElement, castToSVGStyleElement,
-        gTypeSVGStyleElement)
+        setTitle, getTitle, SVGStyleElement(..), gTypeSVGStyleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

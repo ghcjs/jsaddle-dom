@@ -3,8 +3,7 @@
 module JSDOM.Generated.VideoTrackList
        (item, item_, itemUnchecked, getTrackById, getTrackById_,
         getTrackByIdUnchecked, getLength, getSelectedIndex, change,
-        addTrack, removeTrack, VideoTrackList, castToVideoTrackList,
-        gTypeVideoTrackList)
+        addTrack, removeTrack, VideoTrackList(..), gTypeVideoTrackList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

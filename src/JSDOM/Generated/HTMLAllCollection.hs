@@ -3,7 +3,7 @@
 module JSDOM.Generated.HTMLAllCollection
        (item, item_, itemUnchecked, namedItem, namedItem_,
         namedItemUnchecked, tags, tags_, tagsUnchecked, getLength,
-        HTMLAllCollection, castToHTMLAllCollection, gTypeHTMLAllCollection)
+        HTMLAllCollection(..), gTypeHTMLAllCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

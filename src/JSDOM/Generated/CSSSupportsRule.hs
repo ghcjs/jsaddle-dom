@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSSupportsRule
        (insertRule, insertRule_, deleteRule, getCssRules,
-        getCssRulesUnchecked, getConditionText, CSSSupportsRule,
-        castToCSSSupportsRule, gTypeCSSSupportsRule)
+        getCssRulesUnchecked, getConditionText, CSSSupportsRule(..),
+        gTypeCSSSupportsRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

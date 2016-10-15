@@ -11,8 +11,7 @@ module JSDOM.Generated.SVGComponentTransferFunctionElement
         getSlope, getSlopeUnchecked, getIntercept, getInterceptUnchecked,
         getAmplitude, getAmplitudeUnchecked, getExponent,
         getExponentUnchecked, getOffset, getOffsetUnchecked,
-        SVGComponentTransferFunctionElement,
-        castToSVGComponentTransferFunctionElement,
+        SVGComponentTransferFunctionElement(..),
         gTypeSVGComponentTransferFunctionElement,
         IsSVGComponentTransferFunctionElement,
         toSVGComponentTransferFunctionElement)

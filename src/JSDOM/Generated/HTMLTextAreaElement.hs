@@ -15,8 +15,7 @@ module JSDOM.Generated.HTMLTextAreaElement
         setSelectionEnd, getSelectionEnd, setSelectionDirection,
         getSelectionDirection, setAutocorrect, getAutocorrect,
         setAutocapitalize, getAutocapitalize, getAutocapitalizeUnchecked,
-        HTMLTextAreaElement, castToHTMLTextAreaElement,
-        gTypeHTMLTextAreaElement)
+        HTMLTextAreaElement(..), gTypeHTMLTextAreaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

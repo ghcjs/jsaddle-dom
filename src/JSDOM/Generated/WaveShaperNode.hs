@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WaveShaperNode
        (setCurve, getCurve, getCurveUnchecked, setOversample,
-        getOversample, WaveShaperNode, castToWaveShaperNode,
-        gTypeWaveShaperNode)
+        getOversample, WaveShaperNode(..), gTypeWaveShaperNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

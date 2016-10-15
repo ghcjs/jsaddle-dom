@@ -4,8 +4,7 @@ module JSDOM.Generated.DataTransfer
        (clearData, getData, getData_, setData, setDragImage,
         setDropEffect, getDropEffect, setEffectAllowed, getEffectAllowed,
         getTypes, getTypesUnchecked, getFiles, getFilesUnchecked, getItems,
-        getItemsUnchecked, DataTransfer, castToDataTransfer,
-        gTypeDataTransfer)
+        getItemsUnchecked, DataTransfer(..), gTypeDataTransfer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

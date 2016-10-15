@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFontElement
        (setColor, getColor, setFace, getFace, setSize, getSize,
-        HTMLFontElement, castToHTMLFontElement, gTypeHTMLFontElement)
+        HTMLFontElement(..), gTypeHTMLFontElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

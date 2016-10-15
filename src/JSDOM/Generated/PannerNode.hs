@@ -8,8 +8,8 @@ module JSDOM.Generated.PannerNode
         getDistanceModel, setRefDistance, getRefDistance, setMaxDistance,
         getMaxDistance, setRolloffFactor, getRolloffFactor,
         setConeInnerAngle, getConeInnerAngle, setConeOuterAngle,
-        getConeOuterAngle, setConeOuterGain, getConeOuterGain, PannerNode,
-        castToPannerNode, gTypePannerNode)
+        getConeOuterAngle, setConeOuterGain, getConeOuterGain,
+        PannerNode(..), gTypePannerNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -35,8 +35,7 @@ module JSDOM.Generated.Node
         getLocalName, getLocalNameUnchecked, getBaseURI,
         getBaseURIUnchecked, setTextContent, getTextContent,
         getTextContentUnchecked, getParentElement,
-        getParentElementUnchecked, Node, castToNode, gTypeNode, IsNode,
-        toNode)
+        getParentElementUnchecked, Node(..), gTypeNode, IsNode, toNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

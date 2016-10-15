@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBFactory
        (open, open_, openUnchecked, deleteDatabase, deleteDatabase_,
-        deleteDatabaseUnchecked, cmp, cmp_, IDBFactory, castToIDBFactory,
+        deleteDatabaseUnchecked, cmp, cmp_, IDBFactory(..),
         gTypeIDBFactory)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

@@ -10,8 +10,7 @@ module JSDOM.Generated.CSSStyleDeclaration
         getPropertyShorthandUnchecked, isPropertyImplicit,
         isPropertyImplicit_, setCssText, getCssText, getCssTextUnchecked,
         getLength, getParentRule, getParentRuleUnchecked,
-        CSSStyleDeclaration, castToCSSStyleDeclaration,
-        gTypeCSSStyleDeclaration)
+        CSSStyleDeclaration(..), gTypeCSSStyleDeclaration)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

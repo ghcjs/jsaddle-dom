@@ -9,8 +9,8 @@ module JSDOM.Generated.CSSRule
         pattern WEBKIT_KEYFRAME_RULE, getType, setCssText, getCssText,
         getCssTextUnchecked, getParentStyleSheet,
         getParentStyleSheetUnchecked, getParentRule,
-        getParentRuleUnchecked, CSSRule, castToCSSRule, gTypeCSSRule,
-        IsCSSRule, toCSSRule)
+        getParentRuleUnchecked, CSSRule(..), gTypeCSSRule, IsCSSRule,
+        toCSSRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

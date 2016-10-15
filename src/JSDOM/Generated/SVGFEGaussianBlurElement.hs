@@ -6,8 +6,7 @@ module JSDOM.Generated.SVGFEGaussianBlurElement
         pattern SVG_EDGEMODE_NONE, getIn1, getIn1Unchecked,
         getStdDeviationX, getStdDeviationXUnchecked, getStdDeviationY,
         getStdDeviationYUnchecked, getEdgeMode, getEdgeModeUnchecked,
-        SVGFEGaussianBlurElement, castToSVGFEGaussianBlurElement,
-        gTypeSVGFEGaussianBlurElement)
+        SVGFEGaussianBlurElement(..), gTypeSVGFEGaussianBlurElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -66,6 +66,7 @@ module JSDOM.EventM
 )
 where
 import           Control.Applicative ((<$>))
+import           Control.Monad (join)
 import           Control.Monad.Trans.Class (MonadTrans(..))
 import           Control.Monad.Trans.Reader (ReaderT, ask, runReaderT)
 import           JSDOM.Types
@@ -76,6 +77,8 @@ import           JSDOM.Generated.EventTarget
 import           JSDOM.EventTargetClosures
 import           Data.Word (Word)
 import           Data.Foldable (forM_)
+import           Data.Traversable (mapM)
+import           Data.Coerce (coerce)
 
 type EventM t e = ReaderT e DOM
 
@@ -126,7 +129,7 @@ eventTarget :: IsEvent e => EventM t e (Maybe EventTarget)
 eventTarget = event >>= (lift . Event.getTarget)
 
 target :: (IsEvent e, IsGObject t) => EventM t e (Maybe t)
-target = fmap (unsafeCastGObject . toGObject) <$> eventTarget
+target = eventTarget >>= mapM (liftJSM . fromJSValUnchecked . coerce)
 
 eventCurrentTarget :: IsEvent e => EventM t e (Maybe EventTarget)
 eventCurrentTarget = event >>= (lift . Event.getCurrentTarget)

@@ -4,7 +4,7 @@ module JSDOM.Generated.XPathEvaluator
        (newXPathEvaluator, createExpression, createExpression_,
         createExpressionUnchecked, createNSResolver, createNSResolver_,
         createNSResolverUnchecked, evaluate, evaluate_, evaluateUnchecked,
-        XPathEvaluator, castToXPathEvaluator, gTypeXPathEvaluator)
+        XPathEvaluator(..), gTypeXPathEvaluator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

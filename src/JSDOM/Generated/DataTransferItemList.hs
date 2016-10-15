@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataTransferItemList
        (item, item_, itemUnchecked, clear, addFile, add, getLength,
-        DataTransferItemList, castToDataTransferItemList,
-        gTypeDataTransferItemList)
+        DataTransferItemList(..), gTypeDataTransferItemList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

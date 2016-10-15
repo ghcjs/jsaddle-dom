@@ -3,8 +3,7 @@
 module JSDOM.Generated.IDBTransaction
        (objectStore, objectStore_, objectStoreUnchecked, abort, getMode,
         getDb, getDbUnchecked, getError, getErrorUnchecked, abortEvent,
-        complete, error, IDBTransaction, castToIDBTransaction,
-        gTypeIDBTransaction)
+        complete, error, IDBTransaction(..), gTypeIDBTransaction)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

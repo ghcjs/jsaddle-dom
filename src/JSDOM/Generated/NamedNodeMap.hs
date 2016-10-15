@@ -7,8 +7,8 @@ module JSDOM.Generated.NamedNodeMap
         itemUnchecked, getNamedItemNS, getNamedItemNS_,
         getNamedItemNSUnchecked, setNamedItemNS, setNamedItemNS_,
         setNamedItemNSUnchecked, removeNamedItemNS, removeNamedItemNS_,
-        removeNamedItemNSUnchecked, getLength, NamedNodeMap,
-        castToNamedNodeMap, gTypeNamedNodeMap)
+        removeNamedItemNSUnchecked, getLength, NamedNodeMap(..),
+        gTypeNamedNodeMap)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

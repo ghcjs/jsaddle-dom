@@ -3,7 +3,7 @@
 module JSDOM.Generated.Text
        (newText, splitText, splitText_, splitTextUnchecked,
         replaceWholeText, replaceWholeText_, replaceWholeTextUnchecked,
-        getWholeText, Text, castToText, gTypeText, IsText, toText)
+        getWholeText, Text(..), gTypeText, IsText, toText)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

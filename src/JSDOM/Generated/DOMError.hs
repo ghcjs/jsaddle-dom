@@ -1,8 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMError
-       (getName, DOMError, castToDOMError, gTypeDOMError, IsDOMError,
-        toDOMError)
+       (getName, DOMError(..), gTypeDOMError, IsDOMError, toDOMError)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

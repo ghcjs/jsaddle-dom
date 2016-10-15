@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedPreserveAspectRatio
        (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
-        SVGAnimatedPreserveAspectRatio,
-        castToSVGAnimatedPreserveAspectRatio,
+        SVGAnimatedPreserveAspectRatio(..),
         gTypeSVGAnimatedPreserveAspectRatio)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

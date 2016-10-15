@@ -3,8 +3,8 @@
 module JSDOM.Generated.HTMLEmbedElement
        (getSVGDocument, getSVGDocument_, getSVGDocumentUnchecked,
         setAlign, getAlign, setHeight, getHeight, setName, getName, setSrc,
-        getSrc, setType, getType, setWidth, getWidth, HTMLEmbedElement,
-        castToHTMLEmbedElement, gTypeHTMLEmbedElement)
+        getSrc, setType, getType, setWidth, getWidth, HTMLEmbedElement(..),
+        gTypeHTMLEmbedElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

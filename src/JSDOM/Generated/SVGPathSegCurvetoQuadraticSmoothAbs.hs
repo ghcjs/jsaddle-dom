@@ -1,8 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoQuadraticSmoothAbs
-       (setX, getX, setY, getY, SVGPathSegCurvetoQuadraticSmoothAbs,
-        castToSVGPathSegCurvetoQuadraticSmoothAbs,
+       (setX, getX, setY, getY, SVGPathSegCurvetoQuadraticSmoothAbs(..),
         gTypeSVGPathSegCurvetoQuadraticSmoothAbs)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

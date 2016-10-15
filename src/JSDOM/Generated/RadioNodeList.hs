@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RadioNodeList
-       (_get, _get_, _getUnchecked, setValue, getValue, RadioNodeList,
-        castToRadioNodeList, gTypeRadioNodeList)
+       (_get, _get_, _getUnchecked, setValue, getValue, RadioNodeList(..),
+        gTypeRadioNodeList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

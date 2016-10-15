@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOListElement
        (setCompact, getCompact, setStart, getStart, setReversed,
-        getReversed, setType, getType, HTMLOListElement,
-        castToHTMLOListElement, gTypeHTMLOListElement)
+        getReversed, setType, getType, HTMLOListElement(..),
+        gTypeHTMLOListElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

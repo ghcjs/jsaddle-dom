@@ -3,8 +3,8 @@
 module JSDOM.Generated.MediaKeyEvent
        (getKeySystem, getSessionId, getInitData, getInitDataUnchecked,
         getMessage, getMessageUnchecked, getDefaultURL, getErrorCode,
-        getErrorCodeUnchecked, getSystemCode, MediaKeyEvent,
-        castToMediaKeyEvent, gTypeMediaKeyEvent)
+        getErrorCodeUnchecked, getSystemCode, MediaKeyEvent(..),
+        gTypeMediaKeyEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

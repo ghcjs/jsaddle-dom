@@ -6,7 +6,7 @@ module JSDOM.Generated.MediaStream
         getTracks_, addTrack, removeTrack, getTrackById, getTrackById_,
         getTrackByIdUnchecked, clone, clone_, cloneUnchecked, getId,
         getActive, active, inactive, addTrackEvent, removeTrackEvent,
-        MediaStream, castToMediaStream, gTypeMediaStream)
+        MediaStream(..), gTypeMediaStream)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -4,8 +4,7 @@ module JSDOM.Generated.FileReaderSync
        (newFileReaderSync, readAsArrayBuffer, readAsArrayBuffer_,
         readAsArrayBufferUnchecked, readAsBinaryString,
         readAsBinaryString_, readAsText, readAsText_, readAsDataURL,
-        readAsDataURL_, FileReaderSync, castToFileReaderSync,
-        gTypeFileReaderSync)
+        readAsDataURL_, FileReaderSync(..), gTypeFileReaderSync)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

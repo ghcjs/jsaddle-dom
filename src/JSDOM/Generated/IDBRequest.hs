@@ -3,8 +3,8 @@
 module JSDOM.Generated.IDBRequest
        (getResult, getResultUnchecked, getError, getErrorUnchecked,
         getSource, getSourceUnchecked, getTransaction,
-        getTransactionUnchecked, getReadyState, success, error, IDBRequest,
-        castToIDBRequest, gTypeIDBRequest, IsIDBRequest, toIDBRequest)
+        getTransactionUnchecked, getReadyState, success, error,
+        IDBRequest(..), gTypeIDBRequest, IsIDBRequest, toIDBRequest)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

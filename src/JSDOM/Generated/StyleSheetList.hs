@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleSheetList
        (item, item_, itemUnchecked, _get, _get_, _getUnchecked, getLength,
-        StyleSheetList, castToStyleSheetList, gTypeStyleSheetList)
+        StyleSheetList(..), gTypeStyleSheetList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

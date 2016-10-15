@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Blob
        (newBlob, newBlob', slice, slice_, sliceUnchecked, getSize,
-        getType, Blob, castToBlob, gTypeBlob, IsBlob, toBlob)
+        getType, Blob(..), gTypeBlob, IsBlob, toBlob)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

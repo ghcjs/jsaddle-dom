@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLLabelElement
        (getForm, getFormUnchecked, setHtmlFor, getHtmlFor, getControl,
-        getControlUnchecked, HTMLLabelElement, castToHTMLLabelElement,
-        gTypeHTMLLabelElement)
+        getControlUnchecked, HTMLLabelElement(..), gTypeHTMLLabelElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

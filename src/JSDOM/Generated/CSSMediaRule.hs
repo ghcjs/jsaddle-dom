@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSMediaRule
        (insertRule, insertRule_, deleteRule, getMedia, getMediaUnchecked,
-        getCssRules, getCssRulesUnchecked, CSSMediaRule,
-        castToCSSMediaRule, gTypeCSSMediaRule)
+        getCssRules, getCssRulesUnchecked, CSSMediaRule(..),
+        gTypeCSSMediaRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageInfo
        (queryUsageAndQuota, requestQuota, pattern TEMPORARY,
-        pattern PERSISTENT, StorageInfo, castToStorageInfo,
-        gTypeStorageInfo)
+        pattern PERSISTENT, StorageInfo(..), gTypeStorageInfo)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

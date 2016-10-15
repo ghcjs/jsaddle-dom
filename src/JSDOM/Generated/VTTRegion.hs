@@ -5,7 +5,7 @@ module JSDOM.Generated.VTTRegion
         getWidth, setHeight, getHeight, setRegionAnchorX, getRegionAnchorX,
         setRegionAnchorY, getRegionAnchorY, setViewportAnchorX,
         getViewportAnchorX, setViewportAnchorY, getViewportAnchorY,
-        setScroll, getScroll, VTTRegion, castToVTTRegion, gTypeVTTRegion)
+        setScroll, getScroll, VTTRegion(..), gTypeVTTRegion)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

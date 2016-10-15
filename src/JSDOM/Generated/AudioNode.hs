@@ -5,8 +5,8 @@ module JSDOM.Generated.AudioNode
         getContextUnchecked, getNumberOfInputs, getNumberOfOutputs,
         setChannelCount, getChannelCount, setChannelCountMode,
         getChannelCountMode, setChannelInterpretation,
-        getChannelInterpretation, AudioNode, castToAudioNode,
-        gTypeAudioNode, IsAudioNode, toAudioNode)
+        getChannelInterpretation, AudioNode(..), gTypeAudioNode,
+        IsAudioNode, toAudioNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

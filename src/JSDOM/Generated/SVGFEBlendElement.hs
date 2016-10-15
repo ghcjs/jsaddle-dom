@@ -5,8 +5,7 @@ module JSDOM.Generated.SVGFEBlendElement
         pattern SVG_FEBLEND_MODE_MULTIPLY, pattern SVG_FEBLEND_MODE_SCREEN,
         pattern SVG_FEBLEND_MODE_DARKEN, pattern SVG_FEBLEND_MODE_LIGHTEN,
         getIn1, getIn1Unchecked, getIn2, getIn2Unchecked, getMode,
-        getModeUnchecked, SVGFEBlendElement, castToSVGFEBlendElement,
-        gTypeSVGFEBlendElement)
+        getModeUnchecked, SVGFEBlendElement(..), gTypeSVGFEBlendElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

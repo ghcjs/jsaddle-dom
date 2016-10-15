@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaQueryList
-       (addListener, removeListener, getMedia, getMatches, MediaQueryList,
-        castToMediaQueryList, gTypeMediaQueryList)
+       (addListener, removeListener, getMedia, getMatches,
+        MediaQueryList(..), gTypeMediaQueryList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

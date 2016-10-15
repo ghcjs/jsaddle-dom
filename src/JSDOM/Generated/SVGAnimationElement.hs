@@ -4,9 +4,9 @@ module JSDOM.Generated.SVGAnimationElement
        (getStartTime, getStartTime_, getCurrentTime, getCurrentTime_,
         getSimpleDuration, getSimpleDuration_, beginElement,
         beginElementAt, endElement, endElementAt, getTargetElement,
-        getTargetElementUnchecked, SVGAnimationElement,
-        castToSVGAnimationElement, gTypeSVGAnimationElement,
-        IsSVGAnimationElement, toSVGAnimationElement)
+        getTargetElementUnchecked, SVGAnimationElement(..),
+        gTypeSVGAnimationElement, IsSVGAnimationElement,
+        toSVGAnimationElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

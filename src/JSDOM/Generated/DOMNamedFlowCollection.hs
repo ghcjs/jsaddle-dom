@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMNamedFlowCollection
        (item, item_, itemUnchecked, namedItem, namedItem_,
-        namedItemUnchecked, getLength, DOMNamedFlowCollection,
-        castToDOMNamedFlowCollection, gTypeDOMNamedFlowCollection)
+        namedItemUnchecked, getLength, DOMNamedFlowCollection(..),
+        gTypeDOMNamedFlowCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -1,9 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSValueList
-       (item, item_, itemUnchecked, getLength, CSSValueList,
-        castToCSSValueList, gTypeCSSValueList, IsCSSValueList,
-        toCSSValueList)
+       (item, item_, itemUnchecked, getLength, CSSValueList(..),
+        gTypeCSSValueList, IsCSSValueList, toCSSValueList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

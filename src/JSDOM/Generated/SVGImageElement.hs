@@ -4,7 +4,7 @@ module JSDOM.Generated.SVGImageElement
        (getX, getXUnchecked, getY, getYUnchecked, getWidth,
         getWidthUnchecked, getHeight, getHeightUnchecked,
         getPreserveAspectRatio, getPreserveAspectRatioUnchecked,
-        SVGImageElement, castToSVGImageElement, gTypeSVGImageElement)
+        SVGImageElement(..), gTypeSVGImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

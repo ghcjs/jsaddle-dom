@@ -11,8 +11,8 @@ module JSDOM.Generated.XPathResult
         pattern ANY_UNORDERED_NODE_TYPE, pattern FIRST_ORDERED_NODE_TYPE,
         getResultType, getNumberValue, getStringValue, getBooleanValue,
         getSingleNodeValue, getSingleNodeValueUnchecked,
-        getInvalidIteratorState, getSnapshotLength, XPathResult,
-        castToXPathResult, gTypeXPathResult)
+        getInvalidIteratorState, getSnapshotLength, XPathResult(..),
+        gTypeXPathResult)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

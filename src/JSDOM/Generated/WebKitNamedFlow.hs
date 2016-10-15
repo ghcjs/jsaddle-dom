@@ -4,8 +4,8 @@ module JSDOM.Generated.WebKitNamedFlow
        (getRegionsByContent, getRegionsByContent_,
         getRegionsByContentUnchecked, getRegions, getRegions_,
         getRegionsUnchecked, getContent, getContent_, getContentUnchecked,
-        getName, getOverset, getFirstEmptyRegionIndex, WebKitNamedFlow,
-        castToWebKitNamedFlow, gTypeWebKitNamedFlow)
+        getName, getOverset, getFirstEmptyRegionIndex, WebKitNamedFlow(..),
+        gTypeWebKitNamedFlow)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

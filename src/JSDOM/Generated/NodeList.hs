@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeList
-       (item, item_, itemUnchecked, getLength, NodeList, castToNodeList,
+       (item, item_, itemUnchecked, getLength, NodeList(..),
         gTypeNodeList, IsNodeList, toNodeList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

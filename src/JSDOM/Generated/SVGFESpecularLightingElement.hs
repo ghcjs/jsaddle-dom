@@ -4,8 +4,7 @@ module JSDOM.Generated.SVGFESpecularLightingElement
        (getIn1, getIn1Unchecked, getSurfaceScale,
         getSurfaceScaleUnchecked, getSpecularConstant,
         getSpecularConstantUnchecked, getSpecularExponent,
-        getSpecularExponentUnchecked, SVGFESpecularLightingElement,
-        castToSVGFESpecularLightingElement,
+        getSpecularExponentUnchecked, SVGFESpecularLightingElement(..),
         gTypeSVGFESpecularLightingElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

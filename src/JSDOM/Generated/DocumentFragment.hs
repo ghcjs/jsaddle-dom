@@ -3,8 +3,8 @@
 module JSDOM.Generated.DocumentFragment
        (newDocumentFragment, querySelector, querySelector_,
         querySelectorUnchecked, querySelectorAll, querySelectorAll_,
-        querySelectorAllUnchecked, DocumentFragment,
-        castToDocumentFragment, gTypeDocumentFragment)
+        querySelectorAllUnchecked, DocumentFragment(..),
+        gTypeDocumentFragment)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

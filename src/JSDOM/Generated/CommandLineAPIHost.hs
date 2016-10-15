@@ -4,8 +4,7 @@ module JSDOM.Generated.CommandLineAPIHost
        (clearConsoleMessages, copyText, inspect, inspectedObject,
         inspectedObject_, getEventListeners, getEventListeners_,
         getEventListenersUnchecked, databaseId, databaseId_, storageId,
-        storageId_, CommandLineAPIHost, castToCommandLineAPIHost,
-        gTypeCommandLineAPIHost)
+        storageId_, CommandLineAPIHost(..), gTypeCommandLineAPIHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

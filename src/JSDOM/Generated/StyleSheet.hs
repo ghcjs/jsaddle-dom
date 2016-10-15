@@ -4,8 +4,8 @@ module JSDOM.Generated.StyleSheet
        (getType, getTypeUnchecked, setDisabled, getDisabled, getOwnerNode,
         getOwnerNodeUnchecked, getParentStyleSheet,
         getParentStyleSheetUnchecked, getHref, getHrefUnchecked, getTitle,
-        getTitleUnchecked, getMedia, getMediaUnchecked, StyleSheet,
-        castToStyleSheet, gTypeStyleSheet, IsStyleSheet, toStyleSheet)
+        getTitleUnchecked, getMedia, getMediaUnchecked, StyleSheet(..),
+        gTypeStyleSheet, IsStyleSheet, toStyleSheet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

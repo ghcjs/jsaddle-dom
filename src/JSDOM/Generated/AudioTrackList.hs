@@ -3,7 +3,7 @@
 module JSDOM.Generated.AudioTrackList
        (item, item_, itemUnchecked, getTrackById, getTrackById_,
         getTrackByIdUnchecked, getLength, change, addTrack, removeTrack,
-        AudioTrackList, castToAudioTrackList, gTypeAudioTrackList)
+        AudioTrackList(..), gTypeAudioTrackList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

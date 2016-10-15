@@ -5,8 +5,8 @@ module JSDOM.Generated.SVGColor
         pattern SVG_COLORTYPE_UNKNOWN, pattern SVG_COLORTYPE_RGBCOLOR,
         pattern SVG_COLORTYPE_RGBCOLOR_ICCCOLOR,
         pattern SVG_COLORTYPE_CURRENTCOLOR, getColorType, getRgbColor,
-        getRgbColorUnchecked, SVGColor, castToSVGColor, gTypeSVGColor,
-        IsSVGColor, toSVGColor)
+        getRgbColorUnchecked, SVGColor(..), gTypeSVGColor, IsSVGColor,
+        toSVGColor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

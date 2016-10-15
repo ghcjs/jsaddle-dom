@@ -5,8 +5,8 @@ module JSDOM.Generated.SVGFEMorphologyElement
         pattern SVG_MORPHOLOGY_OPERATOR_ERODE,
         pattern SVG_MORPHOLOGY_OPERATOR_DILATE, getIn1, getIn1Unchecked,
         getOperator, getOperatorUnchecked, getRadiusX, getRadiusXUnchecked,
-        getRadiusY, getRadiusYUnchecked, SVGFEMorphologyElement,
-        castToSVGFEMorphologyElement, gTypeSVGFEMorphologyElement)
+        getRadiusY, getRadiusYUnchecked, SVGFEMorphologyElement(..),
+        gTypeSVGFEMorphologyElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

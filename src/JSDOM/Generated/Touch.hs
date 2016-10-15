@@ -4,7 +4,7 @@ module JSDOM.Generated.Touch
        (getClientX, getClientY, getScreenX, getScreenY, getPageX,
         getPageY, getTarget, getTargetUnchecked, getIdentifier,
         getWebkitRadiusX, getWebkitRadiusY, getWebkitRotationAngle,
-        getWebkitForce, Touch, castToTouch, gTypeTouch)
+        getWebkitForce, Touch(..), gTypeTouch)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

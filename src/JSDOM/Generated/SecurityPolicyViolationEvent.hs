@@ -3,8 +3,7 @@
 module JSDOM.Generated.SecurityPolicyViolationEvent
        (getDocumentURI, getReferrer, getBlockedURI, getViolatedDirective,
         getEffectiveDirective, getOriginalPolicy, getSourceFile,
-        getLineNumber, SecurityPolicyViolationEvent,
-        castToSecurityPolicyViolationEvent,
+        getLineNumber, SecurityPolicyViolationEvent(..),
         gTypeSecurityPolicyViolationEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

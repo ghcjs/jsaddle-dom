@@ -84,8 +84,8 @@ module JSDOM.Generated.Document
         webKitWillRevealLeft, webKitWillRevealRight, webKitWillRevealTop,
         getVisibilityState, getHidden, getSecurityPolicy,
         getSecurityPolicyUnchecked, getCurrentScript,
-        getCurrentScriptUnchecked, getOrigin, Document, castToDocument,
-        gTypeDocument, IsDocument, toDocument)
+        getCurrentScriptUnchecked, getOrigin, Document(..), gTypeDocument,
+        IsDocument, toDocument)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

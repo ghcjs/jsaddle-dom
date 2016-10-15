@@ -193,9 +193,9 @@ module JSDOM.Generated.WebGLRenderingContextBase
         pattern UNPACK_PREMULTIPLY_ALPHA_WEBGL, pattern CONTEXT_LOST_WEBGL,
         pattern UNPACK_COLORSPACE_CONVERSION_WEBGL,
         pattern BROWSER_DEFAULT_WEBGL, getDrawingBufferWidth,
-        getDrawingBufferHeight, WebGLRenderingContextBase,
-        castToWebGLRenderingContextBase, gTypeWebGLRenderingContextBase,
-        IsWebGLRenderingContextBase, toWebGLRenderingContextBase)
+        getDrawingBufferHeight, WebGLRenderingContextBase(..),
+        gTypeWebGLRenderingContextBase, IsWebGLRenderingContextBase,
+        toWebGLRenderingContextBase)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

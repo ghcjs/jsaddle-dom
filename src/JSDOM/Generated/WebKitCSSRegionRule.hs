@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSRegionRule
-       (getCssRules, getCssRulesUnchecked, WebKitCSSRegionRule,
-        castToWebKitCSSRegionRule, gTypeWebKitCSSRegionRule)
+       (getCssRules, getCssRulesUnchecked, WebKitCSSRegionRule(..),
+        gTypeWebKitCSSRegionRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

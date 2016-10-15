@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoQuadraticAbs
        (setX, getX, setY, getY, setX1, getX1, setY1, getY1,
-        SVGPathSegCurvetoQuadraticAbs, castToSVGPathSegCurvetoQuadraticAbs,
+        SVGPathSegCurvetoQuadraticAbs(..),
         gTypeSVGPathSegCurvetoQuadraticAbs)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

@@ -6,8 +6,7 @@ module JSDOM.Generated.XSLTProcessor
         transformToDocument, transformToDocument_,
         transformToDocumentUnchecked, setParameter, getParameter,
         getParameter_, getParameterUnchecked, removeParameter,
-        clearParameters, reset, XSLTProcessor, castToXSLTProcessor,
-        gTypeXSLTProcessor)
+        clearParameters, reset, XSLTProcessor(..), gTypeXSLTProcessor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

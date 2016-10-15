@@ -10,8 +10,8 @@ module JSDOM.Generated.SVGMarkerElement
         getRefY, getRefYUnchecked, getMarkerUnits, getMarkerUnitsUnchecked,
         getMarkerWidth, getMarkerWidthUnchecked, getMarkerHeight,
         getMarkerHeightUnchecked, getOrientType, getOrientTypeUnchecked,
-        getOrientAngle, getOrientAngleUnchecked, SVGMarkerElement,
-        castToSVGMarkerElement, gTypeSVGMarkerElement)
+        getOrientAngle, getOrientAngleUnchecked, SVGMarkerElement(..),
+        gTypeSVGMarkerElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

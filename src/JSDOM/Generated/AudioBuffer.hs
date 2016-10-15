@@ -3,8 +3,7 @@
 module JSDOM.Generated.AudioBuffer
        (getChannelData, getChannelData_, getChannelDataUnchecked,
         getLength, getDuration, getSampleRate, setGain, getGain,
-        getNumberOfChannels, AudioBuffer, castToAudioBuffer,
-        gTypeAudioBuffer)
+        getNumberOfChannels, AudioBuffer(..), gTypeAudioBuffer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

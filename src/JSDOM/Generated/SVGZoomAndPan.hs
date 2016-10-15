@@ -3,7 +3,7 @@
 module JSDOM.Generated.SVGZoomAndPan
        (pattern SVG_ZOOMANDPAN_UNKNOWN, pattern SVG_ZOOMANDPAN_DISABLE,
         pattern SVG_ZOOMANDPAN_MAGNIFY, setZoomAndPan, getZoomAndPan,
-        SVGZoomAndPan, castToSVGZoomAndPan, gTypeSVGZoomAndPan)
+        SVGZoomAndPan(..), gTypeSVGZoomAndPan)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.UIRequestEvent
-       (getReceiver, getReceiverUnchecked, UIRequestEvent,
-        castToUIRequestEvent, gTypeUIRequestEvent)
+       (getReceiver, getReceiverUnchecked, UIRequestEvent(..),
+        gTypeUIRequestEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

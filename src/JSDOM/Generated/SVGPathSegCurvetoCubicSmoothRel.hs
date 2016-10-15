@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegCurvetoCubicSmoothRel
        (setX, getX, setY, getY, setX2, getX2, setY2, getY2,
-        SVGPathSegCurvetoCubicSmoothRel,
-        castToSVGPathSegCurvetoCubicSmoothRel,
+        SVGPathSegCurvetoCubicSmoothRel(..),
         gTypeSVGPathSegCurvetoCubicSmoothRel)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

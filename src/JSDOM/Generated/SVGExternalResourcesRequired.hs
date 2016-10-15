@@ -3,7 +3,7 @@
 module JSDOM.Generated.SVGExternalResourcesRequired
        (getExternalResourcesRequired,
         getExternalResourcesRequiredUnchecked,
-        SVGExternalResourcesRequired, castToSVGExternalResourcesRequired,
+        SVGExternalResourcesRequired(..),
         gTypeSVGExternalResourcesRequired)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

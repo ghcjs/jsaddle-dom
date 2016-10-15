@@ -4,8 +4,7 @@ module JSDOM.Generated.SVGTests
        (hasExtension, hasExtension_, getRequiredFeatures,
         getRequiredFeaturesUnchecked, getRequiredExtensions,
         getRequiredExtensionsUnchecked, getSystemLanguage,
-        getSystemLanguageUnchecked, SVGTests, castToSVGTests,
-        gTypeSVGTests)
+        getSystemLanguageUnchecked, SVGTests(..), gTypeSVGTests)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

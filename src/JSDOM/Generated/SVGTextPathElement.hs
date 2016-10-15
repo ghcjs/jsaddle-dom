@@ -8,7 +8,7 @@ module JSDOM.Generated.SVGTextPathElement
         pattern TEXTPATH_SPACINGTYPE_AUTO,
         pattern TEXTPATH_SPACINGTYPE_EXACT, getStartOffset,
         getStartOffsetUnchecked, getMethod, getMethodUnchecked, getSpacing,
-        getSpacingUnchecked, SVGTextPathElement, castToSVGTextPathElement,
+        getSpacingUnchecked, SVGTextPathElement(..),
         gTypeSVGTextPathElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

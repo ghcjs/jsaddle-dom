@@ -5,8 +5,7 @@ module JSDOM.Generated.Location
         setProtocol, getProtocol, setHost, getHost, setHostname,
         getHostname, setPort, getPort, setPathname, getPathname, setSearch,
         getSearch, setHash, getHash, getOrigin, getAncestorOrigins,
-        getAncestorOriginsUnchecked, Location, castToLocation,
-        gTypeLocation)
+        getAncestorOriginsUnchecked, Location(..), gTypeLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

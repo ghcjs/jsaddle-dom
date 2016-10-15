@@ -6,8 +6,7 @@ module JSDOM.Generated.OscillatorNode
         pattern UNSCHEDULED_STATE, pattern SCHEDULED_STATE,
         pattern PLAYING_STATE, pattern FINISHED_STATE, setType, getType,
         getPlaybackState, getFrequency, getFrequencyUnchecked, getDetune,
-        getDetuneUnchecked, ended, OscillatorNode, castToOscillatorNode,
-        gTypeOscillatorNode)
+        getDetuneUnchecked, ended, OscillatorNode(..), gTypeOscillatorNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -7,8 +7,8 @@ module JSDOM.Generated.SVGElement
         getOwnerSVGElementUnchecked, getViewportElement,
         getViewportElementUnchecked, setXmllang, getXmllang, setXmlspace,
         getXmlspace, getClassName, getClassNameUnchecked, getStyle,
-        getStyleUnchecked, setTabIndex, getTabIndex, SVGElement,
-        castToSVGElement, gTypeSVGElement, IsSVGElement, toSVGElement)
+        getStyleUnchecked, setTabIndex, getTabIndex, SVGElement(..),
+        gTypeSVGElement, IsSVGElement, toSVGElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

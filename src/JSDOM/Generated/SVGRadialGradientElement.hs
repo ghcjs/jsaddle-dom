@@ -3,8 +3,8 @@
 module JSDOM.Generated.SVGRadialGradientElement
        (getCx, getCxUnchecked, getCy, getCyUnchecked, getR, getRUnchecked,
         getFx, getFxUnchecked, getFy, getFyUnchecked, getFr,
-        getFrUnchecked, SVGRadialGradientElement,
-        castToSVGRadialGradientElement, gTypeSVGRadialGradientElement)
+        getFrUnchecked, SVGRadialGradientElement(..),
+        gTypeSVGRadialGradientElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

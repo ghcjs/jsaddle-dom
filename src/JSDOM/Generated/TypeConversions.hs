@@ -13,8 +13,8 @@ module JSDOM.Generated.TypeConversions
         setTestShort, getTestShort, setTestEnforceRangeShort,
         getTestEnforceRangeShort, setTestUnsignedShort,
         getTestUnsignedShort, setTestEnforceRangeUnsignedShort,
-        getTestEnforceRangeUnsignedShort, TypeConversions,
-        castToTypeConversions, gTypeTypeConversions)
+        getTestEnforceRangeUnsignedShort, TypeConversions(..),
+        gTypeTypeConversions)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

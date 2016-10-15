@@ -7,8 +7,8 @@ module JSDOM.Generated.HTMLImageElement
         setSrc, getSrc, setSrcset, getSrcset, setSizes, getSizes,
         getCurrentSrc, setUseMap, getUseMap, setVspace, getVspace,
         setWidth, getWidth, getComplete, setLowsrc, getLowsrc,
-        getNaturalHeight, getNaturalWidth, getX, getY, HTMLImageElement,
-        castToHTMLImageElement, gTypeHTMLImageElement)
+        getNaturalHeight, getNaturalWidth, getX, getY,
+        HTMLImageElement(..), gTypeHTMLImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

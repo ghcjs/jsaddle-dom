@@ -5,8 +5,7 @@ module JSDOM.Generated.IDBDatabase
         deleteObjectStore, transaction, transaction_, transactionUnchecked,
         transaction', transaction'_, transaction'Unchecked, close, getName,
         getVersion, getObjectStoreNames, getObjectStoreNamesUnchecked,
-        abort, error, versionChange, IDBDatabase, castToIDBDatabase,
-        gTypeIDBDatabase)
+        abort, error, versionChange, IDBDatabase(..), gTypeIDBDatabase)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

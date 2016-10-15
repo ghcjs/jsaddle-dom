@@ -4,8 +4,8 @@ module JSDOM.Generated.HTMLFieldSetElement
        (checkValidity, checkValidity_, setCustomValidity, setDisabled,
         getDisabled, getForm, getFormUnchecked, setName, getName, getType,
         getElements, getElementsUnchecked, getWillValidate, getValidity,
-        getValidityUnchecked, getValidationMessage, HTMLFieldSetElement,
-        castToHTMLFieldSetElement, gTypeHTMLFieldSetElement)
+        getValidityUnchecked, getValidationMessage,
+        HTMLFieldSetElement(..), gTypeHTMLFieldSetElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

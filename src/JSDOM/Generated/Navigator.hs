@@ -13,7 +13,7 @@ module JSDOM.Generated.Navigator
         getUserAgent, getPlatform, getPlugins, getPluginsUnchecked,
         getMimeTypes, getMimeTypesUnchecked, getProduct, getProductSub,
         getVendor, getVendorSub, getCookieEnabled, getOnLine,
-        getHardwareConcurrency, Navigator, castToNavigator, gTypeNavigator)
+        getHardwareConcurrency, Navigator(..), gTypeNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

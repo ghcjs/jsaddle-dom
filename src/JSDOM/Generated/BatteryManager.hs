@@ -3,8 +3,7 @@
 module JSDOM.Generated.BatteryManager
        (getCharging, getChargingTime, getDischargingTime, getLevel,
         chargingChange, chargingTimeChange, dischargingTimeChange,
-        levelChange, BatteryManager, castToBatteryManager,
-        gTypeBatteryManager)
+        levelChange, BatteryManager(..), gTypeBatteryManager)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

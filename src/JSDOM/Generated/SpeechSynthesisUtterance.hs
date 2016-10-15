@@ -4,8 +4,8 @@ module JSDOM.Generated.SpeechSynthesisUtterance
        (newSpeechSynthesisUtterance, setText, getText, setLang, getLang,
         setVoice, getVoice, getVoiceUnchecked, setVolume, getVolume,
         setRate, getRate, setPitch, getPitch, start, end, error, pause,
-        resume, mark, boundary, SpeechSynthesisUtterance,
-        castToSpeechSynthesisUtterance, gTypeSpeechSynthesisUtterance)
+        resume, mark, boundary, SpeechSynthesisUtterance(..),
+        gTypeSpeechSynthesisUtterance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

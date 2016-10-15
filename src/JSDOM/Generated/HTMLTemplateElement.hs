@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTemplateElement
-       (getContent, getContentUnchecked, HTMLTemplateElement,
-        castToHTMLTemplateElement, gTypeHTMLTemplateElement)
+       (getContent, getContentUnchecked, HTMLTemplateElement(..),
+        gTypeHTMLTemplateElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

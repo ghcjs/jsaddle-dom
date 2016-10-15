@@ -5,9 +5,9 @@ module JSDOM.Generated.SVGGradientElement
         pattern SVG_SPREADMETHOD_REFLECT, pattern SVG_SPREADMETHOD_REPEAT,
         getGradientUnits, getGradientUnitsUnchecked, getGradientTransform,
         getGradientTransformUnchecked, getSpreadMethod,
-        getSpreadMethodUnchecked, SVGGradientElement,
-        castToSVGGradientElement, gTypeSVGGradientElement,
-        IsSVGGradientElement, toSVGGradientElement)
+        getSpreadMethodUnchecked, SVGGradientElement(..),
+        gTypeSVGGradientElement, IsSVGGradientElement,
+        toSVGGradientElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

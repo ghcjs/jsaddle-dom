@@ -4,7 +4,7 @@ module JSDOM.Generated.SQLError
        (pattern UNKNOWN_ERR, pattern DATABASE_ERR, pattern VERSION_ERR,
         pattern TOO_LARGE_ERR, pattern QUOTA_ERR, pattern SYNTAX_ERR,
         pattern CONSTRAINT_ERR, pattern TIMEOUT_ERR, getCode, getMessage,
-        SQLError, castToSQLError, gTypeSQLError)
+        SQLError(..), gTypeSQLError)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

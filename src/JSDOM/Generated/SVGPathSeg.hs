@@ -16,8 +16,8 @@ module JSDOM.Generated.SVGPathSeg
         pattern PATHSEG_CURVETO_CUBIC_SMOOTH_REL,
         pattern PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS,
         pattern PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL, getPathSegType,
-        getPathSegTypeAsLetter, SVGPathSeg, castToSVGPathSeg,
-        gTypeSVGPathSeg, IsSVGPathSeg, toSVGPathSeg)
+        getPathSegTypeAsLetter, SVGPathSeg(..), gTypeSVGPathSeg,
+        IsSVGPathSeg, toSVGPathSeg)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

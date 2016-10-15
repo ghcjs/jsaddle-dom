@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataCue
        (newDataCue, newDataCue', setData, getData, getDataUnchecked,
-        setValue, getValue, getType, DataCue, castToDataCue, gTypeDataCue)
+        setValue, getValue, getType, DataCue(..), gTypeDataCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

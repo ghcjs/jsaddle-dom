@@ -4,7 +4,7 @@ module JSDOM.Generated.MutationEvent
        (initMutationEvent, pattern MODIFICATION, pattern ADDITION,
         pattern REMOVAL, getRelatedNode, getRelatedNodeUnchecked,
         getPrevValue, getNewValue, getAttrName, getAttrChange,
-        MutationEvent, castToMutationEvent, gTypeMutationEvent)
+        MutationEvent(..), gTypeMutationEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

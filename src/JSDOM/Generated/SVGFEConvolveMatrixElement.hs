@@ -10,8 +10,8 @@ module JSDOM.Generated.SVGFEConvolveMatrixElement
         getEdgeMode, getEdgeModeUnchecked, getKernelUnitLengthX,
         getKernelUnitLengthXUnchecked, getKernelUnitLengthY,
         getKernelUnitLengthYUnchecked, getPreserveAlpha,
-        getPreserveAlphaUnchecked, SVGFEConvolveMatrixElement,
-        castToSVGFEConvolveMatrixElement, gTypeSVGFEConvolveMatrixElement)
+        getPreserveAlphaUnchecked, SVGFEConvolveMatrixElement(..),
+        gTypeSVGFEConvolveMatrixElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

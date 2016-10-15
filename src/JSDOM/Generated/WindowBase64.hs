@@ -1,8 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WindowBase64
-       (atob, atob_, btoa, btoa_, WindowBase64, castToWindowBase64,
-        gTypeWindowBase64)
+       (atob, atob_, btoa, btoa_, WindowBase64(..), gTypeWindowBase64)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

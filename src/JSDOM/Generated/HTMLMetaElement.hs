@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMetaElement
        (setContent, getContent, setHttpEquiv, getHttpEquiv, setName,
-        getName, setScheme, getScheme, HTMLMetaElement,
-        castToHTMLMetaElement, gTypeHTMLMetaElement)
+        getName, setScheme, getScheme, HTMLMetaElement(..),
+        gTypeHTMLMetaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

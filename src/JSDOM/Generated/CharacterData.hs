@@ -3,8 +3,8 @@
 module JSDOM.Generated.CharacterData
        (substringData, substringData_, substringDataUnchecked, appendData,
         insertData, deleteData, replaceData, setData, getData,
-        getDataUnchecked, getLength, CharacterData, castToCharacterData,
-        gTypeCharacterData, IsCharacterData, toCharacterData)
+        getDataUnchecked, getLength, CharacterData(..), gTypeCharacterData,
+        IsCharacterData, toCharacterData)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

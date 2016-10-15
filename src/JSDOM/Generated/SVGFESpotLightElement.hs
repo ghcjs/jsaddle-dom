@@ -6,8 +6,7 @@ module JSDOM.Generated.SVGFESpotLightElement
         getPointsAtYUnchecked, getPointsAtZ, getPointsAtZUnchecked,
         getSpecularExponent, getSpecularExponentUnchecked,
         getLimitingConeAngle, getLimitingConeAngleUnchecked,
-        SVGFESpotLightElement, castToSVGFESpotLightElement,
-        gTypeSVGFESpotLightElement)
+        SVGFESpotLightElement(..), gTypeSVGFESpotLightElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

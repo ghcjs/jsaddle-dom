@@ -5,8 +5,7 @@ module JSDOM.Generated.SVGFEDiffuseLightingElement
         getSurfaceScaleUnchecked, getDiffuseConstant,
         getDiffuseConstantUnchecked, getKernelUnitLengthX,
         getKernelUnitLengthXUnchecked, getKernelUnitLengthY,
-        getKernelUnitLengthYUnchecked, SVGFEDiffuseLightingElement,
-        castToSVGFEDiffuseLightingElement,
+        getKernelUnitLengthYUnchecked, SVGFEDiffuseLightingElement(..),
         gTypeSVGFEDiffuseLightingElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

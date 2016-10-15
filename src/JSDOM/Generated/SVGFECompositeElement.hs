@@ -11,8 +11,7 @@ module JSDOM.Generated.SVGFECompositeElement
         getIn1Unchecked, getIn2, getIn2Unchecked, getOperator,
         getOperatorUnchecked, getK1, getK1Unchecked, getK2, getK2Unchecked,
         getK3, getK3Unchecked, getK4, getK4Unchecked,
-        SVGFECompositeElement, castToSVGFECompositeElement,
-        gTypeSVGFECompositeElement)
+        SVGFECompositeElement(..), gTypeSVGFECompositeElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

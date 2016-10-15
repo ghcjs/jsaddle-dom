@@ -9,8 +9,8 @@ module JSDOM.Generated.InspectorFrontendHost
         append, close, platform, platform_, port, port_, showContextMenu,
         dispatchEventAsContextMenuEvent, sendMessageToBackend,
         unbufferedLog, isUnderTest, isUnderTest_, beep, canInspectWorkers,
-        canInspectWorkers_, canSaveAs, canSaveAs_, InspectorFrontendHost,
-        castToInspectorFrontendHost, gTypeInspectorFrontendHost)
+        canInspectWorkers_, canSaveAs, canSaveAs_,
+        InspectorFrontendHost(..), gTypeInspectorFrontendHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Screen
        (getHeight, getWidth, getColorDepth, getPixelDepth, getAvailLeft,
-        getAvailTop, getAvailHeight, getAvailWidth, Screen, castToScreen,
+        getAvailTop, getAvailHeight, getAvailWidth, Screen(..),
         gTypeScreen)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

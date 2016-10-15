@@ -6,8 +6,7 @@ module JSDOM.Generated.HTMLKeygenElement
         getForm, getFormUnchecked, setKeytype, getKeytype, setName,
         getName, getType, getWillValidate, getValidity,
         getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnchecked, HTMLKeygenElement, castToHTMLKeygenElement,
-        gTypeHTMLKeygenElement)
+        getLabelsUnchecked, HTMLKeygenElement(..), gTypeHTMLKeygenElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -9,8 +9,7 @@ module JSDOM.Generated.HTMLButtonElement
         setFormTarget, getFormTarget, setName, getName, setType, getType,
         getTypeUnchecked, setValue, getValue, getWillValidate, getValidity,
         getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnchecked, HTMLButtonElement, castToHTMLButtonElement,
-        gTypeHTMLButtonElement)
+        getLabelsUnchecked, HTMLButtonElement(..), gTypeHTMLButtonElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -9,8 +9,7 @@ module JSDOM.Generated.Selection
         getFocusNode, getFocusNodeUnchecked, getFocusOffset,
         getIsCollapsed, getRangeCount, getBaseNode, getBaseNodeUnchecked,
         getBaseOffset, getExtentNode, getExtentNodeUnchecked,
-        getExtentOffset, getType, Selection, castToSelection,
-        gTypeSelection)
+        getExtentOffset, getType, Selection(..), gTypeSelection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

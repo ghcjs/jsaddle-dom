@@ -6,8 +6,8 @@ module JSDOM.Generated.MouseEvent
         getRelatedTarget, getRelatedTargetUnchecked, getMovementX,
         getMovementY, getOffsetX, getOffsetY, getX, getY, getFromElement,
         getFromElementUnchecked, getToElement, getToElementUnchecked,
-        getDataTransfer, getDataTransferUnchecked, MouseEvent,
-        castToMouseEvent, gTypeMouseEvent, IsMouseEvent, toMouseEvent)
+        getDataTransfer, getDataTransferUnchecked, MouseEvent(..),
+        gTypeMouseEvent, IsMouseEvent, toMouseEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

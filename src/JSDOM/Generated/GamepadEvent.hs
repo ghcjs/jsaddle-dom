@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.GamepadEvent
-       (getGamepad, getGamepadUnchecked, GamepadEvent, castToGamepadEvent,
+       (getGamepad, getGamepadUnchecked, GamepadEvent(..),
         gTypeGamepadEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

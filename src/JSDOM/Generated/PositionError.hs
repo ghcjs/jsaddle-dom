@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PositionError
        (pattern PERMISSION_DENIED, pattern POSITION_UNAVAILABLE,
-        pattern TIMEOUT, getCode, getMessage, PositionError,
-        castToPositionError, gTypePositionError)
+        pattern TIMEOUT, getCode, getMessage, PositionError(..),
+        gTypePositionError)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

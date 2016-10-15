@@ -11,8 +11,7 @@ module JSDOM.Generated.HTMLAnchorElement
         getPortUnchecked, setProtocol, getProtocol, getProtocolUnchecked,
         setSearch, getSearch, getSearchUnchecked, getOrigin,
         getOriginUnchecked, setText, getText, getRelList,
-        getRelListUnchecked, HTMLAnchorElement, castToHTMLAnchorElement,
-        gTypeHTMLAnchorElement)
+        getRelListUnchecked, HTMLAnchorElement(..), gTypeHTMLAnchorElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

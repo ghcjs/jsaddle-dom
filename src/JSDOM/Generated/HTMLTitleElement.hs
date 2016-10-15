@@ -1,8 +1,8 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTitleElement
-       (setText, getText, getTextUnchecked, HTMLTitleElement,
-        castToHTMLTitleElement, gTypeHTMLTitleElement)
+       (setText, getText, getTextUnchecked, HTMLTitleElement(..),
+        gTypeHTMLTitleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

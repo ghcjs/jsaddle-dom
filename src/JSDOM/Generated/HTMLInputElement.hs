@@ -28,7 +28,7 @@ module JSDOM.Generated.HTMLInputElement
         getSelectionDirection, setAlign, getAlign, setUseMap, getUseMap,
         setIncremental, getIncremental, setAutocorrect, getAutocorrect,
         setAutocapitalize, getAutocapitalize, getAutocapitalizeUnchecked,
-        setCapture, getCapture, HTMLInputElement, castToHTMLInputElement,
+        setCapture, getCapture, HTMLInputElement(..),
         gTypeHTMLInputElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

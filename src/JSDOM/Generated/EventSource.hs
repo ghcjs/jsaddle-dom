@@ -3,7 +3,7 @@
 module JSDOM.Generated.EventSource
        (newEventSource, close, pattern CONNECTING, pattern OPEN,
         pattern CLOSED, getUrl, getWithCredentials, getReadyState, open,
-        message, error, EventSource, castToEventSource, gTypeEventSource)
+        message, error, EventSource(..), gTypeEventSource)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

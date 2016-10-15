@@ -1,9 +1,12 @@
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ImplicitParams #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Types (
   -- * JavaScript Context and Monad
@@ -33,7 +36,8 @@ module JSDOM.Types (
 
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', GType(..)
-  , GObject(..), IsGObject, toGObject, castToGObject, gTypeGObject, unsafeCastGObject, isA, objectToString
+  , GObject(..), IsGObject, toGObject, gTypeGObject, isA, objectToString
+  , castTo, unsafeCastTo, uncheckedCastTo
   , strictEqual
 
   -- * Callbacks
@@ -70,25 +74,25 @@ module JSDOM.Types (
   , MutationCallback(MutationCallback), unMutationCallback, IsMutationCallback, toMutationCallback
 
   -- * Promise
-  , Promise(Promise), unPromise, IsPromise, toPromise, castToPromise, gTypePromise
+  , Promise(Promise), unPromise, IsPromise, toPromise, gTypePromise
 
   -- * Date
-  , Date(Date), unDate, IsDate, toDate, castToDate, gTypeDate
+  , Date(Date), unDate, IsDate, toDate, gTypeDate
 
   -- * Arrays
-  , Array(Array), unArray, IsArray, toArray, castToArray, gTypeArray
+  , Array(Array), unArray, IsArray, toArray, gTypeArray
   , ObjectArray(ObjectArray), unObjectArray, IsObjectArray, toObjectArray
-  , ArrayBuffer(ArrayBuffer), unArrayBuffer, IsArrayBuffer, toArrayBuffer, castToArrayBuffer, gTypeArrayBuffer
+  , ArrayBuffer(ArrayBuffer), unArrayBuffer, IsArrayBuffer, toArrayBuffer, gTypeArrayBuffer
   , ArrayBufferView(ArrayBufferView), unArrayBufferView, IsArrayBufferView, toArrayBufferView
-  , Float32Array(Float32Array), unFloat32Array, IsFloat32Array, toFloat32Array, castToFloat32Array, gTypeFloat32Array
-  , Float64Array(Float64Array), unFloat64Array, IsFloat64Array, toFloat64Array, castToFloat64Array, gTypeFloat64Array
-  , Uint8Array(Uint8Array), unUint8Array, IsUint8Array, toUint8Array, castToUint8Array, gTypeUint8Array
-  , Uint8ClampedArray(Uint8ClampedArray), unUint8ClampedArray, IsUint8ClampedArray, toUint8ClampedArray, castToUint8ClampedArray, gTypeUint8ClampedArray
-  , Uint16Array(Uint16Array), unUint16Array, IsUint16Array, toUint16Array, castToUint16Array, gTypeUint16Array
-  , Uint32Array(Uint32Array), unUint32Array, IsUint32Array, toUint32Array, castToUint32Array, gTypeUint32Array
-  , Int8Array(Int8Array), unInt8Array, IsInt8Array, toInt8Array, castToInt8Array, gTypeInt8Array
-  , Int16Array(Int16Array), unInt16Array, IsInt16Array, toInt16Array, castToInt16Array, gTypeInt16Array
-  , Int32Array(Int32Array), unInt32Array, IsInt32Array, toInt32Array, castToInt32Array, gTypeInt32Array
+  , Float32Array(Float32Array), unFloat32Array, IsFloat32Array, toFloat32Array, gTypeFloat32Array
+  , Float64Array(Float64Array), unFloat64Array, IsFloat64Array, toFloat64Array, gTypeFloat64Array
+  , Uint8Array(Uint8Array), unUint8Array, IsUint8Array, toUint8Array, gTypeUint8Array
+  , Uint8ClampedArray(Uint8ClampedArray), unUint8ClampedArray, IsUint8ClampedArray, toUint8ClampedArray, gTypeUint8ClampedArray
+  , Uint16Array(Uint16Array), unUint16Array, IsUint16Array, toUint16Array, gTypeUint16Array
+  , Uint32Array(Uint32Array), unUint32Array, IsUint32Array, toUint32Array, gTypeUint32Array
+  , Int8Array(Int8Array), unInt8Array, IsInt8Array, toInt8Array, gTypeInt8Array
+  , Int16Array(Int16Array), unInt16Array, IsInt16Array, toInt16Array, gTypeInt16Array
+  , Int32Array(Int32Array), unInt32Array, IsInt32Array, toInt32Array, gTypeInt32Array
 
   -- * Geolocation
   , SerializedScriptValue(SerializedScriptValue), unSerializedScriptValue, IsSerializedScriptValue, toSerializedScriptValue
@@ -113,569 +117,569 @@ module JSDOM.Types (
   -- * Interface types from IDL files
 
 -- AUTO GENERATION STARTS HERE
-  , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArrays, castToANGLEInstancedArrays, gTypeANGLEInstancedArrays
-  , AbstractView(AbstractView), unAbstractView, castToAbstractView, gTypeAbstractView
-  , AbstractWorker(AbstractWorker), unAbstractWorker, castToAbstractWorker, gTypeAbstractWorker
-  , AllAudioCapabilities(AllAudioCapabilities), unAllAudioCapabilities, castToAllAudioCapabilities, gTypeAllAudioCapabilities
-  , AllVideoCapabilities(AllVideoCapabilities), unAllVideoCapabilities, castToAllVideoCapabilities, gTypeAllVideoCapabilities
-  , AnalyserNode(AnalyserNode), unAnalyserNode, castToAnalyserNode, gTypeAnalyserNode
-  , AnimationEvent(AnimationEvent), unAnimationEvent, castToAnimationEvent, gTypeAnimationEvent
-  , ApplicationCache(ApplicationCache), unApplicationCache, castToApplicationCache, gTypeApplicationCache
-  , Attr(Attr), unAttr, castToAttr, gTypeAttr
-  , AudioBuffer(AudioBuffer), unAudioBuffer, castToAudioBuffer, gTypeAudioBuffer
-  , AudioBufferSourceNode(AudioBufferSourceNode), unAudioBufferSourceNode, castToAudioBufferSourceNode, gTypeAudioBufferSourceNode
-  , AudioContext(AudioContext), unAudioContext, IsAudioContext, toAudioContext, castToAudioContext, gTypeAudioContext
-  , AudioDestinationNode(AudioDestinationNode), unAudioDestinationNode, castToAudioDestinationNode, gTypeAudioDestinationNode
-  , AudioListener(AudioListener), unAudioListener, castToAudioListener, gTypeAudioListener
-  , AudioNode(AudioNode), unAudioNode, IsAudioNode, toAudioNode, castToAudioNode, gTypeAudioNode
-  , AudioParam(AudioParam), unAudioParam, castToAudioParam, gTypeAudioParam
-  , AudioProcessingEvent(AudioProcessingEvent), unAudioProcessingEvent, castToAudioProcessingEvent, gTypeAudioProcessingEvent
-  , AudioStreamTrack(AudioStreamTrack), unAudioStreamTrack, castToAudioStreamTrack, gTypeAudioStreamTrack
-  , AudioTrack(AudioTrack), unAudioTrack, castToAudioTrack, gTypeAudioTrack
-  , AudioTrackList(AudioTrackList), unAudioTrackList, castToAudioTrackList, gTypeAudioTrackList
-  , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEvent, castToAutocompleteErrorEvent, gTypeAutocompleteErrorEvent
-  , BarProp(BarProp), unBarProp, castToBarProp, gTypeBarProp
-  , BatteryManager(BatteryManager), unBatteryManager, castToBatteryManager, gTypeBatteryManager
-  , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEvent, castToBeforeLoadEvent, gTypeBeforeLoadEvent
-  , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEvent, castToBeforeUnloadEvent, gTypeBeforeUnloadEvent
-  , BiquadFilterNode(BiquadFilterNode), unBiquadFilterNode, castToBiquadFilterNode, gTypeBiquadFilterNode
-  , Blob(Blob), unBlob, IsBlob, toBlob, castToBlob, gTypeBlob
-  , CDATASection(CDATASection), unCDATASection, castToCDATASection, gTypeCDATASection
-  , CSS(CSS), unCSS, castToCSS, gTypeCSS
-  , CSSCharsetRule(CSSCharsetRule), unCSSCharsetRule, castToCSSCharsetRule, gTypeCSSCharsetRule
-  , CSSFontFaceLoadEvent(CSSFontFaceLoadEvent), unCSSFontFaceLoadEvent, castToCSSFontFaceLoadEvent, gTypeCSSFontFaceLoadEvent
-  , CSSFontFaceRule(CSSFontFaceRule), unCSSFontFaceRule, castToCSSFontFaceRule, gTypeCSSFontFaceRule
-  , CSSImportRule(CSSImportRule), unCSSImportRule, castToCSSImportRule, gTypeCSSImportRule
-  , CSSKeyframeRule(CSSKeyframeRule), unCSSKeyframeRule, castToCSSKeyframeRule, gTypeCSSKeyframeRule
-  , CSSKeyframesRule(CSSKeyframesRule), unCSSKeyframesRule, castToCSSKeyframesRule, gTypeCSSKeyframesRule
-  , CSSMediaRule(CSSMediaRule), unCSSMediaRule, castToCSSMediaRule, gTypeCSSMediaRule
-  , CSSPageRule(CSSPageRule), unCSSPageRule, castToCSSPageRule, gTypeCSSPageRule
-  , CSSPrimitiveValue(CSSPrimitiveValue), unCSSPrimitiveValue, castToCSSPrimitiveValue, gTypeCSSPrimitiveValue
-  , CSSRule(CSSRule), unCSSRule, IsCSSRule, toCSSRule, castToCSSRule, gTypeCSSRule
-  , CSSRuleList(CSSRuleList), unCSSRuleList, castToCSSRuleList, gTypeCSSRuleList
-  , CSSStyleDeclaration(CSSStyleDeclaration), unCSSStyleDeclaration, castToCSSStyleDeclaration, gTypeCSSStyleDeclaration
-  , CSSStyleRule(CSSStyleRule), unCSSStyleRule, castToCSSStyleRule, gTypeCSSStyleRule
-  , CSSStyleSheet(CSSStyleSheet), unCSSStyleSheet, castToCSSStyleSheet, gTypeCSSStyleSheet
-  , CSSSupportsRule(CSSSupportsRule), unCSSSupportsRule, castToCSSSupportsRule, gTypeCSSSupportsRule
-  , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRule, castToCSSUnknownRule, gTypeCSSUnknownRule
-  , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValue, castToCSSValue, gTypeCSSValue
-  , CSSValueList(CSSValueList), unCSSValueList, IsCSSValueList, toCSSValueList, castToCSSValueList, gTypeCSSValueList
-  , CanvasGradient(CanvasGradient), unCanvasGradient, castToCanvasGradient, gTypeCanvasGradient
-  , CanvasPattern(CanvasPattern), unCanvasPattern, castToCanvasPattern, gTypeCanvasPattern
-  , CanvasProxy(CanvasProxy), unCanvasProxy, castToCanvasProxy, gTypeCanvasProxy
-  , CanvasRenderingContext(CanvasRenderingContext), unCanvasRenderingContext, IsCanvasRenderingContext, toCanvasRenderingContext, castToCanvasRenderingContext, gTypeCanvasRenderingContext
-  , CanvasRenderingContext2D(CanvasRenderingContext2D), unCanvasRenderingContext2D, castToCanvasRenderingContext2D, gTypeCanvasRenderingContext2D
-  , CapabilityRange(CapabilityRange), unCapabilityRange, castToCapabilityRange, gTypeCapabilityRange
-  , ChannelMergerNode(ChannelMergerNode), unChannelMergerNode, castToChannelMergerNode, gTypeChannelMergerNode
-  , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNode, castToChannelSplitterNode, gTypeChannelSplitterNode
-  , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterData, castToCharacterData, gTypeCharacterData
-  , ChildNode(ChildNode), unChildNode, castToChildNode, gTypeChildNode
-  , ClientRect(ClientRect), unClientRect, castToClientRect, gTypeClientRect
-  , ClientRectList(ClientRectList), unClientRectList, castToClientRectList, gTypeClientRectList
-  , CloseEvent(CloseEvent), unCloseEvent, castToCloseEvent, gTypeCloseEvent
-  , CommandLineAPIHost(CommandLineAPIHost), unCommandLineAPIHost, castToCommandLineAPIHost, gTypeCommandLineAPIHost
-  , Comment(Comment), unComment, castToComment, gTypeComment
-  , CompositionEvent(CompositionEvent), unCompositionEvent, castToCompositionEvent, gTypeCompositionEvent
-  , ConvolverNode(ConvolverNode), unConvolverNode, castToConvolverNode, gTypeConvolverNode
-  , Coordinates(Coordinates), unCoordinates, castToCoordinates, gTypeCoordinates
-  , Counter(Counter), unCounter, castToCounter, gTypeCounter
-  , Crypto(Crypto), unCrypto, castToCrypto, gTypeCrypto
-  , CryptoKey(CryptoKey), unCryptoKey, castToCryptoKey, gTypeCryptoKey
-  , CryptoKeyPair(CryptoKeyPair), unCryptoKeyPair, castToCryptoKeyPair, gTypeCryptoKeyPair
-  , CustomEvent(CustomEvent), unCustomEvent, castToCustomEvent, gTypeCustomEvent
-  , DOMError(DOMError), unDOMError, IsDOMError, toDOMError, castToDOMError, gTypeDOMError
-  , DOMImplementation(DOMImplementation), unDOMImplementation, castToDOMImplementation, gTypeDOMImplementation
-  , DOMNamedFlowCollection(DOMNamedFlowCollection), unDOMNamedFlowCollection, castToDOMNamedFlowCollection, gTypeDOMNamedFlowCollection
-  , DOMParser(DOMParser), unDOMParser, castToDOMParser, gTypeDOMParser
-  , DOMSettableTokenList(DOMSettableTokenList), unDOMSettableTokenList, castToDOMSettableTokenList, gTypeDOMSettableTokenList
-  , DOMStringList(DOMStringList), unDOMStringList, castToDOMStringList, gTypeDOMStringList
-  , DOMStringMap(DOMStringMap), unDOMStringMap, castToDOMStringMap, gTypeDOMStringMap
-  , DOMTokenList(DOMTokenList), unDOMTokenList, IsDOMTokenList, toDOMTokenList, castToDOMTokenList, gTypeDOMTokenList
-  , DataCue(DataCue), unDataCue, castToDataCue, gTypeDataCue
-  , DataTransfer(DataTransfer), unDataTransfer, castToDataTransfer, gTypeDataTransfer
-  , DataTransferItem(DataTransferItem), unDataTransferItem, castToDataTransferItem, gTypeDataTransferItem
-  , DataTransferItemList(DataTransferItemList), unDataTransferItemList, castToDataTransferItemList, gTypeDataTransferItemList
-  , Database(Database), unDatabase, castToDatabase, gTypeDatabase
-  , DedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope), unDedicatedWorkerGlobalScope, castToDedicatedWorkerGlobalScope, gTypeDedicatedWorkerGlobalScope
-  , DelayNode(DelayNode), unDelayNode, castToDelayNode, gTypeDelayNode
-  , DeviceMotionEvent(DeviceMotionEvent), unDeviceMotionEvent, castToDeviceMotionEvent, gTypeDeviceMotionEvent
-  , DeviceOrientationEvent(DeviceOrientationEvent), unDeviceOrientationEvent, castToDeviceOrientationEvent, gTypeDeviceOrientationEvent
-  , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEvent, castToDeviceProximityEvent, gTypeDeviceProximityEvent
-  , Document(Document), unDocument, IsDocument, toDocument, castToDocument, gTypeDocument
-  , DocumentFragment(DocumentFragment), unDocumentFragment, castToDocumentFragment, gTypeDocumentFragment
-  , DocumentType(DocumentType), unDocumentType, castToDocumentType, gTypeDocumentType
-  , DynamicsCompressorNode(DynamicsCompressorNode), unDynamicsCompressorNode, castToDynamicsCompressorNode, gTypeDynamicsCompressorNode
-  , EXTBlendMinMax(EXTBlendMinMax), unEXTBlendMinMax, castToEXTBlendMinMax, gTypeEXTBlendMinMax
-  , EXTFragDepth(EXTFragDepth), unEXTFragDepth, castToEXTFragDepth, gTypeEXTFragDepth
-  , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLOD, castToEXTShaderTextureLOD, gTypeEXTShaderTextureLOD
-  , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropic, castToEXTTextureFilterAnisotropic, gTypeEXTTextureFilterAnisotropic
-  , EXTsRGB(EXTsRGB), unEXTsRGB, castToEXTsRGB, gTypeEXTsRGB
-  , Element(Element), unElement, IsElement, toElement, castToElement, gTypeElement
-  , Entity(Entity), unEntity, castToEntity, gTypeEntity
-  , EntityReference(EntityReference), unEntityReference, castToEntityReference, gTypeEntityReference
-  , ErrorEvent(ErrorEvent), unErrorEvent, castToErrorEvent, gTypeErrorEvent
-  , Event(Event), unEvent, IsEvent, toEvent, castToEvent, gTypeEvent
-  , EventListener(EventListener), unEventListener, castToEventListener, gTypeEventListener
-  , EventSource(EventSource), unEventSource, castToEventSource, gTypeEventSource
-  , EventTarget(EventTarget), unEventTarget, IsEventTarget, toEventTarget, castToEventTarget, gTypeEventTarget
-  , File(File), unFile, castToFile, gTypeFile
-  , FileError(FileError), unFileError, castToFileError, gTypeFileError
-  , FileList(FileList), unFileList, castToFileList, gTypeFileList
-  , FileReader(FileReader), unFileReader, castToFileReader, gTypeFileReader
-  , FileReaderSync(FileReaderSync), unFileReaderSync, castToFileReaderSync, gTypeFileReaderSync
-  , FocusEvent(FocusEvent), unFocusEvent, castToFocusEvent, gTypeFocusEvent
-  , FontLoader(FontLoader), unFontLoader, castToFontLoader, gTypeFontLoader
-  , FormData(FormData), unFormData, castToFormData, gTypeFormData
-  , GainNode(GainNode), unGainNode, castToGainNode, gTypeGainNode
-  , Gamepad(Gamepad), unGamepad, castToGamepad, gTypeGamepad
-  , GamepadButton(GamepadButton), unGamepadButton, castToGamepadButton, gTypeGamepadButton
-  , GamepadEvent(GamepadEvent), unGamepadEvent, castToGamepadEvent, gTypeGamepadEvent
-  , Geolocation(Geolocation), unGeolocation, castToGeolocation, gTypeGeolocation
-  , Geoposition(Geoposition), unGeoposition, castToGeoposition, gTypeGeoposition
-  , HTMLAllCollection(HTMLAllCollection), unHTMLAllCollection, castToHTMLAllCollection, gTypeHTMLAllCollection
-  , HTMLAnchorElement(HTMLAnchorElement), unHTMLAnchorElement, castToHTMLAnchorElement, gTypeHTMLAnchorElement
-  , HTMLAppletElement(HTMLAppletElement), unHTMLAppletElement, castToHTMLAppletElement, gTypeHTMLAppletElement
-  , HTMLAreaElement(HTMLAreaElement), unHTMLAreaElement, castToHTMLAreaElement, gTypeHTMLAreaElement
-  , HTMLAudioElement(HTMLAudioElement), unHTMLAudioElement, castToHTMLAudioElement, gTypeHTMLAudioElement
-  , HTMLBRElement(HTMLBRElement), unHTMLBRElement, castToHTMLBRElement, gTypeHTMLBRElement
-  , HTMLBaseElement(HTMLBaseElement), unHTMLBaseElement, castToHTMLBaseElement, gTypeHTMLBaseElement
-  , HTMLBaseFontElement(HTMLBaseFontElement), unHTMLBaseFontElement, castToHTMLBaseFontElement, gTypeHTMLBaseFontElement
-  , HTMLBodyElement(HTMLBodyElement), unHTMLBodyElement, castToHTMLBodyElement, gTypeHTMLBodyElement
-  , HTMLButtonElement(HTMLButtonElement), unHTMLButtonElement, castToHTMLButtonElement, gTypeHTMLButtonElement
-  , HTMLCanvasElement(HTMLCanvasElement), unHTMLCanvasElement, castToHTMLCanvasElement, gTypeHTMLCanvasElement
-  , HTMLCollection(HTMLCollection), unHTMLCollection, IsHTMLCollection, toHTMLCollection, castToHTMLCollection, gTypeHTMLCollection
-  , HTMLDListElement(HTMLDListElement), unHTMLDListElement, castToHTMLDListElement, gTypeHTMLDListElement
-  , HTMLDataListElement(HTMLDataListElement), unHTMLDataListElement, castToHTMLDataListElement, gTypeHTMLDataListElement
-  , HTMLDetailsElement(HTMLDetailsElement), unHTMLDetailsElement, castToHTMLDetailsElement, gTypeHTMLDetailsElement
-  , HTMLDirectoryElement(HTMLDirectoryElement), unHTMLDirectoryElement, castToHTMLDirectoryElement, gTypeHTMLDirectoryElement
-  , HTMLDivElement(HTMLDivElement), unHTMLDivElement, castToHTMLDivElement, gTypeHTMLDivElement
-  , HTMLDocument(HTMLDocument), unHTMLDocument, castToHTMLDocument, gTypeHTMLDocument
-  , HTMLElement(HTMLElement), unHTMLElement, IsHTMLElement, toHTMLElement, castToHTMLElement, gTypeHTMLElement
-  , HTMLEmbedElement(HTMLEmbedElement), unHTMLEmbedElement, castToHTMLEmbedElement, gTypeHTMLEmbedElement
-  , HTMLFieldSetElement(HTMLFieldSetElement), unHTMLFieldSetElement, castToHTMLFieldSetElement, gTypeHTMLFieldSetElement
-  , HTMLFontElement(HTMLFontElement), unHTMLFontElement, castToHTMLFontElement, gTypeHTMLFontElement
-  , HTMLFormControlsCollection(HTMLFormControlsCollection), unHTMLFormControlsCollection, castToHTMLFormControlsCollection, gTypeHTMLFormControlsCollection
-  , HTMLFormElement(HTMLFormElement), unHTMLFormElement, castToHTMLFormElement, gTypeHTMLFormElement
-  , HTMLFrameElement(HTMLFrameElement), unHTMLFrameElement, castToHTMLFrameElement, gTypeHTMLFrameElement
-  , HTMLFrameSetElement(HTMLFrameSetElement), unHTMLFrameSetElement, castToHTMLFrameSetElement, gTypeHTMLFrameSetElement
-  , HTMLHRElement(HTMLHRElement), unHTMLHRElement, castToHTMLHRElement, gTypeHTMLHRElement
-  , HTMLHeadElement(HTMLHeadElement), unHTMLHeadElement, castToHTMLHeadElement, gTypeHTMLHeadElement
-  , HTMLHeadingElement(HTMLHeadingElement), unHTMLHeadingElement, castToHTMLHeadingElement, gTypeHTMLHeadingElement
-  , HTMLHtmlElement(HTMLHtmlElement), unHTMLHtmlElement, castToHTMLHtmlElement, gTypeHTMLHtmlElement
-  , HTMLIFrameElement(HTMLIFrameElement), unHTMLIFrameElement, castToHTMLIFrameElement, gTypeHTMLIFrameElement
-  , HTMLImageElement(HTMLImageElement), unHTMLImageElement, castToHTMLImageElement, gTypeHTMLImageElement
-  , HTMLInputElement(HTMLInputElement), unHTMLInputElement, castToHTMLInputElement, gTypeHTMLInputElement
-  , HTMLKeygenElement(HTMLKeygenElement), unHTMLKeygenElement, castToHTMLKeygenElement, gTypeHTMLKeygenElement
-  , HTMLLIElement(HTMLLIElement), unHTMLLIElement, castToHTMLLIElement, gTypeHTMLLIElement
-  , HTMLLabelElement(HTMLLabelElement), unHTMLLabelElement, castToHTMLLabelElement, gTypeHTMLLabelElement
-  , HTMLLegendElement(HTMLLegendElement), unHTMLLegendElement, castToHTMLLegendElement, gTypeHTMLLegendElement
-  , HTMLLinkElement(HTMLLinkElement), unHTMLLinkElement, castToHTMLLinkElement, gTypeHTMLLinkElement
-  , HTMLMapElement(HTMLMapElement), unHTMLMapElement, castToHTMLMapElement, gTypeHTMLMapElement
-  , HTMLMarqueeElement(HTMLMarqueeElement), unHTMLMarqueeElement, castToHTMLMarqueeElement, gTypeHTMLMarqueeElement
-  , HTMLMediaElement(HTMLMediaElement), unHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement, castToHTMLMediaElement, gTypeHTMLMediaElement
-  , HTMLMenuElement(HTMLMenuElement), unHTMLMenuElement, castToHTMLMenuElement, gTypeHTMLMenuElement
-  , HTMLMetaElement(HTMLMetaElement), unHTMLMetaElement, castToHTMLMetaElement, gTypeHTMLMetaElement
-  , HTMLMeterElement(HTMLMeterElement), unHTMLMeterElement, castToHTMLMeterElement, gTypeHTMLMeterElement
-  , HTMLModElement(HTMLModElement), unHTMLModElement, castToHTMLModElement, gTypeHTMLModElement
-  , HTMLOListElement(HTMLOListElement), unHTMLOListElement, castToHTMLOListElement, gTypeHTMLOListElement
-  , HTMLObjectElement(HTMLObjectElement), unHTMLObjectElement, castToHTMLObjectElement, gTypeHTMLObjectElement
-  , HTMLOptGroupElement(HTMLOptGroupElement), unHTMLOptGroupElement, castToHTMLOptGroupElement, gTypeHTMLOptGroupElement
-  , HTMLOptionElement(HTMLOptionElement), unHTMLOptionElement, castToHTMLOptionElement, gTypeHTMLOptionElement
-  , HTMLOptionsCollection(HTMLOptionsCollection), unHTMLOptionsCollection, castToHTMLOptionsCollection, gTypeHTMLOptionsCollection
-  , HTMLOutputElement(HTMLOutputElement), unHTMLOutputElement, castToHTMLOutputElement, gTypeHTMLOutputElement
-  , HTMLParagraphElement(HTMLParagraphElement), unHTMLParagraphElement, castToHTMLParagraphElement, gTypeHTMLParagraphElement
-  , HTMLParamElement(HTMLParamElement), unHTMLParamElement, castToHTMLParamElement, gTypeHTMLParamElement
-  , HTMLPreElement(HTMLPreElement), unHTMLPreElement, castToHTMLPreElement, gTypeHTMLPreElement
-  , HTMLProgressElement(HTMLProgressElement), unHTMLProgressElement, castToHTMLProgressElement, gTypeHTMLProgressElement
-  , HTMLQuoteElement(HTMLQuoteElement), unHTMLQuoteElement, castToHTMLQuoteElement, gTypeHTMLQuoteElement
-  , HTMLScriptElement(HTMLScriptElement), unHTMLScriptElement, castToHTMLScriptElement, gTypeHTMLScriptElement
-  , HTMLSelectElement(HTMLSelectElement), unHTMLSelectElement, castToHTMLSelectElement, gTypeHTMLSelectElement
-  , HTMLSourceElement(HTMLSourceElement), unHTMLSourceElement, castToHTMLSourceElement, gTypeHTMLSourceElement
-  , HTMLSpanElement(HTMLSpanElement), unHTMLSpanElement, castToHTMLSpanElement, gTypeHTMLSpanElement
-  , HTMLStyleElement(HTMLStyleElement), unHTMLStyleElement, castToHTMLStyleElement, gTypeHTMLStyleElement
-  , HTMLTableCaptionElement(HTMLTableCaptionElement), unHTMLTableCaptionElement, castToHTMLTableCaptionElement, gTypeHTMLTableCaptionElement
-  , HTMLTableCellElement(HTMLTableCellElement), unHTMLTableCellElement, castToHTMLTableCellElement, gTypeHTMLTableCellElement
-  , HTMLTableColElement(HTMLTableColElement), unHTMLTableColElement, castToHTMLTableColElement, gTypeHTMLTableColElement
-  , HTMLTableElement(HTMLTableElement), unHTMLTableElement, castToHTMLTableElement, gTypeHTMLTableElement
-  , HTMLTableRowElement(HTMLTableRowElement), unHTMLTableRowElement, castToHTMLTableRowElement, gTypeHTMLTableRowElement
-  , HTMLTableSectionElement(HTMLTableSectionElement), unHTMLTableSectionElement, castToHTMLTableSectionElement, gTypeHTMLTableSectionElement
-  , HTMLTemplateElement(HTMLTemplateElement), unHTMLTemplateElement, castToHTMLTemplateElement, gTypeHTMLTemplateElement
-  , HTMLTextAreaElement(HTMLTextAreaElement), unHTMLTextAreaElement, castToHTMLTextAreaElement, gTypeHTMLTextAreaElement
-  , HTMLTitleElement(HTMLTitleElement), unHTMLTitleElement, castToHTMLTitleElement, gTypeHTMLTitleElement
-  , HTMLTrackElement(HTMLTrackElement), unHTMLTrackElement, castToHTMLTrackElement, gTypeHTMLTrackElement
-  , HTMLUListElement(HTMLUListElement), unHTMLUListElement, castToHTMLUListElement, gTypeHTMLUListElement
-  , HTMLUnknownElement(HTMLUnknownElement), unHTMLUnknownElement, castToHTMLUnknownElement, gTypeHTMLUnknownElement
-  , HTMLVideoElement(HTMLVideoElement), unHTMLVideoElement, castToHTMLVideoElement, gTypeHTMLVideoElement
-  , HashChangeEvent(HashChangeEvent), unHashChangeEvent, castToHashChangeEvent, gTypeHashChangeEvent
-  , History(History), unHistory, castToHistory, gTypeHistory
-  , IDBAny(IDBAny), unIDBAny, castToIDBAny, gTypeIDBAny
-  , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursor, castToIDBCursor, gTypeIDBCursor
-  , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValue, castToIDBCursorWithValue, gTypeIDBCursorWithValue
-  , IDBDatabase(IDBDatabase), unIDBDatabase, castToIDBDatabase, gTypeIDBDatabase
-  , IDBFactory(IDBFactory), unIDBFactory, castToIDBFactory, gTypeIDBFactory
-  , IDBIndex(IDBIndex), unIDBIndex, castToIDBIndex, gTypeIDBIndex
-  , IDBKeyRange(IDBKeyRange), unIDBKeyRange, castToIDBKeyRange, gTypeIDBKeyRange
-  , IDBObjectStore(IDBObjectStore), unIDBObjectStore, castToIDBObjectStore, gTypeIDBObjectStore
-  , IDBOpenDBRequest(IDBOpenDBRequest), unIDBOpenDBRequest, castToIDBOpenDBRequest, gTypeIDBOpenDBRequest
-  , IDBRequest(IDBRequest), unIDBRequest, IsIDBRequest, toIDBRequest, castToIDBRequest, gTypeIDBRequest
-  , IDBTransaction(IDBTransaction), unIDBTransaction, castToIDBTransaction, gTypeIDBTransaction
-  , IDBVersionChangeEvent(IDBVersionChangeEvent), unIDBVersionChangeEvent, castToIDBVersionChangeEvent, gTypeIDBVersionChangeEvent
-  , ImageData(ImageData), unImageData, castToImageData, gTypeImageData
-  , InspectorFrontendHost(InspectorFrontendHost), unInspectorFrontendHost, castToInspectorFrontendHost, gTypeInspectorFrontendHost
-  , InternalSettings(InternalSettings), unInternalSettings, castToInternalSettings, gTypeInternalSettings
-  , Internals(Internals), unInternals, castToInternals, gTypeInternals
-  , KeyboardEvent(KeyboardEvent), unKeyboardEvent, castToKeyboardEvent, gTypeKeyboardEvent
-  , Location(Location), unLocation, castToLocation, gTypeLocation
-  , MallocStatistics(MallocStatistics), unMallocStatistics, castToMallocStatistics, gTypeMallocStatistics
-  , MediaController(MediaController), unMediaController, castToMediaController, gTypeMediaController
-  , MediaControlsHost(MediaControlsHost), unMediaControlsHost, castToMediaControlsHost, gTypeMediaControlsHost
-  , MediaElementAudioSourceNode(MediaElementAudioSourceNode), unMediaElementAudioSourceNode, castToMediaElementAudioSourceNode, gTypeMediaElementAudioSourceNode
-  , MediaError(MediaError), unMediaError, castToMediaError, gTypeMediaError
-  , MediaKeyError(MediaKeyError), unMediaKeyError, castToMediaKeyError, gTypeMediaKeyError
-  , MediaKeyEvent(MediaKeyEvent), unMediaKeyEvent, castToMediaKeyEvent, gTypeMediaKeyEvent
-  , MediaKeyMessageEvent(MediaKeyMessageEvent), unMediaKeyMessageEvent, castToMediaKeyMessageEvent, gTypeMediaKeyMessageEvent
-  , MediaKeyNeededEvent(MediaKeyNeededEvent), unMediaKeyNeededEvent, castToMediaKeyNeededEvent, gTypeMediaKeyNeededEvent
-  , MediaKeySession(MediaKeySession), unMediaKeySession, castToMediaKeySession, gTypeMediaKeySession
-  , MediaKeys(MediaKeys), unMediaKeys, castToMediaKeys, gTypeMediaKeys
-  , MediaList(MediaList), unMediaList, castToMediaList, gTypeMediaList
-  , MediaQueryList(MediaQueryList), unMediaQueryList, castToMediaQueryList, gTypeMediaQueryList
-  , MediaSource(MediaSource), unMediaSource, castToMediaSource, gTypeMediaSource
-  , MediaSourceStates(MediaSourceStates), unMediaSourceStates, castToMediaSourceStates, gTypeMediaSourceStates
-  , MediaStream(MediaStream), unMediaStream, castToMediaStream, gTypeMediaStream
-  , MediaStreamAudioDestinationNode(MediaStreamAudioDestinationNode), unMediaStreamAudioDestinationNode, castToMediaStreamAudioDestinationNode, gTypeMediaStreamAudioDestinationNode
-  , MediaStreamAudioSourceNode(MediaStreamAudioSourceNode), unMediaStreamAudioSourceNode, castToMediaStreamAudioSourceNode, gTypeMediaStreamAudioSourceNode
-  , MediaStreamCapabilities(MediaStreamCapabilities), unMediaStreamCapabilities, IsMediaStreamCapabilities, toMediaStreamCapabilities, castToMediaStreamCapabilities, gTypeMediaStreamCapabilities
-  , MediaStreamEvent(MediaStreamEvent), unMediaStreamEvent, castToMediaStreamEvent, gTypeMediaStreamEvent
-  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack, castToMediaStreamTrack, gTypeMediaStreamTrack
-  , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEvent, castToMediaStreamTrackEvent, gTypeMediaStreamTrackEvent
-  , MediaTrackConstraint(MediaTrackConstraint), unMediaTrackConstraint, castToMediaTrackConstraint, gTypeMediaTrackConstraint
-  , MediaTrackConstraintSet(MediaTrackConstraintSet), unMediaTrackConstraintSet, castToMediaTrackConstraintSet, gTypeMediaTrackConstraintSet
-  , MediaTrackConstraints(MediaTrackConstraints), unMediaTrackConstraints, castToMediaTrackConstraints, gTypeMediaTrackConstraints
-  , MemoryInfo(MemoryInfo), unMemoryInfo, castToMemoryInfo, gTypeMemoryInfo
-  , MessageChannel(MessageChannel), unMessageChannel, castToMessageChannel, gTypeMessageChannel
-  , MessageEvent(MessageEvent), unMessageEvent, castToMessageEvent, gTypeMessageEvent
-  , MessagePort(MessagePort), unMessagePort, castToMessagePort, gTypeMessagePort
-  , MimeType(MimeType), unMimeType, castToMimeType, gTypeMimeType
-  , MimeTypeArray(MimeTypeArray), unMimeTypeArray, castToMimeTypeArray, gTypeMimeTypeArray
-  , MouseEvent(MouseEvent), unMouseEvent, IsMouseEvent, toMouseEvent, castToMouseEvent, gTypeMouseEvent
-  , MutationEvent(MutationEvent), unMutationEvent, castToMutationEvent, gTypeMutationEvent
-  , MutationObserver(MutationObserver), unMutationObserver, castToMutationObserver, gTypeMutationObserver
-  , MutationRecord(MutationRecord), unMutationRecord, castToMutationRecord, gTypeMutationRecord
-  , NamedNodeMap(NamedNodeMap), unNamedNodeMap, castToNamedNodeMap, gTypeNamedNodeMap
-  , Navigator(Navigator), unNavigator, castToNavigator, gTypeNavigator
-  , NavigatorUserMediaError(NavigatorUserMediaError), unNavigatorUserMediaError, castToNavigatorUserMediaError, gTypeNavigatorUserMediaError
-  , Node(Node), unNode, IsNode, toNode, castToNode, gTypeNode
-  , NodeFilter(NodeFilter), unNodeFilter, castToNodeFilter, gTypeNodeFilter
-  , NodeIterator(NodeIterator), unNodeIterator, castToNodeIterator, gTypeNodeIterator
-  , NodeList(NodeList), unNodeList, IsNodeList, toNodeList, castToNodeList, gTypeNodeList
-  , Notification(Notification), unNotification, castToNotification, gTypeNotification
-  , NotificationCenter(NotificationCenter), unNotificationCenter, castToNotificationCenter, gTypeNotificationCenter
-  , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUint, castToOESElementIndexUint, gTypeOESElementIndexUint
-  , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivatives, castToOESStandardDerivatives, gTypeOESStandardDerivatives
-  , OESTextureFloat(OESTextureFloat), unOESTextureFloat, castToOESTextureFloat, gTypeOESTextureFloat
-  , OESTextureFloatLinear(OESTextureFloatLinear), unOESTextureFloatLinear, castToOESTextureFloatLinear, gTypeOESTextureFloatLinear
-  , OESTextureHalfFloat(OESTextureHalfFloat), unOESTextureHalfFloat, castToOESTextureHalfFloat, gTypeOESTextureHalfFloat
-  , OESTextureHalfFloatLinear(OESTextureHalfFloatLinear), unOESTextureHalfFloatLinear, castToOESTextureHalfFloatLinear, gTypeOESTextureHalfFloatLinear
-  , OESVertexArrayObject(OESVertexArrayObject), unOESVertexArrayObject, castToOESVertexArrayObject, gTypeOESVertexArrayObject
-  , OfflineAudioCompletionEvent(OfflineAudioCompletionEvent), unOfflineAudioCompletionEvent, castToOfflineAudioCompletionEvent, gTypeOfflineAudioCompletionEvent
-  , OfflineAudioContext(OfflineAudioContext), unOfflineAudioContext, castToOfflineAudioContext, gTypeOfflineAudioContext
-  , OscillatorNode(OscillatorNode), unOscillatorNode, castToOscillatorNode, gTypeOscillatorNode
-  , OverflowEvent(OverflowEvent), unOverflowEvent, castToOverflowEvent, gTypeOverflowEvent
-  , PageTransitionEvent(PageTransitionEvent), unPageTransitionEvent, castToPageTransitionEvent, gTypePageTransitionEvent
-  , PannerNode(PannerNode), unPannerNode, castToPannerNode, gTypePannerNode
-  , Path2D(Path2D), unPath2D, castToPath2D, gTypePath2D
-  , Performance(Performance), unPerformance, castToPerformance, gTypePerformance
-  , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntry, castToPerformanceEntry, gTypePerformanceEntry
-  , PerformanceEntryList(PerformanceEntryList), unPerformanceEntryList, castToPerformanceEntryList, gTypePerformanceEntryList
-  , PerformanceMark(PerformanceMark), unPerformanceMark, castToPerformanceMark, gTypePerformanceMark
-  , PerformanceMeasure(PerformanceMeasure), unPerformanceMeasure, castToPerformanceMeasure, gTypePerformanceMeasure
-  , PerformanceNavigation(PerformanceNavigation), unPerformanceNavigation, castToPerformanceNavigation, gTypePerformanceNavigation
-  , PerformanceResourceTiming(PerformanceResourceTiming), unPerformanceResourceTiming, castToPerformanceResourceTiming, gTypePerformanceResourceTiming
-  , PerformanceTiming(PerformanceTiming), unPerformanceTiming, castToPerformanceTiming, gTypePerformanceTiming
-  , PeriodicWave(PeriodicWave), unPeriodicWave, castToPeriodicWave, gTypePeriodicWave
-  , Plugin(Plugin), unPlugin, castToPlugin, gTypePlugin
-  , PluginArray(PluginArray), unPluginArray, castToPluginArray, gTypePluginArray
-  , PopStateEvent(PopStateEvent), unPopStateEvent, castToPopStateEvent, gTypePopStateEvent
-  , PositionError(PositionError), unPositionError, castToPositionError, gTypePositionError
-  , ProcessingInstruction(ProcessingInstruction), unProcessingInstruction, castToProcessingInstruction, gTypeProcessingInstruction
-  , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEvent, castToProgressEvent, gTypeProgressEvent
-  , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacement, castToQuickTimePluginReplacement, gTypeQuickTimePluginReplacement
-  , RGBColor(RGBColor), unRGBColor, castToRGBColor, gTypeRGBColor
-  , RTCConfiguration(RTCConfiguration), unRTCConfiguration, castToRTCConfiguration, gTypeRTCConfiguration
-  , RTCDTMFSender(RTCDTMFSender), unRTCDTMFSender, castToRTCDTMFSender, gTypeRTCDTMFSender
-  , RTCDTMFToneChangeEvent(RTCDTMFToneChangeEvent), unRTCDTMFToneChangeEvent, castToRTCDTMFToneChangeEvent, gTypeRTCDTMFToneChangeEvent
-  , RTCDataChannel(RTCDataChannel), unRTCDataChannel, castToRTCDataChannel, gTypeRTCDataChannel
-  , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEvent, castToRTCDataChannelEvent, gTypeRTCDataChannelEvent
-  , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidate, castToRTCIceCandidate, gTypeRTCIceCandidate
-  , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEvent, castToRTCIceCandidateEvent, gTypeRTCIceCandidateEvent
-  , RTCIceServer(RTCIceServer), unRTCIceServer, castToRTCIceServer, gTypeRTCIceServer
-  , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnection, castToRTCPeerConnection, gTypeRTCPeerConnection
-  , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescription, castToRTCSessionDescription, gTypeRTCSessionDescription
-  , RTCStatsReport(RTCStatsReport), unRTCStatsReport, castToRTCStatsReport, gTypeRTCStatsReport
-  , RTCStatsResponse(RTCStatsResponse), unRTCStatsResponse, castToRTCStatsResponse, gTypeRTCStatsResponse
-  , RadioNodeList(RadioNodeList), unRadioNodeList, castToRadioNodeList, gTypeRadioNodeList
-  , Range(Range), unRange, castToRange, gTypeRange
-  , ReadableStream(ReadableStream), unReadableStream, castToReadableStream, gTypeReadableStream
-  , Rect(Rect), unRect, castToRect, gTypeRect
-  , SQLError(SQLError), unSQLError, castToSQLError, gTypeSQLError
-  , SQLResultSet(SQLResultSet), unSQLResultSet, castToSQLResultSet, gTypeSQLResultSet
-  , SQLResultSetRowList(SQLResultSetRowList), unSQLResultSetRowList, castToSQLResultSetRowList, gTypeSQLResultSetRowList
-  , SQLTransaction(SQLTransaction), unSQLTransaction, castToSQLTransaction, gTypeSQLTransaction
-  , SVGAElement(SVGAElement), unSVGAElement, castToSVGAElement, gTypeSVGAElement
-  , SVGAltGlyphDefElement(SVGAltGlyphDefElement), unSVGAltGlyphDefElement, castToSVGAltGlyphDefElement, gTypeSVGAltGlyphDefElement
-  , SVGAltGlyphElement(SVGAltGlyphElement), unSVGAltGlyphElement, castToSVGAltGlyphElement, gTypeSVGAltGlyphElement
-  , SVGAltGlyphItemElement(SVGAltGlyphItemElement), unSVGAltGlyphItemElement, castToSVGAltGlyphItemElement, gTypeSVGAltGlyphItemElement
-  , SVGAngle(SVGAngle), unSVGAngle, castToSVGAngle, gTypeSVGAngle
-  , SVGAnimateColorElement(SVGAnimateColorElement), unSVGAnimateColorElement, castToSVGAnimateColorElement, gTypeSVGAnimateColorElement
-  , SVGAnimateElement(SVGAnimateElement), unSVGAnimateElement, castToSVGAnimateElement, gTypeSVGAnimateElement
-  , SVGAnimateMotionElement(SVGAnimateMotionElement), unSVGAnimateMotionElement, castToSVGAnimateMotionElement, gTypeSVGAnimateMotionElement
-  , SVGAnimateTransformElement(SVGAnimateTransformElement), unSVGAnimateTransformElement, castToSVGAnimateTransformElement, gTypeSVGAnimateTransformElement
-  , SVGAnimatedAngle(SVGAnimatedAngle), unSVGAnimatedAngle, castToSVGAnimatedAngle, gTypeSVGAnimatedAngle
-  , SVGAnimatedBoolean(SVGAnimatedBoolean), unSVGAnimatedBoolean, castToSVGAnimatedBoolean, gTypeSVGAnimatedBoolean
-  , SVGAnimatedEnumeration(SVGAnimatedEnumeration), unSVGAnimatedEnumeration, castToSVGAnimatedEnumeration, gTypeSVGAnimatedEnumeration
-  , SVGAnimatedInteger(SVGAnimatedInteger), unSVGAnimatedInteger, castToSVGAnimatedInteger, gTypeSVGAnimatedInteger
-  , SVGAnimatedLength(SVGAnimatedLength), unSVGAnimatedLength, castToSVGAnimatedLength, gTypeSVGAnimatedLength
-  , SVGAnimatedLengthList(SVGAnimatedLengthList), unSVGAnimatedLengthList, castToSVGAnimatedLengthList, gTypeSVGAnimatedLengthList
-  , SVGAnimatedNumber(SVGAnimatedNumber), unSVGAnimatedNumber, castToSVGAnimatedNumber, gTypeSVGAnimatedNumber
-  , SVGAnimatedNumberList(SVGAnimatedNumberList), unSVGAnimatedNumberList, castToSVGAnimatedNumberList, gTypeSVGAnimatedNumberList
-  , SVGAnimatedPreserveAspectRatio(SVGAnimatedPreserveAspectRatio), unSVGAnimatedPreserveAspectRatio, castToSVGAnimatedPreserveAspectRatio, gTypeSVGAnimatedPreserveAspectRatio
-  , SVGAnimatedRect(SVGAnimatedRect), unSVGAnimatedRect, castToSVGAnimatedRect, gTypeSVGAnimatedRect
-  , SVGAnimatedString(SVGAnimatedString), unSVGAnimatedString, castToSVGAnimatedString, gTypeSVGAnimatedString
-  , SVGAnimatedTransformList(SVGAnimatedTransformList), unSVGAnimatedTransformList, castToSVGAnimatedTransformList, gTypeSVGAnimatedTransformList
-  , SVGAnimationElement(SVGAnimationElement), unSVGAnimationElement, IsSVGAnimationElement, toSVGAnimationElement, castToSVGAnimationElement, gTypeSVGAnimationElement
-  , SVGCircleElement(SVGCircleElement), unSVGCircleElement, castToSVGCircleElement, gTypeSVGCircleElement
-  , SVGClipPathElement(SVGClipPathElement), unSVGClipPathElement, castToSVGClipPathElement, gTypeSVGClipPathElement
-  , SVGColor(SVGColor), unSVGColor, IsSVGColor, toSVGColor, castToSVGColor, gTypeSVGColor
-  , SVGComponentTransferFunctionElement(SVGComponentTransferFunctionElement), unSVGComponentTransferFunctionElement, IsSVGComponentTransferFunctionElement, toSVGComponentTransferFunctionElement, castToSVGComponentTransferFunctionElement, gTypeSVGComponentTransferFunctionElement
-  , SVGCursorElement(SVGCursorElement), unSVGCursorElement, castToSVGCursorElement, gTypeSVGCursorElement
-  , SVGDefsElement(SVGDefsElement), unSVGDefsElement, castToSVGDefsElement, gTypeSVGDefsElement
-  , SVGDescElement(SVGDescElement), unSVGDescElement, castToSVGDescElement, gTypeSVGDescElement
-  , SVGDocument(SVGDocument), unSVGDocument, castToSVGDocument, gTypeSVGDocument
-  , SVGElement(SVGElement), unSVGElement, IsSVGElement, toSVGElement, castToSVGElement, gTypeSVGElement
-  , SVGEllipseElement(SVGEllipseElement), unSVGEllipseElement, castToSVGEllipseElement, gTypeSVGEllipseElement
-  , SVGExternalResourcesRequired(SVGExternalResourcesRequired), unSVGExternalResourcesRequired, castToSVGExternalResourcesRequired, gTypeSVGExternalResourcesRequired
-  , SVGFEBlendElement(SVGFEBlendElement), unSVGFEBlendElement, castToSVGFEBlendElement, gTypeSVGFEBlendElement
-  , SVGFEColorMatrixElement(SVGFEColorMatrixElement), unSVGFEColorMatrixElement, castToSVGFEColorMatrixElement, gTypeSVGFEColorMatrixElement
-  , SVGFEComponentTransferElement(SVGFEComponentTransferElement), unSVGFEComponentTransferElement, castToSVGFEComponentTransferElement, gTypeSVGFEComponentTransferElement
-  , SVGFECompositeElement(SVGFECompositeElement), unSVGFECompositeElement, castToSVGFECompositeElement, gTypeSVGFECompositeElement
-  , SVGFEConvolveMatrixElement(SVGFEConvolveMatrixElement), unSVGFEConvolveMatrixElement, castToSVGFEConvolveMatrixElement, gTypeSVGFEConvolveMatrixElement
-  , SVGFEDiffuseLightingElement(SVGFEDiffuseLightingElement), unSVGFEDiffuseLightingElement, castToSVGFEDiffuseLightingElement, gTypeSVGFEDiffuseLightingElement
-  , SVGFEDisplacementMapElement(SVGFEDisplacementMapElement), unSVGFEDisplacementMapElement, castToSVGFEDisplacementMapElement, gTypeSVGFEDisplacementMapElement
-  , SVGFEDistantLightElement(SVGFEDistantLightElement), unSVGFEDistantLightElement, castToSVGFEDistantLightElement, gTypeSVGFEDistantLightElement
-  , SVGFEDropShadowElement(SVGFEDropShadowElement), unSVGFEDropShadowElement, castToSVGFEDropShadowElement, gTypeSVGFEDropShadowElement
-  , SVGFEFloodElement(SVGFEFloodElement), unSVGFEFloodElement, castToSVGFEFloodElement, gTypeSVGFEFloodElement
-  , SVGFEFuncAElement(SVGFEFuncAElement), unSVGFEFuncAElement, castToSVGFEFuncAElement, gTypeSVGFEFuncAElement
-  , SVGFEFuncBElement(SVGFEFuncBElement), unSVGFEFuncBElement, castToSVGFEFuncBElement, gTypeSVGFEFuncBElement
-  , SVGFEFuncGElement(SVGFEFuncGElement), unSVGFEFuncGElement, castToSVGFEFuncGElement, gTypeSVGFEFuncGElement
-  , SVGFEFuncRElement(SVGFEFuncRElement), unSVGFEFuncRElement, castToSVGFEFuncRElement, gTypeSVGFEFuncRElement
-  , SVGFEGaussianBlurElement(SVGFEGaussianBlurElement), unSVGFEGaussianBlurElement, castToSVGFEGaussianBlurElement, gTypeSVGFEGaussianBlurElement
-  , SVGFEImageElement(SVGFEImageElement), unSVGFEImageElement, castToSVGFEImageElement, gTypeSVGFEImageElement
-  , SVGFEMergeElement(SVGFEMergeElement), unSVGFEMergeElement, castToSVGFEMergeElement, gTypeSVGFEMergeElement
-  , SVGFEMergeNodeElement(SVGFEMergeNodeElement), unSVGFEMergeNodeElement, castToSVGFEMergeNodeElement, gTypeSVGFEMergeNodeElement
-  , SVGFEMorphologyElement(SVGFEMorphologyElement), unSVGFEMorphologyElement, castToSVGFEMorphologyElement, gTypeSVGFEMorphologyElement
-  , SVGFEOffsetElement(SVGFEOffsetElement), unSVGFEOffsetElement, castToSVGFEOffsetElement, gTypeSVGFEOffsetElement
-  , SVGFEPointLightElement(SVGFEPointLightElement), unSVGFEPointLightElement, castToSVGFEPointLightElement, gTypeSVGFEPointLightElement
-  , SVGFESpecularLightingElement(SVGFESpecularLightingElement), unSVGFESpecularLightingElement, castToSVGFESpecularLightingElement, gTypeSVGFESpecularLightingElement
-  , SVGFESpotLightElement(SVGFESpotLightElement), unSVGFESpotLightElement, castToSVGFESpotLightElement, gTypeSVGFESpotLightElement
-  , SVGFETileElement(SVGFETileElement), unSVGFETileElement, castToSVGFETileElement, gTypeSVGFETileElement
-  , SVGFETurbulenceElement(SVGFETurbulenceElement), unSVGFETurbulenceElement, castToSVGFETurbulenceElement, gTypeSVGFETurbulenceElement
-  , SVGFilterElement(SVGFilterElement), unSVGFilterElement, castToSVGFilterElement, gTypeSVGFilterElement
-  , SVGFilterPrimitiveStandardAttributes(SVGFilterPrimitiveStandardAttributes), unSVGFilterPrimitiveStandardAttributes, castToSVGFilterPrimitiveStandardAttributes, gTypeSVGFilterPrimitiveStandardAttributes
-  , SVGFitToViewBox(SVGFitToViewBox), unSVGFitToViewBox, castToSVGFitToViewBox, gTypeSVGFitToViewBox
-  , SVGFontElement(SVGFontElement), unSVGFontElement, castToSVGFontElement, gTypeSVGFontElement
-  , SVGFontFaceElement(SVGFontFaceElement), unSVGFontFaceElement, castToSVGFontFaceElement, gTypeSVGFontFaceElement
-  , SVGFontFaceFormatElement(SVGFontFaceFormatElement), unSVGFontFaceFormatElement, castToSVGFontFaceFormatElement, gTypeSVGFontFaceFormatElement
-  , SVGFontFaceNameElement(SVGFontFaceNameElement), unSVGFontFaceNameElement, castToSVGFontFaceNameElement, gTypeSVGFontFaceNameElement
-  , SVGFontFaceSrcElement(SVGFontFaceSrcElement), unSVGFontFaceSrcElement, castToSVGFontFaceSrcElement, gTypeSVGFontFaceSrcElement
-  , SVGFontFaceUriElement(SVGFontFaceUriElement), unSVGFontFaceUriElement, castToSVGFontFaceUriElement, gTypeSVGFontFaceUriElement
-  , SVGForeignObjectElement(SVGForeignObjectElement), unSVGForeignObjectElement, castToSVGForeignObjectElement, gTypeSVGForeignObjectElement
-  , SVGGElement(SVGGElement), unSVGGElement, castToSVGGElement, gTypeSVGGElement
-  , SVGGlyphElement(SVGGlyphElement), unSVGGlyphElement, castToSVGGlyphElement, gTypeSVGGlyphElement
-  , SVGGlyphRefElement(SVGGlyphRefElement), unSVGGlyphRefElement, castToSVGGlyphRefElement, gTypeSVGGlyphRefElement
-  , SVGGradientElement(SVGGradientElement), unSVGGradientElement, IsSVGGradientElement, toSVGGradientElement, castToSVGGradientElement, gTypeSVGGradientElement
-  , SVGGraphicsElement(SVGGraphicsElement), unSVGGraphicsElement, IsSVGGraphicsElement, toSVGGraphicsElement, castToSVGGraphicsElement, gTypeSVGGraphicsElement
-  , SVGHKernElement(SVGHKernElement), unSVGHKernElement, castToSVGHKernElement, gTypeSVGHKernElement
-  , SVGImageElement(SVGImageElement), unSVGImageElement, castToSVGImageElement, gTypeSVGImageElement
-  , SVGLength(SVGLength), unSVGLength, castToSVGLength, gTypeSVGLength
-  , SVGLengthList(SVGLengthList), unSVGLengthList, castToSVGLengthList, gTypeSVGLengthList
-  , SVGLineElement(SVGLineElement), unSVGLineElement, castToSVGLineElement, gTypeSVGLineElement
-  , SVGLinearGradientElement(SVGLinearGradientElement), unSVGLinearGradientElement, castToSVGLinearGradientElement, gTypeSVGLinearGradientElement
-  , SVGMPathElement(SVGMPathElement), unSVGMPathElement, castToSVGMPathElement, gTypeSVGMPathElement
-  , SVGMarkerElement(SVGMarkerElement), unSVGMarkerElement, castToSVGMarkerElement, gTypeSVGMarkerElement
-  , SVGMaskElement(SVGMaskElement), unSVGMaskElement, castToSVGMaskElement, gTypeSVGMaskElement
-  , SVGMatrix(SVGMatrix), unSVGMatrix, castToSVGMatrix, gTypeSVGMatrix
-  , SVGMetadataElement(SVGMetadataElement), unSVGMetadataElement, castToSVGMetadataElement, gTypeSVGMetadataElement
-  , SVGMissingGlyphElement(SVGMissingGlyphElement), unSVGMissingGlyphElement, castToSVGMissingGlyphElement, gTypeSVGMissingGlyphElement
-  , SVGNumber(SVGNumber), unSVGNumber, castToSVGNumber, gTypeSVGNumber
-  , SVGNumberList(SVGNumberList), unSVGNumberList, castToSVGNumberList, gTypeSVGNumberList
-  , SVGPaint(SVGPaint), unSVGPaint, castToSVGPaint, gTypeSVGPaint
-  , SVGPathElement(SVGPathElement), unSVGPathElement, castToSVGPathElement, gTypeSVGPathElement
-  , SVGPathSeg(SVGPathSeg), unSVGPathSeg, IsSVGPathSeg, toSVGPathSeg, castToSVGPathSeg, gTypeSVGPathSeg
-  , SVGPathSegArcAbs(SVGPathSegArcAbs), unSVGPathSegArcAbs, castToSVGPathSegArcAbs, gTypeSVGPathSegArcAbs
-  , SVGPathSegArcRel(SVGPathSegArcRel), unSVGPathSegArcRel, castToSVGPathSegArcRel, gTypeSVGPathSegArcRel
-  , SVGPathSegClosePath(SVGPathSegClosePath), unSVGPathSegClosePath, castToSVGPathSegClosePath, gTypeSVGPathSegClosePath
-  , SVGPathSegCurvetoCubicAbs(SVGPathSegCurvetoCubicAbs), unSVGPathSegCurvetoCubicAbs, castToSVGPathSegCurvetoCubicAbs, gTypeSVGPathSegCurvetoCubicAbs
-  , SVGPathSegCurvetoCubicRel(SVGPathSegCurvetoCubicRel), unSVGPathSegCurvetoCubicRel, castToSVGPathSegCurvetoCubicRel, gTypeSVGPathSegCurvetoCubicRel
-  , SVGPathSegCurvetoCubicSmoothAbs(SVGPathSegCurvetoCubicSmoothAbs), unSVGPathSegCurvetoCubicSmoothAbs, castToSVGPathSegCurvetoCubicSmoothAbs, gTypeSVGPathSegCurvetoCubicSmoothAbs
-  , SVGPathSegCurvetoCubicSmoothRel(SVGPathSegCurvetoCubicSmoothRel), unSVGPathSegCurvetoCubicSmoothRel, castToSVGPathSegCurvetoCubicSmoothRel, gTypeSVGPathSegCurvetoCubicSmoothRel
-  , SVGPathSegCurvetoQuadraticAbs(SVGPathSegCurvetoQuadraticAbs), unSVGPathSegCurvetoQuadraticAbs, castToSVGPathSegCurvetoQuadraticAbs, gTypeSVGPathSegCurvetoQuadraticAbs
-  , SVGPathSegCurvetoQuadraticRel(SVGPathSegCurvetoQuadraticRel), unSVGPathSegCurvetoQuadraticRel, castToSVGPathSegCurvetoQuadraticRel, gTypeSVGPathSegCurvetoQuadraticRel
-  , SVGPathSegCurvetoQuadraticSmoothAbs(SVGPathSegCurvetoQuadraticSmoothAbs), unSVGPathSegCurvetoQuadraticSmoothAbs, castToSVGPathSegCurvetoQuadraticSmoothAbs, gTypeSVGPathSegCurvetoQuadraticSmoothAbs
-  , SVGPathSegCurvetoQuadraticSmoothRel(SVGPathSegCurvetoQuadraticSmoothRel), unSVGPathSegCurvetoQuadraticSmoothRel, castToSVGPathSegCurvetoQuadraticSmoothRel, gTypeSVGPathSegCurvetoQuadraticSmoothRel
-  , SVGPathSegLinetoAbs(SVGPathSegLinetoAbs), unSVGPathSegLinetoAbs, castToSVGPathSegLinetoAbs, gTypeSVGPathSegLinetoAbs
-  , SVGPathSegLinetoHorizontalAbs(SVGPathSegLinetoHorizontalAbs), unSVGPathSegLinetoHorizontalAbs, castToSVGPathSegLinetoHorizontalAbs, gTypeSVGPathSegLinetoHorizontalAbs
-  , SVGPathSegLinetoHorizontalRel(SVGPathSegLinetoHorizontalRel), unSVGPathSegLinetoHorizontalRel, castToSVGPathSegLinetoHorizontalRel, gTypeSVGPathSegLinetoHorizontalRel
-  , SVGPathSegLinetoRel(SVGPathSegLinetoRel), unSVGPathSegLinetoRel, castToSVGPathSegLinetoRel, gTypeSVGPathSegLinetoRel
-  , SVGPathSegLinetoVerticalAbs(SVGPathSegLinetoVerticalAbs), unSVGPathSegLinetoVerticalAbs, castToSVGPathSegLinetoVerticalAbs, gTypeSVGPathSegLinetoVerticalAbs
-  , SVGPathSegLinetoVerticalRel(SVGPathSegLinetoVerticalRel), unSVGPathSegLinetoVerticalRel, castToSVGPathSegLinetoVerticalRel, gTypeSVGPathSegLinetoVerticalRel
-  , SVGPathSegList(SVGPathSegList), unSVGPathSegList, castToSVGPathSegList, gTypeSVGPathSegList
-  , SVGPathSegMovetoAbs(SVGPathSegMovetoAbs), unSVGPathSegMovetoAbs, castToSVGPathSegMovetoAbs, gTypeSVGPathSegMovetoAbs
-  , SVGPathSegMovetoRel(SVGPathSegMovetoRel), unSVGPathSegMovetoRel, castToSVGPathSegMovetoRel, gTypeSVGPathSegMovetoRel
-  , SVGPatternElement(SVGPatternElement), unSVGPatternElement, castToSVGPatternElement, gTypeSVGPatternElement
-  , SVGPoint(SVGPoint), unSVGPoint, castToSVGPoint, gTypeSVGPoint
-  , SVGPointList(SVGPointList), unSVGPointList, castToSVGPointList, gTypeSVGPointList
-  , SVGPolygonElement(SVGPolygonElement), unSVGPolygonElement, castToSVGPolygonElement, gTypeSVGPolygonElement
-  , SVGPolylineElement(SVGPolylineElement), unSVGPolylineElement, castToSVGPolylineElement, gTypeSVGPolylineElement
-  , SVGPreserveAspectRatio(SVGPreserveAspectRatio), unSVGPreserveAspectRatio, castToSVGPreserveAspectRatio, gTypeSVGPreserveAspectRatio
-  , SVGRadialGradientElement(SVGRadialGradientElement), unSVGRadialGradientElement, castToSVGRadialGradientElement, gTypeSVGRadialGradientElement
-  , SVGRect(SVGRect), unSVGRect, castToSVGRect, gTypeSVGRect
-  , SVGRectElement(SVGRectElement), unSVGRectElement, castToSVGRectElement, gTypeSVGRectElement
-  , SVGRenderingIntent(SVGRenderingIntent), unSVGRenderingIntent, castToSVGRenderingIntent, gTypeSVGRenderingIntent
-  , SVGSVGElement(SVGSVGElement), unSVGSVGElement, castToSVGSVGElement, gTypeSVGSVGElement
-  , SVGScriptElement(SVGScriptElement), unSVGScriptElement, castToSVGScriptElement, gTypeSVGScriptElement
-  , SVGSetElement(SVGSetElement), unSVGSetElement, castToSVGSetElement, gTypeSVGSetElement
-  , SVGStopElement(SVGStopElement), unSVGStopElement, castToSVGStopElement, gTypeSVGStopElement
-  , SVGStringList(SVGStringList), unSVGStringList, castToSVGStringList, gTypeSVGStringList
-  , SVGStyleElement(SVGStyleElement), unSVGStyleElement, castToSVGStyleElement, gTypeSVGStyleElement
-  , SVGSwitchElement(SVGSwitchElement), unSVGSwitchElement, castToSVGSwitchElement, gTypeSVGSwitchElement
-  , SVGSymbolElement(SVGSymbolElement), unSVGSymbolElement, castToSVGSymbolElement, gTypeSVGSymbolElement
-  , SVGTRefElement(SVGTRefElement), unSVGTRefElement, castToSVGTRefElement, gTypeSVGTRefElement
-  , SVGTSpanElement(SVGTSpanElement), unSVGTSpanElement, castToSVGTSpanElement, gTypeSVGTSpanElement
-  , SVGTests(SVGTests), unSVGTests, castToSVGTests, gTypeSVGTests
-  , SVGTextContentElement(SVGTextContentElement), unSVGTextContentElement, IsSVGTextContentElement, toSVGTextContentElement, castToSVGTextContentElement, gTypeSVGTextContentElement
-  , SVGTextElement(SVGTextElement), unSVGTextElement, castToSVGTextElement, gTypeSVGTextElement
-  , SVGTextPathElement(SVGTextPathElement), unSVGTextPathElement, castToSVGTextPathElement, gTypeSVGTextPathElement
-  , SVGTextPositioningElement(SVGTextPositioningElement), unSVGTextPositioningElement, IsSVGTextPositioningElement, toSVGTextPositioningElement, castToSVGTextPositioningElement, gTypeSVGTextPositioningElement
-  , SVGTitleElement(SVGTitleElement), unSVGTitleElement, castToSVGTitleElement, gTypeSVGTitleElement
-  , SVGTransform(SVGTransform), unSVGTransform, castToSVGTransform, gTypeSVGTransform
-  , SVGTransformList(SVGTransformList), unSVGTransformList, castToSVGTransformList, gTypeSVGTransformList
-  , SVGURIReference(SVGURIReference), unSVGURIReference, castToSVGURIReference, gTypeSVGURIReference
-  , SVGUnitTypes(SVGUnitTypes), unSVGUnitTypes, castToSVGUnitTypes, gTypeSVGUnitTypes
-  , SVGUseElement(SVGUseElement), unSVGUseElement, castToSVGUseElement, gTypeSVGUseElement
-  , SVGVKernElement(SVGVKernElement), unSVGVKernElement, castToSVGVKernElement, gTypeSVGVKernElement
-  , SVGViewElement(SVGViewElement), unSVGViewElement, castToSVGViewElement, gTypeSVGViewElement
-  , SVGViewSpec(SVGViewSpec), unSVGViewSpec, castToSVGViewSpec, gTypeSVGViewSpec
-  , SVGZoomAndPan(SVGZoomAndPan), unSVGZoomAndPan, castToSVGZoomAndPan, gTypeSVGZoomAndPan
-  , SVGZoomEvent(SVGZoomEvent), unSVGZoomEvent, castToSVGZoomEvent, gTypeSVGZoomEvent
-  , Screen(Screen), unScreen, castToScreen, gTypeScreen
-  , ScriptProcessorNode(ScriptProcessorNode), unScriptProcessorNode, castToScriptProcessorNode, gTypeScriptProcessorNode
-  , ScriptProfile(ScriptProfile), unScriptProfile, castToScriptProfile, gTypeScriptProfile
-  , ScriptProfileNode(ScriptProfileNode), unScriptProfileNode, castToScriptProfileNode, gTypeScriptProfileNode
-  , SecurityPolicy(SecurityPolicy), unSecurityPolicy, castToSecurityPolicy, gTypeSecurityPolicy
-  , SecurityPolicyViolationEvent(SecurityPolicyViolationEvent), unSecurityPolicyViolationEvent, castToSecurityPolicyViolationEvent, gTypeSecurityPolicyViolationEvent
-  , Selection(Selection), unSelection, castToSelection, gTypeSelection
-  , SourceBuffer(SourceBuffer), unSourceBuffer, castToSourceBuffer, gTypeSourceBuffer
-  , SourceBufferList(SourceBufferList), unSourceBufferList, castToSourceBufferList, gTypeSourceBufferList
-  , SourceInfo(SourceInfo), unSourceInfo, castToSourceInfo, gTypeSourceInfo
-  , SpeechSynthesis(SpeechSynthesis), unSpeechSynthesis, castToSpeechSynthesis, gTypeSpeechSynthesis
-  , SpeechSynthesisEvent(SpeechSynthesisEvent), unSpeechSynthesisEvent, castToSpeechSynthesisEvent, gTypeSpeechSynthesisEvent
-  , SpeechSynthesisUtterance(SpeechSynthesisUtterance), unSpeechSynthesisUtterance, castToSpeechSynthesisUtterance, gTypeSpeechSynthesisUtterance
-  , SpeechSynthesisVoice(SpeechSynthesisVoice), unSpeechSynthesisVoice, castToSpeechSynthesisVoice, gTypeSpeechSynthesisVoice
-  , Storage(Storage), unStorage, castToStorage, gTypeStorage
-  , StorageEvent(StorageEvent), unStorageEvent, castToStorageEvent, gTypeStorageEvent
-  , StorageInfo(StorageInfo), unStorageInfo, castToStorageInfo, gTypeStorageInfo
-  , StorageQuota(StorageQuota), unStorageQuota, castToStorageQuota, gTypeStorageQuota
-  , StyleMedia(StyleMedia), unStyleMedia, castToStyleMedia, gTypeStyleMedia
-  , StyleSheet(StyleSheet), unStyleSheet, IsStyleSheet, toStyleSheet, castToStyleSheet, gTypeStyleSheet
-  , StyleSheetList(StyleSheetList), unStyleSheetList, castToStyleSheetList, gTypeStyleSheetList
-  , SubtleCrypto(SubtleCrypto), unSubtleCrypto, castToSubtleCrypto, gTypeSubtleCrypto
-  , Text(Text), unText, IsText, toText, castToText, gTypeText
-  , TextEvent(TextEvent), unTextEvent, castToTextEvent, gTypeTextEvent
-  , TextMetrics(TextMetrics), unTextMetrics, castToTextMetrics, gTypeTextMetrics
-  , TextTrack(TextTrack), unTextTrack, castToTextTrack, gTypeTextTrack
-  , TextTrackCue(TextTrackCue), unTextTrackCue, IsTextTrackCue, toTextTrackCue, castToTextTrackCue, gTypeTextTrackCue
-  , TextTrackCueList(TextTrackCueList), unTextTrackCueList, castToTextTrackCueList, gTypeTextTrackCueList
-  , TextTrackList(TextTrackList), unTextTrackList, castToTextTrackList, gTypeTextTrackList
-  , TimeRanges(TimeRanges), unTimeRanges, castToTimeRanges, gTypeTimeRanges
-  , Touch(Touch), unTouch, castToTouch, gTypeTouch
-  , TouchEvent(TouchEvent), unTouchEvent, castToTouchEvent, gTypeTouchEvent
-  , TouchList(TouchList), unTouchList, castToTouchList, gTypeTouchList
-  , TrackEvent(TrackEvent), unTrackEvent, castToTrackEvent, gTypeTrackEvent
-  , TransitionEvent(TransitionEvent), unTransitionEvent, castToTransitionEvent, gTypeTransitionEvent
-  , TreeWalker(TreeWalker), unTreeWalker, castToTreeWalker, gTypeTreeWalker
-  , TypeConversions(TypeConversions), unTypeConversions, castToTypeConversions, gTypeTypeConversions
-  , UIEvent(UIEvent), unUIEvent, IsUIEvent, toUIEvent, castToUIEvent, gTypeUIEvent
-  , UIRequestEvent(UIRequestEvent), unUIRequestEvent, castToUIRequestEvent, gTypeUIRequestEvent
-  , URL(URL), unURL, castToURL, gTypeURL
-  , URLUtils(URLUtils), unURLUtils, castToURLUtils, gTypeURLUtils
-  , UserMessageHandler(UserMessageHandler), unUserMessageHandler, castToUserMessageHandler, gTypeUserMessageHandler
-  , UserMessageHandlersNamespace(UserMessageHandlersNamespace), unUserMessageHandlersNamespace, castToUserMessageHandlersNamespace, gTypeUserMessageHandlersNamespace
-  , VTTCue(VTTCue), unVTTCue, castToVTTCue, gTypeVTTCue
-  , VTTRegion(VTTRegion), unVTTRegion, castToVTTRegion, gTypeVTTRegion
-  , VTTRegionList(VTTRegionList), unVTTRegionList, castToVTTRegionList, gTypeVTTRegionList
-  , ValidityState(ValidityState), unValidityState, castToValidityState, gTypeValidityState
-  , VideoPlaybackQuality(VideoPlaybackQuality), unVideoPlaybackQuality, castToVideoPlaybackQuality, gTypeVideoPlaybackQuality
-  , VideoStreamTrack(VideoStreamTrack), unVideoStreamTrack, castToVideoStreamTrack, gTypeVideoStreamTrack
-  , VideoTrack(VideoTrack), unVideoTrack, castToVideoTrack, gTypeVideoTrack
-  , VideoTrackList(VideoTrackList), unVideoTrackList, castToVideoTrackList, gTypeVideoTrackList
-  , WaveShaperNode(WaveShaperNode), unWaveShaperNode, castToWaveShaperNode, gTypeWaveShaperNode
-  , WebGL2RenderingContext(WebGL2RenderingContext), unWebGL2RenderingContext, castToWebGL2RenderingContext, gTypeWebGL2RenderingContext
-  , WebGLActiveInfo(WebGLActiveInfo), unWebGLActiveInfo, castToWebGLActiveInfo, gTypeWebGLActiveInfo
-  , WebGLBuffer(WebGLBuffer), unWebGLBuffer, castToWebGLBuffer, gTypeWebGLBuffer
-  , WebGLCompressedTextureATC(WebGLCompressedTextureATC), unWebGLCompressedTextureATC, castToWebGLCompressedTextureATC, gTypeWebGLCompressedTextureATC
-  , WebGLCompressedTexturePVRTC(WebGLCompressedTexturePVRTC), unWebGLCompressedTexturePVRTC, castToWebGLCompressedTexturePVRTC, gTypeWebGLCompressedTexturePVRTC
-  , WebGLCompressedTextureS3TC(WebGLCompressedTextureS3TC), unWebGLCompressedTextureS3TC, castToWebGLCompressedTextureS3TC, gTypeWebGLCompressedTextureS3TC
-  , WebGLContextAttributes(WebGLContextAttributes), unWebGLContextAttributes, castToWebGLContextAttributes, gTypeWebGLContextAttributes
-  , WebGLContextEvent(WebGLContextEvent), unWebGLContextEvent, castToWebGLContextEvent, gTypeWebGLContextEvent
-  , WebGLDebugRendererInfo(WebGLDebugRendererInfo), unWebGLDebugRendererInfo, castToWebGLDebugRendererInfo, gTypeWebGLDebugRendererInfo
-  , WebGLDebugShaders(WebGLDebugShaders), unWebGLDebugShaders, castToWebGLDebugShaders, gTypeWebGLDebugShaders
-  , WebGLDepthTexture(WebGLDepthTexture), unWebGLDepthTexture, castToWebGLDepthTexture, gTypeWebGLDepthTexture
-  , WebGLDrawBuffers(WebGLDrawBuffers), unWebGLDrawBuffers, castToWebGLDrawBuffers, gTypeWebGLDrawBuffers
-  , WebGLFramebuffer(WebGLFramebuffer), unWebGLFramebuffer, castToWebGLFramebuffer, gTypeWebGLFramebuffer
-  , WebGLLoseContext(WebGLLoseContext), unWebGLLoseContext, castToWebGLLoseContext, gTypeWebGLLoseContext
-  , WebGLProgram(WebGLProgram), unWebGLProgram, castToWebGLProgram, gTypeWebGLProgram
-  , WebGLQuery(WebGLQuery), unWebGLQuery, castToWebGLQuery, gTypeWebGLQuery
-  , WebGLRenderbuffer(WebGLRenderbuffer), unWebGLRenderbuffer, castToWebGLRenderbuffer, gTypeWebGLRenderbuffer
-  , WebGLRenderingContext(WebGLRenderingContext), unWebGLRenderingContext, castToWebGLRenderingContext, gTypeWebGLRenderingContext
-  , WebGLRenderingContextBase(WebGLRenderingContextBase), unWebGLRenderingContextBase, IsWebGLRenderingContextBase, toWebGLRenderingContextBase, castToWebGLRenderingContextBase, gTypeWebGLRenderingContextBase
-  , WebGLSampler(WebGLSampler), unWebGLSampler, castToWebGLSampler, gTypeWebGLSampler
-  , WebGLShader(WebGLShader), unWebGLShader, castToWebGLShader, gTypeWebGLShader
-  , WebGLShaderPrecisionFormat(WebGLShaderPrecisionFormat), unWebGLShaderPrecisionFormat, castToWebGLShaderPrecisionFormat, gTypeWebGLShaderPrecisionFormat
-  , WebGLSync(WebGLSync), unWebGLSync, castToWebGLSync, gTypeWebGLSync
-  , WebGLTexture(WebGLTexture), unWebGLTexture, castToWebGLTexture, gTypeWebGLTexture
-  , WebGLTransformFeedback(WebGLTransformFeedback), unWebGLTransformFeedback, castToWebGLTransformFeedback, gTypeWebGLTransformFeedback
-  , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocation, castToWebGLUniformLocation, gTypeWebGLUniformLocation
-  , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObject, castToWebGLVertexArrayObject, gTypeWebGLVertexArrayObject
-  , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOES, castToWebGLVertexArrayObjectOES, gTypeWebGLVertexArrayObjectOES
-  , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEvent, castToWebKitAnimationEvent, gTypeWebKitAnimationEvent
-  , WebKitCSSFilterValue(WebKitCSSFilterValue), unWebKitCSSFilterValue, castToWebKitCSSFilterValue, gTypeWebKitCSSFilterValue
-  , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrix, castToWebKitCSSMatrix, gTypeWebKitCSSMatrix
-  , WebKitCSSRegionRule(WebKitCSSRegionRule), unWebKitCSSRegionRule, castToWebKitCSSRegionRule, gTypeWebKitCSSRegionRule
-  , WebKitCSSTransformValue(WebKitCSSTransformValue), unWebKitCSSTransformValue, castToWebKitCSSTransformValue, gTypeWebKitCSSTransformValue
-  , WebKitCSSViewportRule(WebKitCSSViewportRule), unWebKitCSSViewportRule, castToWebKitCSSViewportRule, gTypeWebKitCSSViewportRule
-  , WebKitNamedFlow(WebKitNamedFlow), unWebKitNamedFlow, castToWebKitNamedFlow, gTypeWebKitNamedFlow
-  , WebKitNamespace(WebKitNamespace), unWebKitNamespace, castToWebKitNamespace, gTypeWebKitNamespace
-  , WebKitPlaybackTargetAvailabilityEvent(WebKitPlaybackTargetAvailabilityEvent), unWebKitPlaybackTargetAvailabilityEvent, castToWebKitPlaybackTargetAvailabilityEvent, gTypeWebKitPlaybackTargetAvailabilityEvent
-  , WebKitPoint(WebKitPoint), unWebKitPoint, castToWebKitPoint, gTypeWebKitPoint
-  , WebKitTransitionEvent(WebKitTransitionEvent), unWebKitTransitionEvent, castToWebKitTransitionEvent, gTypeWebKitTransitionEvent
-  , WebSocket(WebSocket), unWebSocket, castToWebSocket, gTypeWebSocket
-  , WheelEvent(WheelEvent), unWheelEvent, castToWheelEvent, gTypeWheelEvent
-  , Window(Window), unWindow, castToWindow, gTypeWindow
-  , WindowBase64(WindowBase64), unWindowBase64, castToWindowBase64, gTypeWindowBase64
-  , WindowTimers(WindowTimers), unWindowTimers, castToWindowTimers, gTypeWindowTimers
-  , Worker(Worker), unWorker, castToWorker, gTypeWorker
-  , WorkerGlobalScope(WorkerGlobalScope), unWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope, castToWorkerGlobalScope, gTypeWorkerGlobalScope
-  , WorkerLocation(WorkerLocation), unWorkerLocation, castToWorkerLocation, gTypeWorkerLocation
-  , WorkerNavigator(WorkerNavigator), unWorkerNavigator, castToWorkerNavigator, gTypeWorkerNavigator
-  , XMLHttpRequest(XMLHttpRequest), unXMLHttpRequest, castToXMLHttpRequest, gTypeXMLHttpRequest
-  , XMLHttpRequestProgressEvent(XMLHttpRequestProgressEvent), unXMLHttpRequestProgressEvent, castToXMLHttpRequestProgressEvent, gTypeXMLHttpRequestProgressEvent
-  , XMLHttpRequestUpload(XMLHttpRequestUpload), unXMLHttpRequestUpload, castToXMLHttpRequestUpload, gTypeXMLHttpRequestUpload
-  , XMLSerializer(XMLSerializer), unXMLSerializer, castToXMLSerializer, gTypeXMLSerializer
-  , XPathEvaluator(XPathEvaluator), unXPathEvaluator, castToXPathEvaluator, gTypeXPathEvaluator
-  , XPathExpression(XPathExpression), unXPathExpression, castToXPathExpression, gTypeXPathExpression
-  , XPathNSResolver(XPathNSResolver), unXPathNSResolver, castToXPathNSResolver, gTypeXPathNSResolver
-  , XPathResult(XPathResult), unXPathResult, castToXPathResult, gTypeXPathResult
-  , XSLTProcessor(XSLTProcessor), unXSLTProcessor, castToXSLTProcessor, gTypeXSLTProcessor
+  , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArraysgTypeANGLEInstancedArrays
+  , AbstractView(AbstractView), unAbstractViewgTypeAbstractView
+  , AbstractWorker(AbstractWorker), unAbstractWorkergTypeAbstractWorker
+  , AllAudioCapabilities(AllAudioCapabilities), unAllAudioCapabilitiesgTypeAllAudioCapabilities
+  , AllVideoCapabilities(AllVideoCapabilities), unAllVideoCapabilitiesgTypeAllVideoCapabilities
+  , AnalyserNode(AnalyserNode), unAnalyserNodegTypeAnalyserNode
+  , AnimationEvent(AnimationEvent), unAnimationEventgTypeAnimationEvent
+  , ApplicationCache(ApplicationCache), unApplicationCachegTypeApplicationCache
+  , Attr(Attr), unAttrgTypeAttr
+  , AudioBuffer(AudioBuffer), unAudioBuffergTypeAudioBuffer
+  , AudioBufferSourceNode(AudioBufferSourceNode), unAudioBufferSourceNodegTypeAudioBufferSourceNode
+  , AudioContext(AudioContext), unAudioContext, IsAudioContext, toAudioContextgTypeAudioContext
+  , AudioDestinationNode(AudioDestinationNode), unAudioDestinationNodegTypeAudioDestinationNode
+  , AudioListener(AudioListener), unAudioListenergTypeAudioListener
+  , AudioNode(AudioNode), unAudioNode, IsAudioNode, toAudioNodegTypeAudioNode
+  , AudioParam(AudioParam), unAudioParamgTypeAudioParam
+  , AudioProcessingEvent(AudioProcessingEvent), unAudioProcessingEventgTypeAudioProcessingEvent
+  , AudioStreamTrack(AudioStreamTrack), unAudioStreamTrackgTypeAudioStreamTrack
+  , AudioTrack(AudioTrack), unAudioTrackgTypeAudioTrack
+  , AudioTrackList(AudioTrackList), unAudioTrackListgTypeAudioTrackList
+  , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEventgTypeAutocompleteErrorEvent
+  , BarProp(BarProp), unBarPropgTypeBarProp
+  , BatteryManager(BatteryManager), unBatteryManagergTypeBatteryManager
+  , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEventgTypeBeforeLoadEvent
+  , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEventgTypeBeforeUnloadEvent
+  , BiquadFilterNode(BiquadFilterNode), unBiquadFilterNodegTypeBiquadFilterNode
+  , Blob(Blob), unBlob, IsBlob, toBlobgTypeBlob
+  , CDATASection(CDATASection), unCDATASectiongTypeCDATASection
+  , CSS(CSS), unCSSgTypeCSS
+  , CSSCharsetRule(CSSCharsetRule), unCSSCharsetRulegTypeCSSCharsetRule
+  , CSSFontFaceLoadEvent(CSSFontFaceLoadEvent), unCSSFontFaceLoadEventgTypeCSSFontFaceLoadEvent
+  , CSSFontFaceRule(CSSFontFaceRule), unCSSFontFaceRulegTypeCSSFontFaceRule
+  , CSSImportRule(CSSImportRule), unCSSImportRulegTypeCSSImportRule
+  , CSSKeyframeRule(CSSKeyframeRule), unCSSKeyframeRulegTypeCSSKeyframeRule
+  , CSSKeyframesRule(CSSKeyframesRule), unCSSKeyframesRulegTypeCSSKeyframesRule
+  , CSSMediaRule(CSSMediaRule), unCSSMediaRulegTypeCSSMediaRule
+  , CSSPageRule(CSSPageRule), unCSSPageRulegTypeCSSPageRule
+  , CSSPrimitiveValue(CSSPrimitiveValue), unCSSPrimitiveValuegTypeCSSPrimitiveValue
+  , CSSRule(CSSRule), unCSSRule, IsCSSRule, toCSSRulegTypeCSSRule
+  , CSSRuleList(CSSRuleList), unCSSRuleListgTypeCSSRuleList
+  , CSSStyleDeclaration(CSSStyleDeclaration), unCSSStyleDeclarationgTypeCSSStyleDeclaration
+  , CSSStyleRule(CSSStyleRule), unCSSStyleRulegTypeCSSStyleRule
+  , CSSStyleSheet(CSSStyleSheet), unCSSStyleSheetgTypeCSSStyleSheet
+  , CSSSupportsRule(CSSSupportsRule), unCSSSupportsRulegTypeCSSSupportsRule
+  , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRulegTypeCSSUnknownRule
+  , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValuegTypeCSSValue
+  , CSSValueList(CSSValueList), unCSSValueList, IsCSSValueList, toCSSValueListgTypeCSSValueList
+  , CanvasGradient(CanvasGradient), unCanvasGradientgTypeCanvasGradient
+  , CanvasPattern(CanvasPattern), unCanvasPatterngTypeCanvasPattern
+  , CanvasProxy(CanvasProxy), unCanvasProxygTypeCanvasProxy
+  , CanvasRenderingContext(CanvasRenderingContext), unCanvasRenderingContext, IsCanvasRenderingContext, toCanvasRenderingContextgTypeCanvasRenderingContext
+  , CanvasRenderingContext2D(CanvasRenderingContext2D), unCanvasRenderingContext2DgTypeCanvasRenderingContext2D
+  , CapabilityRange(CapabilityRange), unCapabilityRangegTypeCapabilityRange
+  , ChannelMergerNode(ChannelMergerNode), unChannelMergerNodegTypeChannelMergerNode
+  , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNodegTypeChannelSplitterNode
+  , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterDatagTypeCharacterData
+  , ChildNode(ChildNode), unChildNodegTypeChildNode
+  , ClientRect(ClientRect), unClientRectgTypeClientRect
+  , ClientRectList(ClientRectList), unClientRectListgTypeClientRectList
+  , CloseEvent(CloseEvent), unCloseEventgTypeCloseEvent
+  , CommandLineAPIHost(CommandLineAPIHost), unCommandLineAPIHostgTypeCommandLineAPIHost
+  , Comment(Comment), unCommentgTypeComment
+  , CompositionEvent(CompositionEvent), unCompositionEventgTypeCompositionEvent
+  , ConvolverNode(ConvolverNode), unConvolverNodegTypeConvolverNode
+  , Coordinates(Coordinates), unCoordinatesgTypeCoordinates
+  , Counter(Counter), unCountergTypeCounter
+  , Crypto(Crypto), unCryptogTypeCrypto
+  , CryptoKey(CryptoKey), unCryptoKeygTypeCryptoKey
+  , CryptoKeyPair(CryptoKeyPair), unCryptoKeyPairgTypeCryptoKeyPair
+  , CustomEvent(CustomEvent), unCustomEventgTypeCustomEvent
+  , DOMError(DOMError), unDOMError, IsDOMError, toDOMErrorgTypeDOMError
+  , DOMImplementation(DOMImplementation), unDOMImplementationgTypeDOMImplementation
+  , DOMNamedFlowCollection(DOMNamedFlowCollection), unDOMNamedFlowCollectiongTypeDOMNamedFlowCollection
+  , DOMParser(DOMParser), unDOMParsergTypeDOMParser
+  , DOMSettableTokenList(DOMSettableTokenList), unDOMSettableTokenListgTypeDOMSettableTokenList
+  , DOMStringList(DOMStringList), unDOMStringListgTypeDOMStringList
+  , DOMStringMap(DOMStringMap), unDOMStringMapgTypeDOMStringMap
+  , DOMTokenList(DOMTokenList), unDOMTokenList, IsDOMTokenList, toDOMTokenListgTypeDOMTokenList
+  , DataCue(DataCue), unDataCuegTypeDataCue
+  , DataTransfer(DataTransfer), unDataTransfergTypeDataTransfer
+  , DataTransferItem(DataTransferItem), unDataTransferItemgTypeDataTransferItem
+  , DataTransferItemList(DataTransferItemList), unDataTransferItemListgTypeDataTransferItemList
+  , Database(Database), unDatabasegTypeDatabase
+  , DedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope), unDedicatedWorkerGlobalScopegTypeDedicatedWorkerGlobalScope
+  , DelayNode(DelayNode), unDelayNodegTypeDelayNode
+  , DeviceMotionEvent(DeviceMotionEvent), unDeviceMotionEventgTypeDeviceMotionEvent
+  , DeviceOrientationEvent(DeviceOrientationEvent), unDeviceOrientationEventgTypeDeviceOrientationEvent
+  , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEventgTypeDeviceProximityEvent
+  , Document(Document), unDocument, IsDocument, toDocumentgTypeDocument
+  , DocumentFragment(DocumentFragment), unDocumentFragmentgTypeDocumentFragment
+  , DocumentType(DocumentType), unDocumentTypegTypeDocumentType
+  , DynamicsCompressorNode(DynamicsCompressorNode), unDynamicsCompressorNodegTypeDynamicsCompressorNode
+  , EXTBlendMinMax(EXTBlendMinMax), unEXTBlendMinMaxgTypeEXTBlendMinMax
+  , EXTFragDepth(EXTFragDepth), unEXTFragDepthgTypeEXTFragDepth
+  , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLODgTypeEXTShaderTextureLOD
+  , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropicgTypeEXTTextureFilterAnisotropic
+  , EXTsRGB(EXTsRGB), unEXTsRGBgTypeEXTsRGB
+  , Element(Element), unElement, IsElement, toElementgTypeElement
+  , Entity(Entity), unEntitygTypeEntity
+  , EntityReference(EntityReference), unEntityReferencegTypeEntityReference
+  , ErrorEvent(ErrorEvent), unErrorEventgTypeErrorEvent
+  , Event(Event), unEvent, IsEvent, toEventgTypeEvent
+  , EventListener(EventListener), unEventListenergTypeEventListener
+  , EventSource(EventSource), unEventSourcegTypeEventSource
+  , EventTarget(EventTarget), unEventTarget, IsEventTarget, toEventTargetgTypeEventTarget
+  , File(File), unFilegTypeFile
+  , FileError(FileError), unFileErrorgTypeFileError
+  , FileList(FileList), unFileListgTypeFileList
+  , FileReader(FileReader), unFileReadergTypeFileReader
+  , FileReaderSync(FileReaderSync), unFileReaderSyncgTypeFileReaderSync
+  , FocusEvent(FocusEvent), unFocusEventgTypeFocusEvent
+  , FontLoader(FontLoader), unFontLoadergTypeFontLoader
+  , FormData(FormData), unFormDatagTypeFormData
+  , GainNode(GainNode), unGainNodegTypeGainNode
+  , Gamepad(Gamepad), unGamepadgTypeGamepad
+  , GamepadButton(GamepadButton), unGamepadButtongTypeGamepadButton
+  , GamepadEvent(GamepadEvent), unGamepadEventgTypeGamepadEvent
+  , Geolocation(Geolocation), unGeolocationgTypeGeolocation
+  , Geoposition(Geoposition), unGeopositiongTypeGeoposition
+  , HTMLAllCollection(HTMLAllCollection), unHTMLAllCollectiongTypeHTMLAllCollection
+  , HTMLAnchorElement(HTMLAnchorElement), unHTMLAnchorElementgTypeHTMLAnchorElement
+  , HTMLAppletElement(HTMLAppletElement), unHTMLAppletElementgTypeHTMLAppletElement
+  , HTMLAreaElement(HTMLAreaElement), unHTMLAreaElementgTypeHTMLAreaElement
+  , HTMLAudioElement(HTMLAudioElement), unHTMLAudioElementgTypeHTMLAudioElement
+  , HTMLBRElement(HTMLBRElement), unHTMLBRElementgTypeHTMLBRElement
+  , HTMLBaseElement(HTMLBaseElement), unHTMLBaseElementgTypeHTMLBaseElement
+  , HTMLBaseFontElement(HTMLBaseFontElement), unHTMLBaseFontElementgTypeHTMLBaseFontElement
+  , HTMLBodyElement(HTMLBodyElement), unHTMLBodyElementgTypeHTMLBodyElement
+  , HTMLButtonElement(HTMLButtonElement), unHTMLButtonElementgTypeHTMLButtonElement
+  , HTMLCanvasElement(HTMLCanvasElement), unHTMLCanvasElementgTypeHTMLCanvasElement
+  , HTMLCollection(HTMLCollection), unHTMLCollection, IsHTMLCollection, toHTMLCollectiongTypeHTMLCollection
+  , HTMLDListElement(HTMLDListElement), unHTMLDListElementgTypeHTMLDListElement
+  , HTMLDataListElement(HTMLDataListElement), unHTMLDataListElementgTypeHTMLDataListElement
+  , HTMLDetailsElement(HTMLDetailsElement), unHTMLDetailsElementgTypeHTMLDetailsElement
+  , HTMLDirectoryElement(HTMLDirectoryElement), unHTMLDirectoryElementgTypeHTMLDirectoryElement
+  , HTMLDivElement(HTMLDivElement), unHTMLDivElementgTypeHTMLDivElement
+  , HTMLDocument(HTMLDocument), unHTMLDocumentgTypeHTMLDocument
+  , HTMLElement(HTMLElement), unHTMLElement, IsHTMLElement, toHTMLElementgTypeHTMLElement
+  , HTMLEmbedElement(HTMLEmbedElement), unHTMLEmbedElementgTypeHTMLEmbedElement
+  , HTMLFieldSetElement(HTMLFieldSetElement), unHTMLFieldSetElementgTypeHTMLFieldSetElement
+  , HTMLFontElement(HTMLFontElement), unHTMLFontElementgTypeHTMLFontElement
+  , HTMLFormControlsCollection(HTMLFormControlsCollection), unHTMLFormControlsCollectiongTypeHTMLFormControlsCollection
+  , HTMLFormElement(HTMLFormElement), unHTMLFormElementgTypeHTMLFormElement
+  , HTMLFrameElement(HTMLFrameElement), unHTMLFrameElementgTypeHTMLFrameElement
+  , HTMLFrameSetElement(HTMLFrameSetElement), unHTMLFrameSetElementgTypeHTMLFrameSetElement
+  , HTMLHRElement(HTMLHRElement), unHTMLHRElementgTypeHTMLHRElement
+  , HTMLHeadElement(HTMLHeadElement), unHTMLHeadElementgTypeHTMLHeadElement
+  , HTMLHeadingElement(HTMLHeadingElement), unHTMLHeadingElementgTypeHTMLHeadingElement
+  , HTMLHtmlElement(HTMLHtmlElement), unHTMLHtmlElementgTypeHTMLHtmlElement
+  , HTMLIFrameElement(HTMLIFrameElement), unHTMLIFrameElementgTypeHTMLIFrameElement
+  , HTMLImageElement(HTMLImageElement), unHTMLImageElementgTypeHTMLImageElement
+  , HTMLInputElement(HTMLInputElement), unHTMLInputElementgTypeHTMLInputElement
+  , HTMLKeygenElement(HTMLKeygenElement), unHTMLKeygenElementgTypeHTMLKeygenElement
+  , HTMLLIElement(HTMLLIElement), unHTMLLIElementgTypeHTMLLIElement
+  , HTMLLabelElement(HTMLLabelElement), unHTMLLabelElementgTypeHTMLLabelElement
+  , HTMLLegendElement(HTMLLegendElement), unHTMLLegendElementgTypeHTMLLegendElement
+  , HTMLLinkElement(HTMLLinkElement), unHTMLLinkElementgTypeHTMLLinkElement
+  , HTMLMapElement(HTMLMapElement), unHTMLMapElementgTypeHTMLMapElement
+  , HTMLMarqueeElement(HTMLMarqueeElement), unHTMLMarqueeElementgTypeHTMLMarqueeElement
+  , HTMLMediaElement(HTMLMediaElement), unHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElementgTypeHTMLMediaElement
+  , HTMLMenuElement(HTMLMenuElement), unHTMLMenuElementgTypeHTMLMenuElement
+  , HTMLMetaElement(HTMLMetaElement), unHTMLMetaElementgTypeHTMLMetaElement
+  , HTMLMeterElement(HTMLMeterElement), unHTMLMeterElementgTypeHTMLMeterElement
+  , HTMLModElement(HTMLModElement), unHTMLModElementgTypeHTMLModElement
+  , HTMLOListElement(HTMLOListElement), unHTMLOListElementgTypeHTMLOListElement
+  , HTMLObjectElement(HTMLObjectElement), unHTMLObjectElementgTypeHTMLObjectElement
+  , HTMLOptGroupElement(HTMLOptGroupElement), unHTMLOptGroupElementgTypeHTMLOptGroupElement
+  , HTMLOptionElement(HTMLOptionElement), unHTMLOptionElementgTypeHTMLOptionElement
+  , HTMLOptionsCollection(HTMLOptionsCollection), unHTMLOptionsCollectiongTypeHTMLOptionsCollection
+  , HTMLOutputElement(HTMLOutputElement), unHTMLOutputElementgTypeHTMLOutputElement
+  , HTMLParagraphElement(HTMLParagraphElement), unHTMLParagraphElementgTypeHTMLParagraphElement
+  , HTMLParamElement(HTMLParamElement), unHTMLParamElementgTypeHTMLParamElement
+  , HTMLPreElement(HTMLPreElement), unHTMLPreElementgTypeHTMLPreElement
+  , HTMLProgressElement(HTMLProgressElement), unHTMLProgressElementgTypeHTMLProgressElement
+  , HTMLQuoteElement(HTMLQuoteElement), unHTMLQuoteElementgTypeHTMLQuoteElement
+  , HTMLScriptElement(HTMLScriptElement), unHTMLScriptElementgTypeHTMLScriptElement
+  , HTMLSelectElement(HTMLSelectElement), unHTMLSelectElementgTypeHTMLSelectElement
+  , HTMLSourceElement(HTMLSourceElement), unHTMLSourceElementgTypeHTMLSourceElement
+  , HTMLSpanElement(HTMLSpanElement), unHTMLSpanElementgTypeHTMLSpanElement
+  , HTMLStyleElement(HTMLStyleElement), unHTMLStyleElementgTypeHTMLStyleElement
+  , HTMLTableCaptionElement(HTMLTableCaptionElement), unHTMLTableCaptionElementgTypeHTMLTableCaptionElement
+  , HTMLTableCellElement(HTMLTableCellElement), unHTMLTableCellElementgTypeHTMLTableCellElement
+  , HTMLTableColElement(HTMLTableColElement), unHTMLTableColElementgTypeHTMLTableColElement
+  , HTMLTableElement(HTMLTableElement), unHTMLTableElementgTypeHTMLTableElement
+  , HTMLTableRowElement(HTMLTableRowElement), unHTMLTableRowElementgTypeHTMLTableRowElement
+  , HTMLTableSectionElement(HTMLTableSectionElement), unHTMLTableSectionElementgTypeHTMLTableSectionElement
+  , HTMLTemplateElement(HTMLTemplateElement), unHTMLTemplateElementgTypeHTMLTemplateElement
+  , HTMLTextAreaElement(HTMLTextAreaElement), unHTMLTextAreaElementgTypeHTMLTextAreaElement
+  , HTMLTitleElement(HTMLTitleElement), unHTMLTitleElementgTypeHTMLTitleElement
+  , HTMLTrackElement(HTMLTrackElement), unHTMLTrackElementgTypeHTMLTrackElement
+  , HTMLUListElement(HTMLUListElement), unHTMLUListElementgTypeHTMLUListElement
+  , HTMLUnknownElement(HTMLUnknownElement), unHTMLUnknownElementgTypeHTMLUnknownElement
+  , HTMLVideoElement(HTMLVideoElement), unHTMLVideoElementgTypeHTMLVideoElement
+  , HashChangeEvent(HashChangeEvent), unHashChangeEventgTypeHashChangeEvent
+  , History(History), unHistorygTypeHistory
+  , IDBAny(IDBAny), unIDBAnygTypeIDBAny
+  , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursorgTypeIDBCursor
+  , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValuegTypeIDBCursorWithValue
+  , IDBDatabase(IDBDatabase), unIDBDatabasegTypeIDBDatabase
+  , IDBFactory(IDBFactory), unIDBFactorygTypeIDBFactory
+  , IDBIndex(IDBIndex), unIDBIndexgTypeIDBIndex
+  , IDBKeyRange(IDBKeyRange), unIDBKeyRangegTypeIDBKeyRange
+  , IDBObjectStore(IDBObjectStore), unIDBObjectStoregTypeIDBObjectStore
+  , IDBOpenDBRequest(IDBOpenDBRequest), unIDBOpenDBRequestgTypeIDBOpenDBRequest
+  , IDBRequest(IDBRequest), unIDBRequest, IsIDBRequest, toIDBRequestgTypeIDBRequest
+  , IDBTransaction(IDBTransaction), unIDBTransactiongTypeIDBTransaction
+  , IDBVersionChangeEvent(IDBVersionChangeEvent), unIDBVersionChangeEventgTypeIDBVersionChangeEvent
+  , ImageData(ImageData), unImageDatagTypeImageData
+  , InspectorFrontendHost(InspectorFrontendHost), unInspectorFrontendHostgTypeInspectorFrontendHost
+  , InternalSettings(InternalSettings), unInternalSettingsgTypeInternalSettings
+  , Internals(Internals), unInternalsgTypeInternals
+  , KeyboardEvent(KeyboardEvent), unKeyboardEventgTypeKeyboardEvent
+  , Location(Location), unLocationgTypeLocation
+  , MallocStatistics(MallocStatistics), unMallocStatisticsgTypeMallocStatistics
+  , MediaController(MediaController), unMediaControllergTypeMediaController
+  , MediaControlsHost(MediaControlsHost), unMediaControlsHostgTypeMediaControlsHost
+  , MediaElementAudioSourceNode(MediaElementAudioSourceNode), unMediaElementAudioSourceNodegTypeMediaElementAudioSourceNode
+  , MediaError(MediaError), unMediaErrorgTypeMediaError
+  , MediaKeyError(MediaKeyError), unMediaKeyErrorgTypeMediaKeyError
+  , MediaKeyEvent(MediaKeyEvent), unMediaKeyEventgTypeMediaKeyEvent
+  , MediaKeyMessageEvent(MediaKeyMessageEvent), unMediaKeyMessageEventgTypeMediaKeyMessageEvent
+  , MediaKeyNeededEvent(MediaKeyNeededEvent), unMediaKeyNeededEventgTypeMediaKeyNeededEvent
+  , MediaKeySession(MediaKeySession), unMediaKeySessiongTypeMediaKeySession
+  , MediaKeys(MediaKeys), unMediaKeysgTypeMediaKeys
+  , MediaList(MediaList), unMediaListgTypeMediaList
+  , MediaQueryList(MediaQueryList), unMediaQueryListgTypeMediaQueryList
+  , MediaSource(MediaSource), unMediaSourcegTypeMediaSource
+  , MediaSourceStates(MediaSourceStates), unMediaSourceStatesgTypeMediaSourceStates
+  , MediaStream(MediaStream), unMediaStreamgTypeMediaStream
+  , MediaStreamAudioDestinationNode(MediaStreamAudioDestinationNode), unMediaStreamAudioDestinationNodegTypeMediaStreamAudioDestinationNode
+  , MediaStreamAudioSourceNode(MediaStreamAudioSourceNode), unMediaStreamAudioSourceNodegTypeMediaStreamAudioSourceNode
+  , MediaStreamCapabilities(MediaStreamCapabilities), unMediaStreamCapabilities, IsMediaStreamCapabilities, toMediaStreamCapabilitiesgTypeMediaStreamCapabilities
+  , MediaStreamEvent(MediaStreamEvent), unMediaStreamEventgTypeMediaStreamEvent
+  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrackgTypeMediaStreamTrack
+  , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEventgTypeMediaStreamTrackEvent
+  , MediaTrackConstraint(MediaTrackConstraint), unMediaTrackConstraintgTypeMediaTrackConstraint
+  , MediaTrackConstraintSet(MediaTrackConstraintSet), unMediaTrackConstraintSetgTypeMediaTrackConstraintSet
+  , MediaTrackConstraints(MediaTrackConstraints), unMediaTrackConstraintsgTypeMediaTrackConstraints
+  , MemoryInfo(MemoryInfo), unMemoryInfogTypeMemoryInfo
+  , MessageChannel(MessageChannel), unMessageChannelgTypeMessageChannel
+  , MessageEvent(MessageEvent), unMessageEventgTypeMessageEvent
+  , MessagePort(MessagePort), unMessagePortgTypeMessagePort
+  , MimeType(MimeType), unMimeTypegTypeMimeType
+  , MimeTypeArray(MimeTypeArray), unMimeTypeArraygTypeMimeTypeArray
+  , MouseEvent(MouseEvent), unMouseEvent, IsMouseEvent, toMouseEventgTypeMouseEvent
+  , MutationEvent(MutationEvent), unMutationEventgTypeMutationEvent
+  , MutationObserver(MutationObserver), unMutationObservergTypeMutationObserver
+  , MutationRecord(MutationRecord), unMutationRecordgTypeMutationRecord
+  , NamedNodeMap(NamedNodeMap), unNamedNodeMapgTypeNamedNodeMap
+  , Navigator(Navigator), unNavigatorgTypeNavigator
+  , NavigatorUserMediaError(NavigatorUserMediaError), unNavigatorUserMediaErrorgTypeNavigatorUserMediaError
+  , Node(Node), unNode, IsNode, toNodegTypeNode
+  , NodeFilter(NodeFilter), unNodeFiltergTypeNodeFilter
+  , NodeIterator(NodeIterator), unNodeIteratorgTypeNodeIterator
+  , NodeList(NodeList), unNodeList, IsNodeList, toNodeListgTypeNodeList
+  , Notification(Notification), unNotificationgTypeNotification
+  , NotificationCenter(NotificationCenter), unNotificationCentergTypeNotificationCenter
+  , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUintgTypeOESElementIndexUint
+  , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivativesgTypeOESStandardDerivatives
+  , OESTextureFloat(OESTextureFloat), unOESTextureFloatgTypeOESTextureFloat
+  , OESTextureFloatLinear(OESTextureFloatLinear), unOESTextureFloatLineargTypeOESTextureFloatLinear
+  , OESTextureHalfFloat(OESTextureHalfFloat), unOESTextureHalfFloatgTypeOESTextureHalfFloat
+  , OESTextureHalfFloatLinear(OESTextureHalfFloatLinear), unOESTextureHalfFloatLineargTypeOESTextureHalfFloatLinear
+  , OESVertexArrayObject(OESVertexArrayObject), unOESVertexArrayObjectgTypeOESVertexArrayObject
+  , OfflineAudioCompletionEvent(OfflineAudioCompletionEvent), unOfflineAudioCompletionEventgTypeOfflineAudioCompletionEvent
+  , OfflineAudioContext(OfflineAudioContext), unOfflineAudioContextgTypeOfflineAudioContext
+  , OscillatorNode(OscillatorNode), unOscillatorNodegTypeOscillatorNode
+  , OverflowEvent(OverflowEvent), unOverflowEventgTypeOverflowEvent
+  , PageTransitionEvent(PageTransitionEvent), unPageTransitionEventgTypePageTransitionEvent
+  , PannerNode(PannerNode), unPannerNodegTypePannerNode
+  , Path2D(Path2D), unPath2DgTypePath2D
+  , Performance(Performance), unPerformancegTypePerformance
+  , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntrygTypePerformanceEntry
+  , PerformanceEntryList(PerformanceEntryList), unPerformanceEntryListgTypePerformanceEntryList
+  , PerformanceMark(PerformanceMark), unPerformanceMarkgTypePerformanceMark
+  , PerformanceMeasure(PerformanceMeasure), unPerformanceMeasuregTypePerformanceMeasure
+  , PerformanceNavigation(PerformanceNavigation), unPerformanceNavigationgTypePerformanceNavigation
+  , PerformanceResourceTiming(PerformanceResourceTiming), unPerformanceResourceTiminggTypePerformanceResourceTiming
+  , PerformanceTiming(PerformanceTiming), unPerformanceTiminggTypePerformanceTiming
+  , PeriodicWave(PeriodicWave), unPeriodicWavegTypePeriodicWave
+  , Plugin(Plugin), unPlugingTypePlugin
+  , PluginArray(PluginArray), unPluginArraygTypePluginArray
+  , PopStateEvent(PopStateEvent), unPopStateEventgTypePopStateEvent
+  , PositionError(PositionError), unPositionErrorgTypePositionError
+  , ProcessingInstruction(ProcessingInstruction), unProcessingInstructiongTypeProcessingInstruction
+  , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEventgTypeProgressEvent
+  , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacementgTypeQuickTimePluginReplacement
+  , RGBColor(RGBColor), unRGBColorgTypeRGBColor
+  , RTCConfiguration(RTCConfiguration), unRTCConfigurationgTypeRTCConfiguration
+  , RTCDTMFSender(RTCDTMFSender), unRTCDTMFSendergTypeRTCDTMFSender
+  , RTCDTMFToneChangeEvent(RTCDTMFToneChangeEvent), unRTCDTMFToneChangeEventgTypeRTCDTMFToneChangeEvent
+  , RTCDataChannel(RTCDataChannel), unRTCDataChannelgTypeRTCDataChannel
+  , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEventgTypeRTCDataChannelEvent
+  , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidategTypeRTCIceCandidate
+  , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEventgTypeRTCIceCandidateEvent
+  , RTCIceServer(RTCIceServer), unRTCIceServergTypeRTCIceServer
+  , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnectiongTypeRTCPeerConnection
+  , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescriptiongTypeRTCSessionDescription
+  , RTCStatsReport(RTCStatsReport), unRTCStatsReportgTypeRTCStatsReport
+  , RTCStatsResponse(RTCStatsResponse), unRTCStatsResponsegTypeRTCStatsResponse
+  , RadioNodeList(RadioNodeList), unRadioNodeListgTypeRadioNodeList
+  , Range(Range), unRangegTypeRange
+  , ReadableStream(ReadableStream), unReadableStreamgTypeReadableStream
+  , Rect(Rect), unRectgTypeRect
+  , SQLError(SQLError), unSQLErrorgTypeSQLError
+  , SQLResultSet(SQLResultSet), unSQLResultSetgTypeSQLResultSet
+  , SQLResultSetRowList(SQLResultSetRowList), unSQLResultSetRowListgTypeSQLResultSetRowList
+  , SQLTransaction(SQLTransaction), unSQLTransactiongTypeSQLTransaction
+  , SVGAElement(SVGAElement), unSVGAElementgTypeSVGAElement
+  , SVGAltGlyphDefElement(SVGAltGlyphDefElement), unSVGAltGlyphDefElementgTypeSVGAltGlyphDefElement
+  , SVGAltGlyphElement(SVGAltGlyphElement), unSVGAltGlyphElementgTypeSVGAltGlyphElement
+  , SVGAltGlyphItemElement(SVGAltGlyphItemElement), unSVGAltGlyphItemElementgTypeSVGAltGlyphItemElement
+  , SVGAngle(SVGAngle), unSVGAnglegTypeSVGAngle
+  , SVGAnimateColorElement(SVGAnimateColorElement), unSVGAnimateColorElementgTypeSVGAnimateColorElement
+  , SVGAnimateElement(SVGAnimateElement), unSVGAnimateElementgTypeSVGAnimateElement
+  , SVGAnimateMotionElement(SVGAnimateMotionElement), unSVGAnimateMotionElementgTypeSVGAnimateMotionElement
+  , SVGAnimateTransformElement(SVGAnimateTransformElement), unSVGAnimateTransformElementgTypeSVGAnimateTransformElement
+  , SVGAnimatedAngle(SVGAnimatedAngle), unSVGAnimatedAnglegTypeSVGAnimatedAngle
+  , SVGAnimatedBoolean(SVGAnimatedBoolean), unSVGAnimatedBooleangTypeSVGAnimatedBoolean
+  , SVGAnimatedEnumeration(SVGAnimatedEnumeration), unSVGAnimatedEnumerationgTypeSVGAnimatedEnumeration
+  , SVGAnimatedInteger(SVGAnimatedInteger), unSVGAnimatedIntegergTypeSVGAnimatedInteger
+  , SVGAnimatedLength(SVGAnimatedLength), unSVGAnimatedLengthgTypeSVGAnimatedLength
+  , SVGAnimatedLengthList(SVGAnimatedLengthList), unSVGAnimatedLengthListgTypeSVGAnimatedLengthList
+  , SVGAnimatedNumber(SVGAnimatedNumber), unSVGAnimatedNumbergTypeSVGAnimatedNumber
+  , SVGAnimatedNumberList(SVGAnimatedNumberList), unSVGAnimatedNumberListgTypeSVGAnimatedNumberList
+  , SVGAnimatedPreserveAspectRatio(SVGAnimatedPreserveAspectRatio), unSVGAnimatedPreserveAspectRatiogTypeSVGAnimatedPreserveAspectRatio
+  , SVGAnimatedRect(SVGAnimatedRect), unSVGAnimatedRectgTypeSVGAnimatedRect
+  , SVGAnimatedString(SVGAnimatedString), unSVGAnimatedStringgTypeSVGAnimatedString
+  , SVGAnimatedTransformList(SVGAnimatedTransformList), unSVGAnimatedTransformListgTypeSVGAnimatedTransformList
+  , SVGAnimationElement(SVGAnimationElement), unSVGAnimationElement, IsSVGAnimationElement, toSVGAnimationElementgTypeSVGAnimationElement
+  , SVGCircleElement(SVGCircleElement), unSVGCircleElementgTypeSVGCircleElement
+  , SVGClipPathElement(SVGClipPathElement), unSVGClipPathElementgTypeSVGClipPathElement
+  , SVGColor(SVGColor), unSVGColor, IsSVGColor, toSVGColorgTypeSVGColor
+  , SVGComponentTransferFunctionElement(SVGComponentTransferFunctionElement), unSVGComponentTransferFunctionElement, IsSVGComponentTransferFunctionElement, toSVGComponentTransferFunctionElementgTypeSVGComponentTransferFunctionElement
+  , SVGCursorElement(SVGCursorElement), unSVGCursorElementgTypeSVGCursorElement
+  , SVGDefsElement(SVGDefsElement), unSVGDefsElementgTypeSVGDefsElement
+  , SVGDescElement(SVGDescElement), unSVGDescElementgTypeSVGDescElement
+  , SVGDocument(SVGDocument), unSVGDocumentgTypeSVGDocument
+  , SVGElement(SVGElement), unSVGElement, IsSVGElement, toSVGElementgTypeSVGElement
+  , SVGEllipseElement(SVGEllipseElement), unSVGEllipseElementgTypeSVGEllipseElement
+  , SVGExternalResourcesRequired(SVGExternalResourcesRequired), unSVGExternalResourcesRequiredgTypeSVGExternalResourcesRequired
+  , SVGFEBlendElement(SVGFEBlendElement), unSVGFEBlendElementgTypeSVGFEBlendElement
+  , SVGFEColorMatrixElement(SVGFEColorMatrixElement), unSVGFEColorMatrixElementgTypeSVGFEColorMatrixElement
+  , SVGFEComponentTransferElement(SVGFEComponentTransferElement), unSVGFEComponentTransferElementgTypeSVGFEComponentTransferElement
+  , SVGFECompositeElement(SVGFECompositeElement), unSVGFECompositeElementgTypeSVGFECompositeElement
+  , SVGFEConvolveMatrixElement(SVGFEConvolveMatrixElement), unSVGFEConvolveMatrixElementgTypeSVGFEConvolveMatrixElement
+  , SVGFEDiffuseLightingElement(SVGFEDiffuseLightingElement), unSVGFEDiffuseLightingElementgTypeSVGFEDiffuseLightingElement
+  , SVGFEDisplacementMapElement(SVGFEDisplacementMapElement), unSVGFEDisplacementMapElementgTypeSVGFEDisplacementMapElement
+  , SVGFEDistantLightElement(SVGFEDistantLightElement), unSVGFEDistantLightElementgTypeSVGFEDistantLightElement
+  , SVGFEDropShadowElement(SVGFEDropShadowElement), unSVGFEDropShadowElementgTypeSVGFEDropShadowElement
+  , SVGFEFloodElement(SVGFEFloodElement), unSVGFEFloodElementgTypeSVGFEFloodElement
+  , SVGFEFuncAElement(SVGFEFuncAElement), unSVGFEFuncAElementgTypeSVGFEFuncAElement
+  , SVGFEFuncBElement(SVGFEFuncBElement), unSVGFEFuncBElementgTypeSVGFEFuncBElement
+  , SVGFEFuncGElement(SVGFEFuncGElement), unSVGFEFuncGElementgTypeSVGFEFuncGElement
+  , SVGFEFuncRElement(SVGFEFuncRElement), unSVGFEFuncRElementgTypeSVGFEFuncRElement
+  , SVGFEGaussianBlurElement(SVGFEGaussianBlurElement), unSVGFEGaussianBlurElementgTypeSVGFEGaussianBlurElement
+  , SVGFEImageElement(SVGFEImageElement), unSVGFEImageElementgTypeSVGFEImageElement
+  , SVGFEMergeElement(SVGFEMergeElement), unSVGFEMergeElementgTypeSVGFEMergeElement
+  , SVGFEMergeNodeElement(SVGFEMergeNodeElement), unSVGFEMergeNodeElementgTypeSVGFEMergeNodeElement
+  , SVGFEMorphologyElement(SVGFEMorphologyElement), unSVGFEMorphologyElementgTypeSVGFEMorphologyElement
+  , SVGFEOffsetElement(SVGFEOffsetElement), unSVGFEOffsetElementgTypeSVGFEOffsetElement
+  , SVGFEPointLightElement(SVGFEPointLightElement), unSVGFEPointLightElementgTypeSVGFEPointLightElement
+  , SVGFESpecularLightingElement(SVGFESpecularLightingElement), unSVGFESpecularLightingElementgTypeSVGFESpecularLightingElement
+  , SVGFESpotLightElement(SVGFESpotLightElement), unSVGFESpotLightElementgTypeSVGFESpotLightElement
+  , SVGFETileElement(SVGFETileElement), unSVGFETileElementgTypeSVGFETileElement
+  , SVGFETurbulenceElement(SVGFETurbulenceElement), unSVGFETurbulenceElementgTypeSVGFETurbulenceElement
+  , SVGFilterElement(SVGFilterElement), unSVGFilterElementgTypeSVGFilterElement
+  , SVGFilterPrimitiveStandardAttributes(SVGFilterPrimitiveStandardAttributes), unSVGFilterPrimitiveStandardAttributesgTypeSVGFilterPrimitiveStandardAttributes
+  , SVGFitToViewBox(SVGFitToViewBox), unSVGFitToViewBoxgTypeSVGFitToViewBox
+  , SVGFontElement(SVGFontElement), unSVGFontElementgTypeSVGFontElement
+  , SVGFontFaceElement(SVGFontFaceElement), unSVGFontFaceElementgTypeSVGFontFaceElement
+  , SVGFontFaceFormatElement(SVGFontFaceFormatElement), unSVGFontFaceFormatElementgTypeSVGFontFaceFormatElement
+  , SVGFontFaceNameElement(SVGFontFaceNameElement), unSVGFontFaceNameElementgTypeSVGFontFaceNameElement
+  , SVGFontFaceSrcElement(SVGFontFaceSrcElement), unSVGFontFaceSrcElementgTypeSVGFontFaceSrcElement
+  , SVGFontFaceUriElement(SVGFontFaceUriElement), unSVGFontFaceUriElementgTypeSVGFontFaceUriElement
+  , SVGForeignObjectElement(SVGForeignObjectElement), unSVGForeignObjectElementgTypeSVGForeignObjectElement
+  , SVGGElement(SVGGElement), unSVGGElementgTypeSVGGElement
+  , SVGGlyphElement(SVGGlyphElement), unSVGGlyphElementgTypeSVGGlyphElement
+  , SVGGlyphRefElement(SVGGlyphRefElement), unSVGGlyphRefElementgTypeSVGGlyphRefElement
+  , SVGGradientElement(SVGGradientElement), unSVGGradientElement, IsSVGGradientElement, toSVGGradientElementgTypeSVGGradientElement
+  , SVGGraphicsElement(SVGGraphicsElement), unSVGGraphicsElement, IsSVGGraphicsElement, toSVGGraphicsElementgTypeSVGGraphicsElement
+  , SVGHKernElement(SVGHKernElement), unSVGHKernElementgTypeSVGHKernElement
+  , SVGImageElement(SVGImageElement), unSVGImageElementgTypeSVGImageElement
+  , SVGLength(SVGLength), unSVGLengthgTypeSVGLength
+  , SVGLengthList(SVGLengthList), unSVGLengthListgTypeSVGLengthList
+  , SVGLineElement(SVGLineElement), unSVGLineElementgTypeSVGLineElement
+  , SVGLinearGradientElement(SVGLinearGradientElement), unSVGLinearGradientElementgTypeSVGLinearGradientElement
+  , SVGMPathElement(SVGMPathElement), unSVGMPathElementgTypeSVGMPathElement
+  , SVGMarkerElement(SVGMarkerElement), unSVGMarkerElementgTypeSVGMarkerElement
+  , SVGMaskElement(SVGMaskElement), unSVGMaskElementgTypeSVGMaskElement
+  , SVGMatrix(SVGMatrix), unSVGMatrixgTypeSVGMatrix
+  , SVGMetadataElement(SVGMetadataElement), unSVGMetadataElementgTypeSVGMetadataElement
+  , SVGMissingGlyphElement(SVGMissingGlyphElement), unSVGMissingGlyphElementgTypeSVGMissingGlyphElement
+  , SVGNumber(SVGNumber), unSVGNumbergTypeSVGNumber
+  , SVGNumberList(SVGNumberList), unSVGNumberListgTypeSVGNumberList
+  , SVGPaint(SVGPaint), unSVGPaintgTypeSVGPaint
+  , SVGPathElement(SVGPathElement), unSVGPathElementgTypeSVGPathElement
+  , SVGPathSeg(SVGPathSeg), unSVGPathSeg, IsSVGPathSeg, toSVGPathSeggTypeSVGPathSeg
+  , SVGPathSegArcAbs(SVGPathSegArcAbs), unSVGPathSegArcAbsgTypeSVGPathSegArcAbs
+  , SVGPathSegArcRel(SVGPathSegArcRel), unSVGPathSegArcRelgTypeSVGPathSegArcRel
+  , SVGPathSegClosePath(SVGPathSegClosePath), unSVGPathSegClosePathgTypeSVGPathSegClosePath
+  , SVGPathSegCurvetoCubicAbs(SVGPathSegCurvetoCubicAbs), unSVGPathSegCurvetoCubicAbsgTypeSVGPathSegCurvetoCubicAbs
+  , SVGPathSegCurvetoCubicRel(SVGPathSegCurvetoCubicRel), unSVGPathSegCurvetoCubicRelgTypeSVGPathSegCurvetoCubicRel
+  , SVGPathSegCurvetoCubicSmoothAbs(SVGPathSegCurvetoCubicSmoothAbs), unSVGPathSegCurvetoCubicSmoothAbsgTypeSVGPathSegCurvetoCubicSmoothAbs
+  , SVGPathSegCurvetoCubicSmoothRel(SVGPathSegCurvetoCubicSmoothRel), unSVGPathSegCurvetoCubicSmoothRelgTypeSVGPathSegCurvetoCubicSmoothRel
+  , SVGPathSegCurvetoQuadraticAbs(SVGPathSegCurvetoQuadraticAbs), unSVGPathSegCurvetoQuadraticAbsgTypeSVGPathSegCurvetoQuadraticAbs
+  , SVGPathSegCurvetoQuadraticRel(SVGPathSegCurvetoQuadraticRel), unSVGPathSegCurvetoQuadraticRelgTypeSVGPathSegCurvetoQuadraticRel
+  , SVGPathSegCurvetoQuadraticSmoothAbs(SVGPathSegCurvetoQuadraticSmoothAbs), unSVGPathSegCurvetoQuadraticSmoothAbsgTypeSVGPathSegCurvetoQuadraticSmoothAbs
+  , SVGPathSegCurvetoQuadraticSmoothRel(SVGPathSegCurvetoQuadraticSmoothRel), unSVGPathSegCurvetoQuadraticSmoothRelgTypeSVGPathSegCurvetoQuadraticSmoothRel
+  , SVGPathSegLinetoAbs(SVGPathSegLinetoAbs), unSVGPathSegLinetoAbsgTypeSVGPathSegLinetoAbs
+  , SVGPathSegLinetoHorizontalAbs(SVGPathSegLinetoHorizontalAbs), unSVGPathSegLinetoHorizontalAbsgTypeSVGPathSegLinetoHorizontalAbs
+  , SVGPathSegLinetoHorizontalRel(SVGPathSegLinetoHorizontalRel), unSVGPathSegLinetoHorizontalRelgTypeSVGPathSegLinetoHorizontalRel
+  , SVGPathSegLinetoRel(SVGPathSegLinetoRel), unSVGPathSegLinetoRelgTypeSVGPathSegLinetoRel
+  , SVGPathSegLinetoVerticalAbs(SVGPathSegLinetoVerticalAbs), unSVGPathSegLinetoVerticalAbsgTypeSVGPathSegLinetoVerticalAbs
+  , SVGPathSegLinetoVerticalRel(SVGPathSegLinetoVerticalRel), unSVGPathSegLinetoVerticalRelgTypeSVGPathSegLinetoVerticalRel
+  , SVGPathSegList(SVGPathSegList), unSVGPathSegListgTypeSVGPathSegList
+  , SVGPathSegMovetoAbs(SVGPathSegMovetoAbs), unSVGPathSegMovetoAbsgTypeSVGPathSegMovetoAbs
+  , SVGPathSegMovetoRel(SVGPathSegMovetoRel), unSVGPathSegMovetoRelgTypeSVGPathSegMovetoRel
+  , SVGPatternElement(SVGPatternElement), unSVGPatternElementgTypeSVGPatternElement
+  , SVGPoint(SVGPoint), unSVGPointgTypeSVGPoint
+  , SVGPointList(SVGPointList), unSVGPointListgTypeSVGPointList
+  , SVGPolygonElement(SVGPolygonElement), unSVGPolygonElementgTypeSVGPolygonElement
+  , SVGPolylineElement(SVGPolylineElement), unSVGPolylineElementgTypeSVGPolylineElement
+  , SVGPreserveAspectRatio(SVGPreserveAspectRatio), unSVGPreserveAspectRatiogTypeSVGPreserveAspectRatio
+  , SVGRadialGradientElement(SVGRadialGradientElement), unSVGRadialGradientElementgTypeSVGRadialGradientElement
+  , SVGRect(SVGRect), unSVGRectgTypeSVGRect
+  , SVGRectElement(SVGRectElement), unSVGRectElementgTypeSVGRectElement
+  , SVGRenderingIntent(SVGRenderingIntent), unSVGRenderingIntentgTypeSVGRenderingIntent
+  , SVGSVGElement(SVGSVGElement), unSVGSVGElementgTypeSVGSVGElement
+  , SVGScriptElement(SVGScriptElement), unSVGScriptElementgTypeSVGScriptElement
+  , SVGSetElement(SVGSetElement), unSVGSetElementgTypeSVGSetElement
+  , SVGStopElement(SVGStopElement), unSVGStopElementgTypeSVGStopElement
+  , SVGStringList(SVGStringList), unSVGStringListgTypeSVGStringList
+  , SVGStyleElement(SVGStyleElement), unSVGStyleElementgTypeSVGStyleElement
+  , SVGSwitchElement(SVGSwitchElement), unSVGSwitchElementgTypeSVGSwitchElement
+  , SVGSymbolElement(SVGSymbolElement), unSVGSymbolElementgTypeSVGSymbolElement
+  , SVGTRefElement(SVGTRefElement), unSVGTRefElementgTypeSVGTRefElement
+  , SVGTSpanElement(SVGTSpanElement), unSVGTSpanElementgTypeSVGTSpanElement
+  , SVGTests(SVGTests), unSVGTestsgTypeSVGTests
+  , SVGTextContentElement(SVGTextContentElement), unSVGTextContentElement, IsSVGTextContentElement, toSVGTextContentElementgTypeSVGTextContentElement
+  , SVGTextElement(SVGTextElement), unSVGTextElementgTypeSVGTextElement
+  , SVGTextPathElement(SVGTextPathElement), unSVGTextPathElementgTypeSVGTextPathElement
+  , SVGTextPositioningElement(SVGTextPositioningElement), unSVGTextPositioningElement, IsSVGTextPositioningElement, toSVGTextPositioningElementgTypeSVGTextPositioningElement
+  , SVGTitleElement(SVGTitleElement), unSVGTitleElementgTypeSVGTitleElement
+  , SVGTransform(SVGTransform), unSVGTransformgTypeSVGTransform
+  , SVGTransformList(SVGTransformList), unSVGTransformListgTypeSVGTransformList
+  , SVGURIReference(SVGURIReference), unSVGURIReferencegTypeSVGURIReference
+  , SVGUnitTypes(SVGUnitTypes), unSVGUnitTypesgTypeSVGUnitTypes
+  , SVGUseElement(SVGUseElement), unSVGUseElementgTypeSVGUseElement
+  , SVGVKernElement(SVGVKernElement), unSVGVKernElementgTypeSVGVKernElement
+  , SVGViewElement(SVGViewElement), unSVGViewElementgTypeSVGViewElement
+  , SVGViewSpec(SVGViewSpec), unSVGViewSpecgTypeSVGViewSpec
+  , SVGZoomAndPan(SVGZoomAndPan), unSVGZoomAndPangTypeSVGZoomAndPan
+  , SVGZoomEvent(SVGZoomEvent), unSVGZoomEventgTypeSVGZoomEvent
+  , Screen(Screen), unScreengTypeScreen
+  , ScriptProcessorNode(ScriptProcessorNode), unScriptProcessorNodegTypeScriptProcessorNode
+  , ScriptProfile(ScriptProfile), unScriptProfilegTypeScriptProfile
+  , ScriptProfileNode(ScriptProfileNode), unScriptProfileNodegTypeScriptProfileNode
+  , SecurityPolicy(SecurityPolicy), unSecurityPolicygTypeSecurityPolicy
+  , SecurityPolicyViolationEvent(SecurityPolicyViolationEvent), unSecurityPolicyViolationEventgTypeSecurityPolicyViolationEvent
+  , Selection(Selection), unSelectiongTypeSelection
+  , SourceBuffer(SourceBuffer), unSourceBuffergTypeSourceBuffer
+  , SourceBufferList(SourceBufferList), unSourceBufferListgTypeSourceBufferList
+  , SourceInfo(SourceInfo), unSourceInfogTypeSourceInfo
+  , SpeechSynthesis(SpeechSynthesis), unSpeechSynthesisgTypeSpeechSynthesis
+  , SpeechSynthesisEvent(SpeechSynthesisEvent), unSpeechSynthesisEventgTypeSpeechSynthesisEvent
+  , SpeechSynthesisUtterance(SpeechSynthesisUtterance), unSpeechSynthesisUtterancegTypeSpeechSynthesisUtterance
+  , SpeechSynthesisVoice(SpeechSynthesisVoice), unSpeechSynthesisVoicegTypeSpeechSynthesisVoice
+  , Storage(Storage), unStoragegTypeStorage
+  , StorageEvent(StorageEvent), unStorageEventgTypeStorageEvent
+  , StorageInfo(StorageInfo), unStorageInfogTypeStorageInfo
+  , StorageQuota(StorageQuota), unStorageQuotagTypeStorageQuota
+  , StyleMedia(StyleMedia), unStyleMediagTypeStyleMedia
+  , StyleSheet(StyleSheet), unStyleSheet, IsStyleSheet, toStyleSheetgTypeStyleSheet
+  , StyleSheetList(StyleSheetList), unStyleSheetListgTypeStyleSheetList
+  , SubtleCrypto(SubtleCrypto), unSubtleCryptogTypeSubtleCrypto
+  , Text(Text), unText, IsText, toTextgTypeText
+  , TextEvent(TextEvent), unTextEventgTypeTextEvent
+  , TextMetrics(TextMetrics), unTextMetricsgTypeTextMetrics
+  , TextTrack(TextTrack), unTextTrackgTypeTextTrack
+  , TextTrackCue(TextTrackCue), unTextTrackCue, IsTextTrackCue, toTextTrackCuegTypeTextTrackCue
+  , TextTrackCueList(TextTrackCueList), unTextTrackCueListgTypeTextTrackCueList
+  , TextTrackList(TextTrackList), unTextTrackListgTypeTextTrackList
+  , TimeRanges(TimeRanges), unTimeRangesgTypeTimeRanges
+  , Touch(Touch), unTouchgTypeTouch
+  , TouchEvent(TouchEvent), unTouchEventgTypeTouchEvent
+  , TouchList(TouchList), unTouchListgTypeTouchList
+  , TrackEvent(TrackEvent), unTrackEventgTypeTrackEvent
+  , TransitionEvent(TransitionEvent), unTransitionEventgTypeTransitionEvent
+  , TreeWalker(TreeWalker), unTreeWalkergTypeTreeWalker
+  , TypeConversions(TypeConversions), unTypeConversionsgTypeTypeConversions
+  , UIEvent(UIEvent), unUIEvent, IsUIEvent, toUIEventgTypeUIEvent
+  , UIRequestEvent(UIRequestEvent), unUIRequestEventgTypeUIRequestEvent
+  , URL(URL), unURLgTypeURL
+  , URLUtils(URLUtils), unURLUtilsgTypeURLUtils
+  , UserMessageHandler(UserMessageHandler), unUserMessageHandlergTypeUserMessageHandler
+  , UserMessageHandlersNamespace(UserMessageHandlersNamespace), unUserMessageHandlersNamespacegTypeUserMessageHandlersNamespace
+  , VTTCue(VTTCue), unVTTCuegTypeVTTCue
+  , VTTRegion(VTTRegion), unVTTRegiongTypeVTTRegion
+  , VTTRegionList(VTTRegionList), unVTTRegionListgTypeVTTRegionList
+  , ValidityState(ValidityState), unValidityStategTypeValidityState
+  , VideoPlaybackQuality(VideoPlaybackQuality), unVideoPlaybackQualitygTypeVideoPlaybackQuality
+  , VideoStreamTrack(VideoStreamTrack), unVideoStreamTrackgTypeVideoStreamTrack
+  , VideoTrack(VideoTrack), unVideoTrackgTypeVideoTrack
+  , VideoTrackList(VideoTrackList), unVideoTrackListgTypeVideoTrackList
+  , WaveShaperNode(WaveShaperNode), unWaveShaperNodegTypeWaveShaperNode
+  , WebGL2RenderingContext(WebGL2RenderingContext), unWebGL2RenderingContextgTypeWebGL2RenderingContext
+  , WebGLActiveInfo(WebGLActiveInfo), unWebGLActiveInfogTypeWebGLActiveInfo
+  , WebGLBuffer(WebGLBuffer), unWebGLBuffergTypeWebGLBuffer
+  , WebGLCompressedTextureATC(WebGLCompressedTextureATC), unWebGLCompressedTextureATCgTypeWebGLCompressedTextureATC
+  , WebGLCompressedTexturePVRTC(WebGLCompressedTexturePVRTC), unWebGLCompressedTexturePVRTCgTypeWebGLCompressedTexturePVRTC
+  , WebGLCompressedTextureS3TC(WebGLCompressedTextureS3TC), unWebGLCompressedTextureS3TCgTypeWebGLCompressedTextureS3TC
+  , WebGLContextAttributes(WebGLContextAttributes), unWebGLContextAttributesgTypeWebGLContextAttributes
+  , WebGLContextEvent(WebGLContextEvent), unWebGLContextEventgTypeWebGLContextEvent
+  , WebGLDebugRendererInfo(WebGLDebugRendererInfo), unWebGLDebugRendererInfogTypeWebGLDebugRendererInfo
+  , WebGLDebugShaders(WebGLDebugShaders), unWebGLDebugShadersgTypeWebGLDebugShaders
+  , WebGLDepthTexture(WebGLDepthTexture), unWebGLDepthTexturegTypeWebGLDepthTexture
+  , WebGLDrawBuffers(WebGLDrawBuffers), unWebGLDrawBuffersgTypeWebGLDrawBuffers
+  , WebGLFramebuffer(WebGLFramebuffer), unWebGLFramebuffergTypeWebGLFramebuffer
+  , WebGLLoseContext(WebGLLoseContext), unWebGLLoseContextgTypeWebGLLoseContext
+  , WebGLProgram(WebGLProgram), unWebGLProgramgTypeWebGLProgram
+  , WebGLQuery(WebGLQuery), unWebGLQuerygTypeWebGLQuery
+  , WebGLRenderbuffer(WebGLRenderbuffer), unWebGLRenderbuffergTypeWebGLRenderbuffer
+  , WebGLRenderingContext(WebGLRenderingContext), unWebGLRenderingContextgTypeWebGLRenderingContext
+  , WebGLRenderingContextBase(WebGLRenderingContextBase), unWebGLRenderingContextBase, IsWebGLRenderingContextBase, toWebGLRenderingContextBasegTypeWebGLRenderingContextBase
+  , WebGLSampler(WebGLSampler), unWebGLSamplergTypeWebGLSampler
+  , WebGLShader(WebGLShader), unWebGLShadergTypeWebGLShader
+  , WebGLShaderPrecisionFormat(WebGLShaderPrecisionFormat), unWebGLShaderPrecisionFormatgTypeWebGLShaderPrecisionFormat
+  , WebGLSync(WebGLSync), unWebGLSyncgTypeWebGLSync
+  , WebGLTexture(WebGLTexture), unWebGLTexturegTypeWebGLTexture
+  , WebGLTransformFeedback(WebGLTransformFeedback), unWebGLTransformFeedbackgTypeWebGLTransformFeedback
+  , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocationgTypeWebGLUniformLocation
+  , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObjectgTypeWebGLVertexArrayObject
+  , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOESgTypeWebGLVertexArrayObjectOES
+  , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEventgTypeWebKitAnimationEvent
+  , WebKitCSSFilterValue(WebKitCSSFilterValue), unWebKitCSSFilterValuegTypeWebKitCSSFilterValue
+  , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrixgTypeWebKitCSSMatrix
+  , WebKitCSSRegionRule(WebKitCSSRegionRule), unWebKitCSSRegionRulegTypeWebKitCSSRegionRule
+  , WebKitCSSTransformValue(WebKitCSSTransformValue), unWebKitCSSTransformValuegTypeWebKitCSSTransformValue
+  , WebKitCSSViewportRule(WebKitCSSViewportRule), unWebKitCSSViewportRulegTypeWebKitCSSViewportRule
+  , WebKitNamedFlow(WebKitNamedFlow), unWebKitNamedFlowgTypeWebKitNamedFlow
+  , WebKitNamespace(WebKitNamespace), unWebKitNamespacegTypeWebKitNamespace
+  , WebKitPlaybackTargetAvailabilityEvent(WebKitPlaybackTargetAvailabilityEvent), unWebKitPlaybackTargetAvailabilityEventgTypeWebKitPlaybackTargetAvailabilityEvent
+  , WebKitPoint(WebKitPoint), unWebKitPointgTypeWebKitPoint
+  , WebKitTransitionEvent(WebKitTransitionEvent), unWebKitTransitionEventgTypeWebKitTransitionEvent
+  , WebSocket(WebSocket), unWebSocketgTypeWebSocket
+  , WheelEvent(WheelEvent), unWheelEventgTypeWheelEvent
+  , Window(Window), unWindowgTypeWindow
+  , WindowBase64(WindowBase64), unWindowBase64gTypeWindowBase64
+  , WindowTimers(WindowTimers), unWindowTimersgTypeWindowTimers
+  , Worker(Worker), unWorkergTypeWorker
+  , WorkerGlobalScope(WorkerGlobalScope), unWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScopegTypeWorkerGlobalScope
+  , WorkerLocation(WorkerLocation), unWorkerLocationgTypeWorkerLocation
+  , WorkerNavigator(WorkerNavigator), unWorkerNavigatorgTypeWorkerNavigator
+  , XMLHttpRequest(XMLHttpRequest), unXMLHttpRequestgTypeXMLHttpRequest
+  , XMLHttpRequestProgressEvent(XMLHttpRequestProgressEvent), unXMLHttpRequestProgressEventgTypeXMLHttpRequestProgressEvent
+  , XMLHttpRequestUpload(XMLHttpRequestUpload), unXMLHttpRequestUploadgTypeXMLHttpRequestUpload
+  , XMLSerializer(XMLSerializer), unXMLSerializergTypeXMLSerializer
+  , XPathEvaluator(XPathEvaluator), unXPathEvaluatorgTypeXPathEvaluator
+  , XPathExpression(XPathExpression), unXPathExpressiongTypeXPathExpression
+  , XPathNSResolver(XPathNSResolver), unXPathNSResolvergTypeXPathNSResolver
+  , XPathResult(XPathResult), unXPathResultgTypeXPathResult
+  , XSLTProcessor(XSLTProcessor), unXSLTProcessorgTypeXSLTProcessor
 -- AUTO GENERATION ENDS HERE
   ) where
 
@@ -685,8 +689,9 @@ import qualified Data.Text as T (unpack, Text)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.Int (Int8, Int16, Int32, Int64)
 import Data.Word (Word8, Word16, Word32, Word64)
+import Data.Monoid ((<>))
 import Language.Javascript.JSaddle
-       (Object(..), valToBool, valNull, valToNumber, (!!), js,
+       (Object(..), valToBool, valNull, valToNumber, (!!), js, valToText,
         JSVal, JSString, JSM, maybeNullOrUndefined, maybeNullOrUndefined',
         valToStr, jsg, ToJSString(..), strToText, MakeObject(..),
         Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef,
@@ -702,6 +707,7 @@ import Control.Exception (bracket)
 #ifdef ghcjs_HOST_OS
 import GHCJS.Marshal.Pure (PToJSVal(..), PFromJSVal(..))
 #endif
+import GHC.Stack (HasCallStack)
 
 -- | This is the same as 'JSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
 type DOM = JSM
@@ -727,17 +733,41 @@ newtype GType = GType Object
 typeInstanceIsA :: ToJSVal value => value -> GType -> JSM Bool
 typeInstanceIsA o (GType t) = o `instanceOf` t
 
--- The usage of foreignPtrToPtr should be safe as the evaluation will only be
--- forced if the object is used afterwards
+-- | Safe but slow way to cast
 --
-castTo :: (IsGObject obj, IsGObject obj') => JSM GType -> String
-                                                -> obj -> JSM obj'
-castTo gtype objTypeName obj = do
-  gtype' <- gtype
-  let gobj@(GObject objRef) = toGObject obj
-  typeInstanceIsA objRef gtype' >>= \case
-    True  -> return $ unsafeCastGObject gobj
-    False -> error $ "Cannot cast object to " ++ objTypeName
+-- > castTo Element x >>= \case
+-- >     Nothing      -> error "Was not an element"
+-- >     Just element -> ...
+castTo :: forall obj obj'. (IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> JSM (Maybe obj')
+castTo constructor obj = do
+  GType gtype <- typeGType (undefined :: obj')
+  let jsval = coerce obj
+  jsval `instanceOf` gtype >>= \case
+    True  -> return . Just $ constructor jsval
+    False -> return Nothing
+
+-- | Unsafe way to cast.  Slow but if it fails an error message will
+--   result and the message should be clear (uses HasCallStack).
+--
+-- > element <- unsafeCastTo Element x
+unsafeCastTo :: forall obj obj'. (HasCallStack, IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> JSM obj'
+unsafeCastTo constructor obj = do
+  GType gtype <- typeGType (undefined :: obj')
+  let jsval = coerce obj
+  jsval `instanceOf` gtype >>= \case
+    True  -> return $ constructor jsval
+    False -> do
+      srcType <- typeGType obj >>= \(GType t) -> valToText t
+      destType <- valToText gtype
+      error $ "unsafeCastTo :: invalid conversion from " <> T.unpack srcType <> " to "
+        <> T.unpack destType <> " requested."
+
+-- | Unsafe way to cast.  Fast but if it fails you program
+--   will probably crash later on in some unpredictable way.
+--
+-- > element <- uncheckedCastTo Element x
+uncheckedCastTo :: (IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> JSM obj'
+uncheckedCastTo constructor obj = return . constructor $ coerce obj
 
 -- | Determine if this is an instance of a particular type
 --
@@ -746,11 +776,14 @@ isA obj = typeInstanceIsA (unGObject $ toGObject obj)
 
 newtype GObject = GObject { unGObject :: JSVal }
 
-class (ToJSVal o, FromJSVal o) => IsGObject o where
-  -- | Safe upcast.
-  toGObject         :: o -> GObject
-  -- | Unchecked downcast.
-  unsafeCastGObject :: GObject -> o
+class (ToJSVal o, FromJSVal o, Coercible o JSVal) => IsGObject o where
+  -- | Given object get the GType of the type.  The actual argument
+  --   passed in is ignored.
+  typeGType :: o -> JSM GType
+
+-- | Safe upcast.
+toGObject :: IsGObject o => o -> GObject
+toGObject = GObject . coerce
 
 #ifndef ghcjs_HOST_OS
 class PToJSVal o where
@@ -827,19 +860,14 @@ instance FromJSVal GObject where
 --  {-# INLINE fromJSVal #-}
 
 instance IsGObject GObject where
-  toGObject = id
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = id
-  {-# INLINE unsafeCastGObject #-}
-
-castToGObject :: IsGObject obj => obj -> JSM obj
-castToGObject = return
+  typeGType _ = gTypeGObject
+  {-# INLINE typeGType #-}
 
 #ifdef ghcjs_HOST_OS
-foreign import javascript unsafe "object" gTypeGObject :: GType
+foreign import javascript unsafe "Object" gTypeGObject :: IO GType
 #else
-gTypeGObject :: GType
-gTypeGObject = error "gTypeGObject: only available in JavaScript"
+gTypeGObject :: JSM GType
+gTypeGObject = GType . Object <$> jsg "Object"
 #endif
 
 objectToString :: (IsGObject self, FromJSString result) => self -> JSM result
@@ -987,13 +1015,11 @@ instance FromJSVal SerializedScriptValue where
 
 class IsGObject o => IsSerializedScriptValue o
 toSerializedScriptValue :: IsSerializedScriptValue o => o -> SerializedScriptValue
-toSerializedScriptValue = unsafeCastGObject . toGObject
+toSerializedScriptValue = SerializedScriptValue . coerce
 
 instance IsSerializedScriptValue SerializedScriptValue
 instance IsGObject SerializedScriptValue where
-  toGObject = GObject . unSerializedScriptValue
-  unsafeCastGObject = SerializedScriptValue . unGObject
--- TODO add more IsSerializedScriptValue instances
+  typeGType _ = error "Unable to get the JavaScript type of SerializedScriptValue"
 #else
 -- TODO work out how we can support SerializedScriptValue in native code
 #endif
@@ -1019,13 +1045,11 @@ instance FromJSVal PositionOptions where
 
 class IsGObject o => IsPositionOptions o
 toPositionOptions :: IsPositionOptions o => o -> PositionOptions
-toPositionOptions = unsafeCastGObject . toGObject
+toPositionOptions = PositionOptions . coerce
 
 instance IsPositionOptions PositionOptions
 instance IsGObject PositionOptions where
-  toGObject = GObject . unPositionOptions
-  unsafeCastGObject = PositionOptions . unGObject
--- TODO add more IsPositionOptions instances
+  typeGType _ = error "Unable to get the JavaScript type of PositionOptions"
 #else
 -- TODO work out how we can support PositionOptions in native code
 #endif
@@ -1051,13 +1075,11 @@ instance FromJSVal Dictionary where
 
 class IsGObject o => IsDictionary o
 toDictionary :: IsDictionary o => o -> Dictionary
-toDictionary = unsafeCastGObject . toGObject
+toDictionary = Dictionary . coerce
 
 instance IsDictionary Dictionary
 instance IsGObject Dictionary where
-  toGObject = GObject . unDictionary
-  unsafeCastGObject = Dictionary . unGObject
--- TODO add more IsDictionary instances
+  typeGType _ = error "Unable to get the JavaScript type of Dictionary"
 #else
 -- TODO work out how we can support Dictionary in native code
 #endif
@@ -1083,13 +1105,11 @@ instance FromJSVal BlobPropertyBag where
 
 class IsGObject o => IsBlobPropertyBag o
 toBlobPropertyBag :: IsBlobPropertyBag o => o -> BlobPropertyBag
-toBlobPropertyBag = unsafeCastGObject . toGObject
+toBlobPropertyBag = BlobPropertyBag . coerce
 
 instance IsBlobPropertyBag BlobPropertyBag
 instance IsGObject BlobPropertyBag where
-  toGObject = GObject . unBlobPropertyBag
-  unsafeCastGObject = BlobPropertyBag . unGObject
--- TODO add more IsBlobPropertyBag instances
+  typeGType _ = error "Unable to get the JavaScript type of BlobPropertyBag"
 #else
 -- TODO work out how we can support BlobPropertyBag in native code
 #endif
@@ -1115,13 +1135,11 @@ instance FromJSVal MutationCallback where
 
 class IsGObject o => IsMutationCallback o
 toMutationCallback :: IsMutationCallback o => o -> MutationCallback
-toMutationCallback = unsafeCastGObject . toGObject
+toMutationCallback = MutationCallback . coerce
 
 instance IsMutationCallback MutationCallback
 instance IsGObject MutationCallback where
-  toGObject = GObject . unMutationCallback
-  unsafeCastGObject = MutationCallback . unGObject
--- TODO add more IsMutationCallback instances
+  typeGType _ = error "Unable to get the JavaScript type of MutationCallback"
 #else
 -- TODO work out how we can support MutationCallback in native code
 #endif
@@ -1147,16 +1165,11 @@ instance FromJSVal Promise where
 
 class IsGObject o => IsPromise o
 toPromise :: IsPromise o => o -> Promise
-toPromise = unsafeCastGObject . toGObject
+toPromise = Promise . coerce
 
 instance IsPromise Promise
 instance IsGObject Promise where
-  toGObject = GObject . unPromise
-  unsafeCastGObject = Promise . unGObject
--- TODO add more IsPromise instances
-
-castToPromise :: IsGObject obj => obj -> JSM Promise
-castToPromise = castTo gTypePromise "Promise"
+    typeGType _ = gTypePromise
 
 gTypePromise :: JSM GType
 gTypePromise = GType . Object <$> jsg "Promise"
@@ -1185,15 +1198,11 @@ instance FromJSVal ArrayBuffer where
 
 class IsGObject o => IsArrayBuffer o
 toArrayBuffer :: IsArrayBuffer o => o -> ArrayBuffer
-toArrayBuffer = unsafeCastGObject . toGObject
+toArrayBuffer = ArrayBuffer . coerce
 
 instance IsArrayBuffer ArrayBuffer
 instance IsGObject ArrayBuffer where
-  toGObject = GObject . unArrayBuffer
-  unsafeCastGObject = ArrayBuffer . unGObject
-
-castToArrayBuffer :: IsGObject obj => obj -> JSM ArrayBuffer
-castToArrayBuffer = castTo gTypeArrayBuffer "ArrayBuffer"
+    typeGType _ = gTypeArrayBuffer
 
 gTypeArrayBuffer :: JSM GType
 gTypeArrayBuffer = GType . Object <$> jsg "ArrayBuffer"
@@ -1222,16 +1231,11 @@ instance FromJSVal Float32Array where
 
 class IsGObject o => IsFloat32Array o
 toFloat32Array :: IsFloat32Array o => o -> Float32Array
-toFloat32Array = unsafeCastGObject . toGObject
+toFloat32Array = Float32Array . coerce
 
 instance IsFloat32Array Float32Array
 instance IsGObject Float32Array where
-  toGObject = GObject . unFloat32Array
-  unsafeCastGObject = Float32Array . unGObject
--- TODO add more IsFloat32Array instances
-
-castToFloat32Array :: IsGObject obj => obj -> JSM Float32Array
-castToFloat32Array = castTo gTypeFloat32Array "Float32Array"
+        typeGType _ = gTypeFloat32Array
 
 gTypeFloat32Array :: JSM GType
 gTypeFloat32Array = GType . Object <$> jsg "Float32Array"
@@ -1260,16 +1264,11 @@ instance FromJSVal Float64Array where
 
 class IsGObject o => IsFloat64Array o
 toFloat64Array :: IsFloat64Array o => o -> Float64Array
-toFloat64Array = unsafeCastGObject . toGObject
+toFloat64Array = Float64Array . coerce
 
 instance IsFloat64Array Float64Array
 instance IsGObject Float64Array where
-  toGObject = GObject . unFloat64Array
-  unsafeCastGObject = Float64Array . unGObject
--- TODO add more IsFloat64Array instances
-
-castToFloat64Array :: IsGObject obj => obj -> JSM Float64Array
-castToFloat64Array = castTo gTypeFloat64Array "Float64Array"
+    typeGType _ = gTypeFloat64Array
 
 gTypeFloat64Array :: JSM GType
 gTypeFloat64Array = GType . Object <$> jsg "Float64Array"
@@ -1298,16 +1297,11 @@ instance FromJSVal Uint8Array where
 
 class IsGObject o => IsUint8Array o
 toUint8Array :: IsUint8Array o => o -> Uint8Array
-toUint8Array = unsafeCastGObject . toGObject
+toUint8Array = Uint8Array . coerce
 
 instance IsUint8Array Uint8Array
 instance IsGObject Uint8Array where
-  toGObject = GObject . unUint8Array
-  unsafeCastGObject = Uint8Array . unGObject
--- TODO add more IsUint8Array instances
-
-castToUint8Array :: IsGObject obj => obj -> JSM Uint8Array
-castToUint8Array = castTo gTypeUint8Array "Uint8Array"
+    typeGType _ = gTypeUint8Array
 
 gTypeUint8Array :: JSM GType
 gTypeUint8Array = GType . Object <$> jsg "Uint8Array"
@@ -1336,16 +1330,11 @@ instance FromJSVal Uint8ClampedArray where
 
 class IsGObject o => IsUint8ClampedArray o
 toUint8ClampedArray :: IsUint8ClampedArray o => o -> Uint8ClampedArray
-toUint8ClampedArray = unsafeCastGObject . toGObject
+toUint8ClampedArray = Uint8ClampedArray . coerce
 
 instance IsUint8ClampedArray Uint8ClampedArray
 instance IsGObject Uint8ClampedArray where
-  toGObject = GObject . unUint8ClampedArray
-  unsafeCastGObject = Uint8ClampedArray . unGObject
--- TODO add more IsUint8ClampedArray instances
-
-castToUint8ClampedArray :: IsGObject obj => obj -> JSM Uint8ClampedArray
-castToUint8ClampedArray = castTo gTypeUint8ClampedArray "Uint8ClampedArray"
+    typeGType _ = gTypeUint8ClampedArray
 
 gTypeUint8ClampedArray :: JSM GType
 gTypeUint8ClampedArray = GType . Object <$> jsg "Uint8ClampedArray"
@@ -1374,16 +1363,11 @@ instance FromJSVal Uint16Array where
 
 class IsGObject o => IsUint16Array o
 toUint16Array :: IsUint16Array o => o -> Uint16Array
-toUint16Array = unsafeCastGObject . toGObject
+toUint16Array = Uint16Array . coerce
 
 instance IsUint16Array Uint16Array
 instance IsGObject Uint16Array where
-  toGObject = GObject . unUint16Array
-  unsafeCastGObject = Uint16Array . unGObject
--- TODO add more IsUint16Array instances
-
-castToUint16Array :: IsGObject obj => obj -> JSM Uint16Array
-castToUint16Array = castTo gTypeUint16Array "Uint16Array"
+    typeGType _ = gTypeUint16Array
 
 gTypeUint16Array :: JSM GType
 gTypeUint16Array = GType . Object <$> jsg "Uint16Array"
@@ -1412,16 +1396,11 @@ instance FromJSVal Uint32Array where
 
 class IsGObject o => IsUint32Array o
 toUint32Array :: IsUint32Array o => o -> Uint32Array
-toUint32Array = unsafeCastGObject . toGObject
+toUint32Array = Uint32Array . coerce
 
 instance IsUint32Array Uint32Array
 instance IsGObject Uint32Array where
-  toGObject = GObject . unUint32Array
-  unsafeCastGObject = Uint32Array . unGObject
--- TODO add more IsUint32Array instances
-
-castToUint32Array :: IsGObject obj => obj -> JSM Uint32Array
-castToUint32Array = castTo gTypeUint32Array "Uint32Array"
+    typeGType _ = gTypeUint32Array
 
 gTypeUint32Array :: JSM GType
 gTypeUint32Array = GType . Object <$> jsg "Uint32Array"
@@ -1450,16 +1429,11 @@ instance FromJSVal Int8Array where
 
 class IsGObject o => IsInt8Array o
 toInt8Array :: IsInt8Array o => o -> Int8Array
-toInt8Array = unsafeCastGObject . toGObject
+toInt8Array = Int8Array . coerce
 
 instance IsInt8Array Int8Array
 instance IsGObject Int8Array where
-  toGObject = GObject . unInt8Array
-  unsafeCastGObject = Int8Array . unGObject
--- TODO add more IsInt8Array instances
-
-castToInt8Array :: IsGObject obj => obj -> JSM Int8Array
-castToInt8Array = castTo gTypeInt8Array "Int8Array"
+    typeGType _ = gTypeInt8Array
 
 gTypeInt8Array :: JSM GType
 gTypeInt8Array = GType . Object <$> jsg "Int8Array"
@@ -1488,16 +1462,11 @@ instance FromJSVal Int16Array where
 
 class IsGObject o => IsInt16Array o
 toInt16Array :: IsInt16Array o => o -> Int16Array
-toInt16Array = unsafeCastGObject . toGObject
+toInt16Array = Int16Array . coerce
 
 instance IsInt16Array Int16Array
 instance IsGObject Int16Array where
-  toGObject = GObject . unInt16Array
-  unsafeCastGObject = Int16Array . unGObject
--- TODO add more IsInt16Array instances
-
-castToInt16Array :: IsGObject obj => obj -> JSM Int16Array
-castToInt16Array = castTo gTypeInt16Array "Int16Array"
+    typeGType _ = gTypeInt16Array
 
 gTypeInt16Array :: JSM GType
 gTypeInt16Array = GType . Object <$> jsg "Int16Array"
@@ -1526,16 +1495,11 @@ instance FromJSVal Int32Array where
 
 class IsGObject o => IsInt32Array o
 toInt32Array :: IsInt32Array o => o -> Int32Array
-toInt32Array = unsafeCastGObject . toGObject
+toInt32Array = Int32Array . coerce
 
 instance IsInt32Array Int32Array
 instance IsGObject Int32Array where
-  toGObject = GObject . unInt32Array
-  unsafeCastGObject = Int32Array . unGObject
--- TODO add more IsInt32Array instances
-
-castToInt32Array :: IsGObject obj => obj -> JSM Int32Array
-castToInt32Array = castTo gTypeInt32Array "Int32Array"
+    typeGType _ = gTypeInt32Array
 
 gTypeInt32Array :: JSM GType
 gTypeInt32Array = GType . Object <$> jsg "Int32Array"
@@ -1564,13 +1528,11 @@ instance FromJSVal ObjectArray where
 
 class IsGObject o => IsObjectArray o
 toObjectArray :: IsObjectArray o => o -> ObjectArray
-toObjectArray = unsafeCastGObject . toGObject
+toObjectArray = ObjectArray . coerce
 
 instance IsObjectArray ObjectArray
 instance IsGObject ObjectArray where
-  toGObject = GObject . unObjectArray
-  unsafeCastGObject = ObjectArray . unGObject
--- TODO add more IsObjectArray instances
+  typeGType _ = error "Unable to get the JavaScript type of ObjectArray"
 #else
 -- TODO work out how we can support ObjectArray in native code
 #endif
@@ -1596,13 +1558,11 @@ instance FromJSVal ArrayBufferView where
 
 class IsGObject o => IsArrayBufferView o
 toArrayBufferView :: IsArrayBufferView o => o -> ArrayBufferView
-toArrayBufferView = unsafeCastGObject . toGObject
+toArrayBufferView = ArrayBufferView . coerce
 
 instance IsArrayBufferView ArrayBufferView
 instance IsGObject ArrayBufferView where
-  toGObject = GObject . unArrayBufferView
-  unsafeCastGObject = ArrayBufferView . unGObject
--- TODO add more IsArrayBufferView instances
+  typeGType _ = error "Unable to get the JavaScript type of ArrayBufferView"
 #else
 -- TODO work out how we can support ArrayBufferView in native code
 #endif
@@ -1628,16 +1588,11 @@ instance FromJSVal Array where
 
 class IsGObject o => IsArray o
 toArray :: IsArray o => o -> Array
-toArray = unsafeCastGObject . toGObject
+toArray = Array . coerce
 
 instance IsArray Array
 instance IsGObject Array where
-  toGObject = GObject . unArray
-  unsafeCastGObject = Array . unGObject
--- TODO add more IsArray instances
-
-castToArray :: IsGObject obj => obj -> JSM Array
-castToArray = castTo gTypeArray "Array"
+    typeGType _ = gTypeArray
 
 gTypeArray :: JSM GType
 gTypeArray = GType . Object <$> jsg "Array"
@@ -1666,16 +1621,11 @@ instance FromJSVal Date where
 
 class IsGObject o => IsDate o
 toDate :: IsDate o => o -> Date
-toDate = unsafeCastGObject . toGObject
+toDate = Date . coerce
 
 instance IsDate Date
 instance IsGObject Date where
-  toGObject = GObject . unDate
-  unsafeCastGObject = Date . unGObject
--- TODO add more IsDate instances
-
-castToDate :: IsGObject obj => obj -> JSM Date
-castToDate = castTo gTypeDate "Date"
+    typeGType _ = gTypeDate
 
 gTypeDate :: JSM GType
 gTypeDate = GType . Object <$> jsg "Date"
@@ -1704,13 +1654,11 @@ instance FromJSVal Acceleration where
 
 class IsGObject o => IsAcceleration o
 toAcceleration :: IsAcceleration o => o -> Acceleration
-toAcceleration = unsafeCastGObject . toGObject
+toAcceleration = Acceleration . coerce
 
 instance IsAcceleration Acceleration
 instance IsGObject Acceleration where
-  toGObject = GObject . unAcceleration
-  unsafeCastGObject = Acceleration . unGObject
--- TODO add more IsAcceleration instances
+  typeGType _ = error "Unable to get the JavaScript type of Acceleration"
 #else
 -- TODO work out how we can support Acceleration in native code
 #endif
@@ -1736,13 +1684,11 @@ instance FromJSVal RotationRate where
 
 class IsGObject o => IsRotationRate o
 toRotationRate :: IsRotationRate o => o -> RotationRate
-toRotationRate = unsafeCastGObject . toGObject
+toRotationRate = RotationRate . coerce
 
 instance IsRotationRate RotationRate
 instance IsGObject RotationRate where
-  toGObject = GObject . unRotationRate
-  unsafeCastGObject = RotationRate . unGObject
--- TODO add more IsRotationRate instances
+  typeGType _ = error "Unable to get the JavaScript type of RotationRate"
 #else
 -- TODO work out how we can support RotationRate in native code
 #endif
@@ -1768,13 +1714,11 @@ instance FromJSVal Algorithm where
 
 class IsGObject o => IsAlgorithm o
 toAlgorithm :: IsAlgorithm o => o -> Algorithm
-toAlgorithm = unsafeCastGObject . toGObject
+toAlgorithm = Algorithm . coerce
 
 instance IsAlgorithm Algorithm
 instance IsGObject Algorithm where
-  toGObject = GObject . unAlgorithm
-  unsafeCastGObject = Algorithm . unGObject
--- TODO add more IsAlgorithm instances
+  typeGType _ = error "Unable to get the JavaScript type of Algorithm"
 #else
 -- TODO work out how we can support Algorithm in native code
 #endif
@@ -1800,12 +1744,11 @@ instance FromJSVal CryptoOperationData where
 
 class IsGObject o => IsCryptoOperationData o
 toCryptoOperationData :: IsCryptoOperationData o => o -> CryptoOperationData
-toCryptoOperationData = unsafeCastGObject . toGObject
+toCryptoOperationData = CryptoOperationData . coerce
 
 instance IsCryptoOperationData CryptoOperationData
 instance IsGObject CryptoOperationData where
-  toGObject = GObject . unCryptoOperationData
-  unsafeCastGObject = CryptoOperationData . unGObject
+  typeGType _ = error "Unable to get the JavaScript type of CryptoOperationData"
 instance IsCryptoOperationData ArrayBuffer
 instance IsCryptoOperationData ArrayBufferView
 #else
@@ -1833,12 +1776,11 @@ instance FromJSVal CanvasStyle where
 
 class IsGObject o => IsCanvasStyle o
 toCanvasStyle :: IsCanvasStyle o => o -> CanvasStyle
-toCanvasStyle = unsafeCastGObject . toGObject
+toCanvasStyle = CanvasStyle . coerce
 
 instance IsCanvasStyle CanvasStyle
 instance IsGObject CanvasStyle where
-  toGObject = GObject . unCanvasStyle
-  unsafeCastGObject = CanvasStyle . unGObject
+  typeGType _ = error "Unable to get the JavaScript type of CanvasStyle"
 instance IsCanvasStyle CanvasGradient
 instance IsCanvasStyle CanvasPattern
 #else
@@ -1866,12 +1808,11 @@ instance FromJSVal DOMException where
 
 class IsGObject o => IsDOMException o
 toDOMException :: IsDOMException o => o -> DOMException
-toDOMException = unsafeCastGObject . toGObject
+toDOMException = DOMException . coerce
 
 instance IsDOMException DOMException
 instance IsGObject DOMException where
-  toGObject = GObject . unDOMException
-  unsafeCastGObject = DOMException . unGObject
+  typeGType _ = error "Unable to get the JavaScript type of DOMException"
 #else
 -- TODO work out how we can support DOMException in native code
 #endif
@@ -1921,13 +1862,8 @@ instance MakeObject ANGLEInstancedArrays where
   makeObject = makeObject . unANGLEInstancedArrays
 
 instance IsGObject ANGLEInstancedArrays where
-  toGObject = GObject . unANGLEInstancedArrays
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ANGLEInstancedArrays . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToANGLEInstancedArrays :: IsGObject obj => obj -> JSM ANGLEInstancedArrays
-castToANGLEInstancedArrays = castTo gTypeANGLEInstancedArrays "ANGLEInstancedArrays"
+  typeGType _ = gTypeANGLEInstancedArrays
+  {-# INLINE typeGType #-}
 
 gTypeANGLEInstancedArrays :: JSM GType
 gTypeANGLEInstancedArrays = GType . Object <$> jsg "ANGLEInstancedArrays"
@@ -1960,13 +1896,8 @@ instance MakeObject AbstractView where
   makeObject = makeObject . unAbstractView
 
 instance IsGObject AbstractView where
-  toGObject = GObject . unAbstractView
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AbstractView . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAbstractView :: IsGObject obj => obj -> JSM AbstractView
-castToAbstractView = castTo gTypeAbstractView "AbstractView"
+  typeGType _ = gTypeAbstractView
+  {-# INLINE typeGType #-}
 
 gTypeAbstractView :: JSM GType
 gTypeAbstractView = GType . Object <$> jsg "AbstractView"
@@ -1999,13 +1930,8 @@ instance MakeObject AbstractWorker where
   makeObject = makeObject . unAbstractWorker
 
 instance IsGObject AbstractWorker where
-  toGObject = GObject . unAbstractWorker
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AbstractWorker . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAbstractWorker :: IsGObject obj => obj -> JSM AbstractWorker
-castToAbstractWorker = castTo gTypeAbstractWorker "AbstractWorker"
+  typeGType _ = gTypeAbstractWorker
+  {-# INLINE typeGType #-}
 
 gTypeAbstractWorker :: JSM GType
 gTypeAbstractWorker = GType . Object <$> jsg "AbstractWorker"
@@ -2042,13 +1968,8 @@ instance MakeObject AllAudioCapabilities where
 
 instance IsMediaStreamCapabilities AllAudioCapabilities
 instance IsGObject AllAudioCapabilities where
-  toGObject = GObject . unAllAudioCapabilities
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AllAudioCapabilities . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAllAudioCapabilities :: IsGObject obj => obj -> JSM AllAudioCapabilities
-castToAllAudioCapabilities = castTo gTypeAllAudioCapabilities "AllAudioCapabilities"
+  typeGType _ = gTypeAllAudioCapabilities
+  {-# INLINE typeGType #-}
 
 gTypeAllAudioCapabilities :: JSM GType
 gTypeAllAudioCapabilities = GType . Object <$> jsg "AllAudioCapabilities"
@@ -2085,13 +2006,8 @@ instance MakeObject AllVideoCapabilities where
 
 instance IsMediaStreamCapabilities AllVideoCapabilities
 instance IsGObject AllVideoCapabilities where
-  toGObject = GObject . unAllVideoCapabilities
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AllVideoCapabilities . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAllVideoCapabilities :: IsGObject obj => obj -> JSM AllVideoCapabilities
-castToAllVideoCapabilities = castTo gTypeAllVideoCapabilities "AllVideoCapabilities"
+  typeGType _ = gTypeAllVideoCapabilities
+  {-# INLINE typeGType #-}
 
 gTypeAllVideoCapabilities :: JSM GType
 gTypeAllVideoCapabilities = GType . Object <$> jsg "AllVideoCapabilities"
@@ -2130,13 +2046,8 @@ instance MakeObject AnalyserNode where
 instance IsAudioNode AnalyserNode
 instance IsEventTarget AnalyserNode
 instance IsGObject AnalyserNode where
-  toGObject = GObject . unAnalyserNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AnalyserNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAnalyserNode :: IsGObject obj => obj -> JSM AnalyserNode
-castToAnalyserNode = castTo gTypeAnalyserNode "AnalyserNode"
+  typeGType _ = gTypeAnalyserNode
+  {-# INLINE typeGType #-}
 
 gTypeAnalyserNode :: JSM GType
 gTypeAnalyserNode = GType . Object <$> jsg "AnalyserNode"
@@ -2173,13 +2084,8 @@ instance MakeObject AnimationEvent where
 
 instance IsEvent AnimationEvent
 instance IsGObject AnimationEvent where
-  toGObject = GObject . unAnimationEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AnimationEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAnimationEvent :: IsGObject obj => obj -> JSM AnimationEvent
-castToAnimationEvent = castTo gTypeAnimationEvent "AnimationEvent"
+  typeGType _ = gTypeAnimationEvent
+  {-# INLINE typeGType #-}
 
 gTypeAnimationEvent :: JSM GType
 gTypeAnimationEvent = GType . Object <$> jsg "AnimationEvent"
@@ -2216,13 +2122,8 @@ instance MakeObject ApplicationCache where
 
 instance IsEventTarget ApplicationCache
 instance IsGObject ApplicationCache where
-  toGObject = GObject . unApplicationCache
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ApplicationCache . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToApplicationCache :: IsGObject obj => obj -> JSM ApplicationCache
-castToApplicationCache = castTo gTypeApplicationCache "ApplicationCache"
+  typeGType _ = gTypeApplicationCache
+  {-# INLINE typeGType #-}
 
 gTypeApplicationCache :: JSM GType
 gTypeApplicationCache = GType . Object <$> jsg "ApplicationCache"
@@ -2263,13 +2164,8 @@ instance MakeObject Attr where
 instance IsNode Attr
 instance IsEventTarget Attr
 instance IsGObject Attr where
-  toGObject = GObject . unAttr
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Attr . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAttr :: IsGObject obj => obj -> JSM Attr
-castToAttr = castTo gTypeAttr "Attr"
+  typeGType _ = gTypeAttr
+  {-# INLINE typeGType #-}
 
 gTypeAttr :: JSM GType
 gTypeAttr = GType . Object <$> jsg "Attr"
@@ -2304,13 +2200,8 @@ instance MakeObject AudioBuffer where
   makeObject = makeObject . unAudioBuffer
 
 instance IsGObject AudioBuffer where
-  toGObject = GObject . unAudioBuffer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioBuffer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioBuffer :: IsGObject obj => obj -> JSM AudioBuffer
-castToAudioBuffer = castTo gTypeAudioBuffer "AudioBuffer"
+  typeGType _ = gTypeAudioBuffer
+  {-# INLINE typeGType #-}
 
 gTypeAudioBuffer :: JSM GType
 gTypeAudioBuffer = GType . Object <$> jsg "AudioBuffer"
@@ -2349,13 +2240,8 @@ instance MakeObject AudioBufferSourceNode where
 instance IsAudioNode AudioBufferSourceNode
 instance IsEventTarget AudioBufferSourceNode
 instance IsGObject AudioBufferSourceNode where
-  toGObject = GObject . unAudioBufferSourceNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioBufferSourceNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioBufferSourceNode :: IsGObject obj => obj -> JSM AudioBufferSourceNode
-castToAudioBufferSourceNode = castTo gTypeAudioBufferSourceNode "AudioBufferSourceNode"
+  typeGType _ = gTypeAudioBufferSourceNode
+  {-# INLINE typeGType #-}
 
 gTypeAudioBufferSourceNode :: JSM GType
 gTypeAudioBufferSourceNode = GType . Object <$> jsg "AudioBufferSourceNode"
@@ -2392,18 +2278,13 @@ instance MakeObject AudioContext where
 
 class IsEventTarget o => IsAudioContext o
 toAudioContext :: IsAudioContext o => o -> AudioContext
-toAudioContext = unsafeCastGObject . toGObject
+toAudioContext = AudioContext . coerce
 
 instance IsAudioContext AudioContext
 instance IsEventTarget AudioContext
 instance IsGObject AudioContext where
-  toGObject = GObject . unAudioContext
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioContext . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioContext :: IsGObject obj => obj -> JSM AudioContext
-castToAudioContext = castTo gTypeAudioContext "AudioContext"
+  typeGType _ = gTypeAudioContext
+  {-# INLINE typeGType #-}
 
 gTypeAudioContext :: JSM GType
 gTypeAudioContext = GType . Object <$> jsg "AudioContext"
@@ -2442,13 +2323,8 @@ instance MakeObject AudioDestinationNode where
 instance IsAudioNode AudioDestinationNode
 instance IsEventTarget AudioDestinationNode
 instance IsGObject AudioDestinationNode where
-  toGObject = GObject . unAudioDestinationNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioDestinationNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioDestinationNode :: IsGObject obj => obj -> JSM AudioDestinationNode
-castToAudioDestinationNode = castTo gTypeAudioDestinationNode "AudioDestinationNode"
+  typeGType _ = gTypeAudioDestinationNode
+  {-# INLINE typeGType #-}
 
 gTypeAudioDestinationNode :: JSM GType
 gTypeAudioDestinationNode = GType . Object <$> jsg "AudioDestinationNode"
@@ -2481,13 +2357,8 @@ instance MakeObject AudioListener where
   makeObject = makeObject . unAudioListener
 
 instance IsGObject AudioListener where
-  toGObject = GObject . unAudioListener
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioListener . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioListener :: IsGObject obj => obj -> JSM AudioListener
-castToAudioListener = castTo gTypeAudioListener "AudioListener"
+  typeGType _ = gTypeAudioListener
+  {-# INLINE typeGType #-}
 
 gTypeAudioListener :: JSM GType
 gTypeAudioListener = GType . Object <$> jsg "AudioListener"
@@ -2524,18 +2395,13 @@ instance MakeObject AudioNode where
 
 class IsEventTarget o => IsAudioNode o
 toAudioNode :: IsAudioNode o => o -> AudioNode
-toAudioNode = unsafeCastGObject . toGObject
+toAudioNode = AudioNode . coerce
 
 instance IsAudioNode AudioNode
 instance IsEventTarget AudioNode
 instance IsGObject AudioNode where
-  toGObject = GObject . unAudioNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioNode :: IsGObject obj => obj -> JSM AudioNode
-castToAudioNode = castTo gTypeAudioNode "AudioNode"
+  typeGType _ = gTypeAudioNode
+  {-# INLINE typeGType #-}
 
 gTypeAudioNode :: JSM GType
 gTypeAudioNode = GType . Object <$> jsg "AudioNode"
@@ -2568,13 +2434,8 @@ instance MakeObject AudioParam where
   makeObject = makeObject . unAudioParam
 
 instance IsGObject AudioParam where
-  toGObject = GObject . unAudioParam
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioParam . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioParam :: IsGObject obj => obj -> JSM AudioParam
-castToAudioParam = castTo gTypeAudioParam "AudioParam"
+  typeGType _ = gTypeAudioParam
+  {-# INLINE typeGType #-}
 
 gTypeAudioParam :: JSM GType
 gTypeAudioParam = GType . Object <$> jsg "AudioParam"
@@ -2611,13 +2472,8 @@ instance MakeObject AudioProcessingEvent where
 
 instance IsEvent AudioProcessingEvent
 instance IsGObject AudioProcessingEvent where
-  toGObject = GObject . unAudioProcessingEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioProcessingEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioProcessingEvent :: IsGObject obj => obj -> JSM AudioProcessingEvent
-castToAudioProcessingEvent = castTo gTypeAudioProcessingEvent "AudioProcessingEvent"
+  typeGType _ = gTypeAudioProcessingEvent
+  {-# INLINE typeGType #-}
 
 gTypeAudioProcessingEvent :: JSM GType
 gTypeAudioProcessingEvent = GType . Object <$> jsg "AudioProcessingEvent"
@@ -2656,13 +2512,8 @@ instance MakeObject AudioStreamTrack where
 instance IsMediaStreamTrack AudioStreamTrack
 instance IsEventTarget AudioStreamTrack
 instance IsGObject AudioStreamTrack where
-  toGObject = GObject . unAudioStreamTrack
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioStreamTrack . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioStreamTrack :: IsGObject obj => obj -> JSM AudioStreamTrack
-castToAudioStreamTrack = castTo gTypeAudioStreamTrack "AudioStreamTrack"
+  typeGType _ = gTypeAudioStreamTrack
+  {-# INLINE typeGType #-}
 
 gTypeAudioStreamTrack :: JSM GType
 gTypeAudioStreamTrack = GType . Object <$> jsg "AudioStreamTrack"
@@ -2695,13 +2546,8 @@ instance MakeObject AudioTrack where
   makeObject = makeObject . unAudioTrack
 
 instance IsGObject AudioTrack where
-  toGObject = GObject . unAudioTrack
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioTrack . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioTrack :: IsGObject obj => obj -> JSM AudioTrack
-castToAudioTrack = castTo gTypeAudioTrack "AudioTrack"
+  typeGType _ = gTypeAudioTrack
+  {-# INLINE typeGType #-}
 
 gTypeAudioTrack :: JSM GType
 gTypeAudioTrack = GType . Object <$> jsg "AudioTrack"
@@ -2742,13 +2588,8 @@ instance MakeObject AudioTrackList where
 
 instance IsEventTarget AudioTrackList
 instance IsGObject AudioTrackList where
-  toGObject = GObject . unAudioTrackList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AudioTrackList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAudioTrackList :: IsGObject obj => obj -> JSM AudioTrackList
-castToAudioTrackList = castTo gTypeAudioTrackList "AudioTrackList"
+  typeGType _ = gTypeAudioTrackList
+  {-# INLINE typeGType #-}
 
 gTypeAudioTrackList :: JSM GType
 gTypeAudioTrackList = GType . Object <$> jsg "AudioTrackList"
@@ -2789,13 +2630,8 @@ instance MakeObject AutocompleteErrorEvent where
 
 instance IsEvent AutocompleteErrorEvent
 instance IsGObject AutocompleteErrorEvent where
-  toGObject = GObject . unAutocompleteErrorEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = AutocompleteErrorEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToAutocompleteErrorEvent :: IsGObject obj => obj -> JSM AutocompleteErrorEvent
-castToAutocompleteErrorEvent = castTo gTypeAutocompleteErrorEvent "AutocompleteErrorEvent"
+  typeGType _ = gTypeAutocompleteErrorEvent
+  {-# INLINE typeGType #-}
 
 gTypeAutocompleteErrorEvent :: JSM GType
 gTypeAutocompleteErrorEvent = GType . Object <$> jsg "AutocompleteErrorEvent"
@@ -2828,13 +2664,8 @@ instance MakeObject BarProp where
   makeObject = makeObject . unBarProp
 
 instance IsGObject BarProp where
-  toGObject = GObject . unBarProp
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = BarProp . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToBarProp :: IsGObject obj => obj -> JSM BarProp
-castToBarProp = castTo gTypeBarProp "BarProp"
+  typeGType _ = gTypeBarProp
+  {-# INLINE typeGType #-}
 
 gTypeBarProp :: JSM GType
 gTypeBarProp = GType . Object <$> jsg "BarProp"
@@ -2875,13 +2706,8 @@ instance MakeObject BatteryManager where
 
 instance IsEventTarget BatteryManager
 instance IsGObject BatteryManager where
-  toGObject = GObject . unBatteryManager
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = BatteryManager . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToBatteryManager :: IsGObject obj => obj -> JSM BatteryManager
-castToBatteryManager = castTo gTypeBatteryManager "BatteryManager"
+  typeGType _ = gTypeBatteryManager
+  {-# INLINE typeGType #-}
 
 gTypeBatteryManager :: JSM GType
 gTypeBatteryManager = GType . Object <$> jsg "BatteryManager"
@@ -2922,13 +2748,8 @@ instance MakeObject BeforeLoadEvent where
 
 instance IsEvent BeforeLoadEvent
 instance IsGObject BeforeLoadEvent where
-  toGObject = GObject . unBeforeLoadEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = BeforeLoadEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToBeforeLoadEvent :: IsGObject obj => obj -> JSM BeforeLoadEvent
-castToBeforeLoadEvent = castTo gTypeBeforeLoadEvent "BeforeLoadEvent"
+  typeGType _ = gTypeBeforeLoadEvent
+  {-# INLINE typeGType #-}
 
 gTypeBeforeLoadEvent :: JSM GType
 gTypeBeforeLoadEvent = GType . Object <$> jsg "BeforeLoadEvent"
@@ -2965,13 +2786,8 @@ instance MakeObject BeforeUnloadEvent where
 
 instance IsEvent BeforeUnloadEvent
 instance IsGObject BeforeUnloadEvent where
-  toGObject = GObject . unBeforeUnloadEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = BeforeUnloadEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToBeforeUnloadEvent :: IsGObject obj => obj -> JSM BeforeUnloadEvent
-castToBeforeUnloadEvent = castTo gTypeBeforeUnloadEvent "BeforeUnloadEvent"
+  typeGType _ = gTypeBeforeUnloadEvent
+  {-# INLINE typeGType #-}
 
 gTypeBeforeUnloadEvent :: JSM GType
 gTypeBeforeUnloadEvent = GType . Object <$> jsg "BeforeUnloadEvent"
@@ -3010,13 +2826,8 @@ instance MakeObject BiquadFilterNode where
 instance IsAudioNode BiquadFilterNode
 instance IsEventTarget BiquadFilterNode
 instance IsGObject BiquadFilterNode where
-  toGObject = GObject . unBiquadFilterNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = BiquadFilterNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToBiquadFilterNode :: IsGObject obj => obj -> JSM BiquadFilterNode
-castToBiquadFilterNode = castTo gTypeBiquadFilterNode "BiquadFilterNode"
+  typeGType _ = gTypeBiquadFilterNode
+  {-# INLINE typeGType #-}
 
 gTypeBiquadFilterNode :: JSM GType
 gTypeBiquadFilterNode = GType . Object <$> jsg "BiquadFilterNode"
@@ -3050,17 +2861,12 @@ instance MakeObject Blob where
 
 class IsGObject o => IsBlob o
 toBlob :: IsBlob o => o -> Blob
-toBlob = unsafeCastGObject . toGObject
+toBlob = Blob . coerce
 
 instance IsBlob Blob
 instance IsGObject Blob where
-  toGObject = GObject . unBlob
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Blob . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToBlob :: IsGObject obj => obj -> JSM Blob
-castToBlob = castTo gTypeBlob "Blob"
+  typeGType _ = gTypeBlob
+  {-# INLINE typeGType #-}
 
 gTypeBlob :: JSM GType
 gTypeBlob = GType . Object <$> jsg "Blob"
@@ -3105,13 +2911,8 @@ instance IsCharacterData CDATASection
 instance IsNode CDATASection
 instance IsEventTarget CDATASection
 instance IsGObject CDATASection where
-  toGObject = GObject . unCDATASection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CDATASection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCDATASection :: IsGObject obj => obj -> JSM CDATASection
-castToCDATASection = castTo gTypeCDATASection "CDATASection"
+  typeGType _ = gTypeCDATASection
+  {-# INLINE typeGType #-}
 
 gTypeCDATASection :: JSM GType
 gTypeCDATASection = GType . Object <$> jsg "CDATASection"
@@ -3146,13 +2947,8 @@ instance MakeObject CSS where
   makeObject = makeObject . unCSS
 
 instance IsGObject CSS where
-  toGObject = GObject . unCSS
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSS . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSS :: IsGObject obj => obj -> JSM CSS
-castToCSS = castTo gTypeCSS "CSS"
+  typeGType _ = gTypeCSS
+  {-# INLINE typeGType #-}
 
 gTypeCSS :: JSM GType
 gTypeCSS = GType . Object <$> jsg "CSS"
@@ -3193,13 +2989,8 @@ instance MakeObject CSSCharsetRule where
 
 instance IsCSSRule CSSCharsetRule
 instance IsGObject CSSCharsetRule where
-  toGObject = GObject . unCSSCharsetRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSCharsetRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSCharsetRule :: IsGObject obj => obj -> JSM CSSCharsetRule
-castToCSSCharsetRule = castTo gTypeCSSCharsetRule "CSSCharsetRule"
+  typeGType _ = gTypeCSSCharsetRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSCharsetRule :: JSM GType
 gTypeCSSCharsetRule = GType . Object <$> jsg "CSSCharsetRule"
@@ -3236,13 +3027,8 @@ instance MakeObject CSSFontFaceLoadEvent where
 
 instance IsEvent CSSFontFaceLoadEvent
 instance IsGObject CSSFontFaceLoadEvent where
-  toGObject = GObject . unCSSFontFaceLoadEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSFontFaceLoadEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSFontFaceLoadEvent :: IsGObject obj => obj -> JSM CSSFontFaceLoadEvent
-castToCSSFontFaceLoadEvent = castTo gTypeCSSFontFaceLoadEvent "CSSFontFaceLoadEvent"
+  typeGType _ = gTypeCSSFontFaceLoadEvent
+  {-# INLINE typeGType #-}
 
 gTypeCSSFontFaceLoadEvent :: JSM GType
 gTypeCSSFontFaceLoadEvent = GType . Object <$> jsg "CSSFontFaceLoadEvent"
@@ -3279,13 +3065,8 @@ instance MakeObject CSSFontFaceRule where
 
 instance IsCSSRule CSSFontFaceRule
 instance IsGObject CSSFontFaceRule where
-  toGObject = GObject . unCSSFontFaceRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSFontFaceRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSFontFaceRule :: IsGObject obj => obj -> JSM CSSFontFaceRule
-castToCSSFontFaceRule = castTo gTypeCSSFontFaceRule "CSSFontFaceRule"
+  typeGType _ = gTypeCSSFontFaceRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSFontFaceRule :: JSM GType
 gTypeCSSFontFaceRule = GType . Object <$> jsg "CSSFontFaceRule"
@@ -3322,13 +3103,8 @@ instance MakeObject CSSImportRule where
 
 instance IsCSSRule CSSImportRule
 instance IsGObject CSSImportRule where
-  toGObject = GObject . unCSSImportRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSImportRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSImportRule :: IsGObject obj => obj -> JSM CSSImportRule
-castToCSSImportRule = castTo gTypeCSSImportRule "CSSImportRule"
+  typeGType _ = gTypeCSSImportRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSImportRule :: JSM GType
 gTypeCSSImportRule = GType . Object <$> jsg "CSSImportRule"
@@ -3365,13 +3141,8 @@ instance MakeObject CSSKeyframeRule where
 
 instance IsCSSRule CSSKeyframeRule
 instance IsGObject CSSKeyframeRule where
-  toGObject = GObject . unCSSKeyframeRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSKeyframeRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSKeyframeRule :: IsGObject obj => obj -> JSM CSSKeyframeRule
-castToCSSKeyframeRule = castTo gTypeCSSKeyframeRule "CSSKeyframeRule"
+  typeGType _ = gTypeCSSKeyframeRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSKeyframeRule :: JSM GType
 gTypeCSSKeyframeRule = GType . Object <$> jsg "CSSKeyframeRule"
@@ -3408,13 +3179,8 @@ instance MakeObject CSSKeyframesRule where
 
 instance IsCSSRule CSSKeyframesRule
 instance IsGObject CSSKeyframesRule where
-  toGObject = GObject . unCSSKeyframesRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSKeyframesRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSKeyframesRule :: IsGObject obj => obj -> JSM CSSKeyframesRule
-castToCSSKeyframesRule = castTo gTypeCSSKeyframesRule "CSSKeyframesRule"
+  typeGType _ = gTypeCSSKeyframesRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSKeyframesRule :: JSM GType
 gTypeCSSKeyframesRule = GType . Object <$> jsg "CSSKeyframesRule"
@@ -3451,13 +3217,8 @@ instance MakeObject CSSMediaRule where
 
 instance IsCSSRule CSSMediaRule
 instance IsGObject CSSMediaRule where
-  toGObject = GObject . unCSSMediaRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSMediaRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSMediaRule :: IsGObject obj => obj -> JSM CSSMediaRule
-castToCSSMediaRule = castTo gTypeCSSMediaRule "CSSMediaRule"
+  typeGType _ = gTypeCSSMediaRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSMediaRule :: JSM GType
 gTypeCSSMediaRule = GType . Object <$> jsg "CSSMediaRule"
@@ -3494,13 +3255,8 @@ instance MakeObject CSSPageRule where
 
 instance IsCSSRule CSSPageRule
 instance IsGObject CSSPageRule where
-  toGObject = GObject . unCSSPageRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSPageRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSPageRule :: IsGObject obj => obj -> JSM CSSPageRule
-castToCSSPageRule = castTo gTypeCSSPageRule "CSSPageRule"
+  typeGType _ = gTypeCSSPageRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSPageRule :: JSM GType
 gTypeCSSPageRule = GType . Object <$> jsg "CSSPageRule"
@@ -3537,13 +3293,8 @@ instance MakeObject CSSPrimitiveValue where
 
 instance IsCSSValue CSSPrimitiveValue
 instance IsGObject CSSPrimitiveValue where
-  toGObject = GObject . unCSSPrimitiveValue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSPrimitiveValue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSPrimitiveValue :: IsGObject obj => obj -> JSM CSSPrimitiveValue
-castToCSSPrimitiveValue = castTo gTypeCSSPrimitiveValue "CSSPrimitiveValue"
+  typeGType _ = gTypeCSSPrimitiveValue
+  {-# INLINE typeGType #-}
 
 gTypeCSSPrimitiveValue :: JSM GType
 gTypeCSSPrimitiveValue = GType . Object <$> jsg "CSSPrimitiveValue"
@@ -3577,17 +3328,12 @@ instance MakeObject CSSRule where
 
 class IsGObject o => IsCSSRule o
 toCSSRule :: IsCSSRule o => o -> CSSRule
-toCSSRule = unsafeCastGObject . toGObject
+toCSSRule = CSSRule . coerce
 
 instance IsCSSRule CSSRule
 instance IsGObject CSSRule where
-  toGObject = GObject . unCSSRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSRule :: IsGObject obj => obj -> JSM CSSRule
-castToCSSRule = castTo gTypeCSSRule "CSSRule"
+  typeGType _ = gTypeCSSRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSRule :: JSM GType
 gTypeCSSRule = GType . Object <$> jsg "CSSRule"
@@ -3622,13 +3368,8 @@ instance MakeObject CSSRuleList where
   makeObject = makeObject . unCSSRuleList
 
 instance IsGObject CSSRuleList where
-  toGObject = GObject . unCSSRuleList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSRuleList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSRuleList :: IsGObject obj => obj -> JSM CSSRuleList
-castToCSSRuleList = castTo gTypeCSSRuleList "CSSRuleList"
+  typeGType _ = gTypeCSSRuleList
+  {-# INLINE typeGType #-}
 
 gTypeCSSRuleList :: JSM GType
 gTypeCSSRuleList = GType . Object <$> jsg "CSSRuleList"
@@ -3663,13 +3404,8 @@ instance MakeObject CSSStyleDeclaration where
   makeObject = makeObject . unCSSStyleDeclaration
 
 instance IsGObject CSSStyleDeclaration where
-  toGObject = GObject . unCSSStyleDeclaration
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSStyleDeclaration . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSStyleDeclaration :: IsGObject obj => obj -> JSM CSSStyleDeclaration
-castToCSSStyleDeclaration = castTo gTypeCSSStyleDeclaration "CSSStyleDeclaration"
+  typeGType _ = gTypeCSSStyleDeclaration
+  {-# INLINE typeGType #-}
 
 gTypeCSSStyleDeclaration :: JSM GType
 gTypeCSSStyleDeclaration = GType . Object <$> jsg "CSSStyleDeclaration"
@@ -3708,13 +3444,8 @@ instance MakeObject CSSStyleRule where
 
 instance IsCSSRule CSSStyleRule
 instance IsGObject CSSStyleRule where
-  toGObject = GObject . unCSSStyleRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSStyleRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSStyleRule :: IsGObject obj => obj -> JSM CSSStyleRule
-castToCSSStyleRule = castTo gTypeCSSStyleRule "CSSStyleRule"
+  typeGType _ = gTypeCSSStyleRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSStyleRule :: JSM GType
 gTypeCSSStyleRule = GType . Object <$> jsg "CSSStyleRule"
@@ -3751,13 +3482,8 @@ instance MakeObject CSSStyleSheet where
 
 instance IsStyleSheet CSSStyleSheet
 instance IsGObject CSSStyleSheet where
-  toGObject = GObject . unCSSStyleSheet
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSStyleSheet . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSStyleSheet :: IsGObject obj => obj -> JSM CSSStyleSheet
-castToCSSStyleSheet = castTo gTypeCSSStyleSheet "CSSStyleSheet"
+  typeGType _ = gTypeCSSStyleSheet
+  {-# INLINE typeGType #-}
 
 gTypeCSSStyleSheet :: JSM GType
 gTypeCSSStyleSheet = GType . Object <$> jsg "CSSStyleSheet"
@@ -3796,13 +3522,8 @@ instance MakeObject CSSSupportsRule where
 
 instance IsCSSRule CSSSupportsRule
 instance IsGObject CSSSupportsRule where
-  toGObject = GObject . unCSSSupportsRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSSupportsRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSSupportsRule :: IsGObject obj => obj -> JSM CSSSupportsRule
-castToCSSSupportsRule = castTo gTypeCSSSupportsRule "CSSSupportsRule"
+  typeGType _ = gTypeCSSSupportsRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSSupportsRule :: JSM GType
 gTypeCSSSupportsRule = GType . Object <$> jsg "CSSSupportsRule"
@@ -3839,13 +3560,8 @@ instance MakeObject CSSUnknownRule where
 
 instance IsCSSRule CSSUnknownRule
 instance IsGObject CSSUnknownRule where
-  toGObject = GObject . unCSSUnknownRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSUnknownRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSUnknownRule :: IsGObject obj => obj -> JSM CSSUnknownRule
-castToCSSUnknownRule = castTo gTypeCSSUnknownRule "CSSUnknownRule"
+  typeGType _ = gTypeCSSUnknownRule
+  {-# INLINE typeGType #-}
 
 gTypeCSSUnknownRule :: JSM GType
 gTypeCSSUnknownRule = GType . Object <$> jsg "CSSUnknownRule"
@@ -3879,17 +3595,12 @@ instance MakeObject CSSValue where
 
 class IsGObject o => IsCSSValue o
 toCSSValue :: IsCSSValue o => o -> CSSValue
-toCSSValue = unsafeCastGObject . toGObject
+toCSSValue = CSSValue . coerce
 
 instance IsCSSValue CSSValue
 instance IsGObject CSSValue where
-  toGObject = GObject . unCSSValue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSValue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSValue :: IsGObject obj => obj -> JSM CSSValue
-castToCSSValue = castTo gTypeCSSValue "CSSValue"
+  typeGType _ = gTypeCSSValue
+  {-# INLINE typeGType #-}
 
 gTypeCSSValue :: JSM GType
 gTypeCSSValue = GType . Object <$> jsg "CSSValue"
@@ -3928,18 +3639,13 @@ instance MakeObject CSSValueList where
 
 class IsCSSValue o => IsCSSValueList o
 toCSSValueList :: IsCSSValueList o => o -> CSSValueList
-toCSSValueList = unsafeCastGObject . toGObject
+toCSSValueList = CSSValueList . coerce
 
 instance IsCSSValueList CSSValueList
 instance IsCSSValue CSSValueList
 instance IsGObject CSSValueList where
-  toGObject = GObject . unCSSValueList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CSSValueList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCSSValueList :: IsGObject obj => obj -> JSM CSSValueList
-castToCSSValueList = castTo gTypeCSSValueList "CSSValueList"
+  typeGType _ = gTypeCSSValueList
+  {-# INLINE typeGType #-}
 
 gTypeCSSValueList :: JSM GType
 gTypeCSSValueList = GType . Object <$> jsg "CSSValueList"
@@ -3972,13 +3678,8 @@ instance MakeObject CanvasGradient where
   makeObject = makeObject . unCanvasGradient
 
 instance IsGObject CanvasGradient where
-  toGObject = GObject . unCanvasGradient
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CanvasGradient . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCanvasGradient :: IsGObject obj => obj -> JSM CanvasGradient
-castToCanvasGradient = castTo gTypeCanvasGradient "CanvasGradient"
+  typeGType _ = gTypeCanvasGradient
+  {-# INLINE typeGType #-}
 
 gTypeCanvasGradient :: JSM GType
 gTypeCanvasGradient = GType . Object <$> jsg "CanvasGradient"
@@ -4011,13 +3712,8 @@ instance MakeObject CanvasPattern where
   makeObject = makeObject . unCanvasPattern
 
 instance IsGObject CanvasPattern where
-  toGObject = GObject . unCanvasPattern
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CanvasPattern . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCanvasPattern :: IsGObject obj => obj -> JSM CanvasPattern
-castToCanvasPattern = castTo gTypeCanvasPattern "CanvasPattern"
+  typeGType _ = gTypeCanvasPattern
+  {-# INLINE typeGType #-}
 
 gTypeCanvasPattern :: JSM GType
 gTypeCanvasPattern = GType . Object <$> jsg "CanvasPattern"
@@ -4050,13 +3746,8 @@ instance MakeObject CanvasProxy where
   makeObject = makeObject . unCanvasProxy
 
 instance IsGObject CanvasProxy where
-  toGObject = GObject . unCanvasProxy
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CanvasProxy . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCanvasProxy :: IsGObject obj => obj -> JSM CanvasProxy
-castToCanvasProxy = castTo gTypeCanvasProxy "CanvasProxy"
+  typeGType _ = gTypeCanvasProxy
+  {-# INLINE typeGType #-}
 
 gTypeCanvasProxy :: JSM GType
 gTypeCanvasProxy = GType . Object <$> jsg "CanvasProxy"
@@ -4090,17 +3781,12 @@ instance MakeObject CanvasRenderingContext where
 
 class IsGObject o => IsCanvasRenderingContext o
 toCanvasRenderingContext :: IsCanvasRenderingContext o => o -> CanvasRenderingContext
-toCanvasRenderingContext = unsafeCastGObject . toGObject
+toCanvasRenderingContext = CanvasRenderingContext . coerce
 
 instance IsCanvasRenderingContext CanvasRenderingContext
 instance IsGObject CanvasRenderingContext where
-  toGObject = GObject . unCanvasRenderingContext
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CanvasRenderingContext . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCanvasRenderingContext :: IsGObject obj => obj -> JSM CanvasRenderingContext
-castToCanvasRenderingContext = castTo gTypeCanvasRenderingContext "CanvasRenderingContext"
+  typeGType _ = gTypeCanvasRenderingContext
+  {-# INLINE typeGType #-}
 
 gTypeCanvasRenderingContext :: JSM GType
 gTypeCanvasRenderingContext = GType . Object <$> jsg "CanvasRenderingContext"
@@ -4137,13 +3823,8 @@ instance MakeObject CanvasRenderingContext2D where
 
 instance IsCanvasRenderingContext CanvasRenderingContext2D
 instance IsGObject CanvasRenderingContext2D where
-  toGObject = GObject . unCanvasRenderingContext2D
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CanvasRenderingContext2D . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCanvasRenderingContext2D :: IsGObject obj => obj -> JSM CanvasRenderingContext2D
-castToCanvasRenderingContext2D = castTo gTypeCanvasRenderingContext2D "CanvasRenderingContext2D"
+  typeGType _ = gTypeCanvasRenderingContext2D
+  {-# INLINE typeGType #-}
 
 gTypeCanvasRenderingContext2D :: JSM GType
 gTypeCanvasRenderingContext2D = GType . Object <$> jsg "CanvasRenderingContext2D"
@@ -4176,13 +3857,8 @@ instance MakeObject CapabilityRange where
   makeObject = makeObject . unCapabilityRange
 
 instance IsGObject CapabilityRange where
-  toGObject = GObject . unCapabilityRange
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CapabilityRange . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCapabilityRange :: IsGObject obj => obj -> JSM CapabilityRange
-castToCapabilityRange = castTo gTypeCapabilityRange "CapabilityRange"
+  typeGType _ = gTypeCapabilityRange
+  {-# INLINE typeGType #-}
 
 gTypeCapabilityRange :: JSM GType
 gTypeCapabilityRange = GType . Object <$> jsg "CapabilityRange"
@@ -4221,13 +3897,8 @@ instance MakeObject ChannelMergerNode where
 instance IsAudioNode ChannelMergerNode
 instance IsEventTarget ChannelMergerNode
 instance IsGObject ChannelMergerNode where
-  toGObject = GObject . unChannelMergerNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ChannelMergerNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToChannelMergerNode :: IsGObject obj => obj -> JSM ChannelMergerNode
-castToChannelMergerNode = castTo gTypeChannelMergerNode "ChannelMergerNode"
+  typeGType _ = gTypeChannelMergerNode
+  {-# INLINE typeGType #-}
 
 gTypeChannelMergerNode :: JSM GType
 gTypeChannelMergerNode = GType . Object <$> jsg "ChannelMergerNode"
@@ -4266,13 +3937,8 @@ instance MakeObject ChannelSplitterNode where
 instance IsAudioNode ChannelSplitterNode
 instance IsEventTarget ChannelSplitterNode
 instance IsGObject ChannelSplitterNode where
-  toGObject = GObject . unChannelSplitterNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ChannelSplitterNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToChannelSplitterNode :: IsGObject obj => obj -> JSM ChannelSplitterNode
-castToChannelSplitterNode = castTo gTypeChannelSplitterNode "ChannelSplitterNode"
+  typeGType _ = gTypeChannelSplitterNode
+  {-# INLINE typeGType #-}
 
 gTypeChannelSplitterNode :: JSM GType
 gTypeChannelSplitterNode = GType . Object <$> jsg "ChannelSplitterNode"
@@ -4310,19 +3976,14 @@ instance MakeObject CharacterData where
 
 class IsNode o => IsCharacterData o
 toCharacterData :: IsCharacterData o => o -> CharacterData
-toCharacterData = unsafeCastGObject . toGObject
+toCharacterData = CharacterData . coerce
 
 instance IsCharacterData CharacterData
 instance IsNode CharacterData
 instance IsEventTarget CharacterData
 instance IsGObject CharacterData where
-  toGObject = GObject . unCharacterData
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CharacterData . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCharacterData :: IsGObject obj => obj -> JSM CharacterData
-castToCharacterData = castTo gTypeCharacterData "CharacterData"
+  typeGType _ = gTypeCharacterData
+  {-# INLINE typeGType #-}
 
 gTypeCharacterData :: JSM GType
 gTypeCharacterData = GType . Object <$> jsg "CharacterData"
@@ -4357,13 +4018,8 @@ instance MakeObject ChildNode where
   makeObject = makeObject . unChildNode
 
 instance IsGObject ChildNode where
-  toGObject = GObject . unChildNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ChildNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToChildNode :: IsGObject obj => obj -> JSM ChildNode
-castToChildNode = castTo gTypeChildNode "ChildNode"
+  typeGType _ = gTypeChildNode
+  {-# INLINE typeGType #-}
 
 gTypeChildNode :: JSM GType
 gTypeChildNode = GType . Object <$> jsg "ChildNode"
@@ -4396,13 +4052,8 @@ instance MakeObject ClientRect where
   makeObject = makeObject . unClientRect
 
 instance IsGObject ClientRect where
-  toGObject = GObject . unClientRect
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ClientRect . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToClientRect :: IsGObject obj => obj -> JSM ClientRect
-castToClientRect = castTo gTypeClientRect "ClientRect"
+  typeGType _ = gTypeClientRect
+  {-# INLINE typeGType #-}
 
 gTypeClientRect :: JSM GType
 gTypeClientRect = GType . Object <$> jsg "ClientRect"
@@ -4435,13 +4086,8 @@ instance MakeObject ClientRectList where
   makeObject = makeObject . unClientRectList
 
 instance IsGObject ClientRectList where
-  toGObject = GObject . unClientRectList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ClientRectList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToClientRectList :: IsGObject obj => obj -> JSM ClientRectList
-castToClientRectList = castTo gTypeClientRectList "ClientRectList"
+  typeGType _ = gTypeClientRectList
+  {-# INLINE typeGType #-}
 
 gTypeClientRectList :: JSM GType
 gTypeClientRectList = GType . Object <$> jsg "ClientRectList"
@@ -4478,13 +4124,8 @@ instance MakeObject CloseEvent where
 
 instance IsEvent CloseEvent
 instance IsGObject CloseEvent where
-  toGObject = GObject . unCloseEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CloseEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCloseEvent :: IsGObject obj => obj -> JSM CloseEvent
-castToCloseEvent = castTo gTypeCloseEvent "CloseEvent"
+  typeGType _ = gTypeCloseEvent
+  {-# INLINE typeGType #-}
 
 gTypeCloseEvent :: JSM GType
 gTypeCloseEvent = GType . Object <$> jsg "CloseEvent"
@@ -4517,13 +4158,8 @@ instance MakeObject CommandLineAPIHost where
   makeObject = makeObject . unCommandLineAPIHost
 
 instance IsGObject CommandLineAPIHost where
-  toGObject = GObject . unCommandLineAPIHost
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CommandLineAPIHost . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCommandLineAPIHost :: IsGObject obj => obj -> JSM CommandLineAPIHost
-castToCommandLineAPIHost = castTo gTypeCommandLineAPIHost "CommandLineAPIHost"
+  typeGType _ = gTypeCommandLineAPIHost
+  {-# INLINE typeGType #-}
 
 gTypeCommandLineAPIHost :: JSM GType
 gTypeCommandLineAPIHost = GType . Object <$> jsg "CommandLineAPIHost"
@@ -4564,13 +4200,8 @@ instance IsCharacterData Comment
 instance IsNode Comment
 instance IsEventTarget Comment
 instance IsGObject Comment where
-  toGObject = GObject . unComment
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Comment . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToComment :: IsGObject obj => obj -> JSM Comment
-castToComment = castTo gTypeComment "Comment"
+  typeGType _ = gTypeComment
+  {-# INLINE typeGType #-}
 
 gTypeComment :: JSM GType
 gTypeComment = GType . Object <$> jsg "Comment"
@@ -4611,13 +4242,8 @@ instance MakeObject CompositionEvent where
 instance IsUIEvent CompositionEvent
 instance IsEvent CompositionEvent
 instance IsGObject CompositionEvent where
-  toGObject = GObject . unCompositionEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CompositionEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCompositionEvent :: IsGObject obj => obj -> JSM CompositionEvent
-castToCompositionEvent = castTo gTypeCompositionEvent "CompositionEvent"
+  typeGType _ = gTypeCompositionEvent
+  {-# INLINE typeGType #-}
 
 gTypeCompositionEvent :: JSM GType
 gTypeCompositionEvent = GType . Object <$> jsg "CompositionEvent"
@@ -4656,13 +4282,8 @@ instance MakeObject ConvolverNode where
 instance IsAudioNode ConvolverNode
 instance IsEventTarget ConvolverNode
 instance IsGObject ConvolverNode where
-  toGObject = GObject . unConvolverNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ConvolverNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToConvolverNode :: IsGObject obj => obj -> JSM ConvolverNode
-castToConvolverNode = castTo gTypeConvolverNode "ConvolverNode"
+  typeGType _ = gTypeConvolverNode
+  {-# INLINE typeGType #-}
 
 gTypeConvolverNode :: JSM GType
 gTypeConvolverNode = GType . Object <$> jsg "ConvolverNode"
@@ -4695,13 +4316,8 @@ instance MakeObject Coordinates where
   makeObject = makeObject . unCoordinates
 
 instance IsGObject Coordinates where
-  toGObject = GObject . unCoordinates
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Coordinates . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCoordinates :: IsGObject obj => obj -> JSM Coordinates
-castToCoordinates = castTo gTypeCoordinates "Coordinates"
+  typeGType _ = gTypeCoordinates
+  {-# INLINE typeGType #-}
 
 gTypeCoordinates :: JSM GType
 gTypeCoordinates = GType . Object <$> jsg "Coordinates"
@@ -4734,13 +4350,8 @@ instance MakeObject Counter where
   makeObject = makeObject . unCounter
 
 instance IsGObject Counter where
-  toGObject = GObject . unCounter
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Counter . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCounter :: IsGObject obj => obj -> JSM Counter
-castToCounter = castTo gTypeCounter "Counter"
+  typeGType _ = gTypeCounter
+  {-# INLINE typeGType #-}
 
 gTypeCounter :: JSM GType
 gTypeCounter = GType . Object <$> jsg "Counter"
@@ -4773,13 +4384,8 @@ instance MakeObject Crypto where
   makeObject = makeObject . unCrypto
 
 instance IsGObject Crypto where
-  toGObject = GObject . unCrypto
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Crypto . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCrypto :: IsGObject obj => obj -> JSM Crypto
-castToCrypto = castTo gTypeCrypto "Crypto"
+  typeGType _ = gTypeCrypto
+  {-# INLINE typeGType #-}
 
 gTypeCrypto :: JSM GType
 gTypeCrypto = GType . Object <$> jsg "Crypto"
@@ -4812,13 +4418,8 @@ instance MakeObject CryptoKey where
   makeObject = makeObject . unCryptoKey
 
 instance IsGObject CryptoKey where
-  toGObject = GObject . unCryptoKey
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CryptoKey . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCryptoKey :: IsGObject obj => obj -> JSM CryptoKey
-castToCryptoKey = castTo gTypeCryptoKey "CryptoKey"
+  typeGType _ = gTypeCryptoKey
+  {-# INLINE typeGType #-}
 
 gTypeCryptoKey :: JSM GType
 gTypeCryptoKey = GType . Object <$> jsg "CryptoKey"
@@ -4851,13 +4452,8 @@ instance MakeObject CryptoKeyPair where
   makeObject = makeObject . unCryptoKeyPair
 
 instance IsGObject CryptoKeyPair where
-  toGObject = GObject . unCryptoKeyPair
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CryptoKeyPair . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCryptoKeyPair :: IsGObject obj => obj -> JSM CryptoKeyPair
-castToCryptoKeyPair = castTo gTypeCryptoKeyPair "CryptoKeyPair"
+  typeGType _ = gTypeCryptoKeyPair
+  {-# INLINE typeGType #-}
 
 gTypeCryptoKeyPair :: JSM GType
 gTypeCryptoKeyPair = GType . Object <$> jsg "CryptoKeyPair"
@@ -4894,13 +4490,8 @@ instance MakeObject CustomEvent where
 
 instance IsEvent CustomEvent
 instance IsGObject CustomEvent where
-  toGObject = GObject . unCustomEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = CustomEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToCustomEvent :: IsGObject obj => obj -> JSM CustomEvent
-castToCustomEvent = castTo gTypeCustomEvent "CustomEvent"
+  typeGType _ = gTypeCustomEvent
+  {-# INLINE typeGType #-}
 
 gTypeCustomEvent :: JSM GType
 gTypeCustomEvent = GType . Object <$> jsg "CustomEvent"
@@ -4934,17 +4525,12 @@ instance MakeObject DOMError where
 
 class IsGObject o => IsDOMError o
 toDOMError :: IsDOMError o => o -> DOMError
-toDOMError = unsafeCastGObject . toGObject
+toDOMError = DOMError . coerce
 
 instance IsDOMError DOMError
 instance IsGObject DOMError where
-  toGObject = GObject . unDOMError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMError :: IsGObject obj => obj -> JSM DOMError
-castToDOMError = castTo gTypeDOMError "DOMError"
+  typeGType _ = gTypeDOMError
+  {-# INLINE typeGType #-}
 
 gTypeDOMError :: JSM GType
 gTypeDOMError = GType . Object <$> jsg "DOMError"
@@ -4977,13 +4563,8 @@ instance MakeObject DOMImplementation where
   makeObject = makeObject . unDOMImplementation
 
 instance IsGObject DOMImplementation where
-  toGObject = GObject . unDOMImplementation
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMImplementation . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMImplementation :: IsGObject obj => obj -> JSM DOMImplementation
-castToDOMImplementation = castTo gTypeDOMImplementation "DOMImplementation"
+  typeGType _ = gTypeDOMImplementation
+  {-# INLINE typeGType #-}
 
 gTypeDOMImplementation :: JSM GType
 gTypeDOMImplementation = GType . Object <$> jsg "DOMImplementation"
@@ -5018,13 +4599,8 @@ instance MakeObject DOMNamedFlowCollection where
   makeObject = makeObject . unDOMNamedFlowCollection
 
 instance IsGObject DOMNamedFlowCollection where
-  toGObject = GObject . unDOMNamedFlowCollection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMNamedFlowCollection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMNamedFlowCollection :: IsGObject obj => obj -> JSM DOMNamedFlowCollection
-castToDOMNamedFlowCollection = castTo gTypeDOMNamedFlowCollection "DOMNamedFlowCollection"
+  typeGType _ = gTypeDOMNamedFlowCollection
+  {-# INLINE typeGType #-}
 
 gTypeDOMNamedFlowCollection :: JSM GType
 gTypeDOMNamedFlowCollection = GType . Object <$> jsg "WebKitNamedFlowCollection"
@@ -5061,13 +4637,8 @@ instance MakeObject DOMParser where
   makeObject = makeObject . unDOMParser
 
 instance IsGObject DOMParser where
-  toGObject = GObject . unDOMParser
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMParser . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMParser :: IsGObject obj => obj -> JSM DOMParser
-castToDOMParser = castTo gTypeDOMParser "DOMParser"
+  typeGType _ = gTypeDOMParser
+  {-# INLINE typeGType #-}
 
 gTypeDOMParser :: JSM GType
 gTypeDOMParser = GType . Object <$> jsg "DOMParser"
@@ -5104,13 +4675,8 @@ instance MakeObject DOMSettableTokenList where
 
 instance IsDOMTokenList DOMSettableTokenList
 instance IsGObject DOMSettableTokenList where
-  toGObject = GObject . unDOMSettableTokenList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMSettableTokenList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMSettableTokenList :: IsGObject obj => obj -> JSM DOMSettableTokenList
-castToDOMSettableTokenList = castTo gTypeDOMSettableTokenList "DOMSettableTokenList"
+  typeGType _ = gTypeDOMSettableTokenList
+  {-# INLINE typeGType #-}
 
 gTypeDOMSettableTokenList :: JSM GType
 gTypeDOMSettableTokenList = GType . Object <$> jsg "DOMSettableTokenList"
@@ -5145,13 +4711,8 @@ instance MakeObject DOMStringList where
   makeObject = makeObject . unDOMStringList
 
 instance IsGObject DOMStringList where
-  toGObject = GObject . unDOMStringList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMStringList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMStringList :: IsGObject obj => obj -> JSM DOMStringList
-castToDOMStringList = castTo gTypeDOMStringList "DOMStringList"
+  typeGType _ = gTypeDOMStringList
+  {-# INLINE typeGType #-}
 
 gTypeDOMStringList :: JSM GType
 gTypeDOMStringList = GType . Object <$> jsg "DOMStringList"
@@ -5186,13 +4747,8 @@ instance MakeObject DOMStringMap where
   makeObject = makeObject . unDOMStringMap
 
 instance IsGObject DOMStringMap where
-  toGObject = GObject . unDOMStringMap
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMStringMap . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMStringMap :: IsGObject obj => obj -> JSM DOMStringMap
-castToDOMStringMap = castTo gTypeDOMStringMap "DOMStringMap"
+  typeGType _ = gTypeDOMStringMap
+  {-# INLINE typeGType #-}
 
 gTypeDOMStringMap :: JSM GType
 gTypeDOMStringMap = GType . Object <$> jsg "DOMStringMap"
@@ -5226,17 +4782,12 @@ instance MakeObject DOMTokenList where
 
 class IsGObject o => IsDOMTokenList o
 toDOMTokenList :: IsDOMTokenList o => o -> DOMTokenList
-toDOMTokenList = unsafeCastGObject . toGObject
+toDOMTokenList = DOMTokenList . coerce
 
 instance IsDOMTokenList DOMTokenList
 instance IsGObject DOMTokenList where
-  toGObject = GObject . unDOMTokenList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DOMTokenList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDOMTokenList :: IsGObject obj => obj -> JSM DOMTokenList
-castToDOMTokenList = castTo gTypeDOMTokenList "DOMTokenList"
+  typeGType _ = gTypeDOMTokenList
+  {-# INLINE typeGType #-}
 
 gTypeDOMTokenList :: JSM GType
 gTypeDOMTokenList = GType . Object <$> jsg "DOMTokenList"
@@ -5277,13 +4828,8 @@ instance MakeObject DataCue where
 instance IsTextTrackCue DataCue
 instance IsEventTarget DataCue
 instance IsGObject DataCue where
-  toGObject = GObject . unDataCue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DataCue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDataCue :: IsGObject obj => obj -> JSM DataCue
-castToDataCue = castTo gTypeDataCue "DataCue"
+  typeGType _ = gTypeDataCue
+  {-# INLINE typeGType #-}
 
 gTypeDataCue :: JSM GType
 gTypeDataCue = GType . Object <$> jsg "WebKitDataCue"
@@ -5316,13 +4862,8 @@ instance MakeObject DataTransfer where
   makeObject = makeObject . unDataTransfer
 
 instance IsGObject DataTransfer where
-  toGObject = GObject . unDataTransfer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DataTransfer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDataTransfer :: IsGObject obj => obj -> JSM DataTransfer
-castToDataTransfer = castTo gTypeDataTransfer "DataTransfer"
+  typeGType _ = gTypeDataTransfer
+  {-# INLINE typeGType #-}
 
 gTypeDataTransfer :: JSM GType
 gTypeDataTransfer = GType . Object <$> jsg "DataTransfer"
@@ -5355,13 +4896,8 @@ instance MakeObject DataTransferItem where
   makeObject = makeObject . unDataTransferItem
 
 instance IsGObject DataTransferItem where
-  toGObject = GObject . unDataTransferItem
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DataTransferItem . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDataTransferItem :: IsGObject obj => obj -> JSM DataTransferItem
-castToDataTransferItem = castTo gTypeDataTransferItem "DataTransferItem"
+  typeGType _ = gTypeDataTransferItem
+  {-# INLINE typeGType #-}
 
 gTypeDataTransferItem :: JSM GType
 gTypeDataTransferItem = GType . Object <$> jsg "DataTransferItem"
@@ -5394,13 +4930,8 @@ instance MakeObject DataTransferItemList where
   makeObject = makeObject . unDataTransferItemList
 
 instance IsGObject DataTransferItemList where
-  toGObject = GObject . unDataTransferItemList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DataTransferItemList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDataTransferItemList :: IsGObject obj => obj -> JSM DataTransferItemList
-castToDataTransferItemList = castTo gTypeDataTransferItemList "DataTransferItemList"
+  typeGType _ = gTypeDataTransferItemList
+  {-# INLINE typeGType #-}
 
 gTypeDataTransferItemList :: JSM GType
 gTypeDataTransferItemList = GType . Object <$> jsg "DataTransferItemList"
@@ -5433,13 +4964,8 @@ instance MakeObject Database where
   makeObject = makeObject . unDatabase
 
 instance IsGObject Database where
-  toGObject = GObject . unDatabase
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Database . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDatabase :: IsGObject obj => obj -> JSM Database
-castToDatabase = castTo gTypeDatabase "Database"
+  typeGType _ = gTypeDatabase
+  {-# INLINE typeGType #-}
 
 gTypeDatabase :: JSM GType
 gTypeDatabase = GType . Object <$> jsg "Database"
@@ -5478,13 +5004,8 @@ instance MakeObject DedicatedWorkerGlobalScope where
 instance IsWorkerGlobalScope DedicatedWorkerGlobalScope
 instance IsEventTarget DedicatedWorkerGlobalScope
 instance IsGObject DedicatedWorkerGlobalScope where
-  toGObject = GObject . unDedicatedWorkerGlobalScope
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DedicatedWorkerGlobalScope . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDedicatedWorkerGlobalScope :: IsGObject obj => obj -> JSM DedicatedWorkerGlobalScope
-castToDedicatedWorkerGlobalScope = castTo gTypeDedicatedWorkerGlobalScope "DedicatedWorkerGlobalScope"
+  typeGType _ = gTypeDedicatedWorkerGlobalScope
+  {-# INLINE typeGType #-}
 
 gTypeDedicatedWorkerGlobalScope :: JSM GType
 gTypeDedicatedWorkerGlobalScope = GType . Object <$> jsg "DedicatedWorkerGlobalScope"
@@ -5523,13 +5044,8 @@ instance MakeObject DelayNode where
 instance IsAudioNode DelayNode
 instance IsEventTarget DelayNode
 instance IsGObject DelayNode where
-  toGObject = GObject . unDelayNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DelayNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDelayNode :: IsGObject obj => obj -> JSM DelayNode
-castToDelayNode = castTo gTypeDelayNode "DelayNode"
+  typeGType _ = gTypeDelayNode
+  {-# INLINE typeGType #-}
 
 gTypeDelayNode :: JSM GType
 gTypeDelayNode = GType . Object <$> jsg "DelayNode"
@@ -5566,13 +5082,8 @@ instance MakeObject DeviceMotionEvent where
 
 instance IsEvent DeviceMotionEvent
 instance IsGObject DeviceMotionEvent where
-  toGObject = GObject . unDeviceMotionEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DeviceMotionEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDeviceMotionEvent :: IsGObject obj => obj -> JSM DeviceMotionEvent
-castToDeviceMotionEvent = castTo gTypeDeviceMotionEvent "DeviceMotionEvent"
+  typeGType _ = gTypeDeviceMotionEvent
+  {-# INLINE typeGType #-}
 
 gTypeDeviceMotionEvent :: JSM GType
 gTypeDeviceMotionEvent = GType . Object <$> jsg "DeviceMotionEvent"
@@ -5609,13 +5120,8 @@ instance MakeObject DeviceOrientationEvent where
 
 instance IsEvent DeviceOrientationEvent
 instance IsGObject DeviceOrientationEvent where
-  toGObject = GObject . unDeviceOrientationEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DeviceOrientationEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDeviceOrientationEvent :: IsGObject obj => obj -> JSM DeviceOrientationEvent
-castToDeviceOrientationEvent = castTo gTypeDeviceOrientationEvent "DeviceOrientationEvent"
+  typeGType _ = gTypeDeviceOrientationEvent
+  {-# INLINE typeGType #-}
 
 gTypeDeviceOrientationEvent :: JSM GType
 gTypeDeviceOrientationEvent = GType . Object <$> jsg "DeviceOrientationEvent"
@@ -5652,13 +5158,8 @@ instance MakeObject DeviceProximityEvent where
 
 instance IsEvent DeviceProximityEvent
 instance IsGObject DeviceProximityEvent where
-  toGObject = GObject . unDeviceProximityEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DeviceProximityEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDeviceProximityEvent :: IsGObject obj => obj -> JSM DeviceProximityEvent
-castToDeviceProximityEvent = castTo gTypeDeviceProximityEvent "DeviceProximityEvent"
+  typeGType _ = gTypeDeviceProximityEvent
+  {-# INLINE typeGType #-}
 
 gTypeDeviceProximityEvent :: JSM GType
 gTypeDeviceProximityEvent = GType . Object <$> jsg "DeviceProximityEvent"
@@ -5696,19 +5197,14 @@ instance MakeObject Document where
 
 class IsNode o => IsDocument o
 toDocument :: IsDocument o => o -> Document
-toDocument = unsafeCastGObject . toGObject
+toDocument = Document . coerce
 
 instance IsDocument Document
 instance IsNode Document
 instance IsEventTarget Document
 instance IsGObject Document where
-  toGObject = GObject . unDocument
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Document . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDocument :: IsGObject obj => obj -> JSM Document
-castToDocument = castTo gTypeDocument "Document"
+  typeGType _ = gTypeDocument
+  {-# INLINE typeGType #-}
 
 gTypeDocument :: JSM GType
 gTypeDocument = GType . Object <$> jsg "Document"
@@ -5749,13 +5245,8 @@ instance MakeObject DocumentFragment where
 instance IsNode DocumentFragment
 instance IsEventTarget DocumentFragment
 instance IsGObject DocumentFragment where
-  toGObject = GObject . unDocumentFragment
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DocumentFragment . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDocumentFragment :: IsGObject obj => obj -> JSM DocumentFragment
-castToDocumentFragment = castTo gTypeDocumentFragment "DocumentFragment"
+  typeGType _ = gTypeDocumentFragment
+  {-# INLINE typeGType #-}
 
 gTypeDocumentFragment :: JSM GType
 gTypeDocumentFragment = GType . Object <$> jsg "DocumentFragment"
@@ -5796,13 +5287,8 @@ instance MakeObject DocumentType where
 instance IsNode DocumentType
 instance IsEventTarget DocumentType
 instance IsGObject DocumentType where
-  toGObject = GObject . unDocumentType
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DocumentType . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDocumentType :: IsGObject obj => obj -> JSM DocumentType
-castToDocumentType = castTo gTypeDocumentType "DocumentType"
+  typeGType _ = gTypeDocumentType
+  {-# INLINE typeGType #-}
 
 gTypeDocumentType :: JSM GType
 gTypeDocumentType = GType . Object <$> jsg "DocumentType"
@@ -5843,13 +5329,8 @@ instance MakeObject DynamicsCompressorNode where
 instance IsAudioNode DynamicsCompressorNode
 instance IsEventTarget DynamicsCompressorNode
 instance IsGObject DynamicsCompressorNode where
-  toGObject = GObject . unDynamicsCompressorNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = DynamicsCompressorNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToDynamicsCompressorNode :: IsGObject obj => obj -> JSM DynamicsCompressorNode
-castToDynamicsCompressorNode = castTo gTypeDynamicsCompressorNode "DynamicsCompressorNode"
+  typeGType _ = gTypeDynamicsCompressorNode
+  {-# INLINE typeGType #-}
 
 gTypeDynamicsCompressorNode :: JSM GType
 gTypeDynamicsCompressorNode = GType . Object <$> jsg "DynamicsCompressorNode"
@@ -5882,13 +5363,8 @@ instance MakeObject EXTBlendMinMax where
   makeObject = makeObject . unEXTBlendMinMax
 
 instance IsGObject EXTBlendMinMax where
-  toGObject = GObject . unEXTBlendMinMax
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EXTBlendMinMax . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEXTBlendMinMax :: IsGObject obj => obj -> JSM EXTBlendMinMax
-castToEXTBlendMinMax = castTo gTypeEXTBlendMinMax "EXTBlendMinMax"
+  typeGType _ = gTypeEXTBlendMinMax
+  {-# INLINE typeGType #-}
 
 gTypeEXTBlendMinMax :: JSM GType
 gTypeEXTBlendMinMax = GType . Object <$> jsg "EXTBlendMinMax"
@@ -5921,13 +5397,8 @@ instance MakeObject EXTFragDepth where
   makeObject = makeObject . unEXTFragDepth
 
 instance IsGObject EXTFragDepth where
-  toGObject = GObject . unEXTFragDepth
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EXTFragDepth . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEXTFragDepth :: IsGObject obj => obj -> JSM EXTFragDepth
-castToEXTFragDepth = castTo gTypeEXTFragDepth "EXTFragDepth"
+  typeGType _ = gTypeEXTFragDepth
+  {-# INLINE typeGType #-}
 
 gTypeEXTFragDepth :: JSM GType
 gTypeEXTFragDepth = GType . Object <$> jsg "EXTFragDepth"
@@ -5960,13 +5431,8 @@ instance MakeObject EXTShaderTextureLOD where
   makeObject = makeObject . unEXTShaderTextureLOD
 
 instance IsGObject EXTShaderTextureLOD where
-  toGObject = GObject . unEXTShaderTextureLOD
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EXTShaderTextureLOD . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEXTShaderTextureLOD :: IsGObject obj => obj -> JSM EXTShaderTextureLOD
-castToEXTShaderTextureLOD = castTo gTypeEXTShaderTextureLOD "EXTShaderTextureLOD"
+  typeGType _ = gTypeEXTShaderTextureLOD
+  {-# INLINE typeGType #-}
 
 gTypeEXTShaderTextureLOD :: JSM GType
 gTypeEXTShaderTextureLOD = GType . Object <$> jsg "EXTShaderTextureLOD"
@@ -5999,13 +5465,8 @@ instance MakeObject EXTTextureFilterAnisotropic where
   makeObject = makeObject . unEXTTextureFilterAnisotropic
 
 instance IsGObject EXTTextureFilterAnisotropic where
-  toGObject = GObject . unEXTTextureFilterAnisotropic
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EXTTextureFilterAnisotropic . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEXTTextureFilterAnisotropic :: IsGObject obj => obj -> JSM EXTTextureFilterAnisotropic
-castToEXTTextureFilterAnisotropic = castTo gTypeEXTTextureFilterAnisotropic "EXTTextureFilterAnisotropic"
+  typeGType _ = gTypeEXTTextureFilterAnisotropic
+  {-# INLINE typeGType #-}
 
 gTypeEXTTextureFilterAnisotropic :: JSM GType
 gTypeEXTTextureFilterAnisotropic = GType . Object <$> jsg "EXTTextureFilterAnisotropic"
@@ -6038,13 +5499,8 @@ instance MakeObject EXTsRGB where
   makeObject = makeObject . unEXTsRGB
 
 instance IsGObject EXTsRGB where
-  toGObject = GObject . unEXTsRGB
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EXTsRGB . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEXTsRGB :: IsGObject obj => obj -> JSM EXTsRGB
-castToEXTsRGB = castTo gTypeEXTsRGB "EXTsRGB"
+  typeGType _ = gTypeEXTsRGB
+  {-# INLINE typeGType #-}
 
 gTypeEXTsRGB :: JSM GType
 gTypeEXTsRGB = GType . Object <$> jsg "EXTsRGB"
@@ -6082,19 +5538,14 @@ instance MakeObject Element where
 
 class IsNode o => IsElement o
 toElement :: IsElement o => o -> Element
-toElement = unsafeCastGObject . toGObject
+toElement = Element . coerce
 
 instance IsElement Element
 instance IsNode Element
 instance IsEventTarget Element
 instance IsGObject Element where
-  toGObject = GObject . unElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Element . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToElement :: IsGObject obj => obj -> JSM Element
-castToElement = castTo gTypeElement "Element"
+  typeGType _ = gTypeElement
+  {-# INLINE typeGType #-}
 
 gTypeElement :: JSM GType
 gTypeElement = GType . Object <$> jsg "Element"
@@ -6135,13 +5586,8 @@ instance MakeObject Entity where
 instance IsNode Entity
 instance IsEventTarget Entity
 instance IsGObject Entity where
-  toGObject = GObject . unEntity
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Entity . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEntity :: IsGObject obj => obj -> JSM Entity
-castToEntity = castTo gTypeEntity "Entity"
+  typeGType _ = gTypeEntity
+  {-# INLINE typeGType #-}
 
 gTypeEntity :: JSM GType
 gTypeEntity = GType . Object <$> jsg "Entity"
@@ -6180,13 +5626,8 @@ instance MakeObject EntityReference where
 instance IsNode EntityReference
 instance IsEventTarget EntityReference
 instance IsGObject EntityReference where
-  toGObject = GObject . unEntityReference
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EntityReference . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEntityReference :: IsGObject obj => obj -> JSM EntityReference
-castToEntityReference = castTo gTypeEntityReference "EntityReference"
+  typeGType _ = gTypeEntityReference
+  {-# INLINE typeGType #-}
 
 gTypeEntityReference :: JSM GType
 gTypeEntityReference = GType . Object <$> jsg "EntityReference"
@@ -6225,13 +5666,8 @@ instance MakeObject ErrorEvent where
 
 instance IsEvent ErrorEvent
 instance IsGObject ErrorEvent where
-  toGObject = GObject . unErrorEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ErrorEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToErrorEvent :: IsGObject obj => obj -> JSM ErrorEvent
-castToErrorEvent = castTo gTypeErrorEvent "ErrorEvent"
+  typeGType _ = gTypeErrorEvent
+  {-# INLINE typeGType #-}
 
 gTypeErrorEvent :: JSM GType
 gTypeErrorEvent = GType . Object <$> jsg "ErrorEvent"
@@ -6265,17 +5701,12 @@ instance MakeObject Event where
 
 class IsGObject o => IsEvent o
 toEvent :: IsEvent o => o -> Event
-toEvent = unsafeCastGObject . toGObject
+toEvent = Event . coerce
 
 instance IsEvent Event
 instance IsGObject Event where
-  toGObject = GObject . unEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Event . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEvent :: IsGObject obj => obj -> JSM Event
-castToEvent = castTo gTypeEvent "Event"
+  typeGType _ = gTypeEvent
+  {-# INLINE typeGType #-}
 
 gTypeEvent :: JSM GType
 gTypeEvent = GType . Object <$> jsg "Event"
@@ -6310,13 +5741,8 @@ instance MakeObject EventListener where
   makeObject = makeObject . unEventListener
 
 instance IsGObject EventListener where
-  toGObject = GObject . unEventListener
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EventListener . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEventListener :: IsGObject obj => obj -> JSM EventListener
-castToEventListener = castTo gTypeEventListener "EventListener"
+  typeGType _ = gTypeEventListener
+  {-# INLINE typeGType #-}
 
 gTypeEventListener :: JSM GType
 gTypeEventListener = GType . Object <$> jsg "EventListener"
@@ -6353,13 +5779,8 @@ instance MakeObject EventSource where
 
 instance IsEventTarget EventSource
 instance IsGObject EventSource where
-  toGObject = GObject . unEventSource
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EventSource . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEventSource :: IsGObject obj => obj -> JSM EventSource
-castToEventSource = castTo gTypeEventSource "EventSource"
+  typeGType _ = gTypeEventSource
+  {-# INLINE typeGType #-}
 
 gTypeEventSource :: JSM GType
 gTypeEventSource = GType . Object <$> jsg "EventSource"
@@ -6393,17 +5814,12 @@ instance MakeObject EventTarget where
 
 class IsGObject o => IsEventTarget o
 toEventTarget :: IsEventTarget o => o -> EventTarget
-toEventTarget = unsafeCastGObject . toGObject
+toEventTarget = EventTarget . coerce
 
 instance IsEventTarget EventTarget
 instance IsGObject EventTarget where
-  toGObject = GObject . unEventTarget
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = EventTarget . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToEventTarget :: IsGObject obj => obj -> JSM EventTarget
-castToEventTarget = castTo gTypeEventTarget "EventTarget"
+  typeGType _ = gTypeEventTarget
+  {-# INLINE typeGType #-}
 
 gTypeEventTarget :: JSM GType
 gTypeEventTarget = GType . Object <$> jsg "EventTarget"
@@ -6442,13 +5858,8 @@ instance MakeObject File where
 
 instance IsBlob File
 instance IsGObject File where
-  toGObject = GObject . unFile
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = File . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFile :: IsGObject obj => obj -> JSM File
-castToFile = castTo gTypeFile "File"
+  typeGType _ = gTypeFile
+  {-# INLINE typeGType #-}
 
 gTypeFile :: JSM GType
 gTypeFile = GType . Object <$> jsg "File"
@@ -6483,13 +5894,8 @@ instance MakeObject FileError where
   makeObject = makeObject . unFileError
 
 instance IsGObject FileError where
-  toGObject = GObject . unFileError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FileError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFileError :: IsGObject obj => obj -> JSM FileError
-castToFileError = castTo gTypeFileError "FileError"
+  typeGType _ = gTypeFileError
+  {-# INLINE typeGType #-}
 
 gTypeFileError :: JSM GType
 gTypeFileError = GType . Object <$> jsg "FileError"
@@ -6522,13 +5928,8 @@ instance MakeObject FileList where
   makeObject = makeObject . unFileList
 
 instance IsGObject FileList where
-  toGObject = GObject . unFileList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FileList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFileList :: IsGObject obj => obj -> JSM FileList
-castToFileList = castTo gTypeFileList "FileList"
+  typeGType _ = gTypeFileList
+  {-# INLINE typeGType #-}
 
 gTypeFileList :: JSM GType
 gTypeFileList = GType . Object <$> jsg "FileList"
@@ -6567,13 +5968,8 @@ instance MakeObject FileReader where
 
 instance IsEventTarget FileReader
 instance IsGObject FileReader where
-  toGObject = GObject . unFileReader
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FileReader . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFileReader :: IsGObject obj => obj -> JSM FileReader
-castToFileReader = castTo gTypeFileReader "FileReader"
+  typeGType _ = gTypeFileReader
+  {-# INLINE typeGType #-}
 
 gTypeFileReader :: JSM GType
 gTypeFileReader = GType . Object <$> jsg "FileReader"
@@ -6606,13 +6002,8 @@ instance MakeObject FileReaderSync where
   makeObject = makeObject . unFileReaderSync
 
 instance IsGObject FileReaderSync where
-  toGObject = GObject . unFileReaderSync
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FileReaderSync . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFileReaderSync :: IsGObject obj => obj -> JSM FileReaderSync
-castToFileReaderSync = castTo gTypeFileReaderSync "FileReaderSync"
+  typeGType _ = gTypeFileReaderSync
+  {-# INLINE typeGType #-}
 
 gTypeFileReaderSync :: JSM GType
 gTypeFileReaderSync = GType . Object <$> jsg "FileReaderSync"
@@ -6651,13 +6042,8 @@ instance MakeObject FocusEvent where
 instance IsUIEvent FocusEvent
 instance IsEvent FocusEvent
 instance IsGObject FocusEvent where
-  toGObject = GObject . unFocusEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FocusEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFocusEvent :: IsGObject obj => obj -> JSM FocusEvent
-castToFocusEvent = castTo gTypeFocusEvent "FocusEvent"
+  typeGType _ = gTypeFocusEvent
+  {-# INLINE typeGType #-}
 
 gTypeFocusEvent :: JSM GType
 gTypeFocusEvent = GType . Object <$> jsg "FocusEvent"
@@ -6694,13 +6080,8 @@ instance MakeObject FontLoader where
 
 instance IsEventTarget FontLoader
 instance IsGObject FontLoader where
-  toGObject = GObject . unFontLoader
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FontLoader . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFontLoader :: IsGObject obj => obj -> JSM FontLoader
-castToFontLoader = castTo gTypeFontLoader "FontLoader"
+  typeGType _ = gTypeFontLoader
+  {-# INLINE typeGType #-}
 
 gTypeFontLoader :: JSM GType
 gTypeFontLoader = GType . Object <$> jsg "FontLoader"
@@ -6733,13 +6114,8 @@ instance MakeObject FormData where
   makeObject = makeObject . unFormData
 
 instance IsGObject FormData where
-  toGObject = GObject . unFormData
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = FormData . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToFormData :: IsGObject obj => obj -> JSM FormData
-castToFormData = castTo gTypeFormData "FormData"
+  typeGType _ = gTypeFormData
+  {-# INLINE typeGType #-}
 
 gTypeFormData :: JSM GType
 gTypeFormData = GType . Object <$> jsg "FormData"
@@ -6778,13 +6154,8 @@ instance MakeObject GainNode where
 instance IsAudioNode GainNode
 instance IsEventTarget GainNode
 instance IsGObject GainNode where
-  toGObject = GObject . unGainNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = GainNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToGainNode :: IsGObject obj => obj -> JSM GainNode
-castToGainNode = castTo gTypeGainNode "GainNode"
+  typeGType _ = gTypeGainNode
+  {-# INLINE typeGType #-}
 
 gTypeGainNode :: JSM GType
 gTypeGainNode = GType . Object <$> jsg "GainNode"
@@ -6817,13 +6188,8 @@ instance MakeObject Gamepad where
   makeObject = makeObject . unGamepad
 
 instance IsGObject Gamepad where
-  toGObject = GObject . unGamepad
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Gamepad . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToGamepad :: IsGObject obj => obj -> JSM Gamepad
-castToGamepad = castTo gTypeGamepad "Gamepad"
+  typeGType _ = gTypeGamepad
+  {-# INLINE typeGType #-}
 
 gTypeGamepad :: JSM GType
 gTypeGamepad = GType . Object <$> jsg "Gamepad"
@@ -6856,13 +6222,8 @@ instance MakeObject GamepadButton where
   makeObject = makeObject . unGamepadButton
 
 instance IsGObject GamepadButton where
-  toGObject = GObject . unGamepadButton
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = GamepadButton . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToGamepadButton :: IsGObject obj => obj -> JSM GamepadButton
-castToGamepadButton = castTo gTypeGamepadButton "GamepadButton"
+  typeGType _ = gTypeGamepadButton
+  {-# INLINE typeGType #-}
 
 gTypeGamepadButton :: JSM GType
 gTypeGamepadButton = GType . Object <$> jsg "GamepadButton"
@@ -6899,13 +6260,8 @@ instance MakeObject GamepadEvent where
 
 instance IsEvent GamepadEvent
 instance IsGObject GamepadEvent where
-  toGObject = GObject . unGamepadEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = GamepadEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToGamepadEvent :: IsGObject obj => obj -> JSM GamepadEvent
-castToGamepadEvent = castTo gTypeGamepadEvent "GamepadEvent"
+  typeGType _ = gTypeGamepadEvent
+  {-# INLINE typeGType #-}
 
 gTypeGamepadEvent :: JSM GType
 gTypeGamepadEvent = GType . Object <$> jsg "GamepadEvent"
@@ -6938,13 +6294,8 @@ instance MakeObject Geolocation where
   makeObject = makeObject . unGeolocation
 
 instance IsGObject Geolocation where
-  toGObject = GObject . unGeolocation
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Geolocation . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToGeolocation :: IsGObject obj => obj -> JSM Geolocation
-castToGeolocation = castTo gTypeGeolocation "Geolocation"
+  typeGType _ = gTypeGeolocation
+  {-# INLINE typeGType #-}
 
 gTypeGeolocation :: JSM GType
 gTypeGeolocation = GType . Object <$> jsg "Geolocation"
@@ -6979,13 +6330,8 @@ instance MakeObject Geoposition where
   makeObject = makeObject . unGeoposition
 
 instance IsGObject Geoposition where
-  toGObject = GObject . unGeoposition
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Geoposition . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToGeoposition :: IsGObject obj => obj -> JSM Geoposition
-castToGeoposition = castTo gTypeGeoposition "Geoposition"
+  typeGType _ = gTypeGeoposition
+  {-# INLINE typeGType #-}
 
 gTypeGeoposition :: JSM GType
 gTypeGeoposition = GType . Object <$> jsg "Geoposition"
@@ -7018,13 +6364,8 @@ instance MakeObject HTMLAllCollection where
   makeObject = makeObject . unHTMLAllCollection
 
 instance IsGObject HTMLAllCollection where
-  toGObject = GObject . unHTMLAllCollection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLAllCollection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLAllCollection :: IsGObject obj => obj -> JSM HTMLAllCollection
-castToHTMLAllCollection = castTo gTypeHTMLAllCollection "HTMLAllCollection"
+  typeGType _ = gTypeHTMLAllCollection
+  {-# INLINE typeGType #-}
 
 gTypeHTMLAllCollection :: JSM GType
 gTypeHTMLAllCollection = GType . Object <$> jsg "HTMLAllCollection"
@@ -7067,13 +6408,8 @@ instance IsElement HTMLAnchorElement
 instance IsNode HTMLAnchorElement
 instance IsEventTarget HTMLAnchorElement
 instance IsGObject HTMLAnchorElement where
-  toGObject = GObject . unHTMLAnchorElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLAnchorElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLAnchorElement :: IsGObject obj => obj -> JSM HTMLAnchorElement
-castToHTMLAnchorElement = castTo gTypeHTMLAnchorElement "HTMLAnchorElement"
+  typeGType _ = gTypeHTMLAnchorElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLAnchorElement :: JSM GType
 gTypeHTMLAnchorElement = GType . Object <$> jsg "HTMLAnchorElement"
@@ -7118,13 +6454,8 @@ instance IsElement HTMLAppletElement
 instance IsNode HTMLAppletElement
 instance IsEventTarget HTMLAppletElement
 instance IsGObject HTMLAppletElement where
-  toGObject = GObject . unHTMLAppletElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLAppletElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLAppletElement :: IsGObject obj => obj -> JSM HTMLAppletElement
-castToHTMLAppletElement = castTo gTypeHTMLAppletElement "HTMLAppletElement"
+  typeGType _ = gTypeHTMLAppletElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLAppletElement :: JSM GType
 gTypeHTMLAppletElement = GType . Object <$> jsg "HTMLAppletElement"
@@ -7169,13 +6500,8 @@ instance IsElement HTMLAreaElement
 instance IsNode HTMLAreaElement
 instance IsEventTarget HTMLAreaElement
 instance IsGObject HTMLAreaElement where
-  toGObject = GObject . unHTMLAreaElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLAreaElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLAreaElement :: IsGObject obj => obj -> JSM HTMLAreaElement
-castToHTMLAreaElement = castTo gTypeHTMLAreaElement "HTMLAreaElement"
+  typeGType _ = gTypeHTMLAreaElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLAreaElement :: JSM GType
 gTypeHTMLAreaElement = GType . Object <$> jsg "HTMLAreaElement"
@@ -7222,13 +6548,8 @@ instance IsElement HTMLAudioElement
 instance IsNode HTMLAudioElement
 instance IsEventTarget HTMLAudioElement
 instance IsGObject HTMLAudioElement where
-  toGObject = GObject . unHTMLAudioElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLAudioElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLAudioElement :: IsGObject obj => obj -> JSM HTMLAudioElement
-castToHTMLAudioElement = castTo gTypeHTMLAudioElement "HTMLAudioElement"
+  typeGType _ = gTypeHTMLAudioElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLAudioElement :: JSM GType
 gTypeHTMLAudioElement = GType . Object <$> jsg "HTMLAudioElement"
@@ -7273,13 +6594,8 @@ instance IsElement HTMLBRElement
 instance IsNode HTMLBRElement
 instance IsEventTarget HTMLBRElement
 instance IsGObject HTMLBRElement where
-  toGObject = GObject . unHTMLBRElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLBRElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLBRElement :: IsGObject obj => obj -> JSM HTMLBRElement
-castToHTMLBRElement = castTo gTypeHTMLBRElement "HTMLBRElement"
+  typeGType _ = gTypeHTMLBRElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLBRElement :: JSM GType
 gTypeHTMLBRElement = GType . Object <$> jsg "HTMLBRElement"
@@ -7324,13 +6640,8 @@ instance IsElement HTMLBaseElement
 instance IsNode HTMLBaseElement
 instance IsEventTarget HTMLBaseElement
 instance IsGObject HTMLBaseElement where
-  toGObject = GObject . unHTMLBaseElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLBaseElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLBaseElement :: IsGObject obj => obj -> JSM HTMLBaseElement
-castToHTMLBaseElement = castTo gTypeHTMLBaseElement "HTMLBaseElement"
+  typeGType _ = gTypeHTMLBaseElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLBaseElement :: JSM GType
 gTypeHTMLBaseElement = GType . Object <$> jsg "HTMLBaseElement"
@@ -7375,13 +6686,8 @@ instance IsElement HTMLBaseFontElement
 instance IsNode HTMLBaseFontElement
 instance IsEventTarget HTMLBaseFontElement
 instance IsGObject HTMLBaseFontElement where
-  toGObject = GObject . unHTMLBaseFontElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLBaseFontElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLBaseFontElement :: IsGObject obj => obj -> JSM HTMLBaseFontElement
-castToHTMLBaseFontElement = castTo gTypeHTMLBaseFontElement "HTMLBaseFontElement"
+  typeGType _ = gTypeHTMLBaseFontElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLBaseFontElement :: JSM GType
 gTypeHTMLBaseFontElement = GType . Object <$> jsg "HTMLBaseFontElement"
@@ -7426,13 +6732,8 @@ instance IsElement HTMLBodyElement
 instance IsNode HTMLBodyElement
 instance IsEventTarget HTMLBodyElement
 instance IsGObject HTMLBodyElement where
-  toGObject = GObject . unHTMLBodyElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLBodyElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLBodyElement :: IsGObject obj => obj -> JSM HTMLBodyElement
-castToHTMLBodyElement = castTo gTypeHTMLBodyElement "HTMLBodyElement"
+  typeGType _ = gTypeHTMLBodyElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLBodyElement :: JSM GType
 gTypeHTMLBodyElement = GType . Object <$> jsg "HTMLBodyElement"
@@ -7477,13 +6778,8 @@ instance IsElement HTMLButtonElement
 instance IsNode HTMLButtonElement
 instance IsEventTarget HTMLButtonElement
 instance IsGObject HTMLButtonElement where
-  toGObject = GObject . unHTMLButtonElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLButtonElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLButtonElement :: IsGObject obj => obj -> JSM HTMLButtonElement
-castToHTMLButtonElement = castTo gTypeHTMLButtonElement "HTMLButtonElement"
+  typeGType _ = gTypeHTMLButtonElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLButtonElement :: JSM GType
 gTypeHTMLButtonElement = GType . Object <$> jsg "HTMLButtonElement"
@@ -7528,13 +6824,8 @@ instance IsElement HTMLCanvasElement
 instance IsNode HTMLCanvasElement
 instance IsEventTarget HTMLCanvasElement
 instance IsGObject HTMLCanvasElement where
-  toGObject = GObject . unHTMLCanvasElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLCanvasElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLCanvasElement :: IsGObject obj => obj -> JSM HTMLCanvasElement
-castToHTMLCanvasElement = castTo gTypeHTMLCanvasElement "HTMLCanvasElement"
+  typeGType _ = gTypeHTMLCanvasElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLCanvasElement :: JSM GType
 gTypeHTMLCanvasElement = GType . Object <$> jsg "HTMLCanvasElement"
@@ -7570,17 +6861,12 @@ instance MakeObject HTMLCollection where
 
 class IsGObject o => IsHTMLCollection o
 toHTMLCollection :: IsHTMLCollection o => o -> HTMLCollection
-toHTMLCollection = unsafeCastGObject . toGObject
+toHTMLCollection = HTMLCollection . coerce
 
 instance IsHTMLCollection HTMLCollection
 instance IsGObject HTMLCollection where
-  toGObject = GObject . unHTMLCollection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLCollection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLCollection :: IsGObject obj => obj -> JSM HTMLCollection
-castToHTMLCollection = castTo gTypeHTMLCollection "HTMLCollection"
+  typeGType _ = gTypeHTMLCollection
+  {-# INLINE typeGType #-}
 
 gTypeHTMLCollection :: JSM GType
 gTypeHTMLCollection = GType . Object <$> jsg "HTMLCollection"
@@ -7625,13 +6911,8 @@ instance IsElement HTMLDListElement
 instance IsNode HTMLDListElement
 instance IsEventTarget HTMLDListElement
 instance IsGObject HTMLDListElement where
-  toGObject = GObject . unHTMLDListElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLDListElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLDListElement :: IsGObject obj => obj -> JSM HTMLDListElement
-castToHTMLDListElement = castTo gTypeHTMLDListElement "HTMLDListElement"
+  typeGType _ = gTypeHTMLDListElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLDListElement :: JSM GType
 gTypeHTMLDListElement = GType . Object <$> jsg "HTMLDListElement"
@@ -7676,13 +6957,8 @@ instance IsElement HTMLDataListElement
 instance IsNode HTMLDataListElement
 instance IsEventTarget HTMLDataListElement
 instance IsGObject HTMLDataListElement where
-  toGObject = GObject . unHTMLDataListElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLDataListElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLDataListElement :: IsGObject obj => obj -> JSM HTMLDataListElement
-castToHTMLDataListElement = castTo gTypeHTMLDataListElement "HTMLDataListElement"
+  typeGType _ = gTypeHTMLDataListElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLDataListElement :: JSM GType
 gTypeHTMLDataListElement = GType . Object <$> jsg "HTMLDataListElement"
@@ -7725,13 +7001,8 @@ instance IsElement HTMLDetailsElement
 instance IsNode HTMLDetailsElement
 instance IsEventTarget HTMLDetailsElement
 instance IsGObject HTMLDetailsElement where
-  toGObject = GObject . unHTMLDetailsElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLDetailsElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLDetailsElement :: IsGObject obj => obj -> JSM HTMLDetailsElement
-castToHTMLDetailsElement = castTo gTypeHTMLDetailsElement "HTMLDetailsElement"
+  typeGType _ = gTypeHTMLDetailsElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLDetailsElement :: JSM GType
 gTypeHTMLDetailsElement = GType . Object <$> jsg "HTMLDetailsElement"
@@ -7776,13 +7047,8 @@ instance IsElement HTMLDirectoryElement
 instance IsNode HTMLDirectoryElement
 instance IsEventTarget HTMLDirectoryElement
 instance IsGObject HTMLDirectoryElement where
-  toGObject = GObject . unHTMLDirectoryElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLDirectoryElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLDirectoryElement :: IsGObject obj => obj -> JSM HTMLDirectoryElement
-castToHTMLDirectoryElement = castTo gTypeHTMLDirectoryElement "HTMLDirectoryElement"
+  typeGType _ = gTypeHTMLDirectoryElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLDirectoryElement :: JSM GType
 gTypeHTMLDirectoryElement = GType . Object <$> jsg "HTMLDirectoryElement"
@@ -7827,13 +7093,8 @@ instance IsElement HTMLDivElement
 instance IsNode HTMLDivElement
 instance IsEventTarget HTMLDivElement
 instance IsGObject HTMLDivElement where
-  toGObject = GObject . unHTMLDivElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLDivElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLDivElement :: IsGObject obj => obj -> JSM HTMLDivElement
-castToHTMLDivElement = castTo gTypeHTMLDivElement "HTMLDivElement"
+  typeGType _ = gTypeHTMLDivElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLDivElement :: JSM GType
 gTypeHTMLDivElement = GType . Object <$> jsg "HTMLDivElement"
@@ -7876,13 +7137,8 @@ instance IsDocument HTMLDocument
 instance IsNode HTMLDocument
 instance IsEventTarget HTMLDocument
 instance IsGObject HTMLDocument where
-  toGObject = GObject . unHTMLDocument
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLDocument . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLDocument :: IsGObject obj => obj -> JSM HTMLDocument
-castToHTMLDocument = castTo gTypeHTMLDocument "HTMLDocument"
+  typeGType _ = gTypeHTMLDocument
+  {-# INLINE typeGType #-}
 
 gTypeHTMLDocument :: JSM GType
 gTypeHTMLDocument = GType . Object <$> jsg "HTMLDocument"
@@ -7923,20 +7179,15 @@ instance MakeObject HTMLElement where
 
 class IsElement o => IsHTMLElement o
 toHTMLElement :: IsHTMLElement o => o -> HTMLElement
-toHTMLElement = unsafeCastGObject . toGObject
+toHTMLElement = HTMLElement . coerce
 
 instance IsHTMLElement HTMLElement
 instance IsElement HTMLElement
 instance IsNode HTMLElement
 instance IsEventTarget HTMLElement
 instance IsGObject HTMLElement where
-  toGObject = GObject . unHTMLElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLElement :: IsGObject obj => obj -> JSM HTMLElement
-castToHTMLElement = castTo gTypeHTMLElement "HTMLElement"
+  typeGType _ = gTypeHTMLElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLElement :: JSM GType
 gTypeHTMLElement = GType . Object <$> jsg "HTMLElement"
@@ -7981,13 +7232,8 @@ instance IsElement HTMLEmbedElement
 instance IsNode HTMLEmbedElement
 instance IsEventTarget HTMLEmbedElement
 instance IsGObject HTMLEmbedElement where
-  toGObject = GObject . unHTMLEmbedElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLEmbedElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLEmbedElement :: IsGObject obj => obj -> JSM HTMLEmbedElement
-castToHTMLEmbedElement = castTo gTypeHTMLEmbedElement "HTMLEmbedElement"
+  typeGType _ = gTypeHTMLEmbedElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLEmbedElement :: JSM GType
 gTypeHTMLEmbedElement = GType . Object <$> jsg "HTMLEmbedElement"
@@ -8032,13 +7278,8 @@ instance IsElement HTMLFieldSetElement
 instance IsNode HTMLFieldSetElement
 instance IsEventTarget HTMLFieldSetElement
 instance IsGObject HTMLFieldSetElement where
-  toGObject = GObject . unHTMLFieldSetElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLFieldSetElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLFieldSetElement :: IsGObject obj => obj -> JSM HTMLFieldSetElement
-castToHTMLFieldSetElement = castTo gTypeHTMLFieldSetElement "HTMLFieldSetElement"
+  typeGType _ = gTypeHTMLFieldSetElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLFieldSetElement :: JSM GType
 gTypeHTMLFieldSetElement = GType . Object <$> jsg "HTMLFieldSetElement"
@@ -8083,13 +7324,8 @@ instance IsElement HTMLFontElement
 instance IsNode HTMLFontElement
 instance IsEventTarget HTMLFontElement
 instance IsGObject HTMLFontElement where
-  toGObject = GObject . unHTMLFontElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLFontElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLFontElement :: IsGObject obj => obj -> JSM HTMLFontElement
-castToHTMLFontElement = castTo gTypeHTMLFontElement "HTMLFontElement"
+  typeGType _ = gTypeHTMLFontElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLFontElement :: JSM GType
 gTypeHTMLFontElement = GType . Object <$> jsg "HTMLFontElement"
@@ -8128,13 +7364,8 @@ instance MakeObject HTMLFormControlsCollection where
 
 instance IsHTMLCollection HTMLFormControlsCollection
 instance IsGObject HTMLFormControlsCollection where
-  toGObject = GObject . unHTMLFormControlsCollection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLFormControlsCollection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLFormControlsCollection :: IsGObject obj => obj -> JSM HTMLFormControlsCollection
-castToHTMLFormControlsCollection = castTo gTypeHTMLFormControlsCollection "HTMLFormControlsCollection"
+  typeGType _ = gTypeHTMLFormControlsCollection
+  {-# INLINE typeGType #-}
 
 gTypeHTMLFormControlsCollection :: JSM GType
 gTypeHTMLFormControlsCollection = GType . Object <$> jsg "HTMLFormControlsCollection"
@@ -8177,13 +7408,8 @@ instance IsElement HTMLFormElement
 instance IsNode HTMLFormElement
 instance IsEventTarget HTMLFormElement
 instance IsGObject HTMLFormElement where
-  toGObject = GObject . unHTMLFormElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLFormElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLFormElement :: IsGObject obj => obj -> JSM HTMLFormElement
-castToHTMLFormElement = castTo gTypeHTMLFormElement "HTMLFormElement"
+  typeGType _ = gTypeHTMLFormElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLFormElement :: JSM GType
 gTypeHTMLFormElement = GType . Object <$> jsg "HTMLFormElement"
@@ -8228,13 +7454,8 @@ instance IsElement HTMLFrameElement
 instance IsNode HTMLFrameElement
 instance IsEventTarget HTMLFrameElement
 instance IsGObject HTMLFrameElement where
-  toGObject = GObject . unHTMLFrameElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLFrameElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLFrameElement :: IsGObject obj => obj -> JSM HTMLFrameElement
-castToHTMLFrameElement = castTo gTypeHTMLFrameElement "HTMLFrameElement"
+  typeGType _ = gTypeHTMLFrameElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLFrameElement :: JSM GType
 gTypeHTMLFrameElement = GType . Object <$> jsg "HTMLFrameElement"
@@ -8279,13 +7500,8 @@ instance IsElement HTMLFrameSetElement
 instance IsNode HTMLFrameSetElement
 instance IsEventTarget HTMLFrameSetElement
 instance IsGObject HTMLFrameSetElement where
-  toGObject = GObject . unHTMLFrameSetElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLFrameSetElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLFrameSetElement :: IsGObject obj => obj -> JSM HTMLFrameSetElement
-castToHTMLFrameSetElement = castTo gTypeHTMLFrameSetElement "HTMLFrameSetElement"
+  typeGType _ = gTypeHTMLFrameSetElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLFrameSetElement :: JSM GType
 gTypeHTMLFrameSetElement = GType . Object <$> jsg "HTMLFrameSetElement"
@@ -8330,13 +7546,8 @@ instance IsElement HTMLHRElement
 instance IsNode HTMLHRElement
 instance IsEventTarget HTMLHRElement
 instance IsGObject HTMLHRElement where
-  toGObject = GObject . unHTMLHRElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLHRElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLHRElement :: IsGObject obj => obj -> JSM HTMLHRElement
-castToHTMLHRElement = castTo gTypeHTMLHRElement "HTMLHRElement"
+  typeGType _ = gTypeHTMLHRElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLHRElement :: JSM GType
 gTypeHTMLHRElement = GType . Object <$> jsg "HTMLHRElement"
@@ -8381,13 +7592,8 @@ instance IsElement HTMLHeadElement
 instance IsNode HTMLHeadElement
 instance IsEventTarget HTMLHeadElement
 instance IsGObject HTMLHeadElement where
-  toGObject = GObject . unHTMLHeadElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLHeadElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLHeadElement :: IsGObject obj => obj -> JSM HTMLHeadElement
-castToHTMLHeadElement = castTo gTypeHTMLHeadElement "HTMLHeadElement"
+  typeGType _ = gTypeHTMLHeadElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLHeadElement :: JSM GType
 gTypeHTMLHeadElement = GType . Object <$> jsg "HTMLHeadElement"
@@ -8432,13 +7638,8 @@ instance IsElement HTMLHeadingElement
 instance IsNode HTMLHeadingElement
 instance IsEventTarget HTMLHeadingElement
 instance IsGObject HTMLHeadingElement where
-  toGObject = GObject . unHTMLHeadingElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLHeadingElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLHeadingElement :: IsGObject obj => obj -> JSM HTMLHeadingElement
-castToHTMLHeadingElement = castTo gTypeHTMLHeadingElement "HTMLHeadingElement"
+  typeGType _ = gTypeHTMLHeadingElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLHeadingElement :: JSM GType
 gTypeHTMLHeadingElement = GType . Object <$> jsg "HTMLHeadingElement"
@@ -8483,13 +7684,8 @@ instance IsElement HTMLHtmlElement
 instance IsNode HTMLHtmlElement
 instance IsEventTarget HTMLHtmlElement
 instance IsGObject HTMLHtmlElement where
-  toGObject = GObject . unHTMLHtmlElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLHtmlElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLHtmlElement :: IsGObject obj => obj -> JSM HTMLHtmlElement
-castToHTMLHtmlElement = castTo gTypeHTMLHtmlElement "HTMLHtmlElement"
+  typeGType _ = gTypeHTMLHtmlElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLHtmlElement :: JSM GType
 gTypeHTMLHtmlElement = GType . Object <$> jsg "HTMLHtmlElement"
@@ -8534,13 +7730,8 @@ instance IsElement HTMLIFrameElement
 instance IsNode HTMLIFrameElement
 instance IsEventTarget HTMLIFrameElement
 instance IsGObject HTMLIFrameElement where
-  toGObject = GObject . unHTMLIFrameElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLIFrameElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLIFrameElement :: IsGObject obj => obj -> JSM HTMLIFrameElement
-castToHTMLIFrameElement = castTo gTypeHTMLIFrameElement "HTMLIFrameElement"
+  typeGType _ = gTypeHTMLIFrameElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLIFrameElement :: JSM GType
 gTypeHTMLIFrameElement = GType . Object <$> jsg "HTMLIFrameElement"
@@ -8585,13 +7776,8 @@ instance IsElement HTMLImageElement
 instance IsNode HTMLImageElement
 instance IsEventTarget HTMLImageElement
 instance IsGObject HTMLImageElement where
-  toGObject = GObject . unHTMLImageElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLImageElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLImageElement :: IsGObject obj => obj -> JSM HTMLImageElement
-castToHTMLImageElement = castTo gTypeHTMLImageElement "HTMLImageElement"
+  typeGType _ = gTypeHTMLImageElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLImageElement :: JSM GType
 gTypeHTMLImageElement = GType . Object <$> jsg "HTMLImageElement"
@@ -8636,13 +7822,8 @@ instance IsElement HTMLInputElement
 instance IsNode HTMLInputElement
 instance IsEventTarget HTMLInputElement
 instance IsGObject HTMLInputElement where
-  toGObject = GObject . unHTMLInputElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLInputElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLInputElement :: IsGObject obj => obj -> JSM HTMLInputElement
-castToHTMLInputElement = castTo gTypeHTMLInputElement "HTMLInputElement"
+  typeGType _ = gTypeHTMLInputElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLInputElement :: JSM GType
 gTypeHTMLInputElement = GType . Object <$> jsg "HTMLInputElement"
@@ -8687,13 +7868,8 @@ instance IsElement HTMLKeygenElement
 instance IsNode HTMLKeygenElement
 instance IsEventTarget HTMLKeygenElement
 instance IsGObject HTMLKeygenElement where
-  toGObject = GObject . unHTMLKeygenElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLKeygenElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLKeygenElement :: IsGObject obj => obj -> JSM HTMLKeygenElement
-castToHTMLKeygenElement = castTo gTypeHTMLKeygenElement "HTMLKeygenElement"
+  typeGType _ = gTypeHTMLKeygenElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLKeygenElement :: JSM GType
 gTypeHTMLKeygenElement = GType . Object <$> jsg "HTMLKeygenElement"
@@ -8738,13 +7914,8 @@ instance IsElement HTMLLIElement
 instance IsNode HTMLLIElement
 instance IsEventTarget HTMLLIElement
 instance IsGObject HTMLLIElement where
-  toGObject = GObject . unHTMLLIElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLLIElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLLIElement :: IsGObject obj => obj -> JSM HTMLLIElement
-castToHTMLLIElement = castTo gTypeHTMLLIElement "HTMLLIElement"
+  typeGType _ = gTypeHTMLLIElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLLIElement :: JSM GType
 gTypeHTMLLIElement = GType . Object <$> jsg "HTMLLIElement"
@@ -8789,13 +7960,8 @@ instance IsElement HTMLLabelElement
 instance IsNode HTMLLabelElement
 instance IsEventTarget HTMLLabelElement
 instance IsGObject HTMLLabelElement where
-  toGObject = GObject . unHTMLLabelElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLLabelElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLLabelElement :: IsGObject obj => obj -> JSM HTMLLabelElement
-castToHTMLLabelElement = castTo gTypeHTMLLabelElement "HTMLLabelElement"
+  typeGType _ = gTypeHTMLLabelElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLLabelElement :: JSM GType
 gTypeHTMLLabelElement = GType . Object <$> jsg "HTMLLabelElement"
@@ -8840,13 +8006,8 @@ instance IsElement HTMLLegendElement
 instance IsNode HTMLLegendElement
 instance IsEventTarget HTMLLegendElement
 instance IsGObject HTMLLegendElement where
-  toGObject = GObject . unHTMLLegendElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLLegendElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLLegendElement :: IsGObject obj => obj -> JSM HTMLLegendElement
-castToHTMLLegendElement = castTo gTypeHTMLLegendElement "HTMLLegendElement"
+  typeGType _ = gTypeHTMLLegendElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLLegendElement :: JSM GType
 gTypeHTMLLegendElement = GType . Object <$> jsg "HTMLLegendElement"
@@ -8891,13 +8052,8 @@ instance IsElement HTMLLinkElement
 instance IsNode HTMLLinkElement
 instance IsEventTarget HTMLLinkElement
 instance IsGObject HTMLLinkElement where
-  toGObject = GObject . unHTMLLinkElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLLinkElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLLinkElement :: IsGObject obj => obj -> JSM HTMLLinkElement
-castToHTMLLinkElement = castTo gTypeHTMLLinkElement "HTMLLinkElement"
+  typeGType _ = gTypeHTMLLinkElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLLinkElement :: JSM GType
 gTypeHTMLLinkElement = GType . Object <$> jsg "HTMLLinkElement"
@@ -8942,13 +8098,8 @@ instance IsElement HTMLMapElement
 instance IsNode HTMLMapElement
 instance IsEventTarget HTMLMapElement
 instance IsGObject HTMLMapElement where
-  toGObject = GObject . unHTMLMapElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLMapElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLMapElement :: IsGObject obj => obj -> JSM HTMLMapElement
-castToHTMLMapElement = castTo gTypeHTMLMapElement "HTMLMapElement"
+  typeGType _ = gTypeHTMLMapElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLMapElement :: JSM GType
 gTypeHTMLMapElement = GType . Object <$> jsg "HTMLMapElement"
@@ -8993,13 +8144,8 @@ instance IsElement HTMLMarqueeElement
 instance IsNode HTMLMarqueeElement
 instance IsEventTarget HTMLMarqueeElement
 instance IsGObject HTMLMarqueeElement where
-  toGObject = GObject . unHTMLMarqueeElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLMarqueeElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLMarqueeElement :: IsGObject obj => obj -> JSM HTMLMarqueeElement
-castToHTMLMarqueeElement = castTo gTypeHTMLMarqueeElement "HTMLMarqueeElement"
+  typeGType _ = gTypeHTMLMarqueeElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLMarqueeElement :: JSM GType
 gTypeHTMLMarqueeElement = GType . Object <$> jsg "HTMLMarqueeElement"
@@ -9041,7 +8187,7 @@ instance MakeObject HTMLMediaElement where
 
 class IsHTMLElement o => IsHTMLMediaElement o
 toHTMLMediaElement :: IsHTMLMediaElement o => o -> HTMLMediaElement
-toHTMLMediaElement = unsafeCastGObject . toGObject
+toHTMLMediaElement = HTMLMediaElement . coerce
 
 instance IsHTMLMediaElement HTMLMediaElement
 instance IsHTMLElement HTMLMediaElement
@@ -9049,13 +8195,8 @@ instance IsElement HTMLMediaElement
 instance IsNode HTMLMediaElement
 instance IsEventTarget HTMLMediaElement
 instance IsGObject HTMLMediaElement where
-  toGObject = GObject . unHTMLMediaElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLMediaElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLMediaElement :: IsGObject obj => obj -> JSM HTMLMediaElement
-castToHTMLMediaElement = castTo gTypeHTMLMediaElement "HTMLMediaElement"
+  typeGType _ = gTypeHTMLMediaElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLMediaElement :: JSM GType
 gTypeHTMLMediaElement = GType . Object <$> jsg "HTMLMediaElement"
@@ -9100,13 +8241,8 @@ instance IsElement HTMLMenuElement
 instance IsNode HTMLMenuElement
 instance IsEventTarget HTMLMenuElement
 instance IsGObject HTMLMenuElement where
-  toGObject = GObject . unHTMLMenuElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLMenuElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLMenuElement :: IsGObject obj => obj -> JSM HTMLMenuElement
-castToHTMLMenuElement = castTo gTypeHTMLMenuElement "HTMLMenuElement"
+  typeGType _ = gTypeHTMLMenuElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLMenuElement :: JSM GType
 gTypeHTMLMenuElement = GType . Object <$> jsg "HTMLMenuElement"
@@ -9151,13 +8287,8 @@ instance IsElement HTMLMetaElement
 instance IsNode HTMLMetaElement
 instance IsEventTarget HTMLMetaElement
 instance IsGObject HTMLMetaElement where
-  toGObject = GObject . unHTMLMetaElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLMetaElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLMetaElement :: IsGObject obj => obj -> JSM HTMLMetaElement
-castToHTMLMetaElement = castTo gTypeHTMLMetaElement "HTMLMetaElement"
+  typeGType _ = gTypeHTMLMetaElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLMetaElement :: JSM GType
 gTypeHTMLMetaElement = GType . Object <$> jsg "HTMLMetaElement"
@@ -9202,13 +8333,8 @@ instance IsElement HTMLMeterElement
 instance IsNode HTMLMeterElement
 instance IsEventTarget HTMLMeterElement
 instance IsGObject HTMLMeterElement where
-  toGObject = GObject . unHTMLMeterElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLMeterElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLMeterElement :: IsGObject obj => obj -> JSM HTMLMeterElement
-castToHTMLMeterElement = castTo gTypeHTMLMeterElement "HTMLMeterElement"
+  typeGType _ = gTypeHTMLMeterElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLMeterElement :: JSM GType
 gTypeHTMLMeterElement = GType . Object <$> jsg "HTMLMeterElement"
@@ -9251,13 +8377,8 @@ instance IsElement HTMLModElement
 instance IsNode HTMLModElement
 instance IsEventTarget HTMLModElement
 instance IsGObject HTMLModElement where
-  toGObject = GObject . unHTMLModElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLModElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLModElement :: IsGObject obj => obj -> JSM HTMLModElement
-castToHTMLModElement = castTo gTypeHTMLModElement "HTMLModElement"
+  typeGType _ = gTypeHTMLModElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLModElement :: JSM GType
 gTypeHTMLModElement = GType . Object <$> jsg "HTMLModElement"
@@ -9302,13 +8423,8 @@ instance IsElement HTMLOListElement
 instance IsNode HTMLOListElement
 instance IsEventTarget HTMLOListElement
 instance IsGObject HTMLOListElement where
-  toGObject = GObject . unHTMLOListElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLOListElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLOListElement :: IsGObject obj => obj -> JSM HTMLOListElement
-castToHTMLOListElement = castTo gTypeHTMLOListElement "HTMLOListElement"
+  typeGType _ = gTypeHTMLOListElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLOListElement :: JSM GType
 gTypeHTMLOListElement = GType . Object <$> jsg "HTMLOListElement"
@@ -9353,13 +8469,8 @@ instance IsElement HTMLObjectElement
 instance IsNode HTMLObjectElement
 instance IsEventTarget HTMLObjectElement
 instance IsGObject HTMLObjectElement where
-  toGObject = GObject . unHTMLObjectElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLObjectElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLObjectElement :: IsGObject obj => obj -> JSM HTMLObjectElement
-castToHTMLObjectElement = castTo gTypeHTMLObjectElement "HTMLObjectElement"
+  typeGType _ = gTypeHTMLObjectElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLObjectElement :: JSM GType
 gTypeHTMLObjectElement = GType . Object <$> jsg "HTMLObjectElement"
@@ -9404,13 +8515,8 @@ instance IsElement HTMLOptGroupElement
 instance IsNode HTMLOptGroupElement
 instance IsEventTarget HTMLOptGroupElement
 instance IsGObject HTMLOptGroupElement where
-  toGObject = GObject . unHTMLOptGroupElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLOptGroupElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLOptGroupElement :: IsGObject obj => obj -> JSM HTMLOptGroupElement
-castToHTMLOptGroupElement = castTo gTypeHTMLOptGroupElement "HTMLOptGroupElement"
+  typeGType _ = gTypeHTMLOptGroupElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLOptGroupElement :: JSM GType
 gTypeHTMLOptGroupElement = GType . Object <$> jsg "HTMLOptGroupElement"
@@ -9455,13 +8561,8 @@ instance IsElement HTMLOptionElement
 instance IsNode HTMLOptionElement
 instance IsEventTarget HTMLOptionElement
 instance IsGObject HTMLOptionElement where
-  toGObject = GObject . unHTMLOptionElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLOptionElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLOptionElement :: IsGObject obj => obj -> JSM HTMLOptionElement
-castToHTMLOptionElement = castTo gTypeHTMLOptionElement "HTMLOptionElement"
+  typeGType _ = gTypeHTMLOptionElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLOptionElement :: JSM GType
 gTypeHTMLOptionElement = GType . Object <$> jsg "HTMLOptionElement"
@@ -9500,13 +8601,8 @@ instance MakeObject HTMLOptionsCollection where
 
 instance IsHTMLCollection HTMLOptionsCollection
 instance IsGObject HTMLOptionsCollection where
-  toGObject = GObject . unHTMLOptionsCollection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLOptionsCollection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLOptionsCollection :: IsGObject obj => obj -> JSM HTMLOptionsCollection
-castToHTMLOptionsCollection = castTo gTypeHTMLOptionsCollection "HTMLOptionsCollection"
+  typeGType _ = gTypeHTMLOptionsCollection
+  {-# INLINE typeGType #-}
 
 gTypeHTMLOptionsCollection :: JSM GType
 gTypeHTMLOptionsCollection = GType . Object <$> jsg "HTMLOptionsCollection"
@@ -9551,13 +8647,8 @@ instance IsElement HTMLOutputElement
 instance IsNode HTMLOutputElement
 instance IsEventTarget HTMLOutputElement
 instance IsGObject HTMLOutputElement where
-  toGObject = GObject . unHTMLOutputElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLOutputElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLOutputElement :: IsGObject obj => obj -> JSM HTMLOutputElement
-castToHTMLOutputElement = castTo gTypeHTMLOutputElement "HTMLOutputElement"
+  typeGType _ = gTypeHTMLOutputElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLOutputElement :: JSM GType
 gTypeHTMLOutputElement = GType . Object <$> jsg "HTMLOutputElement"
@@ -9600,13 +8691,8 @@ instance IsElement HTMLParagraphElement
 instance IsNode HTMLParagraphElement
 instance IsEventTarget HTMLParagraphElement
 instance IsGObject HTMLParagraphElement where
-  toGObject = GObject . unHTMLParagraphElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLParagraphElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLParagraphElement :: IsGObject obj => obj -> JSM HTMLParagraphElement
-castToHTMLParagraphElement = castTo gTypeHTMLParagraphElement "HTMLParagraphElement"
+  typeGType _ = gTypeHTMLParagraphElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLParagraphElement :: JSM GType
 gTypeHTMLParagraphElement = GType . Object <$> jsg "HTMLParagraphElement"
@@ -9651,13 +8737,8 @@ instance IsElement HTMLParamElement
 instance IsNode HTMLParamElement
 instance IsEventTarget HTMLParamElement
 instance IsGObject HTMLParamElement where
-  toGObject = GObject . unHTMLParamElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLParamElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLParamElement :: IsGObject obj => obj -> JSM HTMLParamElement
-castToHTMLParamElement = castTo gTypeHTMLParamElement "HTMLParamElement"
+  typeGType _ = gTypeHTMLParamElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLParamElement :: JSM GType
 gTypeHTMLParamElement = GType . Object <$> jsg "HTMLParamElement"
@@ -9702,13 +8783,8 @@ instance IsElement HTMLPreElement
 instance IsNode HTMLPreElement
 instance IsEventTarget HTMLPreElement
 instance IsGObject HTMLPreElement where
-  toGObject = GObject . unHTMLPreElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLPreElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLPreElement :: IsGObject obj => obj -> JSM HTMLPreElement
-castToHTMLPreElement = castTo gTypeHTMLPreElement "HTMLPreElement"
+  typeGType _ = gTypeHTMLPreElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLPreElement :: JSM GType
 gTypeHTMLPreElement = GType . Object <$> jsg "HTMLPreElement"
@@ -9753,13 +8829,8 @@ instance IsElement HTMLProgressElement
 instance IsNode HTMLProgressElement
 instance IsEventTarget HTMLProgressElement
 instance IsGObject HTMLProgressElement where
-  toGObject = GObject . unHTMLProgressElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLProgressElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLProgressElement :: IsGObject obj => obj -> JSM HTMLProgressElement
-castToHTMLProgressElement = castTo gTypeHTMLProgressElement "HTMLProgressElement"
+  typeGType _ = gTypeHTMLProgressElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLProgressElement :: JSM GType
 gTypeHTMLProgressElement = GType . Object <$> jsg "HTMLProgressElement"
@@ -9802,13 +8873,8 @@ instance IsElement HTMLQuoteElement
 instance IsNode HTMLQuoteElement
 instance IsEventTarget HTMLQuoteElement
 instance IsGObject HTMLQuoteElement where
-  toGObject = GObject . unHTMLQuoteElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLQuoteElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLQuoteElement :: IsGObject obj => obj -> JSM HTMLQuoteElement
-castToHTMLQuoteElement = castTo gTypeHTMLQuoteElement "HTMLQuoteElement"
+  typeGType _ = gTypeHTMLQuoteElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLQuoteElement :: JSM GType
 gTypeHTMLQuoteElement = GType . Object <$> jsg "HTMLQuoteElement"
@@ -9853,13 +8919,8 @@ instance IsElement HTMLScriptElement
 instance IsNode HTMLScriptElement
 instance IsEventTarget HTMLScriptElement
 instance IsGObject HTMLScriptElement where
-  toGObject = GObject . unHTMLScriptElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLScriptElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLScriptElement :: IsGObject obj => obj -> JSM HTMLScriptElement
-castToHTMLScriptElement = castTo gTypeHTMLScriptElement "HTMLScriptElement"
+  typeGType _ = gTypeHTMLScriptElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLScriptElement :: JSM GType
 gTypeHTMLScriptElement = GType . Object <$> jsg "HTMLScriptElement"
@@ -9904,13 +8965,8 @@ instance IsElement HTMLSelectElement
 instance IsNode HTMLSelectElement
 instance IsEventTarget HTMLSelectElement
 instance IsGObject HTMLSelectElement where
-  toGObject = GObject . unHTMLSelectElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLSelectElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLSelectElement :: IsGObject obj => obj -> JSM HTMLSelectElement
-castToHTMLSelectElement = castTo gTypeHTMLSelectElement "HTMLSelectElement"
+  typeGType _ = gTypeHTMLSelectElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLSelectElement :: JSM GType
 gTypeHTMLSelectElement = GType . Object <$> jsg "HTMLSelectElement"
@@ -9955,13 +9011,8 @@ instance IsElement HTMLSourceElement
 instance IsNode HTMLSourceElement
 instance IsEventTarget HTMLSourceElement
 instance IsGObject HTMLSourceElement where
-  toGObject = GObject . unHTMLSourceElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLSourceElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLSourceElement :: IsGObject obj => obj -> JSM HTMLSourceElement
-castToHTMLSourceElement = castTo gTypeHTMLSourceElement "HTMLSourceElement"
+  typeGType _ = gTypeHTMLSourceElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLSourceElement :: JSM GType
 gTypeHTMLSourceElement = GType . Object <$> jsg "HTMLSourceElement"
@@ -10004,13 +9055,8 @@ instance IsElement HTMLSpanElement
 instance IsNode HTMLSpanElement
 instance IsEventTarget HTMLSpanElement
 instance IsGObject HTMLSpanElement where
-  toGObject = GObject . unHTMLSpanElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLSpanElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLSpanElement :: IsGObject obj => obj -> JSM HTMLSpanElement
-castToHTMLSpanElement = castTo gTypeHTMLSpanElement "HTMLSpanElement"
+  typeGType _ = gTypeHTMLSpanElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLSpanElement :: JSM GType
 gTypeHTMLSpanElement = GType . Object <$> jsg "HTMLSpanElement"
@@ -10053,13 +9099,8 @@ instance IsElement HTMLStyleElement
 instance IsNode HTMLStyleElement
 instance IsEventTarget HTMLStyleElement
 instance IsGObject HTMLStyleElement where
-  toGObject = GObject . unHTMLStyleElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLStyleElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLStyleElement :: IsGObject obj => obj -> JSM HTMLStyleElement
-castToHTMLStyleElement = castTo gTypeHTMLStyleElement "HTMLStyleElement"
+  typeGType _ = gTypeHTMLStyleElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLStyleElement :: JSM GType
 gTypeHTMLStyleElement = GType . Object <$> jsg "HTMLStyleElement"
@@ -10104,13 +9145,8 @@ instance IsElement HTMLTableCaptionElement
 instance IsNode HTMLTableCaptionElement
 instance IsEventTarget HTMLTableCaptionElement
 instance IsGObject HTMLTableCaptionElement where
-  toGObject = GObject . unHTMLTableCaptionElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTableCaptionElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTableCaptionElement :: IsGObject obj => obj -> JSM HTMLTableCaptionElement
-castToHTMLTableCaptionElement = castTo gTypeHTMLTableCaptionElement "HTMLTableCaptionElement"
+  typeGType _ = gTypeHTMLTableCaptionElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTableCaptionElement :: JSM GType
 gTypeHTMLTableCaptionElement = GType . Object <$> jsg "HTMLTableCaptionElement"
@@ -10155,13 +9191,8 @@ instance IsElement HTMLTableCellElement
 instance IsNode HTMLTableCellElement
 instance IsEventTarget HTMLTableCellElement
 instance IsGObject HTMLTableCellElement where
-  toGObject = GObject . unHTMLTableCellElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTableCellElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTableCellElement :: IsGObject obj => obj -> JSM HTMLTableCellElement
-castToHTMLTableCellElement = castTo gTypeHTMLTableCellElement "HTMLTableCellElement"
+  typeGType _ = gTypeHTMLTableCellElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTableCellElement :: JSM GType
 gTypeHTMLTableCellElement = GType . Object <$> jsg "HTMLTableCellElement"
@@ -10206,13 +9237,8 @@ instance IsElement HTMLTableColElement
 instance IsNode HTMLTableColElement
 instance IsEventTarget HTMLTableColElement
 instance IsGObject HTMLTableColElement where
-  toGObject = GObject . unHTMLTableColElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTableColElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTableColElement :: IsGObject obj => obj -> JSM HTMLTableColElement
-castToHTMLTableColElement = castTo gTypeHTMLTableColElement "HTMLTableColElement"
+  typeGType _ = gTypeHTMLTableColElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTableColElement :: JSM GType
 gTypeHTMLTableColElement = GType . Object <$> jsg "HTMLTableColElement"
@@ -10257,13 +9283,8 @@ instance IsElement HTMLTableElement
 instance IsNode HTMLTableElement
 instance IsEventTarget HTMLTableElement
 instance IsGObject HTMLTableElement where
-  toGObject = GObject . unHTMLTableElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTableElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTableElement :: IsGObject obj => obj -> JSM HTMLTableElement
-castToHTMLTableElement = castTo gTypeHTMLTableElement "HTMLTableElement"
+  typeGType _ = gTypeHTMLTableElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTableElement :: JSM GType
 gTypeHTMLTableElement = GType . Object <$> jsg "HTMLTableElement"
@@ -10308,13 +9329,8 @@ instance IsElement HTMLTableRowElement
 instance IsNode HTMLTableRowElement
 instance IsEventTarget HTMLTableRowElement
 instance IsGObject HTMLTableRowElement where
-  toGObject = GObject . unHTMLTableRowElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTableRowElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTableRowElement :: IsGObject obj => obj -> JSM HTMLTableRowElement
-castToHTMLTableRowElement = castTo gTypeHTMLTableRowElement "HTMLTableRowElement"
+  typeGType _ = gTypeHTMLTableRowElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTableRowElement :: JSM GType
 gTypeHTMLTableRowElement = GType . Object <$> jsg "HTMLTableRowElement"
@@ -10359,13 +9375,8 @@ instance IsElement HTMLTableSectionElement
 instance IsNode HTMLTableSectionElement
 instance IsEventTarget HTMLTableSectionElement
 instance IsGObject HTMLTableSectionElement where
-  toGObject = GObject . unHTMLTableSectionElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTableSectionElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTableSectionElement :: IsGObject obj => obj -> JSM HTMLTableSectionElement
-castToHTMLTableSectionElement = castTo gTypeHTMLTableSectionElement "HTMLTableSectionElement"
+  typeGType _ = gTypeHTMLTableSectionElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTableSectionElement :: JSM GType
 gTypeHTMLTableSectionElement = GType . Object <$> jsg "HTMLTableSectionElement"
@@ -10410,13 +9421,8 @@ instance IsElement HTMLTemplateElement
 instance IsNode HTMLTemplateElement
 instance IsEventTarget HTMLTemplateElement
 instance IsGObject HTMLTemplateElement where
-  toGObject = GObject . unHTMLTemplateElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTemplateElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTemplateElement :: IsGObject obj => obj -> JSM HTMLTemplateElement
-castToHTMLTemplateElement = castTo gTypeHTMLTemplateElement "HTMLTemplateElement"
+  typeGType _ = gTypeHTMLTemplateElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTemplateElement :: JSM GType
 gTypeHTMLTemplateElement = GType . Object <$> jsg "HTMLTemplateElement"
@@ -10459,13 +9465,8 @@ instance IsElement HTMLTextAreaElement
 instance IsNode HTMLTextAreaElement
 instance IsEventTarget HTMLTextAreaElement
 instance IsGObject HTMLTextAreaElement where
-  toGObject = GObject . unHTMLTextAreaElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTextAreaElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTextAreaElement :: IsGObject obj => obj -> JSM HTMLTextAreaElement
-castToHTMLTextAreaElement = castTo gTypeHTMLTextAreaElement "HTMLTextAreaElement"
+  typeGType _ = gTypeHTMLTextAreaElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTextAreaElement :: JSM GType
 gTypeHTMLTextAreaElement = GType . Object <$> jsg "HTMLTextAreaElement"
@@ -10510,13 +9511,8 @@ instance IsElement HTMLTitleElement
 instance IsNode HTMLTitleElement
 instance IsEventTarget HTMLTitleElement
 instance IsGObject HTMLTitleElement where
-  toGObject = GObject . unHTMLTitleElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTitleElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTitleElement :: IsGObject obj => obj -> JSM HTMLTitleElement
-castToHTMLTitleElement = castTo gTypeHTMLTitleElement "HTMLTitleElement"
+  typeGType _ = gTypeHTMLTitleElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTitleElement :: JSM GType
 gTypeHTMLTitleElement = GType . Object <$> jsg "HTMLTitleElement"
@@ -10561,13 +9557,8 @@ instance IsElement HTMLTrackElement
 instance IsNode HTMLTrackElement
 instance IsEventTarget HTMLTrackElement
 instance IsGObject HTMLTrackElement where
-  toGObject = GObject . unHTMLTrackElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLTrackElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLTrackElement :: IsGObject obj => obj -> JSM HTMLTrackElement
-castToHTMLTrackElement = castTo gTypeHTMLTrackElement "HTMLTrackElement"
+  typeGType _ = gTypeHTMLTrackElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLTrackElement :: JSM GType
 gTypeHTMLTrackElement = GType . Object <$> jsg "HTMLTrackElement"
@@ -10610,13 +9601,8 @@ instance IsElement HTMLUListElement
 instance IsNode HTMLUListElement
 instance IsEventTarget HTMLUListElement
 instance IsGObject HTMLUListElement where
-  toGObject = GObject . unHTMLUListElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLUListElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLUListElement :: IsGObject obj => obj -> JSM HTMLUListElement
-castToHTMLUListElement = castTo gTypeHTMLUListElement "HTMLUListElement"
+  typeGType _ = gTypeHTMLUListElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLUListElement :: JSM GType
 gTypeHTMLUListElement = GType . Object <$> jsg "HTMLUListElement"
@@ -10661,13 +9647,8 @@ instance IsElement HTMLUnknownElement
 instance IsNode HTMLUnknownElement
 instance IsEventTarget HTMLUnknownElement
 instance IsGObject HTMLUnknownElement where
-  toGObject = GObject . unHTMLUnknownElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLUnknownElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLUnknownElement :: IsGObject obj => obj -> JSM HTMLUnknownElement
-castToHTMLUnknownElement = castTo gTypeHTMLUnknownElement "HTMLUnknownElement"
+  typeGType _ = gTypeHTMLUnknownElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLUnknownElement :: JSM GType
 gTypeHTMLUnknownElement = GType . Object <$> jsg "HTMLUnknownElement"
@@ -10712,13 +9693,8 @@ instance IsElement HTMLVideoElement
 instance IsNode HTMLVideoElement
 instance IsEventTarget HTMLVideoElement
 instance IsGObject HTMLVideoElement where
-  toGObject = GObject . unHTMLVideoElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HTMLVideoElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHTMLVideoElement :: IsGObject obj => obj -> JSM HTMLVideoElement
-castToHTMLVideoElement = castTo gTypeHTMLVideoElement "HTMLVideoElement"
+  typeGType _ = gTypeHTMLVideoElement
+  {-# INLINE typeGType #-}
 
 gTypeHTMLVideoElement :: JSM GType
 gTypeHTMLVideoElement = GType . Object <$> jsg "HTMLVideoElement"
@@ -10757,13 +9733,8 @@ instance MakeObject HashChangeEvent where
 
 instance IsEvent HashChangeEvent
 instance IsGObject HashChangeEvent where
-  toGObject = GObject . unHashChangeEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = HashChangeEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHashChangeEvent :: IsGObject obj => obj -> JSM HashChangeEvent
-castToHashChangeEvent = castTo gTypeHashChangeEvent "HashChangeEvent"
+  typeGType _ = gTypeHashChangeEvent
+  {-# INLINE typeGType #-}
 
 gTypeHashChangeEvent :: JSM GType
 gTypeHashChangeEvent = GType . Object <$> jsg "HashChangeEvent"
@@ -10796,13 +9767,8 @@ instance MakeObject History where
   makeObject = makeObject . unHistory
 
 instance IsGObject History where
-  toGObject = GObject . unHistory
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = History . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToHistory :: IsGObject obj => obj -> JSM History
-castToHistory = castTo gTypeHistory "History"
+  typeGType _ = gTypeHistory
+  {-# INLINE typeGType #-}
 
 gTypeHistory :: JSM GType
 gTypeHistory = GType . Object <$> jsg "History"
@@ -10837,13 +9803,8 @@ instance MakeObject IDBAny where
   makeObject = makeObject . unIDBAny
 
 instance IsGObject IDBAny where
-  toGObject = GObject . unIDBAny
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBAny . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBAny :: IsGObject obj => obj -> JSM IDBAny
-castToIDBAny = castTo gTypeIDBAny "IDBAny"
+  typeGType _ = gTypeIDBAny
+  {-# INLINE typeGType #-}
 
 gTypeIDBAny :: JSM GType
 gTypeIDBAny = GType . Object <$> jsg "IDBAny"
@@ -10877,17 +9838,12 @@ instance MakeObject IDBCursor where
 
 class IsGObject o => IsIDBCursor o
 toIDBCursor :: IsIDBCursor o => o -> IDBCursor
-toIDBCursor = unsafeCastGObject . toGObject
+toIDBCursor = IDBCursor . coerce
 
 instance IsIDBCursor IDBCursor
 instance IsGObject IDBCursor where
-  toGObject = GObject . unIDBCursor
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBCursor . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBCursor :: IsGObject obj => obj -> JSM IDBCursor
-castToIDBCursor = castTo gTypeIDBCursor "IDBCursor"
+  typeGType _ = gTypeIDBCursor
+  {-# INLINE typeGType #-}
 
 gTypeIDBCursor :: JSM GType
 gTypeIDBCursor = GType . Object <$> jsg "IDBCursor"
@@ -10924,13 +9880,8 @@ instance MakeObject IDBCursorWithValue where
 
 instance IsIDBCursor IDBCursorWithValue
 instance IsGObject IDBCursorWithValue where
-  toGObject = GObject . unIDBCursorWithValue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBCursorWithValue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBCursorWithValue :: IsGObject obj => obj -> JSM IDBCursorWithValue
-castToIDBCursorWithValue = castTo gTypeIDBCursorWithValue "IDBCursorWithValue"
+  typeGType _ = gTypeIDBCursorWithValue
+  {-# INLINE typeGType #-}
 
 gTypeIDBCursorWithValue :: JSM GType
 gTypeIDBCursorWithValue = GType . Object <$> jsg "IDBCursorWithValue"
@@ -10967,13 +9918,8 @@ instance MakeObject IDBDatabase where
 
 instance IsEventTarget IDBDatabase
 instance IsGObject IDBDatabase where
-  toGObject = GObject . unIDBDatabase
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBDatabase . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBDatabase :: IsGObject obj => obj -> JSM IDBDatabase
-castToIDBDatabase = castTo gTypeIDBDatabase "IDBDatabase"
+  typeGType _ = gTypeIDBDatabase
+  {-# INLINE typeGType #-}
 
 gTypeIDBDatabase :: JSM GType
 gTypeIDBDatabase = GType . Object <$> jsg "IDBDatabase"
@@ -11006,13 +9952,8 @@ instance MakeObject IDBFactory where
   makeObject = makeObject . unIDBFactory
 
 instance IsGObject IDBFactory where
-  toGObject = GObject . unIDBFactory
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBFactory . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBFactory :: IsGObject obj => obj -> JSM IDBFactory
-castToIDBFactory = castTo gTypeIDBFactory "IDBFactory"
+  typeGType _ = gTypeIDBFactory
+  {-# INLINE typeGType #-}
 
 gTypeIDBFactory :: JSM GType
 gTypeIDBFactory = GType . Object <$> jsg "IDBFactory"
@@ -11045,13 +9986,8 @@ instance MakeObject IDBIndex where
   makeObject = makeObject . unIDBIndex
 
 instance IsGObject IDBIndex where
-  toGObject = GObject . unIDBIndex
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBIndex . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBIndex :: IsGObject obj => obj -> JSM IDBIndex
-castToIDBIndex = castTo gTypeIDBIndex "IDBIndex"
+  typeGType _ = gTypeIDBIndex
+  {-# INLINE typeGType #-}
 
 gTypeIDBIndex :: JSM GType
 gTypeIDBIndex = GType . Object <$> jsg "IDBIndex"
@@ -11084,13 +10020,8 @@ instance MakeObject IDBKeyRange where
   makeObject = makeObject . unIDBKeyRange
 
 instance IsGObject IDBKeyRange where
-  toGObject = GObject . unIDBKeyRange
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBKeyRange . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBKeyRange :: IsGObject obj => obj -> JSM IDBKeyRange
-castToIDBKeyRange = castTo gTypeIDBKeyRange "IDBKeyRange"
+  typeGType _ = gTypeIDBKeyRange
+  {-# INLINE typeGType #-}
 
 gTypeIDBKeyRange :: JSM GType
 gTypeIDBKeyRange = GType . Object <$> jsg "IDBKeyRange"
@@ -11123,13 +10054,8 @@ instance MakeObject IDBObjectStore where
   makeObject = makeObject . unIDBObjectStore
 
 instance IsGObject IDBObjectStore where
-  toGObject = GObject . unIDBObjectStore
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBObjectStore . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBObjectStore :: IsGObject obj => obj -> JSM IDBObjectStore
-castToIDBObjectStore = castTo gTypeIDBObjectStore "IDBObjectStore"
+  typeGType _ = gTypeIDBObjectStore
+  {-# INLINE typeGType #-}
 
 gTypeIDBObjectStore :: JSM GType
 gTypeIDBObjectStore = GType . Object <$> jsg "IDBObjectStore"
@@ -11168,13 +10094,8 @@ instance MakeObject IDBOpenDBRequest where
 instance IsIDBRequest IDBOpenDBRequest
 instance IsEventTarget IDBOpenDBRequest
 instance IsGObject IDBOpenDBRequest where
-  toGObject = GObject . unIDBOpenDBRequest
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBOpenDBRequest . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBOpenDBRequest :: IsGObject obj => obj -> JSM IDBOpenDBRequest
-castToIDBOpenDBRequest = castTo gTypeIDBOpenDBRequest "IDBOpenDBRequest"
+  typeGType _ = gTypeIDBOpenDBRequest
+  {-# INLINE typeGType #-}
 
 gTypeIDBOpenDBRequest :: JSM GType
 gTypeIDBOpenDBRequest = GType . Object <$> jsg "IDBOpenDBRequest"
@@ -11211,18 +10132,13 @@ instance MakeObject IDBRequest where
 
 class IsEventTarget o => IsIDBRequest o
 toIDBRequest :: IsIDBRequest o => o -> IDBRequest
-toIDBRequest = unsafeCastGObject . toGObject
+toIDBRequest = IDBRequest . coerce
 
 instance IsIDBRequest IDBRequest
 instance IsEventTarget IDBRequest
 instance IsGObject IDBRequest where
-  toGObject = GObject . unIDBRequest
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBRequest . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBRequest :: IsGObject obj => obj -> JSM IDBRequest
-castToIDBRequest = castTo gTypeIDBRequest "IDBRequest"
+  typeGType _ = gTypeIDBRequest
+  {-# INLINE typeGType #-}
 
 gTypeIDBRequest :: JSM GType
 gTypeIDBRequest = GType . Object <$> jsg "IDBRequest"
@@ -11259,13 +10175,8 @@ instance MakeObject IDBTransaction where
 
 instance IsEventTarget IDBTransaction
 instance IsGObject IDBTransaction where
-  toGObject = GObject . unIDBTransaction
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBTransaction . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBTransaction :: IsGObject obj => obj -> JSM IDBTransaction
-castToIDBTransaction = castTo gTypeIDBTransaction "IDBTransaction"
+  typeGType _ = gTypeIDBTransaction
+  {-# INLINE typeGType #-}
 
 gTypeIDBTransaction :: JSM GType
 gTypeIDBTransaction = GType . Object <$> jsg "IDBTransaction"
@@ -11302,13 +10213,8 @@ instance MakeObject IDBVersionChangeEvent where
 
 instance IsEvent IDBVersionChangeEvent
 instance IsGObject IDBVersionChangeEvent where
-  toGObject = GObject . unIDBVersionChangeEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = IDBVersionChangeEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToIDBVersionChangeEvent :: IsGObject obj => obj -> JSM IDBVersionChangeEvent
-castToIDBVersionChangeEvent = castTo gTypeIDBVersionChangeEvent "IDBVersionChangeEvent"
+  typeGType _ = gTypeIDBVersionChangeEvent
+  {-# INLINE typeGType #-}
 
 gTypeIDBVersionChangeEvent :: JSM GType
 gTypeIDBVersionChangeEvent = GType . Object <$> jsg "IDBVersionChangeEvent"
@@ -11341,13 +10247,8 @@ instance MakeObject ImageData where
   makeObject = makeObject . unImageData
 
 instance IsGObject ImageData where
-  toGObject = GObject . unImageData
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ImageData . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToImageData :: IsGObject obj => obj -> JSM ImageData
-castToImageData = castTo gTypeImageData "ImageData"
+  typeGType _ = gTypeImageData
+  {-# INLINE typeGType #-}
 
 gTypeImageData :: JSM GType
 gTypeImageData = GType . Object <$> jsg "ImageData"
@@ -11380,13 +10281,8 @@ instance MakeObject InspectorFrontendHost where
   makeObject = makeObject . unInspectorFrontendHost
 
 instance IsGObject InspectorFrontendHost where
-  toGObject = GObject . unInspectorFrontendHost
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = InspectorFrontendHost . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToInspectorFrontendHost :: IsGObject obj => obj -> JSM InspectorFrontendHost
-castToInspectorFrontendHost = castTo gTypeInspectorFrontendHost "InspectorFrontendHost"
+  typeGType _ = gTypeInspectorFrontendHost
+  {-# INLINE typeGType #-}
 
 gTypeInspectorFrontendHost :: JSM GType
 gTypeInspectorFrontendHost = GType . Object <$> jsg "InspectorFrontendHost"
@@ -11421,13 +10317,8 @@ instance MakeObject InternalSettings where
   makeObject = makeObject . unInternalSettings
 
 instance IsGObject InternalSettings where
-  toGObject = GObject . unInternalSettings
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = InternalSettings . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToInternalSettings :: IsGObject obj => obj -> JSM InternalSettings
-castToInternalSettings = castTo gTypeInternalSettings "InternalSettings"
+  typeGType _ = gTypeInternalSettings
+  {-# INLINE typeGType #-}
 
 gTypeInternalSettings :: JSM GType
 gTypeInternalSettings = GType . Object <$> jsg "InternalSettings"
@@ -11460,13 +10351,8 @@ instance MakeObject Internals where
   makeObject = makeObject . unInternals
 
 instance IsGObject Internals where
-  toGObject = GObject . unInternals
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Internals . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToInternals :: IsGObject obj => obj -> JSM Internals
-castToInternals = castTo gTypeInternals "Internals"
+  typeGType _ = gTypeInternals
+  {-# INLINE typeGType #-}
 
 gTypeInternals :: JSM GType
 gTypeInternals = GType . Object <$> jsg "Internals"
@@ -11505,13 +10391,8 @@ instance MakeObject KeyboardEvent where
 instance IsUIEvent KeyboardEvent
 instance IsEvent KeyboardEvent
 instance IsGObject KeyboardEvent where
-  toGObject = GObject . unKeyboardEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = KeyboardEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToKeyboardEvent :: IsGObject obj => obj -> JSM KeyboardEvent
-castToKeyboardEvent = castTo gTypeKeyboardEvent "KeyboardEvent"
+  typeGType _ = gTypeKeyboardEvent
+  {-# INLINE typeGType #-}
 
 gTypeKeyboardEvent :: JSM GType
 gTypeKeyboardEvent = GType . Object <$> jsg "KeyboardEvent"
@@ -11548,13 +10429,8 @@ instance MakeObject Location where
   makeObject = makeObject . unLocation
 
 instance IsGObject Location where
-  toGObject = GObject . unLocation
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Location . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToLocation :: IsGObject obj => obj -> JSM Location
-castToLocation = castTo gTypeLocation "Location"
+  typeGType _ = gTypeLocation
+  {-# INLINE typeGType #-}
 
 gTypeLocation :: JSM GType
 gTypeLocation = GType . Object <$> jsg "Location"
@@ -11589,13 +10465,8 @@ instance MakeObject MallocStatistics where
   makeObject = makeObject . unMallocStatistics
 
 instance IsGObject MallocStatistics where
-  toGObject = GObject . unMallocStatistics
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MallocStatistics . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMallocStatistics :: IsGObject obj => obj -> JSM MallocStatistics
-castToMallocStatistics = castTo gTypeMallocStatistics "MallocStatistics"
+  typeGType _ = gTypeMallocStatistics
+  {-# INLINE typeGType #-}
 
 gTypeMallocStatistics :: JSM GType
 gTypeMallocStatistics = GType . Object <$> jsg "MallocStatistics"
@@ -11632,13 +10503,8 @@ instance MakeObject MediaController where
 
 instance IsEventTarget MediaController
 instance IsGObject MediaController where
-  toGObject = GObject . unMediaController
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaController . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaController :: IsGObject obj => obj -> JSM MediaController
-castToMediaController = castTo gTypeMediaController "MediaController"
+  typeGType _ = gTypeMediaController
+  {-# INLINE typeGType #-}
 
 gTypeMediaController :: JSM GType
 gTypeMediaController = GType . Object <$> jsg "MediaController"
@@ -11671,13 +10537,8 @@ instance MakeObject MediaControlsHost where
   makeObject = makeObject . unMediaControlsHost
 
 instance IsGObject MediaControlsHost where
-  toGObject = GObject . unMediaControlsHost
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaControlsHost . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaControlsHost :: IsGObject obj => obj -> JSM MediaControlsHost
-castToMediaControlsHost = castTo gTypeMediaControlsHost "MediaControlsHost"
+  typeGType _ = gTypeMediaControlsHost
+  {-# INLINE typeGType #-}
 
 gTypeMediaControlsHost :: JSM GType
 gTypeMediaControlsHost = GType . Object <$> jsg "MediaControlsHost"
@@ -11716,13 +10577,8 @@ instance MakeObject MediaElementAudioSourceNode where
 instance IsAudioNode MediaElementAudioSourceNode
 instance IsEventTarget MediaElementAudioSourceNode
 instance IsGObject MediaElementAudioSourceNode where
-  toGObject = GObject . unMediaElementAudioSourceNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaElementAudioSourceNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaElementAudioSourceNode :: IsGObject obj => obj -> JSM MediaElementAudioSourceNode
-castToMediaElementAudioSourceNode = castTo gTypeMediaElementAudioSourceNode "MediaElementAudioSourceNode"
+  typeGType _ = gTypeMediaElementAudioSourceNode
+  {-# INLINE typeGType #-}
 
 gTypeMediaElementAudioSourceNode :: JSM GType
 gTypeMediaElementAudioSourceNode = GType . Object <$> jsg "MediaElementAudioSourceNode"
@@ -11755,13 +10611,8 @@ instance MakeObject MediaError where
   makeObject = makeObject . unMediaError
 
 instance IsGObject MediaError where
-  toGObject = GObject . unMediaError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaError :: IsGObject obj => obj -> JSM MediaError
-castToMediaError = castTo gTypeMediaError "MediaError"
+  typeGType _ = gTypeMediaError
+  {-# INLINE typeGType #-}
 
 gTypeMediaError :: JSM GType
 gTypeMediaError = GType . Object <$> jsg "MediaError"
@@ -11796,13 +10647,8 @@ instance MakeObject MediaKeyError where
   makeObject = makeObject . unMediaKeyError
 
 instance IsGObject MediaKeyError where
-  toGObject = GObject . unMediaKeyError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaKeyError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaKeyError :: IsGObject obj => obj -> JSM MediaKeyError
-castToMediaKeyError = castTo gTypeMediaKeyError "MediaKeyError"
+  typeGType _ = gTypeMediaKeyError
+  {-# INLINE typeGType #-}
 
 gTypeMediaKeyError :: JSM GType
 gTypeMediaKeyError = GType . Object <$> jsg "WebKitMediaKeyError"
@@ -11839,13 +10685,8 @@ instance MakeObject MediaKeyEvent where
 
 instance IsEvent MediaKeyEvent
 instance IsGObject MediaKeyEvent where
-  toGObject = GObject . unMediaKeyEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaKeyEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaKeyEvent :: IsGObject obj => obj -> JSM MediaKeyEvent
-castToMediaKeyEvent = castTo gTypeMediaKeyEvent "MediaKeyEvent"
+  typeGType _ = gTypeMediaKeyEvent
+  {-# INLINE typeGType #-}
 
 gTypeMediaKeyEvent :: JSM GType
 gTypeMediaKeyEvent = GType . Object <$> jsg "MediaKeyEvent"
@@ -11882,13 +10723,8 @@ instance MakeObject MediaKeyMessageEvent where
 
 instance IsEvent MediaKeyMessageEvent
 instance IsGObject MediaKeyMessageEvent where
-  toGObject = GObject . unMediaKeyMessageEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaKeyMessageEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaKeyMessageEvent :: IsGObject obj => obj -> JSM MediaKeyMessageEvent
-castToMediaKeyMessageEvent = castTo gTypeMediaKeyMessageEvent "MediaKeyMessageEvent"
+  typeGType _ = gTypeMediaKeyMessageEvent
+  {-# INLINE typeGType #-}
 
 gTypeMediaKeyMessageEvent :: JSM GType
 gTypeMediaKeyMessageEvent = GType . Object <$> jsg "WebKitMediaKeyMessageEvent"
@@ -11925,13 +10761,8 @@ instance MakeObject MediaKeyNeededEvent where
 
 instance IsEvent MediaKeyNeededEvent
 instance IsGObject MediaKeyNeededEvent where
-  toGObject = GObject . unMediaKeyNeededEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaKeyNeededEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaKeyNeededEvent :: IsGObject obj => obj -> JSM MediaKeyNeededEvent
-castToMediaKeyNeededEvent = castTo gTypeMediaKeyNeededEvent "MediaKeyNeededEvent"
+  typeGType _ = gTypeMediaKeyNeededEvent
+  {-# INLINE typeGType #-}
 
 gTypeMediaKeyNeededEvent :: JSM GType
 gTypeMediaKeyNeededEvent = GType . Object <$> jsg "MediaKeyNeededEvent"
@@ -11968,13 +10799,8 @@ instance MakeObject MediaKeySession where
 
 instance IsEventTarget MediaKeySession
 instance IsGObject MediaKeySession where
-  toGObject = GObject . unMediaKeySession
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaKeySession . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaKeySession :: IsGObject obj => obj -> JSM MediaKeySession
-castToMediaKeySession = castTo gTypeMediaKeySession "MediaKeySession"
+  typeGType _ = gTypeMediaKeySession
+  {-# INLINE typeGType #-}
 
 gTypeMediaKeySession :: JSM GType
 gTypeMediaKeySession = GType . Object <$> jsg "WebKitMediaKeySession"
@@ -12007,13 +10833,8 @@ instance MakeObject MediaKeys where
   makeObject = makeObject . unMediaKeys
 
 instance IsGObject MediaKeys where
-  toGObject = GObject . unMediaKeys
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaKeys . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaKeys :: IsGObject obj => obj -> JSM MediaKeys
-castToMediaKeys = castTo gTypeMediaKeys "MediaKeys"
+  typeGType _ = gTypeMediaKeys
+  {-# INLINE typeGType #-}
 
 gTypeMediaKeys :: JSM GType
 gTypeMediaKeys = GType . Object <$> jsg "WebKitMediaKeys"
@@ -12046,13 +10867,8 @@ instance MakeObject MediaList where
   makeObject = makeObject . unMediaList
 
 instance IsGObject MediaList where
-  toGObject = GObject . unMediaList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaList :: IsGObject obj => obj -> JSM MediaList
-castToMediaList = castTo gTypeMediaList "MediaList"
+  typeGType _ = gTypeMediaList
+  {-# INLINE typeGType #-}
 
 gTypeMediaList :: JSM GType
 gTypeMediaList = GType . Object <$> jsg "MediaList"
@@ -12087,13 +10903,8 @@ instance MakeObject MediaQueryList where
   makeObject = makeObject . unMediaQueryList
 
 instance IsGObject MediaQueryList where
-  toGObject = GObject . unMediaQueryList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaQueryList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaQueryList :: IsGObject obj => obj -> JSM MediaQueryList
-castToMediaQueryList = castTo gTypeMediaQueryList "MediaQueryList"
+  typeGType _ = gTypeMediaQueryList
+  {-# INLINE typeGType #-}
 
 gTypeMediaQueryList :: JSM GType
 gTypeMediaQueryList = GType . Object <$> jsg "MediaQueryList"
@@ -12132,13 +10943,8 @@ instance MakeObject MediaSource where
 
 instance IsEventTarget MediaSource
 instance IsGObject MediaSource where
-  toGObject = GObject . unMediaSource
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaSource . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaSource :: IsGObject obj => obj -> JSM MediaSource
-castToMediaSource = castTo gTypeMediaSource "MediaSource"
+  typeGType _ = gTypeMediaSource
+  {-# INLINE typeGType #-}
 
 gTypeMediaSource :: JSM GType
 gTypeMediaSource = GType . Object <$> jsg "MediaSource"
@@ -12171,13 +10977,8 @@ instance MakeObject MediaSourceStates where
   makeObject = makeObject . unMediaSourceStates
 
 instance IsGObject MediaSourceStates where
-  toGObject = GObject . unMediaSourceStates
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaSourceStates . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaSourceStates :: IsGObject obj => obj -> JSM MediaSourceStates
-castToMediaSourceStates = castTo gTypeMediaSourceStates "MediaSourceStates"
+  typeGType _ = gTypeMediaSourceStates
+  {-# INLINE typeGType #-}
 
 gTypeMediaSourceStates :: JSM GType
 gTypeMediaSourceStates = GType . Object <$> jsg "MediaSourceStates"
@@ -12214,13 +11015,8 @@ instance MakeObject MediaStream where
 
 instance IsEventTarget MediaStream
 instance IsGObject MediaStream where
-  toGObject = GObject . unMediaStream
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStream . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStream :: IsGObject obj => obj -> JSM MediaStream
-castToMediaStream = castTo gTypeMediaStream "MediaStream"
+  typeGType _ = gTypeMediaStream
+  {-# INLINE typeGType #-}
 
 gTypeMediaStream :: JSM GType
 gTypeMediaStream = GType . Object <$> jsg "webkitMediaStream"
@@ -12259,13 +11055,8 @@ instance MakeObject MediaStreamAudioDestinationNode where
 instance IsAudioNode MediaStreamAudioDestinationNode
 instance IsEventTarget MediaStreamAudioDestinationNode
 instance IsGObject MediaStreamAudioDestinationNode where
-  toGObject = GObject . unMediaStreamAudioDestinationNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStreamAudioDestinationNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStreamAudioDestinationNode :: IsGObject obj => obj -> JSM MediaStreamAudioDestinationNode
-castToMediaStreamAudioDestinationNode = castTo gTypeMediaStreamAudioDestinationNode "MediaStreamAudioDestinationNode"
+  typeGType _ = gTypeMediaStreamAudioDestinationNode
+  {-# INLINE typeGType #-}
 
 gTypeMediaStreamAudioDestinationNode :: JSM GType
 gTypeMediaStreamAudioDestinationNode = GType . Object <$> jsg "MediaStreamAudioDestinationNode"
@@ -12304,13 +11095,8 @@ instance MakeObject MediaStreamAudioSourceNode where
 instance IsAudioNode MediaStreamAudioSourceNode
 instance IsEventTarget MediaStreamAudioSourceNode
 instance IsGObject MediaStreamAudioSourceNode where
-  toGObject = GObject . unMediaStreamAudioSourceNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStreamAudioSourceNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStreamAudioSourceNode :: IsGObject obj => obj -> JSM MediaStreamAudioSourceNode
-castToMediaStreamAudioSourceNode = castTo gTypeMediaStreamAudioSourceNode "MediaStreamAudioSourceNode"
+  typeGType _ = gTypeMediaStreamAudioSourceNode
+  {-# INLINE typeGType #-}
 
 gTypeMediaStreamAudioSourceNode :: JSM GType
 gTypeMediaStreamAudioSourceNode = GType . Object <$> jsg "MediaStreamAudioSourceNode"
@@ -12344,17 +11130,12 @@ instance MakeObject MediaStreamCapabilities where
 
 class IsGObject o => IsMediaStreamCapabilities o
 toMediaStreamCapabilities :: IsMediaStreamCapabilities o => o -> MediaStreamCapabilities
-toMediaStreamCapabilities = unsafeCastGObject . toGObject
+toMediaStreamCapabilities = MediaStreamCapabilities . coerce
 
 instance IsMediaStreamCapabilities MediaStreamCapabilities
 instance IsGObject MediaStreamCapabilities where
-  toGObject = GObject . unMediaStreamCapabilities
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStreamCapabilities . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStreamCapabilities :: IsGObject obj => obj -> JSM MediaStreamCapabilities
-castToMediaStreamCapabilities = castTo gTypeMediaStreamCapabilities "MediaStreamCapabilities"
+  typeGType _ = gTypeMediaStreamCapabilities
+  {-# INLINE typeGType #-}
 
 gTypeMediaStreamCapabilities :: JSM GType
 gTypeMediaStreamCapabilities = GType . Object <$> jsg "MediaStreamCapabilities"
@@ -12391,13 +11172,8 @@ instance MakeObject MediaStreamEvent where
 
 instance IsEvent MediaStreamEvent
 instance IsGObject MediaStreamEvent where
-  toGObject = GObject . unMediaStreamEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStreamEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStreamEvent :: IsGObject obj => obj -> JSM MediaStreamEvent
-castToMediaStreamEvent = castTo gTypeMediaStreamEvent "MediaStreamEvent"
+  typeGType _ = gTypeMediaStreamEvent
+  {-# INLINE typeGType #-}
 
 gTypeMediaStreamEvent :: JSM GType
 gTypeMediaStreamEvent = GType . Object <$> jsg "MediaStreamEvent"
@@ -12434,18 +11210,13 @@ instance MakeObject MediaStreamTrack where
 
 class IsEventTarget o => IsMediaStreamTrack o
 toMediaStreamTrack :: IsMediaStreamTrack o => o -> MediaStreamTrack
-toMediaStreamTrack = unsafeCastGObject . toGObject
+toMediaStreamTrack = MediaStreamTrack . coerce
 
 instance IsMediaStreamTrack MediaStreamTrack
 instance IsEventTarget MediaStreamTrack
 instance IsGObject MediaStreamTrack where
-  toGObject = GObject . unMediaStreamTrack
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStreamTrack . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStreamTrack :: IsGObject obj => obj -> JSM MediaStreamTrack
-castToMediaStreamTrack = castTo gTypeMediaStreamTrack "MediaStreamTrack"
+  typeGType _ = gTypeMediaStreamTrack
+  {-# INLINE typeGType #-}
 
 gTypeMediaStreamTrack :: JSM GType
 gTypeMediaStreamTrack = GType . Object <$> jsg "MediaStreamTrack"
@@ -12482,13 +11253,8 @@ instance MakeObject MediaStreamTrackEvent where
 
 instance IsEvent MediaStreamTrackEvent
 instance IsGObject MediaStreamTrackEvent where
-  toGObject = GObject . unMediaStreamTrackEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaStreamTrackEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaStreamTrackEvent :: IsGObject obj => obj -> JSM MediaStreamTrackEvent
-castToMediaStreamTrackEvent = castTo gTypeMediaStreamTrackEvent "MediaStreamTrackEvent"
+  typeGType _ = gTypeMediaStreamTrackEvent
+  {-# INLINE typeGType #-}
 
 gTypeMediaStreamTrackEvent :: JSM GType
 gTypeMediaStreamTrackEvent = GType . Object <$> jsg "MediaStreamTrackEvent"
@@ -12521,13 +11287,8 @@ instance MakeObject MediaTrackConstraint where
   makeObject = makeObject . unMediaTrackConstraint
 
 instance IsGObject MediaTrackConstraint where
-  toGObject = GObject . unMediaTrackConstraint
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaTrackConstraint . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaTrackConstraint :: IsGObject obj => obj -> JSM MediaTrackConstraint
-castToMediaTrackConstraint = castTo gTypeMediaTrackConstraint "MediaTrackConstraint"
+  typeGType _ = gTypeMediaTrackConstraint
+  {-# INLINE typeGType #-}
 
 gTypeMediaTrackConstraint :: JSM GType
 gTypeMediaTrackConstraint = GType . Object <$> jsg "MediaTrackConstraint"
@@ -12560,13 +11321,8 @@ instance MakeObject MediaTrackConstraintSet where
   makeObject = makeObject . unMediaTrackConstraintSet
 
 instance IsGObject MediaTrackConstraintSet where
-  toGObject = GObject . unMediaTrackConstraintSet
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaTrackConstraintSet . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaTrackConstraintSet :: IsGObject obj => obj -> JSM MediaTrackConstraintSet
-castToMediaTrackConstraintSet = castTo gTypeMediaTrackConstraintSet "MediaTrackConstraintSet"
+  typeGType _ = gTypeMediaTrackConstraintSet
+  {-# INLINE typeGType #-}
 
 gTypeMediaTrackConstraintSet :: JSM GType
 gTypeMediaTrackConstraintSet = GType . Object <$> jsg "MediaTrackConstraintSet"
@@ -12599,13 +11355,8 @@ instance MakeObject MediaTrackConstraints where
   makeObject = makeObject . unMediaTrackConstraints
 
 instance IsGObject MediaTrackConstraints where
-  toGObject = GObject . unMediaTrackConstraints
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MediaTrackConstraints . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMediaTrackConstraints :: IsGObject obj => obj -> JSM MediaTrackConstraints
-castToMediaTrackConstraints = castTo gTypeMediaTrackConstraints "MediaTrackConstraints"
+  typeGType _ = gTypeMediaTrackConstraints
+  {-# INLINE typeGType #-}
 
 gTypeMediaTrackConstraints :: JSM GType
 gTypeMediaTrackConstraints = GType . Object <$> jsg "MediaTrackConstraints"
@@ -12638,13 +11389,8 @@ instance MakeObject MemoryInfo where
   makeObject = makeObject . unMemoryInfo
 
 instance IsGObject MemoryInfo where
-  toGObject = GObject . unMemoryInfo
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MemoryInfo . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMemoryInfo :: IsGObject obj => obj -> JSM MemoryInfo
-castToMemoryInfo = castTo gTypeMemoryInfo "MemoryInfo"
+  typeGType _ = gTypeMemoryInfo
+  {-# INLINE typeGType #-}
 
 gTypeMemoryInfo :: JSM GType
 gTypeMemoryInfo = GType . Object <$> jsg "MemoryInfo"
@@ -12677,13 +11423,8 @@ instance MakeObject MessageChannel where
   makeObject = makeObject . unMessageChannel
 
 instance IsGObject MessageChannel where
-  toGObject = GObject . unMessageChannel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MessageChannel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMessageChannel :: IsGObject obj => obj -> JSM MessageChannel
-castToMessageChannel = castTo gTypeMessageChannel "MessageChannel"
+  typeGType _ = gTypeMessageChannel
+  {-# INLINE typeGType #-}
 
 gTypeMessageChannel :: JSM GType
 gTypeMessageChannel = GType . Object <$> jsg "MessageChannel"
@@ -12720,13 +11461,8 @@ instance MakeObject MessageEvent where
 
 instance IsEvent MessageEvent
 instance IsGObject MessageEvent where
-  toGObject = GObject . unMessageEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MessageEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMessageEvent :: IsGObject obj => obj -> JSM MessageEvent
-castToMessageEvent = castTo gTypeMessageEvent "MessageEvent"
+  typeGType _ = gTypeMessageEvent
+  {-# INLINE typeGType #-}
 
 gTypeMessageEvent :: JSM GType
 gTypeMessageEvent = GType . Object <$> jsg "MessageEvent"
@@ -12763,13 +11499,8 @@ instance MakeObject MessagePort where
 
 instance IsEventTarget MessagePort
 instance IsGObject MessagePort where
-  toGObject = GObject . unMessagePort
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MessagePort . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMessagePort :: IsGObject obj => obj -> JSM MessagePort
-castToMessagePort = castTo gTypeMessagePort "MessagePort"
+  typeGType _ = gTypeMessagePort
+  {-# INLINE typeGType #-}
 
 gTypeMessagePort :: JSM GType
 gTypeMessagePort = GType . Object <$> jsg "MessagePort"
@@ -12804,13 +11535,8 @@ instance MakeObject MimeType where
   makeObject = makeObject . unMimeType
 
 instance IsGObject MimeType where
-  toGObject = GObject . unMimeType
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MimeType . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMimeType :: IsGObject obj => obj -> JSM MimeType
-castToMimeType = castTo gTypeMimeType "MimeType"
+  typeGType _ = gTypeMimeType
+  {-# INLINE typeGType #-}
 
 gTypeMimeType :: JSM GType
 gTypeMimeType = GType . Object <$> jsg "MimeType"
@@ -12845,13 +11571,8 @@ instance MakeObject MimeTypeArray where
   makeObject = makeObject . unMimeTypeArray
 
 instance IsGObject MimeTypeArray where
-  toGObject = GObject . unMimeTypeArray
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MimeTypeArray . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMimeTypeArray :: IsGObject obj => obj -> JSM MimeTypeArray
-castToMimeTypeArray = castTo gTypeMimeTypeArray "MimeTypeArray"
+  typeGType _ = gTypeMimeTypeArray
+  {-# INLINE typeGType #-}
 
 gTypeMimeTypeArray :: JSM GType
 gTypeMimeTypeArray = GType . Object <$> jsg "MimeTypeArray"
@@ -12891,19 +11612,14 @@ instance MakeObject MouseEvent where
 
 class IsUIEvent o => IsMouseEvent o
 toMouseEvent :: IsMouseEvent o => o -> MouseEvent
-toMouseEvent = unsafeCastGObject . toGObject
+toMouseEvent = MouseEvent . coerce
 
 instance IsMouseEvent MouseEvent
 instance IsUIEvent MouseEvent
 instance IsEvent MouseEvent
 instance IsGObject MouseEvent where
-  toGObject = GObject . unMouseEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MouseEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMouseEvent :: IsGObject obj => obj -> JSM MouseEvent
-castToMouseEvent = castTo gTypeMouseEvent "MouseEvent"
+  typeGType _ = gTypeMouseEvent
+  {-# INLINE typeGType #-}
 
 gTypeMouseEvent :: JSM GType
 gTypeMouseEvent = GType . Object <$> jsg "MouseEvent"
@@ -12942,13 +11658,8 @@ instance MakeObject MutationEvent where
 
 instance IsEvent MutationEvent
 instance IsGObject MutationEvent where
-  toGObject = GObject . unMutationEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MutationEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMutationEvent :: IsGObject obj => obj -> JSM MutationEvent
-castToMutationEvent = castTo gTypeMutationEvent "MutationEvent"
+  typeGType _ = gTypeMutationEvent
+  {-# INLINE typeGType #-}
 
 gTypeMutationEvent :: JSM GType
 gTypeMutationEvent = GType . Object <$> jsg "MutationEvent"
@@ -12981,13 +11692,8 @@ instance MakeObject MutationObserver where
   makeObject = makeObject . unMutationObserver
 
 instance IsGObject MutationObserver where
-  toGObject = GObject . unMutationObserver
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MutationObserver . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMutationObserver :: IsGObject obj => obj -> JSM MutationObserver
-castToMutationObserver = castTo gTypeMutationObserver "MutationObserver"
+  typeGType _ = gTypeMutationObserver
+  {-# INLINE typeGType #-}
 
 gTypeMutationObserver :: JSM GType
 gTypeMutationObserver = GType . Object <$> jsg "MutationObserver"
@@ -13020,13 +11726,8 @@ instance MakeObject MutationRecord where
   makeObject = makeObject . unMutationRecord
 
 instance IsGObject MutationRecord where
-  toGObject = GObject . unMutationRecord
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = MutationRecord . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToMutationRecord :: IsGObject obj => obj -> JSM MutationRecord
-castToMutationRecord = castTo gTypeMutationRecord "MutationRecord"
+  typeGType _ = gTypeMutationRecord
+  {-# INLINE typeGType #-}
 
 gTypeMutationRecord :: JSM GType
 gTypeMutationRecord = GType . Object <$> jsg "MutationRecord"
@@ -13059,13 +11760,8 @@ instance MakeObject NamedNodeMap where
   makeObject = makeObject . unNamedNodeMap
 
 instance IsGObject NamedNodeMap where
-  toGObject = GObject . unNamedNodeMap
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = NamedNodeMap . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNamedNodeMap :: IsGObject obj => obj -> JSM NamedNodeMap
-castToNamedNodeMap = castTo gTypeNamedNodeMap "NamedNodeMap"
+  typeGType _ = gTypeNamedNodeMap
+  {-# INLINE typeGType #-}
 
 gTypeNamedNodeMap :: JSM GType
 gTypeNamedNodeMap = GType . Object <$> jsg "NamedNodeMap"
@@ -13100,13 +11796,8 @@ instance MakeObject Navigator where
   makeObject = makeObject . unNavigator
 
 instance IsGObject Navigator where
-  toGObject = GObject . unNavigator
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Navigator . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNavigator :: IsGObject obj => obj -> JSM Navigator
-castToNavigator = castTo gTypeNavigator "Navigator"
+  typeGType _ = gTypeNavigator
+  {-# INLINE typeGType #-}
 
 gTypeNavigator :: JSM GType
 gTypeNavigator = GType . Object <$> jsg "Navigator"
@@ -13145,13 +11836,8 @@ instance MakeObject NavigatorUserMediaError where
 
 instance IsDOMError NavigatorUserMediaError
 instance IsGObject NavigatorUserMediaError where
-  toGObject = GObject . unNavigatorUserMediaError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = NavigatorUserMediaError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNavigatorUserMediaError :: IsGObject obj => obj -> JSM NavigatorUserMediaError
-castToNavigatorUserMediaError = castTo gTypeNavigatorUserMediaError "NavigatorUserMediaError"
+  typeGType _ = gTypeNavigatorUserMediaError
+  {-# INLINE typeGType #-}
 
 gTypeNavigatorUserMediaError :: JSM GType
 gTypeNavigatorUserMediaError = GType . Object <$> jsg "NavigatorUserMediaError"
@@ -13188,18 +11874,13 @@ instance MakeObject Node where
 
 class IsEventTarget o => IsNode o
 toNode :: IsNode o => o -> Node
-toNode = unsafeCastGObject . toGObject
+toNode = Node . coerce
 
 instance IsNode Node
 instance IsEventTarget Node
 instance IsGObject Node where
-  toGObject = GObject . unNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Node . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNode :: IsGObject obj => obj -> JSM Node
-castToNode = castTo gTypeNode "Node"
+  typeGType _ = gTypeNode
+  {-# INLINE typeGType #-}
 
 gTypeNode :: JSM GType
 gTypeNode = GType . Object <$> jsg "Node"
@@ -13234,13 +11915,8 @@ instance MakeObject NodeFilter where
   makeObject = makeObject . unNodeFilter
 
 instance IsGObject NodeFilter where
-  toGObject = GObject . unNodeFilter
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = NodeFilter . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNodeFilter :: IsGObject obj => obj -> JSM NodeFilter
-castToNodeFilter = castTo gTypeNodeFilter "NodeFilter"
+  typeGType _ = gTypeNodeFilter
+  {-# INLINE typeGType #-}
 
 gTypeNodeFilter :: JSM GType
 gTypeNodeFilter = GType . Object <$> jsg "NodeFilter"
@@ -13275,13 +11951,8 @@ instance MakeObject NodeIterator where
   makeObject = makeObject . unNodeIterator
 
 instance IsGObject NodeIterator where
-  toGObject = GObject . unNodeIterator
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = NodeIterator . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNodeIterator :: IsGObject obj => obj -> JSM NodeIterator
-castToNodeIterator = castTo gTypeNodeIterator "NodeIterator"
+  typeGType _ = gTypeNodeIterator
+  {-# INLINE typeGType #-}
 
 gTypeNodeIterator :: JSM GType
 gTypeNodeIterator = GType . Object <$> jsg "NodeIterator"
@@ -13317,17 +11988,12 @@ instance MakeObject NodeList where
 
 class IsGObject o => IsNodeList o
 toNodeList :: IsNodeList o => o -> NodeList
-toNodeList = unsafeCastGObject . toGObject
+toNodeList = NodeList . coerce
 
 instance IsNodeList NodeList
 instance IsGObject NodeList where
-  toGObject = GObject . unNodeList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = NodeList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNodeList :: IsGObject obj => obj -> JSM NodeList
-castToNodeList = castTo gTypeNodeList "NodeList"
+  typeGType _ = gTypeNodeList
+  {-# INLINE typeGType #-}
 
 gTypeNodeList :: JSM GType
 gTypeNodeList = GType . Object <$> jsg "NodeList"
@@ -13366,13 +12032,8 @@ instance MakeObject Notification where
 
 instance IsEventTarget Notification
 instance IsGObject Notification where
-  toGObject = GObject . unNotification
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Notification . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNotification :: IsGObject obj => obj -> JSM Notification
-castToNotification = castTo gTypeNotification "Notification"
+  typeGType _ = gTypeNotification
+  {-# INLINE typeGType #-}
 
 gTypeNotification :: JSM GType
 gTypeNotification = GType . Object <$> jsg "Notification"
@@ -13405,13 +12066,8 @@ instance MakeObject NotificationCenter where
   makeObject = makeObject . unNotificationCenter
 
 instance IsGObject NotificationCenter where
-  toGObject = GObject . unNotificationCenter
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = NotificationCenter . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToNotificationCenter :: IsGObject obj => obj -> JSM NotificationCenter
-castToNotificationCenter = castTo gTypeNotificationCenter "NotificationCenter"
+  typeGType _ = gTypeNotificationCenter
+  {-# INLINE typeGType #-}
 
 gTypeNotificationCenter :: JSM GType
 gTypeNotificationCenter = GType . Object <$> jsg "NotificationCenter"
@@ -13444,13 +12100,8 @@ instance MakeObject OESElementIndexUint where
   makeObject = makeObject . unOESElementIndexUint
 
 instance IsGObject OESElementIndexUint where
-  toGObject = GObject . unOESElementIndexUint
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESElementIndexUint . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESElementIndexUint :: IsGObject obj => obj -> JSM OESElementIndexUint
-castToOESElementIndexUint = castTo gTypeOESElementIndexUint "OESElementIndexUint"
+  typeGType _ = gTypeOESElementIndexUint
+  {-# INLINE typeGType #-}
 
 gTypeOESElementIndexUint :: JSM GType
 gTypeOESElementIndexUint = GType . Object <$> jsg "OESElementIndexUint"
@@ -13483,13 +12134,8 @@ instance MakeObject OESStandardDerivatives where
   makeObject = makeObject . unOESStandardDerivatives
 
 instance IsGObject OESStandardDerivatives where
-  toGObject = GObject . unOESStandardDerivatives
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESStandardDerivatives . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESStandardDerivatives :: IsGObject obj => obj -> JSM OESStandardDerivatives
-castToOESStandardDerivatives = castTo gTypeOESStandardDerivatives "OESStandardDerivatives"
+  typeGType _ = gTypeOESStandardDerivatives
+  {-# INLINE typeGType #-}
 
 gTypeOESStandardDerivatives :: JSM GType
 gTypeOESStandardDerivatives = GType . Object <$> jsg "OESStandardDerivatives"
@@ -13522,13 +12168,8 @@ instance MakeObject OESTextureFloat where
   makeObject = makeObject . unOESTextureFloat
 
 instance IsGObject OESTextureFloat where
-  toGObject = GObject . unOESTextureFloat
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESTextureFloat . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESTextureFloat :: IsGObject obj => obj -> JSM OESTextureFloat
-castToOESTextureFloat = castTo gTypeOESTextureFloat "OESTextureFloat"
+  typeGType _ = gTypeOESTextureFloat
+  {-# INLINE typeGType #-}
 
 gTypeOESTextureFloat :: JSM GType
 gTypeOESTextureFloat = GType . Object <$> jsg "OESTextureFloat"
@@ -13561,13 +12202,8 @@ instance MakeObject OESTextureFloatLinear where
   makeObject = makeObject . unOESTextureFloatLinear
 
 instance IsGObject OESTextureFloatLinear where
-  toGObject = GObject . unOESTextureFloatLinear
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESTextureFloatLinear . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESTextureFloatLinear :: IsGObject obj => obj -> JSM OESTextureFloatLinear
-castToOESTextureFloatLinear = castTo gTypeOESTextureFloatLinear "OESTextureFloatLinear"
+  typeGType _ = gTypeOESTextureFloatLinear
+  {-# INLINE typeGType #-}
 
 gTypeOESTextureFloatLinear :: JSM GType
 gTypeOESTextureFloatLinear = GType . Object <$> jsg "OESTextureFloatLinear"
@@ -13600,13 +12236,8 @@ instance MakeObject OESTextureHalfFloat where
   makeObject = makeObject . unOESTextureHalfFloat
 
 instance IsGObject OESTextureHalfFloat where
-  toGObject = GObject . unOESTextureHalfFloat
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESTextureHalfFloat . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESTextureHalfFloat :: IsGObject obj => obj -> JSM OESTextureHalfFloat
-castToOESTextureHalfFloat = castTo gTypeOESTextureHalfFloat "OESTextureHalfFloat"
+  typeGType _ = gTypeOESTextureHalfFloat
+  {-# INLINE typeGType #-}
 
 gTypeOESTextureHalfFloat :: JSM GType
 gTypeOESTextureHalfFloat = GType . Object <$> jsg "OESTextureHalfFloat"
@@ -13639,13 +12270,8 @@ instance MakeObject OESTextureHalfFloatLinear where
   makeObject = makeObject . unOESTextureHalfFloatLinear
 
 instance IsGObject OESTextureHalfFloatLinear where
-  toGObject = GObject . unOESTextureHalfFloatLinear
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESTextureHalfFloatLinear . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESTextureHalfFloatLinear :: IsGObject obj => obj -> JSM OESTextureHalfFloatLinear
-castToOESTextureHalfFloatLinear = castTo gTypeOESTextureHalfFloatLinear "OESTextureHalfFloatLinear"
+  typeGType _ = gTypeOESTextureHalfFloatLinear
+  {-# INLINE typeGType #-}
 
 gTypeOESTextureHalfFloatLinear :: JSM GType
 gTypeOESTextureHalfFloatLinear = GType . Object <$> jsg "OESTextureHalfFloatLinear"
@@ -13678,13 +12304,8 @@ instance MakeObject OESVertexArrayObject where
   makeObject = makeObject . unOESVertexArrayObject
 
 instance IsGObject OESVertexArrayObject where
-  toGObject = GObject . unOESVertexArrayObject
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OESVertexArrayObject . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOESVertexArrayObject :: IsGObject obj => obj -> JSM OESVertexArrayObject
-castToOESVertexArrayObject = castTo gTypeOESVertexArrayObject "OESVertexArrayObject"
+  typeGType _ = gTypeOESVertexArrayObject
+  {-# INLINE typeGType #-}
 
 gTypeOESVertexArrayObject :: JSM GType
 gTypeOESVertexArrayObject = GType . Object <$> jsg "OESVertexArrayObject"
@@ -13721,13 +12342,8 @@ instance MakeObject OfflineAudioCompletionEvent where
 
 instance IsEvent OfflineAudioCompletionEvent
 instance IsGObject OfflineAudioCompletionEvent where
-  toGObject = GObject . unOfflineAudioCompletionEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OfflineAudioCompletionEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOfflineAudioCompletionEvent :: IsGObject obj => obj -> JSM OfflineAudioCompletionEvent
-castToOfflineAudioCompletionEvent = castTo gTypeOfflineAudioCompletionEvent "OfflineAudioCompletionEvent"
+  typeGType _ = gTypeOfflineAudioCompletionEvent
+  {-# INLINE typeGType #-}
 
 gTypeOfflineAudioCompletionEvent :: JSM GType
 gTypeOfflineAudioCompletionEvent = GType . Object <$> jsg "OfflineAudioCompletionEvent"
@@ -13766,13 +12382,8 @@ instance MakeObject OfflineAudioContext where
 instance IsAudioContext OfflineAudioContext
 instance IsEventTarget OfflineAudioContext
 instance IsGObject OfflineAudioContext where
-  toGObject = GObject . unOfflineAudioContext
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OfflineAudioContext . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOfflineAudioContext :: IsGObject obj => obj -> JSM OfflineAudioContext
-castToOfflineAudioContext = castTo gTypeOfflineAudioContext "OfflineAudioContext"
+  typeGType _ = gTypeOfflineAudioContext
+  {-# INLINE typeGType #-}
 
 gTypeOfflineAudioContext :: JSM GType
 gTypeOfflineAudioContext = GType . Object <$> jsg "OfflineAudioContext"
@@ -13811,13 +12422,8 @@ instance MakeObject OscillatorNode where
 instance IsAudioNode OscillatorNode
 instance IsEventTarget OscillatorNode
 instance IsGObject OscillatorNode where
-  toGObject = GObject . unOscillatorNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OscillatorNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOscillatorNode :: IsGObject obj => obj -> JSM OscillatorNode
-castToOscillatorNode = castTo gTypeOscillatorNode "OscillatorNode"
+  typeGType _ = gTypeOscillatorNode
+  {-# INLINE typeGType #-}
 
 gTypeOscillatorNode :: JSM GType
 gTypeOscillatorNode = GType . Object <$> jsg "OscillatorNode"
@@ -13854,13 +12460,8 @@ instance MakeObject OverflowEvent where
 
 instance IsEvent OverflowEvent
 instance IsGObject OverflowEvent where
-  toGObject = GObject . unOverflowEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = OverflowEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToOverflowEvent :: IsGObject obj => obj -> JSM OverflowEvent
-castToOverflowEvent = castTo gTypeOverflowEvent "OverflowEvent"
+  typeGType _ = gTypeOverflowEvent
+  {-# INLINE typeGType #-}
 
 gTypeOverflowEvent :: JSM GType
 gTypeOverflowEvent = GType . Object <$> jsg "OverflowEvent"
@@ -13897,13 +12498,8 @@ instance MakeObject PageTransitionEvent where
 
 instance IsEvent PageTransitionEvent
 instance IsGObject PageTransitionEvent where
-  toGObject = GObject . unPageTransitionEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PageTransitionEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPageTransitionEvent :: IsGObject obj => obj -> JSM PageTransitionEvent
-castToPageTransitionEvent = castTo gTypePageTransitionEvent "PageTransitionEvent"
+  typeGType _ = gTypePageTransitionEvent
+  {-# INLINE typeGType #-}
 
 gTypePageTransitionEvent :: JSM GType
 gTypePageTransitionEvent = GType . Object <$> jsg "PageTransitionEvent"
@@ -13942,13 +12538,8 @@ instance MakeObject PannerNode where
 instance IsAudioNode PannerNode
 instance IsEventTarget PannerNode
 instance IsGObject PannerNode where
-  toGObject = GObject . unPannerNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PannerNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPannerNode :: IsGObject obj => obj -> JSM PannerNode
-castToPannerNode = castTo gTypePannerNode "PannerNode"
+  typeGType _ = gTypePannerNode
+  {-# INLINE typeGType #-}
 
 gTypePannerNode :: JSM GType
 gTypePannerNode = GType . Object <$> jsg "webkitAudioPannerNode"
@@ -13981,13 +12572,8 @@ instance MakeObject Path2D where
   makeObject = makeObject . unPath2D
 
 instance IsGObject Path2D where
-  toGObject = GObject . unPath2D
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Path2D . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPath2D :: IsGObject obj => obj -> JSM Path2D
-castToPath2D = castTo gTypePath2D "Path2D"
+  typeGType _ = gTypePath2D
+  {-# INLINE typeGType #-}
 
 gTypePath2D :: JSM GType
 gTypePath2D = GType . Object <$> jsg "Path2D"
@@ -14024,13 +12610,8 @@ instance MakeObject Performance where
 
 instance IsEventTarget Performance
 instance IsGObject Performance where
-  toGObject = GObject . unPerformance
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Performance . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformance :: IsGObject obj => obj -> JSM Performance
-castToPerformance = castTo gTypePerformance "Performance"
+  typeGType _ = gTypePerformance
+  {-# INLINE typeGType #-}
 
 gTypePerformance :: JSM GType
 gTypePerformance = GType . Object <$> jsg "Performance"
@@ -14068,17 +12649,12 @@ instance MakeObject PerformanceEntry where
 
 class IsGObject o => IsPerformanceEntry o
 toPerformanceEntry :: IsPerformanceEntry o => o -> PerformanceEntry
-toPerformanceEntry = unsafeCastGObject . toGObject
+toPerformanceEntry = PerformanceEntry . coerce
 
 instance IsPerformanceEntry PerformanceEntry
 instance IsGObject PerformanceEntry where
-  toGObject = GObject . unPerformanceEntry
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceEntry . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceEntry :: IsGObject obj => obj -> JSM PerformanceEntry
-castToPerformanceEntry = castTo gTypePerformanceEntry "PerformanceEntry"
+  typeGType _ = gTypePerformanceEntry
+  {-# INLINE typeGType #-}
 
 gTypePerformanceEntry :: JSM GType
 gTypePerformanceEntry = GType . Object <$> jsg "PerformanceEntry"
@@ -14111,13 +12687,8 @@ instance MakeObject PerformanceEntryList where
   makeObject = makeObject . unPerformanceEntryList
 
 instance IsGObject PerformanceEntryList where
-  toGObject = GObject . unPerformanceEntryList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceEntryList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceEntryList :: IsGObject obj => obj -> JSM PerformanceEntryList
-castToPerformanceEntryList = castTo gTypePerformanceEntryList "PerformanceEntryList"
+  typeGType _ = gTypePerformanceEntryList
+  {-# INLINE typeGType #-}
 
 gTypePerformanceEntryList :: JSM GType
 gTypePerformanceEntryList = GType . Object <$> jsg "PerformanceEntryList"
@@ -14154,13 +12725,8 @@ instance MakeObject PerformanceMark where
 
 instance IsPerformanceEntry PerformanceMark
 instance IsGObject PerformanceMark where
-  toGObject = GObject . unPerformanceMark
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceMark . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceMark :: IsGObject obj => obj -> JSM PerformanceMark
-castToPerformanceMark = castTo gTypePerformanceMark "PerformanceMark"
+  typeGType _ = gTypePerformanceMark
+  {-# INLINE typeGType #-}
 
 gTypePerformanceMark :: JSM GType
 gTypePerformanceMark = GType . Object <$> jsg "PerformanceMark"
@@ -14197,13 +12763,8 @@ instance MakeObject PerformanceMeasure where
 
 instance IsPerformanceEntry PerformanceMeasure
 instance IsGObject PerformanceMeasure where
-  toGObject = GObject . unPerformanceMeasure
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceMeasure . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceMeasure :: IsGObject obj => obj -> JSM PerformanceMeasure
-castToPerformanceMeasure = castTo gTypePerformanceMeasure "PerformanceMeasure"
+  typeGType _ = gTypePerformanceMeasure
+  {-# INLINE typeGType #-}
 
 gTypePerformanceMeasure :: JSM GType
 gTypePerformanceMeasure = GType . Object <$> jsg "PerformanceMeasure"
@@ -14236,13 +12797,8 @@ instance MakeObject PerformanceNavigation where
   makeObject = makeObject . unPerformanceNavigation
 
 instance IsGObject PerformanceNavigation where
-  toGObject = GObject . unPerformanceNavigation
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceNavigation . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceNavigation :: IsGObject obj => obj -> JSM PerformanceNavigation
-castToPerformanceNavigation = castTo gTypePerformanceNavigation "PerformanceNavigation"
+  typeGType _ = gTypePerformanceNavigation
+  {-# INLINE typeGType #-}
 
 gTypePerformanceNavigation :: JSM GType
 gTypePerformanceNavigation = GType . Object <$> jsg "PerformanceNavigation"
@@ -14283,13 +12839,8 @@ instance MakeObject PerformanceResourceTiming where
 
 instance IsPerformanceEntry PerformanceResourceTiming
 instance IsGObject PerformanceResourceTiming where
-  toGObject = GObject . unPerformanceResourceTiming
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceResourceTiming . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceResourceTiming :: IsGObject obj => obj -> JSM PerformanceResourceTiming
-castToPerformanceResourceTiming = castTo gTypePerformanceResourceTiming "PerformanceResourceTiming"
+  typeGType _ = gTypePerformanceResourceTiming
+  {-# INLINE typeGType #-}
 
 gTypePerformanceResourceTiming :: JSM GType
 gTypePerformanceResourceTiming = GType . Object <$> jsg "PerformanceResourceTiming"
@@ -14322,13 +12873,8 @@ instance MakeObject PerformanceTiming where
   makeObject = makeObject . unPerformanceTiming
 
 instance IsGObject PerformanceTiming where
-  toGObject = GObject . unPerformanceTiming
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PerformanceTiming . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPerformanceTiming :: IsGObject obj => obj -> JSM PerformanceTiming
-castToPerformanceTiming = castTo gTypePerformanceTiming "PerformanceTiming"
+  typeGType _ = gTypePerformanceTiming
+  {-# INLINE typeGType #-}
 
 gTypePerformanceTiming :: JSM GType
 gTypePerformanceTiming = GType . Object <$> jsg "PerformanceTiming"
@@ -14365,13 +12911,8 @@ instance MakeObject PeriodicWave where
   makeObject = makeObject . unPeriodicWave
 
 instance IsGObject PeriodicWave where
-  toGObject = GObject . unPeriodicWave
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PeriodicWave . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPeriodicWave :: IsGObject obj => obj -> JSM PeriodicWave
-castToPeriodicWave = castTo gTypePeriodicWave "PeriodicWave"
+  typeGType _ = gTypePeriodicWave
+  {-# INLINE typeGType #-}
 
 gTypePeriodicWave :: JSM GType
 gTypePeriodicWave = GType . Object <$> jsg "PeriodicWave"
@@ -14404,13 +12945,8 @@ instance MakeObject Plugin where
   makeObject = makeObject . unPlugin
 
 instance IsGObject Plugin where
-  toGObject = GObject . unPlugin
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Plugin . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPlugin :: IsGObject obj => obj -> JSM Plugin
-castToPlugin = castTo gTypePlugin "Plugin"
+  typeGType _ = gTypePlugin
+  {-# INLINE typeGType #-}
 
 gTypePlugin :: JSM GType
 gTypePlugin = GType . Object <$> jsg "Plugin"
@@ -14445,13 +12981,8 @@ instance MakeObject PluginArray where
   makeObject = makeObject . unPluginArray
 
 instance IsGObject PluginArray where
-  toGObject = GObject . unPluginArray
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PluginArray . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPluginArray :: IsGObject obj => obj -> JSM PluginArray
-castToPluginArray = castTo gTypePluginArray "PluginArray"
+  typeGType _ = gTypePluginArray
+  {-# INLINE typeGType #-}
 
 gTypePluginArray :: JSM GType
 gTypePluginArray = GType . Object <$> jsg "PluginArray"
@@ -14490,13 +13021,8 @@ instance MakeObject PopStateEvent where
 
 instance IsEvent PopStateEvent
 instance IsGObject PopStateEvent where
-  toGObject = GObject . unPopStateEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PopStateEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPopStateEvent :: IsGObject obj => obj -> JSM PopStateEvent
-castToPopStateEvent = castTo gTypePopStateEvent "PopStateEvent"
+  typeGType _ = gTypePopStateEvent
+  {-# INLINE typeGType #-}
 
 gTypePopStateEvent :: JSM GType
 gTypePopStateEvent = GType . Object <$> jsg "PopStateEvent"
@@ -14529,13 +13055,8 @@ instance MakeObject PositionError where
   makeObject = makeObject . unPositionError
 
 instance IsGObject PositionError where
-  toGObject = GObject . unPositionError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = PositionError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToPositionError :: IsGObject obj => obj -> JSM PositionError
-castToPositionError = castTo gTypePositionError "PositionError"
+  typeGType _ = gTypePositionError
+  {-# INLINE typeGType #-}
 
 gTypePositionError :: JSM GType
 gTypePositionError = GType . Object <$> jsg "PositionError"
@@ -14576,13 +13097,8 @@ instance IsCharacterData ProcessingInstruction
 instance IsNode ProcessingInstruction
 instance IsEventTarget ProcessingInstruction
 instance IsGObject ProcessingInstruction where
-  toGObject = GObject . unProcessingInstruction
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ProcessingInstruction . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToProcessingInstruction :: IsGObject obj => obj -> JSM ProcessingInstruction
-castToProcessingInstruction = castTo gTypeProcessingInstruction "ProcessingInstruction"
+  typeGType _ = gTypeProcessingInstruction
+  {-# INLINE typeGType #-}
 
 gTypeProcessingInstruction :: JSM GType
 gTypeProcessingInstruction = GType . Object <$> jsg "ProcessingInstruction"
@@ -14621,18 +13137,13 @@ instance MakeObject ProgressEvent where
 
 class IsEvent o => IsProgressEvent o
 toProgressEvent :: IsProgressEvent o => o -> ProgressEvent
-toProgressEvent = unsafeCastGObject . toGObject
+toProgressEvent = ProgressEvent . coerce
 
 instance IsProgressEvent ProgressEvent
 instance IsEvent ProgressEvent
 instance IsGObject ProgressEvent where
-  toGObject = GObject . unProgressEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ProgressEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToProgressEvent :: IsGObject obj => obj -> JSM ProgressEvent
-castToProgressEvent = castTo gTypeProgressEvent "ProgressEvent"
+  typeGType _ = gTypeProgressEvent
+  {-# INLINE typeGType #-}
 
 gTypeProgressEvent :: JSM GType
 gTypeProgressEvent = GType . Object <$> jsg "ProgressEvent"
@@ -14665,13 +13176,8 @@ instance MakeObject QuickTimePluginReplacement where
   makeObject = makeObject . unQuickTimePluginReplacement
 
 instance IsGObject QuickTimePluginReplacement where
-  toGObject = GObject . unQuickTimePluginReplacement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = QuickTimePluginReplacement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToQuickTimePluginReplacement :: IsGObject obj => obj -> JSM QuickTimePluginReplacement
-castToQuickTimePluginReplacement = castTo gTypeQuickTimePluginReplacement "QuickTimePluginReplacement"
+  typeGType _ = gTypeQuickTimePluginReplacement
+  {-# INLINE typeGType #-}
 
 gTypeQuickTimePluginReplacement :: JSM GType
 gTypeQuickTimePluginReplacement = GType . Object <$> jsg "QuickTimePluginReplacement"
@@ -14704,13 +13210,8 @@ instance MakeObject RGBColor where
   makeObject = makeObject . unRGBColor
 
 instance IsGObject RGBColor where
-  toGObject = GObject . unRGBColor
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RGBColor . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRGBColor :: IsGObject obj => obj -> JSM RGBColor
-castToRGBColor = castTo gTypeRGBColor "RGBColor"
+  typeGType _ = gTypeRGBColor
+  {-# INLINE typeGType #-}
 
 gTypeRGBColor :: JSM GType
 gTypeRGBColor = GType . Object <$> jsg "RGBColor"
@@ -14743,13 +13244,8 @@ instance MakeObject RTCConfiguration where
   makeObject = makeObject . unRTCConfiguration
 
 instance IsGObject RTCConfiguration where
-  toGObject = GObject . unRTCConfiguration
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCConfiguration . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCConfiguration :: IsGObject obj => obj -> JSM RTCConfiguration
-castToRTCConfiguration = castTo gTypeRTCConfiguration "RTCConfiguration"
+  typeGType _ = gTypeRTCConfiguration
+  {-# INLINE typeGType #-}
 
 gTypeRTCConfiguration :: JSM GType
 gTypeRTCConfiguration = GType . Object <$> jsg "RTCConfiguration"
@@ -14786,13 +13282,8 @@ instance MakeObject RTCDTMFSender where
 
 instance IsEventTarget RTCDTMFSender
 instance IsGObject RTCDTMFSender where
-  toGObject = GObject . unRTCDTMFSender
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCDTMFSender . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCDTMFSender :: IsGObject obj => obj -> JSM RTCDTMFSender
-castToRTCDTMFSender = castTo gTypeRTCDTMFSender "RTCDTMFSender"
+  typeGType _ = gTypeRTCDTMFSender
+  {-# INLINE typeGType #-}
 
 gTypeRTCDTMFSender :: JSM GType
 gTypeRTCDTMFSender = GType . Object <$> jsg "RTCDTMFSender"
@@ -14829,13 +13320,8 @@ instance MakeObject RTCDTMFToneChangeEvent where
 
 instance IsEvent RTCDTMFToneChangeEvent
 instance IsGObject RTCDTMFToneChangeEvent where
-  toGObject = GObject . unRTCDTMFToneChangeEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCDTMFToneChangeEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCDTMFToneChangeEvent :: IsGObject obj => obj -> JSM RTCDTMFToneChangeEvent
-castToRTCDTMFToneChangeEvent = castTo gTypeRTCDTMFToneChangeEvent "RTCDTMFToneChangeEvent"
+  typeGType _ = gTypeRTCDTMFToneChangeEvent
+  {-# INLINE typeGType #-}
 
 gTypeRTCDTMFToneChangeEvent :: JSM GType
 gTypeRTCDTMFToneChangeEvent = GType . Object <$> jsg "RTCDTMFToneChangeEvent"
@@ -14872,13 +13358,8 @@ instance MakeObject RTCDataChannel where
 
 instance IsEventTarget RTCDataChannel
 instance IsGObject RTCDataChannel where
-  toGObject = GObject . unRTCDataChannel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCDataChannel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCDataChannel :: IsGObject obj => obj -> JSM RTCDataChannel
-castToRTCDataChannel = castTo gTypeRTCDataChannel "RTCDataChannel"
+  typeGType _ = gTypeRTCDataChannel
+  {-# INLINE typeGType #-}
 
 gTypeRTCDataChannel :: JSM GType
 gTypeRTCDataChannel = GType . Object <$> jsg "RTCDataChannel"
@@ -14915,13 +13396,8 @@ instance MakeObject RTCDataChannelEvent where
 
 instance IsEvent RTCDataChannelEvent
 instance IsGObject RTCDataChannelEvent where
-  toGObject = GObject . unRTCDataChannelEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCDataChannelEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCDataChannelEvent :: IsGObject obj => obj -> JSM RTCDataChannelEvent
-castToRTCDataChannelEvent = castTo gTypeRTCDataChannelEvent "RTCDataChannelEvent"
+  typeGType _ = gTypeRTCDataChannelEvent
+  {-# INLINE typeGType #-}
 
 gTypeRTCDataChannelEvent :: JSM GType
 gTypeRTCDataChannelEvent = GType . Object <$> jsg "RTCDataChannelEvent"
@@ -14954,13 +13430,8 @@ instance MakeObject RTCIceCandidate where
   makeObject = makeObject . unRTCIceCandidate
 
 instance IsGObject RTCIceCandidate where
-  toGObject = GObject . unRTCIceCandidate
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCIceCandidate . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCIceCandidate :: IsGObject obj => obj -> JSM RTCIceCandidate
-castToRTCIceCandidate = castTo gTypeRTCIceCandidate "RTCIceCandidate"
+  typeGType _ = gTypeRTCIceCandidate
+  {-# INLINE typeGType #-}
 
 gTypeRTCIceCandidate :: JSM GType
 gTypeRTCIceCandidate = GType . Object <$> jsg "RTCIceCandidate"
@@ -14997,13 +13468,8 @@ instance MakeObject RTCIceCandidateEvent where
 
 instance IsEvent RTCIceCandidateEvent
 instance IsGObject RTCIceCandidateEvent where
-  toGObject = GObject . unRTCIceCandidateEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCIceCandidateEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCIceCandidateEvent :: IsGObject obj => obj -> JSM RTCIceCandidateEvent
-castToRTCIceCandidateEvent = castTo gTypeRTCIceCandidateEvent "RTCIceCandidateEvent"
+  typeGType _ = gTypeRTCIceCandidateEvent
+  {-# INLINE typeGType #-}
 
 gTypeRTCIceCandidateEvent :: JSM GType
 gTypeRTCIceCandidateEvent = GType . Object <$> jsg "RTCIceCandidateEvent"
@@ -15036,13 +13502,8 @@ instance MakeObject RTCIceServer where
   makeObject = makeObject . unRTCIceServer
 
 instance IsGObject RTCIceServer where
-  toGObject = GObject . unRTCIceServer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCIceServer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCIceServer :: IsGObject obj => obj -> JSM RTCIceServer
-castToRTCIceServer = castTo gTypeRTCIceServer "RTCIceServer"
+  typeGType _ = gTypeRTCIceServer
+  {-# INLINE typeGType #-}
 
 gTypeRTCIceServer :: JSM GType
 gTypeRTCIceServer = GType . Object <$> jsg "RTCIceServer"
@@ -15079,13 +13540,8 @@ instance MakeObject RTCPeerConnection where
 
 instance IsEventTarget RTCPeerConnection
 instance IsGObject RTCPeerConnection where
-  toGObject = GObject . unRTCPeerConnection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCPeerConnection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCPeerConnection :: IsGObject obj => obj -> JSM RTCPeerConnection
-castToRTCPeerConnection = castTo gTypeRTCPeerConnection "RTCPeerConnection"
+  typeGType _ = gTypeRTCPeerConnection
+  {-# INLINE typeGType #-}
 
 gTypeRTCPeerConnection :: JSM GType
 gTypeRTCPeerConnection = GType . Object <$> jsg "webkitRTCPeerConnection"
@@ -15118,13 +13574,8 @@ instance MakeObject RTCSessionDescription where
   makeObject = makeObject . unRTCSessionDescription
 
 instance IsGObject RTCSessionDescription where
-  toGObject = GObject . unRTCSessionDescription
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCSessionDescription . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCSessionDescription :: IsGObject obj => obj -> JSM RTCSessionDescription
-castToRTCSessionDescription = castTo gTypeRTCSessionDescription "RTCSessionDescription"
+  typeGType _ = gTypeRTCSessionDescription
+  {-# INLINE typeGType #-}
 
 gTypeRTCSessionDescription :: JSM GType
 gTypeRTCSessionDescription = GType . Object <$> jsg "RTCSessionDescription"
@@ -15157,13 +13608,8 @@ instance MakeObject RTCStatsReport where
   makeObject = makeObject . unRTCStatsReport
 
 instance IsGObject RTCStatsReport where
-  toGObject = GObject . unRTCStatsReport
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCStatsReport . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCStatsReport :: IsGObject obj => obj -> JSM RTCStatsReport
-castToRTCStatsReport = castTo gTypeRTCStatsReport "RTCStatsReport"
+  typeGType _ = gTypeRTCStatsReport
+  {-# INLINE typeGType #-}
 
 gTypeRTCStatsReport :: JSM GType
 gTypeRTCStatsReport = GType . Object <$> jsg "RTCStatsReport"
@@ -15196,13 +13642,8 @@ instance MakeObject RTCStatsResponse where
   makeObject = makeObject . unRTCStatsResponse
 
 instance IsGObject RTCStatsResponse where
-  toGObject = GObject . unRTCStatsResponse
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RTCStatsResponse . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRTCStatsResponse :: IsGObject obj => obj -> JSM RTCStatsResponse
-castToRTCStatsResponse = castTo gTypeRTCStatsResponse "RTCStatsResponse"
+  typeGType _ = gTypeRTCStatsResponse
+  {-# INLINE typeGType #-}
 
 gTypeRTCStatsResponse :: JSM GType
 gTypeRTCStatsResponse = GType . Object <$> jsg "RTCStatsResponse"
@@ -15239,13 +13680,8 @@ instance MakeObject RadioNodeList where
 
 instance IsNodeList RadioNodeList
 instance IsGObject RadioNodeList where
-  toGObject = GObject . unRadioNodeList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = RadioNodeList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRadioNodeList :: IsGObject obj => obj -> JSM RadioNodeList
-castToRadioNodeList = castTo gTypeRadioNodeList "RadioNodeList"
+  typeGType _ = gTypeRadioNodeList
+  {-# INLINE typeGType #-}
 
 gTypeRadioNodeList :: JSM GType
 gTypeRadioNodeList = GType . Object <$> jsg "RadioNodeList"
@@ -15278,13 +13714,8 @@ instance MakeObject Range where
   makeObject = makeObject . unRange
 
 instance IsGObject Range where
-  toGObject = GObject . unRange
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Range . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRange :: IsGObject obj => obj -> JSM Range
-castToRange = castTo gTypeRange "Range"
+  typeGType _ = gTypeRange
+  {-# INLINE typeGType #-}
 
 gTypeRange :: JSM GType
 gTypeRange = GType . Object <$> jsg "Range"
@@ -15319,13 +13750,8 @@ instance MakeObject ReadableStream where
   makeObject = makeObject . unReadableStream
 
 instance IsGObject ReadableStream where
-  toGObject = GObject . unReadableStream
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ReadableStream . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToReadableStream :: IsGObject obj => obj -> JSM ReadableStream
-castToReadableStream = castTo gTypeReadableStream "ReadableStream"
+  typeGType _ = gTypeReadableStream
+  {-# INLINE typeGType #-}
 
 gTypeReadableStream :: JSM GType
 gTypeReadableStream = GType . Object <$> jsg "ReadableStream"
@@ -15358,13 +13784,8 @@ instance MakeObject Rect where
   makeObject = makeObject . unRect
 
 instance IsGObject Rect where
-  toGObject = GObject . unRect
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Rect . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToRect :: IsGObject obj => obj -> JSM Rect
-castToRect = castTo gTypeRect "Rect"
+  typeGType _ = gTypeRect
+  {-# INLINE typeGType #-}
 
 gTypeRect :: JSM GType
 gTypeRect = GType . Object <$> jsg "Rect"
@@ -15397,13 +13818,8 @@ instance MakeObject SQLError where
   makeObject = makeObject . unSQLError
 
 instance IsGObject SQLError where
-  toGObject = GObject . unSQLError
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SQLError . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSQLError :: IsGObject obj => obj -> JSM SQLError
-castToSQLError = castTo gTypeSQLError "SQLError"
+  typeGType _ = gTypeSQLError
+  {-# INLINE typeGType #-}
 
 gTypeSQLError :: JSM GType
 gTypeSQLError = GType . Object <$> jsg "SQLError"
@@ -15436,13 +13852,8 @@ instance MakeObject SQLResultSet where
   makeObject = makeObject . unSQLResultSet
 
 instance IsGObject SQLResultSet where
-  toGObject = GObject . unSQLResultSet
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SQLResultSet . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSQLResultSet :: IsGObject obj => obj -> JSM SQLResultSet
-castToSQLResultSet = castTo gTypeSQLResultSet "SQLResultSet"
+  typeGType _ = gTypeSQLResultSet
+  {-# INLINE typeGType #-}
 
 gTypeSQLResultSet :: JSM GType
 gTypeSQLResultSet = GType . Object <$> jsg "SQLResultSet"
@@ -15475,13 +13886,8 @@ instance MakeObject SQLResultSetRowList where
   makeObject = makeObject . unSQLResultSetRowList
 
 instance IsGObject SQLResultSetRowList where
-  toGObject = GObject . unSQLResultSetRowList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SQLResultSetRowList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSQLResultSetRowList :: IsGObject obj => obj -> JSM SQLResultSetRowList
-castToSQLResultSetRowList = castTo gTypeSQLResultSetRowList "SQLResultSetRowList"
+  typeGType _ = gTypeSQLResultSetRowList
+  {-# INLINE typeGType #-}
 
 gTypeSQLResultSetRowList :: JSM GType
 gTypeSQLResultSetRowList = GType . Object <$> jsg "SQLResultSetRowList"
@@ -15514,13 +13920,8 @@ instance MakeObject SQLTransaction where
   makeObject = makeObject . unSQLTransaction
 
 instance IsGObject SQLTransaction where
-  toGObject = GObject . unSQLTransaction
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SQLTransaction . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSQLTransaction :: IsGObject obj => obj -> JSM SQLTransaction
-castToSQLTransaction = castTo gTypeSQLTransaction "SQLTransaction"
+  typeGType _ = gTypeSQLTransaction
+  {-# INLINE typeGType #-}
 
 gTypeSQLTransaction :: JSM GType
 gTypeSQLTransaction = GType . Object <$> jsg "SQLTransaction"
@@ -15565,13 +13966,8 @@ instance IsElement SVGAElement
 instance IsNode SVGAElement
 instance IsEventTarget SVGAElement
 instance IsGObject SVGAElement where
-  toGObject = GObject . unSVGAElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAElement :: IsGObject obj => obj -> JSM SVGAElement
-castToSVGAElement = castTo gTypeSVGAElement "SVGAElement"
+  typeGType _ = gTypeSVGAElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAElement :: JSM GType
 gTypeSVGAElement = GType . Object <$> jsg "SVGAElement"
@@ -15614,13 +14010,8 @@ instance IsElement SVGAltGlyphDefElement
 instance IsNode SVGAltGlyphDefElement
 instance IsEventTarget SVGAltGlyphDefElement
 instance IsGObject SVGAltGlyphDefElement where
-  toGObject = GObject . unSVGAltGlyphDefElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAltGlyphDefElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAltGlyphDefElement :: IsGObject obj => obj -> JSM SVGAltGlyphDefElement
-castToSVGAltGlyphDefElement = castTo gTypeSVGAltGlyphDefElement "SVGAltGlyphDefElement"
+  typeGType _ = gTypeSVGAltGlyphDefElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAltGlyphDefElement :: JSM GType
 gTypeSVGAltGlyphDefElement = GType . Object <$> jsg "SVGAltGlyphDefElement"
@@ -15669,13 +14060,8 @@ instance IsElement SVGAltGlyphElement
 instance IsNode SVGAltGlyphElement
 instance IsEventTarget SVGAltGlyphElement
 instance IsGObject SVGAltGlyphElement where
-  toGObject = GObject . unSVGAltGlyphElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAltGlyphElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAltGlyphElement :: IsGObject obj => obj -> JSM SVGAltGlyphElement
-castToSVGAltGlyphElement = castTo gTypeSVGAltGlyphElement "SVGAltGlyphElement"
+  typeGType _ = gTypeSVGAltGlyphElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAltGlyphElement :: JSM GType
 gTypeSVGAltGlyphElement = GType . Object <$> jsg "SVGAltGlyphElement"
@@ -15718,13 +14104,8 @@ instance IsElement SVGAltGlyphItemElement
 instance IsNode SVGAltGlyphItemElement
 instance IsEventTarget SVGAltGlyphItemElement
 instance IsGObject SVGAltGlyphItemElement where
-  toGObject = GObject . unSVGAltGlyphItemElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAltGlyphItemElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAltGlyphItemElement :: IsGObject obj => obj -> JSM SVGAltGlyphItemElement
-castToSVGAltGlyphItemElement = castTo gTypeSVGAltGlyphItemElement "SVGAltGlyphItemElement"
+  typeGType _ = gTypeSVGAltGlyphItemElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAltGlyphItemElement :: JSM GType
 gTypeSVGAltGlyphItemElement = GType . Object <$> jsg "SVGAltGlyphItemElement"
@@ -15757,13 +14138,8 @@ instance MakeObject SVGAngle where
   makeObject = makeObject . unSVGAngle
 
 instance IsGObject SVGAngle where
-  toGObject = GObject . unSVGAngle
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAngle . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAngle :: IsGObject obj => obj -> JSM SVGAngle
-castToSVGAngle = castTo gTypeSVGAngle "SVGAngle"
+  typeGType _ = gTypeSVGAngle
+  {-# INLINE typeGType #-}
 
 gTypeSVGAngle :: JSM GType
 gTypeSVGAngle = GType . Object <$> jsg "SVGAngle"
@@ -15808,13 +14184,8 @@ instance IsElement SVGAnimateColorElement
 instance IsNode SVGAnimateColorElement
 instance IsEventTarget SVGAnimateColorElement
 instance IsGObject SVGAnimateColorElement where
-  toGObject = GObject . unSVGAnimateColorElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimateColorElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimateColorElement :: IsGObject obj => obj -> JSM SVGAnimateColorElement
-castToSVGAnimateColorElement = castTo gTypeSVGAnimateColorElement "SVGAnimateColorElement"
+  typeGType _ = gTypeSVGAnimateColorElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimateColorElement :: JSM GType
 gTypeSVGAnimateColorElement = GType . Object <$> jsg "SVGAnimateColorElement"
@@ -15859,13 +14230,8 @@ instance IsElement SVGAnimateElement
 instance IsNode SVGAnimateElement
 instance IsEventTarget SVGAnimateElement
 instance IsGObject SVGAnimateElement where
-  toGObject = GObject . unSVGAnimateElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimateElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimateElement :: IsGObject obj => obj -> JSM SVGAnimateElement
-castToSVGAnimateElement = castTo gTypeSVGAnimateElement "SVGAnimateElement"
+  typeGType _ = gTypeSVGAnimateElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimateElement :: JSM GType
 gTypeSVGAnimateElement = GType . Object <$> jsg "SVGAnimateElement"
@@ -15910,13 +14276,8 @@ instance IsElement SVGAnimateMotionElement
 instance IsNode SVGAnimateMotionElement
 instance IsEventTarget SVGAnimateMotionElement
 instance IsGObject SVGAnimateMotionElement where
-  toGObject = GObject . unSVGAnimateMotionElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimateMotionElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimateMotionElement :: IsGObject obj => obj -> JSM SVGAnimateMotionElement
-castToSVGAnimateMotionElement = castTo gTypeSVGAnimateMotionElement "SVGAnimateMotionElement"
+  typeGType _ = gTypeSVGAnimateMotionElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimateMotionElement :: JSM GType
 gTypeSVGAnimateMotionElement = GType . Object <$> jsg "SVGAnimateMotionElement"
@@ -15961,13 +14322,8 @@ instance IsElement SVGAnimateTransformElement
 instance IsNode SVGAnimateTransformElement
 instance IsEventTarget SVGAnimateTransformElement
 instance IsGObject SVGAnimateTransformElement where
-  toGObject = GObject . unSVGAnimateTransformElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimateTransformElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimateTransformElement :: IsGObject obj => obj -> JSM SVGAnimateTransformElement
-castToSVGAnimateTransformElement = castTo gTypeSVGAnimateTransformElement "SVGAnimateTransformElement"
+  typeGType _ = gTypeSVGAnimateTransformElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimateTransformElement :: JSM GType
 gTypeSVGAnimateTransformElement = GType . Object <$> jsg "SVGAnimateTransformElement"
@@ -16000,13 +14356,8 @@ instance MakeObject SVGAnimatedAngle where
   makeObject = makeObject . unSVGAnimatedAngle
 
 instance IsGObject SVGAnimatedAngle where
-  toGObject = GObject . unSVGAnimatedAngle
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedAngle . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedAngle :: IsGObject obj => obj -> JSM SVGAnimatedAngle
-castToSVGAnimatedAngle = castTo gTypeSVGAnimatedAngle "SVGAnimatedAngle"
+  typeGType _ = gTypeSVGAnimatedAngle
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedAngle :: JSM GType
 gTypeSVGAnimatedAngle = GType . Object <$> jsg "SVGAnimatedAngle"
@@ -16039,13 +14390,8 @@ instance MakeObject SVGAnimatedBoolean where
   makeObject = makeObject . unSVGAnimatedBoolean
 
 instance IsGObject SVGAnimatedBoolean where
-  toGObject = GObject . unSVGAnimatedBoolean
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedBoolean . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedBoolean :: IsGObject obj => obj -> JSM SVGAnimatedBoolean
-castToSVGAnimatedBoolean = castTo gTypeSVGAnimatedBoolean "SVGAnimatedBoolean"
+  typeGType _ = gTypeSVGAnimatedBoolean
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedBoolean :: JSM GType
 gTypeSVGAnimatedBoolean = GType . Object <$> jsg "SVGAnimatedBoolean"
@@ -16078,13 +14424,8 @@ instance MakeObject SVGAnimatedEnumeration where
   makeObject = makeObject . unSVGAnimatedEnumeration
 
 instance IsGObject SVGAnimatedEnumeration where
-  toGObject = GObject . unSVGAnimatedEnumeration
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedEnumeration . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedEnumeration :: IsGObject obj => obj -> JSM SVGAnimatedEnumeration
-castToSVGAnimatedEnumeration = castTo gTypeSVGAnimatedEnumeration "SVGAnimatedEnumeration"
+  typeGType _ = gTypeSVGAnimatedEnumeration
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedEnumeration :: JSM GType
 gTypeSVGAnimatedEnumeration = GType . Object <$> jsg "SVGAnimatedEnumeration"
@@ -16117,13 +14458,8 @@ instance MakeObject SVGAnimatedInteger where
   makeObject = makeObject . unSVGAnimatedInteger
 
 instance IsGObject SVGAnimatedInteger where
-  toGObject = GObject . unSVGAnimatedInteger
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedInteger . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedInteger :: IsGObject obj => obj -> JSM SVGAnimatedInteger
-castToSVGAnimatedInteger = castTo gTypeSVGAnimatedInteger "SVGAnimatedInteger"
+  typeGType _ = gTypeSVGAnimatedInteger
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedInteger :: JSM GType
 gTypeSVGAnimatedInteger = GType . Object <$> jsg "SVGAnimatedInteger"
@@ -16156,13 +14492,8 @@ instance MakeObject SVGAnimatedLength where
   makeObject = makeObject . unSVGAnimatedLength
 
 instance IsGObject SVGAnimatedLength where
-  toGObject = GObject . unSVGAnimatedLength
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedLength . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedLength :: IsGObject obj => obj -> JSM SVGAnimatedLength
-castToSVGAnimatedLength = castTo gTypeSVGAnimatedLength "SVGAnimatedLength"
+  typeGType _ = gTypeSVGAnimatedLength
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedLength :: JSM GType
 gTypeSVGAnimatedLength = GType . Object <$> jsg "SVGAnimatedLength"
@@ -16195,13 +14526,8 @@ instance MakeObject SVGAnimatedLengthList where
   makeObject = makeObject . unSVGAnimatedLengthList
 
 instance IsGObject SVGAnimatedLengthList where
-  toGObject = GObject . unSVGAnimatedLengthList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedLengthList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedLengthList :: IsGObject obj => obj -> JSM SVGAnimatedLengthList
-castToSVGAnimatedLengthList = castTo gTypeSVGAnimatedLengthList "SVGAnimatedLengthList"
+  typeGType _ = gTypeSVGAnimatedLengthList
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedLengthList :: JSM GType
 gTypeSVGAnimatedLengthList = GType . Object <$> jsg "SVGAnimatedLengthList"
@@ -16234,13 +14560,8 @@ instance MakeObject SVGAnimatedNumber where
   makeObject = makeObject . unSVGAnimatedNumber
 
 instance IsGObject SVGAnimatedNumber where
-  toGObject = GObject . unSVGAnimatedNumber
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedNumber . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedNumber :: IsGObject obj => obj -> JSM SVGAnimatedNumber
-castToSVGAnimatedNumber = castTo gTypeSVGAnimatedNumber "SVGAnimatedNumber"
+  typeGType _ = gTypeSVGAnimatedNumber
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedNumber :: JSM GType
 gTypeSVGAnimatedNumber = GType . Object <$> jsg "SVGAnimatedNumber"
@@ -16273,13 +14594,8 @@ instance MakeObject SVGAnimatedNumberList where
   makeObject = makeObject . unSVGAnimatedNumberList
 
 instance IsGObject SVGAnimatedNumberList where
-  toGObject = GObject . unSVGAnimatedNumberList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedNumberList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedNumberList :: IsGObject obj => obj -> JSM SVGAnimatedNumberList
-castToSVGAnimatedNumberList = castTo gTypeSVGAnimatedNumberList "SVGAnimatedNumberList"
+  typeGType _ = gTypeSVGAnimatedNumberList
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedNumberList :: JSM GType
 gTypeSVGAnimatedNumberList = GType . Object <$> jsg "SVGAnimatedNumberList"
@@ -16312,13 +14628,8 @@ instance MakeObject SVGAnimatedPreserveAspectRatio where
   makeObject = makeObject . unSVGAnimatedPreserveAspectRatio
 
 instance IsGObject SVGAnimatedPreserveAspectRatio where
-  toGObject = GObject . unSVGAnimatedPreserveAspectRatio
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedPreserveAspectRatio . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedPreserveAspectRatio :: IsGObject obj => obj -> JSM SVGAnimatedPreserveAspectRatio
-castToSVGAnimatedPreserveAspectRatio = castTo gTypeSVGAnimatedPreserveAspectRatio "SVGAnimatedPreserveAspectRatio"
+  typeGType _ = gTypeSVGAnimatedPreserveAspectRatio
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedPreserveAspectRatio :: JSM GType
 gTypeSVGAnimatedPreserveAspectRatio = GType . Object <$> jsg "SVGAnimatedPreserveAspectRatio"
@@ -16351,13 +14662,8 @@ instance MakeObject SVGAnimatedRect where
   makeObject = makeObject . unSVGAnimatedRect
 
 instance IsGObject SVGAnimatedRect where
-  toGObject = GObject . unSVGAnimatedRect
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedRect . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedRect :: IsGObject obj => obj -> JSM SVGAnimatedRect
-castToSVGAnimatedRect = castTo gTypeSVGAnimatedRect "SVGAnimatedRect"
+  typeGType _ = gTypeSVGAnimatedRect
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedRect :: JSM GType
 gTypeSVGAnimatedRect = GType . Object <$> jsg "SVGAnimatedRect"
@@ -16390,13 +14696,8 @@ instance MakeObject SVGAnimatedString where
   makeObject = makeObject . unSVGAnimatedString
 
 instance IsGObject SVGAnimatedString where
-  toGObject = GObject . unSVGAnimatedString
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedString . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedString :: IsGObject obj => obj -> JSM SVGAnimatedString
-castToSVGAnimatedString = castTo gTypeSVGAnimatedString "SVGAnimatedString"
+  typeGType _ = gTypeSVGAnimatedString
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedString :: JSM GType
 gTypeSVGAnimatedString = GType . Object <$> jsg "SVGAnimatedString"
@@ -16429,13 +14730,8 @@ instance MakeObject SVGAnimatedTransformList where
   makeObject = makeObject . unSVGAnimatedTransformList
 
 instance IsGObject SVGAnimatedTransformList where
-  toGObject = GObject . unSVGAnimatedTransformList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimatedTransformList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimatedTransformList :: IsGObject obj => obj -> JSM SVGAnimatedTransformList
-castToSVGAnimatedTransformList = castTo gTypeSVGAnimatedTransformList "SVGAnimatedTransformList"
+  typeGType _ = gTypeSVGAnimatedTransformList
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimatedTransformList :: JSM GType
 gTypeSVGAnimatedTransformList = GType . Object <$> jsg "SVGAnimatedTransformList"
@@ -16475,7 +14771,7 @@ instance MakeObject SVGAnimationElement where
 
 class IsSVGElement o => IsSVGAnimationElement o
 toSVGAnimationElement :: IsSVGAnimationElement o => o -> SVGAnimationElement
-toSVGAnimationElement = unsafeCastGObject . toGObject
+toSVGAnimationElement = SVGAnimationElement . coerce
 
 instance IsSVGAnimationElement SVGAnimationElement
 instance IsSVGElement SVGAnimationElement
@@ -16483,13 +14779,8 @@ instance IsElement SVGAnimationElement
 instance IsNode SVGAnimationElement
 instance IsEventTarget SVGAnimationElement
 instance IsGObject SVGAnimationElement where
-  toGObject = GObject . unSVGAnimationElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGAnimationElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGAnimationElement :: IsGObject obj => obj -> JSM SVGAnimationElement
-castToSVGAnimationElement = castTo gTypeSVGAnimationElement "SVGAnimationElement"
+  typeGType _ = gTypeSVGAnimationElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGAnimationElement :: JSM GType
 gTypeSVGAnimationElement = GType . Object <$> jsg "SVGAnimationElement"
@@ -16534,13 +14825,8 @@ instance IsElement SVGCircleElement
 instance IsNode SVGCircleElement
 instance IsEventTarget SVGCircleElement
 instance IsGObject SVGCircleElement where
-  toGObject = GObject . unSVGCircleElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGCircleElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGCircleElement :: IsGObject obj => obj -> JSM SVGCircleElement
-castToSVGCircleElement = castTo gTypeSVGCircleElement "SVGCircleElement"
+  typeGType _ = gTypeSVGCircleElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGCircleElement :: JSM GType
 gTypeSVGCircleElement = GType . Object <$> jsg "SVGCircleElement"
@@ -16585,13 +14871,8 @@ instance IsElement SVGClipPathElement
 instance IsNode SVGClipPathElement
 instance IsEventTarget SVGClipPathElement
 instance IsGObject SVGClipPathElement where
-  toGObject = GObject . unSVGClipPathElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGClipPathElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGClipPathElement :: IsGObject obj => obj -> JSM SVGClipPathElement
-castToSVGClipPathElement = castTo gTypeSVGClipPathElement "SVGClipPathElement"
+  typeGType _ = gTypeSVGClipPathElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGClipPathElement :: JSM GType
 gTypeSVGClipPathElement = GType . Object <$> jsg "SVGClipPathElement"
@@ -16628,18 +14909,13 @@ instance MakeObject SVGColor where
 
 class IsCSSValue o => IsSVGColor o
 toSVGColor :: IsSVGColor o => o -> SVGColor
-toSVGColor = unsafeCastGObject . toGObject
+toSVGColor = SVGColor . coerce
 
 instance IsSVGColor SVGColor
 instance IsCSSValue SVGColor
 instance IsGObject SVGColor where
-  toGObject = GObject . unSVGColor
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGColor . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGColor :: IsGObject obj => obj -> JSM SVGColor
-castToSVGColor = castTo gTypeSVGColor "SVGColor"
+  typeGType _ = gTypeSVGColor
+  {-# INLINE typeGType #-}
 
 gTypeSVGColor :: JSM GType
 gTypeSVGColor = GType . Object <$> jsg "SVGColor"
@@ -16679,7 +14955,7 @@ instance MakeObject SVGComponentTransferFunctionElement where
 
 class IsSVGElement o => IsSVGComponentTransferFunctionElement o
 toSVGComponentTransferFunctionElement :: IsSVGComponentTransferFunctionElement o => o -> SVGComponentTransferFunctionElement
-toSVGComponentTransferFunctionElement = unsafeCastGObject . toGObject
+toSVGComponentTransferFunctionElement = SVGComponentTransferFunctionElement . coerce
 
 instance IsSVGComponentTransferFunctionElement SVGComponentTransferFunctionElement
 instance IsSVGElement SVGComponentTransferFunctionElement
@@ -16687,13 +14963,8 @@ instance IsElement SVGComponentTransferFunctionElement
 instance IsNode SVGComponentTransferFunctionElement
 instance IsEventTarget SVGComponentTransferFunctionElement
 instance IsGObject SVGComponentTransferFunctionElement where
-  toGObject = GObject . unSVGComponentTransferFunctionElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGComponentTransferFunctionElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGComponentTransferFunctionElement :: IsGObject obj => obj -> JSM SVGComponentTransferFunctionElement
-castToSVGComponentTransferFunctionElement = castTo gTypeSVGComponentTransferFunctionElement "SVGComponentTransferFunctionElement"
+  typeGType _ = gTypeSVGComponentTransferFunctionElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGComponentTransferFunctionElement :: JSM GType
 gTypeSVGComponentTransferFunctionElement = GType . Object <$> jsg "SVGComponentTransferFunctionElement"
@@ -16736,13 +15007,8 @@ instance IsElement SVGCursorElement
 instance IsNode SVGCursorElement
 instance IsEventTarget SVGCursorElement
 instance IsGObject SVGCursorElement where
-  toGObject = GObject . unSVGCursorElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGCursorElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGCursorElement :: IsGObject obj => obj -> JSM SVGCursorElement
-castToSVGCursorElement = castTo gTypeSVGCursorElement "SVGCursorElement"
+  typeGType _ = gTypeSVGCursorElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGCursorElement :: JSM GType
 gTypeSVGCursorElement = GType . Object <$> jsg "SVGCursorElement"
@@ -16787,13 +15053,8 @@ instance IsElement SVGDefsElement
 instance IsNode SVGDefsElement
 instance IsEventTarget SVGDefsElement
 instance IsGObject SVGDefsElement where
-  toGObject = GObject . unSVGDefsElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGDefsElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGDefsElement :: IsGObject obj => obj -> JSM SVGDefsElement
-castToSVGDefsElement = castTo gTypeSVGDefsElement "SVGDefsElement"
+  typeGType _ = gTypeSVGDefsElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGDefsElement :: JSM GType
 gTypeSVGDefsElement = GType . Object <$> jsg "SVGDefsElement"
@@ -16836,13 +15097,8 @@ instance IsElement SVGDescElement
 instance IsNode SVGDescElement
 instance IsEventTarget SVGDescElement
 instance IsGObject SVGDescElement where
-  toGObject = GObject . unSVGDescElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGDescElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGDescElement :: IsGObject obj => obj -> JSM SVGDescElement
-castToSVGDescElement = castTo gTypeSVGDescElement "SVGDescElement"
+  typeGType _ = gTypeSVGDescElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGDescElement :: JSM GType
 gTypeSVGDescElement = GType . Object <$> jsg "SVGDescElement"
@@ -16883,13 +15139,8 @@ instance IsDocument SVGDocument
 instance IsNode SVGDocument
 instance IsEventTarget SVGDocument
 instance IsGObject SVGDocument where
-  toGObject = GObject . unSVGDocument
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGDocument . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGDocument :: IsGObject obj => obj -> JSM SVGDocument
-castToSVGDocument = castTo gTypeSVGDocument "SVGDocument"
+  typeGType _ = gTypeSVGDocument
+  {-# INLINE typeGType #-}
 
 gTypeSVGDocument :: JSM GType
 gTypeSVGDocument = GType . Object <$> jsg "SVGDocument"
@@ -16928,20 +15179,15 @@ instance MakeObject SVGElement where
 
 class IsElement o => IsSVGElement o
 toSVGElement :: IsSVGElement o => o -> SVGElement
-toSVGElement = unsafeCastGObject . toGObject
+toSVGElement = SVGElement . coerce
 
 instance IsSVGElement SVGElement
 instance IsElement SVGElement
 instance IsNode SVGElement
 instance IsEventTarget SVGElement
 instance IsGObject SVGElement where
-  toGObject = GObject . unSVGElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGElement :: IsGObject obj => obj -> JSM SVGElement
-castToSVGElement = castTo gTypeSVGElement "SVGElement"
+  typeGType _ = gTypeSVGElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGElement :: JSM GType
 gTypeSVGElement = GType . Object <$> jsg "SVGElement"
@@ -16986,13 +15232,8 @@ instance IsElement SVGEllipseElement
 instance IsNode SVGEllipseElement
 instance IsEventTarget SVGEllipseElement
 instance IsGObject SVGEllipseElement where
-  toGObject = GObject . unSVGEllipseElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGEllipseElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGEllipseElement :: IsGObject obj => obj -> JSM SVGEllipseElement
-castToSVGEllipseElement = castTo gTypeSVGEllipseElement "SVGEllipseElement"
+  typeGType _ = gTypeSVGEllipseElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGEllipseElement :: JSM GType
 gTypeSVGEllipseElement = GType . Object <$> jsg "SVGEllipseElement"
@@ -17025,13 +15266,8 @@ instance MakeObject SVGExternalResourcesRequired where
   makeObject = makeObject . unSVGExternalResourcesRequired
 
 instance IsGObject SVGExternalResourcesRequired where
-  toGObject = GObject . unSVGExternalResourcesRequired
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGExternalResourcesRequired . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGExternalResourcesRequired :: IsGObject obj => obj -> JSM SVGExternalResourcesRequired
-castToSVGExternalResourcesRequired = castTo gTypeSVGExternalResourcesRequired "SVGExternalResourcesRequired"
+  typeGType _ = gTypeSVGExternalResourcesRequired
+  {-# INLINE typeGType #-}
 
 gTypeSVGExternalResourcesRequired :: JSM GType
 gTypeSVGExternalResourcesRequired = GType . Object <$> jsg "SVGExternalResourcesRequired"
@@ -17074,13 +15310,8 @@ instance IsElement SVGFEBlendElement
 instance IsNode SVGFEBlendElement
 instance IsEventTarget SVGFEBlendElement
 instance IsGObject SVGFEBlendElement where
-  toGObject = GObject . unSVGFEBlendElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEBlendElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEBlendElement :: IsGObject obj => obj -> JSM SVGFEBlendElement
-castToSVGFEBlendElement = castTo gTypeSVGFEBlendElement "SVGFEBlendElement"
+  typeGType _ = gTypeSVGFEBlendElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEBlendElement :: JSM GType
 gTypeSVGFEBlendElement = GType . Object <$> jsg "SVGFEBlendElement"
@@ -17123,13 +15354,8 @@ instance IsElement SVGFEColorMatrixElement
 instance IsNode SVGFEColorMatrixElement
 instance IsEventTarget SVGFEColorMatrixElement
 instance IsGObject SVGFEColorMatrixElement where
-  toGObject = GObject . unSVGFEColorMatrixElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEColorMatrixElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEColorMatrixElement :: IsGObject obj => obj -> JSM SVGFEColorMatrixElement
-castToSVGFEColorMatrixElement = castTo gTypeSVGFEColorMatrixElement "SVGFEColorMatrixElement"
+  typeGType _ = gTypeSVGFEColorMatrixElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEColorMatrixElement :: JSM GType
 gTypeSVGFEColorMatrixElement = GType . Object <$> jsg "SVGFEColorMatrixElement"
@@ -17172,13 +15398,8 @@ instance IsElement SVGFEComponentTransferElement
 instance IsNode SVGFEComponentTransferElement
 instance IsEventTarget SVGFEComponentTransferElement
 instance IsGObject SVGFEComponentTransferElement where
-  toGObject = GObject . unSVGFEComponentTransferElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEComponentTransferElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEComponentTransferElement :: IsGObject obj => obj -> JSM SVGFEComponentTransferElement
-castToSVGFEComponentTransferElement = castTo gTypeSVGFEComponentTransferElement "SVGFEComponentTransferElement"
+  typeGType _ = gTypeSVGFEComponentTransferElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEComponentTransferElement :: JSM GType
 gTypeSVGFEComponentTransferElement = GType . Object <$> jsg "SVGFEComponentTransferElement"
@@ -17221,13 +15442,8 @@ instance IsElement SVGFECompositeElement
 instance IsNode SVGFECompositeElement
 instance IsEventTarget SVGFECompositeElement
 instance IsGObject SVGFECompositeElement where
-  toGObject = GObject . unSVGFECompositeElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFECompositeElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFECompositeElement :: IsGObject obj => obj -> JSM SVGFECompositeElement
-castToSVGFECompositeElement = castTo gTypeSVGFECompositeElement "SVGFECompositeElement"
+  typeGType _ = gTypeSVGFECompositeElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFECompositeElement :: JSM GType
 gTypeSVGFECompositeElement = GType . Object <$> jsg "SVGFECompositeElement"
@@ -17270,13 +15486,8 @@ instance IsElement SVGFEConvolveMatrixElement
 instance IsNode SVGFEConvolveMatrixElement
 instance IsEventTarget SVGFEConvolveMatrixElement
 instance IsGObject SVGFEConvolveMatrixElement where
-  toGObject = GObject . unSVGFEConvolveMatrixElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEConvolveMatrixElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEConvolveMatrixElement :: IsGObject obj => obj -> JSM SVGFEConvolveMatrixElement
-castToSVGFEConvolveMatrixElement = castTo gTypeSVGFEConvolveMatrixElement "SVGFEConvolveMatrixElement"
+  typeGType _ = gTypeSVGFEConvolveMatrixElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEConvolveMatrixElement :: JSM GType
 gTypeSVGFEConvolveMatrixElement = GType . Object <$> jsg "SVGFEConvolveMatrixElement"
@@ -17319,13 +15530,8 @@ instance IsElement SVGFEDiffuseLightingElement
 instance IsNode SVGFEDiffuseLightingElement
 instance IsEventTarget SVGFEDiffuseLightingElement
 instance IsGObject SVGFEDiffuseLightingElement where
-  toGObject = GObject . unSVGFEDiffuseLightingElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEDiffuseLightingElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEDiffuseLightingElement :: IsGObject obj => obj -> JSM SVGFEDiffuseLightingElement
-castToSVGFEDiffuseLightingElement = castTo gTypeSVGFEDiffuseLightingElement "SVGFEDiffuseLightingElement"
+  typeGType _ = gTypeSVGFEDiffuseLightingElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEDiffuseLightingElement :: JSM GType
 gTypeSVGFEDiffuseLightingElement = GType . Object <$> jsg "SVGFEDiffuseLightingElement"
@@ -17368,13 +15574,8 @@ instance IsElement SVGFEDisplacementMapElement
 instance IsNode SVGFEDisplacementMapElement
 instance IsEventTarget SVGFEDisplacementMapElement
 instance IsGObject SVGFEDisplacementMapElement where
-  toGObject = GObject . unSVGFEDisplacementMapElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEDisplacementMapElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEDisplacementMapElement :: IsGObject obj => obj -> JSM SVGFEDisplacementMapElement
-castToSVGFEDisplacementMapElement = castTo gTypeSVGFEDisplacementMapElement "SVGFEDisplacementMapElement"
+  typeGType _ = gTypeSVGFEDisplacementMapElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEDisplacementMapElement :: JSM GType
 gTypeSVGFEDisplacementMapElement = GType . Object <$> jsg "SVGFEDisplacementMapElement"
@@ -17417,13 +15618,8 @@ instance IsElement SVGFEDistantLightElement
 instance IsNode SVGFEDistantLightElement
 instance IsEventTarget SVGFEDistantLightElement
 instance IsGObject SVGFEDistantLightElement where
-  toGObject = GObject . unSVGFEDistantLightElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEDistantLightElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEDistantLightElement :: IsGObject obj => obj -> JSM SVGFEDistantLightElement
-castToSVGFEDistantLightElement = castTo gTypeSVGFEDistantLightElement "SVGFEDistantLightElement"
+  typeGType _ = gTypeSVGFEDistantLightElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEDistantLightElement :: JSM GType
 gTypeSVGFEDistantLightElement = GType . Object <$> jsg "SVGFEDistantLightElement"
@@ -17466,13 +15662,8 @@ instance IsElement SVGFEDropShadowElement
 instance IsNode SVGFEDropShadowElement
 instance IsEventTarget SVGFEDropShadowElement
 instance IsGObject SVGFEDropShadowElement where
-  toGObject = GObject . unSVGFEDropShadowElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEDropShadowElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEDropShadowElement :: IsGObject obj => obj -> JSM SVGFEDropShadowElement
-castToSVGFEDropShadowElement = castTo gTypeSVGFEDropShadowElement "SVGFEDropShadowElement"
+  typeGType _ = gTypeSVGFEDropShadowElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEDropShadowElement :: JSM GType
 gTypeSVGFEDropShadowElement = GType . Object <$> jsg "SVGFEDropShadowElement"
@@ -17515,13 +15706,8 @@ instance IsElement SVGFEFloodElement
 instance IsNode SVGFEFloodElement
 instance IsEventTarget SVGFEFloodElement
 instance IsGObject SVGFEFloodElement where
-  toGObject = GObject . unSVGFEFloodElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEFloodElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEFloodElement :: IsGObject obj => obj -> JSM SVGFEFloodElement
-castToSVGFEFloodElement = castTo gTypeSVGFEFloodElement "SVGFEFloodElement"
+  typeGType _ = gTypeSVGFEFloodElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEFloodElement :: JSM GType
 gTypeSVGFEFloodElement = GType . Object <$> jsg "SVGFEFloodElement"
@@ -17566,13 +15752,8 @@ instance IsElement SVGFEFuncAElement
 instance IsNode SVGFEFuncAElement
 instance IsEventTarget SVGFEFuncAElement
 instance IsGObject SVGFEFuncAElement where
-  toGObject = GObject . unSVGFEFuncAElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEFuncAElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEFuncAElement :: IsGObject obj => obj -> JSM SVGFEFuncAElement
-castToSVGFEFuncAElement = castTo gTypeSVGFEFuncAElement "SVGFEFuncAElement"
+  typeGType _ = gTypeSVGFEFuncAElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEFuncAElement :: JSM GType
 gTypeSVGFEFuncAElement = GType . Object <$> jsg "SVGFEFuncAElement"
@@ -17617,13 +15798,8 @@ instance IsElement SVGFEFuncBElement
 instance IsNode SVGFEFuncBElement
 instance IsEventTarget SVGFEFuncBElement
 instance IsGObject SVGFEFuncBElement where
-  toGObject = GObject . unSVGFEFuncBElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEFuncBElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEFuncBElement :: IsGObject obj => obj -> JSM SVGFEFuncBElement
-castToSVGFEFuncBElement = castTo gTypeSVGFEFuncBElement "SVGFEFuncBElement"
+  typeGType _ = gTypeSVGFEFuncBElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEFuncBElement :: JSM GType
 gTypeSVGFEFuncBElement = GType . Object <$> jsg "SVGFEFuncBElement"
@@ -17668,13 +15844,8 @@ instance IsElement SVGFEFuncGElement
 instance IsNode SVGFEFuncGElement
 instance IsEventTarget SVGFEFuncGElement
 instance IsGObject SVGFEFuncGElement where
-  toGObject = GObject . unSVGFEFuncGElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEFuncGElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEFuncGElement :: IsGObject obj => obj -> JSM SVGFEFuncGElement
-castToSVGFEFuncGElement = castTo gTypeSVGFEFuncGElement "SVGFEFuncGElement"
+  typeGType _ = gTypeSVGFEFuncGElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEFuncGElement :: JSM GType
 gTypeSVGFEFuncGElement = GType . Object <$> jsg "SVGFEFuncGElement"
@@ -17719,13 +15890,8 @@ instance IsElement SVGFEFuncRElement
 instance IsNode SVGFEFuncRElement
 instance IsEventTarget SVGFEFuncRElement
 instance IsGObject SVGFEFuncRElement where
-  toGObject = GObject . unSVGFEFuncRElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEFuncRElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEFuncRElement :: IsGObject obj => obj -> JSM SVGFEFuncRElement
-castToSVGFEFuncRElement = castTo gTypeSVGFEFuncRElement "SVGFEFuncRElement"
+  typeGType _ = gTypeSVGFEFuncRElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEFuncRElement :: JSM GType
 gTypeSVGFEFuncRElement = GType . Object <$> jsg "SVGFEFuncRElement"
@@ -17768,13 +15934,8 @@ instance IsElement SVGFEGaussianBlurElement
 instance IsNode SVGFEGaussianBlurElement
 instance IsEventTarget SVGFEGaussianBlurElement
 instance IsGObject SVGFEGaussianBlurElement where
-  toGObject = GObject . unSVGFEGaussianBlurElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEGaussianBlurElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEGaussianBlurElement :: IsGObject obj => obj -> JSM SVGFEGaussianBlurElement
-castToSVGFEGaussianBlurElement = castTo gTypeSVGFEGaussianBlurElement "SVGFEGaussianBlurElement"
+  typeGType _ = gTypeSVGFEGaussianBlurElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEGaussianBlurElement :: JSM GType
 gTypeSVGFEGaussianBlurElement = GType . Object <$> jsg "SVGFEGaussianBlurElement"
@@ -17817,13 +15978,8 @@ instance IsElement SVGFEImageElement
 instance IsNode SVGFEImageElement
 instance IsEventTarget SVGFEImageElement
 instance IsGObject SVGFEImageElement where
-  toGObject = GObject . unSVGFEImageElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEImageElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEImageElement :: IsGObject obj => obj -> JSM SVGFEImageElement
-castToSVGFEImageElement = castTo gTypeSVGFEImageElement "SVGFEImageElement"
+  typeGType _ = gTypeSVGFEImageElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEImageElement :: JSM GType
 gTypeSVGFEImageElement = GType . Object <$> jsg "SVGFEImageElement"
@@ -17866,13 +16022,8 @@ instance IsElement SVGFEMergeElement
 instance IsNode SVGFEMergeElement
 instance IsEventTarget SVGFEMergeElement
 instance IsGObject SVGFEMergeElement where
-  toGObject = GObject . unSVGFEMergeElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEMergeElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEMergeElement :: IsGObject obj => obj -> JSM SVGFEMergeElement
-castToSVGFEMergeElement = castTo gTypeSVGFEMergeElement "SVGFEMergeElement"
+  typeGType _ = gTypeSVGFEMergeElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEMergeElement :: JSM GType
 gTypeSVGFEMergeElement = GType . Object <$> jsg "SVGFEMergeElement"
@@ -17915,13 +16066,8 @@ instance IsElement SVGFEMergeNodeElement
 instance IsNode SVGFEMergeNodeElement
 instance IsEventTarget SVGFEMergeNodeElement
 instance IsGObject SVGFEMergeNodeElement where
-  toGObject = GObject . unSVGFEMergeNodeElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEMergeNodeElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEMergeNodeElement :: IsGObject obj => obj -> JSM SVGFEMergeNodeElement
-castToSVGFEMergeNodeElement = castTo gTypeSVGFEMergeNodeElement "SVGFEMergeNodeElement"
+  typeGType _ = gTypeSVGFEMergeNodeElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEMergeNodeElement :: JSM GType
 gTypeSVGFEMergeNodeElement = GType . Object <$> jsg "SVGFEMergeNodeElement"
@@ -17964,13 +16110,8 @@ instance IsElement SVGFEMorphologyElement
 instance IsNode SVGFEMorphologyElement
 instance IsEventTarget SVGFEMorphologyElement
 instance IsGObject SVGFEMorphologyElement where
-  toGObject = GObject . unSVGFEMorphologyElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEMorphologyElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEMorphologyElement :: IsGObject obj => obj -> JSM SVGFEMorphologyElement
-castToSVGFEMorphologyElement = castTo gTypeSVGFEMorphologyElement "SVGFEMorphologyElement"
+  typeGType _ = gTypeSVGFEMorphologyElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEMorphologyElement :: JSM GType
 gTypeSVGFEMorphologyElement = GType . Object <$> jsg "SVGFEMorphologyElement"
@@ -18013,13 +16154,8 @@ instance IsElement SVGFEOffsetElement
 instance IsNode SVGFEOffsetElement
 instance IsEventTarget SVGFEOffsetElement
 instance IsGObject SVGFEOffsetElement where
-  toGObject = GObject . unSVGFEOffsetElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEOffsetElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEOffsetElement :: IsGObject obj => obj -> JSM SVGFEOffsetElement
-castToSVGFEOffsetElement = castTo gTypeSVGFEOffsetElement "SVGFEOffsetElement"
+  typeGType _ = gTypeSVGFEOffsetElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEOffsetElement :: JSM GType
 gTypeSVGFEOffsetElement = GType . Object <$> jsg "SVGFEOffsetElement"
@@ -18062,13 +16198,8 @@ instance IsElement SVGFEPointLightElement
 instance IsNode SVGFEPointLightElement
 instance IsEventTarget SVGFEPointLightElement
 instance IsGObject SVGFEPointLightElement where
-  toGObject = GObject . unSVGFEPointLightElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFEPointLightElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFEPointLightElement :: IsGObject obj => obj -> JSM SVGFEPointLightElement
-castToSVGFEPointLightElement = castTo gTypeSVGFEPointLightElement "SVGFEPointLightElement"
+  typeGType _ = gTypeSVGFEPointLightElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFEPointLightElement :: JSM GType
 gTypeSVGFEPointLightElement = GType . Object <$> jsg "SVGFEPointLightElement"
@@ -18111,13 +16242,8 @@ instance IsElement SVGFESpecularLightingElement
 instance IsNode SVGFESpecularLightingElement
 instance IsEventTarget SVGFESpecularLightingElement
 instance IsGObject SVGFESpecularLightingElement where
-  toGObject = GObject . unSVGFESpecularLightingElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFESpecularLightingElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFESpecularLightingElement :: IsGObject obj => obj -> JSM SVGFESpecularLightingElement
-castToSVGFESpecularLightingElement = castTo gTypeSVGFESpecularLightingElement "SVGFESpecularLightingElement"
+  typeGType _ = gTypeSVGFESpecularLightingElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFESpecularLightingElement :: JSM GType
 gTypeSVGFESpecularLightingElement = GType . Object <$> jsg "SVGFESpecularLightingElement"
@@ -18160,13 +16286,8 @@ instance IsElement SVGFESpotLightElement
 instance IsNode SVGFESpotLightElement
 instance IsEventTarget SVGFESpotLightElement
 instance IsGObject SVGFESpotLightElement where
-  toGObject = GObject . unSVGFESpotLightElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFESpotLightElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFESpotLightElement :: IsGObject obj => obj -> JSM SVGFESpotLightElement
-castToSVGFESpotLightElement = castTo gTypeSVGFESpotLightElement "SVGFESpotLightElement"
+  typeGType _ = gTypeSVGFESpotLightElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFESpotLightElement :: JSM GType
 gTypeSVGFESpotLightElement = GType . Object <$> jsg "SVGFESpotLightElement"
@@ -18209,13 +16330,8 @@ instance IsElement SVGFETileElement
 instance IsNode SVGFETileElement
 instance IsEventTarget SVGFETileElement
 instance IsGObject SVGFETileElement where
-  toGObject = GObject . unSVGFETileElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFETileElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFETileElement :: IsGObject obj => obj -> JSM SVGFETileElement
-castToSVGFETileElement = castTo gTypeSVGFETileElement "SVGFETileElement"
+  typeGType _ = gTypeSVGFETileElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFETileElement :: JSM GType
 gTypeSVGFETileElement = GType . Object <$> jsg "SVGFETileElement"
@@ -18258,13 +16374,8 @@ instance IsElement SVGFETurbulenceElement
 instance IsNode SVGFETurbulenceElement
 instance IsEventTarget SVGFETurbulenceElement
 instance IsGObject SVGFETurbulenceElement where
-  toGObject = GObject . unSVGFETurbulenceElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFETurbulenceElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFETurbulenceElement :: IsGObject obj => obj -> JSM SVGFETurbulenceElement
-castToSVGFETurbulenceElement = castTo gTypeSVGFETurbulenceElement "SVGFETurbulenceElement"
+  typeGType _ = gTypeSVGFETurbulenceElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFETurbulenceElement :: JSM GType
 gTypeSVGFETurbulenceElement = GType . Object <$> jsg "SVGFETurbulenceElement"
@@ -18307,13 +16418,8 @@ instance IsElement SVGFilterElement
 instance IsNode SVGFilterElement
 instance IsEventTarget SVGFilterElement
 instance IsGObject SVGFilterElement where
-  toGObject = GObject . unSVGFilterElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFilterElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFilterElement :: IsGObject obj => obj -> JSM SVGFilterElement
-castToSVGFilterElement = castTo gTypeSVGFilterElement "SVGFilterElement"
+  typeGType _ = gTypeSVGFilterElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFilterElement :: JSM GType
 gTypeSVGFilterElement = GType . Object <$> jsg "SVGFilterElement"
@@ -18346,13 +16452,8 @@ instance MakeObject SVGFilterPrimitiveStandardAttributes where
   makeObject = makeObject . unSVGFilterPrimitiveStandardAttributes
 
 instance IsGObject SVGFilterPrimitiveStandardAttributes where
-  toGObject = GObject . unSVGFilterPrimitiveStandardAttributes
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFilterPrimitiveStandardAttributes . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFilterPrimitiveStandardAttributes :: IsGObject obj => obj -> JSM SVGFilterPrimitiveStandardAttributes
-castToSVGFilterPrimitiveStandardAttributes = castTo gTypeSVGFilterPrimitiveStandardAttributes "SVGFilterPrimitiveStandardAttributes"
+  typeGType _ = gTypeSVGFilterPrimitiveStandardAttributes
+  {-# INLINE typeGType #-}
 
 gTypeSVGFilterPrimitiveStandardAttributes :: JSM GType
 gTypeSVGFilterPrimitiveStandardAttributes = GType . Object <$> jsg "SVGFilterPrimitiveStandardAttributes"
@@ -18385,13 +16486,8 @@ instance MakeObject SVGFitToViewBox where
   makeObject = makeObject . unSVGFitToViewBox
 
 instance IsGObject SVGFitToViewBox where
-  toGObject = GObject . unSVGFitToViewBox
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFitToViewBox . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFitToViewBox :: IsGObject obj => obj -> JSM SVGFitToViewBox
-castToSVGFitToViewBox = castTo gTypeSVGFitToViewBox "SVGFitToViewBox"
+  typeGType _ = gTypeSVGFitToViewBox
+  {-# INLINE typeGType #-}
 
 gTypeSVGFitToViewBox :: JSM GType
 gTypeSVGFitToViewBox = GType . Object <$> jsg "SVGFitToViewBox"
@@ -18434,13 +16530,8 @@ instance IsElement SVGFontElement
 instance IsNode SVGFontElement
 instance IsEventTarget SVGFontElement
 instance IsGObject SVGFontElement where
-  toGObject = GObject . unSVGFontElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFontElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFontElement :: IsGObject obj => obj -> JSM SVGFontElement
-castToSVGFontElement = castTo gTypeSVGFontElement "SVGFontElement"
+  typeGType _ = gTypeSVGFontElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFontElement :: JSM GType
 gTypeSVGFontElement = GType . Object <$> jsg "SVGFontElement"
@@ -18483,13 +16574,8 @@ instance IsElement SVGFontFaceElement
 instance IsNode SVGFontFaceElement
 instance IsEventTarget SVGFontFaceElement
 instance IsGObject SVGFontFaceElement where
-  toGObject = GObject . unSVGFontFaceElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFontFaceElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFontFaceElement :: IsGObject obj => obj -> JSM SVGFontFaceElement
-castToSVGFontFaceElement = castTo gTypeSVGFontFaceElement "SVGFontFaceElement"
+  typeGType _ = gTypeSVGFontFaceElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFontFaceElement :: JSM GType
 gTypeSVGFontFaceElement = GType . Object <$> jsg "SVGFontFaceElement"
@@ -18532,13 +16618,8 @@ instance IsElement SVGFontFaceFormatElement
 instance IsNode SVGFontFaceFormatElement
 instance IsEventTarget SVGFontFaceFormatElement
 instance IsGObject SVGFontFaceFormatElement where
-  toGObject = GObject . unSVGFontFaceFormatElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFontFaceFormatElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFontFaceFormatElement :: IsGObject obj => obj -> JSM SVGFontFaceFormatElement
-castToSVGFontFaceFormatElement = castTo gTypeSVGFontFaceFormatElement "SVGFontFaceFormatElement"
+  typeGType _ = gTypeSVGFontFaceFormatElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFontFaceFormatElement :: JSM GType
 gTypeSVGFontFaceFormatElement = GType . Object <$> jsg "SVGFontFaceFormatElement"
@@ -18581,13 +16662,8 @@ instance IsElement SVGFontFaceNameElement
 instance IsNode SVGFontFaceNameElement
 instance IsEventTarget SVGFontFaceNameElement
 instance IsGObject SVGFontFaceNameElement where
-  toGObject = GObject . unSVGFontFaceNameElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFontFaceNameElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFontFaceNameElement :: IsGObject obj => obj -> JSM SVGFontFaceNameElement
-castToSVGFontFaceNameElement = castTo gTypeSVGFontFaceNameElement "SVGFontFaceNameElement"
+  typeGType _ = gTypeSVGFontFaceNameElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFontFaceNameElement :: JSM GType
 gTypeSVGFontFaceNameElement = GType . Object <$> jsg "SVGFontFaceNameElement"
@@ -18630,13 +16706,8 @@ instance IsElement SVGFontFaceSrcElement
 instance IsNode SVGFontFaceSrcElement
 instance IsEventTarget SVGFontFaceSrcElement
 instance IsGObject SVGFontFaceSrcElement where
-  toGObject = GObject . unSVGFontFaceSrcElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFontFaceSrcElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFontFaceSrcElement :: IsGObject obj => obj -> JSM SVGFontFaceSrcElement
-castToSVGFontFaceSrcElement = castTo gTypeSVGFontFaceSrcElement "SVGFontFaceSrcElement"
+  typeGType _ = gTypeSVGFontFaceSrcElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFontFaceSrcElement :: JSM GType
 gTypeSVGFontFaceSrcElement = GType . Object <$> jsg "SVGFontFaceSrcElement"
@@ -18679,13 +16750,8 @@ instance IsElement SVGFontFaceUriElement
 instance IsNode SVGFontFaceUriElement
 instance IsEventTarget SVGFontFaceUriElement
 instance IsGObject SVGFontFaceUriElement where
-  toGObject = GObject . unSVGFontFaceUriElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGFontFaceUriElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGFontFaceUriElement :: IsGObject obj => obj -> JSM SVGFontFaceUriElement
-castToSVGFontFaceUriElement = castTo gTypeSVGFontFaceUriElement "SVGFontFaceUriElement"
+  typeGType _ = gTypeSVGFontFaceUriElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGFontFaceUriElement :: JSM GType
 gTypeSVGFontFaceUriElement = GType . Object <$> jsg "SVGFontFaceUriElement"
@@ -18730,13 +16796,8 @@ instance IsElement SVGForeignObjectElement
 instance IsNode SVGForeignObjectElement
 instance IsEventTarget SVGForeignObjectElement
 instance IsGObject SVGForeignObjectElement where
-  toGObject = GObject . unSVGForeignObjectElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGForeignObjectElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGForeignObjectElement :: IsGObject obj => obj -> JSM SVGForeignObjectElement
-castToSVGForeignObjectElement = castTo gTypeSVGForeignObjectElement "SVGForeignObjectElement"
+  typeGType _ = gTypeSVGForeignObjectElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGForeignObjectElement :: JSM GType
 gTypeSVGForeignObjectElement = GType . Object <$> jsg "SVGForeignObjectElement"
@@ -18781,13 +16842,8 @@ instance IsElement SVGGElement
 instance IsNode SVGGElement
 instance IsEventTarget SVGGElement
 instance IsGObject SVGGElement where
-  toGObject = GObject . unSVGGElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGGElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGGElement :: IsGObject obj => obj -> JSM SVGGElement
-castToSVGGElement = castTo gTypeSVGGElement "SVGGElement"
+  typeGType _ = gTypeSVGGElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGGElement :: JSM GType
 gTypeSVGGElement = GType . Object <$> jsg "SVGGElement"
@@ -18830,13 +16886,8 @@ instance IsElement SVGGlyphElement
 instance IsNode SVGGlyphElement
 instance IsEventTarget SVGGlyphElement
 instance IsGObject SVGGlyphElement where
-  toGObject = GObject . unSVGGlyphElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGGlyphElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGGlyphElement :: IsGObject obj => obj -> JSM SVGGlyphElement
-castToSVGGlyphElement = castTo gTypeSVGGlyphElement "SVGGlyphElement"
+  typeGType _ = gTypeSVGGlyphElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGGlyphElement :: JSM GType
 gTypeSVGGlyphElement = GType . Object <$> jsg "SVGGlyphElement"
@@ -18879,13 +16930,8 @@ instance IsElement SVGGlyphRefElement
 instance IsNode SVGGlyphRefElement
 instance IsEventTarget SVGGlyphRefElement
 instance IsGObject SVGGlyphRefElement where
-  toGObject = GObject . unSVGGlyphRefElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGGlyphRefElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGGlyphRefElement :: IsGObject obj => obj -> JSM SVGGlyphRefElement
-castToSVGGlyphRefElement = castTo gTypeSVGGlyphRefElement "SVGGlyphRefElement"
+  typeGType _ = gTypeSVGGlyphRefElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGGlyphRefElement :: JSM GType
 gTypeSVGGlyphRefElement = GType . Object <$> jsg "SVGGlyphRefElement"
@@ -18925,7 +16971,7 @@ instance MakeObject SVGGradientElement where
 
 class IsSVGElement o => IsSVGGradientElement o
 toSVGGradientElement :: IsSVGGradientElement o => o -> SVGGradientElement
-toSVGGradientElement = unsafeCastGObject . toGObject
+toSVGGradientElement = SVGGradientElement . coerce
 
 instance IsSVGGradientElement SVGGradientElement
 instance IsSVGElement SVGGradientElement
@@ -18933,13 +16979,8 @@ instance IsElement SVGGradientElement
 instance IsNode SVGGradientElement
 instance IsEventTarget SVGGradientElement
 instance IsGObject SVGGradientElement where
-  toGObject = GObject . unSVGGradientElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGGradientElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGGradientElement :: IsGObject obj => obj -> JSM SVGGradientElement
-castToSVGGradientElement = castTo gTypeSVGGradientElement "SVGGradientElement"
+  typeGType _ = gTypeSVGGradientElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGGradientElement :: JSM GType
 gTypeSVGGradientElement = GType . Object <$> jsg "SVGGradientElement"
@@ -18979,7 +17020,7 @@ instance MakeObject SVGGraphicsElement where
 
 class IsSVGElement o => IsSVGGraphicsElement o
 toSVGGraphicsElement :: IsSVGGraphicsElement o => o -> SVGGraphicsElement
-toSVGGraphicsElement = unsafeCastGObject . toGObject
+toSVGGraphicsElement = SVGGraphicsElement . coerce
 
 instance IsSVGGraphicsElement SVGGraphicsElement
 instance IsSVGElement SVGGraphicsElement
@@ -18987,13 +17028,8 @@ instance IsElement SVGGraphicsElement
 instance IsNode SVGGraphicsElement
 instance IsEventTarget SVGGraphicsElement
 instance IsGObject SVGGraphicsElement where
-  toGObject = GObject . unSVGGraphicsElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGGraphicsElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGGraphicsElement :: IsGObject obj => obj -> JSM SVGGraphicsElement
-castToSVGGraphicsElement = castTo gTypeSVGGraphicsElement "SVGGraphicsElement"
+  typeGType _ = gTypeSVGGraphicsElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGGraphicsElement :: JSM GType
 gTypeSVGGraphicsElement = GType . Object <$> jsg "SVGGraphicsElement"
@@ -19036,13 +17072,8 @@ instance IsElement SVGHKernElement
 instance IsNode SVGHKernElement
 instance IsEventTarget SVGHKernElement
 instance IsGObject SVGHKernElement where
-  toGObject = GObject . unSVGHKernElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGHKernElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGHKernElement :: IsGObject obj => obj -> JSM SVGHKernElement
-castToSVGHKernElement = castTo gTypeSVGHKernElement "SVGHKernElement"
+  typeGType _ = gTypeSVGHKernElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGHKernElement :: JSM GType
 gTypeSVGHKernElement = GType . Object <$> jsg "SVGHKernElement"
@@ -19087,13 +17118,8 @@ instance IsElement SVGImageElement
 instance IsNode SVGImageElement
 instance IsEventTarget SVGImageElement
 instance IsGObject SVGImageElement where
-  toGObject = GObject . unSVGImageElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGImageElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGImageElement :: IsGObject obj => obj -> JSM SVGImageElement
-castToSVGImageElement = castTo gTypeSVGImageElement "SVGImageElement"
+  typeGType _ = gTypeSVGImageElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGImageElement :: JSM GType
 gTypeSVGImageElement = GType . Object <$> jsg "SVGImageElement"
@@ -19126,13 +17152,8 @@ instance MakeObject SVGLength where
   makeObject = makeObject . unSVGLength
 
 instance IsGObject SVGLength where
-  toGObject = GObject . unSVGLength
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGLength . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGLength :: IsGObject obj => obj -> JSM SVGLength
-castToSVGLength = castTo gTypeSVGLength "SVGLength"
+  typeGType _ = gTypeSVGLength
+  {-# INLINE typeGType #-}
 
 gTypeSVGLength :: JSM GType
 gTypeSVGLength = GType . Object <$> jsg "SVGLength"
@@ -19165,13 +17186,8 @@ instance MakeObject SVGLengthList where
   makeObject = makeObject . unSVGLengthList
 
 instance IsGObject SVGLengthList where
-  toGObject = GObject . unSVGLengthList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGLengthList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGLengthList :: IsGObject obj => obj -> JSM SVGLengthList
-castToSVGLengthList = castTo gTypeSVGLengthList "SVGLengthList"
+  typeGType _ = gTypeSVGLengthList
+  {-# INLINE typeGType #-}
 
 gTypeSVGLengthList :: JSM GType
 gTypeSVGLengthList = GType . Object <$> jsg "SVGLengthList"
@@ -19216,13 +17232,8 @@ instance IsElement SVGLineElement
 instance IsNode SVGLineElement
 instance IsEventTarget SVGLineElement
 instance IsGObject SVGLineElement where
-  toGObject = GObject . unSVGLineElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGLineElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGLineElement :: IsGObject obj => obj -> JSM SVGLineElement
-castToSVGLineElement = castTo gTypeSVGLineElement "SVGLineElement"
+  typeGType _ = gTypeSVGLineElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGLineElement :: JSM GType
 gTypeSVGLineElement = GType . Object <$> jsg "SVGLineElement"
@@ -19267,13 +17278,8 @@ instance IsElement SVGLinearGradientElement
 instance IsNode SVGLinearGradientElement
 instance IsEventTarget SVGLinearGradientElement
 instance IsGObject SVGLinearGradientElement where
-  toGObject = GObject . unSVGLinearGradientElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGLinearGradientElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGLinearGradientElement :: IsGObject obj => obj -> JSM SVGLinearGradientElement
-castToSVGLinearGradientElement = castTo gTypeSVGLinearGradientElement "SVGLinearGradientElement"
+  typeGType _ = gTypeSVGLinearGradientElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGLinearGradientElement :: JSM GType
 gTypeSVGLinearGradientElement = GType . Object <$> jsg "SVGLinearGradientElement"
@@ -19316,13 +17322,8 @@ instance IsElement SVGMPathElement
 instance IsNode SVGMPathElement
 instance IsEventTarget SVGMPathElement
 instance IsGObject SVGMPathElement where
-  toGObject = GObject . unSVGMPathElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGMPathElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGMPathElement :: IsGObject obj => obj -> JSM SVGMPathElement
-castToSVGMPathElement = castTo gTypeSVGMPathElement "SVGMPathElement"
+  typeGType _ = gTypeSVGMPathElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGMPathElement :: JSM GType
 gTypeSVGMPathElement = GType . Object <$> jsg "SVGMPathElement"
@@ -19365,13 +17366,8 @@ instance IsElement SVGMarkerElement
 instance IsNode SVGMarkerElement
 instance IsEventTarget SVGMarkerElement
 instance IsGObject SVGMarkerElement where
-  toGObject = GObject . unSVGMarkerElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGMarkerElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGMarkerElement :: IsGObject obj => obj -> JSM SVGMarkerElement
-castToSVGMarkerElement = castTo gTypeSVGMarkerElement "SVGMarkerElement"
+  typeGType _ = gTypeSVGMarkerElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGMarkerElement :: JSM GType
 gTypeSVGMarkerElement = GType . Object <$> jsg "SVGMarkerElement"
@@ -19414,13 +17410,8 @@ instance IsElement SVGMaskElement
 instance IsNode SVGMaskElement
 instance IsEventTarget SVGMaskElement
 instance IsGObject SVGMaskElement where
-  toGObject = GObject . unSVGMaskElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGMaskElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGMaskElement :: IsGObject obj => obj -> JSM SVGMaskElement
-castToSVGMaskElement = castTo gTypeSVGMaskElement "SVGMaskElement"
+  typeGType _ = gTypeSVGMaskElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGMaskElement :: JSM GType
 gTypeSVGMaskElement = GType . Object <$> jsg "SVGMaskElement"
@@ -19453,13 +17444,8 @@ instance MakeObject SVGMatrix where
   makeObject = makeObject . unSVGMatrix
 
 instance IsGObject SVGMatrix where
-  toGObject = GObject . unSVGMatrix
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGMatrix . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGMatrix :: IsGObject obj => obj -> JSM SVGMatrix
-castToSVGMatrix = castTo gTypeSVGMatrix "SVGMatrix"
+  typeGType _ = gTypeSVGMatrix
+  {-# INLINE typeGType #-}
 
 gTypeSVGMatrix :: JSM GType
 gTypeSVGMatrix = GType . Object <$> jsg "SVGMatrix"
@@ -19502,13 +17488,8 @@ instance IsElement SVGMetadataElement
 instance IsNode SVGMetadataElement
 instance IsEventTarget SVGMetadataElement
 instance IsGObject SVGMetadataElement where
-  toGObject = GObject . unSVGMetadataElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGMetadataElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGMetadataElement :: IsGObject obj => obj -> JSM SVGMetadataElement
-castToSVGMetadataElement = castTo gTypeSVGMetadataElement "SVGMetadataElement"
+  typeGType _ = gTypeSVGMetadataElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGMetadataElement :: JSM GType
 gTypeSVGMetadataElement = GType . Object <$> jsg "SVGMetadataElement"
@@ -19551,13 +17532,8 @@ instance IsElement SVGMissingGlyphElement
 instance IsNode SVGMissingGlyphElement
 instance IsEventTarget SVGMissingGlyphElement
 instance IsGObject SVGMissingGlyphElement where
-  toGObject = GObject . unSVGMissingGlyphElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGMissingGlyphElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGMissingGlyphElement :: IsGObject obj => obj -> JSM SVGMissingGlyphElement
-castToSVGMissingGlyphElement = castTo gTypeSVGMissingGlyphElement "SVGMissingGlyphElement"
+  typeGType _ = gTypeSVGMissingGlyphElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGMissingGlyphElement :: JSM GType
 gTypeSVGMissingGlyphElement = GType . Object <$> jsg "SVGMissingGlyphElement"
@@ -19590,13 +17566,8 @@ instance MakeObject SVGNumber where
   makeObject = makeObject . unSVGNumber
 
 instance IsGObject SVGNumber where
-  toGObject = GObject . unSVGNumber
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGNumber . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGNumber :: IsGObject obj => obj -> JSM SVGNumber
-castToSVGNumber = castTo gTypeSVGNumber "SVGNumber"
+  typeGType _ = gTypeSVGNumber
+  {-# INLINE typeGType #-}
 
 gTypeSVGNumber :: JSM GType
 gTypeSVGNumber = GType . Object <$> jsg "SVGNumber"
@@ -19629,13 +17600,8 @@ instance MakeObject SVGNumberList where
   makeObject = makeObject . unSVGNumberList
 
 instance IsGObject SVGNumberList where
-  toGObject = GObject . unSVGNumberList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGNumberList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGNumberList :: IsGObject obj => obj -> JSM SVGNumberList
-castToSVGNumberList = castTo gTypeSVGNumberList "SVGNumberList"
+  typeGType _ = gTypeSVGNumberList
+  {-# INLINE typeGType #-}
 
 gTypeSVGNumberList :: JSM GType
 gTypeSVGNumberList = GType . Object <$> jsg "SVGNumberList"
@@ -19674,13 +17640,8 @@ instance MakeObject SVGPaint where
 instance IsSVGColor SVGPaint
 instance IsCSSValue SVGPaint
 instance IsGObject SVGPaint where
-  toGObject = GObject . unSVGPaint
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPaint . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPaint :: IsGObject obj => obj -> JSM SVGPaint
-castToSVGPaint = castTo gTypeSVGPaint "SVGPaint"
+  typeGType _ = gTypeSVGPaint
+  {-# INLINE typeGType #-}
 
 gTypeSVGPaint :: JSM GType
 gTypeSVGPaint = GType . Object <$> jsg "SVGPaint"
@@ -19725,13 +17686,8 @@ instance IsElement SVGPathElement
 instance IsNode SVGPathElement
 instance IsEventTarget SVGPathElement
 instance IsGObject SVGPathElement where
-  toGObject = GObject . unSVGPathElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathElement :: IsGObject obj => obj -> JSM SVGPathElement
-castToSVGPathElement = castTo gTypeSVGPathElement "SVGPathElement"
+  typeGType _ = gTypeSVGPathElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathElement :: JSM GType
 gTypeSVGPathElement = GType . Object <$> jsg "SVGPathElement"
@@ -19765,17 +17721,12 @@ instance MakeObject SVGPathSeg where
 
 class IsGObject o => IsSVGPathSeg o
 toSVGPathSeg :: IsSVGPathSeg o => o -> SVGPathSeg
-toSVGPathSeg = unsafeCastGObject . toGObject
+toSVGPathSeg = SVGPathSeg . coerce
 
 instance IsSVGPathSeg SVGPathSeg
 instance IsGObject SVGPathSeg where
-  toGObject = GObject . unSVGPathSeg
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSeg . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSeg :: IsGObject obj => obj -> JSM SVGPathSeg
-castToSVGPathSeg = castTo gTypeSVGPathSeg "SVGPathSeg"
+  typeGType _ = gTypeSVGPathSeg
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSeg :: JSM GType
 gTypeSVGPathSeg = GType . Object <$> jsg "SVGPathSeg"
@@ -19812,13 +17763,8 @@ instance MakeObject SVGPathSegArcAbs where
 
 instance IsSVGPathSeg SVGPathSegArcAbs
 instance IsGObject SVGPathSegArcAbs where
-  toGObject = GObject . unSVGPathSegArcAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegArcAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegArcAbs :: IsGObject obj => obj -> JSM SVGPathSegArcAbs
-castToSVGPathSegArcAbs = castTo gTypeSVGPathSegArcAbs "SVGPathSegArcAbs"
+  typeGType _ = gTypeSVGPathSegArcAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegArcAbs :: JSM GType
 gTypeSVGPathSegArcAbs = GType . Object <$> jsg "SVGPathSegArcAbs"
@@ -19855,13 +17801,8 @@ instance MakeObject SVGPathSegArcRel where
 
 instance IsSVGPathSeg SVGPathSegArcRel
 instance IsGObject SVGPathSegArcRel where
-  toGObject = GObject . unSVGPathSegArcRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegArcRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegArcRel :: IsGObject obj => obj -> JSM SVGPathSegArcRel
-castToSVGPathSegArcRel = castTo gTypeSVGPathSegArcRel "SVGPathSegArcRel"
+  typeGType _ = gTypeSVGPathSegArcRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegArcRel :: JSM GType
 gTypeSVGPathSegArcRel = GType . Object <$> jsg "SVGPathSegArcRel"
@@ -19898,13 +17839,8 @@ instance MakeObject SVGPathSegClosePath where
 
 instance IsSVGPathSeg SVGPathSegClosePath
 instance IsGObject SVGPathSegClosePath where
-  toGObject = GObject . unSVGPathSegClosePath
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegClosePath . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegClosePath :: IsGObject obj => obj -> JSM SVGPathSegClosePath
-castToSVGPathSegClosePath = castTo gTypeSVGPathSegClosePath "SVGPathSegClosePath"
+  typeGType _ = gTypeSVGPathSegClosePath
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegClosePath :: JSM GType
 gTypeSVGPathSegClosePath = GType . Object <$> jsg "SVGPathSegClosePath"
@@ -19941,13 +17877,8 @@ instance MakeObject SVGPathSegCurvetoCubicAbs where
 
 instance IsSVGPathSeg SVGPathSegCurvetoCubicAbs
 instance IsGObject SVGPathSegCurvetoCubicAbs where
-  toGObject = GObject . unSVGPathSegCurvetoCubicAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoCubicAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoCubicAbs :: IsGObject obj => obj -> JSM SVGPathSegCurvetoCubicAbs
-castToSVGPathSegCurvetoCubicAbs = castTo gTypeSVGPathSegCurvetoCubicAbs "SVGPathSegCurvetoCubicAbs"
+  typeGType _ = gTypeSVGPathSegCurvetoCubicAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoCubicAbs :: JSM GType
 gTypeSVGPathSegCurvetoCubicAbs = GType . Object <$> jsg "SVGPathSegCurvetoCubicAbs"
@@ -19984,13 +17915,8 @@ instance MakeObject SVGPathSegCurvetoCubicRel where
 
 instance IsSVGPathSeg SVGPathSegCurvetoCubicRel
 instance IsGObject SVGPathSegCurvetoCubicRel where
-  toGObject = GObject . unSVGPathSegCurvetoCubicRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoCubicRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoCubicRel :: IsGObject obj => obj -> JSM SVGPathSegCurvetoCubicRel
-castToSVGPathSegCurvetoCubicRel = castTo gTypeSVGPathSegCurvetoCubicRel "SVGPathSegCurvetoCubicRel"
+  typeGType _ = gTypeSVGPathSegCurvetoCubicRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoCubicRel :: JSM GType
 gTypeSVGPathSegCurvetoCubicRel = GType . Object <$> jsg "SVGPathSegCurvetoCubicRel"
@@ -20027,13 +17953,8 @@ instance MakeObject SVGPathSegCurvetoCubicSmoothAbs where
 
 instance IsSVGPathSeg SVGPathSegCurvetoCubicSmoothAbs
 instance IsGObject SVGPathSegCurvetoCubicSmoothAbs where
-  toGObject = GObject . unSVGPathSegCurvetoCubicSmoothAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoCubicSmoothAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoCubicSmoothAbs :: IsGObject obj => obj -> JSM SVGPathSegCurvetoCubicSmoothAbs
-castToSVGPathSegCurvetoCubicSmoothAbs = castTo gTypeSVGPathSegCurvetoCubicSmoothAbs "SVGPathSegCurvetoCubicSmoothAbs"
+  typeGType _ = gTypeSVGPathSegCurvetoCubicSmoothAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoCubicSmoothAbs :: JSM GType
 gTypeSVGPathSegCurvetoCubicSmoothAbs = GType . Object <$> jsg "SVGPathSegCurvetoCubicSmoothAbs"
@@ -20070,13 +17991,8 @@ instance MakeObject SVGPathSegCurvetoCubicSmoothRel where
 
 instance IsSVGPathSeg SVGPathSegCurvetoCubicSmoothRel
 instance IsGObject SVGPathSegCurvetoCubicSmoothRel where
-  toGObject = GObject . unSVGPathSegCurvetoCubicSmoothRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoCubicSmoothRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoCubicSmoothRel :: IsGObject obj => obj -> JSM SVGPathSegCurvetoCubicSmoothRel
-castToSVGPathSegCurvetoCubicSmoothRel = castTo gTypeSVGPathSegCurvetoCubicSmoothRel "SVGPathSegCurvetoCubicSmoothRel"
+  typeGType _ = gTypeSVGPathSegCurvetoCubicSmoothRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoCubicSmoothRel :: JSM GType
 gTypeSVGPathSegCurvetoCubicSmoothRel = GType . Object <$> jsg "SVGPathSegCurvetoCubicSmoothRel"
@@ -20113,13 +18029,8 @@ instance MakeObject SVGPathSegCurvetoQuadraticAbs where
 
 instance IsSVGPathSeg SVGPathSegCurvetoQuadraticAbs
 instance IsGObject SVGPathSegCurvetoQuadraticAbs where
-  toGObject = GObject . unSVGPathSegCurvetoQuadraticAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoQuadraticAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoQuadraticAbs :: IsGObject obj => obj -> JSM SVGPathSegCurvetoQuadraticAbs
-castToSVGPathSegCurvetoQuadraticAbs = castTo gTypeSVGPathSegCurvetoQuadraticAbs "SVGPathSegCurvetoQuadraticAbs"
+  typeGType _ = gTypeSVGPathSegCurvetoQuadraticAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoQuadraticAbs :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticAbs = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticAbs"
@@ -20156,13 +18067,8 @@ instance MakeObject SVGPathSegCurvetoQuadraticRel where
 
 instance IsSVGPathSeg SVGPathSegCurvetoQuadraticRel
 instance IsGObject SVGPathSegCurvetoQuadraticRel where
-  toGObject = GObject . unSVGPathSegCurvetoQuadraticRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoQuadraticRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoQuadraticRel :: IsGObject obj => obj -> JSM SVGPathSegCurvetoQuadraticRel
-castToSVGPathSegCurvetoQuadraticRel = castTo gTypeSVGPathSegCurvetoQuadraticRel "SVGPathSegCurvetoQuadraticRel"
+  typeGType _ = gTypeSVGPathSegCurvetoQuadraticRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoQuadraticRel :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticRel = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticRel"
@@ -20199,13 +18105,8 @@ instance MakeObject SVGPathSegCurvetoQuadraticSmoothAbs where
 
 instance IsSVGPathSeg SVGPathSegCurvetoQuadraticSmoothAbs
 instance IsGObject SVGPathSegCurvetoQuadraticSmoothAbs where
-  toGObject = GObject . unSVGPathSegCurvetoQuadraticSmoothAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoQuadraticSmoothAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoQuadraticSmoothAbs :: IsGObject obj => obj -> JSM SVGPathSegCurvetoQuadraticSmoothAbs
-castToSVGPathSegCurvetoQuadraticSmoothAbs = castTo gTypeSVGPathSegCurvetoQuadraticSmoothAbs "SVGPathSegCurvetoQuadraticSmoothAbs"
+  typeGType _ = gTypeSVGPathSegCurvetoQuadraticSmoothAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoQuadraticSmoothAbs :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticSmoothAbs = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticSmoothAbs"
@@ -20242,13 +18143,8 @@ instance MakeObject SVGPathSegCurvetoQuadraticSmoothRel where
 
 instance IsSVGPathSeg SVGPathSegCurvetoQuadraticSmoothRel
 instance IsGObject SVGPathSegCurvetoQuadraticSmoothRel where
-  toGObject = GObject . unSVGPathSegCurvetoQuadraticSmoothRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegCurvetoQuadraticSmoothRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegCurvetoQuadraticSmoothRel :: IsGObject obj => obj -> JSM SVGPathSegCurvetoQuadraticSmoothRel
-castToSVGPathSegCurvetoQuadraticSmoothRel = castTo gTypeSVGPathSegCurvetoQuadraticSmoothRel "SVGPathSegCurvetoQuadraticSmoothRel"
+  typeGType _ = gTypeSVGPathSegCurvetoQuadraticSmoothRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegCurvetoQuadraticSmoothRel :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticSmoothRel = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticSmoothRel"
@@ -20285,13 +18181,8 @@ instance MakeObject SVGPathSegLinetoAbs where
 
 instance IsSVGPathSeg SVGPathSegLinetoAbs
 instance IsGObject SVGPathSegLinetoAbs where
-  toGObject = GObject . unSVGPathSegLinetoAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegLinetoAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegLinetoAbs :: IsGObject obj => obj -> JSM SVGPathSegLinetoAbs
-castToSVGPathSegLinetoAbs = castTo gTypeSVGPathSegLinetoAbs "SVGPathSegLinetoAbs"
+  typeGType _ = gTypeSVGPathSegLinetoAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegLinetoAbs :: JSM GType
 gTypeSVGPathSegLinetoAbs = GType . Object <$> jsg "SVGPathSegLinetoAbs"
@@ -20328,13 +18219,8 @@ instance MakeObject SVGPathSegLinetoHorizontalAbs where
 
 instance IsSVGPathSeg SVGPathSegLinetoHorizontalAbs
 instance IsGObject SVGPathSegLinetoHorizontalAbs where
-  toGObject = GObject . unSVGPathSegLinetoHorizontalAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegLinetoHorizontalAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegLinetoHorizontalAbs :: IsGObject obj => obj -> JSM SVGPathSegLinetoHorizontalAbs
-castToSVGPathSegLinetoHorizontalAbs = castTo gTypeSVGPathSegLinetoHorizontalAbs "SVGPathSegLinetoHorizontalAbs"
+  typeGType _ = gTypeSVGPathSegLinetoHorizontalAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegLinetoHorizontalAbs :: JSM GType
 gTypeSVGPathSegLinetoHorizontalAbs = GType . Object <$> jsg "SVGPathSegLinetoHorizontalAbs"
@@ -20371,13 +18257,8 @@ instance MakeObject SVGPathSegLinetoHorizontalRel where
 
 instance IsSVGPathSeg SVGPathSegLinetoHorizontalRel
 instance IsGObject SVGPathSegLinetoHorizontalRel where
-  toGObject = GObject . unSVGPathSegLinetoHorizontalRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegLinetoHorizontalRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegLinetoHorizontalRel :: IsGObject obj => obj -> JSM SVGPathSegLinetoHorizontalRel
-castToSVGPathSegLinetoHorizontalRel = castTo gTypeSVGPathSegLinetoHorizontalRel "SVGPathSegLinetoHorizontalRel"
+  typeGType _ = gTypeSVGPathSegLinetoHorizontalRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegLinetoHorizontalRel :: JSM GType
 gTypeSVGPathSegLinetoHorizontalRel = GType . Object <$> jsg "SVGPathSegLinetoHorizontalRel"
@@ -20414,13 +18295,8 @@ instance MakeObject SVGPathSegLinetoRel where
 
 instance IsSVGPathSeg SVGPathSegLinetoRel
 instance IsGObject SVGPathSegLinetoRel where
-  toGObject = GObject . unSVGPathSegLinetoRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegLinetoRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegLinetoRel :: IsGObject obj => obj -> JSM SVGPathSegLinetoRel
-castToSVGPathSegLinetoRel = castTo gTypeSVGPathSegLinetoRel "SVGPathSegLinetoRel"
+  typeGType _ = gTypeSVGPathSegLinetoRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegLinetoRel :: JSM GType
 gTypeSVGPathSegLinetoRel = GType . Object <$> jsg "SVGPathSegLinetoRel"
@@ -20457,13 +18333,8 @@ instance MakeObject SVGPathSegLinetoVerticalAbs where
 
 instance IsSVGPathSeg SVGPathSegLinetoVerticalAbs
 instance IsGObject SVGPathSegLinetoVerticalAbs where
-  toGObject = GObject . unSVGPathSegLinetoVerticalAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegLinetoVerticalAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegLinetoVerticalAbs :: IsGObject obj => obj -> JSM SVGPathSegLinetoVerticalAbs
-castToSVGPathSegLinetoVerticalAbs = castTo gTypeSVGPathSegLinetoVerticalAbs "SVGPathSegLinetoVerticalAbs"
+  typeGType _ = gTypeSVGPathSegLinetoVerticalAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegLinetoVerticalAbs :: JSM GType
 gTypeSVGPathSegLinetoVerticalAbs = GType . Object <$> jsg "SVGPathSegLinetoVerticalAbs"
@@ -20500,13 +18371,8 @@ instance MakeObject SVGPathSegLinetoVerticalRel where
 
 instance IsSVGPathSeg SVGPathSegLinetoVerticalRel
 instance IsGObject SVGPathSegLinetoVerticalRel where
-  toGObject = GObject . unSVGPathSegLinetoVerticalRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegLinetoVerticalRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegLinetoVerticalRel :: IsGObject obj => obj -> JSM SVGPathSegLinetoVerticalRel
-castToSVGPathSegLinetoVerticalRel = castTo gTypeSVGPathSegLinetoVerticalRel "SVGPathSegLinetoVerticalRel"
+  typeGType _ = gTypeSVGPathSegLinetoVerticalRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegLinetoVerticalRel :: JSM GType
 gTypeSVGPathSegLinetoVerticalRel = GType . Object <$> jsg "SVGPathSegLinetoVerticalRel"
@@ -20539,13 +18405,8 @@ instance MakeObject SVGPathSegList where
   makeObject = makeObject . unSVGPathSegList
 
 instance IsGObject SVGPathSegList where
-  toGObject = GObject . unSVGPathSegList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegList :: IsGObject obj => obj -> JSM SVGPathSegList
-castToSVGPathSegList = castTo gTypeSVGPathSegList "SVGPathSegList"
+  typeGType _ = gTypeSVGPathSegList
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegList :: JSM GType
 gTypeSVGPathSegList = GType . Object <$> jsg "SVGPathSegList"
@@ -20582,13 +18443,8 @@ instance MakeObject SVGPathSegMovetoAbs where
 
 instance IsSVGPathSeg SVGPathSegMovetoAbs
 instance IsGObject SVGPathSegMovetoAbs where
-  toGObject = GObject . unSVGPathSegMovetoAbs
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegMovetoAbs . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegMovetoAbs :: IsGObject obj => obj -> JSM SVGPathSegMovetoAbs
-castToSVGPathSegMovetoAbs = castTo gTypeSVGPathSegMovetoAbs "SVGPathSegMovetoAbs"
+  typeGType _ = gTypeSVGPathSegMovetoAbs
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegMovetoAbs :: JSM GType
 gTypeSVGPathSegMovetoAbs = GType . Object <$> jsg "SVGPathSegMovetoAbs"
@@ -20625,13 +18481,8 @@ instance MakeObject SVGPathSegMovetoRel where
 
 instance IsSVGPathSeg SVGPathSegMovetoRel
 instance IsGObject SVGPathSegMovetoRel where
-  toGObject = GObject . unSVGPathSegMovetoRel
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPathSegMovetoRel . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPathSegMovetoRel :: IsGObject obj => obj -> JSM SVGPathSegMovetoRel
-castToSVGPathSegMovetoRel = castTo gTypeSVGPathSegMovetoRel "SVGPathSegMovetoRel"
+  typeGType _ = gTypeSVGPathSegMovetoRel
+  {-# INLINE typeGType #-}
 
 gTypeSVGPathSegMovetoRel :: JSM GType
 gTypeSVGPathSegMovetoRel = GType . Object <$> jsg "SVGPathSegMovetoRel"
@@ -20674,13 +18525,8 @@ instance IsElement SVGPatternElement
 instance IsNode SVGPatternElement
 instance IsEventTarget SVGPatternElement
 instance IsGObject SVGPatternElement where
-  toGObject = GObject . unSVGPatternElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPatternElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPatternElement :: IsGObject obj => obj -> JSM SVGPatternElement
-castToSVGPatternElement = castTo gTypeSVGPatternElement "SVGPatternElement"
+  typeGType _ = gTypeSVGPatternElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGPatternElement :: JSM GType
 gTypeSVGPatternElement = GType . Object <$> jsg "SVGPatternElement"
@@ -20713,13 +18559,8 @@ instance MakeObject SVGPoint where
   makeObject = makeObject . unSVGPoint
 
 instance IsGObject SVGPoint where
-  toGObject = GObject . unSVGPoint
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPoint . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPoint :: IsGObject obj => obj -> JSM SVGPoint
-castToSVGPoint = castTo gTypeSVGPoint "SVGPoint"
+  typeGType _ = gTypeSVGPoint
+  {-# INLINE typeGType #-}
 
 gTypeSVGPoint :: JSM GType
 gTypeSVGPoint = GType . Object <$> jsg "SVGPoint"
@@ -20752,13 +18593,8 @@ instance MakeObject SVGPointList where
   makeObject = makeObject . unSVGPointList
 
 instance IsGObject SVGPointList where
-  toGObject = GObject . unSVGPointList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPointList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPointList :: IsGObject obj => obj -> JSM SVGPointList
-castToSVGPointList = castTo gTypeSVGPointList "SVGPointList"
+  typeGType _ = gTypeSVGPointList
+  {-# INLINE typeGType #-}
 
 gTypeSVGPointList :: JSM GType
 gTypeSVGPointList = GType . Object <$> jsg "SVGPointList"
@@ -20803,13 +18639,8 @@ instance IsElement SVGPolygonElement
 instance IsNode SVGPolygonElement
 instance IsEventTarget SVGPolygonElement
 instance IsGObject SVGPolygonElement where
-  toGObject = GObject . unSVGPolygonElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPolygonElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPolygonElement :: IsGObject obj => obj -> JSM SVGPolygonElement
-castToSVGPolygonElement = castTo gTypeSVGPolygonElement "SVGPolygonElement"
+  typeGType _ = gTypeSVGPolygonElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGPolygonElement :: JSM GType
 gTypeSVGPolygonElement = GType . Object <$> jsg "SVGPolygonElement"
@@ -20854,13 +18685,8 @@ instance IsElement SVGPolylineElement
 instance IsNode SVGPolylineElement
 instance IsEventTarget SVGPolylineElement
 instance IsGObject SVGPolylineElement where
-  toGObject = GObject . unSVGPolylineElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPolylineElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPolylineElement :: IsGObject obj => obj -> JSM SVGPolylineElement
-castToSVGPolylineElement = castTo gTypeSVGPolylineElement "SVGPolylineElement"
+  typeGType _ = gTypeSVGPolylineElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGPolylineElement :: JSM GType
 gTypeSVGPolylineElement = GType . Object <$> jsg "SVGPolylineElement"
@@ -20893,13 +18719,8 @@ instance MakeObject SVGPreserveAspectRatio where
   makeObject = makeObject . unSVGPreserveAspectRatio
 
 instance IsGObject SVGPreserveAspectRatio where
-  toGObject = GObject . unSVGPreserveAspectRatio
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGPreserveAspectRatio . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGPreserveAspectRatio :: IsGObject obj => obj -> JSM SVGPreserveAspectRatio
-castToSVGPreserveAspectRatio = castTo gTypeSVGPreserveAspectRatio "SVGPreserveAspectRatio"
+  typeGType _ = gTypeSVGPreserveAspectRatio
+  {-# INLINE typeGType #-}
 
 gTypeSVGPreserveAspectRatio :: JSM GType
 gTypeSVGPreserveAspectRatio = GType . Object <$> jsg "SVGPreserveAspectRatio"
@@ -20944,13 +18765,8 @@ instance IsElement SVGRadialGradientElement
 instance IsNode SVGRadialGradientElement
 instance IsEventTarget SVGRadialGradientElement
 instance IsGObject SVGRadialGradientElement where
-  toGObject = GObject . unSVGRadialGradientElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGRadialGradientElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGRadialGradientElement :: IsGObject obj => obj -> JSM SVGRadialGradientElement
-castToSVGRadialGradientElement = castTo gTypeSVGRadialGradientElement "SVGRadialGradientElement"
+  typeGType _ = gTypeSVGRadialGradientElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGRadialGradientElement :: JSM GType
 gTypeSVGRadialGradientElement = GType . Object <$> jsg "SVGRadialGradientElement"
@@ -20983,13 +18799,8 @@ instance MakeObject SVGRect where
   makeObject = makeObject . unSVGRect
 
 instance IsGObject SVGRect where
-  toGObject = GObject . unSVGRect
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGRect . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGRect :: IsGObject obj => obj -> JSM SVGRect
-castToSVGRect = castTo gTypeSVGRect "SVGRect"
+  typeGType _ = gTypeSVGRect
+  {-# INLINE typeGType #-}
 
 gTypeSVGRect :: JSM GType
 gTypeSVGRect = GType . Object <$> jsg "SVGRect"
@@ -21034,13 +18845,8 @@ instance IsElement SVGRectElement
 instance IsNode SVGRectElement
 instance IsEventTarget SVGRectElement
 instance IsGObject SVGRectElement where
-  toGObject = GObject . unSVGRectElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGRectElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGRectElement :: IsGObject obj => obj -> JSM SVGRectElement
-castToSVGRectElement = castTo gTypeSVGRectElement "SVGRectElement"
+  typeGType _ = gTypeSVGRectElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGRectElement :: JSM GType
 gTypeSVGRectElement = GType . Object <$> jsg "SVGRectElement"
@@ -21073,13 +18879,8 @@ instance MakeObject SVGRenderingIntent where
   makeObject = makeObject . unSVGRenderingIntent
 
 instance IsGObject SVGRenderingIntent where
-  toGObject = GObject . unSVGRenderingIntent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGRenderingIntent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGRenderingIntent :: IsGObject obj => obj -> JSM SVGRenderingIntent
-castToSVGRenderingIntent = castTo gTypeSVGRenderingIntent "SVGRenderingIntent"
+  typeGType _ = gTypeSVGRenderingIntent
+  {-# INLINE typeGType #-}
 
 gTypeSVGRenderingIntent :: JSM GType
 gTypeSVGRenderingIntent = GType . Object <$> jsg "SVGRenderingIntent"
@@ -21124,13 +18925,8 @@ instance IsElement SVGSVGElement
 instance IsNode SVGSVGElement
 instance IsEventTarget SVGSVGElement
 instance IsGObject SVGSVGElement where
-  toGObject = GObject . unSVGSVGElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGSVGElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGSVGElement :: IsGObject obj => obj -> JSM SVGSVGElement
-castToSVGSVGElement = castTo gTypeSVGSVGElement "SVGSVGElement"
+  typeGType _ = gTypeSVGSVGElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGSVGElement :: JSM GType
 gTypeSVGSVGElement = GType . Object <$> jsg "SVGSVGElement"
@@ -21173,13 +18969,8 @@ instance IsElement SVGScriptElement
 instance IsNode SVGScriptElement
 instance IsEventTarget SVGScriptElement
 instance IsGObject SVGScriptElement where
-  toGObject = GObject . unSVGScriptElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGScriptElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGScriptElement :: IsGObject obj => obj -> JSM SVGScriptElement
-castToSVGScriptElement = castTo gTypeSVGScriptElement "SVGScriptElement"
+  typeGType _ = gTypeSVGScriptElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGScriptElement :: JSM GType
 gTypeSVGScriptElement = GType . Object <$> jsg "SVGScriptElement"
@@ -21224,13 +19015,8 @@ instance IsElement SVGSetElement
 instance IsNode SVGSetElement
 instance IsEventTarget SVGSetElement
 instance IsGObject SVGSetElement where
-  toGObject = GObject . unSVGSetElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGSetElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGSetElement :: IsGObject obj => obj -> JSM SVGSetElement
-castToSVGSetElement = castTo gTypeSVGSetElement "SVGSetElement"
+  typeGType _ = gTypeSVGSetElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGSetElement :: JSM GType
 gTypeSVGSetElement = GType . Object <$> jsg "SVGSetElement"
@@ -21273,13 +19059,8 @@ instance IsElement SVGStopElement
 instance IsNode SVGStopElement
 instance IsEventTarget SVGStopElement
 instance IsGObject SVGStopElement where
-  toGObject = GObject . unSVGStopElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGStopElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGStopElement :: IsGObject obj => obj -> JSM SVGStopElement
-castToSVGStopElement = castTo gTypeSVGStopElement "SVGStopElement"
+  typeGType _ = gTypeSVGStopElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGStopElement :: JSM GType
 gTypeSVGStopElement = GType . Object <$> jsg "SVGStopElement"
@@ -21312,13 +19093,8 @@ instance MakeObject SVGStringList where
   makeObject = makeObject . unSVGStringList
 
 instance IsGObject SVGStringList where
-  toGObject = GObject . unSVGStringList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGStringList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGStringList :: IsGObject obj => obj -> JSM SVGStringList
-castToSVGStringList = castTo gTypeSVGStringList "SVGStringList"
+  typeGType _ = gTypeSVGStringList
+  {-# INLINE typeGType #-}
 
 gTypeSVGStringList :: JSM GType
 gTypeSVGStringList = GType . Object <$> jsg "SVGStringList"
@@ -21361,13 +19137,8 @@ instance IsElement SVGStyleElement
 instance IsNode SVGStyleElement
 instance IsEventTarget SVGStyleElement
 instance IsGObject SVGStyleElement where
-  toGObject = GObject . unSVGStyleElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGStyleElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGStyleElement :: IsGObject obj => obj -> JSM SVGStyleElement
-castToSVGStyleElement = castTo gTypeSVGStyleElement "SVGStyleElement"
+  typeGType _ = gTypeSVGStyleElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGStyleElement :: JSM GType
 gTypeSVGStyleElement = GType . Object <$> jsg "SVGStyleElement"
@@ -21412,13 +19183,8 @@ instance IsElement SVGSwitchElement
 instance IsNode SVGSwitchElement
 instance IsEventTarget SVGSwitchElement
 instance IsGObject SVGSwitchElement where
-  toGObject = GObject . unSVGSwitchElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGSwitchElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGSwitchElement :: IsGObject obj => obj -> JSM SVGSwitchElement
-castToSVGSwitchElement = castTo gTypeSVGSwitchElement "SVGSwitchElement"
+  typeGType _ = gTypeSVGSwitchElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGSwitchElement :: JSM GType
 gTypeSVGSwitchElement = GType . Object <$> jsg "SVGSwitchElement"
@@ -21461,13 +19227,8 @@ instance IsElement SVGSymbolElement
 instance IsNode SVGSymbolElement
 instance IsEventTarget SVGSymbolElement
 instance IsGObject SVGSymbolElement where
-  toGObject = GObject . unSVGSymbolElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGSymbolElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGSymbolElement :: IsGObject obj => obj -> JSM SVGSymbolElement
-castToSVGSymbolElement = castTo gTypeSVGSymbolElement "SVGSymbolElement"
+  typeGType _ = gTypeSVGSymbolElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGSymbolElement :: JSM GType
 gTypeSVGSymbolElement = GType . Object <$> jsg "SVGSymbolElement"
@@ -21516,13 +19277,8 @@ instance IsElement SVGTRefElement
 instance IsNode SVGTRefElement
 instance IsEventTarget SVGTRefElement
 instance IsGObject SVGTRefElement where
-  toGObject = GObject . unSVGTRefElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTRefElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTRefElement :: IsGObject obj => obj -> JSM SVGTRefElement
-castToSVGTRefElement = castTo gTypeSVGTRefElement "SVGTRefElement"
+  typeGType _ = gTypeSVGTRefElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTRefElement :: JSM GType
 gTypeSVGTRefElement = GType . Object <$> jsg "SVGTRefElement"
@@ -21571,13 +19327,8 @@ instance IsElement SVGTSpanElement
 instance IsNode SVGTSpanElement
 instance IsEventTarget SVGTSpanElement
 instance IsGObject SVGTSpanElement where
-  toGObject = GObject . unSVGTSpanElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTSpanElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTSpanElement :: IsGObject obj => obj -> JSM SVGTSpanElement
-castToSVGTSpanElement = castTo gTypeSVGTSpanElement "SVGTSpanElement"
+  typeGType _ = gTypeSVGTSpanElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTSpanElement :: JSM GType
 gTypeSVGTSpanElement = GType . Object <$> jsg "SVGTSpanElement"
@@ -21610,13 +19361,8 @@ instance MakeObject SVGTests where
   makeObject = makeObject . unSVGTests
 
 instance IsGObject SVGTests where
-  toGObject = GObject . unSVGTests
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTests . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTests :: IsGObject obj => obj -> JSM SVGTests
-castToSVGTests = castTo gTypeSVGTests "SVGTests"
+  typeGType _ = gTypeSVGTests
+  {-# INLINE typeGType #-}
 
 gTypeSVGTests :: JSM GType
 gTypeSVGTests = GType . Object <$> jsg "SVGTests"
@@ -21657,7 +19403,7 @@ instance MakeObject SVGTextContentElement where
 
 class IsSVGGraphicsElement o => IsSVGTextContentElement o
 toSVGTextContentElement :: IsSVGTextContentElement o => o -> SVGTextContentElement
-toSVGTextContentElement = unsafeCastGObject . toGObject
+toSVGTextContentElement = SVGTextContentElement . coerce
 
 instance IsSVGTextContentElement SVGTextContentElement
 instance IsSVGGraphicsElement SVGTextContentElement
@@ -21666,13 +19412,8 @@ instance IsElement SVGTextContentElement
 instance IsNode SVGTextContentElement
 instance IsEventTarget SVGTextContentElement
 instance IsGObject SVGTextContentElement where
-  toGObject = GObject . unSVGTextContentElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTextContentElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTextContentElement :: IsGObject obj => obj -> JSM SVGTextContentElement
-castToSVGTextContentElement = castTo gTypeSVGTextContentElement "SVGTextContentElement"
+  typeGType _ = gTypeSVGTextContentElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTextContentElement :: JSM GType
 gTypeSVGTextContentElement = GType . Object <$> jsg "SVGTextContentElement"
@@ -21721,13 +19462,8 @@ instance IsElement SVGTextElement
 instance IsNode SVGTextElement
 instance IsEventTarget SVGTextElement
 instance IsGObject SVGTextElement where
-  toGObject = GObject . unSVGTextElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTextElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTextElement :: IsGObject obj => obj -> JSM SVGTextElement
-castToSVGTextElement = castTo gTypeSVGTextElement "SVGTextElement"
+  typeGType _ = gTypeSVGTextElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTextElement :: JSM GType
 gTypeSVGTextElement = GType . Object <$> jsg "SVGTextElement"
@@ -21774,13 +19510,8 @@ instance IsElement SVGTextPathElement
 instance IsNode SVGTextPathElement
 instance IsEventTarget SVGTextPathElement
 instance IsGObject SVGTextPathElement where
-  toGObject = GObject . unSVGTextPathElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTextPathElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTextPathElement :: IsGObject obj => obj -> JSM SVGTextPathElement
-castToSVGTextPathElement = castTo gTypeSVGTextPathElement "SVGTextPathElement"
+  typeGType _ = gTypeSVGTextPathElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTextPathElement :: JSM GType
 gTypeSVGTextPathElement = GType . Object <$> jsg "SVGTextPathElement"
@@ -21822,7 +19553,7 @@ instance MakeObject SVGTextPositioningElement where
 
 class IsSVGTextContentElement o => IsSVGTextPositioningElement o
 toSVGTextPositioningElement :: IsSVGTextPositioningElement o => o -> SVGTextPositioningElement
-toSVGTextPositioningElement = unsafeCastGObject . toGObject
+toSVGTextPositioningElement = SVGTextPositioningElement . coerce
 
 instance IsSVGTextPositioningElement SVGTextPositioningElement
 instance IsSVGTextContentElement SVGTextPositioningElement
@@ -21832,13 +19563,8 @@ instance IsElement SVGTextPositioningElement
 instance IsNode SVGTextPositioningElement
 instance IsEventTarget SVGTextPositioningElement
 instance IsGObject SVGTextPositioningElement where
-  toGObject = GObject . unSVGTextPositioningElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTextPositioningElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTextPositioningElement :: IsGObject obj => obj -> JSM SVGTextPositioningElement
-castToSVGTextPositioningElement = castTo gTypeSVGTextPositioningElement "SVGTextPositioningElement"
+  typeGType _ = gTypeSVGTextPositioningElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTextPositioningElement :: JSM GType
 gTypeSVGTextPositioningElement = GType . Object <$> jsg "SVGTextPositioningElement"
@@ -21881,13 +19607,8 @@ instance IsElement SVGTitleElement
 instance IsNode SVGTitleElement
 instance IsEventTarget SVGTitleElement
 instance IsGObject SVGTitleElement where
-  toGObject = GObject . unSVGTitleElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTitleElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTitleElement :: IsGObject obj => obj -> JSM SVGTitleElement
-castToSVGTitleElement = castTo gTypeSVGTitleElement "SVGTitleElement"
+  typeGType _ = gTypeSVGTitleElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGTitleElement :: JSM GType
 gTypeSVGTitleElement = GType . Object <$> jsg "SVGTitleElement"
@@ -21920,13 +19641,8 @@ instance MakeObject SVGTransform where
   makeObject = makeObject . unSVGTransform
 
 instance IsGObject SVGTransform where
-  toGObject = GObject . unSVGTransform
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTransform . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTransform :: IsGObject obj => obj -> JSM SVGTransform
-castToSVGTransform = castTo gTypeSVGTransform "SVGTransform"
+  typeGType _ = gTypeSVGTransform
+  {-# INLINE typeGType #-}
 
 gTypeSVGTransform :: JSM GType
 gTypeSVGTransform = GType . Object <$> jsg "SVGTransform"
@@ -21959,13 +19675,8 @@ instance MakeObject SVGTransformList where
   makeObject = makeObject . unSVGTransformList
 
 instance IsGObject SVGTransformList where
-  toGObject = GObject . unSVGTransformList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGTransformList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGTransformList :: IsGObject obj => obj -> JSM SVGTransformList
-castToSVGTransformList = castTo gTypeSVGTransformList "SVGTransformList"
+  typeGType _ = gTypeSVGTransformList
+  {-# INLINE typeGType #-}
 
 gTypeSVGTransformList :: JSM GType
 gTypeSVGTransformList = GType . Object <$> jsg "SVGTransformList"
@@ -21998,13 +19709,8 @@ instance MakeObject SVGURIReference where
   makeObject = makeObject . unSVGURIReference
 
 instance IsGObject SVGURIReference where
-  toGObject = GObject . unSVGURIReference
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGURIReference . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGURIReference :: IsGObject obj => obj -> JSM SVGURIReference
-castToSVGURIReference = castTo gTypeSVGURIReference "SVGURIReference"
+  typeGType _ = gTypeSVGURIReference
+  {-# INLINE typeGType #-}
 
 gTypeSVGURIReference :: JSM GType
 gTypeSVGURIReference = GType . Object <$> jsg "SVGURIReference"
@@ -22037,13 +19743,8 @@ instance MakeObject SVGUnitTypes where
   makeObject = makeObject . unSVGUnitTypes
 
 instance IsGObject SVGUnitTypes where
-  toGObject = GObject . unSVGUnitTypes
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGUnitTypes . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGUnitTypes :: IsGObject obj => obj -> JSM SVGUnitTypes
-castToSVGUnitTypes = castTo gTypeSVGUnitTypes "SVGUnitTypes"
+  typeGType _ = gTypeSVGUnitTypes
+  {-# INLINE typeGType #-}
 
 gTypeSVGUnitTypes :: JSM GType
 gTypeSVGUnitTypes = GType . Object <$> jsg "SVGUnitTypes"
@@ -22088,13 +19789,8 @@ instance IsElement SVGUseElement
 instance IsNode SVGUseElement
 instance IsEventTarget SVGUseElement
 instance IsGObject SVGUseElement where
-  toGObject = GObject . unSVGUseElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGUseElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGUseElement :: IsGObject obj => obj -> JSM SVGUseElement
-castToSVGUseElement = castTo gTypeSVGUseElement "SVGUseElement"
+  typeGType _ = gTypeSVGUseElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGUseElement :: JSM GType
 gTypeSVGUseElement = GType . Object <$> jsg "SVGUseElement"
@@ -22137,13 +19833,8 @@ instance IsElement SVGVKernElement
 instance IsNode SVGVKernElement
 instance IsEventTarget SVGVKernElement
 instance IsGObject SVGVKernElement where
-  toGObject = GObject . unSVGVKernElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGVKernElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGVKernElement :: IsGObject obj => obj -> JSM SVGVKernElement
-castToSVGVKernElement = castTo gTypeSVGVKernElement "SVGVKernElement"
+  typeGType _ = gTypeSVGVKernElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGVKernElement :: JSM GType
 gTypeSVGVKernElement = GType . Object <$> jsg "SVGVKernElement"
@@ -22186,13 +19877,8 @@ instance IsElement SVGViewElement
 instance IsNode SVGViewElement
 instance IsEventTarget SVGViewElement
 instance IsGObject SVGViewElement where
-  toGObject = GObject . unSVGViewElement
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGViewElement . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGViewElement :: IsGObject obj => obj -> JSM SVGViewElement
-castToSVGViewElement = castTo gTypeSVGViewElement "SVGViewElement"
+  typeGType _ = gTypeSVGViewElement
+  {-# INLINE typeGType #-}
 
 gTypeSVGViewElement :: JSM GType
 gTypeSVGViewElement = GType . Object <$> jsg "SVGViewElement"
@@ -22225,13 +19911,8 @@ instance MakeObject SVGViewSpec where
   makeObject = makeObject . unSVGViewSpec
 
 instance IsGObject SVGViewSpec where
-  toGObject = GObject . unSVGViewSpec
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGViewSpec . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGViewSpec :: IsGObject obj => obj -> JSM SVGViewSpec
-castToSVGViewSpec = castTo gTypeSVGViewSpec "SVGViewSpec"
+  typeGType _ = gTypeSVGViewSpec
+  {-# INLINE typeGType #-}
 
 gTypeSVGViewSpec :: JSM GType
 gTypeSVGViewSpec = GType . Object <$> jsg "SVGViewSpec"
@@ -22264,13 +19945,8 @@ instance MakeObject SVGZoomAndPan where
   makeObject = makeObject . unSVGZoomAndPan
 
 instance IsGObject SVGZoomAndPan where
-  toGObject = GObject . unSVGZoomAndPan
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGZoomAndPan . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGZoomAndPan :: IsGObject obj => obj -> JSM SVGZoomAndPan
-castToSVGZoomAndPan = castTo gTypeSVGZoomAndPan "SVGZoomAndPan"
+  typeGType _ = gTypeSVGZoomAndPan
+  {-# INLINE typeGType #-}
 
 gTypeSVGZoomAndPan :: JSM GType
 gTypeSVGZoomAndPan = GType . Object <$> jsg "SVGZoomAndPan"
@@ -22309,13 +19985,8 @@ instance MakeObject SVGZoomEvent where
 instance IsUIEvent SVGZoomEvent
 instance IsEvent SVGZoomEvent
 instance IsGObject SVGZoomEvent where
-  toGObject = GObject . unSVGZoomEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SVGZoomEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSVGZoomEvent :: IsGObject obj => obj -> JSM SVGZoomEvent
-castToSVGZoomEvent = castTo gTypeSVGZoomEvent "SVGZoomEvent"
+  typeGType _ = gTypeSVGZoomEvent
+  {-# INLINE typeGType #-}
 
 gTypeSVGZoomEvent :: JSM GType
 gTypeSVGZoomEvent = GType . Object <$> jsg "SVGZoomEvent"
@@ -22348,13 +20019,8 @@ instance MakeObject Screen where
   makeObject = makeObject . unScreen
 
 instance IsGObject Screen where
-  toGObject = GObject . unScreen
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Screen . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToScreen :: IsGObject obj => obj -> JSM Screen
-castToScreen = castTo gTypeScreen "Screen"
+  typeGType _ = gTypeScreen
+  {-# INLINE typeGType #-}
 
 gTypeScreen :: JSM GType
 gTypeScreen = GType . Object <$> jsg "Screen"
@@ -22395,13 +20061,8 @@ instance MakeObject ScriptProcessorNode where
 instance IsAudioNode ScriptProcessorNode
 instance IsEventTarget ScriptProcessorNode
 instance IsGObject ScriptProcessorNode where
-  toGObject = GObject . unScriptProcessorNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ScriptProcessorNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToScriptProcessorNode :: IsGObject obj => obj -> JSM ScriptProcessorNode
-castToScriptProcessorNode = castTo gTypeScriptProcessorNode "ScriptProcessorNode"
+  typeGType _ = gTypeScriptProcessorNode
+  {-# INLINE typeGType #-}
 
 gTypeScriptProcessorNode :: JSM GType
 gTypeScriptProcessorNode = GType . Object <$> jsg "ScriptProcessorNode"
@@ -22434,13 +20095,8 @@ instance MakeObject ScriptProfile where
   makeObject = makeObject . unScriptProfile
 
 instance IsGObject ScriptProfile where
-  toGObject = GObject . unScriptProfile
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ScriptProfile . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToScriptProfile :: IsGObject obj => obj -> JSM ScriptProfile
-castToScriptProfile = castTo gTypeScriptProfile "ScriptProfile"
+  typeGType _ = gTypeScriptProfile
+  {-# INLINE typeGType #-}
 
 gTypeScriptProfile :: JSM GType
 gTypeScriptProfile = GType . Object <$> jsg "ScriptProfile"
@@ -22473,13 +20129,8 @@ instance MakeObject ScriptProfileNode where
   makeObject = makeObject . unScriptProfileNode
 
 instance IsGObject ScriptProfileNode where
-  toGObject = GObject . unScriptProfileNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ScriptProfileNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToScriptProfileNode :: IsGObject obj => obj -> JSM ScriptProfileNode
-castToScriptProfileNode = castTo gTypeScriptProfileNode "ScriptProfileNode"
+  typeGType _ = gTypeScriptProfileNode
+  {-# INLINE typeGType #-}
 
 gTypeScriptProfileNode :: JSM GType
 gTypeScriptProfileNode = GType . Object <$> jsg "ScriptProfileNode"
@@ -22512,13 +20163,8 @@ instance MakeObject SecurityPolicy where
   makeObject = makeObject . unSecurityPolicy
 
 instance IsGObject SecurityPolicy where
-  toGObject = GObject . unSecurityPolicy
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SecurityPolicy . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSecurityPolicy :: IsGObject obj => obj -> JSM SecurityPolicy
-castToSecurityPolicy = castTo gTypeSecurityPolicy "SecurityPolicy"
+  typeGType _ = gTypeSecurityPolicy
+  {-# INLINE typeGType #-}
 
 gTypeSecurityPolicy :: JSM GType
 gTypeSecurityPolicy = GType . Object <$> jsg "SecurityPolicy"
@@ -22559,13 +20205,8 @@ instance MakeObject SecurityPolicyViolationEvent where
 
 instance IsEvent SecurityPolicyViolationEvent
 instance IsGObject SecurityPolicyViolationEvent where
-  toGObject = GObject . unSecurityPolicyViolationEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SecurityPolicyViolationEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSecurityPolicyViolationEvent :: IsGObject obj => obj -> JSM SecurityPolicyViolationEvent
-castToSecurityPolicyViolationEvent = castTo gTypeSecurityPolicyViolationEvent "SecurityPolicyViolationEvent"
+  typeGType _ = gTypeSecurityPolicyViolationEvent
+  {-# INLINE typeGType #-}
 
 gTypeSecurityPolicyViolationEvent :: JSM GType
 gTypeSecurityPolicyViolationEvent = GType . Object <$> jsg "SecurityPolicyViolationEvent"
@@ -22598,13 +20239,8 @@ instance MakeObject Selection where
   makeObject = makeObject . unSelection
 
 instance IsGObject Selection where
-  toGObject = GObject . unSelection
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Selection . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSelection :: IsGObject obj => obj -> JSM Selection
-castToSelection = castTo gTypeSelection "Selection"
+  typeGType _ = gTypeSelection
+  {-# INLINE typeGType #-}
 
 gTypeSelection :: JSM GType
 gTypeSelection = GType . Object <$> jsg "Selection"
@@ -22643,13 +20279,8 @@ instance MakeObject SourceBuffer where
 
 instance IsEventTarget SourceBuffer
 instance IsGObject SourceBuffer where
-  toGObject = GObject . unSourceBuffer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SourceBuffer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSourceBuffer :: IsGObject obj => obj -> JSM SourceBuffer
-castToSourceBuffer = castTo gTypeSourceBuffer "SourceBuffer"
+  typeGType _ = gTypeSourceBuffer
+  {-# INLINE typeGType #-}
 
 gTypeSourceBuffer :: JSM GType
 gTypeSourceBuffer = GType . Object <$> jsg "SourceBuffer"
@@ -22686,13 +20317,8 @@ instance MakeObject SourceBufferList where
 
 instance IsEventTarget SourceBufferList
 instance IsGObject SourceBufferList where
-  toGObject = GObject . unSourceBufferList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SourceBufferList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSourceBufferList :: IsGObject obj => obj -> JSM SourceBufferList
-castToSourceBufferList = castTo gTypeSourceBufferList "SourceBufferList"
+  typeGType _ = gTypeSourceBufferList
+  {-# INLINE typeGType #-}
 
 gTypeSourceBufferList :: JSM GType
 gTypeSourceBufferList = GType . Object <$> jsg "SourceBufferList"
@@ -22725,13 +20351,8 @@ instance MakeObject SourceInfo where
   makeObject = makeObject . unSourceInfo
 
 instance IsGObject SourceInfo where
-  toGObject = GObject . unSourceInfo
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SourceInfo . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSourceInfo :: IsGObject obj => obj -> JSM SourceInfo
-castToSourceInfo = castTo gTypeSourceInfo "SourceInfo"
+  typeGType _ = gTypeSourceInfo
+  {-# INLINE typeGType #-}
 
 gTypeSourceInfo :: JSM GType
 gTypeSourceInfo = GType . Object <$> jsg "SourceInfo"
@@ -22764,13 +20385,8 @@ instance MakeObject SpeechSynthesis where
   makeObject = makeObject . unSpeechSynthesis
 
 instance IsGObject SpeechSynthesis where
-  toGObject = GObject . unSpeechSynthesis
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SpeechSynthesis . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSpeechSynthesis :: IsGObject obj => obj -> JSM SpeechSynthesis
-castToSpeechSynthesis = castTo gTypeSpeechSynthesis "SpeechSynthesis"
+  typeGType _ = gTypeSpeechSynthesis
+  {-# INLINE typeGType #-}
 
 gTypeSpeechSynthesis :: JSM GType
 gTypeSpeechSynthesis = GType . Object <$> jsg "SpeechSynthesis"
@@ -22807,13 +20423,8 @@ instance MakeObject SpeechSynthesisEvent where
 
 instance IsEvent SpeechSynthesisEvent
 instance IsGObject SpeechSynthesisEvent where
-  toGObject = GObject . unSpeechSynthesisEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SpeechSynthesisEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSpeechSynthesisEvent :: IsGObject obj => obj -> JSM SpeechSynthesisEvent
-castToSpeechSynthesisEvent = castTo gTypeSpeechSynthesisEvent "SpeechSynthesisEvent"
+  typeGType _ = gTypeSpeechSynthesisEvent
+  {-# INLINE typeGType #-}
 
 gTypeSpeechSynthesisEvent :: JSM GType
 gTypeSpeechSynthesisEvent = GType . Object <$> jsg "SpeechSynthesisEvent"
@@ -22850,13 +20461,8 @@ instance MakeObject SpeechSynthesisUtterance where
 
 instance IsEventTarget SpeechSynthesisUtterance
 instance IsGObject SpeechSynthesisUtterance where
-  toGObject = GObject . unSpeechSynthesisUtterance
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SpeechSynthesisUtterance . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSpeechSynthesisUtterance :: IsGObject obj => obj -> JSM SpeechSynthesisUtterance
-castToSpeechSynthesisUtterance = castTo gTypeSpeechSynthesisUtterance "SpeechSynthesisUtterance"
+  typeGType _ = gTypeSpeechSynthesisUtterance
+  {-# INLINE typeGType #-}
 
 gTypeSpeechSynthesisUtterance :: JSM GType
 gTypeSpeechSynthesisUtterance = GType . Object <$> jsg "SpeechSynthesisUtterance"
@@ -22889,13 +20495,8 @@ instance MakeObject SpeechSynthesisVoice where
   makeObject = makeObject . unSpeechSynthesisVoice
 
 instance IsGObject SpeechSynthesisVoice where
-  toGObject = GObject . unSpeechSynthesisVoice
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SpeechSynthesisVoice . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSpeechSynthesisVoice :: IsGObject obj => obj -> JSM SpeechSynthesisVoice
-castToSpeechSynthesisVoice = castTo gTypeSpeechSynthesisVoice "SpeechSynthesisVoice"
+  typeGType _ = gTypeSpeechSynthesisVoice
+  {-# INLINE typeGType #-}
 
 gTypeSpeechSynthesisVoice :: JSM GType
 gTypeSpeechSynthesisVoice = GType . Object <$> jsg "SpeechSynthesisVoice"
@@ -22928,13 +20529,8 @@ instance MakeObject Storage where
   makeObject = makeObject . unStorage
 
 instance IsGObject Storage where
-  toGObject = GObject . unStorage
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Storage . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStorage :: IsGObject obj => obj -> JSM Storage
-castToStorage = castTo gTypeStorage "Storage"
+  typeGType _ = gTypeStorage
+  {-# INLINE typeGType #-}
 
 gTypeStorage :: JSM GType
 gTypeStorage = GType . Object <$> jsg "Storage"
@@ -22973,13 +20569,8 @@ instance MakeObject StorageEvent where
 
 instance IsEvent StorageEvent
 instance IsGObject StorageEvent where
-  toGObject = GObject . unStorageEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = StorageEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStorageEvent :: IsGObject obj => obj -> JSM StorageEvent
-castToStorageEvent = castTo gTypeStorageEvent "StorageEvent"
+  typeGType _ = gTypeStorageEvent
+  {-# INLINE typeGType #-}
 
 gTypeStorageEvent :: JSM GType
 gTypeStorageEvent = GType . Object <$> jsg "StorageEvent"
@@ -23012,13 +20603,8 @@ instance MakeObject StorageInfo where
   makeObject = makeObject . unStorageInfo
 
 instance IsGObject StorageInfo where
-  toGObject = GObject . unStorageInfo
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = StorageInfo . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStorageInfo :: IsGObject obj => obj -> JSM StorageInfo
-castToStorageInfo = castTo gTypeStorageInfo "StorageInfo"
+  typeGType _ = gTypeStorageInfo
+  {-# INLINE typeGType #-}
 
 gTypeStorageInfo :: JSM GType
 gTypeStorageInfo = GType . Object <$> jsg "StorageInfo"
@@ -23055,13 +20641,8 @@ instance MakeObject StorageQuota where
   makeObject = makeObject . unStorageQuota
 
 instance IsGObject StorageQuota where
-  toGObject = GObject . unStorageQuota
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = StorageQuota . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStorageQuota :: IsGObject obj => obj -> JSM StorageQuota
-castToStorageQuota = castTo gTypeStorageQuota "StorageQuota"
+  typeGType _ = gTypeStorageQuota
+  {-# INLINE typeGType #-}
 
 gTypeStorageQuota :: JSM GType
 gTypeStorageQuota = GType . Object <$> jsg "StorageQuota"
@@ -23098,13 +20679,8 @@ instance MakeObject StyleMedia where
   makeObject = makeObject . unStyleMedia
 
 instance IsGObject StyleMedia where
-  toGObject = GObject . unStyleMedia
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = StyleMedia . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStyleMedia :: IsGObject obj => obj -> JSM StyleMedia
-castToStyleMedia = castTo gTypeStyleMedia "StyleMedia"
+  typeGType _ = gTypeStyleMedia
+  {-# INLINE typeGType #-}
 
 gTypeStyleMedia :: JSM GType
 gTypeStyleMedia = GType . Object <$> jsg "StyleMedia"
@@ -23140,17 +20716,12 @@ instance MakeObject StyleSheet where
 
 class IsGObject o => IsStyleSheet o
 toStyleSheet :: IsStyleSheet o => o -> StyleSheet
-toStyleSheet = unsafeCastGObject . toGObject
+toStyleSheet = StyleSheet . coerce
 
 instance IsStyleSheet StyleSheet
 instance IsGObject StyleSheet where
-  toGObject = GObject . unStyleSheet
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = StyleSheet . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStyleSheet :: IsGObject obj => obj -> JSM StyleSheet
-castToStyleSheet = castTo gTypeStyleSheet "StyleSheet"
+  typeGType _ = gTypeStyleSheet
+  {-# INLINE typeGType #-}
 
 gTypeStyleSheet :: JSM GType
 gTypeStyleSheet = GType . Object <$> jsg "StyleSheet"
@@ -23185,13 +20756,8 @@ instance MakeObject StyleSheetList where
   makeObject = makeObject . unStyleSheetList
 
 instance IsGObject StyleSheetList where
-  toGObject = GObject . unStyleSheetList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = StyleSheetList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToStyleSheetList :: IsGObject obj => obj -> JSM StyleSheetList
-castToStyleSheetList = castTo gTypeStyleSheetList "StyleSheetList"
+  typeGType _ = gTypeStyleSheetList
+  {-# INLINE typeGType #-}
 
 gTypeStyleSheetList :: JSM GType
 gTypeStyleSheetList = GType . Object <$> jsg "StyleSheetList"
@@ -23226,13 +20792,8 @@ instance MakeObject SubtleCrypto where
   makeObject = makeObject . unSubtleCrypto
 
 instance IsGObject SubtleCrypto where
-  toGObject = GObject . unSubtleCrypto
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = SubtleCrypto . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToSubtleCrypto :: IsGObject obj => obj -> JSM SubtleCrypto
-castToSubtleCrypto = castTo gTypeSubtleCrypto "SubtleCrypto"
+  typeGType _ = gTypeSubtleCrypto
+  {-# INLINE typeGType #-}
 
 gTypeSubtleCrypto :: JSM GType
 gTypeSubtleCrypto = GType . Object <$> jsg "WebKitSubtleCrypto"
@@ -23271,20 +20832,15 @@ instance MakeObject Text where
 
 class IsCharacterData o => IsText o
 toText :: IsText o => o -> Text
-toText = unsafeCastGObject . toGObject
+toText = Text . coerce
 
 instance IsText Text
 instance IsCharacterData Text
 instance IsNode Text
 instance IsEventTarget Text
 instance IsGObject Text where
-  toGObject = GObject . unText
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Text . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToText :: IsGObject obj => obj -> JSM Text
-castToText = castTo gTypeText "Text"
+  typeGType _ = gTypeText
+  {-# INLINE typeGType #-}
 
 gTypeText :: JSM GType
 gTypeText = GType . Object <$> jsg "Text"
@@ -23325,13 +20881,8 @@ instance MakeObject TextEvent where
 instance IsUIEvent TextEvent
 instance IsEvent TextEvent
 instance IsGObject TextEvent where
-  toGObject = GObject . unTextEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TextEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTextEvent :: IsGObject obj => obj -> JSM TextEvent
-castToTextEvent = castTo gTypeTextEvent "TextEvent"
+  typeGType _ = gTypeTextEvent
+  {-# INLINE typeGType #-}
 
 gTypeTextEvent :: JSM GType
 gTypeTextEvent = GType . Object <$> jsg "TextEvent"
@@ -23364,13 +20915,8 @@ instance MakeObject TextMetrics where
   makeObject = makeObject . unTextMetrics
 
 instance IsGObject TextMetrics where
-  toGObject = GObject . unTextMetrics
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TextMetrics . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTextMetrics :: IsGObject obj => obj -> JSM TextMetrics
-castToTextMetrics = castTo gTypeTextMetrics "TextMetrics"
+  typeGType _ = gTypeTextMetrics
+  {-# INLINE typeGType #-}
 
 gTypeTextMetrics :: JSM GType
 gTypeTextMetrics = GType . Object <$> jsg "TextMetrics"
@@ -23407,13 +20953,8 @@ instance MakeObject TextTrack where
 
 instance IsEventTarget TextTrack
 instance IsGObject TextTrack where
-  toGObject = GObject . unTextTrack
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TextTrack . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTextTrack :: IsGObject obj => obj -> JSM TextTrack
-castToTextTrack = castTo gTypeTextTrack "TextTrack"
+  typeGType _ = gTypeTextTrack
+  {-# INLINE typeGType #-}
 
 gTypeTextTrack :: JSM GType
 gTypeTextTrack = GType . Object <$> jsg "TextTrack"
@@ -23454,18 +20995,13 @@ instance MakeObject TextTrackCue where
 
 class IsEventTarget o => IsTextTrackCue o
 toTextTrackCue :: IsTextTrackCue o => o -> TextTrackCue
-toTextTrackCue = unsafeCastGObject . toGObject
+toTextTrackCue = TextTrackCue . coerce
 
 instance IsTextTrackCue TextTrackCue
 instance IsEventTarget TextTrackCue
 instance IsGObject TextTrackCue where
-  toGObject = GObject . unTextTrackCue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TextTrackCue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTextTrackCue :: IsGObject obj => obj -> JSM TextTrackCue
-castToTextTrackCue = castTo gTypeTextTrackCue "TextTrackCue"
+  typeGType _ = gTypeTextTrackCue
+  {-# INLINE typeGType #-}
 
 gTypeTextTrackCue :: JSM GType
 gTypeTextTrackCue = GType . Object <$> jsg "TextTrackCue"
@@ -23502,13 +21038,8 @@ instance MakeObject TextTrackCueList where
   makeObject = makeObject . unTextTrackCueList
 
 instance IsGObject TextTrackCueList where
-  toGObject = GObject . unTextTrackCueList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TextTrackCueList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTextTrackCueList :: IsGObject obj => obj -> JSM TextTrackCueList
-castToTextTrackCueList = castTo gTypeTextTrackCueList "TextTrackCueList"
+  typeGType _ = gTypeTextTrackCueList
+  {-# INLINE typeGType #-}
 
 gTypeTextTrackCueList :: JSM GType
 gTypeTextTrackCueList = GType . Object <$> jsg "TextTrackCueList"
@@ -23549,13 +21080,8 @@ instance MakeObject TextTrackList where
 
 instance IsEventTarget TextTrackList
 instance IsGObject TextTrackList where
-  toGObject = GObject . unTextTrackList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TextTrackList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTextTrackList :: IsGObject obj => obj -> JSM TextTrackList
-castToTextTrackList = castTo gTypeTextTrackList "TextTrackList"
+  typeGType _ = gTypeTextTrackList
+  {-# INLINE typeGType #-}
 
 gTypeTextTrackList :: JSM GType
 gTypeTextTrackList = GType . Object <$> jsg "TextTrackList"
@@ -23592,13 +21118,8 @@ instance MakeObject TimeRanges where
   makeObject = makeObject . unTimeRanges
 
 instance IsGObject TimeRanges where
-  toGObject = GObject . unTimeRanges
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TimeRanges . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTimeRanges :: IsGObject obj => obj -> JSM TimeRanges
-castToTimeRanges = castTo gTypeTimeRanges "TimeRanges"
+  typeGType _ = gTypeTimeRanges
+  {-# INLINE typeGType #-}
 
 gTypeTimeRanges :: JSM GType
 gTypeTimeRanges = GType . Object <$> jsg "TimeRanges"
@@ -23633,13 +21154,8 @@ instance MakeObject Touch where
   makeObject = makeObject . unTouch
 
 instance IsGObject Touch where
-  toGObject = GObject . unTouch
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Touch . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTouch :: IsGObject obj => obj -> JSM Touch
-castToTouch = castTo gTypeTouch "Touch"
+  typeGType _ = gTypeTouch
+  {-# INLINE typeGType #-}
 
 gTypeTouch :: JSM GType
 gTypeTouch = GType . Object <$> jsg "Touch"
@@ -23682,13 +21198,8 @@ instance MakeObject TouchEvent where
 instance IsUIEvent TouchEvent
 instance IsEvent TouchEvent
 instance IsGObject TouchEvent where
-  toGObject = GObject . unTouchEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TouchEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTouchEvent :: IsGObject obj => obj -> JSM TouchEvent
-castToTouchEvent = castTo gTypeTouchEvent "TouchEvent"
+  typeGType _ = gTypeTouchEvent
+  {-# INLINE typeGType #-}
 
 gTypeTouchEvent :: JSM GType
 gTypeTouchEvent = GType . Object <$> jsg "TouchEvent"
@@ -23721,13 +21232,8 @@ instance MakeObject TouchList where
   makeObject = makeObject . unTouchList
 
 instance IsGObject TouchList where
-  toGObject = GObject . unTouchList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TouchList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTouchList :: IsGObject obj => obj -> JSM TouchList
-castToTouchList = castTo gTypeTouchList "TouchList"
+  typeGType _ = gTypeTouchList
+  {-# INLINE typeGType #-}
 
 gTypeTouchList :: JSM GType
 gTypeTouchList = GType . Object <$> jsg "TouchList"
@@ -23764,13 +21270,8 @@ instance MakeObject TrackEvent where
 
 instance IsEvent TrackEvent
 instance IsGObject TrackEvent where
-  toGObject = GObject . unTrackEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TrackEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTrackEvent :: IsGObject obj => obj -> JSM TrackEvent
-castToTrackEvent = castTo gTypeTrackEvent "TrackEvent"
+  typeGType _ = gTypeTrackEvent
+  {-# INLINE typeGType #-}
 
 gTypeTrackEvent :: JSM GType
 gTypeTrackEvent = GType . Object <$> jsg "TrackEvent"
@@ -23807,13 +21308,8 @@ instance MakeObject TransitionEvent where
 
 instance IsEvent TransitionEvent
 instance IsGObject TransitionEvent where
-  toGObject = GObject . unTransitionEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TransitionEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTransitionEvent :: IsGObject obj => obj -> JSM TransitionEvent
-castToTransitionEvent = castTo gTypeTransitionEvent "TransitionEvent"
+  typeGType _ = gTypeTransitionEvent
+  {-# INLINE typeGType #-}
 
 gTypeTransitionEvent :: JSM GType
 gTypeTransitionEvent = GType . Object <$> jsg "TransitionEvent"
@@ -23846,13 +21342,8 @@ instance MakeObject TreeWalker where
   makeObject = makeObject . unTreeWalker
 
 instance IsGObject TreeWalker where
-  toGObject = GObject . unTreeWalker
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TreeWalker . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTreeWalker :: IsGObject obj => obj -> JSM TreeWalker
-castToTreeWalker = castTo gTypeTreeWalker "TreeWalker"
+  typeGType _ = gTypeTreeWalker
+  {-# INLINE typeGType #-}
 
 gTypeTreeWalker :: JSM GType
 gTypeTreeWalker = GType . Object <$> jsg "TreeWalker"
@@ -23887,13 +21378,8 @@ instance MakeObject TypeConversions where
   makeObject = makeObject . unTypeConversions
 
 instance IsGObject TypeConversions where
-  toGObject = GObject . unTypeConversions
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = TypeConversions . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToTypeConversions :: IsGObject obj => obj -> JSM TypeConversions
-castToTypeConversions = castTo gTypeTypeConversions "TypeConversions"
+  typeGType _ = gTypeTypeConversions
+  {-# INLINE typeGType #-}
 
 gTypeTypeConversions :: JSM GType
 gTypeTypeConversions = GType . Object <$> jsg "TypeConversions"
@@ -23930,18 +21416,13 @@ instance MakeObject UIEvent where
 
 class IsEvent o => IsUIEvent o
 toUIEvent :: IsUIEvent o => o -> UIEvent
-toUIEvent = unsafeCastGObject . toGObject
+toUIEvent = UIEvent . coerce
 
 instance IsUIEvent UIEvent
 instance IsEvent UIEvent
 instance IsGObject UIEvent where
-  toGObject = GObject . unUIEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = UIEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToUIEvent :: IsGObject obj => obj -> JSM UIEvent
-castToUIEvent = castTo gTypeUIEvent "UIEvent"
+  typeGType _ = gTypeUIEvent
+  {-# INLINE typeGType #-}
 
 gTypeUIEvent :: JSM GType
 gTypeUIEvent = GType . Object <$> jsg "UIEvent"
@@ -23982,13 +21463,8 @@ instance MakeObject UIRequestEvent where
 instance IsUIEvent UIRequestEvent
 instance IsEvent UIRequestEvent
 instance IsGObject UIRequestEvent where
-  toGObject = GObject . unUIRequestEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = UIRequestEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToUIRequestEvent :: IsGObject obj => obj -> JSM UIRequestEvent
-castToUIRequestEvent = castTo gTypeUIRequestEvent "UIRequestEvent"
+  typeGType _ = gTypeUIRequestEvent
+  {-# INLINE typeGType #-}
 
 gTypeUIRequestEvent :: JSM GType
 gTypeUIRequestEvent = GType . Object <$> jsg "UIRequestEvent"
@@ -24021,13 +21497,8 @@ instance MakeObject URL where
   makeObject = makeObject . unURL
 
 instance IsGObject URL where
-  toGObject = GObject . unURL
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = URL . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToURL :: IsGObject obj => obj -> JSM URL
-castToURL = castTo gTypeURL "URL"
+  typeGType _ = gTypeURL
+  {-# INLINE typeGType #-}
 
 gTypeURL :: JSM GType
 gTypeURL = GType . Object <$> jsg "URL"
@@ -24060,13 +21531,8 @@ instance MakeObject URLUtils where
   makeObject = makeObject . unURLUtils
 
 instance IsGObject URLUtils where
-  toGObject = GObject . unURLUtils
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = URLUtils . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToURLUtils :: IsGObject obj => obj -> JSM URLUtils
-castToURLUtils = castTo gTypeURLUtils "URLUtils"
+  typeGType _ = gTypeURLUtils
+  {-# INLINE typeGType #-}
 
 gTypeURLUtils :: JSM GType
 gTypeURLUtils = GType . Object <$> jsg "URLUtils"
@@ -24099,13 +21565,8 @@ instance MakeObject UserMessageHandler where
   makeObject = makeObject . unUserMessageHandler
 
 instance IsGObject UserMessageHandler where
-  toGObject = GObject . unUserMessageHandler
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = UserMessageHandler . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToUserMessageHandler :: IsGObject obj => obj -> JSM UserMessageHandler
-castToUserMessageHandler = castTo gTypeUserMessageHandler "UserMessageHandler"
+  typeGType _ = gTypeUserMessageHandler
+  {-# INLINE typeGType #-}
 
 gTypeUserMessageHandler :: JSM GType
 gTypeUserMessageHandler = GType . Object <$> jsg "UserMessageHandler"
@@ -24138,13 +21599,8 @@ instance MakeObject UserMessageHandlersNamespace where
   makeObject = makeObject . unUserMessageHandlersNamespace
 
 instance IsGObject UserMessageHandlersNamespace where
-  toGObject = GObject . unUserMessageHandlersNamespace
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = UserMessageHandlersNamespace . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToUserMessageHandlersNamespace :: IsGObject obj => obj -> JSM UserMessageHandlersNamespace
-castToUserMessageHandlersNamespace = castTo gTypeUserMessageHandlersNamespace "UserMessageHandlersNamespace"
+  typeGType _ = gTypeUserMessageHandlersNamespace
+  {-# INLINE typeGType #-}
 
 gTypeUserMessageHandlersNamespace :: JSM GType
 gTypeUserMessageHandlersNamespace = GType . Object <$> jsg "UserMessageHandlersNamespace"
@@ -24183,13 +21639,8 @@ instance MakeObject VTTCue where
 instance IsTextTrackCue VTTCue
 instance IsEventTarget VTTCue
 instance IsGObject VTTCue where
-  toGObject = GObject . unVTTCue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VTTCue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVTTCue :: IsGObject obj => obj -> JSM VTTCue
-castToVTTCue = castTo gTypeVTTCue "VTTCue"
+  typeGType _ = gTypeVTTCue
+  {-# INLINE typeGType #-}
 
 gTypeVTTCue :: JSM GType
 gTypeVTTCue = GType . Object <$> jsg "VTTCue"
@@ -24222,13 +21673,8 @@ instance MakeObject VTTRegion where
   makeObject = makeObject . unVTTRegion
 
 instance IsGObject VTTRegion where
-  toGObject = GObject . unVTTRegion
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VTTRegion . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVTTRegion :: IsGObject obj => obj -> JSM VTTRegion
-castToVTTRegion = castTo gTypeVTTRegion "VTTRegion"
+  typeGType _ = gTypeVTTRegion
+  {-# INLINE typeGType #-}
 
 gTypeVTTRegion :: JSM GType
 gTypeVTTRegion = GType . Object <$> jsg "VTTRegion"
@@ -24261,13 +21707,8 @@ instance MakeObject VTTRegionList where
   makeObject = makeObject . unVTTRegionList
 
 instance IsGObject VTTRegionList where
-  toGObject = GObject . unVTTRegionList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VTTRegionList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVTTRegionList :: IsGObject obj => obj -> JSM VTTRegionList
-castToVTTRegionList = castTo gTypeVTTRegionList "VTTRegionList"
+  typeGType _ = gTypeVTTRegionList
+  {-# INLINE typeGType #-}
 
 gTypeVTTRegionList :: JSM GType
 gTypeVTTRegionList = GType . Object <$> jsg "VTTRegionList"
@@ -24300,13 +21741,8 @@ instance MakeObject ValidityState where
   makeObject = makeObject . unValidityState
 
 instance IsGObject ValidityState where
-  toGObject = GObject . unValidityState
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = ValidityState . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToValidityState :: IsGObject obj => obj -> JSM ValidityState
-castToValidityState = castTo gTypeValidityState "ValidityState"
+  typeGType _ = gTypeValidityState
+  {-# INLINE typeGType #-}
 
 gTypeValidityState :: JSM GType
 gTypeValidityState = GType . Object <$> jsg "ValidityState"
@@ -24341,13 +21777,8 @@ instance MakeObject VideoPlaybackQuality where
   makeObject = makeObject . unVideoPlaybackQuality
 
 instance IsGObject VideoPlaybackQuality where
-  toGObject = GObject . unVideoPlaybackQuality
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VideoPlaybackQuality . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVideoPlaybackQuality :: IsGObject obj => obj -> JSM VideoPlaybackQuality
-castToVideoPlaybackQuality = castTo gTypeVideoPlaybackQuality "VideoPlaybackQuality"
+  typeGType _ = gTypeVideoPlaybackQuality
+  {-# INLINE typeGType #-}
 
 gTypeVideoPlaybackQuality :: JSM GType
 gTypeVideoPlaybackQuality = GType . Object <$> jsg "VideoPlaybackQuality"
@@ -24386,13 +21817,8 @@ instance MakeObject VideoStreamTrack where
 instance IsMediaStreamTrack VideoStreamTrack
 instance IsEventTarget VideoStreamTrack
 instance IsGObject VideoStreamTrack where
-  toGObject = GObject . unVideoStreamTrack
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VideoStreamTrack . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVideoStreamTrack :: IsGObject obj => obj -> JSM VideoStreamTrack
-castToVideoStreamTrack = castTo gTypeVideoStreamTrack "VideoStreamTrack"
+  typeGType _ = gTypeVideoStreamTrack
+  {-# INLINE typeGType #-}
 
 gTypeVideoStreamTrack :: JSM GType
 gTypeVideoStreamTrack = GType . Object <$> jsg "VideoStreamTrack"
@@ -24425,13 +21851,8 @@ instance MakeObject VideoTrack where
   makeObject = makeObject . unVideoTrack
 
 instance IsGObject VideoTrack where
-  toGObject = GObject . unVideoTrack
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VideoTrack . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVideoTrack :: IsGObject obj => obj -> JSM VideoTrack
-castToVideoTrack = castTo gTypeVideoTrack "VideoTrack"
+  typeGType _ = gTypeVideoTrack
+  {-# INLINE typeGType #-}
 
 gTypeVideoTrack :: JSM GType
 gTypeVideoTrack = GType . Object <$> jsg "VideoTrack"
@@ -24472,13 +21893,8 @@ instance MakeObject VideoTrackList where
 
 instance IsEventTarget VideoTrackList
 instance IsGObject VideoTrackList where
-  toGObject = GObject . unVideoTrackList
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = VideoTrackList . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToVideoTrackList :: IsGObject obj => obj -> JSM VideoTrackList
-castToVideoTrackList = castTo gTypeVideoTrackList "VideoTrackList"
+  typeGType _ = gTypeVideoTrackList
+  {-# INLINE typeGType #-}
 
 gTypeVideoTrackList :: JSM GType
 gTypeVideoTrackList = GType . Object <$> jsg "VideoTrackList"
@@ -24521,13 +21937,8 @@ instance MakeObject WaveShaperNode where
 instance IsAudioNode WaveShaperNode
 instance IsEventTarget WaveShaperNode
 instance IsGObject WaveShaperNode where
-  toGObject = GObject . unWaveShaperNode
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WaveShaperNode . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWaveShaperNode :: IsGObject obj => obj -> JSM WaveShaperNode
-castToWaveShaperNode = castTo gTypeWaveShaperNode "WaveShaperNode"
+  typeGType _ = gTypeWaveShaperNode
+  {-# INLINE typeGType #-}
 
 gTypeWaveShaperNode :: JSM GType
 gTypeWaveShaperNode = GType . Object <$> jsg "WaveShaperNode"
@@ -24566,13 +21977,8 @@ instance MakeObject WebGL2RenderingContext where
 instance IsWebGLRenderingContextBase WebGL2RenderingContext
 instance IsCanvasRenderingContext WebGL2RenderingContext
 instance IsGObject WebGL2RenderingContext where
-  toGObject = GObject . unWebGL2RenderingContext
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGL2RenderingContext . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGL2RenderingContext :: IsGObject obj => obj -> JSM WebGL2RenderingContext
-castToWebGL2RenderingContext = castTo gTypeWebGL2RenderingContext "WebGL2RenderingContext"
+  typeGType _ = gTypeWebGL2RenderingContext
+  {-# INLINE typeGType #-}
 
 gTypeWebGL2RenderingContext :: JSM GType
 gTypeWebGL2RenderingContext = GType . Object <$> jsg "WebGL2RenderingContext"
@@ -24605,13 +22011,8 @@ instance MakeObject WebGLActiveInfo where
   makeObject = makeObject . unWebGLActiveInfo
 
 instance IsGObject WebGLActiveInfo where
-  toGObject = GObject . unWebGLActiveInfo
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLActiveInfo . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLActiveInfo :: IsGObject obj => obj -> JSM WebGLActiveInfo
-castToWebGLActiveInfo = castTo gTypeWebGLActiveInfo "WebGLActiveInfo"
+  typeGType _ = gTypeWebGLActiveInfo
+  {-# INLINE typeGType #-}
 
 gTypeWebGLActiveInfo :: JSM GType
 gTypeWebGLActiveInfo = GType . Object <$> jsg "WebGLActiveInfo"
@@ -24644,13 +22045,8 @@ instance MakeObject WebGLBuffer where
   makeObject = makeObject . unWebGLBuffer
 
 instance IsGObject WebGLBuffer where
-  toGObject = GObject . unWebGLBuffer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLBuffer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLBuffer :: IsGObject obj => obj -> JSM WebGLBuffer
-castToWebGLBuffer = castTo gTypeWebGLBuffer "WebGLBuffer"
+  typeGType _ = gTypeWebGLBuffer
+  {-# INLINE typeGType #-}
 
 gTypeWebGLBuffer :: JSM GType
 gTypeWebGLBuffer = GType . Object <$> jsg "WebGLBuffer"
@@ -24683,13 +22079,8 @@ instance MakeObject WebGLCompressedTextureATC where
   makeObject = makeObject . unWebGLCompressedTextureATC
 
 instance IsGObject WebGLCompressedTextureATC where
-  toGObject = GObject . unWebGLCompressedTextureATC
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLCompressedTextureATC . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLCompressedTextureATC :: IsGObject obj => obj -> JSM WebGLCompressedTextureATC
-castToWebGLCompressedTextureATC = castTo gTypeWebGLCompressedTextureATC "WebGLCompressedTextureATC"
+  typeGType _ = gTypeWebGLCompressedTextureATC
+  {-# INLINE typeGType #-}
 
 gTypeWebGLCompressedTextureATC :: JSM GType
 gTypeWebGLCompressedTextureATC = GType . Object <$> jsg "WebGLCompressedTextureATC"
@@ -24722,13 +22113,8 @@ instance MakeObject WebGLCompressedTexturePVRTC where
   makeObject = makeObject . unWebGLCompressedTexturePVRTC
 
 instance IsGObject WebGLCompressedTexturePVRTC where
-  toGObject = GObject . unWebGLCompressedTexturePVRTC
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLCompressedTexturePVRTC . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLCompressedTexturePVRTC :: IsGObject obj => obj -> JSM WebGLCompressedTexturePVRTC
-castToWebGLCompressedTexturePVRTC = castTo gTypeWebGLCompressedTexturePVRTC "WebGLCompressedTexturePVRTC"
+  typeGType _ = gTypeWebGLCompressedTexturePVRTC
+  {-# INLINE typeGType #-}
 
 gTypeWebGLCompressedTexturePVRTC :: JSM GType
 gTypeWebGLCompressedTexturePVRTC = GType . Object <$> jsg "WebGLCompressedTexturePVRTC"
@@ -24761,13 +22147,8 @@ instance MakeObject WebGLCompressedTextureS3TC where
   makeObject = makeObject . unWebGLCompressedTextureS3TC
 
 instance IsGObject WebGLCompressedTextureS3TC where
-  toGObject = GObject . unWebGLCompressedTextureS3TC
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLCompressedTextureS3TC . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLCompressedTextureS3TC :: IsGObject obj => obj -> JSM WebGLCompressedTextureS3TC
-castToWebGLCompressedTextureS3TC = castTo gTypeWebGLCompressedTextureS3TC "WebGLCompressedTextureS3TC"
+  typeGType _ = gTypeWebGLCompressedTextureS3TC
+  {-# INLINE typeGType #-}
 
 gTypeWebGLCompressedTextureS3TC :: JSM GType
 gTypeWebGLCompressedTextureS3TC = GType . Object <$> jsg "WebGLCompressedTextureS3TC"
@@ -24800,13 +22181,8 @@ instance MakeObject WebGLContextAttributes where
   makeObject = makeObject . unWebGLContextAttributes
 
 instance IsGObject WebGLContextAttributes where
-  toGObject = GObject . unWebGLContextAttributes
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLContextAttributes . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLContextAttributes :: IsGObject obj => obj -> JSM WebGLContextAttributes
-castToWebGLContextAttributes = castTo gTypeWebGLContextAttributes "WebGLContextAttributes"
+  typeGType _ = gTypeWebGLContextAttributes
+  {-# INLINE typeGType #-}
 
 gTypeWebGLContextAttributes :: JSM GType
 gTypeWebGLContextAttributes = GType . Object <$> jsg "WebGLContextAttributes"
@@ -24843,13 +22219,8 @@ instance MakeObject WebGLContextEvent where
 
 instance IsEvent WebGLContextEvent
 instance IsGObject WebGLContextEvent where
-  toGObject = GObject . unWebGLContextEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLContextEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLContextEvent :: IsGObject obj => obj -> JSM WebGLContextEvent
-castToWebGLContextEvent = castTo gTypeWebGLContextEvent "WebGLContextEvent"
+  typeGType _ = gTypeWebGLContextEvent
+  {-# INLINE typeGType #-}
 
 gTypeWebGLContextEvent :: JSM GType
 gTypeWebGLContextEvent = GType . Object <$> jsg "WebGLContextEvent"
@@ -24882,13 +22253,8 @@ instance MakeObject WebGLDebugRendererInfo where
   makeObject = makeObject . unWebGLDebugRendererInfo
 
 instance IsGObject WebGLDebugRendererInfo where
-  toGObject = GObject . unWebGLDebugRendererInfo
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLDebugRendererInfo . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLDebugRendererInfo :: IsGObject obj => obj -> JSM WebGLDebugRendererInfo
-castToWebGLDebugRendererInfo = castTo gTypeWebGLDebugRendererInfo "WebGLDebugRendererInfo"
+  typeGType _ = gTypeWebGLDebugRendererInfo
+  {-# INLINE typeGType #-}
 
 gTypeWebGLDebugRendererInfo :: JSM GType
 gTypeWebGLDebugRendererInfo = GType . Object <$> jsg "WebGLDebugRendererInfo"
@@ -24921,13 +22287,8 @@ instance MakeObject WebGLDebugShaders where
   makeObject = makeObject . unWebGLDebugShaders
 
 instance IsGObject WebGLDebugShaders where
-  toGObject = GObject . unWebGLDebugShaders
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLDebugShaders . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLDebugShaders :: IsGObject obj => obj -> JSM WebGLDebugShaders
-castToWebGLDebugShaders = castTo gTypeWebGLDebugShaders "WebGLDebugShaders"
+  typeGType _ = gTypeWebGLDebugShaders
+  {-# INLINE typeGType #-}
 
 gTypeWebGLDebugShaders :: JSM GType
 gTypeWebGLDebugShaders = GType . Object <$> jsg "WebGLDebugShaders"
@@ -24960,13 +22321,8 @@ instance MakeObject WebGLDepthTexture where
   makeObject = makeObject . unWebGLDepthTexture
 
 instance IsGObject WebGLDepthTexture where
-  toGObject = GObject . unWebGLDepthTexture
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLDepthTexture . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLDepthTexture :: IsGObject obj => obj -> JSM WebGLDepthTexture
-castToWebGLDepthTexture = castTo gTypeWebGLDepthTexture "WebGLDepthTexture"
+  typeGType _ = gTypeWebGLDepthTexture
+  {-# INLINE typeGType #-}
 
 gTypeWebGLDepthTexture :: JSM GType
 gTypeWebGLDepthTexture = GType . Object <$> jsg "WebGLDepthTexture"
@@ -24999,13 +22355,8 @@ instance MakeObject WebGLDrawBuffers where
   makeObject = makeObject . unWebGLDrawBuffers
 
 instance IsGObject WebGLDrawBuffers where
-  toGObject = GObject . unWebGLDrawBuffers
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLDrawBuffers . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLDrawBuffers :: IsGObject obj => obj -> JSM WebGLDrawBuffers
-castToWebGLDrawBuffers = castTo gTypeWebGLDrawBuffers "WebGLDrawBuffers"
+  typeGType _ = gTypeWebGLDrawBuffers
+  {-# INLINE typeGType #-}
 
 gTypeWebGLDrawBuffers :: JSM GType
 gTypeWebGLDrawBuffers = GType . Object <$> jsg "WebGLDrawBuffers"
@@ -25038,13 +22389,8 @@ instance MakeObject WebGLFramebuffer where
   makeObject = makeObject . unWebGLFramebuffer
 
 instance IsGObject WebGLFramebuffer where
-  toGObject = GObject . unWebGLFramebuffer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLFramebuffer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLFramebuffer :: IsGObject obj => obj -> JSM WebGLFramebuffer
-castToWebGLFramebuffer = castTo gTypeWebGLFramebuffer "WebGLFramebuffer"
+  typeGType _ = gTypeWebGLFramebuffer
+  {-# INLINE typeGType #-}
 
 gTypeWebGLFramebuffer :: JSM GType
 gTypeWebGLFramebuffer = GType . Object <$> jsg "WebGLFramebuffer"
@@ -25077,13 +22423,8 @@ instance MakeObject WebGLLoseContext where
   makeObject = makeObject . unWebGLLoseContext
 
 instance IsGObject WebGLLoseContext where
-  toGObject = GObject . unWebGLLoseContext
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLLoseContext . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLLoseContext :: IsGObject obj => obj -> JSM WebGLLoseContext
-castToWebGLLoseContext = castTo gTypeWebGLLoseContext "WebGLLoseContext"
+  typeGType _ = gTypeWebGLLoseContext
+  {-# INLINE typeGType #-}
 
 gTypeWebGLLoseContext :: JSM GType
 gTypeWebGLLoseContext = GType . Object <$> jsg "WebGLLoseContext"
@@ -25116,13 +22457,8 @@ instance MakeObject WebGLProgram where
   makeObject = makeObject . unWebGLProgram
 
 instance IsGObject WebGLProgram where
-  toGObject = GObject . unWebGLProgram
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLProgram . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLProgram :: IsGObject obj => obj -> JSM WebGLProgram
-castToWebGLProgram = castTo gTypeWebGLProgram "WebGLProgram"
+  typeGType _ = gTypeWebGLProgram
+  {-# INLINE typeGType #-}
 
 gTypeWebGLProgram :: JSM GType
 gTypeWebGLProgram = GType . Object <$> jsg "WebGLProgram"
@@ -25155,13 +22491,8 @@ instance MakeObject WebGLQuery where
   makeObject = makeObject . unWebGLQuery
 
 instance IsGObject WebGLQuery where
-  toGObject = GObject . unWebGLQuery
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLQuery . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLQuery :: IsGObject obj => obj -> JSM WebGLQuery
-castToWebGLQuery = castTo gTypeWebGLQuery "WebGLQuery"
+  typeGType _ = gTypeWebGLQuery
+  {-# INLINE typeGType #-}
 
 gTypeWebGLQuery :: JSM GType
 gTypeWebGLQuery = GType . Object <$> jsg "WebGLQuery"
@@ -25194,13 +22525,8 @@ instance MakeObject WebGLRenderbuffer where
   makeObject = makeObject . unWebGLRenderbuffer
 
 instance IsGObject WebGLRenderbuffer where
-  toGObject = GObject . unWebGLRenderbuffer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLRenderbuffer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLRenderbuffer :: IsGObject obj => obj -> JSM WebGLRenderbuffer
-castToWebGLRenderbuffer = castTo gTypeWebGLRenderbuffer "WebGLRenderbuffer"
+  typeGType _ = gTypeWebGLRenderbuffer
+  {-# INLINE typeGType #-}
 
 gTypeWebGLRenderbuffer :: JSM GType
 gTypeWebGLRenderbuffer = GType . Object <$> jsg "WebGLRenderbuffer"
@@ -25239,13 +22565,8 @@ instance MakeObject WebGLRenderingContext where
 instance IsWebGLRenderingContextBase WebGLRenderingContext
 instance IsCanvasRenderingContext WebGLRenderingContext
 instance IsGObject WebGLRenderingContext where
-  toGObject = GObject . unWebGLRenderingContext
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLRenderingContext . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLRenderingContext :: IsGObject obj => obj -> JSM WebGLRenderingContext
-castToWebGLRenderingContext = castTo gTypeWebGLRenderingContext "WebGLRenderingContext"
+  typeGType _ = gTypeWebGLRenderingContext
+  {-# INLINE typeGType #-}
 
 gTypeWebGLRenderingContext :: JSM GType
 gTypeWebGLRenderingContext = GType . Object <$> jsg "WebGLRenderingContext"
@@ -25282,18 +22603,13 @@ instance MakeObject WebGLRenderingContextBase where
 
 class IsCanvasRenderingContext o => IsWebGLRenderingContextBase o
 toWebGLRenderingContextBase :: IsWebGLRenderingContextBase o => o -> WebGLRenderingContextBase
-toWebGLRenderingContextBase = unsafeCastGObject . toGObject
+toWebGLRenderingContextBase = WebGLRenderingContextBase . coerce
 
 instance IsWebGLRenderingContextBase WebGLRenderingContextBase
 instance IsCanvasRenderingContext WebGLRenderingContextBase
 instance IsGObject WebGLRenderingContextBase where
-  toGObject = GObject . unWebGLRenderingContextBase
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLRenderingContextBase . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLRenderingContextBase :: IsGObject obj => obj -> JSM WebGLRenderingContextBase
-castToWebGLRenderingContextBase = castTo gTypeWebGLRenderingContextBase "WebGLRenderingContextBase"
+  typeGType _ = gTypeWebGLRenderingContextBase
+  {-# INLINE typeGType #-}
 
 gTypeWebGLRenderingContextBase :: JSM GType
 gTypeWebGLRenderingContextBase = GType . Object <$> jsg "WebGLRenderingContextBase"
@@ -25326,13 +22642,8 @@ instance MakeObject WebGLSampler where
   makeObject = makeObject . unWebGLSampler
 
 instance IsGObject WebGLSampler where
-  toGObject = GObject . unWebGLSampler
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLSampler . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLSampler :: IsGObject obj => obj -> JSM WebGLSampler
-castToWebGLSampler = castTo gTypeWebGLSampler "WebGLSampler"
+  typeGType _ = gTypeWebGLSampler
+  {-# INLINE typeGType #-}
 
 gTypeWebGLSampler :: JSM GType
 gTypeWebGLSampler = GType . Object <$> jsg "WebGLSampler"
@@ -25365,13 +22676,8 @@ instance MakeObject WebGLShader where
   makeObject = makeObject . unWebGLShader
 
 instance IsGObject WebGLShader where
-  toGObject = GObject . unWebGLShader
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLShader . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLShader :: IsGObject obj => obj -> JSM WebGLShader
-castToWebGLShader = castTo gTypeWebGLShader "WebGLShader"
+  typeGType _ = gTypeWebGLShader
+  {-# INLINE typeGType #-}
 
 gTypeWebGLShader :: JSM GType
 gTypeWebGLShader = GType . Object <$> jsg "WebGLShader"
@@ -25404,13 +22710,8 @@ instance MakeObject WebGLShaderPrecisionFormat where
   makeObject = makeObject . unWebGLShaderPrecisionFormat
 
 instance IsGObject WebGLShaderPrecisionFormat where
-  toGObject = GObject . unWebGLShaderPrecisionFormat
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLShaderPrecisionFormat . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLShaderPrecisionFormat :: IsGObject obj => obj -> JSM WebGLShaderPrecisionFormat
-castToWebGLShaderPrecisionFormat = castTo gTypeWebGLShaderPrecisionFormat "WebGLShaderPrecisionFormat"
+  typeGType _ = gTypeWebGLShaderPrecisionFormat
+  {-# INLINE typeGType #-}
 
 gTypeWebGLShaderPrecisionFormat :: JSM GType
 gTypeWebGLShaderPrecisionFormat = GType . Object <$> jsg "WebGLShaderPrecisionFormat"
@@ -25443,13 +22744,8 @@ instance MakeObject WebGLSync where
   makeObject = makeObject . unWebGLSync
 
 instance IsGObject WebGLSync where
-  toGObject = GObject . unWebGLSync
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLSync . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLSync :: IsGObject obj => obj -> JSM WebGLSync
-castToWebGLSync = castTo gTypeWebGLSync "WebGLSync"
+  typeGType _ = gTypeWebGLSync
+  {-# INLINE typeGType #-}
 
 gTypeWebGLSync :: JSM GType
 gTypeWebGLSync = GType . Object <$> jsg "WebGLSync"
@@ -25482,13 +22778,8 @@ instance MakeObject WebGLTexture where
   makeObject = makeObject . unWebGLTexture
 
 instance IsGObject WebGLTexture where
-  toGObject = GObject . unWebGLTexture
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLTexture . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLTexture :: IsGObject obj => obj -> JSM WebGLTexture
-castToWebGLTexture = castTo gTypeWebGLTexture "WebGLTexture"
+  typeGType _ = gTypeWebGLTexture
+  {-# INLINE typeGType #-}
 
 gTypeWebGLTexture :: JSM GType
 gTypeWebGLTexture = GType . Object <$> jsg "WebGLTexture"
@@ -25521,13 +22812,8 @@ instance MakeObject WebGLTransformFeedback where
   makeObject = makeObject . unWebGLTransformFeedback
 
 instance IsGObject WebGLTransformFeedback where
-  toGObject = GObject . unWebGLTransformFeedback
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLTransformFeedback . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLTransformFeedback :: IsGObject obj => obj -> JSM WebGLTransformFeedback
-castToWebGLTransformFeedback = castTo gTypeWebGLTransformFeedback "WebGLTransformFeedback"
+  typeGType _ = gTypeWebGLTransformFeedback
+  {-# INLINE typeGType #-}
 
 gTypeWebGLTransformFeedback :: JSM GType
 gTypeWebGLTransformFeedback = GType . Object <$> jsg "WebGLTransformFeedback"
@@ -25560,13 +22846,8 @@ instance MakeObject WebGLUniformLocation where
   makeObject = makeObject . unWebGLUniformLocation
 
 instance IsGObject WebGLUniformLocation where
-  toGObject = GObject . unWebGLUniformLocation
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLUniformLocation . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLUniformLocation :: IsGObject obj => obj -> JSM WebGLUniformLocation
-castToWebGLUniformLocation = castTo gTypeWebGLUniformLocation "WebGLUniformLocation"
+  typeGType _ = gTypeWebGLUniformLocation
+  {-# INLINE typeGType #-}
 
 gTypeWebGLUniformLocation :: JSM GType
 gTypeWebGLUniformLocation = GType . Object <$> jsg "WebGLUniformLocation"
@@ -25599,13 +22880,8 @@ instance MakeObject WebGLVertexArrayObject where
   makeObject = makeObject . unWebGLVertexArrayObject
 
 instance IsGObject WebGLVertexArrayObject where
-  toGObject = GObject . unWebGLVertexArrayObject
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLVertexArrayObject . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLVertexArrayObject :: IsGObject obj => obj -> JSM WebGLVertexArrayObject
-castToWebGLVertexArrayObject = castTo gTypeWebGLVertexArrayObject "WebGLVertexArrayObject"
+  typeGType _ = gTypeWebGLVertexArrayObject
+  {-# INLINE typeGType #-}
 
 gTypeWebGLVertexArrayObject :: JSM GType
 gTypeWebGLVertexArrayObject = GType . Object <$> jsg "WebGLVertexArrayObject"
@@ -25638,13 +22914,8 @@ instance MakeObject WebGLVertexArrayObjectOES where
   makeObject = makeObject . unWebGLVertexArrayObjectOES
 
 instance IsGObject WebGLVertexArrayObjectOES where
-  toGObject = GObject . unWebGLVertexArrayObjectOES
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebGLVertexArrayObjectOES . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebGLVertexArrayObjectOES :: IsGObject obj => obj -> JSM WebGLVertexArrayObjectOES
-castToWebGLVertexArrayObjectOES = castTo gTypeWebGLVertexArrayObjectOES "WebGLVertexArrayObjectOES"
+  typeGType _ = gTypeWebGLVertexArrayObjectOES
+  {-# INLINE typeGType #-}
 
 gTypeWebGLVertexArrayObjectOES :: JSM GType
 gTypeWebGLVertexArrayObjectOES = GType . Object <$> jsg "WebGLVertexArrayObjectOES"
@@ -25681,13 +22952,8 @@ instance MakeObject WebKitAnimationEvent where
 
 instance IsEvent WebKitAnimationEvent
 instance IsGObject WebKitAnimationEvent where
-  toGObject = GObject . unWebKitAnimationEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitAnimationEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitAnimationEvent :: IsGObject obj => obj -> JSM WebKitAnimationEvent
-castToWebKitAnimationEvent = castTo gTypeWebKitAnimationEvent "WebKitAnimationEvent"
+  typeGType _ = gTypeWebKitAnimationEvent
+  {-# INLINE typeGType #-}
 
 gTypeWebKitAnimationEvent :: JSM GType
 gTypeWebKitAnimationEvent = GType . Object <$> jsg "WebKitAnimationEvent"
@@ -25726,13 +22992,8 @@ instance MakeObject WebKitCSSFilterValue where
 instance IsCSSValueList WebKitCSSFilterValue
 instance IsCSSValue WebKitCSSFilterValue
 instance IsGObject WebKitCSSFilterValue where
-  toGObject = GObject . unWebKitCSSFilterValue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitCSSFilterValue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitCSSFilterValue :: IsGObject obj => obj -> JSM WebKitCSSFilterValue
-castToWebKitCSSFilterValue = castTo gTypeWebKitCSSFilterValue "WebKitCSSFilterValue"
+  typeGType _ = gTypeWebKitCSSFilterValue
+  {-# INLINE typeGType #-}
 
 gTypeWebKitCSSFilterValue :: JSM GType
 gTypeWebKitCSSFilterValue = GType . Object <$> jsg "WebKitCSSFilterValue"
@@ -25765,13 +23026,8 @@ instance MakeObject WebKitCSSMatrix where
   makeObject = makeObject . unWebKitCSSMatrix
 
 instance IsGObject WebKitCSSMatrix where
-  toGObject = GObject . unWebKitCSSMatrix
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitCSSMatrix . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitCSSMatrix :: IsGObject obj => obj -> JSM WebKitCSSMatrix
-castToWebKitCSSMatrix = castTo gTypeWebKitCSSMatrix "WebKitCSSMatrix"
+  typeGType _ = gTypeWebKitCSSMatrix
+  {-# INLINE typeGType #-}
 
 gTypeWebKitCSSMatrix :: JSM GType
 gTypeWebKitCSSMatrix = GType . Object <$> jsg "WebKitCSSMatrix"
@@ -25808,13 +23064,8 @@ instance MakeObject WebKitCSSRegionRule where
 
 instance IsCSSRule WebKitCSSRegionRule
 instance IsGObject WebKitCSSRegionRule where
-  toGObject = GObject . unWebKitCSSRegionRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitCSSRegionRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitCSSRegionRule :: IsGObject obj => obj -> JSM WebKitCSSRegionRule
-castToWebKitCSSRegionRule = castTo gTypeWebKitCSSRegionRule "WebKitCSSRegionRule"
+  typeGType _ = gTypeWebKitCSSRegionRule
+  {-# INLINE typeGType #-}
 
 gTypeWebKitCSSRegionRule :: JSM GType
 gTypeWebKitCSSRegionRule = GType . Object <$> jsg "WebKitCSSRegionRule"
@@ -25853,13 +23104,8 @@ instance MakeObject WebKitCSSTransformValue where
 instance IsCSSValueList WebKitCSSTransformValue
 instance IsCSSValue WebKitCSSTransformValue
 instance IsGObject WebKitCSSTransformValue where
-  toGObject = GObject . unWebKitCSSTransformValue
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitCSSTransformValue . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitCSSTransformValue :: IsGObject obj => obj -> JSM WebKitCSSTransformValue
-castToWebKitCSSTransformValue = castTo gTypeWebKitCSSTransformValue "WebKitCSSTransformValue"
+  typeGType _ = gTypeWebKitCSSTransformValue
+  {-# INLINE typeGType #-}
 
 gTypeWebKitCSSTransformValue :: JSM GType
 gTypeWebKitCSSTransformValue = GType . Object <$> jsg "WebKitCSSTransformValue"
@@ -25896,13 +23142,8 @@ instance MakeObject WebKitCSSViewportRule where
 
 instance IsCSSRule WebKitCSSViewportRule
 instance IsGObject WebKitCSSViewportRule where
-  toGObject = GObject . unWebKitCSSViewportRule
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitCSSViewportRule . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitCSSViewportRule :: IsGObject obj => obj -> JSM WebKitCSSViewportRule
-castToWebKitCSSViewportRule = castTo gTypeWebKitCSSViewportRule "WebKitCSSViewportRule"
+  typeGType _ = gTypeWebKitCSSViewportRule
+  {-# INLINE typeGType #-}
 
 gTypeWebKitCSSViewportRule :: JSM GType
 gTypeWebKitCSSViewportRule = GType . Object <$> jsg "WebKitCSSViewportRule"
@@ -25939,13 +23180,8 @@ instance MakeObject WebKitNamedFlow where
 
 instance IsEventTarget WebKitNamedFlow
 instance IsGObject WebKitNamedFlow where
-  toGObject = GObject . unWebKitNamedFlow
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitNamedFlow . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitNamedFlow :: IsGObject obj => obj -> JSM WebKitNamedFlow
-castToWebKitNamedFlow = castTo gTypeWebKitNamedFlow "WebKitNamedFlow"
+  typeGType _ = gTypeWebKitNamedFlow
+  {-# INLINE typeGType #-}
 
 gTypeWebKitNamedFlow :: JSM GType
 gTypeWebKitNamedFlow = GType . Object <$> jsg "WebKitNamedFlow"
@@ -25980,13 +23216,8 @@ instance MakeObject WebKitNamespace where
   makeObject = makeObject . unWebKitNamespace
 
 instance IsGObject WebKitNamespace where
-  toGObject = GObject . unWebKitNamespace
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitNamespace . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitNamespace :: IsGObject obj => obj -> JSM WebKitNamespace
-castToWebKitNamespace = castTo gTypeWebKitNamespace "WebKitNamespace"
+  typeGType _ = gTypeWebKitNamespace
+  {-# INLINE typeGType #-}
 
 gTypeWebKitNamespace :: JSM GType
 gTypeWebKitNamespace = GType . Object <$> jsg "WebKitNamespace"
@@ -26023,13 +23254,8 @@ instance MakeObject WebKitPlaybackTargetAvailabilityEvent where
 
 instance IsEvent WebKitPlaybackTargetAvailabilityEvent
 instance IsGObject WebKitPlaybackTargetAvailabilityEvent where
-  toGObject = GObject . unWebKitPlaybackTargetAvailabilityEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitPlaybackTargetAvailabilityEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitPlaybackTargetAvailabilityEvent :: IsGObject obj => obj -> JSM WebKitPlaybackTargetAvailabilityEvent
-castToWebKitPlaybackTargetAvailabilityEvent = castTo gTypeWebKitPlaybackTargetAvailabilityEvent "WebKitPlaybackTargetAvailabilityEvent"
+  typeGType _ = gTypeWebKitPlaybackTargetAvailabilityEvent
+  {-# INLINE typeGType #-}
 
 gTypeWebKitPlaybackTargetAvailabilityEvent :: JSM GType
 gTypeWebKitPlaybackTargetAvailabilityEvent = GType . Object <$> jsg "WebKitPlaybackTargetAvailabilityEvent"
@@ -26062,13 +23288,8 @@ instance MakeObject WebKitPoint where
   makeObject = makeObject . unWebKitPoint
 
 instance IsGObject WebKitPoint where
-  toGObject = GObject . unWebKitPoint
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitPoint . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitPoint :: IsGObject obj => obj -> JSM WebKitPoint
-castToWebKitPoint = castTo gTypeWebKitPoint "WebKitPoint"
+  typeGType _ = gTypeWebKitPoint
+  {-# INLINE typeGType #-}
 
 gTypeWebKitPoint :: JSM GType
 gTypeWebKitPoint = GType . Object <$> jsg "WebKitPoint"
@@ -26107,13 +23328,8 @@ instance MakeObject WebKitTransitionEvent where
 
 instance IsEvent WebKitTransitionEvent
 instance IsGObject WebKitTransitionEvent where
-  toGObject = GObject . unWebKitTransitionEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebKitTransitionEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebKitTransitionEvent :: IsGObject obj => obj -> JSM WebKitTransitionEvent
-castToWebKitTransitionEvent = castTo gTypeWebKitTransitionEvent "WebKitTransitionEvent"
+  typeGType _ = gTypeWebKitTransitionEvent
+  {-# INLINE typeGType #-}
 
 gTypeWebKitTransitionEvent :: JSM GType
 gTypeWebKitTransitionEvent = GType . Object <$> jsg "WebKitTransitionEvent"
@@ -26150,13 +23366,8 @@ instance MakeObject WebSocket where
 
 instance IsEventTarget WebSocket
 instance IsGObject WebSocket where
-  toGObject = GObject . unWebSocket
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WebSocket . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWebSocket :: IsGObject obj => obj -> JSM WebSocket
-castToWebSocket = castTo gTypeWebSocket "WebSocket"
+  typeGType _ = gTypeWebSocket
+  {-# INLINE typeGType #-}
 
 gTypeWebSocket :: JSM GType
 gTypeWebSocket = GType . Object <$> jsg "WebSocket"
@@ -26197,13 +23408,8 @@ instance IsMouseEvent WheelEvent
 instance IsUIEvent WheelEvent
 instance IsEvent WheelEvent
 instance IsGObject WheelEvent where
-  toGObject = GObject . unWheelEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WheelEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWheelEvent :: IsGObject obj => obj -> JSM WheelEvent
-castToWheelEvent = castTo gTypeWheelEvent "WheelEvent"
+  typeGType _ = gTypeWheelEvent
+  {-# INLINE typeGType #-}
 
 gTypeWheelEvent :: JSM GType
 gTypeWheelEvent = GType . Object <$> jsg "WheelEvent"
@@ -26244,13 +23450,8 @@ instance MakeObject Window where
 
 instance IsEventTarget Window
 instance IsGObject Window where
-  toGObject = GObject . unWindow
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Window . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWindow :: IsGObject obj => obj -> JSM Window
-castToWindow = castTo gTypeWindow "Window"
+  typeGType _ = gTypeWindow
+  {-# INLINE typeGType #-}
 
 gTypeWindow :: JSM GType
 gTypeWindow = GType . Object <$> jsg "Window"
@@ -26285,13 +23486,8 @@ instance MakeObject WindowBase64 where
   makeObject = makeObject . unWindowBase64
 
 instance IsGObject WindowBase64 where
-  toGObject = GObject . unWindowBase64
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WindowBase64 . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWindowBase64 :: IsGObject obj => obj -> JSM WindowBase64
-castToWindowBase64 = castTo gTypeWindowBase64 "WindowBase64"
+  typeGType _ = gTypeWindowBase64
+  {-# INLINE typeGType #-}
 
 gTypeWindowBase64 :: JSM GType
 gTypeWindowBase64 = GType . Object <$> jsg "WindowBase64"
@@ -26324,13 +23520,8 @@ instance MakeObject WindowTimers where
   makeObject = makeObject . unWindowTimers
 
 instance IsGObject WindowTimers where
-  toGObject = GObject . unWindowTimers
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WindowTimers . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWindowTimers :: IsGObject obj => obj -> JSM WindowTimers
-castToWindowTimers = castTo gTypeWindowTimers "WindowTimers"
+  typeGType _ = gTypeWindowTimers
+  {-# INLINE typeGType #-}
 
 gTypeWindowTimers :: JSM GType
 gTypeWindowTimers = GType . Object <$> jsg "WindowTimers"
@@ -26367,13 +23558,8 @@ instance MakeObject Worker where
 
 instance IsEventTarget Worker
 instance IsGObject Worker where
-  toGObject = GObject . unWorker
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = Worker . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWorker :: IsGObject obj => obj -> JSM Worker
-castToWorker = castTo gTypeWorker "Worker"
+  typeGType _ = gTypeWorker
+  {-# INLINE typeGType #-}
 
 gTypeWorker :: JSM GType
 gTypeWorker = GType . Object <$> jsg "Worker"
@@ -26410,18 +23596,13 @@ instance MakeObject WorkerGlobalScope where
 
 class IsEventTarget o => IsWorkerGlobalScope o
 toWorkerGlobalScope :: IsWorkerGlobalScope o => o -> WorkerGlobalScope
-toWorkerGlobalScope = unsafeCastGObject . toGObject
+toWorkerGlobalScope = WorkerGlobalScope . coerce
 
 instance IsWorkerGlobalScope WorkerGlobalScope
 instance IsEventTarget WorkerGlobalScope
 instance IsGObject WorkerGlobalScope where
-  toGObject = GObject . unWorkerGlobalScope
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WorkerGlobalScope . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWorkerGlobalScope :: IsGObject obj => obj -> JSM WorkerGlobalScope
-castToWorkerGlobalScope = castTo gTypeWorkerGlobalScope "WorkerGlobalScope"
+  typeGType _ = gTypeWorkerGlobalScope
+  {-# INLINE typeGType #-}
 
 gTypeWorkerGlobalScope :: JSM GType
 gTypeWorkerGlobalScope = GType . Object <$> jsg "WorkerGlobalScope"
@@ -26454,13 +23635,8 @@ instance MakeObject WorkerLocation where
   makeObject = makeObject . unWorkerLocation
 
 instance IsGObject WorkerLocation where
-  toGObject = GObject . unWorkerLocation
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WorkerLocation . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWorkerLocation :: IsGObject obj => obj -> JSM WorkerLocation
-castToWorkerLocation = castTo gTypeWorkerLocation "WorkerLocation"
+  typeGType _ = gTypeWorkerLocation
+  {-# INLINE typeGType #-}
 
 gTypeWorkerLocation :: JSM GType
 gTypeWorkerLocation = GType . Object <$> jsg "WorkerLocation"
@@ -26493,13 +23669,8 @@ instance MakeObject WorkerNavigator where
   makeObject = makeObject . unWorkerNavigator
 
 instance IsGObject WorkerNavigator where
-  toGObject = GObject . unWorkerNavigator
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = WorkerNavigator . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToWorkerNavigator :: IsGObject obj => obj -> JSM WorkerNavigator
-castToWorkerNavigator = castTo gTypeWorkerNavigator "WorkerNavigator"
+  typeGType _ = gTypeWorkerNavigator
+  {-# INLINE typeGType #-}
 
 gTypeWorkerNavigator :: JSM GType
 gTypeWorkerNavigator = GType . Object <$> jsg "WorkerNavigator"
@@ -26536,13 +23707,8 @@ instance MakeObject XMLHttpRequest where
 
 instance IsEventTarget XMLHttpRequest
 instance IsGObject XMLHttpRequest where
-  toGObject = GObject . unXMLHttpRequest
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XMLHttpRequest . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXMLHttpRequest :: IsGObject obj => obj -> JSM XMLHttpRequest
-castToXMLHttpRequest = castTo gTypeXMLHttpRequest "XMLHttpRequest"
+  typeGType _ = gTypeXMLHttpRequest
+  {-# INLINE typeGType #-}
 
 gTypeXMLHttpRequest :: JSM GType
 gTypeXMLHttpRequest = GType . Object <$> jsg "XMLHttpRequest"
@@ -26581,13 +23747,8 @@ instance MakeObject XMLHttpRequestProgressEvent where
 instance IsProgressEvent XMLHttpRequestProgressEvent
 instance IsEvent XMLHttpRequestProgressEvent
 instance IsGObject XMLHttpRequestProgressEvent where
-  toGObject = GObject . unXMLHttpRequestProgressEvent
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XMLHttpRequestProgressEvent . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXMLHttpRequestProgressEvent :: IsGObject obj => obj -> JSM XMLHttpRequestProgressEvent
-castToXMLHttpRequestProgressEvent = castTo gTypeXMLHttpRequestProgressEvent "XMLHttpRequestProgressEvent"
+  typeGType _ = gTypeXMLHttpRequestProgressEvent
+  {-# INLINE typeGType #-}
 
 gTypeXMLHttpRequestProgressEvent :: JSM GType
 gTypeXMLHttpRequestProgressEvent = GType . Object <$> jsg "XMLHttpRequestProgressEvent"
@@ -26624,13 +23785,8 @@ instance MakeObject XMLHttpRequestUpload where
 
 instance IsEventTarget XMLHttpRequestUpload
 instance IsGObject XMLHttpRequestUpload where
-  toGObject = GObject . unXMLHttpRequestUpload
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XMLHttpRequestUpload . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXMLHttpRequestUpload :: IsGObject obj => obj -> JSM XMLHttpRequestUpload
-castToXMLHttpRequestUpload = castTo gTypeXMLHttpRequestUpload "XMLHttpRequestUpload"
+  typeGType _ = gTypeXMLHttpRequestUpload
+  {-# INLINE typeGType #-}
 
 gTypeXMLHttpRequestUpload :: JSM GType
 gTypeXMLHttpRequestUpload = GType . Object <$> jsg "XMLHttpRequestUpload"
@@ -26663,13 +23819,8 @@ instance MakeObject XMLSerializer where
   makeObject = makeObject . unXMLSerializer
 
 instance IsGObject XMLSerializer where
-  toGObject = GObject . unXMLSerializer
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XMLSerializer . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXMLSerializer :: IsGObject obj => obj -> JSM XMLSerializer
-castToXMLSerializer = castTo gTypeXMLSerializer "XMLSerializer"
+  typeGType _ = gTypeXMLSerializer
+  {-# INLINE typeGType #-}
 
 gTypeXMLSerializer :: JSM GType
 gTypeXMLSerializer = GType . Object <$> jsg "XMLSerializer"
@@ -26702,13 +23853,8 @@ instance MakeObject XPathEvaluator where
   makeObject = makeObject . unXPathEvaluator
 
 instance IsGObject XPathEvaluator where
-  toGObject = GObject . unXPathEvaluator
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XPathEvaluator . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXPathEvaluator :: IsGObject obj => obj -> JSM XPathEvaluator
-castToXPathEvaluator = castTo gTypeXPathEvaluator "XPathEvaluator"
+  typeGType _ = gTypeXPathEvaluator
+  {-# INLINE typeGType #-}
 
 gTypeXPathEvaluator :: JSM GType
 gTypeXPathEvaluator = GType . Object <$> jsg "XPathEvaluator"
@@ -26741,13 +23887,8 @@ instance MakeObject XPathExpression where
   makeObject = makeObject . unXPathExpression
 
 instance IsGObject XPathExpression where
-  toGObject = GObject . unXPathExpression
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XPathExpression . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXPathExpression :: IsGObject obj => obj -> JSM XPathExpression
-castToXPathExpression = castTo gTypeXPathExpression "XPathExpression"
+  typeGType _ = gTypeXPathExpression
+  {-# INLINE typeGType #-}
 
 gTypeXPathExpression :: JSM GType
 gTypeXPathExpression = GType . Object <$> jsg "XPathExpression"
@@ -26782,13 +23923,8 @@ instance MakeObject XPathNSResolver where
   makeObject = makeObject . unXPathNSResolver
 
 instance IsGObject XPathNSResolver where
-  toGObject = GObject . unXPathNSResolver
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XPathNSResolver . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXPathNSResolver :: IsGObject obj => obj -> JSM XPathNSResolver
-castToXPathNSResolver = castTo gTypeXPathNSResolver "XPathNSResolver"
+  typeGType _ = gTypeXPathNSResolver
+  {-# INLINE typeGType #-}
 
 gTypeXPathNSResolver :: JSM GType
 gTypeXPathNSResolver = GType . Object <$> jsg "XPathNSResolver"
@@ -26823,13 +23959,8 @@ instance MakeObject XPathResult where
   makeObject = makeObject . unXPathResult
 
 instance IsGObject XPathResult where
-  toGObject = GObject . unXPathResult
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XPathResult . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXPathResult :: IsGObject obj => obj -> JSM XPathResult
-castToXPathResult = castTo gTypeXPathResult "XPathResult"
+  typeGType _ = gTypeXPathResult
+  {-# INLINE typeGType #-}
 
 gTypeXPathResult :: JSM GType
 gTypeXPathResult = GType . Object <$> jsg "XPathResult"
@@ -26864,13 +23995,8 @@ instance MakeObject XSLTProcessor where
   makeObject = makeObject . unXSLTProcessor
 
 instance IsGObject XSLTProcessor where
-  toGObject = GObject . unXSLTProcessor
-  {-# INLINE toGObject #-}
-  unsafeCastGObject = XSLTProcessor . unGObject
-  {-# INLINE unsafeCastGObject #-}
-
-castToXSLTProcessor :: IsGObject obj => obj -> JSM XSLTProcessor
-castToXSLTProcessor = castTo gTypeXSLTProcessor "XSLTProcessor"
+  typeGType _ = gTypeXSLTProcessor
+  {-# INLINE typeGType #-}
 
 gTypeXSLTProcessor :: JSM GType
 gTypeXSLTProcessor = GType . Object <$> jsg "XSLTProcessor"

@@ -5,8 +5,7 @@ module JSDOM.Generated.KeyboardEvent
         pattern DOM_KEY_LOCATION_LEFT, pattern DOM_KEY_LOCATION_RIGHT,
         pattern DOM_KEY_LOCATION_NUMPAD, getKeyIdentifier, getLocation,
         getKeyLocation, getCtrlKey, getShiftKey, getAltKey, getMetaKey,
-        getAltGraphKey, KeyboardEvent, castToKeyboardEvent,
-        gTypeKeyboardEvent)
+        getAltGraphKey, KeyboardEvent(..), gTypeKeyboardEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

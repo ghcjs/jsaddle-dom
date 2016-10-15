@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Storage
        (key, key_, keyUnchecked, getItem, getItem_, getItemUnchecked,
-        setItem, removeItem, clear, getLength, Storage, castToStorage,
-        gTypeStorage)
+        setItem, removeItem, clear, getLength, Storage(..), gTypeStorage)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

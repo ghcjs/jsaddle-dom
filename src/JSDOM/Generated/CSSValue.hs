@@ -3,8 +3,8 @@
 module JSDOM.Generated.CSSValue
        (pattern CSS_INHERIT, pattern CSS_PRIMITIVE_VALUE,
         pattern CSS_VALUE_LIST, pattern CSS_CUSTOM, setCssText, getCssText,
-        getCssTextUnchecked, getCssValueType, CSSValue, castToCSSValue,
-        gTypeCSSValue, IsCSSValue, toCSSValue)
+        getCssTextUnchecked, getCssValueType, CSSValue(..), gTypeCSSValue,
+        IsCSSValue, toCSSValue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

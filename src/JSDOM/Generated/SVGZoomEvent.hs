@@ -3,8 +3,8 @@
 module JSDOM.Generated.SVGZoomEvent
        (getZoomRectScreen, getZoomRectScreenUnchecked, getPreviousScale,
         getPreviousTranslate, getPreviousTranslateUnchecked, getNewScale,
-        getNewTranslate, getNewTranslateUnchecked, SVGZoomEvent,
-        castToSVGZoomEvent, gTypeSVGZoomEvent)
+        getNewTranslate, getNewTranslateUnchecked, SVGZoomEvent(..),
+        gTypeSVGZoomEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

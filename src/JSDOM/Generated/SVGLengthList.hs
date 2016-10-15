@@ -6,7 +6,7 @@ module JSDOM.Generated.SVGLengthList
         insertItemBeforeUnchecked, replaceItem, replaceItem_,
         replaceItemUnchecked, removeItem, removeItem_, removeItemUnchecked,
         appendItem, appendItem_, appendItemUnchecked, getNumberOfItems,
-        SVGLengthList, castToSVGLengthList, gTypeSVGLengthList)
+        SVGLengthList(..), gTypeSVGLengthList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

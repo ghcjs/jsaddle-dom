@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerLocation
        (toString, toString_, getHref, getProtocol, getHost, getHostname,
-        getPort, getPathname, getSearch, getHash, WorkerLocation,
-        castToWorkerLocation, gTypeWorkerLocation)
+        getPort, getPathname, getSearch, getHash, WorkerLocation(..),
+        gTypeWorkerLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

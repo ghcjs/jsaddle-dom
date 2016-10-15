@@ -4,8 +4,8 @@ module JSDOM.Generated.HTMLAppletElement
        (setAlign, getAlign, setAlt, getAlt, setArchive, getArchive,
         setCode, getCode, setCodeBase, getCodeBase, setHeight, getHeight,
         setHspace, getHspace, setName, getName, setObject, getObject,
-        setVspace, getVspace, setWidth, getWidth, HTMLAppletElement,
-        castToHTMLAppletElement, gTypeHTMLAppletElement)
+        setVspace, getVspace, setWidth, getWidth, HTMLAppletElement(..),
+        gTypeHTMLAppletElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

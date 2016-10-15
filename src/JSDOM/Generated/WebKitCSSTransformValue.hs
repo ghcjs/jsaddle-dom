@@ -9,8 +9,8 @@ module JSDOM.Generated.WebKitCSSTransformValue
         pattern CSS_TRANSLATE3D, pattern CSS_ROTATEX, pattern CSS_ROTATEY,
         pattern CSS_ROTATEZ, pattern CSS_ROTATE3D, pattern CSS_SCALEZ,
         pattern CSS_SCALE3D, pattern CSS_PERSPECTIVE, pattern CSS_MATRIX3D,
-        getOperationType, WebKitCSSTransformValue,
-        castToWebKitCSSTransformValue, gTypeWebKitCSSTransformValue)
+        getOperationType, WebKitCSSTransformValue(..),
+        gTypeWebKitCSSTransformValue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -3,8 +3,8 @@
 module JSDOM.Generated.CSSStyleSheet
        (insertRule, insertRule_, deleteRule, addRule, addRule_,
         removeRule, getOwnerRule, getOwnerRuleUnchecked, getCssRules,
-        getCssRulesUnchecked, getRules, getRulesUnchecked, CSSStyleSheet,
-        castToCSSStyleSheet, gTypeCSSStyleSheet)
+        getCssRulesUnchecked, getRules, getRulesUnchecked,
+        CSSStyleSheet(..), gTypeCSSStyleSheet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

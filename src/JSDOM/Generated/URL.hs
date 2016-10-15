@@ -5,7 +5,7 @@ module JSDOM.Generated.URL
         createObjectURLUnchecked, revokeObjectURL, createObjectURLSource,
         createObjectURLSource_, createObjectURLSourceUnchecked,
         createObjectURLStream, createObjectURLStream_,
-        createObjectURLStreamUnchecked, URL, castToURL, gTypeURL)
+        createObjectURLStreamUnchecked, URL(..), gTypeURL)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

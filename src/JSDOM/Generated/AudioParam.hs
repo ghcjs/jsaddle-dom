@@ -5,7 +5,7 @@ module JSDOM.Generated.AudioParam
         exponentialRampToValueAtTime, setTargetAtTime, setValueCurveAtTime,
         cancelScheduledValues, setTargetValueAtTime, setValue, getValue,
         getMinValue, getMaxValue, getDefaultValue, getName, getUnits,
-        AudioParam, castToAudioParam, gTypeAudioParam)
+        AudioParam(..), gTypeAudioParam)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

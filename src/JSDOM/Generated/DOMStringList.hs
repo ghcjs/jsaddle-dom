@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMStringList
        (item, item_, itemUnchecked, contains, contains_, getLength,
-        DOMStringList, castToDOMStringList, gTypeDOMStringList)
+        DOMStringList(..), gTypeDOMStringList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -3,7 +3,7 @@
 module JSDOM.Generated.TextTrackList
        (item, item_, itemUnchecked, getTrackById, getTrackById_,
         getTrackByIdUnchecked, getLength, addTrack, change, removeTrack,
-        TextTrackList, castToTextTrackList, gTypeTextTrackList)
+        TextTrackList(..), gTypeTextTrackList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

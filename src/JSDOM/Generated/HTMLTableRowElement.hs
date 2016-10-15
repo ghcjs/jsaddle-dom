@@ -4,8 +4,8 @@ module JSDOM.Generated.HTMLTableRowElement
        (insertCell, insertCell_, insertCellUnchecked, deleteCell,
         getRowIndex, getSectionRowIndex, getCells, getCellsUnchecked,
         setAlign, getAlign, setBgColor, getBgColor, setCh, getCh, setChOff,
-        getChOff, setVAlign, getVAlign, HTMLTableRowElement,
-        castToHTMLTableRowElement, gTypeHTMLTableRowElement)
+        getChOff, setVAlign, getVAlign, HTMLTableRowElement(..),
+        gTypeHTMLTableRowElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

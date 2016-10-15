@@ -13,7 +13,7 @@ module JSDOM.Generated.XMLHttpRequest
         getResponseTextUnchecked, getResponseXML, getResponseXMLUnchecked,
         setResponseType, getResponseType, getResponse,
         getResponseUnchecked, getStatus, getStatusText, getResponseURL,
-        XMLHttpRequest, castToXMLHttpRequest, gTypeXMLHttpRequest)
+        XMLHttpRequest(..), gTypeXMLHttpRequest)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

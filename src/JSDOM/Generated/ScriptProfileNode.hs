@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ScriptProfileNode
        (children, children_, getId, getFunctionName, getUrl,
-        getLineNumber, getColumnNumber, ScriptProfileNode,
-        castToScriptProfileNode, gTypeScriptProfileNode)
+        getLineNumber, getColumnNumber, ScriptProfileNode(..),
+        gTypeScriptProfileNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

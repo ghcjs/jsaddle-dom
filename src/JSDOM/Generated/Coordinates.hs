@@ -4,7 +4,7 @@ module JSDOM.Generated.Coordinates
        (getLatitude, getLongitude, getAltitude, getAltitudeUnchecked,
         getAccuracy, getAltitudeAccuracy, getAltitudeAccuracyUnchecked,
         getHeading, getHeadingUnchecked, getSpeed, getSpeedUnchecked,
-        Coordinates, castToCoordinates, gTypeCoordinates)
+        Coordinates(..), gTypeCoordinates)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

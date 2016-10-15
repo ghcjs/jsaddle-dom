@@ -34,9 +34,8 @@ module JSDOM.Generated.HTMLMediaElement
         getControllerUnchecked, getWebkitCurrentPlaybackTargetIsWireless,
         webKitCurrentPlaybackTargetIsWirelessChanged,
         webKitPlaybackTargetAvailabilityChanged, setSrcObject,
-        getSrcObject, getSrcObjectUnchecked, HTMLMediaElement,
-        castToHTMLMediaElement, gTypeHTMLMediaElement, IsHTMLMediaElement,
-        toHTMLMediaElement)
+        getSrcObject, getSrcObjectUnchecked, HTMLMediaElement(..),
+        gTypeHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

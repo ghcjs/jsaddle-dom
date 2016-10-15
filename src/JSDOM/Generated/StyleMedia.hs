@@ -1,7 +1,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleMedia
-       (matchMedium, matchMedium_, getType, StyleMedia, castToStyleMedia,
+       (matchMedium, matchMedium_, getType, StyleMedia(..),
         gTypeStyleMedia)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))

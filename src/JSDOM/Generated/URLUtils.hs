@@ -8,7 +8,7 @@ module JSDOM.Generated.URLUtils
         setHostname, getHostname, getHostnameUnchecked, setPort, getPort,
         getPortUnchecked, setPathname, getPathname, getPathnameUnchecked,
         setSearch, getSearch, getSearchUnchecked, setHash, getHash,
-        getHashUnchecked, URLUtils, castToURLUtils, gTypeURLUtils)
+        getHashUnchecked, URLUtils(..), gTypeURLUtils)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

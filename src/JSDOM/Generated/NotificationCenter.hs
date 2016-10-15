@@ -3,8 +3,7 @@
 module JSDOM.Generated.NotificationCenter
        (createNotification, createNotification_,
         createNotificationUnchecked, checkPermission, checkPermission_,
-        requestPermission, NotificationCenter, castToNotificationCenter,
-        gTypeNotificationCenter)
+        requestPermission, NotificationCenter(..), gTypeNotificationCenter)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

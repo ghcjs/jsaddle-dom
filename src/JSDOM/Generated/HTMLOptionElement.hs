@@ -4,7 +4,7 @@ module JSDOM.Generated.HTMLOptionElement
        (setDisabled, getDisabled, getForm, getFormUnchecked, setLabel,
         getLabel, setDefaultSelected, getDefaultSelected, setSelected,
         getSelected, setValue, getValue, setText, getText, getIndex,
-        HTMLOptionElement, castToHTMLOptionElement, gTypeHTMLOptionElement)
+        HTMLOptionElement(..), gTypeHTMLOptionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

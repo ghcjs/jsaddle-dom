@@ -5,8 +5,8 @@ module JSDOM.Generated.SVGFilterElement
         getPrimitiveUnits, getPrimitiveUnitsUnchecked, getX, getXUnchecked,
         getY, getYUnchecked, getWidth, getWidthUnchecked, getHeight,
         getHeightUnchecked, getFilterResX, getFilterResXUnchecked,
-        getFilterResY, getFilterResYUnchecked, SVGFilterElement,
-        castToSVGFilterElement, gTypeSVGFilterElement)
+        getFilterResY, getFilterResYUnchecked, SVGFilterElement(..),
+        gTypeSVGFilterElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

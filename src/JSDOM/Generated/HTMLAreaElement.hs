@@ -5,7 +5,7 @@ module JSDOM.Generated.HTMLAreaElement
         getNoHref, setPing, getPing, setRel, getRel, setShape, getShape,
         setTarget, getTarget, getHash, getHost, getHostname, getPathname,
         getPort, getProtocol, getSearch, getRelList, getRelListUnchecked,
-        HTMLAreaElement, castToHTMLAreaElement, gTypeHTMLAreaElement)
+        HTMLAreaElement(..), gTypeHTMLAreaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

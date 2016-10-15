@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationObserver
        (newMutationObserver, observe, takeRecords, takeRecords_,
-        disconnect, MutationObserver, castToMutationObserver,
-        gTypeMutationObserver)
+        disconnect, MutationObserver(..), gTypeMutationObserver)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

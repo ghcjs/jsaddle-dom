@@ -4,8 +4,8 @@ module JSDOM.Generated.WheelEvent
        (initWebKitWheelEvent, pattern DOM_DELTA_PIXEL,
         pattern DOM_DELTA_LINE, pattern DOM_DELTA_PAGE, getDeltaX,
         getDeltaY, getDeltaZ, getDeltaMode, getWheelDeltaX, getWheelDeltaY,
-        getWheelDelta, getWebkitDirectionInvertedFromDevice, WheelEvent,
-        castToWheelEvent, gTypeWheelEvent)
+        getWheelDelta, getWebkitDirectionInvertedFromDevice,
+        WheelEvent(..), gTypeWheelEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

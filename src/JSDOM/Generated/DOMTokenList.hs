@@ -2,9 +2,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMTokenList
        (item, item_, itemUnchecked, contains, contains_, add, remove,
-        toggle, toggle_, toString, toString_, getLength, DOMTokenList,
-        castToDOMTokenList, gTypeDOMTokenList, IsDOMTokenList,
-        toDOMTokenList)
+        toggle, toggle_, toString, toString_, getLength, DOMTokenList(..),
+        gTypeDOMTokenList, IsDOMTokenList, toDOMTokenList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -3,8 +3,8 @@
 module JSDOM.Generated.HTMLFrameSetElement
        (setCols, getCols, setRows, getRows, beforeUnload, hashChange,
         message, offline, online, popState, resize, storage, unload,
-        orientationChange, blur, error, focus, load, HTMLFrameSetElement,
-        castToHTMLFrameSetElement, gTypeHTMLFrameSetElement)
+        orientationChange, blur, error, focus, load,
+        HTMLFrameSetElement(..), gTypeHTMLFrameSetElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

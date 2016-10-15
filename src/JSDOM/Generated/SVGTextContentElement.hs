@@ -12,9 +12,8 @@ module JSDOM.Generated.SVGTextContentElement
         pattern LENGTHADJUST_UNKNOWN, pattern LENGTHADJUST_SPACING,
         pattern LENGTHADJUST_SPACINGANDGLYPHS, getTextLength,
         getTextLengthUnchecked, getLengthAdjust, getLengthAdjustUnchecked,
-        SVGTextContentElement, castToSVGTextContentElement,
-        gTypeSVGTextContentElement, IsSVGTextContentElement,
-        toSVGTextContentElement)
+        SVGTextContentElement(..), gTypeSVGTextContentElement,
+        IsSVGTextContentElement, toSVGTextContentElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

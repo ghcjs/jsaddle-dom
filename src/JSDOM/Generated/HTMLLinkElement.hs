@@ -6,7 +6,7 @@ module JSDOM.Generated.HTMLLinkElement
         getRel, setRev, getRev, setSizes, getSizes, getSizesUnchecked,
         setTarget, getTarget, setType, getType, getSheet,
         getSheetUnchecked, getRelList, getRelListUnchecked,
-        HTMLLinkElement, castToHTMLLinkElement, gTypeHTMLLinkElement)
+        HTMLLinkElement(..), gTypeHTMLLinkElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

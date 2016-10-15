@@ -136,7 +136,7 @@ module JSDOM.Generated.Internals
         pattern LAYER_TREE_INCLUDES_PAINTING_PHASES,
         pattern LAYER_TREE_INCLUDES_CONTENT_LAYERS, getSettings,
         getSettingsUnchecked, getWorkerThreadCount, getConsoleProfiles,
-        Internals, castToInternals, gTypeInternals)
+        Internals(..), gTypeInternals)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

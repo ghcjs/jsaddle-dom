@@ -13,8 +13,7 @@ module JSDOM.Generated.Event
         getBubbles, getCancelable, getTimeStamp, getDefaultPrevented,
         getSrcElement, getSrcElementUnchecked, setReturnValue,
         getReturnValue, setCancelBubble, getCancelBubble, getClipboardData,
-        getClipboardDataUnchecked, Event, castToEvent, gTypeEvent, IsEvent,
-        toEvent)
+        getClipboardDataUnchecked, Event(..), gTypeEvent, IsEvent, toEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

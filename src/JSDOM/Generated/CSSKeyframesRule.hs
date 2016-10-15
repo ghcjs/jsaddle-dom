@@ -4,7 +4,7 @@ module JSDOM.Generated.CSSKeyframesRule
        (insertRule, appendRule, deleteRule, findRule, findRule_,
         findRuleUnchecked, _get, _get_, _getUnchecked, setName, getName,
         getNameUnchecked, getCssRules, getCssRulesUnchecked,
-        CSSKeyframesRule, castToCSSKeyframesRule, gTypeCSSKeyframesRule)
+        CSSKeyframesRule(..), gTypeCSSKeyframesRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

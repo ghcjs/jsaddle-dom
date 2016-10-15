@@ -3,8 +3,7 @@
 module JSDOM.Generated.HTMLTableColElement
        (setAlign, getAlign, setCh, getCh, setChOff, getChOff, setSpan,
         getSpan, setVAlign, getVAlign, setWidth, getWidth,
-        HTMLTableColElement, castToHTMLTableColElement,
-        gTypeHTMLTableColElement)
+        HTMLTableColElement(..), gTypeHTMLTableColElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

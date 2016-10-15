@@ -10,8 +10,7 @@ module JSDOM.Generated.HTMLDocument
         getFgColorUnchecked, setAlinkColor, getAlinkColor,
         getAlinkColorUnchecked, setLinkColor, getLinkColor,
         getLinkColorUnchecked, setVlinkColor, getVlinkColor,
-        getVlinkColorUnchecked, HTMLDocument, castToHTMLDocument,
-        gTypeHTMLDocument)
+        getVlinkColorUnchecked, HTMLDocument(..), gTypeHTMLDocument)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

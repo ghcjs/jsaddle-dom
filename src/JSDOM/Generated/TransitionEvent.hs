@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TransitionEvent
        (getPropertyName, getElapsedTime, getPseudoElement,
-        TransitionEvent, castToTransitionEvent, gTypeTransitionEvent)
+        TransitionEvent(..), gTypeTransitionEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

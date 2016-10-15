@@ -4,8 +4,7 @@ module JSDOM.Generated.DocumentType
        (getName, getEntities, getEntitiesUnchecked, getNotations,
         getNotationsUnchecked, getPublicId, getPublicIdUnchecked,
         getSystemId, getSystemIdUnchecked, getInternalSubset,
-        getInternalSubsetUnchecked, DocumentType, castToDocumentType,
-        gTypeDocumentType)
+        getInternalSubsetUnchecked, DocumentType(..), gTypeDocumentType)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

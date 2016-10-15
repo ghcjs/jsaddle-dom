@@ -2,8 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OESStandardDerivatives
        (pattern FRAGMENT_SHADER_DERIVATIVE_HINT_OES,
-        OESStandardDerivatives, castToOESStandardDerivatives,
-        gTypeOESStandardDerivatives)
+        OESStandardDerivatives(..), gTypeOESStandardDerivatives)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

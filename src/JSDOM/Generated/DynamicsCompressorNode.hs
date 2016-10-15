@@ -4,8 +4,7 @@ module JSDOM.Generated.DynamicsCompressorNode
        (getThreshold, getThresholdUnchecked, getKnee, getKneeUnchecked,
         getRatio, getRatioUnchecked, getReduction, getReductionUnchecked,
         getAttack, getAttackUnchecked, getRelease, getReleaseUnchecked,
-        DynamicsCompressorNode, castToDynamicsCompressorNode,
-        gTypeDynamicsCompressorNode)
+        DynamicsCompressorNode(..), gTypeDynamicsCompressorNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

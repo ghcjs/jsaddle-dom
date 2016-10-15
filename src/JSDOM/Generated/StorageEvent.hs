@@ -3,8 +3,7 @@
 module JSDOM.Generated.StorageEvent
        (initStorageEvent, getKey, getOldValue, getOldValueUnchecked,
         getNewValue, getNewValueUnchecked, getUrl, getStorageArea,
-        getStorageAreaUnchecked, StorageEvent, castToStorageEvent,
-        gTypeStorageEvent)
+        getStorageAreaUnchecked, StorageEvent(..), gTypeStorageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

@@ -4,8 +4,8 @@ module JSDOM.Generated.FileReader
        (newFileReader, readAsArrayBuffer, readAsBinaryString, readAsText,
         readAsDataURL, abort, pattern EMPTY, pattern LOADING, pattern DONE,
         getReadyState, getResult, getError, getErrorUnchecked, loadStart,
-        progress, load, abortEvent, error, loadEnd, FileReader,
-        castToFileReader, gTypeFileReader)
+        progress, load, abortEvent, error, loadEnd, FileReader(..),
+        gTypeFileReader)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

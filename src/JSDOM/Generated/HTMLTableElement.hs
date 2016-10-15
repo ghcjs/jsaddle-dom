@@ -12,7 +12,7 @@ module JSDOM.Generated.HTMLTableElement
         getBgColor, setBorder, getBorder, setCellPadding, getCellPadding,
         setCellSpacing, getCellSpacing, setFrame, getFrame, setRules,
         getRules, setSummary, getSummary, setWidth, getWidth,
-        HTMLTableElement, castToHTMLTableElement, gTypeHTMLTableElement)
+        HTMLTableElement(..), gTypeHTMLTableElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)

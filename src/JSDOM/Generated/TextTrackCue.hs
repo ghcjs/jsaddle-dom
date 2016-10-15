@@ -3,8 +3,8 @@
 module JSDOM.Generated.TextTrackCue
        (newTextTrackCue, getTrack, getTrackUnchecked, setId, getId,
         setStartTime, getStartTime, setEndTime, getEndTime, setPauseOnExit,
-        getPauseOnExit, enter, exit, TextTrackCue, castToTextTrackCue,
-        gTypeTextTrackCue, IsTextTrackCue, toTextTrackCue)
+        getPauseOnExit, enter, exit, TextTrackCue(..), gTypeTextTrackCue,
+        IsTextTrackCue, toTextTrackCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import Data.Typeable (Typeable)
