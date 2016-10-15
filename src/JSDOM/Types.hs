@@ -117,569 +117,569 @@ module JSDOM.Types (
   -- * Interface types from IDL files
 
 -- AUTO GENERATION STARTS HERE
-  , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArraysgTypeANGLEInstancedArrays
-  , AbstractView(AbstractView), unAbstractViewgTypeAbstractView
-  , AbstractWorker(AbstractWorker), unAbstractWorkergTypeAbstractWorker
-  , AllAudioCapabilities(AllAudioCapabilities), unAllAudioCapabilitiesgTypeAllAudioCapabilities
-  , AllVideoCapabilities(AllVideoCapabilities), unAllVideoCapabilitiesgTypeAllVideoCapabilities
-  , AnalyserNode(AnalyserNode), unAnalyserNodegTypeAnalyserNode
-  , AnimationEvent(AnimationEvent), unAnimationEventgTypeAnimationEvent
-  , ApplicationCache(ApplicationCache), unApplicationCachegTypeApplicationCache
-  , Attr(Attr), unAttrgTypeAttr
-  , AudioBuffer(AudioBuffer), unAudioBuffergTypeAudioBuffer
-  , AudioBufferSourceNode(AudioBufferSourceNode), unAudioBufferSourceNodegTypeAudioBufferSourceNode
-  , AudioContext(AudioContext), unAudioContext, IsAudioContext, toAudioContextgTypeAudioContext
-  , AudioDestinationNode(AudioDestinationNode), unAudioDestinationNodegTypeAudioDestinationNode
-  , AudioListener(AudioListener), unAudioListenergTypeAudioListener
-  , AudioNode(AudioNode), unAudioNode, IsAudioNode, toAudioNodegTypeAudioNode
-  , AudioParam(AudioParam), unAudioParamgTypeAudioParam
-  , AudioProcessingEvent(AudioProcessingEvent), unAudioProcessingEventgTypeAudioProcessingEvent
-  , AudioStreamTrack(AudioStreamTrack), unAudioStreamTrackgTypeAudioStreamTrack
-  , AudioTrack(AudioTrack), unAudioTrackgTypeAudioTrack
-  , AudioTrackList(AudioTrackList), unAudioTrackListgTypeAudioTrackList
-  , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEventgTypeAutocompleteErrorEvent
-  , BarProp(BarProp), unBarPropgTypeBarProp
-  , BatteryManager(BatteryManager), unBatteryManagergTypeBatteryManager
-  , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEventgTypeBeforeLoadEvent
-  , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEventgTypeBeforeUnloadEvent
-  , BiquadFilterNode(BiquadFilterNode), unBiquadFilterNodegTypeBiquadFilterNode
-  , Blob(Blob), unBlob, IsBlob, toBlobgTypeBlob
-  , CDATASection(CDATASection), unCDATASectiongTypeCDATASection
-  , CSS(CSS), unCSSgTypeCSS
-  , CSSCharsetRule(CSSCharsetRule), unCSSCharsetRulegTypeCSSCharsetRule
-  , CSSFontFaceLoadEvent(CSSFontFaceLoadEvent), unCSSFontFaceLoadEventgTypeCSSFontFaceLoadEvent
-  , CSSFontFaceRule(CSSFontFaceRule), unCSSFontFaceRulegTypeCSSFontFaceRule
-  , CSSImportRule(CSSImportRule), unCSSImportRulegTypeCSSImportRule
-  , CSSKeyframeRule(CSSKeyframeRule), unCSSKeyframeRulegTypeCSSKeyframeRule
-  , CSSKeyframesRule(CSSKeyframesRule), unCSSKeyframesRulegTypeCSSKeyframesRule
-  , CSSMediaRule(CSSMediaRule), unCSSMediaRulegTypeCSSMediaRule
-  , CSSPageRule(CSSPageRule), unCSSPageRulegTypeCSSPageRule
-  , CSSPrimitiveValue(CSSPrimitiveValue), unCSSPrimitiveValuegTypeCSSPrimitiveValue
-  , CSSRule(CSSRule), unCSSRule, IsCSSRule, toCSSRulegTypeCSSRule
-  , CSSRuleList(CSSRuleList), unCSSRuleListgTypeCSSRuleList
-  , CSSStyleDeclaration(CSSStyleDeclaration), unCSSStyleDeclarationgTypeCSSStyleDeclaration
-  , CSSStyleRule(CSSStyleRule), unCSSStyleRulegTypeCSSStyleRule
-  , CSSStyleSheet(CSSStyleSheet), unCSSStyleSheetgTypeCSSStyleSheet
-  , CSSSupportsRule(CSSSupportsRule), unCSSSupportsRulegTypeCSSSupportsRule
-  , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRulegTypeCSSUnknownRule
-  , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValuegTypeCSSValue
-  , CSSValueList(CSSValueList), unCSSValueList, IsCSSValueList, toCSSValueListgTypeCSSValueList
-  , CanvasGradient(CanvasGradient), unCanvasGradientgTypeCanvasGradient
-  , CanvasPattern(CanvasPattern), unCanvasPatterngTypeCanvasPattern
-  , CanvasProxy(CanvasProxy), unCanvasProxygTypeCanvasProxy
-  , CanvasRenderingContext(CanvasRenderingContext), unCanvasRenderingContext, IsCanvasRenderingContext, toCanvasRenderingContextgTypeCanvasRenderingContext
-  , CanvasRenderingContext2D(CanvasRenderingContext2D), unCanvasRenderingContext2DgTypeCanvasRenderingContext2D
-  , CapabilityRange(CapabilityRange), unCapabilityRangegTypeCapabilityRange
-  , ChannelMergerNode(ChannelMergerNode), unChannelMergerNodegTypeChannelMergerNode
-  , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNodegTypeChannelSplitterNode
-  , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterDatagTypeCharacterData
-  , ChildNode(ChildNode), unChildNodegTypeChildNode
-  , ClientRect(ClientRect), unClientRectgTypeClientRect
-  , ClientRectList(ClientRectList), unClientRectListgTypeClientRectList
-  , CloseEvent(CloseEvent), unCloseEventgTypeCloseEvent
-  , CommandLineAPIHost(CommandLineAPIHost), unCommandLineAPIHostgTypeCommandLineAPIHost
-  , Comment(Comment), unCommentgTypeComment
-  , CompositionEvent(CompositionEvent), unCompositionEventgTypeCompositionEvent
-  , ConvolverNode(ConvolverNode), unConvolverNodegTypeConvolverNode
-  , Coordinates(Coordinates), unCoordinatesgTypeCoordinates
-  , Counter(Counter), unCountergTypeCounter
-  , Crypto(Crypto), unCryptogTypeCrypto
-  , CryptoKey(CryptoKey), unCryptoKeygTypeCryptoKey
-  , CryptoKeyPair(CryptoKeyPair), unCryptoKeyPairgTypeCryptoKeyPair
-  , CustomEvent(CustomEvent), unCustomEventgTypeCustomEvent
-  , DOMError(DOMError), unDOMError, IsDOMError, toDOMErrorgTypeDOMError
-  , DOMImplementation(DOMImplementation), unDOMImplementationgTypeDOMImplementation
-  , DOMNamedFlowCollection(DOMNamedFlowCollection), unDOMNamedFlowCollectiongTypeDOMNamedFlowCollection
-  , DOMParser(DOMParser), unDOMParsergTypeDOMParser
-  , DOMSettableTokenList(DOMSettableTokenList), unDOMSettableTokenListgTypeDOMSettableTokenList
-  , DOMStringList(DOMStringList), unDOMStringListgTypeDOMStringList
-  , DOMStringMap(DOMStringMap), unDOMStringMapgTypeDOMStringMap
-  , DOMTokenList(DOMTokenList), unDOMTokenList, IsDOMTokenList, toDOMTokenListgTypeDOMTokenList
-  , DataCue(DataCue), unDataCuegTypeDataCue
-  , DataTransfer(DataTransfer), unDataTransfergTypeDataTransfer
-  , DataTransferItem(DataTransferItem), unDataTransferItemgTypeDataTransferItem
-  , DataTransferItemList(DataTransferItemList), unDataTransferItemListgTypeDataTransferItemList
-  , Database(Database), unDatabasegTypeDatabase
-  , DedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope), unDedicatedWorkerGlobalScopegTypeDedicatedWorkerGlobalScope
-  , DelayNode(DelayNode), unDelayNodegTypeDelayNode
-  , DeviceMotionEvent(DeviceMotionEvent), unDeviceMotionEventgTypeDeviceMotionEvent
-  , DeviceOrientationEvent(DeviceOrientationEvent), unDeviceOrientationEventgTypeDeviceOrientationEvent
-  , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEventgTypeDeviceProximityEvent
-  , Document(Document), unDocument, IsDocument, toDocumentgTypeDocument
-  , DocumentFragment(DocumentFragment), unDocumentFragmentgTypeDocumentFragment
-  , DocumentType(DocumentType), unDocumentTypegTypeDocumentType
-  , DynamicsCompressorNode(DynamicsCompressorNode), unDynamicsCompressorNodegTypeDynamicsCompressorNode
-  , EXTBlendMinMax(EXTBlendMinMax), unEXTBlendMinMaxgTypeEXTBlendMinMax
-  , EXTFragDepth(EXTFragDepth), unEXTFragDepthgTypeEXTFragDepth
-  , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLODgTypeEXTShaderTextureLOD
-  , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropicgTypeEXTTextureFilterAnisotropic
-  , EXTsRGB(EXTsRGB), unEXTsRGBgTypeEXTsRGB
-  , Element(Element), unElement, IsElement, toElementgTypeElement
-  , Entity(Entity), unEntitygTypeEntity
-  , EntityReference(EntityReference), unEntityReferencegTypeEntityReference
-  , ErrorEvent(ErrorEvent), unErrorEventgTypeErrorEvent
-  , Event(Event), unEvent, IsEvent, toEventgTypeEvent
-  , EventListener(EventListener), unEventListenergTypeEventListener
-  , EventSource(EventSource), unEventSourcegTypeEventSource
-  , EventTarget(EventTarget), unEventTarget, IsEventTarget, toEventTargetgTypeEventTarget
-  , File(File), unFilegTypeFile
-  , FileError(FileError), unFileErrorgTypeFileError
-  , FileList(FileList), unFileListgTypeFileList
-  , FileReader(FileReader), unFileReadergTypeFileReader
-  , FileReaderSync(FileReaderSync), unFileReaderSyncgTypeFileReaderSync
-  , FocusEvent(FocusEvent), unFocusEventgTypeFocusEvent
-  , FontLoader(FontLoader), unFontLoadergTypeFontLoader
-  , FormData(FormData), unFormDatagTypeFormData
-  , GainNode(GainNode), unGainNodegTypeGainNode
-  , Gamepad(Gamepad), unGamepadgTypeGamepad
-  , GamepadButton(GamepadButton), unGamepadButtongTypeGamepadButton
-  , GamepadEvent(GamepadEvent), unGamepadEventgTypeGamepadEvent
-  , Geolocation(Geolocation), unGeolocationgTypeGeolocation
-  , Geoposition(Geoposition), unGeopositiongTypeGeoposition
-  , HTMLAllCollection(HTMLAllCollection), unHTMLAllCollectiongTypeHTMLAllCollection
-  , HTMLAnchorElement(HTMLAnchorElement), unHTMLAnchorElementgTypeHTMLAnchorElement
-  , HTMLAppletElement(HTMLAppletElement), unHTMLAppletElementgTypeHTMLAppletElement
-  , HTMLAreaElement(HTMLAreaElement), unHTMLAreaElementgTypeHTMLAreaElement
-  , HTMLAudioElement(HTMLAudioElement), unHTMLAudioElementgTypeHTMLAudioElement
-  , HTMLBRElement(HTMLBRElement), unHTMLBRElementgTypeHTMLBRElement
-  , HTMLBaseElement(HTMLBaseElement), unHTMLBaseElementgTypeHTMLBaseElement
-  , HTMLBaseFontElement(HTMLBaseFontElement), unHTMLBaseFontElementgTypeHTMLBaseFontElement
-  , HTMLBodyElement(HTMLBodyElement), unHTMLBodyElementgTypeHTMLBodyElement
-  , HTMLButtonElement(HTMLButtonElement), unHTMLButtonElementgTypeHTMLButtonElement
-  , HTMLCanvasElement(HTMLCanvasElement), unHTMLCanvasElementgTypeHTMLCanvasElement
-  , HTMLCollection(HTMLCollection), unHTMLCollection, IsHTMLCollection, toHTMLCollectiongTypeHTMLCollection
-  , HTMLDListElement(HTMLDListElement), unHTMLDListElementgTypeHTMLDListElement
-  , HTMLDataListElement(HTMLDataListElement), unHTMLDataListElementgTypeHTMLDataListElement
-  , HTMLDetailsElement(HTMLDetailsElement), unHTMLDetailsElementgTypeHTMLDetailsElement
-  , HTMLDirectoryElement(HTMLDirectoryElement), unHTMLDirectoryElementgTypeHTMLDirectoryElement
-  , HTMLDivElement(HTMLDivElement), unHTMLDivElementgTypeHTMLDivElement
-  , HTMLDocument(HTMLDocument), unHTMLDocumentgTypeHTMLDocument
-  , HTMLElement(HTMLElement), unHTMLElement, IsHTMLElement, toHTMLElementgTypeHTMLElement
-  , HTMLEmbedElement(HTMLEmbedElement), unHTMLEmbedElementgTypeHTMLEmbedElement
-  , HTMLFieldSetElement(HTMLFieldSetElement), unHTMLFieldSetElementgTypeHTMLFieldSetElement
-  , HTMLFontElement(HTMLFontElement), unHTMLFontElementgTypeHTMLFontElement
-  , HTMLFormControlsCollection(HTMLFormControlsCollection), unHTMLFormControlsCollectiongTypeHTMLFormControlsCollection
-  , HTMLFormElement(HTMLFormElement), unHTMLFormElementgTypeHTMLFormElement
-  , HTMLFrameElement(HTMLFrameElement), unHTMLFrameElementgTypeHTMLFrameElement
-  , HTMLFrameSetElement(HTMLFrameSetElement), unHTMLFrameSetElementgTypeHTMLFrameSetElement
-  , HTMLHRElement(HTMLHRElement), unHTMLHRElementgTypeHTMLHRElement
-  , HTMLHeadElement(HTMLHeadElement), unHTMLHeadElementgTypeHTMLHeadElement
-  , HTMLHeadingElement(HTMLHeadingElement), unHTMLHeadingElementgTypeHTMLHeadingElement
-  , HTMLHtmlElement(HTMLHtmlElement), unHTMLHtmlElementgTypeHTMLHtmlElement
-  , HTMLIFrameElement(HTMLIFrameElement), unHTMLIFrameElementgTypeHTMLIFrameElement
-  , HTMLImageElement(HTMLImageElement), unHTMLImageElementgTypeHTMLImageElement
-  , HTMLInputElement(HTMLInputElement), unHTMLInputElementgTypeHTMLInputElement
-  , HTMLKeygenElement(HTMLKeygenElement), unHTMLKeygenElementgTypeHTMLKeygenElement
-  , HTMLLIElement(HTMLLIElement), unHTMLLIElementgTypeHTMLLIElement
-  , HTMLLabelElement(HTMLLabelElement), unHTMLLabelElementgTypeHTMLLabelElement
-  , HTMLLegendElement(HTMLLegendElement), unHTMLLegendElementgTypeHTMLLegendElement
-  , HTMLLinkElement(HTMLLinkElement), unHTMLLinkElementgTypeHTMLLinkElement
-  , HTMLMapElement(HTMLMapElement), unHTMLMapElementgTypeHTMLMapElement
-  , HTMLMarqueeElement(HTMLMarqueeElement), unHTMLMarqueeElementgTypeHTMLMarqueeElement
-  , HTMLMediaElement(HTMLMediaElement), unHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElementgTypeHTMLMediaElement
-  , HTMLMenuElement(HTMLMenuElement), unHTMLMenuElementgTypeHTMLMenuElement
-  , HTMLMetaElement(HTMLMetaElement), unHTMLMetaElementgTypeHTMLMetaElement
-  , HTMLMeterElement(HTMLMeterElement), unHTMLMeterElementgTypeHTMLMeterElement
-  , HTMLModElement(HTMLModElement), unHTMLModElementgTypeHTMLModElement
-  , HTMLOListElement(HTMLOListElement), unHTMLOListElementgTypeHTMLOListElement
-  , HTMLObjectElement(HTMLObjectElement), unHTMLObjectElementgTypeHTMLObjectElement
-  , HTMLOptGroupElement(HTMLOptGroupElement), unHTMLOptGroupElementgTypeHTMLOptGroupElement
-  , HTMLOptionElement(HTMLOptionElement), unHTMLOptionElementgTypeHTMLOptionElement
-  , HTMLOptionsCollection(HTMLOptionsCollection), unHTMLOptionsCollectiongTypeHTMLOptionsCollection
-  , HTMLOutputElement(HTMLOutputElement), unHTMLOutputElementgTypeHTMLOutputElement
-  , HTMLParagraphElement(HTMLParagraphElement), unHTMLParagraphElementgTypeHTMLParagraphElement
-  , HTMLParamElement(HTMLParamElement), unHTMLParamElementgTypeHTMLParamElement
-  , HTMLPreElement(HTMLPreElement), unHTMLPreElementgTypeHTMLPreElement
-  , HTMLProgressElement(HTMLProgressElement), unHTMLProgressElementgTypeHTMLProgressElement
-  , HTMLQuoteElement(HTMLQuoteElement), unHTMLQuoteElementgTypeHTMLQuoteElement
-  , HTMLScriptElement(HTMLScriptElement), unHTMLScriptElementgTypeHTMLScriptElement
-  , HTMLSelectElement(HTMLSelectElement), unHTMLSelectElementgTypeHTMLSelectElement
-  , HTMLSourceElement(HTMLSourceElement), unHTMLSourceElementgTypeHTMLSourceElement
-  , HTMLSpanElement(HTMLSpanElement), unHTMLSpanElementgTypeHTMLSpanElement
-  , HTMLStyleElement(HTMLStyleElement), unHTMLStyleElementgTypeHTMLStyleElement
-  , HTMLTableCaptionElement(HTMLTableCaptionElement), unHTMLTableCaptionElementgTypeHTMLTableCaptionElement
-  , HTMLTableCellElement(HTMLTableCellElement), unHTMLTableCellElementgTypeHTMLTableCellElement
-  , HTMLTableColElement(HTMLTableColElement), unHTMLTableColElementgTypeHTMLTableColElement
-  , HTMLTableElement(HTMLTableElement), unHTMLTableElementgTypeHTMLTableElement
-  , HTMLTableRowElement(HTMLTableRowElement), unHTMLTableRowElementgTypeHTMLTableRowElement
-  , HTMLTableSectionElement(HTMLTableSectionElement), unHTMLTableSectionElementgTypeHTMLTableSectionElement
-  , HTMLTemplateElement(HTMLTemplateElement), unHTMLTemplateElementgTypeHTMLTemplateElement
-  , HTMLTextAreaElement(HTMLTextAreaElement), unHTMLTextAreaElementgTypeHTMLTextAreaElement
-  , HTMLTitleElement(HTMLTitleElement), unHTMLTitleElementgTypeHTMLTitleElement
-  , HTMLTrackElement(HTMLTrackElement), unHTMLTrackElementgTypeHTMLTrackElement
-  , HTMLUListElement(HTMLUListElement), unHTMLUListElementgTypeHTMLUListElement
-  , HTMLUnknownElement(HTMLUnknownElement), unHTMLUnknownElementgTypeHTMLUnknownElement
-  , HTMLVideoElement(HTMLVideoElement), unHTMLVideoElementgTypeHTMLVideoElement
-  , HashChangeEvent(HashChangeEvent), unHashChangeEventgTypeHashChangeEvent
-  , History(History), unHistorygTypeHistory
-  , IDBAny(IDBAny), unIDBAnygTypeIDBAny
-  , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursorgTypeIDBCursor
-  , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValuegTypeIDBCursorWithValue
-  , IDBDatabase(IDBDatabase), unIDBDatabasegTypeIDBDatabase
-  , IDBFactory(IDBFactory), unIDBFactorygTypeIDBFactory
-  , IDBIndex(IDBIndex), unIDBIndexgTypeIDBIndex
-  , IDBKeyRange(IDBKeyRange), unIDBKeyRangegTypeIDBKeyRange
-  , IDBObjectStore(IDBObjectStore), unIDBObjectStoregTypeIDBObjectStore
-  , IDBOpenDBRequest(IDBOpenDBRequest), unIDBOpenDBRequestgTypeIDBOpenDBRequest
-  , IDBRequest(IDBRequest), unIDBRequest, IsIDBRequest, toIDBRequestgTypeIDBRequest
-  , IDBTransaction(IDBTransaction), unIDBTransactiongTypeIDBTransaction
-  , IDBVersionChangeEvent(IDBVersionChangeEvent), unIDBVersionChangeEventgTypeIDBVersionChangeEvent
-  , ImageData(ImageData), unImageDatagTypeImageData
-  , InspectorFrontendHost(InspectorFrontendHost), unInspectorFrontendHostgTypeInspectorFrontendHost
-  , InternalSettings(InternalSettings), unInternalSettingsgTypeInternalSettings
-  , Internals(Internals), unInternalsgTypeInternals
-  , KeyboardEvent(KeyboardEvent), unKeyboardEventgTypeKeyboardEvent
-  , Location(Location), unLocationgTypeLocation
-  , MallocStatistics(MallocStatistics), unMallocStatisticsgTypeMallocStatistics
-  , MediaController(MediaController), unMediaControllergTypeMediaController
-  , MediaControlsHost(MediaControlsHost), unMediaControlsHostgTypeMediaControlsHost
-  , MediaElementAudioSourceNode(MediaElementAudioSourceNode), unMediaElementAudioSourceNodegTypeMediaElementAudioSourceNode
-  , MediaError(MediaError), unMediaErrorgTypeMediaError
-  , MediaKeyError(MediaKeyError), unMediaKeyErrorgTypeMediaKeyError
-  , MediaKeyEvent(MediaKeyEvent), unMediaKeyEventgTypeMediaKeyEvent
-  , MediaKeyMessageEvent(MediaKeyMessageEvent), unMediaKeyMessageEventgTypeMediaKeyMessageEvent
-  , MediaKeyNeededEvent(MediaKeyNeededEvent), unMediaKeyNeededEventgTypeMediaKeyNeededEvent
-  , MediaKeySession(MediaKeySession), unMediaKeySessiongTypeMediaKeySession
-  , MediaKeys(MediaKeys), unMediaKeysgTypeMediaKeys
-  , MediaList(MediaList), unMediaListgTypeMediaList
-  , MediaQueryList(MediaQueryList), unMediaQueryListgTypeMediaQueryList
-  , MediaSource(MediaSource), unMediaSourcegTypeMediaSource
-  , MediaSourceStates(MediaSourceStates), unMediaSourceStatesgTypeMediaSourceStates
-  , MediaStream(MediaStream), unMediaStreamgTypeMediaStream
-  , MediaStreamAudioDestinationNode(MediaStreamAudioDestinationNode), unMediaStreamAudioDestinationNodegTypeMediaStreamAudioDestinationNode
-  , MediaStreamAudioSourceNode(MediaStreamAudioSourceNode), unMediaStreamAudioSourceNodegTypeMediaStreamAudioSourceNode
-  , MediaStreamCapabilities(MediaStreamCapabilities), unMediaStreamCapabilities, IsMediaStreamCapabilities, toMediaStreamCapabilitiesgTypeMediaStreamCapabilities
-  , MediaStreamEvent(MediaStreamEvent), unMediaStreamEventgTypeMediaStreamEvent
-  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrackgTypeMediaStreamTrack
-  , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEventgTypeMediaStreamTrackEvent
-  , MediaTrackConstraint(MediaTrackConstraint), unMediaTrackConstraintgTypeMediaTrackConstraint
-  , MediaTrackConstraintSet(MediaTrackConstraintSet), unMediaTrackConstraintSetgTypeMediaTrackConstraintSet
-  , MediaTrackConstraints(MediaTrackConstraints), unMediaTrackConstraintsgTypeMediaTrackConstraints
-  , MemoryInfo(MemoryInfo), unMemoryInfogTypeMemoryInfo
-  , MessageChannel(MessageChannel), unMessageChannelgTypeMessageChannel
-  , MessageEvent(MessageEvent), unMessageEventgTypeMessageEvent
-  , MessagePort(MessagePort), unMessagePortgTypeMessagePort
-  , MimeType(MimeType), unMimeTypegTypeMimeType
-  , MimeTypeArray(MimeTypeArray), unMimeTypeArraygTypeMimeTypeArray
-  , MouseEvent(MouseEvent), unMouseEvent, IsMouseEvent, toMouseEventgTypeMouseEvent
-  , MutationEvent(MutationEvent), unMutationEventgTypeMutationEvent
-  , MutationObserver(MutationObserver), unMutationObservergTypeMutationObserver
-  , MutationRecord(MutationRecord), unMutationRecordgTypeMutationRecord
-  , NamedNodeMap(NamedNodeMap), unNamedNodeMapgTypeNamedNodeMap
-  , Navigator(Navigator), unNavigatorgTypeNavigator
-  , NavigatorUserMediaError(NavigatorUserMediaError), unNavigatorUserMediaErrorgTypeNavigatorUserMediaError
-  , Node(Node), unNode, IsNode, toNodegTypeNode
-  , NodeFilter(NodeFilter), unNodeFiltergTypeNodeFilter
-  , NodeIterator(NodeIterator), unNodeIteratorgTypeNodeIterator
-  , NodeList(NodeList), unNodeList, IsNodeList, toNodeListgTypeNodeList
-  , Notification(Notification), unNotificationgTypeNotification
-  , NotificationCenter(NotificationCenter), unNotificationCentergTypeNotificationCenter
-  , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUintgTypeOESElementIndexUint
-  , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivativesgTypeOESStandardDerivatives
-  , OESTextureFloat(OESTextureFloat), unOESTextureFloatgTypeOESTextureFloat
-  , OESTextureFloatLinear(OESTextureFloatLinear), unOESTextureFloatLineargTypeOESTextureFloatLinear
-  , OESTextureHalfFloat(OESTextureHalfFloat), unOESTextureHalfFloatgTypeOESTextureHalfFloat
-  , OESTextureHalfFloatLinear(OESTextureHalfFloatLinear), unOESTextureHalfFloatLineargTypeOESTextureHalfFloatLinear
-  , OESVertexArrayObject(OESVertexArrayObject), unOESVertexArrayObjectgTypeOESVertexArrayObject
-  , OfflineAudioCompletionEvent(OfflineAudioCompletionEvent), unOfflineAudioCompletionEventgTypeOfflineAudioCompletionEvent
-  , OfflineAudioContext(OfflineAudioContext), unOfflineAudioContextgTypeOfflineAudioContext
-  , OscillatorNode(OscillatorNode), unOscillatorNodegTypeOscillatorNode
-  , OverflowEvent(OverflowEvent), unOverflowEventgTypeOverflowEvent
-  , PageTransitionEvent(PageTransitionEvent), unPageTransitionEventgTypePageTransitionEvent
-  , PannerNode(PannerNode), unPannerNodegTypePannerNode
-  , Path2D(Path2D), unPath2DgTypePath2D
-  , Performance(Performance), unPerformancegTypePerformance
-  , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntrygTypePerformanceEntry
-  , PerformanceEntryList(PerformanceEntryList), unPerformanceEntryListgTypePerformanceEntryList
-  , PerformanceMark(PerformanceMark), unPerformanceMarkgTypePerformanceMark
-  , PerformanceMeasure(PerformanceMeasure), unPerformanceMeasuregTypePerformanceMeasure
-  , PerformanceNavigation(PerformanceNavigation), unPerformanceNavigationgTypePerformanceNavigation
-  , PerformanceResourceTiming(PerformanceResourceTiming), unPerformanceResourceTiminggTypePerformanceResourceTiming
-  , PerformanceTiming(PerformanceTiming), unPerformanceTiminggTypePerformanceTiming
-  , PeriodicWave(PeriodicWave), unPeriodicWavegTypePeriodicWave
-  , Plugin(Plugin), unPlugingTypePlugin
-  , PluginArray(PluginArray), unPluginArraygTypePluginArray
-  , PopStateEvent(PopStateEvent), unPopStateEventgTypePopStateEvent
-  , PositionError(PositionError), unPositionErrorgTypePositionError
-  , ProcessingInstruction(ProcessingInstruction), unProcessingInstructiongTypeProcessingInstruction
-  , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEventgTypeProgressEvent
-  , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacementgTypeQuickTimePluginReplacement
-  , RGBColor(RGBColor), unRGBColorgTypeRGBColor
-  , RTCConfiguration(RTCConfiguration), unRTCConfigurationgTypeRTCConfiguration
-  , RTCDTMFSender(RTCDTMFSender), unRTCDTMFSendergTypeRTCDTMFSender
-  , RTCDTMFToneChangeEvent(RTCDTMFToneChangeEvent), unRTCDTMFToneChangeEventgTypeRTCDTMFToneChangeEvent
-  , RTCDataChannel(RTCDataChannel), unRTCDataChannelgTypeRTCDataChannel
-  , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEventgTypeRTCDataChannelEvent
-  , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidategTypeRTCIceCandidate
-  , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEventgTypeRTCIceCandidateEvent
-  , RTCIceServer(RTCIceServer), unRTCIceServergTypeRTCIceServer
-  , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnectiongTypeRTCPeerConnection
-  , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescriptiongTypeRTCSessionDescription
-  , RTCStatsReport(RTCStatsReport), unRTCStatsReportgTypeRTCStatsReport
-  , RTCStatsResponse(RTCStatsResponse), unRTCStatsResponsegTypeRTCStatsResponse
-  , RadioNodeList(RadioNodeList), unRadioNodeListgTypeRadioNodeList
-  , Range(Range), unRangegTypeRange
-  , ReadableStream(ReadableStream), unReadableStreamgTypeReadableStream
-  , Rect(Rect), unRectgTypeRect
-  , SQLError(SQLError), unSQLErrorgTypeSQLError
-  , SQLResultSet(SQLResultSet), unSQLResultSetgTypeSQLResultSet
-  , SQLResultSetRowList(SQLResultSetRowList), unSQLResultSetRowListgTypeSQLResultSetRowList
-  , SQLTransaction(SQLTransaction), unSQLTransactiongTypeSQLTransaction
-  , SVGAElement(SVGAElement), unSVGAElementgTypeSVGAElement
-  , SVGAltGlyphDefElement(SVGAltGlyphDefElement), unSVGAltGlyphDefElementgTypeSVGAltGlyphDefElement
-  , SVGAltGlyphElement(SVGAltGlyphElement), unSVGAltGlyphElementgTypeSVGAltGlyphElement
-  , SVGAltGlyphItemElement(SVGAltGlyphItemElement), unSVGAltGlyphItemElementgTypeSVGAltGlyphItemElement
-  , SVGAngle(SVGAngle), unSVGAnglegTypeSVGAngle
-  , SVGAnimateColorElement(SVGAnimateColorElement), unSVGAnimateColorElementgTypeSVGAnimateColorElement
-  , SVGAnimateElement(SVGAnimateElement), unSVGAnimateElementgTypeSVGAnimateElement
-  , SVGAnimateMotionElement(SVGAnimateMotionElement), unSVGAnimateMotionElementgTypeSVGAnimateMotionElement
-  , SVGAnimateTransformElement(SVGAnimateTransformElement), unSVGAnimateTransformElementgTypeSVGAnimateTransformElement
-  , SVGAnimatedAngle(SVGAnimatedAngle), unSVGAnimatedAnglegTypeSVGAnimatedAngle
-  , SVGAnimatedBoolean(SVGAnimatedBoolean), unSVGAnimatedBooleangTypeSVGAnimatedBoolean
-  , SVGAnimatedEnumeration(SVGAnimatedEnumeration), unSVGAnimatedEnumerationgTypeSVGAnimatedEnumeration
-  , SVGAnimatedInteger(SVGAnimatedInteger), unSVGAnimatedIntegergTypeSVGAnimatedInteger
-  , SVGAnimatedLength(SVGAnimatedLength), unSVGAnimatedLengthgTypeSVGAnimatedLength
-  , SVGAnimatedLengthList(SVGAnimatedLengthList), unSVGAnimatedLengthListgTypeSVGAnimatedLengthList
-  , SVGAnimatedNumber(SVGAnimatedNumber), unSVGAnimatedNumbergTypeSVGAnimatedNumber
-  , SVGAnimatedNumberList(SVGAnimatedNumberList), unSVGAnimatedNumberListgTypeSVGAnimatedNumberList
-  , SVGAnimatedPreserveAspectRatio(SVGAnimatedPreserveAspectRatio), unSVGAnimatedPreserveAspectRatiogTypeSVGAnimatedPreserveAspectRatio
-  , SVGAnimatedRect(SVGAnimatedRect), unSVGAnimatedRectgTypeSVGAnimatedRect
-  , SVGAnimatedString(SVGAnimatedString), unSVGAnimatedStringgTypeSVGAnimatedString
-  , SVGAnimatedTransformList(SVGAnimatedTransformList), unSVGAnimatedTransformListgTypeSVGAnimatedTransformList
-  , SVGAnimationElement(SVGAnimationElement), unSVGAnimationElement, IsSVGAnimationElement, toSVGAnimationElementgTypeSVGAnimationElement
-  , SVGCircleElement(SVGCircleElement), unSVGCircleElementgTypeSVGCircleElement
-  , SVGClipPathElement(SVGClipPathElement), unSVGClipPathElementgTypeSVGClipPathElement
-  , SVGColor(SVGColor), unSVGColor, IsSVGColor, toSVGColorgTypeSVGColor
-  , SVGComponentTransferFunctionElement(SVGComponentTransferFunctionElement), unSVGComponentTransferFunctionElement, IsSVGComponentTransferFunctionElement, toSVGComponentTransferFunctionElementgTypeSVGComponentTransferFunctionElement
-  , SVGCursorElement(SVGCursorElement), unSVGCursorElementgTypeSVGCursorElement
-  , SVGDefsElement(SVGDefsElement), unSVGDefsElementgTypeSVGDefsElement
-  , SVGDescElement(SVGDescElement), unSVGDescElementgTypeSVGDescElement
-  , SVGDocument(SVGDocument), unSVGDocumentgTypeSVGDocument
-  , SVGElement(SVGElement), unSVGElement, IsSVGElement, toSVGElementgTypeSVGElement
-  , SVGEllipseElement(SVGEllipseElement), unSVGEllipseElementgTypeSVGEllipseElement
-  , SVGExternalResourcesRequired(SVGExternalResourcesRequired), unSVGExternalResourcesRequiredgTypeSVGExternalResourcesRequired
-  , SVGFEBlendElement(SVGFEBlendElement), unSVGFEBlendElementgTypeSVGFEBlendElement
-  , SVGFEColorMatrixElement(SVGFEColorMatrixElement), unSVGFEColorMatrixElementgTypeSVGFEColorMatrixElement
-  , SVGFEComponentTransferElement(SVGFEComponentTransferElement), unSVGFEComponentTransferElementgTypeSVGFEComponentTransferElement
-  , SVGFECompositeElement(SVGFECompositeElement), unSVGFECompositeElementgTypeSVGFECompositeElement
-  , SVGFEConvolveMatrixElement(SVGFEConvolveMatrixElement), unSVGFEConvolveMatrixElementgTypeSVGFEConvolveMatrixElement
-  , SVGFEDiffuseLightingElement(SVGFEDiffuseLightingElement), unSVGFEDiffuseLightingElementgTypeSVGFEDiffuseLightingElement
-  , SVGFEDisplacementMapElement(SVGFEDisplacementMapElement), unSVGFEDisplacementMapElementgTypeSVGFEDisplacementMapElement
-  , SVGFEDistantLightElement(SVGFEDistantLightElement), unSVGFEDistantLightElementgTypeSVGFEDistantLightElement
-  , SVGFEDropShadowElement(SVGFEDropShadowElement), unSVGFEDropShadowElementgTypeSVGFEDropShadowElement
-  , SVGFEFloodElement(SVGFEFloodElement), unSVGFEFloodElementgTypeSVGFEFloodElement
-  , SVGFEFuncAElement(SVGFEFuncAElement), unSVGFEFuncAElementgTypeSVGFEFuncAElement
-  , SVGFEFuncBElement(SVGFEFuncBElement), unSVGFEFuncBElementgTypeSVGFEFuncBElement
-  , SVGFEFuncGElement(SVGFEFuncGElement), unSVGFEFuncGElementgTypeSVGFEFuncGElement
-  , SVGFEFuncRElement(SVGFEFuncRElement), unSVGFEFuncRElementgTypeSVGFEFuncRElement
-  , SVGFEGaussianBlurElement(SVGFEGaussianBlurElement), unSVGFEGaussianBlurElementgTypeSVGFEGaussianBlurElement
-  , SVGFEImageElement(SVGFEImageElement), unSVGFEImageElementgTypeSVGFEImageElement
-  , SVGFEMergeElement(SVGFEMergeElement), unSVGFEMergeElementgTypeSVGFEMergeElement
-  , SVGFEMergeNodeElement(SVGFEMergeNodeElement), unSVGFEMergeNodeElementgTypeSVGFEMergeNodeElement
-  , SVGFEMorphologyElement(SVGFEMorphologyElement), unSVGFEMorphologyElementgTypeSVGFEMorphologyElement
-  , SVGFEOffsetElement(SVGFEOffsetElement), unSVGFEOffsetElementgTypeSVGFEOffsetElement
-  , SVGFEPointLightElement(SVGFEPointLightElement), unSVGFEPointLightElementgTypeSVGFEPointLightElement
-  , SVGFESpecularLightingElement(SVGFESpecularLightingElement), unSVGFESpecularLightingElementgTypeSVGFESpecularLightingElement
-  , SVGFESpotLightElement(SVGFESpotLightElement), unSVGFESpotLightElementgTypeSVGFESpotLightElement
-  , SVGFETileElement(SVGFETileElement), unSVGFETileElementgTypeSVGFETileElement
-  , SVGFETurbulenceElement(SVGFETurbulenceElement), unSVGFETurbulenceElementgTypeSVGFETurbulenceElement
-  , SVGFilterElement(SVGFilterElement), unSVGFilterElementgTypeSVGFilterElement
-  , SVGFilterPrimitiveStandardAttributes(SVGFilterPrimitiveStandardAttributes), unSVGFilterPrimitiveStandardAttributesgTypeSVGFilterPrimitiveStandardAttributes
-  , SVGFitToViewBox(SVGFitToViewBox), unSVGFitToViewBoxgTypeSVGFitToViewBox
-  , SVGFontElement(SVGFontElement), unSVGFontElementgTypeSVGFontElement
-  , SVGFontFaceElement(SVGFontFaceElement), unSVGFontFaceElementgTypeSVGFontFaceElement
-  , SVGFontFaceFormatElement(SVGFontFaceFormatElement), unSVGFontFaceFormatElementgTypeSVGFontFaceFormatElement
-  , SVGFontFaceNameElement(SVGFontFaceNameElement), unSVGFontFaceNameElementgTypeSVGFontFaceNameElement
-  , SVGFontFaceSrcElement(SVGFontFaceSrcElement), unSVGFontFaceSrcElementgTypeSVGFontFaceSrcElement
-  , SVGFontFaceUriElement(SVGFontFaceUriElement), unSVGFontFaceUriElementgTypeSVGFontFaceUriElement
-  , SVGForeignObjectElement(SVGForeignObjectElement), unSVGForeignObjectElementgTypeSVGForeignObjectElement
-  , SVGGElement(SVGGElement), unSVGGElementgTypeSVGGElement
-  , SVGGlyphElement(SVGGlyphElement), unSVGGlyphElementgTypeSVGGlyphElement
-  , SVGGlyphRefElement(SVGGlyphRefElement), unSVGGlyphRefElementgTypeSVGGlyphRefElement
-  , SVGGradientElement(SVGGradientElement), unSVGGradientElement, IsSVGGradientElement, toSVGGradientElementgTypeSVGGradientElement
-  , SVGGraphicsElement(SVGGraphicsElement), unSVGGraphicsElement, IsSVGGraphicsElement, toSVGGraphicsElementgTypeSVGGraphicsElement
-  , SVGHKernElement(SVGHKernElement), unSVGHKernElementgTypeSVGHKernElement
-  , SVGImageElement(SVGImageElement), unSVGImageElementgTypeSVGImageElement
-  , SVGLength(SVGLength), unSVGLengthgTypeSVGLength
-  , SVGLengthList(SVGLengthList), unSVGLengthListgTypeSVGLengthList
-  , SVGLineElement(SVGLineElement), unSVGLineElementgTypeSVGLineElement
-  , SVGLinearGradientElement(SVGLinearGradientElement), unSVGLinearGradientElementgTypeSVGLinearGradientElement
-  , SVGMPathElement(SVGMPathElement), unSVGMPathElementgTypeSVGMPathElement
-  , SVGMarkerElement(SVGMarkerElement), unSVGMarkerElementgTypeSVGMarkerElement
-  , SVGMaskElement(SVGMaskElement), unSVGMaskElementgTypeSVGMaskElement
-  , SVGMatrix(SVGMatrix), unSVGMatrixgTypeSVGMatrix
-  , SVGMetadataElement(SVGMetadataElement), unSVGMetadataElementgTypeSVGMetadataElement
-  , SVGMissingGlyphElement(SVGMissingGlyphElement), unSVGMissingGlyphElementgTypeSVGMissingGlyphElement
-  , SVGNumber(SVGNumber), unSVGNumbergTypeSVGNumber
-  , SVGNumberList(SVGNumberList), unSVGNumberListgTypeSVGNumberList
-  , SVGPaint(SVGPaint), unSVGPaintgTypeSVGPaint
-  , SVGPathElement(SVGPathElement), unSVGPathElementgTypeSVGPathElement
-  , SVGPathSeg(SVGPathSeg), unSVGPathSeg, IsSVGPathSeg, toSVGPathSeggTypeSVGPathSeg
-  , SVGPathSegArcAbs(SVGPathSegArcAbs), unSVGPathSegArcAbsgTypeSVGPathSegArcAbs
-  , SVGPathSegArcRel(SVGPathSegArcRel), unSVGPathSegArcRelgTypeSVGPathSegArcRel
-  , SVGPathSegClosePath(SVGPathSegClosePath), unSVGPathSegClosePathgTypeSVGPathSegClosePath
-  , SVGPathSegCurvetoCubicAbs(SVGPathSegCurvetoCubicAbs), unSVGPathSegCurvetoCubicAbsgTypeSVGPathSegCurvetoCubicAbs
-  , SVGPathSegCurvetoCubicRel(SVGPathSegCurvetoCubicRel), unSVGPathSegCurvetoCubicRelgTypeSVGPathSegCurvetoCubicRel
-  , SVGPathSegCurvetoCubicSmoothAbs(SVGPathSegCurvetoCubicSmoothAbs), unSVGPathSegCurvetoCubicSmoothAbsgTypeSVGPathSegCurvetoCubicSmoothAbs
-  , SVGPathSegCurvetoCubicSmoothRel(SVGPathSegCurvetoCubicSmoothRel), unSVGPathSegCurvetoCubicSmoothRelgTypeSVGPathSegCurvetoCubicSmoothRel
-  , SVGPathSegCurvetoQuadraticAbs(SVGPathSegCurvetoQuadraticAbs), unSVGPathSegCurvetoQuadraticAbsgTypeSVGPathSegCurvetoQuadraticAbs
-  , SVGPathSegCurvetoQuadraticRel(SVGPathSegCurvetoQuadraticRel), unSVGPathSegCurvetoQuadraticRelgTypeSVGPathSegCurvetoQuadraticRel
-  , SVGPathSegCurvetoQuadraticSmoothAbs(SVGPathSegCurvetoQuadraticSmoothAbs), unSVGPathSegCurvetoQuadraticSmoothAbsgTypeSVGPathSegCurvetoQuadraticSmoothAbs
-  , SVGPathSegCurvetoQuadraticSmoothRel(SVGPathSegCurvetoQuadraticSmoothRel), unSVGPathSegCurvetoQuadraticSmoothRelgTypeSVGPathSegCurvetoQuadraticSmoothRel
-  , SVGPathSegLinetoAbs(SVGPathSegLinetoAbs), unSVGPathSegLinetoAbsgTypeSVGPathSegLinetoAbs
-  , SVGPathSegLinetoHorizontalAbs(SVGPathSegLinetoHorizontalAbs), unSVGPathSegLinetoHorizontalAbsgTypeSVGPathSegLinetoHorizontalAbs
-  , SVGPathSegLinetoHorizontalRel(SVGPathSegLinetoHorizontalRel), unSVGPathSegLinetoHorizontalRelgTypeSVGPathSegLinetoHorizontalRel
-  , SVGPathSegLinetoRel(SVGPathSegLinetoRel), unSVGPathSegLinetoRelgTypeSVGPathSegLinetoRel
-  , SVGPathSegLinetoVerticalAbs(SVGPathSegLinetoVerticalAbs), unSVGPathSegLinetoVerticalAbsgTypeSVGPathSegLinetoVerticalAbs
-  , SVGPathSegLinetoVerticalRel(SVGPathSegLinetoVerticalRel), unSVGPathSegLinetoVerticalRelgTypeSVGPathSegLinetoVerticalRel
-  , SVGPathSegList(SVGPathSegList), unSVGPathSegListgTypeSVGPathSegList
-  , SVGPathSegMovetoAbs(SVGPathSegMovetoAbs), unSVGPathSegMovetoAbsgTypeSVGPathSegMovetoAbs
-  , SVGPathSegMovetoRel(SVGPathSegMovetoRel), unSVGPathSegMovetoRelgTypeSVGPathSegMovetoRel
-  , SVGPatternElement(SVGPatternElement), unSVGPatternElementgTypeSVGPatternElement
-  , SVGPoint(SVGPoint), unSVGPointgTypeSVGPoint
-  , SVGPointList(SVGPointList), unSVGPointListgTypeSVGPointList
-  , SVGPolygonElement(SVGPolygonElement), unSVGPolygonElementgTypeSVGPolygonElement
-  , SVGPolylineElement(SVGPolylineElement), unSVGPolylineElementgTypeSVGPolylineElement
-  , SVGPreserveAspectRatio(SVGPreserveAspectRatio), unSVGPreserveAspectRatiogTypeSVGPreserveAspectRatio
-  , SVGRadialGradientElement(SVGRadialGradientElement), unSVGRadialGradientElementgTypeSVGRadialGradientElement
-  , SVGRect(SVGRect), unSVGRectgTypeSVGRect
-  , SVGRectElement(SVGRectElement), unSVGRectElementgTypeSVGRectElement
-  , SVGRenderingIntent(SVGRenderingIntent), unSVGRenderingIntentgTypeSVGRenderingIntent
-  , SVGSVGElement(SVGSVGElement), unSVGSVGElementgTypeSVGSVGElement
-  , SVGScriptElement(SVGScriptElement), unSVGScriptElementgTypeSVGScriptElement
-  , SVGSetElement(SVGSetElement), unSVGSetElementgTypeSVGSetElement
-  , SVGStopElement(SVGStopElement), unSVGStopElementgTypeSVGStopElement
-  , SVGStringList(SVGStringList), unSVGStringListgTypeSVGStringList
-  , SVGStyleElement(SVGStyleElement), unSVGStyleElementgTypeSVGStyleElement
-  , SVGSwitchElement(SVGSwitchElement), unSVGSwitchElementgTypeSVGSwitchElement
-  , SVGSymbolElement(SVGSymbolElement), unSVGSymbolElementgTypeSVGSymbolElement
-  , SVGTRefElement(SVGTRefElement), unSVGTRefElementgTypeSVGTRefElement
-  , SVGTSpanElement(SVGTSpanElement), unSVGTSpanElementgTypeSVGTSpanElement
-  , SVGTests(SVGTests), unSVGTestsgTypeSVGTests
-  , SVGTextContentElement(SVGTextContentElement), unSVGTextContentElement, IsSVGTextContentElement, toSVGTextContentElementgTypeSVGTextContentElement
-  , SVGTextElement(SVGTextElement), unSVGTextElementgTypeSVGTextElement
-  , SVGTextPathElement(SVGTextPathElement), unSVGTextPathElementgTypeSVGTextPathElement
-  , SVGTextPositioningElement(SVGTextPositioningElement), unSVGTextPositioningElement, IsSVGTextPositioningElement, toSVGTextPositioningElementgTypeSVGTextPositioningElement
-  , SVGTitleElement(SVGTitleElement), unSVGTitleElementgTypeSVGTitleElement
-  , SVGTransform(SVGTransform), unSVGTransformgTypeSVGTransform
-  , SVGTransformList(SVGTransformList), unSVGTransformListgTypeSVGTransformList
-  , SVGURIReference(SVGURIReference), unSVGURIReferencegTypeSVGURIReference
-  , SVGUnitTypes(SVGUnitTypes), unSVGUnitTypesgTypeSVGUnitTypes
-  , SVGUseElement(SVGUseElement), unSVGUseElementgTypeSVGUseElement
-  , SVGVKernElement(SVGVKernElement), unSVGVKernElementgTypeSVGVKernElement
-  , SVGViewElement(SVGViewElement), unSVGViewElementgTypeSVGViewElement
-  , SVGViewSpec(SVGViewSpec), unSVGViewSpecgTypeSVGViewSpec
-  , SVGZoomAndPan(SVGZoomAndPan), unSVGZoomAndPangTypeSVGZoomAndPan
-  , SVGZoomEvent(SVGZoomEvent), unSVGZoomEventgTypeSVGZoomEvent
-  , Screen(Screen), unScreengTypeScreen
-  , ScriptProcessorNode(ScriptProcessorNode), unScriptProcessorNodegTypeScriptProcessorNode
-  , ScriptProfile(ScriptProfile), unScriptProfilegTypeScriptProfile
-  , ScriptProfileNode(ScriptProfileNode), unScriptProfileNodegTypeScriptProfileNode
-  , SecurityPolicy(SecurityPolicy), unSecurityPolicygTypeSecurityPolicy
-  , SecurityPolicyViolationEvent(SecurityPolicyViolationEvent), unSecurityPolicyViolationEventgTypeSecurityPolicyViolationEvent
-  , Selection(Selection), unSelectiongTypeSelection
-  , SourceBuffer(SourceBuffer), unSourceBuffergTypeSourceBuffer
-  , SourceBufferList(SourceBufferList), unSourceBufferListgTypeSourceBufferList
-  , SourceInfo(SourceInfo), unSourceInfogTypeSourceInfo
-  , SpeechSynthesis(SpeechSynthesis), unSpeechSynthesisgTypeSpeechSynthesis
-  , SpeechSynthesisEvent(SpeechSynthesisEvent), unSpeechSynthesisEventgTypeSpeechSynthesisEvent
-  , SpeechSynthesisUtterance(SpeechSynthesisUtterance), unSpeechSynthesisUtterancegTypeSpeechSynthesisUtterance
-  , SpeechSynthesisVoice(SpeechSynthesisVoice), unSpeechSynthesisVoicegTypeSpeechSynthesisVoice
-  , Storage(Storage), unStoragegTypeStorage
-  , StorageEvent(StorageEvent), unStorageEventgTypeStorageEvent
-  , StorageInfo(StorageInfo), unStorageInfogTypeStorageInfo
-  , StorageQuota(StorageQuota), unStorageQuotagTypeStorageQuota
-  , StyleMedia(StyleMedia), unStyleMediagTypeStyleMedia
-  , StyleSheet(StyleSheet), unStyleSheet, IsStyleSheet, toStyleSheetgTypeStyleSheet
-  , StyleSheetList(StyleSheetList), unStyleSheetListgTypeStyleSheetList
-  , SubtleCrypto(SubtleCrypto), unSubtleCryptogTypeSubtleCrypto
-  , Text(Text), unText, IsText, toTextgTypeText
-  , TextEvent(TextEvent), unTextEventgTypeTextEvent
-  , TextMetrics(TextMetrics), unTextMetricsgTypeTextMetrics
-  , TextTrack(TextTrack), unTextTrackgTypeTextTrack
-  , TextTrackCue(TextTrackCue), unTextTrackCue, IsTextTrackCue, toTextTrackCuegTypeTextTrackCue
-  , TextTrackCueList(TextTrackCueList), unTextTrackCueListgTypeTextTrackCueList
-  , TextTrackList(TextTrackList), unTextTrackListgTypeTextTrackList
-  , TimeRanges(TimeRanges), unTimeRangesgTypeTimeRanges
-  , Touch(Touch), unTouchgTypeTouch
-  , TouchEvent(TouchEvent), unTouchEventgTypeTouchEvent
-  , TouchList(TouchList), unTouchListgTypeTouchList
-  , TrackEvent(TrackEvent), unTrackEventgTypeTrackEvent
-  , TransitionEvent(TransitionEvent), unTransitionEventgTypeTransitionEvent
-  , TreeWalker(TreeWalker), unTreeWalkergTypeTreeWalker
-  , TypeConversions(TypeConversions), unTypeConversionsgTypeTypeConversions
-  , UIEvent(UIEvent), unUIEvent, IsUIEvent, toUIEventgTypeUIEvent
-  , UIRequestEvent(UIRequestEvent), unUIRequestEventgTypeUIRequestEvent
-  , URL(URL), unURLgTypeURL
-  , URLUtils(URLUtils), unURLUtilsgTypeURLUtils
-  , UserMessageHandler(UserMessageHandler), unUserMessageHandlergTypeUserMessageHandler
-  , UserMessageHandlersNamespace(UserMessageHandlersNamespace), unUserMessageHandlersNamespacegTypeUserMessageHandlersNamespace
-  , VTTCue(VTTCue), unVTTCuegTypeVTTCue
-  , VTTRegion(VTTRegion), unVTTRegiongTypeVTTRegion
-  , VTTRegionList(VTTRegionList), unVTTRegionListgTypeVTTRegionList
-  , ValidityState(ValidityState), unValidityStategTypeValidityState
-  , VideoPlaybackQuality(VideoPlaybackQuality), unVideoPlaybackQualitygTypeVideoPlaybackQuality
-  , VideoStreamTrack(VideoStreamTrack), unVideoStreamTrackgTypeVideoStreamTrack
-  , VideoTrack(VideoTrack), unVideoTrackgTypeVideoTrack
-  , VideoTrackList(VideoTrackList), unVideoTrackListgTypeVideoTrackList
-  , WaveShaperNode(WaveShaperNode), unWaveShaperNodegTypeWaveShaperNode
-  , WebGL2RenderingContext(WebGL2RenderingContext), unWebGL2RenderingContextgTypeWebGL2RenderingContext
-  , WebGLActiveInfo(WebGLActiveInfo), unWebGLActiveInfogTypeWebGLActiveInfo
-  , WebGLBuffer(WebGLBuffer), unWebGLBuffergTypeWebGLBuffer
-  , WebGLCompressedTextureATC(WebGLCompressedTextureATC), unWebGLCompressedTextureATCgTypeWebGLCompressedTextureATC
-  , WebGLCompressedTexturePVRTC(WebGLCompressedTexturePVRTC), unWebGLCompressedTexturePVRTCgTypeWebGLCompressedTexturePVRTC
-  , WebGLCompressedTextureS3TC(WebGLCompressedTextureS3TC), unWebGLCompressedTextureS3TCgTypeWebGLCompressedTextureS3TC
-  , WebGLContextAttributes(WebGLContextAttributes), unWebGLContextAttributesgTypeWebGLContextAttributes
-  , WebGLContextEvent(WebGLContextEvent), unWebGLContextEventgTypeWebGLContextEvent
-  , WebGLDebugRendererInfo(WebGLDebugRendererInfo), unWebGLDebugRendererInfogTypeWebGLDebugRendererInfo
-  , WebGLDebugShaders(WebGLDebugShaders), unWebGLDebugShadersgTypeWebGLDebugShaders
-  , WebGLDepthTexture(WebGLDepthTexture), unWebGLDepthTexturegTypeWebGLDepthTexture
-  , WebGLDrawBuffers(WebGLDrawBuffers), unWebGLDrawBuffersgTypeWebGLDrawBuffers
-  , WebGLFramebuffer(WebGLFramebuffer), unWebGLFramebuffergTypeWebGLFramebuffer
-  , WebGLLoseContext(WebGLLoseContext), unWebGLLoseContextgTypeWebGLLoseContext
-  , WebGLProgram(WebGLProgram), unWebGLProgramgTypeWebGLProgram
-  , WebGLQuery(WebGLQuery), unWebGLQuerygTypeWebGLQuery
-  , WebGLRenderbuffer(WebGLRenderbuffer), unWebGLRenderbuffergTypeWebGLRenderbuffer
-  , WebGLRenderingContext(WebGLRenderingContext), unWebGLRenderingContextgTypeWebGLRenderingContext
-  , WebGLRenderingContextBase(WebGLRenderingContextBase), unWebGLRenderingContextBase, IsWebGLRenderingContextBase, toWebGLRenderingContextBasegTypeWebGLRenderingContextBase
-  , WebGLSampler(WebGLSampler), unWebGLSamplergTypeWebGLSampler
-  , WebGLShader(WebGLShader), unWebGLShadergTypeWebGLShader
-  , WebGLShaderPrecisionFormat(WebGLShaderPrecisionFormat), unWebGLShaderPrecisionFormatgTypeWebGLShaderPrecisionFormat
-  , WebGLSync(WebGLSync), unWebGLSyncgTypeWebGLSync
-  , WebGLTexture(WebGLTexture), unWebGLTexturegTypeWebGLTexture
-  , WebGLTransformFeedback(WebGLTransformFeedback), unWebGLTransformFeedbackgTypeWebGLTransformFeedback
-  , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocationgTypeWebGLUniformLocation
-  , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObjectgTypeWebGLVertexArrayObject
-  , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOESgTypeWebGLVertexArrayObjectOES
-  , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEventgTypeWebKitAnimationEvent
-  , WebKitCSSFilterValue(WebKitCSSFilterValue), unWebKitCSSFilterValuegTypeWebKitCSSFilterValue
-  , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrixgTypeWebKitCSSMatrix
-  , WebKitCSSRegionRule(WebKitCSSRegionRule), unWebKitCSSRegionRulegTypeWebKitCSSRegionRule
-  , WebKitCSSTransformValue(WebKitCSSTransformValue), unWebKitCSSTransformValuegTypeWebKitCSSTransformValue
-  , WebKitCSSViewportRule(WebKitCSSViewportRule), unWebKitCSSViewportRulegTypeWebKitCSSViewportRule
-  , WebKitNamedFlow(WebKitNamedFlow), unWebKitNamedFlowgTypeWebKitNamedFlow
-  , WebKitNamespace(WebKitNamespace), unWebKitNamespacegTypeWebKitNamespace
-  , WebKitPlaybackTargetAvailabilityEvent(WebKitPlaybackTargetAvailabilityEvent), unWebKitPlaybackTargetAvailabilityEventgTypeWebKitPlaybackTargetAvailabilityEvent
-  , WebKitPoint(WebKitPoint), unWebKitPointgTypeWebKitPoint
-  , WebKitTransitionEvent(WebKitTransitionEvent), unWebKitTransitionEventgTypeWebKitTransitionEvent
-  , WebSocket(WebSocket), unWebSocketgTypeWebSocket
-  , WheelEvent(WheelEvent), unWheelEventgTypeWheelEvent
-  , Window(Window), unWindowgTypeWindow
-  , WindowBase64(WindowBase64), unWindowBase64gTypeWindowBase64
-  , WindowTimers(WindowTimers), unWindowTimersgTypeWindowTimers
-  , Worker(Worker), unWorkergTypeWorker
-  , WorkerGlobalScope(WorkerGlobalScope), unWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScopegTypeWorkerGlobalScope
-  , WorkerLocation(WorkerLocation), unWorkerLocationgTypeWorkerLocation
-  , WorkerNavigator(WorkerNavigator), unWorkerNavigatorgTypeWorkerNavigator
-  , XMLHttpRequest(XMLHttpRequest), unXMLHttpRequestgTypeXMLHttpRequest
-  , XMLHttpRequestProgressEvent(XMLHttpRequestProgressEvent), unXMLHttpRequestProgressEventgTypeXMLHttpRequestProgressEvent
-  , XMLHttpRequestUpload(XMLHttpRequestUpload), unXMLHttpRequestUploadgTypeXMLHttpRequestUpload
-  , XMLSerializer(XMLSerializer), unXMLSerializergTypeXMLSerializer
-  , XPathEvaluator(XPathEvaluator), unXPathEvaluatorgTypeXPathEvaluator
-  , XPathExpression(XPathExpression), unXPathExpressiongTypeXPathExpression
-  , XPathNSResolver(XPathNSResolver), unXPathNSResolvergTypeXPathNSResolver
-  , XPathResult(XPathResult), unXPathResultgTypeXPathResult
-  , XSLTProcessor(XSLTProcessor), unXSLTProcessorgTypeXSLTProcessor
+  , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArrays, gTypeANGLEInstancedArrays
+  , AbstractView(AbstractView), unAbstractView, gTypeAbstractView
+  , AbstractWorker(AbstractWorker), unAbstractWorker, gTypeAbstractWorker
+  , AllAudioCapabilities(AllAudioCapabilities), unAllAudioCapabilities, gTypeAllAudioCapabilities
+  , AllVideoCapabilities(AllVideoCapabilities), unAllVideoCapabilities, gTypeAllVideoCapabilities
+  , AnalyserNode(AnalyserNode), unAnalyserNode, gTypeAnalyserNode
+  , AnimationEvent(AnimationEvent), unAnimationEvent, gTypeAnimationEvent
+  , ApplicationCache(ApplicationCache), unApplicationCache, gTypeApplicationCache
+  , Attr(Attr), unAttr, gTypeAttr
+  , AudioBuffer(AudioBuffer), unAudioBuffer, gTypeAudioBuffer
+  , AudioBufferSourceNode(AudioBufferSourceNode), unAudioBufferSourceNode, gTypeAudioBufferSourceNode
+  , AudioContext(AudioContext), unAudioContext, IsAudioContext, toAudioContext, gTypeAudioContext
+  , AudioDestinationNode(AudioDestinationNode), unAudioDestinationNode, gTypeAudioDestinationNode
+  , AudioListener(AudioListener), unAudioListener, gTypeAudioListener
+  , AudioNode(AudioNode), unAudioNode, IsAudioNode, toAudioNode, gTypeAudioNode
+  , AudioParam(AudioParam), unAudioParam, gTypeAudioParam
+  , AudioProcessingEvent(AudioProcessingEvent), unAudioProcessingEvent, gTypeAudioProcessingEvent
+  , AudioStreamTrack(AudioStreamTrack), unAudioStreamTrack, gTypeAudioStreamTrack
+  , AudioTrack(AudioTrack), unAudioTrack, gTypeAudioTrack
+  , AudioTrackList(AudioTrackList), unAudioTrackList, gTypeAudioTrackList
+  , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEvent, gTypeAutocompleteErrorEvent
+  , BarProp(BarProp), unBarProp, gTypeBarProp
+  , BatteryManager(BatteryManager), unBatteryManager, gTypeBatteryManager
+  , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEvent, gTypeBeforeLoadEvent
+  , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEvent, gTypeBeforeUnloadEvent
+  , BiquadFilterNode(BiquadFilterNode), unBiquadFilterNode, gTypeBiquadFilterNode
+  , Blob(Blob), unBlob, IsBlob, toBlob, gTypeBlob
+  , CDATASection(CDATASection), unCDATASection, gTypeCDATASection
+  , CSS(CSS), unCSS, gTypeCSS
+  , CSSCharsetRule(CSSCharsetRule), unCSSCharsetRule, gTypeCSSCharsetRule
+  , CSSFontFaceLoadEvent(CSSFontFaceLoadEvent), unCSSFontFaceLoadEvent, gTypeCSSFontFaceLoadEvent
+  , CSSFontFaceRule(CSSFontFaceRule), unCSSFontFaceRule, gTypeCSSFontFaceRule
+  , CSSImportRule(CSSImportRule), unCSSImportRule, gTypeCSSImportRule
+  , CSSKeyframeRule(CSSKeyframeRule), unCSSKeyframeRule, gTypeCSSKeyframeRule
+  , CSSKeyframesRule(CSSKeyframesRule), unCSSKeyframesRule, gTypeCSSKeyframesRule
+  , CSSMediaRule(CSSMediaRule), unCSSMediaRule, gTypeCSSMediaRule
+  , CSSPageRule(CSSPageRule), unCSSPageRule, gTypeCSSPageRule
+  , CSSPrimitiveValue(CSSPrimitiveValue), unCSSPrimitiveValue, gTypeCSSPrimitiveValue
+  , CSSRule(CSSRule), unCSSRule, IsCSSRule, toCSSRule, gTypeCSSRule
+  , CSSRuleList(CSSRuleList), unCSSRuleList, gTypeCSSRuleList
+  , CSSStyleDeclaration(CSSStyleDeclaration), unCSSStyleDeclaration, gTypeCSSStyleDeclaration
+  , CSSStyleRule(CSSStyleRule), unCSSStyleRule, gTypeCSSStyleRule
+  , CSSStyleSheet(CSSStyleSheet), unCSSStyleSheet, gTypeCSSStyleSheet
+  , CSSSupportsRule(CSSSupportsRule), unCSSSupportsRule, gTypeCSSSupportsRule
+  , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRule, gTypeCSSUnknownRule
+  , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValue, gTypeCSSValue
+  , CSSValueList(CSSValueList), unCSSValueList, IsCSSValueList, toCSSValueList, gTypeCSSValueList
+  , CanvasGradient(CanvasGradient), unCanvasGradient, gTypeCanvasGradient
+  , CanvasPattern(CanvasPattern), unCanvasPattern, gTypeCanvasPattern
+  , CanvasProxy(CanvasProxy), unCanvasProxy, gTypeCanvasProxy
+  , CanvasRenderingContext(CanvasRenderingContext), unCanvasRenderingContext, IsCanvasRenderingContext, toCanvasRenderingContext, gTypeCanvasRenderingContext
+  , CanvasRenderingContext2D(CanvasRenderingContext2D), unCanvasRenderingContext2D, gTypeCanvasRenderingContext2D
+  , CapabilityRange(CapabilityRange), unCapabilityRange, gTypeCapabilityRange
+  , ChannelMergerNode(ChannelMergerNode), unChannelMergerNode, gTypeChannelMergerNode
+  , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNode, gTypeChannelSplitterNode
+  , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterData, gTypeCharacterData
+  , ChildNode(ChildNode), unChildNode, gTypeChildNode
+  , ClientRect(ClientRect), unClientRect, gTypeClientRect
+  , ClientRectList(ClientRectList), unClientRectList, gTypeClientRectList
+  , CloseEvent(CloseEvent), unCloseEvent, gTypeCloseEvent
+  , CommandLineAPIHost(CommandLineAPIHost), unCommandLineAPIHost, gTypeCommandLineAPIHost
+  , Comment(Comment), unComment, gTypeComment
+  , CompositionEvent(CompositionEvent), unCompositionEvent, gTypeCompositionEvent
+  , ConvolverNode(ConvolverNode), unConvolverNode, gTypeConvolverNode
+  , Coordinates(Coordinates), unCoordinates, gTypeCoordinates
+  , Counter(Counter), unCounter, gTypeCounter
+  , Crypto(Crypto), unCrypto, gTypeCrypto
+  , CryptoKey(CryptoKey), unCryptoKey, gTypeCryptoKey
+  , CryptoKeyPair(CryptoKeyPair), unCryptoKeyPair, gTypeCryptoKeyPair
+  , CustomEvent(CustomEvent), unCustomEvent, gTypeCustomEvent
+  , DOMError(DOMError), unDOMError, IsDOMError, toDOMError, gTypeDOMError
+  , DOMImplementation(DOMImplementation), unDOMImplementation, gTypeDOMImplementation
+  , DOMNamedFlowCollection(DOMNamedFlowCollection), unDOMNamedFlowCollection, gTypeDOMNamedFlowCollection
+  , DOMParser(DOMParser), unDOMParser, gTypeDOMParser
+  , DOMSettableTokenList(DOMSettableTokenList), unDOMSettableTokenList, gTypeDOMSettableTokenList
+  , DOMStringList(DOMStringList), unDOMStringList, gTypeDOMStringList
+  , DOMStringMap(DOMStringMap), unDOMStringMap, gTypeDOMStringMap
+  , DOMTokenList(DOMTokenList), unDOMTokenList, IsDOMTokenList, toDOMTokenList, gTypeDOMTokenList
+  , DataCue(DataCue), unDataCue, gTypeDataCue
+  , DataTransfer(DataTransfer), unDataTransfer, gTypeDataTransfer
+  , DataTransferItem(DataTransferItem), unDataTransferItem, gTypeDataTransferItem
+  , DataTransferItemList(DataTransferItemList), unDataTransferItemList, gTypeDataTransferItemList
+  , Database(Database), unDatabase, gTypeDatabase
+  , DedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope), unDedicatedWorkerGlobalScope, gTypeDedicatedWorkerGlobalScope
+  , DelayNode(DelayNode), unDelayNode, gTypeDelayNode
+  , DeviceMotionEvent(DeviceMotionEvent), unDeviceMotionEvent, gTypeDeviceMotionEvent
+  , DeviceOrientationEvent(DeviceOrientationEvent), unDeviceOrientationEvent, gTypeDeviceOrientationEvent
+  , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEvent, gTypeDeviceProximityEvent
+  , Document(Document), unDocument, IsDocument, toDocument, gTypeDocument
+  , DocumentFragment(DocumentFragment), unDocumentFragment, gTypeDocumentFragment
+  , DocumentType(DocumentType), unDocumentType, gTypeDocumentType
+  , DynamicsCompressorNode(DynamicsCompressorNode), unDynamicsCompressorNode, gTypeDynamicsCompressorNode
+  , EXTBlendMinMax(EXTBlendMinMax), unEXTBlendMinMax, gTypeEXTBlendMinMax
+  , EXTFragDepth(EXTFragDepth), unEXTFragDepth, gTypeEXTFragDepth
+  , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLOD, gTypeEXTShaderTextureLOD
+  , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropic, gTypeEXTTextureFilterAnisotropic
+  , EXTsRGB(EXTsRGB), unEXTsRGB, gTypeEXTsRGB
+  , Element(Element), unElement, IsElement, toElement, gTypeElement
+  , Entity(Entity), unEntity, gTypeEntity
+  , EntityReference(EntityReference), unEntityReference, gTypeEntityReference
+  , ErrorEvent(ErrorEvent), unErrorEvent, gTypeErrorEvent
+  , Event(Event), unEvent, IsEvent, toEvent, gTypeEvent
+  , EventListener(EventListener), unEventListener, gTypeEventListener
+  , EventSource(EventSource), unEventSource, gTypeEventSource
+  , EventTarget(EventTarget), unEventTarget, IsEventTarget, toEventTarget, gTypeEventTarget
+  , File(File), unFile, gTypeFile
+  , FileError(FileError), unFileError, gTypeFileError
+  , FileList(FileList), unFileList, gTypeFileList
+  , FileReader(FileReader), unFileReader, gTypeFileReader
+  , FileReaderSync(FileReaderSync), unFileReaderSync, gTypeFileReaderSync
+  , FocusEvent(FocusEvent), unFocusEvent, gTypeFocusEvent
+  , FontLoader(FontLoader), unFontLoader, gTypeFontLoader
+  , FormData(FormData), unFormData, gTypeFormData
+  , GainNode(GainNode), unGainNode, gTypeGainNode
+  , Gamepad(Gamepad), unGamepad, gTypeGamepad
+  , GamepadButton(GamepadButton), unGamepadButton, gTypeGamepadButton
+  , GamepadEvent(GamepadEvent), unGamepadEvent, gTypeGamepadEvent
+  , Geolocation(Geolocation), unGeolocation, gTypeGeolocation
+  , Geoposition(Geoposition), unGeoposition, gTypeGeoposition
+  , HTMLAllCollection(HTMLAllCollection), unHTMLAllCollection, gTypeHTMLAllCollection
+  , HTMLAnchorElement(HTMLAnchorElement), unHTMLAnchorElement, gTypeHTMLAnchorElement
+  , HTMLAppletElement(HTMLAppletElement), unHTMLAppletElement, gTypeHTMLAppletElement
+  , HTMLAreaElement(HTMLAreaElement), unHTMLAreaElement, gTypeHTMLAreaElement
+  , HTMLAudioElement(HTMLAudioElement), unHTMLAudioElement, gTypeHTMLAudioElement
+  , HTMLBRElement(HTMLBRElement), unHTMLBRElement, gTypeHTMLBRElement
+  , HTMLBaseElement(HTMLBaseElement), unHTMLBaseElement, gTypeHTMLBaseElement
+  , HTMLBaseFontElement(HTMLBaseFontElement), unHTMLBaseFontElement, gTypeHTMLBaseFontElement
+  , HTMLBodyElement(HTMLBodyElement), unHTMLBodyElement, gTypeHTMLBodyElement
+  , HTMLButtonElement(HTMLButtonElement), unHTMLButtonElement, gTypeHTMLButtonElement
+  , HTMLCanvasElement(HTMLCanvasElement), unHTMLCanvasElement, gTypeHTMLCanvasElement
+  , HTMLCollection(HTMLCollection), unHTMLCollection, IsHTMLCollection, toHTMLCollection, gTypeHTMLCollection
+  , HTMLDListElement(HTMLDListElement), unHTMLDListElement, gTypeHTMLDListElement
+  , HTMLDataListElement(HTMLDataListElement), unHTMLDataListElement, gTypeHTMLDataListElement
+  , HTMLDetailsElement(HTMLDetailsElement), unHTMLDetailsElement, gTypeHTMLDetailsElement
+  , HTMLDirectoryElement(HTMLDirectoryElement), unHTMLDirectoryElement, gTypeHTMLDirectoryElement
+  , HTMLDivElement(HTMLDivElement), unHTMLDivElement, gTypeHTMLDivElement
+  , HTMLDocument(HTMLDocument), unHTMLDocument, gTypeHTMLDocument
+  , HTMLElement(HTMLElement), unHTMLElement, IsHTMLElement, toHTMLElement, gTypeHTMLElement
+  , HTMLEmbedElement(HTMLEmbedElement), unHTMLEmbedElement, gTypeHTMLEmbedElement
+  , HTMLFieldSetElement(HTMLFieldSetElement), unHTMLFieldSetElement, gTypeHTMLFieldSetElement
+  , HTMLFontElement(HTMLFontElement), unHTMLFontElement, gTypeHTMLFontElement
+  , HTMLFormControlsCollection(HTMLFormControlsCollection), unHTMLFormControlsCollection, gTypeHTMLFormControlsCollection
+  , HTMLFormElement(HTMLFormElement), unHTMLFormElement, gTypeHTMLFormElement
+  , HTMLFrameElement(HTMLFrameElement), unHTMLFrameElement, gTypeHTMLFrameElement
+  , HTMLFrameSetElement(HTMLFrameSetElement), unHTMLFrameSetElement, gTypeHTMLFrameSetElement
+  , HTMLHRElement(HTMLHRElement), unHTMLHRElement, gTypeHTMLHRElement
+  , HTMLHeadElement(HTMLHeadElement), unHTMLHeadElement, gTypeHTMLHeadElement
+  , HTMLHeadingElement(HTMLHeadingElement), unHTMLHeadingElement, gTypeHTMLHeadingElement
+  , HTMLHtmlElement(HTMLHtmlElement), unHTMLHtmlElement, gTypeHTMLHtmlElement
+  , HTMLIFrameElement(HTMLIFrameElement), unHTMLIFrameElement, gTypeHTMLIFrameElement
+  , HTMLImageElement(HTMLImageElement), unHTMLImageElement, gTypeHTMLImageElement
+  , HTMLInputElement(HTMLInputElement), unHTMLInputElement, gTypeHTMLInputElement
+  , HTMLKeygenElement(HTMLKeygenElement), unHTMLKeygenElement, gTypeHTMLKeygenElement
+  , HTMLLIElement(HTMLLIElement), unHTMLLIElement, gTypeHTMLLIElement
+  , HTMLLabelElement(HTMLLabelElement), unHTMLLabelElement, gTypeHTMLLabelElement
+  , HTMLLegendElement(HTMLLegendElement), unHTMLLegendElement, gTypeHTMLLegendElement
+  , HTMLLinkElement(HTMLLinkElement), unHTMLLinkElement, gTypeHTMLLinkElement
+  , HTMLMapElement(HTMLMapElement), unHTMLMapElement, gTypeHTMLMapElement
+  , HTMLMarqueeElement(HTMLMarqueeElement), unHTMLMarqueeElement, gTypeHTMLMarqueeElement
+  , HTMLMediaElement(HTMLMediaElement), unHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement, gTypeHTMLMediaElement
+  , HTMLMenuElement(HTMLMenuElement), unHTMLMenuElement, gTypeHTMLMenuElement
+  , HTMLMetaElement(HTMLMetaElement), unHTMLMetaElement, gTypeHTMLMetaElement
+  , HTMLMeterElement(HTMLMeterElement), unHTMLMeterElement, gTypeHTMLMeterElement
+  , HTMLModElement(HTMLModElement), unHTMLModElement, gTypeHTMLModElement
+  , HTMLOListElement(HTMLOListElement), unHTMLOListElement, gTypeHTMLOListElement
+  , HTMLObjectElement(HTMLObjectElement), unHTMLObjectElement, gTypeHTMLObjectElement
+  , HTMLOptGroupElement(HTMLOptGroupElement), unHTMLOptGroupElement, gTypeHTMLOptGroupElement
+  , HTMLOptionElement(HTMLOptionElement), unHTMLOptionElement, gTypeHTMLOptionElement
+  , HTMLOptionsCollection(HTMLOptionsCollection), unHTMLOptionsCollection, gTypeHTMLOptionsCollection
+  , HTMLOutputElement(HTMLOutputElement), unHTMLOutputElement, gTypeHTMLOutputElement
+  , HTMLParagraphElement(HTMLParagraphElement), unHTMLParagraphElement, gTypeHTMLParagraphElement
+  , HTMLParamElement(HTMLParamElement), unHTMLParamElement, gTypeHTMLParamElement
+  , HTMLPreElement(HTMLPreElement), unHTMLPreElement, gTypeHTMLPreElement
+  , HTMLProgressElement(HTMLProgressElement), unHTMLProgressElement, gTypeHTMLProgressElement
+  , HTMLQuoteElement(HTMLQuoteElement), unHTMLQuoteElement, gTypeHTMLQuoteElement
+  , HTMLScriptElement(HTMLScriptElement), unHTMLScriptElement, gTypeHTMLScriptElement
+  , HTMLSelectElement(HTMLSelectElement), unHTMLSelectElement, gTypeHTMLSelectElement
+  , HTMLSourceElement(HTMLSourceElement), unHTMLSourceElement, gTypeHTMLSourceElement
+  , HTMLSpanElement(HTMLSpanElement), unHTMLSpanElement, gTypeHTMLSpanElement
+  , HTMLStyleElement(HTMLStyleElement), unHTMLStyleElement, gTypeHTMLStyleElement
+  , HTMLTableCaptionElement(HTMLTableCaptionElement), unHTMLTableCaptionElement, gTypeHTMLTableCaptionElement
+  , HTMLTableCellElement(HTMLTableCellElement), unHTMLTableCellElement, gTypeHTMLTableCellElement
+  , HTMLTableColElement(HTMLTableColElement), unHTMLTableColElement, gTypeHTMLTableColElement
+  , HTMLTableElement(HTMLTableElement), unHTMLTableElement, gTypeHTMLTableElement
+  , HTMLTableRowElement(HTMLTableRowElement), unHTMLTableRowElement, gTypeHTMLTableRowElement
+  , HTMLTableSectionElement(HTMLTableSectionElement), unHTMLTableSectionElement, gTypeHTMLTableSectionElement
+  , HTMLTemplateElement(HTMLTemplateElement), unHTMLTemplateElement, gTypeHTMLTemplateElement
+  , HTMLTextAreaElement(HTMLTextAreaElement), unHTMLTextAreaElement, gTypeHTMLTextAreaElement
+  , HTMLTitleElement(HTMLTitleElement), unHTMLTitleElement, gTypeHTMLTitleElement
+  , HTMLTrackElement(HTMLTrackElement), unHTMLTrackElement, gTypeHTMLTrackElement
+  , HTMLUListElement(HTMLUListElement), unHTMLUListElement, gTypeHTMLUListElement
+  , HTMLUnknownElement(HTMLUnknownElement), unHTMLUnknownElement, gTypeHTMLUnknownElement
+  , HTMLVideoElement(HTMLVideoElement), unHTMLVideoElement, gTypeHTMLVideoElement
+  , HashChangeEvent(HashChangeEvent), unHashChangeEvent, gTypeHashChangeEvent
+  , History(History), unHistory, gTypeHistory
+  , IDBAny(IDBAny), unIDBAny, gTypeIDBAny
+  , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursor, gTypeIDBCursor
+  , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValue, gTypeIDBCursorWithValue
+  , IDBDatabase(IDBDatabase), unIDBDatabase, gTypeIDBDatabase
+  , IDBFactory(IDBFactory), unIDBFactory, gTypeIDBFactory
+  , IDBIndex(IDBIndex), unIDBIndex, gTypeIDBIndex
+  , IDBKeyRange(IDBKeyRange), unIDBKeyRange, gTypeIDBKeyRange
+  , IDBObjectStore(IDBObjectStore), unIDBObjectStore, gTypeIDBObjectStore
+  , IDBOpenDBRequest(IDBOpenDBRequest), unIDBOpenDBRequest, gTypeIDBOpenDBRequest
+  , IDBRequest(IDBRequest), unIDBRequest, IsIDBRequest, toIDBRequest, gTypeIDBRequest
+  , IDBTransaction(IDBTransaction), unIDBTransaction, gTypeIDBTransaction
+  , IDBVersionChangeEvent(IDBVersionChangeEvent), unIDBVersionChangeEvent, gTypeIDBVersionChangeEvent
+  , ImageData(ImageData), unImageData, gTypeImageData
+  , InspectorFrontendHost(InspectorFrontendHost), unInspectorFrontendHost, gTypeInspectorFrontendHost
+  , InternalSettings(InternalSettings), unInternalSettings, gTypeInternalSettings
+  , Internals(Internals), unInternals, gTypeInternals
+  , KeyboardEvent(KeyboardEvent), unKeyboardEvent, gTypeKeyboardEvent
+  , Location(Location), unLocation, gTypeLocation
+  , MallocStatistics(MallocStatistics), unMallocStatistics, gTypeMallocStatistics
+  , MediaController(MediaController), unMediaController, gTypeMediaController
+  , MediaControlsHost(MediaControlsHost), unMediaControlsHost, gTypeMediaControlsHost
+  , MediaElementAudioSourceNode(MediaElementAudioSourceNode), unMediaElementAudioSourceNode, gTypeMediaElementAudioSourceNode
+  , MediaError(MediaError), unMediaError, gTypeMediaError
+  , MediaKeyError(MediaKeyError), unMediaKeyError, gTypeMediaKeyError
+  , MediaKeyEvent(MediaKeyEvent), unMediaKeyEvent, gTypeMediaKeyEvent
+  , MediaKeyMessageEvent(MediaKeyMessageEvent), unMediaKeyMessageEvent, gTypeMediaKeyMessageEvent
+  , MediaKeyNeededEvent(MediaKeyNeededEvent), unMediaKeyNeededEvent, gTypeMediaKeyNeededEvent
+  , MediaKeySession(MediaKeySession), unMediaKeySession, gTypeMediaKeySession
+  , MediaKeys(MediaKeys), unMediaKeys, gTypeMediaKeys
+  , MediaList(MediaList), unMediaList, gTypeMediaList
+  , MediaQueryList(MediaQueryList), unMediaQueryList, gTypeMediaQueryList
+  , MediaSource(MediaSource), unMediaSource, gTypeMediaSource
+  , MediaSourceStates(MediaSourceStates), unMediaSourceStates, gTypeMediaSourceStates
+  , MediaStream(MediaStream), unMediaStream, gTypeMediaStream
+  , MediaStreamAudioDestinationNode(MediaStreamAudioDestinationNode), unMediaStreamAudioDestinationNode, gTypeMediaStreamAudioDestinationNode
+  , MediaStreamAudioSourceNode(MediaStreamAudioSourceNode), unMediaStreamAudioSourceNode, gTypeMediaStreamAudioSourceNode
+  , MediaStreamCapabilities(MediaStreamCapabilities), unMediaStreamCapabilities, IsMediaStreamCapabilities, toMediaStreamCapabilities, gTypeMediaStreamCapabilities
+  , MediaStreamEvent(MediaStreamEvent), unMediaStreamEvent, gTypeMediaStreamEvent
+  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack, gTypeMediaStreamTrack
+  , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEvent, gTypeMediaStreamTrackEvent
+  , MediaTrackConstraint(MediaTrackConstraint), unMediaTrackConstraint, gTypeMediaTrackConstraint
+  , MediaTrackConstraintSet(MediaTrackConstraintSet), unMediaTrackConstraintSet, gTypeMediaTrackConstraintSet
+  , MediaTrackConstraints(MediaTrackConstraints), unMediaTrackConstraints, gTypeMediaTrackConstraints
+  , MemoryInfo(MemoryInfo), unMemoryInfo, gTypeMemoryInfo
+  , MessageChannel(MessageChannel), unMessageChannel, gTypeMessageChannel
+  , MessageEvent(MessageEvent), unMessageEvent, gTypeMessageEvent
+  , MessagePort(MessagePort), unMessagePort, gTypeMessagePort
+  , MimeType(MimeType), unMimeType, gTypeMimeType
+  , MimeTypeArray(MimeTypeArray), unMimeTypeArray, gTypeMimeTypeArray
+  , MouseEvent(MouseEvent), unMouseEvent, IsMouseEvent, toMouseEvent, gTypeMouseEvent
+  , MutationEvent(MutationEvent), unMutationEvent, gTypeMutationEvent
+  , MutationObserver(MutationObserver), unMutationObserver, gTypeMutationObserver
+  , MutationRecord(MutationRecord), unMutationRecord, gTypeMutationRecord
+  , NamedNodeMap(NamedNodeMap), unNamedNodeMap, gTypeNamedNodeMap
+  , Navigator(Navigator), unNavigator, gTypeNavigator
+  , NavigatorUserMediaError(NavigatorUserMediaError), unNavigatorUserMediaError, gTypeNavigatorUserMediaError
+  , Node(Node), unNode, IsNode, toNode, gTypeNode
+  , NodeFilter(NodeFilter), unNodeFilter, gTypeNodeFilter
+  , NodeIterator(NodeIterator), unNodeIterator, gTypeNodeIterator
+  , NodeList(NodeList), unNodeList, IsNodeList, toNodeList, gTypeNodeList
+  , Notification(Notification), unNotification, gTypeNotification
+  , NotificationCenter(NotificationCenter), unNotificationCenter, gTypeNotificationCenter
+  , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUint, gTypeOESElementIndexUint
+  , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivatives, gTypeOESStandardDerivatives
+  , OESTextureFloat(OESTextureFloat), unOESTextureFloat, gTypeOESTextureFloat
+  , OESTextureFloatLinear(OESTextureFloatLinear), unOESTextureFloatLinear, gTypeOESTextureFloatLinear
+  , OESTextureHalfFloat(OESTextureHalfFloat), unOESTextureHalfFloat, gTypeOESTextureHalfFloat
+  , OESTextureHalfFloatLinear(OESTextureHalfFloatLinear), unOESTextureHalfFloatLinear, gTypeOESTextureHalfFloatLinear
+  , OESVertexArrayObject(OESVertexArrayObject), unOESVertexArrayObject, gTypeOESVertexArrayObject
+  , OfflineAudioCompletionEvent(OfflineAudioCompletionEvent), unOfflineAudioCompletionEvent, gTypeOfflineAudioCompletionEvent
+  , OfflineAudioContext(OfflineAudioContext), unOfflineAudioContext, gTypeOfflineAudioContext
+  , OscillatorNode(OscillatorNode), unOscillatorNode, gTypeOscillatorNode
+  , OverflowEvent(OverflowEvent), unOverflowEvent, gTypeOverflowEvent
+  , PageTransitionEvent(PageTransitionEvent), unPageTransitionEvent, gTypePageTransitionEvent
+  , PannerNode(PannerNode), unPannerNode, gTypePannerNode
+  , Path2D(Path2D), unPath2D, gTypePath2D
+  , Performance(Performance), unPerformance, gTypePerformance
+  , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntry, gTypePerformanceEntry
+  , PerformanceEntryList(PerformanceEntryList), unPerformanceEntryList, gTypePerformanceEntryList
+  , PerformanceMark(PerformanceMark), unPerformanceMark, gTypePerformanceMark
+  , PerformanceMeasure(PerformanceMeasure), unPerformanceMeasure, gTypePerformanceMeasure
+  , PerformanceNavigation(PerformanceNavigation), unPerformanceNavigation, gTypePerformanceNavigation
+  , PerformanceResourceTiming(PerformanceResourceTiming), unPerformanceResourceTiming, gTypePerformanceResourceTiming
+  , PerformanceTiming(PerformanceTiming), unPerformanceTiming, gTypePerformanceTiming
+  , PeriodicWave(PeriodicWave), unPeriodicWave, gTypePeriodicWave
+  , Plugin(Plugin), unPlugin, gTypePlugin
+  , PluginArray(PluginArray), unPluginArray, gTypePluginArray
+  , PopStateEvent(PopStateEvent), unPopStateEvent, gTypePopStateEvent
+  , PositionError(PositionError), unPositionError, gTypePositionError
+  , ProcessingInstruction(ProcessingInstruction), unProcessingInstruction, gTypeProcessingInstruction
+  , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEvent, gTypeProgressEvent
+  , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacement, gTypeQuickTimePluginReplacement
+  , RGBColor(RGBColor), unRGBColor, gTypeRGBColor
+  , RTCConfiguration(RTCConfiguration), unRTCConfiguration, gTypeRTCConfiguration
+  , RTCDTMFSender(RTCDTMFSender), unRTCDTMFSender, gTypeRTCDTMFSender
+  , RTCDTMFToneChangeEvent(RTCDTMFToneChangeEvent), unRTCDTMFToneChangeEvent, gTypeRTCDTMFToneChangeEvent
+  , RTCDataChannel(RTCDataChannel), unRTCDataChannel, gTypeRTCDataChannel
+  , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEvent, gTypeRTCDataChannelEvent
+  , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidate, gTypeRTCIceCandidate
+  , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEvent, gTypeRTCIceCandidateEvent
+  , RTCIceServer(RTCIceServer), unRTCIceServer, gTypeRTCIceServer
+  , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnection, gTypeRTCPeerConnection
+  , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescription, gTypeRTCSessionDescription
+  , RTCStatsReport(RTCStatsReport), unRTCStatsReport, gTypeRTCStatsReport
+  , RTCStatsResponse(RTCStatsResponse), unRTCStatsResponse, gTypeRTCStatsResponse
+  , RadioNodeList(RadioNodeList), unRadioNodeList, gTypeRadioNodeList
+  , Range(Range), unRange, gTypeRange
+  , ReadableStream(ReadableStream), unReadableStream, gTypeReadableStream
+  , Rect(Rect), unRect, gTypeRect
+  , SQLError(SQLError), unSQLError, gTypeSQLError
+  , SQLResultSet(SQLResultSet), unSQLResultSet, gTypeSQLResultSet
+  , SQLResultSetRowList(SQLResultSetRowList), unSQLResultSetRowList, gTypeSQLResultSetRowList
+  , SQLTransaction(SQLTransaction), unSQLTransaction, gTypeSQLTransaction
+  , SVGAElement(SVGAElement), unSVGAElement, gTypeSVGAElement
+  , SVGAltGlyphDefElement(SVGAltGlyphDefElement), unSVGAltGlyphDefElement, gTypeSVGAltGlyphDefElement
+  , SVGAltGlyphElement(SVGAltGlyphElement), unSVGAltGlyphElement, gTypeSVGAltGlyphElement
+  , SVGAltGlyphItemElement(SVGAltGlyphItemElement), unSVGAltGlyphItemElement, gTypeSVGAltGlyphItemElement
+  , SVGAngle(SVGAngle), unSVGAngle, gTypeSVGAngle
+  , SVGAnimateColorElement(SVGAnimateColorElement), unSVGAnimateColorElement, gTypeSVGAnimateColorElement
+  , SVGAnimateElement(SVGAnimateElement), unSVGAnimateElement, gTypeSVGAnimateElement
+  , SVGAnimateMotionElement(SVGAnimateMotionElement), unSVGAnimateMotionElement, gTypeSVGAnimateMotionElement
+  , SVGAnimateTransformElement(SVGAnimateTransformElement), unSVGAnimateTransformElement, gTypeSVGAnimateTransformElement
+  , SVGAnimatedAngle(SVGAnimatedAngle), unSVGAnimatedAngle, gTypeSVGAnimatedAngle
+  , SVGAnimatedBoolean(SVGAnimatedBoolean), unSVGAnimatedBoolean, gTypeSVGAnimatedBoolean
+  , SVGAnimatedEnumeration(SVGAnimatedEnumeration), unSVGAnimatedEnumeration, gTypeSVGAnimatedEnumeration
+  , SVGAnimatedInteger(SVGAnimatedInteger), unSVGAnimatedInteger, gTypeSVGAnimatedInteger
+  , SVGAnimatedLength(SVGAnimatedLength), unSVGAnimatedLength, gTypeSVGAnimatedLength
+  , SVGAnimatedLengthList(SVGAnimatedLengthList), unSVGAnimatedLengthList, gTypeSVGAnimatedLengthList
+  , SVGAnimatedNumber(SVGAnimatedNumber), unSVGAnimatedNumber, gTypeSVGAnimatedNumber
+  , SVGAnimatedNumberList(SVGAnimatedNumberList), unSVGAnimatedNumberList, gTypeSVGAnimatedNumberList
+  , SVGAnimatedPreserveAspectRatio(SVGAnimatedPreserveAspectRatio), unSVGAnimatedPreserveAspectRatio, gTypeSVGAnimatedPreserveAspectRatio
+  , SVGAnimatedRect(SVGAnimatedRect), unSVGAnimatedRect, gTypeSVGAnimatedRect
+  , SVGAnimatedString(SVGAnimatedString), unSVGAnimatedString, gTypeSVGAnimatedString
+  , SVGAnimatedTransformList(SVGAnimatedTransformList), unSVGAnimatedTransformList, gTypeSVGAnimatedTransformList
+  , SVGAnimationElement(SVGAnimationElement), unSVGAnimationElement, IsSVGAnimationElement, toSVGAnimationElement, gTypeSVGAnimationElement
+  , SVGCircleElement(SVGCircleElement), unSVGCircleElement, gTypeSVGCircleElement
+  , SVGClipPathElement(SVGClipPathElement), unSVGClipPathElement, gTypeSVGClipPathElement
+  , SVGColor(SVGColor), unSVGColor, IsSVGColor, toSVGColor, gTypeSVGColor
+  , SVGComponentTransferFunctionElement(SVGComponentTransferFunctionElement), unSVGComponentTransferFunctionElement, IsSVGComponentTransferFunctionElement, toSVGComponentTransferFunctionElement, gTypeSVGComponentTransferFunctionElement
+  , SVGCursorElement(SVGCursorElement), unSVGCursorElement, gTypeSVGCursorElement
+  , SVGDefsElement(SVGDefsElement), unSVGDefsElement, gTypeSVGDefsElement
+  , SVGDescElement(SVGDescElement), unSVGDescElement, gTypeSVGDescElement
+  , SVGDocument(SVGDocument), unSVGDocument, gTypeSVGDocument
+  , SVGElement(SVGElement), unSVGElement, IsSVGElement, toSVGElement, gTypeSVGElement
+  , SVGEllipseElement(SVGEllipseElement), unSVGEllipseElement, gTypeSVGEllipseElement
+  , SVGExternalResourcesRequired(SVGExternalResourcesRequired), unSVGExternalResourcesRequired, gTypeSVGExternalResourcesRequired
+  , SVGFEBlendElement(SVGFEBlendElement), unSVGFEBlendElement, gTypeSVGFEBlendElement
+  , SVGFEColorMatrixElement(SVGFEColorMatrixElement), unSVGFEColorMatrixElement, gTypeSVGFEColorMatrixElement
+  , SVGFEComponentTransferElement(SVGFEComponentTransferElement), unSVGFEComponentTransferElement, gTypeSVGFEComponentTransferElement
+  , SVGFECompositeElement(SVGFECompositeElement), unSVGFECompositeElement, gTypeSVGFECompositeElement
+  , SVGFEConvolveMatrixElement(SVGFEConvolveMatrixElement), unSVGFEConvolveMatrixElement, gTypeSVGFEConvolveMatrixElement
+  , SVGFEDiffuseLightingElement(SVGFEDiffuseLightingElement), unSVGFEDiffuseLightingElement, gTypeSVGFEDiffuseLightingElement
+  , SVGFEDisplacementMapElement(SVGFEDisplacementMapElement), unSVGFEDisplacementMapElement, gTypeSVGFEDisplacementMapElement
+  , SVGFEDistantLightElement(SVGFEDistantLightElement), unSVGFEDistantLightElement, gTypeSVGFEDistantLightElement
+  , SVGFEDropShadowElement(SVGFEDropShadowElement), unSVGFEDropShadowElement, gTypeSVGFEDropShadowElement
+  , SVGFEFloodElement(SVGFEFloodElement), unSVGFEFloodElement, gTypeSVGFEFloodElement
+  , SVGFEFuncAElement(SVGFEFuncAElement), unSVGFEFuncAElement, gTypeSVGFEFuncAElement
+  , SVGFEFuncBElement(SVGFEFuncBElement), unSVGFEFuncBElement, gTypeSVGFEFuncBElement
+  , SVGFEFuncGElement(SVGFEFuncGElement), unSVGFEFuncGElement, gTypeSVGFEFuncGElement
+  , SVGFEFuncRElement(SVGFEFuncRElement), unSVGFEFuncRElement, gTypeSVGFEFuncRElement
+  , SVGFEGaussianBlurElement(SVGFEGaussianBlurElement), unSVGFEGaussianBlurElement, gTypeSVGFEGaussianBlurElement
+  , SVGFEImageElement(SVGFEImageElement), unSVGFEImageElement, gTypeSVGFEImageElement
+  , SVGFEMergeElement(SVGFEMergeElement), unSVGFEMergeElement, gTypeSVGFEMergeElement
+  , SVGFEMergeNodeElement(SVGFEMergeNodeElement), unSVGFEMergeNodeElement, gTypeSVGFEMergeNodeElement
+  , SVGFEMorphologyElement(SVGFEMorphologyElement), unSVGFEMorphologyElement, gTypeSVGFEMorphologyElement
+  , SVGFEOffsetElement(SVGFEOffsetElement), unSVGFEOffsetElement, gTypeSVGFEOffsetElement
+  , SVGFEPointLightElement(SVGFEPointLightElement), unSVGFEPointLightElement, gTypeSVGFEPointLightElement
+  , SVGFESpecularLightingElement(SVGFESpecularLightingElement), unSVGFESpecularLightingElement, gTypeSVGFESpecularLightingElement
+  , SVGFESpotLightElement(SVGFESpotLightElement), unSVGFESpotLightElement, gTypeSVGFESpotLightElement
+  , SVGFETileElement(SVGFETileElement), unSVGFETileElement, gTypeSVGFETileElement
+  , SVGFETurbulenceElement(SVGFETurbulenceElement), unSVGFETurbulenceElement, gTypeSVGFETurbulenceElement
+  , SVGFilterElement(SVGFilterElement), unSVGFilterElement, gTypeSVGFilterElement
+  , SVGFilterPrimitiveStandardAttributes(SVGFilterPrimitiveStandardAttributes), unSVGFilterPrimitiveStandardAttributes, gTypeSVGFilterPrimitiveStandardAttributes
+  , SVGFitToViewBox(SVGFitToViewBox), unSVGFitToViewBox, gTypeSVGFitToViewBox
+  , SVGFontElement(SVGFontElement), unSVGFontElement, gTypeSVGFontElement
+  , SVGFontFaceElement(SVGFontFaceElement), unSVGFontFaceElement, gTypeSVGFontFaceElement
+  , SVGFontFaceFormatElement(SVGFontFaceFormatElement), unSVGFontFaceFormatElement, gTypeSVGFontFaceFormatElement
+  , SVGFontFaceNameElement(SVGFontFaceNameElement), unSVGFontFaceNameElement, gTypeSVGFontFaceNameElement
+  , SVGFontFaceSrcElement(SVGFontFaceSrcElement), unSVGFontFaceSrcElement, gTypeSVGFontFaceSrcElement
+  , SVGFontFaceUriElement(SVGFontFaceUriElement), unSVGFontFaceUriElement, gTypeSVGFontFaceUriElement
+  , SVGForeignObjectElement(SVGForeignObjectElement), unSVGForeignObjectElement, gTypeSVGForeignObjectElement
+  , SVGGElement(SVGGElement), unSVGGElement, gTypeSVGGElement
+  , SVGGlyphElement(SVGGlyphElement), unSVGGlyphElement, gTypeSVGGlyphElement
+  , SVGGlyphRefElement(SVGGlyphRefElement), unSVGGlyphRefElement, gTypeSVGGlyphRefElement
+  , SVGGradientElement(SVGGradientElement), unSVGGradientElement, IsSVGGradientElement, toSVGGradientElement, gTypeSVGGradientElement
+  , SVGGraphicsElement(SVGGraphicsElement), unSVGGraphicsElement, IsSVGGraphicsElement, toSVGGraphicsElement, gTypeSVGGraphicsElement
+  , SVGHKernElement(SVGHKernElement), unSVGHKernElement, gTypeSVGHKernElement
+  , SVGImageElement(SVGImageElement), unSVGImageElement, gTypeSVGImageElement
+  , SVGLength(SVGLength), unSVGLength, gTypeSVGLength
+  , SVGLengthList(SVGLengthList), unSVGLengthList, gTypeSVGLengthList
+  , SVGLineElement(SVGLineElement), unSVGLineElement, gTypeSVGLineElement
+  , SVGLinearGradientElement(SVGLinearGradientElement), unSVGLinearGradientElement, gTypeSVGLinearGradientElement
+  , SVGMPathElement(SVGMPathElement), unSVGMPathElement, gTypeSVGMPathElement
+  , SVGMarkerElement(SVGMarkerElement), unSVGMarkerElement, gTypeSVGMarkerElement
+  , SVGMaskElement(SVGMaskElement), unSVGMaskElement, gTypeSVGMaskElement
+  , SVGMatrix(SVGMatrix), unSVGMatrix, gTypeSVGMatrix
+  , SVGMetadataElement(SVGMetadataElement), unSVGMetadataElement, gTypeSVGMetadataElement
+  , SVGMissingGlyphElement(SVGMissingGlyphElement), unSVGMissingGlyphElement, gTypeSVGMissingGlyphElement
+  , SVGNumber(SVGNumber), unSVGNumber, gTypeSVGNumber
+  , SVGNumberList(SVGNumberList), unSVGNumberList, gTypeSVGNumberList
+  , SVGPaint(SVGPaint), unSVGPaint, gTypeSVGPaint
+  , SVGPathElement(SVGPathElement), unSVGPathElement, gTypeSVGPathElement
+  , SVGPathSeg(SVGPathSeg), unSVGPathSeg, IsSVGPathSeg, toSVGPathSeg, gTypeSVGPathSeg
+  , SVGPathSegArcAbs(SVGPathSegArcAbs), unSVGPathSegArcAbs, gTypeSVGPathSegArcAbs
+  , SVGPathSegArcRel(SVGPathSegArcRel), unSVGPathSegArcRel, gTypeSVGPathSegArcRel
+  , SVGPathSegClosePath(SVGPathSegClosePath), unSVGPathSegClosePath, gTypeSVGPathSegClosePath
+  , SVGPathSegCurvetoCubicAbs(SVGPathSegCurvetoCubicAbs), unSVGPathSegCurvetoCubicAbs, gTypeSVGPathSegCurvetoCubicAbs
+  , SVGPathSegCurvetoCubicRel(SVGPathSegCurvetoCubicRel), unSVGPathSegCurvetoCubicRel, gTypeSVGPathSegCurvetoCubicRel
+  , SVGPathSegCurvetoCubicSmoothAbs(SVGPathSegCurvetoCubicSmoothAbs), unSVGPathSegCurvetoCubicSmoothAbs, gTypeSVGPathSegCurvetoCubicSmoothAbs
+  , SVGPathSegCurvetoCubicSmoothRel(SVGPathSegCurvetoCubicSmoothRel), unSVGPathSegCurvetoCubicSmoothRel, gTypeSVGPathSegCurvetoCubicSmoothRel
+  , SVGPathSegCurvetoQuadraticAbs(SVGPathSegCurvetoQuadraticAbs), unSVGPathSegCurvetoQuadraticAbs, gTypeSVGPathSegCurvetoQuadraticAbs
+  , SVGPathSegCurvetoQuadraticRel(SVGPathSegCurvetoQuadraticRel), unSVGPathSegCurvetoQuadraticRel, gTypeSVGPathSegCurvetoQuadraticRel
+  , SVGPathSegCurvetoQuadraticSmoothAbs(SVGPathSegCurvetoQuadraticSmoothAbs), unSVGPathSegCurvetoQuadraticSmoothAbs, gTypeSVGPathSegCurvetoQuadraticSmoothAbs
+  , SVGPathSegCurvetoQuadraticSmoothRel(SVGPathSegCurvetoQuadraticSmoothRel), unSVGPathSegCurvetoQuadraticSmoothRel, gTypeSVGPathSegCurvetoQuadraticSmoothRel
+  , SVGPathSegLinetoAbs(SVGPathSegLinetoAbs), unSVGPathSegLinetoAbs, gTypeSVGPathSegLinetoAbs
+  , SVGPathSegLinetoHorizontalAbs(SVGPathSegLinetoHorizontalAbs), unSVGPathSegLinetoHorizontalAbs, gTypeSVGPathSegLinetoHorizontalAbs
+  , SVGPathSegLinetoHorizontalRel(SVGPathSegLinetoHorizontalRel), unSVGPathSegLinetoHorizontalRel, gTypeSVGPathSegLinetoHorizontalRel
+  , SVGPathSegLinetoRel(SVGPathSegLinetoRel), unSVGPathSegLinetoRel, gTypeSVGPathSegLinetoRel
+  , SVGPathSegLinetoVerticalAbs(SVGPathSegLinetoVerticalAbs), unSVGPathSegLinetoVerticalAbs, gTypeSVGPathSegLinetoVerticalAbs
+  , SVGPathSegLinetoVerticalRel(SVGPathSegLinetoVerticalRel), unSVGPathSegLinetoVerticalRel, gTypeSVGPathSegLinetoVerticalRel
+  , SVGPathSegList(SVGPathSegList), unSVGPathSegList, gTypeSVGPathSegList
+  , SVGPathSegMovetoAbs(SVGPathSegMovetoAbs), unSVGPathSegMovetoAbs, gTypeSVGPathSegMovetoAbs
+  , SVGPathSegMovetoRel(SVGPathSegMovetoRel), unSVGPathSegMovetoRel, gTypeSVGPathSegMovetoRel
+  , SVGPatternElement(SVGPatternElement), unSVGPatternElement, gTypeSVGPatternElement
+  , SVGPoint(SVGPoint), unSVGPoint, gTypeSVGPoint
+  , SVGPointList(SVGPointList), unSVGPointList, gTypeSVGPointList
+  , SVGPolygonElement(SVGPolygonElement), unSVGPolygonElement, gTypeSVGPolygonElement
+  , SVGPolylineElement(SVGPolylineElement), unSVGPolylineElement, gTypeSVGPolylineElement
+  , SVGPreserveAspectRatio(SVGPreserveAspectRatio), unSVGPreserveAspectRatio, gTypeSVGPreserveAspectRatio
+  , SVGRadialGradientElement(SVGRadialGradientElement), unSVGRadialGradientElement, gTypeSVGRadialGradientElement
+  , SVGRect(SVGRect), unSVGRect, gTypeSVGRect
+  , SVGRectElement(SVGRectElement), unSVGRectElement, gTypeSVGRectElement
+  , SVGRenderingIntent(SVGRenderingIntent), unSVGRenderingIntent, gTypeSVGRenderingIntent
+  , SVGSVGElement(SVGSVGElement), unSVGSVGElement, gTypeSVGSVGElement
+  , SVGScriptElement(SVGScriptElement), unSVGScriptElement, gTypeSVGScriptElement
+  , SVGSetElement(SVGSetElement), unSVGSetElement, gTypeSVGSetElement
+  , SVGStopElement(SVGStopElement), unSVGStopElement, gTypeSVGStopElement
+  , SVGStringList(SVGStringList), unSVGStringList, gTypeSVGStringList
+  , SVGStyleElement(SVGStyleElement), unSVGStyleElement, gTypeSVGStyleElement
+  , SVGSwitchElement(SVGSwitchElement), unSVGSwitchElement, gTypeSVGSwitchElement
+  , SVGSymbolElement(SVGSymbolElement), unSVGSymbolElement, gTypeSVGSymbolElement
+  , SVGTRefElement(SVGTRefElement), unSVGTRefElement, gTypeSVGTRefElement
+  , SVGTSpanElement(SVGTSpanElement), unSVGTSpanElement, gTypeSVGTSpanElement
+  , SVGTests(SVGTests), unSVGTests, gTypeSVGTests
+  , SVGTextContentElement(SVGTextContentElement), unSVGTextContentElement, IsSVGTextContentElement, toSVGTextContentElement, gTypeSVGTextContentElement
+  , SVGTextElement(SVGTextElement), unSVGTextElement, gTypeSVGTextElement
+  , SVGTextPathElement(SVGTextPathElement), unSVGTextPathElement, gTypeSVGTextPathElement
+  , SVGTextPositioningElement(SVGTextPositioningElement), unSVGTextPositioningElement, IsSVGTextPositioningElement, toSVGTextPositioningElement, gTypeSVGTextPositioningElement
+  , SVGTitleElement(SVGTitleElement), unSVGTitleElement, gTypeSVGTitleElement
+  , SVGTransform(SVGTransform), unSVGTransform, gTypeSVGTransform
+  , SVGTransformList(SVGTransformList), unSVGTransformList, gTypeSVGTransformList
+  , SVGURIReference(SVGURIReference), unSVGURIReference, gTypeSVGURIReference
+  , SVGUnitTypes(SVGUnitTypes), unSVGUnitTypes, gTypeSVGUnitTypes
+  , SVGUseElement(SVGUseElement), unSVGUseElement, gTypeSVGUseElement
+  , SVGVKernElement(SVGVKernElement), unSVGVKernElement, gTypeSVGVKernElement
+  , SVGViewElement(SVGViewElement), unSVGViewElement, gTypeSVGViewElement
+  , SVGViewSpec(SVGViewSpec), unSVGViewSpec, gTypeSVGViewSpec
+  , SVGZoomAndPan(SVGZoomAndPan), unSVGZoomAndPan, gTypeSVGZoomAndPan
+  , SVGZoomEvent(SVGZoomEvent), unSVGZoomEvent, gTypeSVGZoomEvent
+  , Screen(Screen), unScreen, gTypeScreen
+  , ScriptProcessorNode(ScriptProcessorNode), unScriptProcessorNode, gTypeScriptProcessorNode
+  , ScriptProfile(ScriptProfile), unScriptProfile, gTypeScriptProfile
+  , ScriptProfileNode(ScriptProfileNode), unScriptProfileNode, gTypeScriptProfileNode
+  , SecurityPolicy(SecurityPolicy), unSecurityPolicy, gTypeSecurityPolicy
+  , SecurityPolicyViolationEvent(SecurityPolicyViolationEvent), unSecurityPolicyViolationEvent, gTypeSecurityPolicyViolationEvent
+  , Selection(Selection), unSelection, gTypeSelection
+  , SourceBuffer(SourceBuffer), unSourceBuffer, gTypeSourceBuffer
+  , SourceBufferList(SourceBufferList), unSourceBufferList, gTypeSourceBufferList
+  , SourceInfo(SourceInfo), unSourceInfo, gTypeSourceInfo
+  , SpeechSynthesis(SpeechSynthesis), unSpeechSynthesis, gTypeSpeechSynthesis
+  , SpeechSynthesisEvent(SpeechSynthesisEvent), unSpeechSynthesisEvent, gTypeSpeechSynthesisEvent
+  , SpeechSynthesisUtterance(SpeechSynthesisUtterance), unSpeechSynthesisUtterance, gTypeSpeechSynthesisUtterance
+  , SpeechSynthesisVoice(SpeechSynthesisVoice), unSpeechSynthesisVoice, gTypeSpeechSynthesisVoice
+  , Storage(Storage), unStorage, gTypeStorage
+  , StorageEvent(StorageEvent), unStorageEvent, gTypeStorageEvent
+  , StorageInfo(StorageInfo), unStorageInfo, gTypeStorageInfo
+  , StorageQuota(StorageQuota), unStorageQuota, gTypeStorageQuota
+  , StyleMedia(StyleMedia), unStyleMedia, gTypeStyleMedia
+  , StyleSheet(StyleSheet), unStyleSheet, IsStyleSheet, toStyleSheet, gTypeStyleSheet
+  , StyleSheetList(StyleSheetList), unStyleSheetList, gTypeStyleSheetList
+  , SubtleCrypto(SubtleCrypto), unSubtleCrypto, gTypeSubtleCrypto
+  , Text(Text), unText, IsText, toText, gTypeText
+  , TextEvent(TextEvent), unTextEvent, gTypeTextEvent
+  , TextMetrics(TextMetrics), unTextMetrics, gTypeTextMetrics
+  , TextTrack(TextTrack), unTextTrack, gTypeTextTrack
+  , TextTrackCue(TextTrackCue), unTextTrackCue, IsTextTrackCue, toTextTrackCue, gTypeTextTrackCue
+  , TextTrackCueList(TextTrackCueList), unTextTrackCueList, gTypeTextTrackCueList
+  , TextTrackList(TextTrackList), unTextTrackList, gTypeTextTrackList
+  , TimeRanges(TimeRanges), unTimeRanges, gTypeTimeRanges
+  , Touch(Touch), unTouch, gTypeTouch
+  , TouchEvent(TouchEvent), unTouchEvent, gTypeTouchEvent
+  , TouchList(TouchList), unTouchList, gTypeTouchList
+  , TrackEvent(TrackEvent), unTrackEvent, gTypeTrackEvent
+  , TransitionEvent(TransitionEvent), unTransitionEvent, gTypeTransitionEvent
+  , TreeWalker(TreeWalker), unTreeWalker, gTypeTreeWalker
+  , TypeConversions(TypeConversions), unTypeConversions, gTypeTypeConversions
+  , UIEvent(UIEvent), unUIEvent, IsUIEvent, toUIEvent, gTypeUIEvent
+  , UIRequestEvent(UIRequestEvent), unUIRequestEvent, gTypeUIRequestEvent
+  , URL(URL), unURL, gTypeURL
+  , URLUtils(URLUtils), unURLUtils, gTypeURLUtils
+  , UserMessageHandler(UserMessageHandler), unUserMessageHandler, gTypeUserMessageHandler
+  , UserMessageHandlersNamespace(UserMessageHandlersNamespace), unUserMessageHandlersNamespace, gTypeUserMessageHandlersNamespace
+  , VTTCue(VTTCue), unVTTCue, gTypeVTTCue
+  , VTTRegion(VTTRegion), unVTTRegion, gTypeVTTRegion
+  , VTTRegionList(VTTRegionList), unVTTRegionList, gTypeVTTRegionList
+  , ValidityState(ValidityState), unValidityState, gTypeValidityState
+  , VideoPlaybackQuality(VideoPlaybackQuality), unVideoPlaybackQuality, gTypeVideoPlaybackQuality
+  , VideoStreamTrack(VideoStreamTrack), unVideoStreamTrack, gTypeVideoStreamTrack
+  , VideoTrack(VideoTrack), unVideoTrack, gTypeVideoTrack
+  , VideoTrackList(VideoTrackList), unVideoTrackList, gTypeVideoTrackList
+  , WaveShaperNode(WaveShaperNode), unWaveShaperNode, gTypeWaveShaperNode
+  , WebGL2RenderingContext(WebGL2RenderingContext), unWebGL2RenderingContext, gTypeWebGL2RenderingContext
+  , WebGLActiveInfo(WebGLActiveInfo), unWebGLActiveInfo, gTypeWebGLActiveInfo
+  , WebGLBuffer(WebGLBuffer), unWebGLBuffer, gTypeWebGLBuffer
+  , WebGLCompressedTextureATC(WebGLCompressedTextureATC), unWebGLCompressedTextureATC, gTypeWebGLCompressedTextureATC
+  , WebGLCompressedTexturePVRTC(WebGLCompressedTexturePVRTC), unWebGLCompressedTexturePVRTC, gTypeWebGLCompressedTexturePVRTC
+  , WebGLCompressedTextureS3TC(WebGLCompressedTextureS3TC), unWebGLCompressedTextureS3TC, gTypeWebGLCompressedTextureS3TC
+  , WebGLContextAttributes(WebGLContextAttributes), unWebGLContextAttributes, gTypeWebGLContextAttributes
+  , WebGLContextEvent(WebGLContextEvent), unWebGLContextEvent, gTypeWebGLContextEvent
+  , WebGLDebugRendererInfo(WebGLDebugRendererInfo), unWebGLDebugRendererInfo, gTypeWebGLDebugRendererInfo
+  , WebGLDebugShaders(WebGLDebugShaders), unWebGLDebugShaders, gTypeWebGLDebugShaders
+  , WebGLDepthTexture(WebGLDepthTexture), unWebGLDepthTexture, gTypeWebGLDepthTexture
+  , WebGLDrawBuffers(WebGLDrawBuffers), unWebGLDrawBuffers, gTypeWebGLDrawBuffers
+  , WebGLFramebuffer(WebGLFramebuffer), unWebGLFramebuffer, gTypeWebGLFramebuffer
+  , WebGLLoseContext(WebGLLoseContext), unWebGLLoseContext, gTypeWebGLLoseContext
+  , WebGLProgram(WebGLProgram), unWebGLProgram, gTypeWebGLProgram
+  , WebGLQuery(WebGLQuery), unWebGLQuery, gTypeWebGLQuery
+  , WebGLRenderbuffer(WebGLRenderbuffer), unWebGLRenderbuffer, gTypeWebGLRenderbuffer
+  , WebGLRenderingContext(WebGLRenderingContext), unWebGLRenderingContext, gTypeWebGLRenderingContext
+  , WebGLRenderingContextBase(WebGLRenderingContextBase), unWebGLRenderingContextBase, IsWebGLRenderingContextBase, toWebGLRenderingContextBase, gTypeWebGLRenderingContextBase
+  , WebGLSampler(WebGLSampler), unWebGLSampler, gTypeWebGLSampler
+  , WebGLShader(WebGLShader), unWebGLShader, gTypeWebGLShader
+  , WebGLShaderPrecisionFormat(WebGLShaderPrecisionFormat), unWebGLShaderPrecisionFormat, gTypeWebGLShaderPrecisionFormat
+  , WebGLSync(WebGLSync), unWebGLSync, gTypeWebGLSync
+  , WebGLTexture(WebGLTexture), unWebGLTexture, gTypeWebGLTexture
+  , WebGLTransformFeedback(WebGLTransformFeedback), unWebGLTransformFeedback, gTypeWebGLTransformFeedback
+  , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocation, gTypeWebGLUniformLocation
+  , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObject, gTypeWebGLVertexArrayObject
+  , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOES, gTypeWebGLVertexArrayObjectOES
+  , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEvent, gTypeWebKitAnimationEvent
+  , WebKitCSSFilterValue(WebKitCSSFilterValue), unWebKitCSSFilterValue, gTypeWebKitCSSFilterValue
+  , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrix, gTypeWebKitCSSMatrix
+  , WebKitCSSRegionRule(WebKitCSSRegionRule), unWebKitCSSRegionRule, gTypeWebKitCSSRegionRule
+  , WebKitCSSTransformValue(WebKitCSSTransformValue), unWebKitCSSTransformValue, gTypeWebKitCSSTransformValue
+  , WebKitCSSViewportRule(WebKitCSSViewportRule), unWebKitCSSViewportRule, gTypeWebKitCSSViewportRule
+  , WebKitNamedFlow(WebKitNamedFlow), unWebKitNamedFlow, gTypeWebKitNamedFlow
+  , WebKitNamespace(WebKitNamespace), unWebKitNamespace, gTypeWebKitNamespace
+  , WebKitPlaybackTargetAvailabilityEvent(WebKitPlaybackTargetAvailabilityEvent), unWebKitPlaybackTargetAvailabilityEvent, gTypeWebKitPlaybackTargetAvailabilityEvent
+  , WebKitPoint(WebKitPoint), unWebKitPoint, gTypeWebKitPoint
+  , WebKitTransitionEvent(WebKitTransitionEvent), unWebKitTransitionEvent, gTypeWebKitTransitionEvent
+  , WebSocket(WebSocket), unWebSocket, gTypeWebSocket
+  , WheelEvent(WheelEvent), unWheelEvent, gTypeWheelEvent
+  , Window(Window), unWindow, gTypeWindow
+  , WindowBase64(WindowBase64), unWindowBase64, gTypeWindowBase64
+  , WindowTimers(WindowTimers), unWindowTimers, gTypeWindowTimers
+  , Worker(Worker), unWorker, gTypeWorker
+  , WorkerGlobalScope(WorkerGlobalScope), unWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope, gTypeWorkerGlobalScope
+  , WorkerLocation(WorkerLocation), unWorkerLocation, gTypeWorkerLocation
+  , WorkerNavigator(WorkerNavigator), unWorkerNavigator, gTypeWorkerNavigator
+  , XMLHttpRequest(XMLHttpRequest), unXMLHttpRequest, gTypeXMLHttpRequest
+  , XMLHttpRequestProgressEvent(XMLHttpRequestProgressEvent), unXMLHttpRequestProgressEvent, gTypeXMLHttpRequestProgressEvent
+  , XMLHttpRequestUpload(XMLHttpRequestUpload), unXMLHttpRequestUpload, gTypeXMLHttpRequestUpload
+  , XMLSerializer(XMLSerializer), unXMLSerializer, gTypeXMLSerializer
+  , XPathEvaluator(XPathEvaluator), unXPathEvaluator, gTypeXPathEvaluator
+  , XPathExpression(XPathExpression), unXPathExpression, gTypeXPathExpression
+  , XPathNSResolver(XPathNSResolver), unXPathNSResolver, gTypeXPathNSResolver
+  , XPathResult(XPathResult), unXPathResult, gTypeXPathResult
+  , XSLTProcessor(XSLTProcessor), unXSLTProcessor, gTypeXSLTProcessor
 -- AUTO GENERATION ENDS HERE
   ) where
 
