@@ -767,8 +767,8 @@ unsafeCastTo constructor obj = liftJSM $ do
   jsval `instanceOf` gtype >>= \case
     True  -> return $ constructor jsval
     False -> do
-      srcType <- typeGType obj >>= \(GType t) -> valToText t
-      destType <- valToText gtype
+      srcType <- typeGType obj >>= \(GType t) -> valToText (t ^. js "name")
+      destType <- valToText (gtype ^. js "name")
       error $ "unsafeCastTo :: invalid conversion from " <> T.unpack srcType <> " to "
         <> T.unpack destType <> " requested."
 
