@@ -748,8 +748,8 @@ typeInstanceIsA o (GType t) = o `instanceOf` t
 -- > castTo Element x >>= \case
 -- >     Nothing      -> error "Was not an element"
 -- >     Just element -> ...
-castTo :: forall obj obj'. (IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> JSM (Maybe obj')
-castTo constructor obj = do
+castTo :: forall obj obj' m. (IsGObject obj, IsGObject obj', MonadJSM m) => (JSVal -> obj') -> obj -> m (Maybe obj')
+castTo constructor obj = liftJSM $ do
   GType gtype <- typeGType (undefined :: obj')
   let jsval = coerce obj
   jsval `instanceOf` gtype >>= \case
@@ -760,8 +760,8 @@ castTo constructor obj = do
 --   result and the message should be clear (uses HasCallStack).
 --
 -- > element <- unsafeCastTo Element x
-unsafeCastTo :: forall obj obj'. (HasCallStack, IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> JSM obj'
-unsafeCastTo constructor obj = do
+unsafeCastTo :: forall obj obj' m. (HasCallStack, IsGObject obj, IsGObject obj', MonadJSM m) => (JSVal -> obj') -> obj -> m obj'
+unsafeCastTo constructor obj = liftJSM $ do
   GType gtype <- typeGType (undefined :: obj')
   let jsval = coerce obj
   jsval `instanceOf` gtype >>= \case
@@ -776,8 +776,8 @@ unsafeCastTo constructor obj = do
 --   will probably crash later on in some unpredictable way.
 --
 -- > element <- uncheckedCastTo Element x
-uncheckedCastTo :: (IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> JSM obj'
-uncheckedCastTo constructor obj = return . constructor $ coerce obj
+uncheckedCastTo :: (IsGObject obj, IsGObject obj') => (JSVal -> obj') -> obj -> obj'
+uncheckedCastTo constructor = constructor . coerce
 
 -- | Determine if this is an instance of a particular type
 --
