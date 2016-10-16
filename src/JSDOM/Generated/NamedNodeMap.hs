@@ -1,16 +1,22 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NamedNodeMap
-       (getNamedItem, getNamedItem_, getNamedItemUnchecked, setNamedItem,
-        setNamedItem_, setNamedItemUnchecked, removeNamedItem,
-        removeNamedItem_, removeNamedItemUnchecked, item, item_,
-        itemUnchecked, getNamedItemNS, getNamedItemNS_,
-        getNamedItemNSUnchecked, setNamedItemNS, setNamedItemNS_,
+       (getNamedItem, getNamedItem_, getNamedItemUnsafe,
+        getNamedItemUnchecked, setNamedItem, setNamedItem_,
+        setNamedItemUnsafe, setNamedItemUnchecked, removeNamedItem,
+        removeNamedItem_, removeNamedItemUnsafe, removeNamedItemUnchecked,
+        item, item_, itemUnsafe, itemUnchecked, getNamedItemNS,
+        getNamedItemNS_, getNamedItemNSUnsafe, getNamedItemNSUnchecked,
+        setNamedItemNS, setNamedItemNS_, setNamedItemNSUnsafe,
         setNamedItemNSUnchecked, removeNamedItemNS, removeNamedItemNS_,
-        removeNamedItemNSUnchecked, getLength, NamedNodeMap(..),
-        gTypeNamedNodeMap)
+        removeNamedItemNSUnsafe, removeNamedItemNSUnchecked, getLength,
+        NamedNodeMap(..), gTypeNamedNodeMap)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -21,6 +27,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
 getNamedItem ::
@@ -35,6 +51,15 @@ getNamedItem_ ::
               (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m ()
 getNamedItem_ self name
   = liftDOM (void (self ^. jsf "getNamedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
+getNamedItemUnsafe ::
+                   (MonadDOM m, ToJSString name, HasCallStack) =>
+                     NamedNodeMap -> name -> m Node
+getNamedItemUnsafe self name
+  = liftDOM
+      (((self ^. jsf "getNamedItem" [toJSVal name]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
 getNamedItemUnchecked ::
@@ -59,6 +84,15 @@ setNamedItem_ self node
   = liftDOM (void (self ^. jsf "setNamedItem" [toJSVal node]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItem Mozilla NamedNodeMap.setNamedItem documentation> 
+setNamedItemUnsafe ::
+                   (MonadDOM m, IsNode node, HasCallStack) =>
+                     NamedNodeMap -> Maybe node -> m Node
+setNamedItemUnsafe self node
+  = liftDOM
+      (((self ^. jsf "setNamedItem" [toJSVal node]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItem Mozilla NamedNodeMap.setNamedItem documentation> 
 setNamedItemUnchecked ::
                       (MonadDOM m, IsNode node) => NamedNodeMap -> Maybe node -> m Node
 setNamedItemUnchecked self node
@@ -81,6 +115,15 @@ removeNamedItem_ self name
   = liftDOM (void (self ^. jsf "removeNamedItem" [toJSVal name]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
+removeNamedItemUnsafe ::
+                      (MonadDOM m, ToJSString name, HasCallStack) =>
+                        NamedNodeMap -> name -> m Node
+removeNamedItemUnsafe self name
+  = liftDOM
+      (((self ^. jsf "removeNamedItem" [toJSVal name]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
 removeNamedItemUnchecked ::
                          (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m Node
 removeNamedItemUnchecked self name
@@ -97,6 +140,14 @@ item self index
 item_ :: (MonadDOM m) => NamedNodeMap -> Word -> m ()
 item_ self index
   = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.item Mozilla NamedNodeMap.item documentation> 
+itemUnsafe ::
+           (MonadDOM m, HasCallStack) => NamedNodeMap -> Word -> m Node
+itemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.item Mozilla NamedNodeMap.item documentation> 
 itemUnchecked :: (MonadDOM m) => NamedNodeMap -> Word -> m Node
@@ -125,6 +176,18 @@ getNamedItemNS_ self namespaceURI localName
             [toJSVal namespaceURI, toJSVal localName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItemNS Mozilla NamedNodeMap.getNamedItemNS documentation> 
+getNamedItemNSUnsafe ::
+                     (MonadDOM m, ToJSString namespaceURI, ToJSString localName,
+                      HasCallStack) =>
+                       NamedNodeMap -> Maybe namespaceURI -> localName -> m Node
+getNamedItemNSUnsafe self namespaceURI localName
+  = liftDOM
+      (((self ^. jsf "getNamedItemNS"
+           [toJSVal namespaceURI, toJSVal localName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItemNS Mozilla NamedNodeMap.getNamedItemNS documentation> 
 getNamedItemNSUnchecked ::
                         (MonadDOM m, ToJSString namespaceURI, ToJSString localName) =>
                           NamedNodeMap -> Maybe namespaceURI -> localName -> m Node
@@ -147,6 +210,15 @@ setNamedItemNS_ ::
                 (MonadDOM m, IsNode node) => NamedNodeMap -> Maybe node -> m ()
 setNamedItemNS_ self node
   = liftDOM (void (self ^. jsf "setNamedItemNS" [toJSVal node]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItemNS Mozilla NamedNodeMap.setNamedItemNS documentation> 
+setNamedItemNSUnsafe ::
+                     (MonadDOM m, IsNode node, HasCallStack) =>
+                       NamedNodeMap -> Maybe node -> m Node
+setNamedItemNSUnsafe self node
+  = liftDOM
+      (((self ^. jsf "setNamedItemNS" [toJSVal node]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.setNamedItemNS Mozilla NamedNodeMap.setNamedItemNS documentation> 
 setNamedItemNSUnchecked ::
@@ -175,6 +247,18 @@ removeNamedItemNS_ self namespaceURI localName
       (void
          (self ^. jsf "removeNamedItemNS"
             [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItemNS Mozilla NamedNodeMap.removeNamedItemNS documentation> 
+removeNamedItemNSUnsafe ::
+                        (MonadDOM m, ToJSString namespaceURI, ToJSString localName,
+                         HasCallStack) =>
+                          NamedNodeMap -> Maybe namespaceURI -> localName -> m Node
+removeNamedItemNSUnsafe self namespaceURI localName
+  = liftDOM
+      (((self ^. jsf "removeNamedItemNS"
+           [toJSVal namespaceURI, toJSVal localName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItemNS Mozilla NamedNodeMap.removeNamedItemNS documentation> 
 removeNamedItemNSUnchecked ::

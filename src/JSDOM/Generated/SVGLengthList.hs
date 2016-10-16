@@ -1,14 +1,20 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGLengthList
-       (clear, initialize, initialize_, initializeUnchecked, getItem,
-        getItem_, getItemUnchecked, insertItemBefore, insertItemBefore_,
-        insertItemBeforeUnchecked, replaceItem, replaceItem_,
-        replaceItemUnchecked, removeItem, removeItem_, removeItemUnchecked,
-        appendItem, appendItem_, appendItemUnchecked, getNumberOfItems,
-        SVGLengthList(..), gTypeSVGLengthList)
+       (clear, initialize, initialize_, initializeUnsafe,
+        initializeUnchecked, getItem, getItem_, getItemUnsafe,
+        getItemUnchecked, insertItemBefore, insertItemBefore_,
+        insertItemBeforeUnsafe, insertItemBeforeUnchecked, replaceItem,
+        replaceItem_, replaceItemUnsafe, replaceItemUnchecked, removeItem,
+        removeItem_, removeItemUnsafe, removeItemUnchecked, appendItem,
+        appendItem_, appendItemUnsafe, appendItemUnchecked,
+        getNumberOfItems, SVGLengthList(..), gTypeSVGLengthList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -19,6 +25,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.clear Mozilla SVGLengthList.clear documentation> 
 clear :: (MonadDOM m) => SVGLengthList -> m ()
@@ -38,6 +54,15 @@ initialize_ self item
   = liftDOM (void (self ^. jsf "initialize" [toJSVal item]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.initialize Mozilla SVGLengthList.initialize documentation> 
+initializeUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGLengthList -> Maybe SVGLength -> m SVGLength
+initializeUnsafe self item
+  = liftDOM
+      (((self ^. jsf "initialize" [toJSVal item]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.initialize Mozilla SVGLengthList.initialize documentation> 
 initializeUnchecked ::
                     (MonadDOM m) => SVGLengthList -> Maybe SVGLength -> m SVGLength
 initializeUnchecked self item
@@ -54,6 +79,14 @@ getItem self index
 getItem_ :: (MonadDOM m) => SVGLengthList -> Word -> m ()
 getItem_ self index
   = liftDOM (void (self ^. jsf "getItem" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.getItem Mozilla SVGLengthList.getItem documentation> 
+getItemUnsafe ::
+              (MonadDOM m, HasCallStack) => SVGLengthList -> Word -> m SVGLength
+getItemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "getItem" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.getItem Mozilla SVGLengthList.getItem documentation> 
 getItemUnchecked ::
@@ -78,6 +111,16 @@ insertItemBefore_ self item index
   = liftDOM
       (void
          (self ^. jsf "insertItemBefore" [toJSVal item, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.insertItemBefore Mozilla SVGLengthList.insertItemBefore documentation> 
+insertItemBeforeUnsafe ::
+                       (MonadDOM m, HasCallStack) =>
+                         SVGLengthList -> Maybe SVGLength -> Word -> m SVGLength
+insertItemBeforeUnsafe self item index
+  = liftDOM
+      (((self ^. jsf "insertItemBefore" [toJSVal item, toJSVal index])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.insertItemBefore Mozilla SVGLengthList.insertItemBefore documentation> 
 insertItemBeforeUnchecked ::
@@ -105,6 +148,16 @@ replaceItem_ self item index
       (void (self ^. jsf "replaceItem" [toJSVal item, toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.replaceItem Mozilla SVGLengthList.replaceItem documentation> 
+replaceItemUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    SVGLengthList -> Maybe SVGLength -> Word -> m SVGLength
+replaceItemUnsafe self item index
+  = liftDOM
+      (((self ^. jsf "replaceItem" [toJSVal item, toJSVal index]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.replaceItem Mozilla SVGLengthList.replaceItem documentation> 
 replaceItemUnchecked ::
                      (MonadDOM m) =>
                        SVGLengthList -> Maybe SVGLength -> Word -> m SVGLength
@@ -126,6 +179,14 @@ removeItem_ self index
   = liftDOM (void (self ^. jsf "removeItem" [toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.removeItem Mozilla SVGLengthList.removeItem documentation> 
+removeItemUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGLengthList -> Word -> m SVGLength
+removeItemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "removeItem" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.removeItem Mozilla SVGLengthList.removeItem documentation> 
 removeItemUnchecked ::
                     (MonadDOM m) => SVGLengthList -> Word -> m SVGLength
 removeItemUnchecked self index
@@ -144,6 +205,15 @@ appendItem_ ::
             (MonadDOM m) => SVGLengthList -> Maybe SVGLength -> m ()
 appendItem_ self item
   = liftDOM (void (self ^. jsf "appendItem" [toJSVal item]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.appendItem Mozilla SVGLengthList.appendItem documentation> 
+appendItemUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGLengthList -> Maybe SVGLength -> m SVGLength
+appendItemUnsafe self item
+  = liftDOM
+      (((self ^. jsf "appendItem" [toJSVal item]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLengthList.appendItem Mozilla SVGLengthList.appendItem documentation> 
 appendItemUnchecked ::

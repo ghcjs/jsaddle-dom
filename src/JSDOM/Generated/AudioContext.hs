@@ -1,41 +1,53 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioContext
-       (newAudioContext, createBuffer, createBuffer_,
+       (newAudioContext, createBuffer, createBuffer_, createBufferUnsafe,
         createBufferUnchecked, createBufferFromArrayBuffer,
-        createBufferFromArrayBuffer_, createBufferFromArrayBufferUnchecked,
-        decodeAudioData, createBufferSource, createBufferSource_,
+        createBufferFromArrayBuffer_, createBufferFromArrayBufferUnsafe,
+        createBufferFromArrayBufferUnchecked, decodeAudioData,
+        createBufferSource, createBufferSource_, createBufferSourceUnsafe,
         createBufferSourceUnchecked, createMediaElementSource,
-        createMediaElementSource_, createMediaElementSourceUnchecked,
-        createMediaStreamSource, createMediaStreamSource_,
+        createMediaElementSource_, createMediaElementSourceUnsafe,
+        createMediaElementSourceUnchecked, createMediaStreamSource,
+        createMediaStreamSource_, createMediaStreamSourceUnsafe,
         createMediaStreamSourceUnchecked, createMediaStreamDestination,
-        createMediaStreamDestination_,
+        createMediaStreamDestination_, createMediaStreamDestinationUnsafe,
         createMediaStreamDestinationUnchecked, createGain, createGain_,
-        createGainUnchecked, createDelay, createDelay_,
-        createDelayUnchecked, createBiquadFilter, createBiquadFilter_,
+        createGainUnsafe, createGainUnchecked, createDelay, createDelay_,
+        createDelayUnsafe, createDelayUnchecked, createBiquadFilter,
+        createBiquadFilter_, createBiquadFilterUnsafe,
         createBiquadFilterUnchecked, createWaveShaper, createWaveShaper_,
-        createWaveShaperUnchecked, createPanner, createPanner_,
-        createPannerUnchecked, createConvolver, createConvolver_,
+        createWaveShaperUnsafe, createWaveShaperUnchecked, createPanner,
+        createPanner_, createPannerUnsafe, createPannerUnchecked,
+        createConvolver, createConvolver_, createConvolverUnsafe,
         createConvolverUnchecked, createDynamicsCompressor,
-        createDynamicsCompressor_, createDynamicsCompressorUnchecked,
-        createAnalyser, createAnalyser_, createAnalyserUnchecked,
+        createDynamicsCompressor_, createDynamicsCompressorUnsafe,
+        createDynamicsCompressorUnchecked, createAnalyser, createAnalyser_,
+        createAnalyserUnsafe, createAnalyserUnchecked,
         createScriptProcessor, createScriptProcessor_,
-        createScriptProcessorUnchecked, createOscillator,
-        createOscillator_, createOscillatorUnchecked, createPeriodicWave,
-        createPeriodicWave_, createPeriodicWaveUnchecked,
+        createScriptProcessorUnsafe, createScriptProcessorUnchecked,
+        createOscillator, createOscillator_, createOscillatorUnsafe,
+        createOscillatorUnchecked, createPeriodicWave, createPeriodicWave_,
+        createPeriodicWaveUnsafe, createPeriodicWaveUnchecked,
         createChannelSplitter, createChannelSplitter_,
-        createChannelSplitterUnchecked, createChannelMerger,
-        createChannelMerger_, createChannelMergerUnchecked, startRendering,
-        createGainNode, createGainNode_, createGainNodeUnchecked,
-        createDelayNode, createDelayNode_, createDelayNodeUnchecked,
+        createChannelSplitterUnsafe, createChannelSplitterUnchecked,
+        createChannelMerger, createChannelMerger_,
+        createChannelMergerUnsafe, createChannelMergerUnchecked,
+        startRendering, createGainNode, createGainNode_,
+        createGainNodeUnsafe, createGainNodeUnchecked, createDelayNode,
+        createDelayNode_, createDelayNodeUnsafe, createDelayNodeUnchecked,
         createJavaScriptNode, createJavaScriptNode_,
-        createJavaScriptNodeUnchecked, getDestination,
-        getDestinationUnchecked, getCurrentTime, getSampleRate,
-        getListener, getListenerUnchecked, getActiveSourceCount, complete,
-        AudioContext(..), gTypeAudioContext, IsAudioContext,
-        toAudioContext)
+        createJavaScriptNodeUnsafe, createJavaScriptNodeUnchecked,
+        getDestination, getDestinationUnchecked, getCurrentTime,
+        getSampleRate, getListener, getListenerUnchecked,
+        getActiveSourceCount, complete, AudioContext(..),
+        gTypeAudioContext, IsAudioContext, toAudioContext)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -46,6 +58,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext Mozilla AudioContext documentation> 
 newAudioContext :: (MonadDOM m) => m AudioContext
@@ -73,6 +95,18 @@ createBuffer_ self numberOfChannels numberOfFrames sampleRate
          ((toAudioContext self) ^. jsf "createBuffer"
             [toJSVal numberOfChannels, toJSVal numberOfFrames,
              toJSVal sampleRate]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBuffer Mozilla AudioContext.createBuffer documentation> 
+createBufferUnsafe ::
+                   (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                     self -> Word -> Word -> Float -> m AudioBuffer
+createBufferUnsafe self numberOfChannels numberOfFrames sampleRate
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createBuffer"
+           [toJSVal numberOfChannels, toJSVal numberOfFrames,
+            toJSVal sampleRate])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBuffer Mozilla AudioContext.createBuffer documentation> 
 createBufferUnchecked ::
@@ -105,6 +139,18 @@ createBufferFromArrayBuffer_ self buffer mixToMono
       (void
          ((toAudioContext self) ^. jsf "createBuffer"
             [toJSVal buffer, toJSVal mixToMono]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBuffer Mozilla AudioContext.createBuffer documentation> 
+createBufferFromArrayBufferUnsafe ::
+                                  (MonadDOM m, IsAudioContext self, IsArrayBuffer buffer,
+                                   HasCallStack) =>
+                                    self -> Maybe buffer -> Bool -> m AudioBuffer
+createBufferFromArrayBufferUnsafe self buffer mixToMono
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createBuffer"
+           [toJSVal buffer, toJSVal mixToMono])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBuffer Mozilla AudioContext.createBuffer documentation> 
 createBufferFromArrayBufferUnchecked ::
@@ -146,6 +192,16 @@ createBufferSource_ self
       (void ((toAudioContext self) ^. jsf "createBufferSource" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBufferSource Mozilla AudioContext.createBufferSource documentation> 
+createBufferSourceUnsafe ::
+                         (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                           self -> m AudioBufferSourceNode
+createBufferSourceUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createBufferSource" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBufferSource Mozilla AudioContext.createBufferSource documentation> 
 createBufferSourceUnchecked ::
                             (MonadDOM m, IsAudioContext self) =>
                               self -> m AudioBufferSourceNode
@@ -175,6 +231,18 @@ createMediaElementSource_ self mediaElement
       (void
          ((toAudioContext self) ^. jsf "createMediaElementSource"
             [toJSVal mediaElement]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaElementSource Mozilla AudioContext.createMediaElementSource documentation> 
+createMediaElementSourceUnsafe ::
+                               (MonadDOM m, IsAudioContext self, IsHTMLMediaElement mediaElement,
+                                HasCallStack) =>
+                                 self -> Maybe mediaElement -> m MediaElementAudioSourceNode
+createMediaElementSourceUnsafe self mediaElement
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createMediaElementSource"
+           [toJSVal mediaElement])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaElementSource Mozilla AudioContext.createMediaElementSource documentation> 
 createMediaElementSourceUnchecked ::
@@ -208,6 +276,17 @@ createMediaStreamSource_ self mediaStream
             [toJSVal mediaStream]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaStreamSource Mozilla AudioContext.createMediaStreamSource documentation> 
+createMediaStreamSourceUnsafe ::
+                              (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                                self -> Maybe MediaStream -> m MediaStreamAudioSourceNode
+createMediaStreamSourceUnsafe self mediaStream
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createMediaStreamSource"
+           [toJSVal mediaStream])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaStreamSource Mozilla AudioContext.createMediaStreamSource documentation> 
 createMediaStreamSourceUnchecked ::
                                  (MonadDOM m, IsAudioContext self) =>
                                    self -> Maybe MediaStream -> m MediaStreamAudioSourceNode
@@ -235,6 +314,16 @@ createMediaStreamDestination_ self
          ((toAudioContext self) ^. jsf "createMediaStreamDestination" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaStreamDestination Mozilla AudioContext.createMediaStreamDestination documentation> 
+createMediaStreamDestinationUnsafe ::
+                                   (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                                     self -> m MediaStreamAudioDestinationNode
+createMediaStreamDestinationUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createMediaStreamDestination" ())
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createMediaStreamDestination Mozilla AudioContext.createMediaStreamDestination documentation> 
 createMediaStreamDestinationUnchecked ::
                                       (MonadDOM m, IsAudioContext self) =>
                                         self -> m MediaStreamAudioDestinationNode
@@ -254,6 +343,15 @@ createGain self
 createGain_ :: (MonadDOM m, IsAudioContext self) => self -> m ()
 createGain_ self
   = liftDOM (void ((toAudioContext self) ^. jsf "createGain" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createGain Mozilla AudioContext.createGain documentation> 
+createGainUnsafe ::
+                 (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                   self -> m GainNode
+createGainUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createGain" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createGain Mozilla AudioContext.createGain documentation> 
 createGainUnchecked ::
@@ -283,6 +381,17 @@ createDelay_ self maxDelayTime
             [toJSVal maxDelayTime]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDelay Mozilla AudioContext.createDelay documentation> 
+createDelayUnsafe ::
+                  (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                    self -> Double -> m DelayNode
+createDelayUnsafe self maxDelayTime
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createDelay"
+           [toJSVal maxDelayTime])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDelay Mozilla AudioContext.createDelay documentation> 
 createDelayUnchecked ::
                      (MonadDOM m, IsAudioContext self) => self -> Double -> m DelayNode
 createDelayUnchecked self maxDelayTime
@@ -306,6 +415,16 @@ createBiquadFilter_ ::
 createBiquadFilter_ self
   = liftDOM
       (void ((toAudioContext self) ^. jsf "createBiquadFilter" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBiquadFilter Mozilla AudioContext.createBiquadFilter documentation> 
+createBiquadFilterUnsafe ::
+                         (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                           self -> m BiquadFilterNode
+createBiquadFilterUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createBiquadFilter" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createBiquadFilter Mozilla AudioContext.createBiquadFilter documentation> 
 createBiquadFilterUnchecked ::
@@ -332,6 +451,16 @@ createWaveShaper_ self
       (void ((toAudioContext self) ^. jsf "createWaveShaper" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createWaveShaper Mozilla AudioContext.createWaveShaper documentation> 
+createWaveShaperUnsafe ::
+                       (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                         self -> m WaveShaperNode
+createWaveShaperUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createWaveShaper" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createWaveShaper Mozilla AudioContext.createWaveShaper documentation> 
 createWaveShaperUnchecked ::
                           (MonadDOM m, IsAudioContext self) => self -> m WaveShaperNode
 createWaveShaperUnchecked self
@@ -350,6 +479,15 @@ createPanner self
 createPanner_ :: (MonadDOM m, IsAudioContext self) => self -> m ()
 createPanner_ self
   = liftDOM (void ((toAudioContext self) ^. jsf "createPanner" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createPanner Mozilla AudioContext.createPanner documentation> 
+createPannerUnsafe ::
+                   (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                     self -> m PannerNode
+createPannerUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createPanner" ()) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createPanner Mozilla AudioContext.createPanner documentation> 
 createPannerUnchecked ::
@@ -373,6 +511,16 @@ createConvolver_ ::
 createConvolver_ self
   = liftDOM
       (void ((toAudioContext self) ^. jsf "createConvolver" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createConvolver Mozilla AudioContext.createConvolver documentation> 
+createConvolverUnsafe ::
+                      (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                        self -> m ConvolverNode
+createConvolverUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createConvolver" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createConvolver Mozilla AudioContext.createConvolver documentation> 
 createConvolverUnchecked ::
@@ -399,6 +547,16 @@ createDynamicsCompressor_ self
       (void ((toAudioContext self) ^. jsf "createDynamicsCompressor" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDynamicsCompressor Mozilla AudioContext.createDynamicsCompressor documentation> 
+createDynamicsCompressorUnsafe ::
+                               (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                                 self -> m DynamicsCompressorNode
+createDynamicsCompressorUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createDynamicsCompressor" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDynamicsCompressor Mozilla AudioContext.createDynamicsCompressor documentation> 
 createDynamicsCompressorUnchecked ::
                                   (MonadDOM m, IsAudioContext self) =>
                                     self -> m DynamicsCompressorNode
@@ -419,6 +577,15 @@ createAnalyser_ ::
                 (MonadDOM m, IsAudioContext self) => self -> m ()
 createAnalyser_ self
   = liftDOM (void ((toAudioContext self) ^. jsf "createAnalyser" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createAnalyser Mozilla AudioContext.createAnalyser documentation> 
+createAnalyserUnsafe ::
+                     (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                       self -> m AnalyserNode
+createAnalyserUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createAnalyser" ()) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createAnalyser Mozilla AudioContext.createAnalyser documentation> 
 createAnalyserUnchecked ::
@@ -453,6 +620,19 @@ createScriptProcessor_ self bufferSize numberOfInputChannels
              toJSVal numberOfOutputChannels]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createScriptProcessor Mozilla AudioContext.createScriptProcessor documentation> 
+createScriptProcessorUnsafe ::
+                            (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                              self -> Word -> Word -> Word -> m ScriptProcessorNode
+createScriptProcessorUnsafe self bufferSize numberOfInputChannels
+  numberOfOutputChannels
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createScriptProcessor"
+           [toJSVal bufferSize, toJSVal numberOfInputChannels,
+            toJSVal numberOfOutputChannels])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createScriptProcessor Mozilla AudioContext.createScriptProcessor documentation> 
 createScriptProcessorUnchecked ::
                                (MonadDOM m, IsAudioContext self) =>
                                  self -> Word -> Word -> Word -> m ScriptProcessorNode
@@ -479,6 +659,16 @@ createOscillator_ ::
 createOscillator_ self
   = liftDOM
       (void ((toAudioContext self) ^. jsf "createOscillator" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createOscillator Mozilla AudioContext.createOscillator documentation> 
+createOscillatorUnsafe ::
+                       (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                         self -> m OscillatorNode
+createOscillatorUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createOscillator" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createOscillator Mozilla AudioContext.createOscillator documentation> 
 createOscillatorUnchecked ::
@@ -511,6 +701,18 @@ createPeriodicWave_ self real imag
             [toJSVal real, toJSVal imag]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createPeriodicWave Mozilla AudioContext.createPeriodicWave documentation> 
+createPeriodicWaveUnsafe ::
+                         (MonadDOM m, IsAudioContext self, IsFloat32Array real,
+                          IsFloat32Array imag, HasCallStack) =>
+                           self -> Maybe real -> Maybe imag -> m PeriodicWave
+createPeriodicWaveUnsafe self real imag
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createPeriodicWave"
+           [toJSVal real, toJSVal imag])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createPeriodicWave Mozilla AudioContext.createPeriodicWave documentation> 
 createPeriodicWaveUnchecked ::
                             (MonadDOM m, IsAudioContext self, IsFloat32Array real,
                              IsFloat32Array imag) =>
@@ -539,6 +741,17 @@ createChannelSplitter_ self numberOfOutputs
       (void
          ((toAudioContext self) ^. jsf "createChannelSplitter"
             [toJSVal numberOfOutputs]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createChannelSplitter Mozilla AudioContext.createChannelSplitter documentation> 
+createChannelSplitterUnsafe ::
+                            (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                              self -> Word -> m ChannelSplitterNode
+createChannelSplitterUnsafe self numberOfOutputs
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createChannelSplitter"
+           [toJSVal numberOfOutputs])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createChannelSplitter Mozilla AudioContext.createChannelSplitter documentation> 
 createChannelSplitterUnchecked ::
@@ -570,6 +783,17 @@ createChannelMerger_ self numberOfInputs
             [toJSVal numberOfInputs]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createChannelMerger Mozilla AudioContext.createChannelMerger documentation> 
+createChannelMergerUnsafe ::
+                          (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                            self -> Word -> m ChannelMergerNode
+createChannelMergerUnsafe self numberOfInputs
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createChannelMerger"
+           [toJSVal numberOfInputs])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createChannelMerger Mozilla AudioContext.createChannelMerger documentation> 
 createChannelMergerUnchecked ::
                              (MonadDOM m, IsAudioContext self) =>
                                self -> Word -> m ChannelMergerNode
@@ -598,6 +822,15 @@ createGainNode_ self
   = liftDOM (void ((toAudioContext self) ^. jsf "createGainNode" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createGainNode Mozilla AudioContext.createGainNode documentation> 
+createGainNodeUnsafe ::
+                     (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                       self -> m GainNode
+createGainNodeUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createGainNode" ()) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createGainNode Mozilla AudioContext.createGainNode documentation> 
 createGainNodeUnchecked ::
                         (MonadDOM m, IsAudioContext self) => self -> m GainNode
 createGainNodeUnchecked self
@@ -623,6 +856,17 @@ createDelayNode_ self maxDelayTime
       (void
          ((toAudioContext self) ^. jsf "createDelayNode"
             [toJSVal maxDelayTime]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDelayNode Mozilla AudioContext.createDelayNode documentation> 
+createDelayNodeUnsafe ::
+                      (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                        self -> Double -> m DelayNode
+createDelayNodeUnsafe self maxDelayTime
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createDelayNode"
+           [toJSVal maxDelayTime])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createDelayNode Mozilla AudioContext.createDelayNode documentation> 
 createDelayNodeUnchecked ::
@@ -656,6 +900,19 @@ createJavaScriptNode_ self bufferSize numberOfInputChannels
          ((toAudioContext self) ^. jsf "createJavaScriptNode"
             [toJSVal bufferSize, toJSVal numberOfInputChannels,
              toJSVal numberOfOutputChannels]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createJavaScriptNode Mozilla AudioContext.createJavaScriptNode documentation> 
+createJavaScriptNodeUnsafe ::
+                           (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                             self -> Word -> Word -> Word -> m ScriptProcessorNode
+createJavaScriptNodeUnsafe self bufferSize numberOfInputChannels
+  numberOfOutputChannels
+  = liftDOM
+      ((((toAudioContext self) ^. jsf "createJavaScriptNode"
+           [toJSVal bufferSize, toJSVal numberOfInputChannels,
+            toJSVal numberOfOutputChannels])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.createJavaScriptNode Mozilla AudioContext.createJavaScriptNode documentation> 
 createJavaScriptNodeUnchecked ::

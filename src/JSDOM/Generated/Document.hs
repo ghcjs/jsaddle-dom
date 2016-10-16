@@ -1,50 +1,68 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Document
-       (newDocument, createElement, createElement_,
+       (newDocument, createElement, createElement_, createElementUnsafe,
         createElementUnchecked, createDocumentFragment,
-        createDocumentFragment_, createDocumentFragmentUnchecked,
-        createTextNode, createTextNode_, createTextNodeUnchecked,
-        createComment, createComment_, createCommentUnchecked,
-        createCDATASection, createCDATASection_,
+        createDocumentFragment_, createDocumentFragmentUnsafe,
+        createDocumentFragmentUnchecked, createTextNode, createTextNode_,
+        createTextNodeUnsafe, createTextNodeUnchecked, createComment,
+        createComment_, createCommentUnsafe, createCommentUnchecked,
+        createCDATASection, createCDATASection_, createCDATASectionUnsafe,
         createCDATASectionUnchecked, createProcessingInstruction,
-        createProcessingInstruction_, createProcessingInstructionUnchecked,
-        createAttribute, createAttribute_, createAttributeUnchecked,
+        createProcessingInstruction_, createProcessingInstructionUnsafe,
+        createProcessingInstructionUnchecked, createAttribute,
+        createAttribute_, createAttributeUnsafe, createAttributeUnchecked,
         createEntityReference, createEntityReference_,
-        createEntityReferenceUnchecked, getElementsByTagName,
-        getElementsByTagName_, getElementsByTagNameUnchecked, importNode,
-        importNode_, importNodeUnchecked, createElementNS,
-        createElementNS_, createElementNSUnchecked, createAttributeNS,
-        createAttributeNS_, createAttributeNSUnchecked,
+        createEntityReferenceUnsafe, createEntityReferenceUnchecked,
+        getElementsByTagName, getElementsByTagName_,
+        getElementsByTagNameUnsafe, getElementsByTagNameUnchecked,
+        importNode, importNode_, importNodeUnsafe, importNodeUnchecked,
+        createElementNS, createElementNS_, createElementNSUnsafe,
+        createElementNSUnchecked, createAttributeNS, createAttributeNS_,
+        createAttributeNSUnsafe, createAttributeNSUnchecked,
         getElementsByTagNameNS, getElementsByTagNameNS_,
-        getElementsByTagNameNSUnchecked, getElementById, getElementById_,
-        getElementByIdUnchecked, adoptNode, adoptNode_, adoptNodeUnchecked,
-        createEvent, createEvent_, createEventUnchecked, createRange,
-        createRange_, createRangeUnchecked, createNodeIterator,
-        createNodeIterator_, createNodeIteratorUnchecked, createTreeWalker,
-        createTreeWalker_, createTreeWalkerUnchecked, getOverrideStyle,
-        getOverrideStyle_, getOverrideStyleUnchecked, createExpression,
-        createExpression_, createExpressionUnchecked, createNSResolver,
-        createNSResolver_, createNSResolverUnchecked, evaluate, evaluate_,
-        evaluateUnchecked, execCommand, execCommand_, queryCommandEnabled,
-        queryCommandEnabled_, queryCommandIndeterm, queryCommandIndeterm_,
-        queryCommandState, queryCommandState_, queryCommandSupported,
-        queryCommandSupported_, queryCommandValue, queryCommandValue_,
-        getElementsByName, getElementsByName_, getElementsByNameUnchecked,
-        elementFromPoint, elementFromPoint_, elementFromPointUnchecked,
+        getElementsByTagNameNSUnsafe, getElementsByTagNameNSUnchecked,
+        getElementById, getElementById_, getElementByIdUnsafe,
+        getElementByIdUnchecked, adoptNode, adoptNode_, adoptNodeUnsafe,
+        adoptNodeUnchecked, createEvent, createEvent_, createEventUnsafe,
+        createEventUnchecked, createRange, createRange_, createRangeUnsafe,
+        createRangeUnchecked, createNodeIterator, createNodeIterator_,
+        createNodeIteratorUnsafe, createNodeIteratorUnchecked,
+        createTreeWalker, createTreeWalker_, createTreeWalkerUnsafe,
+        createTreeWalkerUnchecked, getOverrideStyle, getOverrideStyle_,
+        getOverrideStyleUnsafe, getOverrideStyleUnchecked,
+        createExpression, createExpression_, createExpressionUnsafe,
+        createExpressionUnchecked, createNSResolver, createNSResolver_,
+        createNSResolverUnsafe, createNSResolverUnchecked, evaluate,
+        evaluate_, evaluateUnsafe, evaluateUnchecked, execCommand,
+        execCommand_, queryCommandEnabled, queryCommandEnabled_,
+        queryCommandIndeterm, queryCommandIndeterm_, queryCommandState,
+        queryCommandState_, queryCommandSupported, queryCommandSupported_,
+        queryCommandValue, queryCommandValue_, getElementsByName,
+        getElementsByName_, getElementsByNameUnsafe,
+        getElementsByNameUnchecked, elementFromPoint, elementFromPoint_,
+        elementFromPointUnsafe, elementFromPointUnchecked,
         caretRangeFromPoint, caretRangeFromPoint_,
-        caretRangeFromPointUnchecked, getSelection, getSelection_,
+        caretRangeFromPointUnsafe, caretRangeFromPointUnchecked,
+        getSelection, getSelection_, getSelectionUnsafe,
         getSelectionUnchecked, getCSSCanvasContext, getCSSCanvasContext_,
-        getCSSCanvasContextUnchecked, getElementsByClassName,
-        getElementsByClassName_, getElementsByClassNameUnchecked, hasFocus,
-        hasFocus_, querySelector, querySelector_, querySelectorUnchecked,
-        querySelectorAll, querySelectorAll_, querySelectorAllUnchecked,
-        webkitCancelFullScreen, webkitExitFullscreen, exitPointerLock,
-        webkitGetNamedFlows, webkitGetNamedFlows_,
+        getCSSCanvasContextUnsafe, getCSSCanvasContextUnchecked,
+        getElementsByClassName, getElementsByClassName_,
+        getElementsByClassNameUnsafe, getElementsByClassNameUnchecked,
+        hasFocus, hasFocus_, querySelector, querySelector_,
+        querySelectorUnsafe, querySelectorUnchecked, querySelectorAll,
+        querySelectorAll_, querySelectorAllUnsafe,
+        querySelectorAllUnchecked, webkitCancelFullScreen,
+        webkitExitFullscreen, exitPointerLock, webkitGetNamedFlows,
+        webkitGetNamedFlows_, webkitGetNamedFlowsUnsafe,
         webkitGetNamedFlowsUnchecked, createTouch, createTouch_,
-        createTouchUnchecked, createTouchList, createTouchList_,
-        createTouchListUnchecked, getDoctype, getDoctypeUnchecked,
-        getImplementation, getImplementationUnchecked, getDocumentElement,
+        createTouchUnsafe, createTouchUnchecked, createTouchList,
+        createTouchList_, createTouchListUnsafe, createTouchListUnchecked,
+        getDoctype, getDoctypeUnchecked, getImplementation,
+        getImplementationUnchecked, getDocumentElement,
         getDocumentElementUnchecked, getInputEncoding,
         getInputEncodingUnchecked, getXmlEncoding, getXmlEncodingUnchecked,
         setXmlVersion, getXmlVersion, getXmlVersionUnchecked,
@@ -88,6 +106,7 @@ module JSDOM.Generated.Document
         IsDocument, toDocument)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -98,6 +117,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document Mozilla Document documentation> 
 newDocument :: (MonadDOM m) => m Document
@@ -119,6 +148,16 @@ createElement_ ::
 createElement_ self tagName
   = liftDOM
       (void ((toDocument self) ^. jsf "createElement" [toJSVal tagName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createElement Mozilla Document.createElement documentation> 
+createElementUnsafe ::
+                    (MonadDOM m, IsDocument self, ToJSString tagName, HasCallStack) =>
+                      self -> Maybe tagName -> m Element
+createElementUnsafe self tagName
+  = liftDOM
+      ((((toDocument self) ^. jsf "createElement" [toJSVal tagName]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createElement Mozilla Document.createElement documentation> 
 createElementUnchecked ::
@@ -145,6 +184,16 @@ createDocumentFragment_ self
       (void ((toDocument self) ^. jsf "createDocumentFragment" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createDocumentFragment Mozilla Document.createDocumentFragment documentation> 
+createDocumentFragmentUnsafe ::
+                             (MonadDOM m, IsDocument self, HasCallStack) =>
+                               self -> m DocumentFragment
+createDocumentFragmentUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. jsf "createDocumentFragment" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createDocumentFragment Mozilla Document.createDocumentFragment documentation> 
 createDocumentFragmentUnchecked ::
                                 (MonadDOM m, IsDocument self) => self -> m DocumentFragment
 createDocumentFragmentUnchecked self
@@ -168,6 +217,16 @@ createTextNode_ ::
 createTextNode_ self data'
   = liftDOM
       (void ((toDocument self) ^. jsf "createTextNode" [toJSVal data']))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTextNode Mozilla Document.createTextNode documentation> 
+createTextNodeUnsafe ::
+                     (MonadDOM m, IsDocument self, ToJSString data', HasCallStack) =>
+                       self -> data' -> m Text
+createTextNodeUnsafe self data'
+  = liftDOM
+      ((((toDocument self) ^. jsf "createTextNode" [toJSVal data']) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTextNode Mozilla Document.createTextNode documentation> 
 createTextNodeUnchecked ::
@@ -196,6 +255,16 @@ createComment_ self data'
       (void ((toDocument self) ^. jsf "createComment" [toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createComment Mozilla Document.createComment documentation> 
+createCommentUnsafe ::
+                    (MonadDOM m, IsDocument self, ToJSString data', HasCallStack) =>
+                      self -> data' -> m Comment
+createCommentUnsafe self data'
+  = liftDOM
+      ((((toDocument self) ^. jsf "createComment" [toJSVal data']) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createComment Mozilla Document.createComment documentation> 
 createCommentUnchecked ::
                        (MonadDOM m, IsDocument self, ToJSString data') =>
                          self -> data' -> m Comment
@@ -221,6 +290,16 @@ createCDATASection_ self data'
   = liftDOM
       (void
          ((toDocument self) ^. jsf "createCDATASection" [toJSVal data']))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createCDATASection Mozilla Document.createCDATASection documentation> 
+createCDATASectionUnsafe ::
+                         (MonadDOM m, IsDocument self, ToJSString data', HasCallStack) =>
+                           self -> data' -> m CDATASection
+createCDATASectionUnsafe self data'
+  = liftDOM
+      ((((toDocument self) ^. jsf "createCDATASection" [toJSVal data'])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createCDATASection Mozilla Document.createCDATASection documentation> 
 createCDATASectionUnchecked ::
@@ -254,6 +333,18 @@ createProcessingInstruction_ self target data'
             [toJSVal target, toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createProcessingInstruction Mozilla Document.createProcessingInstruction documentation> 
+createProcessingInstructionUnsafe ::
+                                  (MonadDOM m, IsDocument self, ToJSString target, ToJSString data',
+                                   HasCallStack) =>
+                                    self -> target -> data' -> m ProcessingInstruction
+createProcessingInstructionUnsafe self target data'
+  = liftDOM
+      ((((toDocument self) ^. jsf "createProcessingInstruction"
+           [toJSVal target, toJSVal data'])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createProcessingInstruction Mozilla Document.createProcessingInstruction documentation> 
 createProcessingInstructionUnchecked ::
                                      (MonadDOM m, IsDocument self, ToJSString target,
                                       ToJSString data') =>
@@ -282,6 +373,16 @@ createAttribute_ self name
       (void ((toDocument self) ^. jsf "createAttribute" [toJSVal name]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createAttribute Mozilla Document.createAttribute documentation> 
+createAttributeUnsafe ::
+                      (MonadDOM m, IsDocument self, ToJSString name, HasCallStack) =>
+                        self -> name -> m Attr
+createAttributeUnsafe self name
+  = liftDOM
+      ((((toDocument self) ^. jsf "createAttribute" [toJSVal name]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createAttribute Mozilla Document.createAttribute documentation> 
 createAttributeUnchecked ::
                          (MonadDOM m, IsDocument self, ToJSString name) =>
                            self -> name -> m Attr
@@ -307,6 +408,16 @@ createEntityReference_ self name
   = liftDOM
       (void
          ((toDocument self) ^. jsf "createEntityReference" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createEntityReference Mozilla Document.createEntityReference documentation> 
+createEntityReferenceUnsafe ::
+                            (MonadDOM m, IsDocument self, ToJSString name, HasCallStack) =>
+                              self -> name -> m EntityReference
+createEntityReferenceUnsafe self name
+  = liftDOM
+      ((((toDocument self) ^. jsf "createEntityReference" [toJSVal name])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createEntityReference Mozilla Document.createEntityReference documentation> 
 createEntityReferenceUnchecked ::
@@ -338,6 +449,17 @@ getElementsByTagName_ self tagname
             [toJSVal tagname]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByTagName Mozilla Document.getElementsByTagName documentation> 
+getElementsByTagNameUnsafe ::
+                           (MonadDOM m, IsDocument self, ToJSString tagname, HasCallStack) =>
+                             self -> tagname -> m NodeList
+getElementsByTagNameUnsafe self tagname
+  = liftDOM
+      ((((toDocument self) ^. jsf "getElementsByTagName"
+           [toJSVal tagname])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByTagName Mozilla Document.getElementsByTagName documentation> 
 getElementsByTagNameUnchecked ::
                               (MonadDOM m, IsDocument self, ToJSString tagname) =>
                                 self -> tagname -> m NodeList
@@ -366,6 +488,17 @@ importNode_ self importedNode deep
       (void
          ((toDocument self) ^. jsf "importNode"
             [toJSVal importedNode, toJSVal deep]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.importNode Mozilla Document.importNode documentation> 
+importNodeUnsafe ::
+                 (MonadDOM m, IsDocument self, IsNode importedNode, HasCallStack) =>
+                   self -> Maybe importedNode -> Bool -> m Node
+importNodeUnsafe self importedNode deep
+  = liftDOM
+      ((((toDocument self) ^. jsf "importNode"
+           [toJSVal importedNode, toJSVal deep])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.importNode Mozilla Document.importNode documentation> 
 importNodeUnchecked ::
@@ -401,6 +534,18 @@ createElementNS_ self namespaceURI qualifiedName
             [toJSVal namespaceURI, toJSVal qualifiedName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createElementNS Mozilla Document.createElementNS documentation> 
+createElementNSUnsafe ::
+                      (MonadDOM m, IsDocument self, ToJSString namespaceURI,
+                       ToJSString qualifiedName, HasCallStack) =>
+                        self -> Maybe namespaceURI -> Maybe qualifiedName -> m Element
+createElementNSUnsafe self namespaceURI qualifiedName
+  = liftDOM
+      ((((toDocument self) ^. jsf "createElementNS"
+           [toJSVal namespaceURI, toJSVal qualifiedName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createElementNS Mozilla Document.createElementNS documentation> 
 createElementNSUnchecked ::
                          (MonadDOM m, IsDocument self, ToJSString namespaceURI,
                           ToJSString qualifiedName) =>
@@ -432,6 +577,18 @@ createAttributeNS_ self namespaceURI qualifiedName
       (void
          ((toDocument self) ^. jsf "createAttributeNS"
             [toJSVal namespaceURI, toJSVal qualifiedName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createAttributeNS Mozilla Document.createAttributeNS documentation> 
+createAttributeNSUnsafe ::
+                        (MonadDOM m, IsDocument self, ToJSString namespaceURI,
+                         ToJSString qualifiedName, HasCallStack) =>
+                          self -> Maybe namespaceURI -> Maybe qualifiedName -> m Attr
+createAttributeNSUnsafe self namespaceURI qualifiedName
+  = liftDOM
+      ((((toDocument self) ^. jsf "createAttributeNS"
+           [toJSVal namespaceURI, toJSVal qualifiedName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createAttributeNS Mozilla Document.createAttributeNS documentation> 
 createAttributeNSUnchecked ::
@@ -467,6 +624,18 @@ getElementsByTagNameNS_ self namespaceURI localName
             [toJSVal namespaceURI, toJSVal localName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByTagNameNS Mozilla Document.getElementsByTagNameNS documentation> 
+getElementsByTagNameNSUnsafe ::
+                             (MonadDOM m, IsDocument self, ToJSString namespaceURI,
+                              ToJSString localName, HasCallStack) =>
+                               self -> Maybe namespaceURI -> localName -> m NodeList
+getElementsByTagNameNSUnsafe self namespaceURI localName
+  = liftDOM
+      ((((toDocument self) ^. jsf "getElementsByTagNameNS"
+           [toJSVal namespaceURI, toJSVal localName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByTagNameNS Mozilla Document.getElementsByTagNameNS documentation> 
 getElementsByTagNameNSUnchecked ::
                                 (MonadDOM m, IsDocument self, ToJSString namespaceURI,
                                  ToJSString localName) =>
@@ -496,6 +665,17 @@ getElementById_ self elementId
          ((toDocument self) ^. jsf "getElementById" [toJSVal elementId]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementById Mozilla Document.getElementById documentation> 
+getElementByIdUnsafe ::
+                     (MonadDOM m, IsDocument self, ToJSString elementId,
+                      HasCallStack) =>
+                       self -> elementId -> m Element
+getElementByIdUnsafe self elementId
+  = liftDOM
+      ((((toDocument self) ^. jsf "getElementById" [toJSVal elementId])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementById Mozilla Document.getElementById documentation> 
 getElementByIdUnchecked ::
                         (MonadDOM m, IsDocument self, ToJSString elementId) =>
                           self -> elementId -> m Element
@@ -520,6 +700,16 @@ adoptNode_ ::
 adoptNode_ self source
   = liftDOM
       (void ((toDocument self) ^. jsf "adoptNode" [toJSVal source]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.adoptNode Mozilla Document.adoptNode documentation> 
+adoptNodeUnsafe ::
+                (MonadDOM m, IsDocument self, IsNode source, HasCallStack) =>
+                  self -> Maybe source -> m Node
+adoptNodeUnsafe self source
+  = liftDOM
+      ((((toDocument self) ^. jsf "adoptNode" [toJSVal source]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.adoptNode Mozilla Document.adoptNode documentation> 
 adoptNodeUnchecked ::
@@ -548,6 +738,17 @@ createEvent_ self eventType
       (void ((toDocument self) ^. jsf "createEvent" [toJSVal eventType]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createEvent Mozilla Document.createEvent documentation> 
+createEventUnsafe ::
+                  (MonadDOM m, IsDocument self, ToJSString eventType,
+                   HasCallStack) =>
+                    self -> eventType -> m Event
+createEventUnsafe self eventType
+  = liftDOM
+      ((((toDocument self) ^. jsf "createEvent" [toJSVal eventType]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createEvent Mozilla Document.createEvent documentation> 
 createEventUnchecked ::
                      (MonadDOM m, IsDocument self, ToJSString eventType) =>
                        self -> eventType -> m Event
@@ -567,6 +768,14 @@ createRange self
 createRange_ :: (MonadDOM m, IsDocument self) => self -> m ()
 createRange_ self
   = liftDOM (void ((toDocument self) ^. jsf "createRange" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createRange Mozilla Document.createRange documentation> 
+createRangeUnsafe ::
+                  (MonadDOM m, IsDocument self, HasCallStack) => self -> m Range
+createRangeUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. jsf "createRange" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createRange Mozilla Document.createRange documentation> 
 createRangeUnchecked ::
@@ -601,6 +810,20 @@ createNodeIterator_ self root whatToShow filter
          ((toDocument self) ^. jsf "createNodeIterator"
             [toJSVal root, toJSVal whatToShow, toJSVal filter,
              toJSVal expandEntityReferences]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createNodeIterator Mozilla Document.createNodeIterator documentation> 
+createNodeIteratorUnsafe ::
+                         (MonadDOM m, IsDocument self, IsNode root, HasCallStack) =>
+                           self ->
+                             Maybe root -> Word -> Maybe NodeFilter -> Bool -> m NodeIterator
+createNodeIteratorUnsafe self root whatToShow filter
+  expandEntityReferences
+  = liftDOM
+      ((((toDocument self) ^. jsf "createNodeIterator"
+           [toJSVal root, toJSVal whatToShow, toJSVal filter,
+            toJSVal expandEntityReferences])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createNodeIterator Mozilla Document.createNodeIterator documentation> 
 createNodeIteratorUnchecked ::
@@ -641,6 +864,20 @@ createTreeWalker_ self root whatToShow filter
              toJSVal expandEntityReferences]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTreeWalker Mozilla Document.createTreeWalker documentation> 
+createTreeWalkerUnsafe ::
+                       (MonadDOM m, IsDocument self, IsNode root, HasCallStack) =>
+                         self ->
+                           Maybe root -> Word -> Maybe NodeFilter -> Bool -> m TreeWalker
+createTreeWalkerUnsafe self root whatToShow filter
+  expandEntityReferences
+  = liftDOM
+      ((((toDocument self) ^. jsf "createTreeWalker"
+           [toJSVal root, toJSVal whatToShow, toJSVal filter,
+            toJSVal expandEntityReferences])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTreeWalker Mozilla Document.createTreeWalker documentation> 
 createTreeWalkerUnchecked ::
                           (MonadDOM m, IsDocument self, IsNode root) =>
                             self ->
@@ -677,6 +914,18 @@ getOverrideStyle_ self element pseudoElement
             [toJSVal element, toJSVal pseudoElement]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getOverrideStyle Mozilla Document.getOverrideStyle documentation> 
+getOverrideStyleUnsafe ::
+                       (MonadDOM m, IsDocument self, IsElement element,
+                        ToJSString pseudoElement, HasCallStack) =>
+                         self -> Maybe element -> pseudoElement -> m CSSStyleDeclaration
+getOverrideStyleUnsafe self element pseudoElement
+  = liftDOM
+      ((((toDocument self) ^. jsf "getOverrideStyle"
+           [toJSVal element, toJSVal pseudoElement])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getOverrideStyle Mozilla Document.getOverrideStyle documentation> 
 getOverrideStyleUnchecked ::
                           (MonadDOM m, IsDocument self, IsElement element,
                            ToJSString pseudoElement) =>
@@ -709,6 +958,18 @@ createExpression_ self expression resolver
             [toJSVal expression, toJSVal resolver]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createExpression Mozilla Document.createExpression documentation> 
+createExpressionUnsafe ::
+                       (MonadDOM m, IsDocument self, ToJSString expression,
+                        HasCallStack) =>
+                         self -> expression -> Maybe XPathNSResolver -> m XPathExpression
+createExpressionUnsafe self expression resolver
+  = liftDOM
+      ((((toDocument self) ^. jsf "createExpression"
+           [toJSVal expression, toJSVal resolver])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createExpression Mozilla Document.createExpression documentation> 
 createExpressionUnchecked ::
                           (MonadDOM m, IsDocument self, ToJSString expression) =>
                             self -> expression -> Maybe XPathNSResolver -> m XPathExpression
@@ -737,6 +998,17 @@ createNSResolver_ self nodeResolver
       (void
          ((toDocument self) ^. jsf "createNSResolver"
             [toJSVal nodeResolver]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createNSResolver Mozilla Document.createNSResolver documentation> 
+createNSResolverUnsafe ::
+                       (MonadDOM m, IsDocument self, IsNode nodeResolver, HasCallStack) =>
+                         self -> Maybe nodeResolver -> m XPathNSResolver
+createNSResolverUnsafe self nodeResolver
+  = liftDOM
+      ((((toDocument self) ^. jsf "createNSResolver"
+           [toJSVal nodeResolver])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createNSResolver Mozilla Document.createNSResolver documentation> 
 createNSResolverUnchecked ::
@@ -778,6 +1050,22 @@ evaluate_ self expression contextNode resolver type' inResult
          ((toDocument self) ^. jsf "evaluate"
             [toJSVal expression, toJSVal contextNode, toJSVal resolver,
              toJSVal type', toJSVal inResult]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.evaluate Mozilla Document.evaluate documentation> 
+evaluateUnsafe ::
+               (MonadDOM m, IsDocument self, ToJSString expression,
+                IsNode contextNode, HasCallStack) =>
+                 self ->
+                   expression ->
+                     Maybe contextNode ->
+                       Maybe XPathNSResolver -> Word -> Maybe XPathResult -> m XPathResult
+evaluateUnsafe self expression contextNode resolver type' inResult
+  = liftDOM
+      ((((toDocument self) ^. jsf "evaluate"
+           [toJSVal expression, toJSVal contextNode, toJSVal resolver,
+            toJSVal type', toJSVal inResult])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.evaluate Mozilla Document.evaluate documentation> 
 evaluateUnchecked ::
@@ -933,6 +1221,18 @@ getElementsByName_ self elementName
             [toJSVal elementName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByName Mozilla Document.getElementsByName documentation> 
+getElementsByNameUnsafe ::
+                        (MonadDOM m, IsDocument self, ToJSString elementName,
+                         HasCallStack) =>
+                          self -> elementName -> m NodeList
+getElementsByNameUnsafe self elementName
+  = liftDOM
+      ((((toDocument self) ^. jsf "getElementsByName"
+           [toJSVal elementName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByName Mozilla Document.getElementsByName documentation> 
 getElementsByNameUnchecked ::
                            (MonadDOM m, IsDocument self, ToJSString elementName) =>
                              self -> elementName -> m NodeList
@@ -960,6 +1260,17 @@ elementFromPoint_ self x y
       (void
          ((toDocument self) ^. jsf "elementFromPoint"
             [toJSVal x, toJSVal y]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.elementFromPoint Mozilla Document.elementFromPoint documentation> 
+elementFromPointUnsafe ::
+                       (MonadDOM m, IsDocument self, HasCallStack) =>
+                         self -> Int -> Int -> m Element
+elementFromPointUnsafe self x y
+  = liftDOM
+      ((((toDocument self) ^. jsf "elementFromPoint"
+           [toJSVal x, toJSVal y])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.elementFromPoint Mozilla Document.elementFromPoint documentation> 
 elementFromPointUnchecked ::
@@ -990,6 +1301,17 @@ caretRangeFromPoint_ self x y
             [toJSVal x, toJSVal y]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.caretRangeFromPoint Mozilla Document.caretRangeFromPoint documentation> 
+caretRangeFromPointUnsafe ::
+                          (MonadDOM m, IsDocument self, HasCallStack) =>
+                            self -> Int -> Int -> m Range
+caretRangeFromPointUnsafe self x y
+  = liftDOM
+      ((((toDocument self) ^. jsf "caretRangeFromPoint"
+           [toJSVal x, toJSVal y])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.caretRangeFromPoint Mozilla Document.caretRangeFromPoint documentation> 
 caretRangeFromPointUnchecked ::
                              (MonadDOM m, IsDocument self) => self -> Int -> Int -> m Range
 caretRangeFromPointUnchecked self x y
@@ -1009,6 +1331,14 @@ getSelection self
 getSelection_ :: (MonadDOM m, IsDocument self) => self -> m ()
 getSelection_ self
   = liftDOM (void ((toDocument self) ^. jsf "getSelection" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getSelection Mozilla Document.getSelection documentation> 
+getSelectionUnsafe ::
+                   (MonadDOM m, IsDocument self, HasCallStack) => self -> m Selection
+getSelectionUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. jsf "getSelection" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getSelection Mozilla Document.getSelection documentation> 
 getSelectionUnchecked ::
@@ -1042,6 +1372,18 @@ getCSSCanvasContext_ self contextId name width height
             [toJSVal contextId, toJSVal name, toJSVal width, toJSVal height]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getCSSCanvasContext Mozilla Document.getCSSCanvasContext documentation> 
+getCSSCanvasContextUnsafe ::
+                          (MonadDOM m, IsDocument self, ToJSString contextId,
+                           ToJSString name, HasCallStack) =>
+                            self -> contextId -> name -> Int -> Int -> m CanvasRenderingContext
+getCSSCanvasContextUnsafe self contextId name width height
+  = liftDOM
+      ((((toDocument self) ^. jsf "getCSSCanvasContext"
+           [toJSVal contextId, toJSVal name, toJSVal width, toJSVal height])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getCSSCanvasContext Mozilla Document.getCSSCanvasContext documentation> 
 getCSSCanvasContextUnchecked ::
                              (MonadDOM m, IsDocument self, ToJSString contextId,
                               ToJSString name) =>
@@ -1071,6 +1413,17 @@ getElementsByClassName_ self tagname
       (void
          ((toDocument self) ^. jsf "getElementsByClassName"
             [toJSVal tagname]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByClassName Mozilla Document.getElementsByClassName documentation> 
+getElementsByClassNameUnsafe ::
+                             (MonadDOM m, IsDocument self, ToJSString tagname, HasCallStack) =>
+                               self -> tagname -> m NodeList
+getElementsByClassNameUnsafe self tagname
+  = liftDOM
+      ((((toDocument self) ^. jsf "getElementsByClassName"
+           [toJSVal tagname])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByClassName Mozilla Document.getElementsByClassName documentation> 
 getElementsByClassNameUnchecked ::
@@ -1111,6 +1464,17 @@ querySelector_ self selectors
          ((toDocument self) ^. jsf "querySelector" [toJSVal selectors]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelector Mozilla Document.querySelector documentation> 
+querySelectorUnsafe ::
+                    (MonadDOM m, IsDocument self, ToJSString selectors,
+                     HasCallStack) =>
+                      self -> selectors -> m Element
+querySelectorUnsafe self selectors
+  = liftDOM
+      ((((toDocument self) ^. jsf "querySelector" [toJSVal selectors])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelector Mozilla Document.querySelector documentation> 
 querySelectorUnchecked ::
                        (MonadDOM m, IsDocument self, ToJSString selectors) =>
                          self -> selectors -> m Element
@@ -1136,6 +1500,17 @@ querySelectorAll_ self selectors
   = liftDOM
       (void
          ((toDocument self) ^. jsf "querySelectorAll" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll Mozilla Document.querySelectorAll documentation> 
+querySelectorAllUnsafe ::
+                       (MonadDOM m, IsDocument self, ToJSString selectors,
+                        HasCallStack) =>
+                         self -> selectors -> m NodeList
+querySelectorAllUnsafe self selectors
+  = liftDOM
+      ((((toDocument self) ^. jsf "querySelectorAll" [toJSVal selectors])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.querySelectorAll Mozilla Document.querySelectorAll documentation> 
 querySelectorAllUnchecked ::
@@ -1179,6 +1554,16 @@ webkitGetNamedFlows_ ::
 webkitGetNamedFlows_ self
   = liftDOM
       (void ((toDocument self) ^. jsf "webkitGetNamedFlows" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitGetNamedFlows Mozilla Document.webkitGetNamedFlows documentation> 
+webkitGetNamedFlowsUnsafe ::
+                          (MonadDOM m, IsDocument self, HasCallStack) =>
+                            self -> m DOMNamedFlowCollection
+webkitGetNamedFlowsUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. jsf "webkitGetNamedFlows" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitGetNamedFlows Mozilla Document.webkitGetNamedFlows documentation> 
 webkitGetNamedFlowsUnchecked ::
@@ -1227,6 +1612,26 @@ createTouch_ self window target identifier pageX pageY screenX
              toJSVal webkitRotationAngle, toJSVal webkitForce]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTouch Mozilla Document.createTouch documentation> 
+createTouchUnsafe ::
+                  (MonadDOM m, IsDocument self, IsEventTarget target,
+                   HasCallStack) =>
+                    self ->
+                      Maybe Window ->
+                        Maybe target ->
+                          Int ->
+                            Int -> Int -> Int -> Int -> Int -> Int -> Float -> Float -> m Touch
+createTouchUnsafe self window target identifier pageX pageY screenX
+  screenY webkitRadiusX webkitRadiusY webkitRotationAngle webkitForce
+  = liftDOM
+      ((((toDocument self) ^. jsf "createTouch"
+           [toJSVal window, toJSVal target, toJSVal identifier, toJSVal pageX,
+            toJSVal pageY, toJSVal screenX, toJSVal screenY,
+            toJSVal webkitRadiusX, toJSVal webkitRadiusY,
+            toJSVal webkitRotationAngle, toJSVal webkitForce])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTouch Mozilla Document.createTouch documentation> 
 createTouchUnchecked ::
                      (MonadDOM m, IsDocument self, IsEventTarget target) =>
                        self ->
@@ -1256,6 +1661,14 @@ createTouchList self
 createTouchList_ :: (MonadDOM m, IsDocument self) => self -> m ()
 createTouchList_ self
   = liftDOM (void ((toDocument self) ^. jsf "createTouchList" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTouchList Mozilla Document.createTouchList documentation> 
+createTouchListUnsafe ::
+                      (MonadDOM m, IsDocument self, HasCallStack) => self -> m TouchList
+createTouchListUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. jsf "createTouchList" ()) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.createTouchList Mozilla Document.createTouchList documentation> 
 createTouchListUnchecked ::

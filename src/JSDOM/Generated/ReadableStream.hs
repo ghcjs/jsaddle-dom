@@ -1,13 +1,18 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ReadableStream
-       (newReadableStream, read, read_, readUnchecked, cancel, cancel_,
-        cancelUnchecked, pipeTo, pipeTo_, pipeToUnchecked, pipeThrough,
-        pipeThrough_, pipeThroughUnchecked, getState, getClosed,
+       (newReadableStream, read, read_, readUnsafe, readUnchecked, cancel,
+        cancel_, cancelUnsafe, cancelUnchecked, pipeTo, pipeTo_,
+        pipeToUnsafe, pipeToUnchecked, pipeThrough, pipeThrough_,
+        pipeThroughUnsafe, pipeThroughUnchecked, getState, getClosed,
         getClosedUnchecked, getReady, getReadyUnchecked,
         ReadableStream(..), gTypeReadableStream)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -18,6 +23,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream Mozilla ReadableStream documentation> 
 newReadableStream :: (MonadDOM m) => JSVal -> m ReadableStream
@@ -33,6 +48,14 @@ read self = liftDOM ((self ^. jsf "read" ()) >>= fromJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.read Mozilla ReadableStream.read documentation> 
 read_ :: (MonadDOM m) => ReadableStream -> m ()
 read_ self = liftDOM (void (self ^. jsf "read" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.read Mozilla ReadableStream.read documentation> 
+readUnsafe ::
+           (MonadDOM m, HasCallStack) => ReadableStream -> m GObject
+readUnsafe self
+  = liftDOM
+      (((self ^. jsf "read" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.read Mozilla ReadableStream.read documentation> 
 readUnchecked :: (MonadDOM m) => ReadableStream -> m GObject
@@ -51,6 +74,15 @@ cancel_ ::
         (MonadDOM m, ToJSString reason) => ReadableStream -> reason -> m ()
 cancel_ self reason
   = liftDOM (void (self ^. jsf "cancel" [toJSVal reason]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.cancel Mozilla ReadableStream.cancel documentation> 
+cancelUnsafe ::
+             (MonadDOM m, ToJSString reason, HasCallStack) =>
+               ReadableStream -> reason -> m Promise
+cancelUnsafe self reason
+  = liftDOM
+      (((self ^. jsf "cancel" [toJSVal reason]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.cancel Mozilla ReadableStream.cancel documentation> 
 cancelUnchecked ::
@@ -76,6 +108,16 @@ pipeTo_ self streams options
       (void (self ^. jsf "pipeTo" [toJSVal streams, toJSVal options]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.pipeTo Mozilla ReadableStream.pipeTo documentation> 
+pipeToUnsafe ::
+             (MonadDOM m, HasCallStack) =>
+               ReadableStream -> JSVal -> JSVal -> m Promise
+pipeToUnsafe self streams options
+  = liftDOM
+      (((self ^. jsf "pipeTo" [toJSVal streams, toJSVal options]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.pipeTo Mozilla ReadableStream.pipeTo documentation> 
 pipeToUnchecked ::
                 (MonadDOM m) => ReadableStream -> JSVal -> JSVal -> m Promise
 pipeToUnchecked self streams options
@@ -98,6 +140,16 @@ pipeThrough_ ::
 pipeThrough_ self dest options
   = liftDOM
       (void (self ^. jsf "pipeThrough" [toJSVal dest, toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.pipeThrough Mozilla ReadableStream.pipeThrough documentation> 
+pipeThroughUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    ReadableStream -> JSVal -> JSVal -> m GObject
+pipeThroughUnsafe self dest options
+  = liftDOM
+      (((self ^. jsf "pipeThrough" [toJSVal dest, toJSVal options]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.pipeThrough Mozilla ReadableStream.pipeThrough documentation> 
 pipeThroughUnchecked ::

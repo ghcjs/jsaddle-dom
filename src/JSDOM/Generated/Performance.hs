@@ -1,17 +1,22 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Performance
-       (webkitGetEntries, webkitGetEntries_, webkitGetEntriesUnchecked,
-        webkitGetEntriesByType, webkitGetEntriesByType_,
+       (webkitGetEntries, webkitGetEntries_, webkitGetEntriesUnsafe,
+        webkitGetEntriesUnchecked, webkitGetEntriesByType,
+        webkitGetEntriesByType_, webkitGetEntriesByTypeUnsafe,
         webkitGetEntriesByTypeUnchecked, webkitGetEntriesByName,
-        webkitGetEntriesByName_, webkitGetEntriesByNameUnchecked,
-        webkitClearResourceTimings, webkitSetResourceTimingBufferSize,
-        webkitMark, webkitClearMarks, webkitMeasure, webkitClearMeasures,
-        now, now_, getNavigation, getNavigationUnchecked, getTiming,
-        getTimingUnchecked, webKitResourceTimingBufferFull,
-        Performance(..), gTypePerformance)
+        webkitGetEntriesByName_, webkitGetEntriesByNameUnsafe,
+        webkitGetEntriesByNameUnchecked, webkitClearResourceTimings,
+        webkitSetResourceTimingBufferSize, webkitMark, webkitClearMarks,
+        webkitMeasure, webkitClearMeasures, now, now_, getNavigation,
+        getNavigationUnchecked, getTiming, getTimingUnchecked,
+        webKitResourceTimingBufferFull, Performance(..), gTypePerformance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -22,6 +27,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntries Mozilla Performance.webkitGetEntries documentation> 
 webkitGetEntries ::
@@ -33,6 +48,14 @@ webkitGetEntries self
 webkitGetEntries_ :: (MonadDOM m) => Performance -> m ()
 webkitGetEntries_ self
   = liftDOM (void (self ^. jsf "webkitGetEntries" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntries Mozilla Performance.webkitGetEntries documentation> 
+webkitGetEntriesUnsafe ::
+                       (MonadDOM m, HasCallStack) => Performance -> m PerformanceEntryList
+webkitGetEntriesUnsafe self
+  = liftDOM
+      (((self ^. jsf "webkitGetEntries" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntries Mozilla Performance.webkitGetEntries documentation> 
 webkitGetEntriesUnchecked ::
@@ -57,6 +80,16 @@ webkitGetEntriesByType_ ::
 webkitGetEntriesByType_ self entryType
   = liftDOM
       (void (self ^. jsf "webkitGetEntriesByType" [toJSVal entryType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByType Mozilla Performance.webkitGetEntriesByType documentation> 
+webkitGetEntriesByTypeUnsafe ::
+                             (MonadDOM m, ToJSString entryType, HasCallStack) =>
+                               Performance -> entryType -> m PerformanceEntryList
+webkitGetEntriesByTypeUnsafe self entryType
+  = liftDOM
+      (((self ^. jsf "webkitGetEntriesByType" [toJSVal entryType]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByType Mozilla Performance.webkitGetEntriesByType documentation> 
 webkitGetEntriesByTypeUnchecked ::
@@ -86,6 +119,18 @@ webkitGetEntriesByName_ self name entryType
       (void
          (self ^. jsf "webkitGetEntriesByName"
             [toJSVal name, toJSVal entryType]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByName Mozilla Performance.webkitGetEntriesByName documentation> 
+webkitGetEntriesByNameUnsafe ::
+                             (MonadDOM m, ToJSString name, ToJSString entryType,
+                              HasCallStack) =>
+                               Performance -> name -> entryType -> m PerformanceEntryList
+webkitGetEntriesByNameUnsafe self name entryType
+  = liftDOM
+      (((self ^. jsf "webkitGetEntriesByName"
+           [toJSVal name, toJSVal entryType])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.webkitGetEntriesByName Mozilla Performance.webkitGetEntriesByName documentation> 
 webkitGetEntriesByNameUnchecked ::

@@ -1,20 +1,26 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableElement
-       (createTHead, createTHead_, createTHeadUnchecked, deleteTHead,
-        createTFoot, createTFoot_, createTFootUnchecked, deleteTFoot,
-        createTBody, createTBody_, createTBodyUnchecked, createCaption,
-        createCaption_, createCaptionUnchecked, deleteCaption, insertRow,
-        insertRow_, insertRowUnchecked, deleteRow, setCaption, getCaption,
-        getCaptionUnchecked, setTHead, getTHead, getTHeadUnchecked,
-        setTFoot, getTFoot, getTFootUnchecked, getRows, getRowsUnchecked,
-        getTBodies, getTBodiesUnchecked, setAlign, getAlign, setBgColor,
-        getBgColor, setBorder, getBorder, setCellPadding, getCellPadding,
-        setCellSpacing, getCellSpacing, setFrame, getFrame, setRules,
-        getRules, setSummary, getSummary, setWidth, getWidth,
-        HTMLTableElement(..), gTypeHTMLTableElement)
+       (createTHead, createTHead_, createTHeadUnsafe,
+        createTHeadUnchecked, deleteTHead, createTFoot, createTFoot_,
+        createTFootUnsafe, createTFootUnchecked, deleteTFoot, createTBody,
+        createTBody_, createTBodyUnsafe, createTBodyUnchecked,
+        createCaption, createCaption_, createCaptionUnsafe,
+        createCaptionUnchecked, deleteCaption, insertRow, insertRow_,
+        insertRowUnsafe, insertRowUnchecked, deleteRow, setCaption,
+        getCaption, getCaptionUnchecked, setTHead, getTHead,
+        getTHeadUnchecked, setTFoot, getTFoot, getTFootUnchecked, getRows,
+        getRowsUnchecked, getTBodies, getTBodiesUnchecked, setAlign,
+        getAlign, setBgColor, getBgColor, setBorder, getBorder,
+        setCellPadding, getCellPadding, setCellSpacing, getCellSpacing,
+        setFrame, getFrame, setRules, getRules, setSummary, getSummary,
+        setWidth, getWidth, HTMLTableElement(..), gTypeHTMLTableElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -25,6 +31,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTHead Mozilla HTMLTableElement.createTHead documentation> 
 createTHead ::
@@ -35,6 +51,14 @@ createTHead self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTHead Mozilla HTMLTableElement.createTHead documentation> 
 createTHead_ :: (MonadDOM m) => HTMLTableElement -> m ()
 createTHead_ self = liftDOM (void (self ^. jsf "createTHead" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTHead Mozilla HTMLTableElement.createTHead documentation> 
+createTHeadUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLTableElement -> m HTMLElement
+createTHeadUnsafe self
+  = liftDOM
+      (((self ^. jsf "createTHead" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTHead Mozilla HTMLTableElement.createTHead documentation> 
 createTHeadUnchecked ::
@@ -57,6 +81,14 @@ createTFoot_ :: (MonadDOM m) => HTMLTableElement -> m ()
 createTFoot_ self = liftDOM (void (self ^. jsf "createTFoot" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTFoot Mozilla HTMLTableElement.createTFoot documentation> 
+createTFootUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLTableElement -> m HTMLElement
+createTFootUnsafe self
+  = liftDOM
+      (((self ^. jsf "createTFoot" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTFoot Mozilla HTMLTableElement.createTFoot documentation> 
 createTFootUnchecked ::
                      (MonadDOM m) => HTMLTableElement -> m HTMLElement
 createTFootUnchecked self
@@ -77,6 +109,14 @@ createTBody_ :: (MonadDOM m) => HTMLTableElement -> m ()
 createTBody_ self = liftDOM (void (self ^. jsf "createTBody" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTBody Mozilla HTMLTableElement.createTBody documentation> 
+createTBodyUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLTableElement -> m HTMLElement
+createTBodyUnsafe self
+  = liftDOM
+      (((self ^. jsf "createTBody" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createTBody Mozilla HTMLTableElement.createTBody documentation> 
 createTBodyUnchecked ::
                      (MonadDOM m) => HTMLTableElement -> m HTMLElement
 createTBodyUnchecked self
@@ -92,6 +132,14 @@ createCaption self
 createCaption_ :: (MonadDOM m) => HTMLTableElement -> m ()
 createCaption_ self
   = liftDOM (void (self ^. jsf "createCaption" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createCaption Mozilla HTMLTableElement.createCaption documentation> 
+createCaptionUnsafe ::
+                    (MonadDOM m, HasCallStack) => HTMLTableElement -> m HTMLElement
+createCaptionUnsafe self
+  = liftDOM
+      (((self ^. jsf "createCaption" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.createCaption Mozilla HTMLTableElement.createCaption documentation> 
 createCaptionUnchecked ::
@@ -114,6 +162,15 @@ insertRow self index
 insertRow_ :: (MonadDOM m) => HTMLTableElement -> Int -> m ()
 insertRow_ self index
   = liftDOM (void (self ^. jsf "insertRow" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.insertRow Mozilla HTMLTableElement.insertRow documentation> 
+insertRowUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  HTMLTableElement -> Int -> m HTMLElement
+insertRowUnsafe self index
+  = liftDOM
+      (((self ^. jsf "insertRow" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.insertRow Mozilla HTMLTableElement.insertRow documentation> 
 insertRowUnchecked ::

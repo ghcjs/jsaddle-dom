@@ -1,23 +1,28 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Node
-       (insertBefore, insertBefore_, insertBeforeUnchecked, replaceChild,
-        replaceChild_, replaceChildUnchecked, removeChild, removeChild_,
-        removeChildUnchecked, appendChild, appendChild_,
-        appendChildUnchecked, hasChildNodes, hasChildNodes_, cloneNode,
-        cloneNode_, cloneNodeUnchecked, normalize, isSupported,
+       (insertBefore, insertBefore_, insertBeforeUnsafe,
+        insertBeforeUnchecked, replaceChild, replaceChild_,
+        replaceChildUnsafe, replaceChildUnchecked, removeChild,
+        removeChild_, removeChildUnsafe, removeChildUnchecked, appendChild,
+        appendChild_, appendChildUnsafe, appendChildUnchecked,
+        hasChildNodes, hasChildNodes_, cloneNode, cloneNode_,
+        cloneNodeUnsafe, cloneNodeUnchecked, normalize, isSupported,
         isSupported_, isSameNode, isSameNode_, isEqualNode, isEqualNode_,
-        lookupPrefix, lookupPrefix_, lookupPrefixUnchecked,
-        isDefaultNamespace, isDefaultNamespace_, lookupNamespaceURI,
-        lookupNamespaceURI_, lookupNamespaceURIUnchecked,
-        compareDocumentPosition, compareDocumentPosition_, contains,
-        contains_, pattern ELEMENT_NODE, pattern ATTRIBUTE_NODE,
-        pattern TEXT_NODE, pattern CDATA_SECTION_NODE,
-        pattern ENTITY_REFERENCE_NODE, pattern ENTITY_NODE,
-        pattern PROCESSING_INSTRUCTION_NODE, pattern COMMENT_NODE,
-        pattern DOCUMENT_NODE, pattern DOCUMENT_TYPE_NODE,
-        pattern DOCUMENT_FRAGMENT_NODE, pattern NOTATION_NODE,
-        pattern DOCUMENT_POSITION_DISCONNECTED,
+        lookupPrefix, lookupPrefix_, lookupPrefixUnsafe,
+        lookupPrefixUnchecked, isDefaultNamespace, isDefaultNamespace_,
+        lookupNamespaceURI, lookupNamespaceURI_, lookupNamespaceURIUnsafe,
+        lookupNamespaceURIUnchecked, compareDocumentPosition,
+        compareDocumentPosition_, contains, contains_,
+        pattern ELEMENT_NODE, pattern ATTRIBUTE_NODE, pattern TEXT_NODE,
+        pattern CDATA_SECTION_NODE, pattern ENTITY_REFERENCE_NODE,
+        pattern ENTITY_NODE, pattern PROCESSING_INSTRUCTION_NODE,
+        pattern COMMENT_NODE, pattern DOCUMENT_NODE,
+        pattern DOCUMENT_TYPE_NODE, pattern DOCUMENT_FRAGMENT_NODE,
+        pattern NOTATION_NODE, pattern DOCUMENT_POSITION_DISCONNECTED,
         pattern DOCUMENT_POSITION_PRECEDING,
         pattern DOCUMENT_POSITION_FOLLOWING,
         pattern DOCUMENT_POSITION_CONTAINS,
@@ -38,6 +43,7 @@ module JSDOM.Generated.Node
         getParentElementUnchecked, Node(..), gTypeNode, IsNode, toNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -48,6 +54,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
 insertBefore ::
@@ -68,6 +84,18 @@ insertBefore_ self newChild refChild
       (void
          ((toNode self) ^. jsf "insertBefore"
             [toJSVal newChild, toJSVal refChild]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
+insertBeforeUnsafe ::
+                   (MonadDOM m, IsNode self, IsNode newChild, IsNode refChild,
+                    HasCallStack) =>
+                     self -> Maybe newChild -> Maybe refChild -> m Node
+insertBeforeUnsafe self newChild refChild
+  = liftDOM
+      ((((toNode self) ^. jsf "insertBefore"
+           [toJSVal newChild, toJSVal refChild])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
 insertBeforeUnchecked ::
@@ -100,6 +128,18 @@ replaceChild_ self newChild oldChild
             [toJSVal newChild, toJSVal oldChild]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.replaceChild Mozilla Node.replaceChild documentation> 
+replaceChildUnsafe ::
+                   (MonadDOM m, IsNode self, IsNode newChild, IsNode oldChild,
+                    HasCallStack) =>
+                     self -> Maybe newChild -> Maybe oldChild -> m Node
+replaceChildUnsafe self newChild oldChild
+  = liftDOM
+      ((((toNode self) ^. jsf "replaceChild"
+           [toJSVal newChild, toJSVal oldChild])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.replaceChild Mozilla Node.replaceChild documentation> 
 replaceChildUnchecked ::
                       (MonadDOM m, IsNode self, IsNode newChild, IsNode oldChild) =>
                         self -> Maybe newChild -> Maybe oldChild -> m Node
@@ -127,6 +167,16 @@ removeChild_ self oldChild
       (void ((toNode self) ^. jsf "removeChild" [toJSVal oldChild]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild Mozilla Node.removeChild documentation> 
+removeChildUnsafe ::
+                  (MonadDOM m, IsNode self, IsNode oldChild, HasCallStack) =>
+                    self -> Maybe oldChild -> m Node
+removeChildUnsafe self oldChild
+  = liftDOM
+      ((((toNode self) ^. jsf "removeChild" [toJSVal oldChild]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild Mozilla Node.removeChild documentation> 
 removeChildUnchecked ::
                      (MonadDOM m, IsNode self, IsNode oldChild) =>
                        self -> Maybe oldChild -> m Node
@@ -151,6 +201,16 @@ appendChild_ ::
 appendChild_ self newChild
   = liftDOM
       (void ((toNode self) ^. jsf "appendChild" [toJSVal newChild]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild Mozilla Node.appendChild documentation> 
+appendChildUnsafe ::
+                  (MonadDOM m, IsNode self, IsNode newChild, HasCallStack) =>
+                    self -> Maybe newChild -> m Node
+appendChildUnsafe self newChild
+  = liftDOM
+      ((((toNode self) ^. jsf "appendChild" [toJSVal newChild]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild Mozilla Node.appendChild documentation> 
 appendChildUnchecked ::
@@ -182,6 +242,14 @@ cloneNode self deep
 cloneNode_ :: (MonadDOM m, IsNode self) => self -> Bool -> m ()
 cloneNode_ self deep
   = liftDOM (void ((toNode self) ^. jsf "cloneNode" [toJSVal deep]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode Mozilla Node.cloneNode documentation> 
+cloneNodeUnsafe ::
+                (MonadDOM m, IsNode self, HasCallStack) => self -> Bool -> m Node
+cloneNodeUnsafe self deep
+  = liftDOM
+      ((((toNode self) ^. jsf "cloneNode" [toJSVal deep]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode Mozilla Node.cloneNode documentation> 
 cloneNodeUnchecked ::
@@ -270,6 +338,17 @@ lookupPrefix_ self namespaceURI
       (void ((toNode self) ^. jsf "lookupPrefix" [toJSVal namespaceURI]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupPrefix Mozilla Node.lookupPrefix documentation> 
+lookupPrefixUnsafe ::
+                   (MonadDOM m, IsNode self, ToJSString namespaceURI, HasCallStack,
+                    FromJSString result) =>
+                     self -> Maybe namespaceURI -> m result
+lookupPrefixUnsafe self namespaceURI
+  = liftDOM
+      ((((toNode self) ^. jsf "lookupPrefix" [toJSVal namespaceURI]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupPrefix Mozilla Node.lookupPrefix documentation> 
 lookupPrefixUnchecked ::
                       (MonadDOM m, IsNode self, ToJSString namespaceURI,
                        FromJSString result) =>
@@ -314,6 +393,17 @@ lookupNamespaceURI_ ::
 lookupNamespaceURI_ self prefix
   = liftDOM
       (void ((toNode self) ^. jsf "lookupNamespaceURI" [toJSVal prefix]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupNamespaceURI Mozilla Node.lookupNamespaceURI documentation> 
+lookupNamespaceURIUnsafe ::
+                         (MonadDOM m, IsNode self, ToJSString prefix, HasCallStack,
+                          FromJSString result) =>
+                           self -> Maybe prefix -> m result
+lookupNamespaceURIUnsafe self prefix
+  = liftDOM
+      ((((toNode self) ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupNamespaceURI Mozilla Node.lookupNamespaceURI documentation> 
 lookupNamespaceURIUnchecked ::

@@ -1,13 +1,19 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBDatabase
-       (createObjectStore, createObjectStore_, createObjectStoreUnchecked,
-        deleteObjectStore, transaction, transaction_, transactionUnchecked,
-        transaction', transaction'_, transaction'Unchecked, close, getName,
-        getVersion, getObjectStoreNames, getObjectStoreNamesUnchecked,
-        abort, error, versionChange, IDBDatabase(..), gTypeIDBDatabase)
+       (createObjectStore, createObjectStore_, createObjectStoreUnsafe,
+        createObjectStoreUnchecked, deleteObjectStore, transaction,
+        transaction_, transactionUnsafe, transactionUnchecked,
+        transaction', transaction'_, transaction'Unsafe,
+        transaction'Unchecked, close, getName, getVersion,
+        getObjectStoreNames, getObjectStoreNamesUnchecked, abort, error,
+        versionChange, IDBDatabase(..), gTypeIDBDatabase)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -18,6 +24,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.createObjectStore Mozilla IDBDatabase.createObjectStore documentation> 
 createObjectStore ::
@@ -36,6 +52,17 @@ createObjectStore_ self name options
   = liftDOM
       (void
          (self ^. jsf "createObjectStore" [toJSVal name, toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.createObjectStore Mozilla IDBDatabase.createObjectStore documentation> 
+createObjectStoreUnsafe ::
+                        (MonadDOM m, ToJSString name, IsDictionary options,
+                         HasCallStack) =>
+                          IDBDatabase -> name -> Maybe options -> m IDBObjectStore
+createObjectStoreUnsafe self name options
+  = liftDOM
+      (((self ^. jsf "createObjectStore" [toJSVal name, toJSVal options])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.createObjectStore Mozilla IDBDatabase.createObjectStore documentation> 
 createObjectStoreUnchecked ::
@@ -71,6 +98,17 @@ transaction_ self storeName mode
          (self ^. jsf "transaction" [toJSVal storeName, toJSVal mode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
+transactionUnsafe ::
+                  (MonadDOM m, ToJSString storeName, ToJSString mode,
+                   HasCallStack) =>
+                    IDBDatabase -> storeName -> mode -> m IDBTransaction
+transactionUnsafe self storeName mode
+  = liftDOM
+      (((self ^. jsf "transaction" [toJSVal storeName, toJSVal mode]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
 transactionUnchecked ::
                      (MonadDOM m, ToJSString storeName, ToJSString mode) =>
                        IDBDatabase -> storeName -> mode -> m IDBTransaction
@@ -98,6 +136,18 @@ transaction'_ self storeNames mode
       (void
          (self ^. jsf "transaction"
             [toJSVal (array storeNames), toJSVal mode]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
+transaction'Unsafe ::
+                   (MonadDOM m, ToJSString storeNames, ToJSString mode,
+                    HasCallStack) =>
+                     IDBDatabase -> [storeNames] -> mode -> m IDBTransaction
+transaction'Unsafe self storeNames mode
+  = liftDOM
+      (((self ^. jsf "transaction"
+           [toJSVal (array storeNames), toJSVal mode])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.transaction Mozilla IDBDatabase.transaction documentation> 
 transaction'Unchecked ::

@@ -1,20 +1,24 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CanvasRenderingContext2D
        (save, restore, scale, rotate, translate, transform, setTransform,
         createLinearGradient, createLinearGradient_,
-        createLinearGradientUnchecked, createRadialGradient,
-        createRadialGradient_, createRadialGradientUnchecked, setLineDash,
-        getLineDash, getLineDash_, clearRect, fillRect, beginPath,
-        closePath, moveTo, lineTo, quadraticCurveTo, bezierCurveTo, arcTo,
-        rect, arc, fillPath, strokePath, clipPath, fill, stroke, clip,
-        isPointInPathPath, isPointInPathPath_, isPointInStrokePath,
-        isPointInStrokePath_, isPointInPath, isPointInPath_,
-        isPointInStroke, isPointInStroke_, measureText, measureText_,
-        measureTextUnchecked, setAlpha, setCompositeOperation,
-        setLineWidthFunction, setLineCapFunction, setLineJoinFunction,
-        setMiterLimitFunction, clearShadow, fillText, strokeText,
-        setStrokeColor, setStrokeColorGray, setStrokeColorRGB,
+        createLinearGradientUnsafe, createLinearGradientUnchecked,
+        createRadialGradient, createRadialGradient_,
+        createRadialGradientUnsafe, createRadialGradientUnchecked,
+        setLineDash, getLineDash, getLineDash_, clearRect, fillRect,
+        beginPath, closePath, moveTo, lineTo, quadraticCurveTo,
+        bezierCurveTo, arcTo, rect, arc, fillPath, strokePath, clipPath,
+        fill, stroke, clip, isPointInPathPath, isPointInPathPath_,
+        isPointInStrokePath, isPointInStrokePath_, isPointInPath,
+        isPointInPath_, isPointInStroke, isPointInStroke_, measureText,
+        measureText_, measureTextUnsafe, measureTextUnchecked, setAlpha,
+        setCompositeOperation, setLineWidthFunction, setLineCapFunction,
+        setLineJoinFunction, setMiterLimitFunction, clearShadow, fillText,
+        strokeText, setStrokeColor, setStrokeColorGray, setStrokeColorRGB,
         setStrokeColorCYMK, setFillColor, setFillColorGray,
         setFillColorRGB, setFillColorCYMK, strokeRect, drawImage,
         drawImageScaled, drawImagePart, drawImageFromCanvas,
@@ -24,12 +28,15 @@ module JSDOM.Generated.CanvasRenderingContext2D
         setShadowGray, setShadowRGB, setShadowCYMK, putImageData,
         putImageDataDirty, webkitPutImageDataHD, webkitPutImageDataHDDirty,
         createPatternFromCanvas, createPatternFromCanvas_,
-        createPatternFromCanvasUnchecked, createPattern, createPattern_,
+        createPatternFromCanvasUnsafe, createPatternFromCanvasUnchecked,
+        createPattern, createPattern_, createPatternUnsafe,
         createPatternUnchecked, createImageData, createImageData_,
-        createImageDataUnchecked, createImageDataSize,
-        createImageDataSize_, createImageDataSizeUnchecked, getImageData,
-        getImageData_, getImageDataUnchecked, webkitGetImageDataHD,
-        webkitGetImageDataHD_, webkitGetImageDataHDUnchecked,
+        createImageDataUnsafe, createImageDataUnchecked,
+        createImageDataSize, createImageDataSize_,
+        createImageDataSizeUnsafe, createImageDataSizeUnchecked,
+        getImageData, getImageData_, getImageDataUnsafe,
+        getImageDataUnchecked, webkitGetImageDataHD, webkitGetImageDataHD_,
+        webkitGetImageDataHDUnsafe, webkitGetImageDataHDUnchecked,
         drawFocusIfNeeded, drawFocusIfNeededPath, setGlobalAlpha,
         getGlobalAlpha, setGlobalCompositeOperation,
         getGlobalCompositeOperation, getGlobalCompositeOperationUnchecked,
@@ -50,6 +57,7 @@ module JSDOM.Generated.CanvasRenderingContext2D
         CanvasRenderingContext2D(..), gTypeCanvasRenderingContext2D)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -60,6 +68,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.save Mozilla CanvasRenderingContext2D.save documentation> 
 save :: (MonadDOM m) => CanvasRenderingContext2D -> m ()
@@ -133,6 +151,18 @@ createLinearGradient_ self x0 y0 x1 y1
             [toJSVal x0, toJSVal y0, toJSVal x1, toJSVal y1]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createLinearGradient Mozilla CanvasRenderingContext2D.createLinearGradient documentation> 
+createLinearGradientUnsafe ::
+                           (MonadDOM m, HasCallStack) =>
+                             CanvasRenderingContext2D ->
+                               Float -> Float -> Float -> Float -> m CanvasGradient
+createLinearGradientUnsafe self x0 y0 x1 y1
+  = liftDOM
+      (((self ^. jsf "createLinearGradient"
+           [toJSVal x0, toJSVal y0, toJSVal x1, toJSVal y1])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createLinearGradient Mozilla CanvasRenderingContext2D.createLinearGradient documentation> 
 createLinearGradientUnchecked ::
                               (MonadDOM m) =>
                                 CanvasRenderingContext2D ->
@@ -168,6 +198,20 @@ createRadialGradient_ self x0 y0 r0 x1 y1 r1
          (self ^. jsf "createRadialGradient"
             [toJSVal x0, toJSVal y0, toJSVal r0, toJSVal x1, toJSVal y1,
              toJSVal r1]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createRadialGradient Mozilla CanvasRenderingContext2D.createRadialGradient documentation> 
+createRadialGradientUnsafe ::
+                           (MonadDOM m, HasCallStack) =>
+                             CanvasRenderingContext2D ->
+                               Float ->
+                                 Float -> Float -> Float -> Float -> Float -> m CanvasGradient
+createRadialGradientUnsafe self x0 y0 r0 x1 y1 r1
+  = liftDOM
+      (((self ^. jsf "createRadialGradient"
+           [toJSVal x0, toJSVal y0, toJSVal r0, toJSVal x1, toJSVal y1,
+            toJSVal r1])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createRadialGradient Mozilla CanvasRenderingContext2D.createRadialGradient documentation> 
 createRadialGradientUnchecked ::
@@ -434,6 +478,15 @@ measureText_ ::
                CanvasRenderingContext2D -> text -> m ()
 measureText_ self text
   = liftDOM (void (self ^. jsf "measureText" [toJSVal text]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.measureText Mozilla CanvasRenderingContext2D.measureText documentation> 
+measureTextUnsafe ::
+                  (MonadDOM m, ToJSString text, HasCallStack) =>
+                    CanvasRenderingContext2D -> text -> m TextMetrics
+measureTextUnsafe self text
+  = liftDOM
+      (((self ^. jsf "measureText" [toJSVal text]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.measureText Mozilla CanvasRenderingContext2D.measureText documentation> 
 measureTextUnchecked ::
@@ -846,6 +899,18 @@ createPatternFromCanvas_ self canvas repetitionType
             [toJSVal canvas, toJSVal repetitionType]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
+createPatternFromCanvasUnsafe ::
+                              (MonadDOM m, ToJSString repetitionType, HasCallStack) =>
+                                CanvasRenderingContext2D ->
+                                  Maybe HTMLCanvasElement -> Maybe repetitionType -> m CanvasPattern
+createPatternFromCanvasUnsafe self canvas repetitionType
+  = liftDOM
+      (((self ^. jsf "createPattern"
+           [toJSVal canvas, toJSVal repetitionType])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
 createPatternFromCanvasUnchecked ::
                                  (MonadDOM m, ToJSString repetitionType) =>
                                    CanvasRenderingContext2D ->
@@ -881,6 +946,18 @@ createPattern_ self image repetitionType
             [toJSVal image, toJSVal repetitionType]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
+createPatternUnsafe ::
+                    (MonadDOM m, ToJSString repetitionType, HasCallStack) =>
+                      CanvasRenderingContext2D ->
+                        Maybe HTMLImageElement -> Maybe repetitionType -> m CanvasPattern
+createPatternUnsafe self image repetitionType
+  = liftDOM
+      (((self ^. jsf "createPattern"
+           [toJSVal image, toJSVal repetitionType])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
 createPatternUnchecked ::
                        (MonadDOM m, ToJSString repetitionType) =>
                          CanvasRenderingContext2D ->
@@ -907,6 +984,16 @@ createImageData_ self imagedata
       (void (self ^. jsf "createImageData" [toJSVal imagedata]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
+createImageDataUnsafe ::
+                      (MonadDOM m, HasCallStack) =>
+                        CanvasRenderingContext2D -> Maybe ImageData -> m ImageData
+createImageDataUnsafe self imagedata
+  = liftDOM
+      (((self ^. jsf "createImageData" [toJSVal imagedata]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
 createImageDataUnchecked ::
                          (MonadDOM m) =>
                            CanvasRenderingContext2D -> Maybe ImageData -> m ImageData
@@ -930,6 +1017,16 @@ createImageDataSize_ ::
 createImageDataSize_ self sw sh
   = liftDOM
       (void (self ^. jsf "createImageData" [toJSVal sw, toJSVal sh]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
+createImageDataSizeUnsafe ::
+                          (MonadDOM m, HasCallStack) =>
+                            CanvasRenderingContext2D -> Float -> Float -> m ImageData
+createImageDataSizeUnsafe self sw sh
+  = liftDOM
+      (((self ^. jsf "createImageData" [toJSVal sw, toJSVal sh]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createImageData Mozilla CanvasRenderingContext2D.createImageData documentation> 
 createImageDataSizeUnchecked ::
@@ -963,6 +1060,18 @@ getImageData_ self sx sy sw sh
             [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.getImageData Mozilla CanvasRenderingContext2D.getImageData documentation> 
+getImageDataUnsafe ::
+                   (MonadDOM m, HasCallStack) =>
+                     CanvasRenderingContext2D ->
+                       Float -> Float -> Float -> Float -> m ImageData
+getImageDataUnsafe self sx sy sw sh
+  = liftDOM
+      (((self ^. jsf "getImageData"
+           [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.getImageData Mozilla CanvasRenderingContext2D.getImageData documentation> 
 getImageDataUnchecked ::
                       (MonadDOM m) =>
                         CanvasRenderingContext2D ->
@@ -994,6 +1103,18 @@ webkitGetImageDataHD_ self sx sy sw sh
       (void
          (self ^. jsf "webkitGetImageDataHD"
             [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitGetImageDataHD Mozilla CanvasRenderingContext2D.webkitGetImageDataHD documentation> 
+webkitGetImageDataHDUnsafe ::
+                           (MonadDOM m, HasCallStack) =>
+                             CanvasRenderingContext2D ->
+                               Float -> Float -> Float -> Float -> m ImageData
+webkitGetImageDataHDUnsafe self sx sy sw sh
+  = liftDOM
+      (((self ^. jsf "webkitGetImageDataHD"
+           [toJSVal sx, toJSVal sy, toJSVal sw, toJSVal sh])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitGetImageDataHD Mozilla CanvasRenderingContext2D.webkitGetImageDataHD documentation> 
 webkitGetImageDataHDUnchecked ::

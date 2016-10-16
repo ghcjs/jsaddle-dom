@@ -1,12 +1,17 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DocumentFragment
        (newDocumentFragment, querySelector, querySelector_,
-        querySelectorUnchecked, querySelectorAll, querySelectorAll_,
+        querySelectorUnsafe, querySelectorUnchecked, querySelectorAll,
+        querySelectorAll_, querySelectorAllUnsafe,
         querySelectorAllUnchecked, DocumentFragment(..),
         gTypeDocumentFragment)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -17,6 +22,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment Mozilla DocumentFragment documentation> 
 newDocumentFragment :: (MonadDOM m) => m DocumentFragment
@@ -37,6 +52,15 @@ querySelector_ ::
                  DocumentFragment -> selectors -> m ()
 querySelector_ self selectors
   = liftDOM (void (self ^. jsf "querySelector" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelector Mozilla DocumentFragment.querySelector documentation> 
+querySelectorUnsafe ::
+                    (MonadDOM m, ToJSString selectors, HasCallStack) =>
+                      DocumentFragment -> selectors -> m Element
+querySelectorUnsafe self selectors
+  = liftDOM
+      (((self ^. jsf "querySelector" [toJSVal selectors]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelector Mozilla DocumentFragment.querySelector documentation> 
 querySelectorUnchecked ::
@@ -63,6 +87,16 @@ querySelectorAll_ ::
 querySelectorAll_ self selectors
   = liftDOM
       (void (self ^. jsf "querySelectorAll" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelectorAll Mozilla DocumentFragment.querySelectorAll documentation> 
+querySelectorAllUnsafe ::
+                       (MonadDOM m, ToJSString selectors, HasCallStack) =>
+                         DocumentFragment -> selectors -> m NodeList
+querySelectorAllUnsafe self selectors
+  = liftDOM
+      (((self ^. jsf "querySelectorAll" [toJSVal selectors]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment.querySelectorAll Mozilla DocumentFragment.querySelectorAll documentation> 
 querySelectorAllUnchecked ::

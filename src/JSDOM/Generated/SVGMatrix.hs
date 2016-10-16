@@ -1,17 +1,24 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGMatrix
-       (multiply, multiply_, multiplyUnchecked, inverse, inverse_,
-        inverseUnchecked, translate, translate_, translateUnchecked, scale,
-        scale_, scaleUnchecked, scaleNonUniform, scaleNonUniform_,
-        scaleNonUniformUnchecked, rotate, rotate_, rotateUnchecked,
-        rotateFromVector, rotateFromVector_, rotateFromVectorUnchecked,
-        flipX, flipX_, flipXUnchecked, flipY, flipY_, flipYUnchecked,
-        skewX, skewX_, skewXUnchecked, skewY, skewY_, skewYUnchecked, setA,
-        getA, setB, getB, setC, getC, setD, getD, setE, getE, setF, getF,
-        SVGMatrix(..), gTypeSVGMatrix)
+       (multiply, multiply_, multiplyUnsafe, multiplyUnchecked, inverse,
+        inverse_, inverseUnsafe, inverseUnchecked, translate, translate_,
+        translateUnsafe, translateUnchecked, scale, scale_, scaleUnsafe,
+        scaleUnchecked, scaleNonUniform, scaleNonUniform_,
+        scaleNonUniformUnsafe, scaleNonUniformUnchecked, rotate, rotate_,
+        rotateUnsafe, rotateUnchecked, rotateFromVector, rotateFromVector_,
+        rotateFromVectorUnsafe, rotateFromVectorUnchecked, flipX, flipX_,
+        flipXUnsafe, flipXUnchecked, flipY, flipY_, flipYUnsafe,
+        flipYUnchecked, skewX, skewX_, skewXUnsafe, skewXUnchecked, skewY,
+        skewY_, skewYUnsafe, skewYUnchecked, setA, getA, setB, getB, setC,
+        getC, setD, getD, setE, getE, setF, getF, SVGMatrix(..),
+        gTypeSVGMatrix)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -22,6 +29,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.multiply Mozilla SVGMatrix.multiply documentation> 
 multiply ::
@@ -34,6 +51,15 @@ multiply self secondMatrix
 multiply_ :: (MonadDOM m) => SVGMatrix -> Maybe SVGMatrix -> m ()
 multiply_ self secondMatrix
   = liftDOM (void (self ^. jsf "multiply" [toJSVal secondMatrix]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.multiply Mozilla SVGMatrix.multiply documentation> 
+multiplyUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 SVGMatrix -> Maybe SVGMatrix -> m SVGMatrix
+multiplyUnsafe self secondMatrix
+  = liftDOM
+      (((self ^. jsf "multiply" [toJSVal secondMatrix]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.multiply Mozilla SVGMatrix.multiply documentation> 
 multiplyUnchecked ::
@@ -50,6 +76,14 @@ inverse self = liftDOM ((self ^. jsf "inverse" ()) >>= fromJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.inverse Mozilla SVGMatrix.inverse documentation> 
 inverse_ :: (MonadDOM m) => SVGMatrix -> m ()
 inverse_ self = liftDOM (void (self ^. jsf "inverse" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.inverse Mozilla SVGMatrix.inverse documentation> 
+inverseUnsafe ::
+              (MonadDOM m, HasCallStack) => SVGMatrix -> m SVGMatrix
+inverseUnsafe self
+  = liftDOM
+      (((self ^. jsf "inverse" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.inverse Mozilla SVGMatrix.inverse documentation> 
 inverseUnchecked :: (MonadDOM m) => SVGMatrix -> m SVGMatrix
@@ -69,6 +103,15 @@ translate_ self x y
   = liftDOM (void (self ^. jsf "translate" [toJSVal x, toJSVal y]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.translate Mozilla SVGMatrix.translate documentation> 
+translateUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  SVGMatrix -> Float -> Float -> m SVGMatrix
+translateUnsafe self x y
+  = liftDOM
+      (((self ^. jsf "translate" [toJSVal x, toJSVal y]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.translate Mozilla SVGMatrix.translate documentation> 
 translateUnchecked ::
                    (MonadDOM m) => SVGMatrix -> Float -> Float -> m SVGMatrix
 translateUnchecked self x y
@@ -86,6 +129,14 @@ scale self scaleFactor
 scale_ :: (MonadDOM m) => SVGMatrix -> Float -> m ()
 scale_ self scaleFactor
   = liftDOM (void (self ^. jsf "scale" [toJSVal scaleFactor]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.scale Mozilla SVGMatrix.scale documentation> 
+scaleUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGMatrix -> Float -> m SVGMatrix
+scaleUnsafe self scaleFactor
+  = liftDOM
+      (((self ^. jsf "scale" [toJSVal scaleFactor]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.scale Mozilla SVGMatrix.scale documentation> 
 scaleUnchecked :: (MonadDOM m) => SVGMatrix -> Float -> m SVGMatrix
@@ -113,6 +164,17 @@ scaleNonUniform_ self scaleFactorX scaleFactorY
             [toJSVal scaleFactorX, toJSVal scaleFactorY]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.scaleNonUniform Mozilla SVGMatrix.scaleNonUniform documentation> 
+scaleNonUniformUnsafe ::
+                      (MonadDOM m, HasCallStack) =>
+                        SVGMatrix -> Float -> Float -> m SVGMatrix
+scaleNonUniformUnsafe self scaleFactorX scaleFactorY
+  = liftDOM
+      (((self ^. jsf "scaleNonUniform"
+           [toJSVal scaleFactorX, toJSVal scaleFactorY])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.scaleNonUniform Mozilla SVGMatrix.scaleNonUniform documentation> 
 scaleNonUniformUnchecked ::
                          (MonadDOM m) => SVGMatrix -> Float -> Float -> m SVGMatrix
 scaleNonUniformUnchecked self scaleFactorX scaleFactorY
@@ -130,6 +192,14 @@ rotate self angle
 rotate_ :: (MonadDOM m) => SVGMatrix -> Float -> m ()
 rotate_ self angle
   = liftDOM (void (self ^. jsf "rotate" [toJSVal angle]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.rotate Mozilla SVGMatrix.rotate documentation> 
+rotateUnsafe ::
+             (MonadDOM m, HasCallStack) => SVGMatrix -> Float -> m SVGMatrix
+rotateUnsafe self angle
+  = liftDOM
+      (((self ^. jsf "rotate" [toJSVal angle]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.rotate Mozilla SVGMatrix.rotate documentation> 
 rotateUnchecked ::
@@ -154,6 +224,16 @@ rotateFromVector_ self x y
       (void (self ^. jsf "rotateFromVector" [toJSVal x, toJSVal y]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.rotateFromVector Mozilla SVGMatrix.rotateFromVector documentation> 
+rotateFromVectorUnsafe ::
+                       (MonadDOM m, HasCallStack) =>
+                         SVGMatrix -> Float -> Float -> m SVGMatrix
+rotateFromVectorUnsafe self x y
+  = liftDOM
+      (((self ^. jsf "rotateFromVector" [toJSVal x, toJSVal y]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.rotateFromVector Mozilla SVGMatrix.rotateFromVector documentation> 
 rotateFromVectorUnchecked ::
                           (MonadDOM m) => SVGMatrix -> Float -> Float -> m SVGMatrix
 rotateFromVectorUnchecked self x y
@@ -170,6 +250,14 @@ flipX_ :: (MonadDOM m) => SVGMatrix -> m ()
 flipX_ self = liftDOM (void (self ^. jsf "flipX" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipX Mozilla SVGMatrix.flipX documentation> 
+flipXUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGMatrix -> m SVGMatrix
+flipXUnsafe self
+  = liftDOM
+      (((self ^. jsf "flipX" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipX Mozilla SVGMatrix.flipX documentation> 
 flipXUnchecked :: (MonadDOM m) => SVGMatrix -> m SVGMatrix
 flipXUnchecked self
   = liftDOM ((self ^. jsf "flipX" ()) >>= fromJSValUnchecked)
@@ -181,6 +269,14 @@ flipY self = liftDOM ((self ^. jsf "flipY" ()) >>= fromJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipY Mozilla SVGMatrix.flipY documentation> 
 flipY_ :: (MonadDOM m) => SVGMatrix -> m ()
 flipY_ self = liftDOM (void (self ^. jsf "flipY" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipY Mozilla SVGMatrix.flipY documentation> 
+flipYUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGMatrix -> m SVGMatrix
+flipYUnsafe self
+  = liftDOM
+      (((self ^. jsf "flipY" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.flipY Mozilla SVGMatrix.flipY documentation> 
 flipYUnchecked :: (MonadDOM m) => SVGMatrix -> m SVGMatrix
@@ -198,6 +294,14 @@ skewX_ self angle
   = liftDOM (void (self ^. jsf "skewX" [toJSVal angle]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.skewX Mozilla SVGMatrix.skewX documentation> 
+skewXUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGMatrix -> Float -> m SVGMatrix
+skewXUnsafe self angle
+  = liftDOM
+      (((self ^. jsf "skewX" [toJSVal angle]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.skewX Mozilla SVGMatrix.skewX documentation> 
 skewXUnchecked :: (MonadDOM m) => SVGMatrix -> Float -> m SVGMatrix
 skewXUnchecked self angle
   = liftDOM
@@ -212,6 +316,14 @@ skewY self angle
 skewY_ :: (MonadDOM m) => SVGMatrix -> Float -> m ()
 skewY_ self angle
   = liftDOM (void (self ^. jsf "skewY" [toJSVal angle]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.skewY Mozilla SVGMatrix.skewY documentation> 
+skewYUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGMatrix -> Float -> m SVGMatrix
+skewYUnsafe self angle
+  = liftDOM
+      (((self ^. jsf "skewY" [toJSVal angle]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix.skewY Mozilla SVGMatrix.skewY documentation> 
 skewYUnchecked :: (MonadDOM m) => SVGMatrix -> Float -> m SVGMatrix

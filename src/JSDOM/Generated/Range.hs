@@ -1,28 +1,35 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Range
        (newRange, setStart, setEnd, setStartBefore, setStartAfter,
         setEndBefore, setEndAfter, collapse, selectNode,
         selectNodeContents, compareBoundaryPoints, compareBoundaryPoints_,
         deleteContents, extractContents, extractContents_,
-        extractContentsUnchecked, cloneContents, cloneContents_,
-        cloneContentsUnchecked, insertNode, surroundContents, cloneRange,
-        cloneRange_, cloneRangeUnchecked, toString, toString_, detach,
-        getClientRects, getClientRects_, getClientRectsUnchecked,
-        getBoundingClientRect, getBoundingClientRect_,
+        extractContentsUnsafe, extractContentsUnchecked, cloneContents,
+        cloneContents_, cloneContentsUnsafe, cloneContentsUnchecked,
+        insertNode, surroundContents, cloneRange, cloneRange_,
+        cloneRangeUnsafe, cloneRangeUnchecked, toString, toString_, detach,
+        getClientRects, getClientRects_, getClientRectsUnsafe,
+        getClientRectsUnchecked, getBoundingClientRect,
+        getBoundingClientRect_, getBoundingClientRectUnsafe,
         getBoundingClientRectUnchecked, createContextualFragment,
-        createContextualFragment_, createContextualFragmentUnchecked,
-        intersectsNode, intersectsNode_, compareNode, compareNode_,
-        comparePoint, comparePoint_, isPointInRange, isPointInRange_,
-        expand, pattern START_TO_START, pattern START_TO_END,
-        pattern END_TO_END, pattern END_TO_START, pattern NODE_BEFORE,
-        pattern NODE_AFTER, pattern NODE_BEFORE_AND_AFTER,
-        pattern NODE_INSIDE, getStartContainer, getStartContainerUnchecked,
-        getStartOffset, getEndContainer, getEndContainerUnchecked,
-        getEndOffset, getCollapsed, getCommonAncestorContainer,
+        createContextualFragment_, createContextualFragmentUnsafe,
+        createContextualFragmentUnchecked, intersectsNode, intersectsNode_,
+        compareNode, compareNode_, comparePoint, comparePoint_,
+        isPointInRange, isPointInRange_, expand, pattern START_TO_START,
+        pattern START_TO_END, pattern END_TO_END, pattern END_TO_START,
+        pattern NODE_BEFORE, pattern NODE_AFTER,
+        pattern NODE_BEFORE_AND_AFTER, pattern NODE_INSIDE,
+        getStartContainer, getStartContainerUnchecked, getStartOffset,
+        getEndContainer, getEndContainerUnchecked, getEndOffset,
+        getCollapsed, getCommonAncestorContainer,
         getCommonAncestorContainerUnchecked, Range(..), gTypeRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -33,6 +40,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range Mozilla Range documentation> 
 newRange :: (MonadDOM m) => m Range
@@ -132,6 +149,14 @@ extractContents_ self
   = liftDOM (void (self ^. jsf "extractContents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
+extractContentsUnsafe ::
+                      (MonadDOM m, HasCallStack) => Range -> m DocumentFragment
+extractContentsUnsafe self
+  = liftDOM
+      (((self ^. jsf "extractContents" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
 extractContentsUnchecked ::
                          (MonadDOM m) => Range -> m DocumentFragment
 extractContentsUnchecked self
@@ -148,6 +173,14 @@ cloneContents self
 cloneContents_ :: (MonadDOM m) => Range -> m ()
 cloneContents_ self
   = liftDOM (void (self ^. jsf "cloneContents" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
+cloneContentsUnsafe ::
+                    (MonadDOM m, HasCallStack) => Range -> m DocumentFragment
+cloneContentsUnsafe self
+  = liftDOM
+      (((self ^. jsf "cloneContents" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
 cloneContentsUnchecked ::
@@ -178,6 +211,13 @@ cloneRange_ :: (MonadDOM m) => Range -> m ()
 cloneRange_ self = liftDOM (void (self ^. jsf "cloneRange" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
+cloneRangeUnsafe :: (MonadDOM m, HasCallStack) => Range -> m Range
+cloneRangeUnsafe self
+  = liftDOM
+      (((self ^. jsf "cloneRange" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
 cloneRangeUnchecked :: (MonadDOM m) => Range -> m Range
 cloneRangeUnchecked self
   = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSValUnchecked)
@@ -206,6 +246,14 @@ getClientRects_ self
   = liftDOM (void (self ^. jsf "getClientRects" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
+getClientRectsUnsafe ::
+                     (MonadDOM m, HasCallStack) => Range -> m ClientRectList
+getClientRectsUnsafe self
+  = liftDOM
+      (((self ^. jsf "getClientRects" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
 getClientRectsUnchecked ::
                         (MonadDOM m) => Range -> m ClientRectList
 getClientRectsUnchecked self
@@ -222,6 +270,14 @@ getBoundingClientRect self
 getBoundingClientRect_ :: (MonadDOM m) => Range -> m ()
 getBoundingClientRect_ self
   = liftDOM (void (self ^. jsf "getBoundingClientRect" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
+getBoundingClientRectUnsafe ::
+                            (MonadDOM m, HasCallStack) => Range -> m ClientRect
+getBoundingClientRectUnsafe self
+  = liftDOM
+      (((self ^. jsf "getBoundingClientRect" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
 getBoundingClientRectUnchecked ::
@@ -245,6 +301,16 @@ createContextualFragment_ ::
 createContextualFragment_ self html
   = liftDOM
       (void (self ^. jsf "createContextualFragment" [toJSVal html]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
+createContextualFragmentUnsafe ::
+                               (MonadDOM m, ToJSString html, HasCallStack) =>
+                                 Range -> html -> m DocumentFragment
+createContextualFragmentUnsafe self html
+  = liftDOM
+      (((self ^. jsf "createContextualFragment" [toJSVal html]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
 createContextualFragmentUnchecked ::

@@ -1,15 +1,20 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCPeerConnection
        (newRTCPeerConnection, createOffer, createAnswer,
         setLocalDescription, setRemoteDescription, updateIce,
         addIceCandidate, getLocalStreams, getLocalStreams_,
         getRemoteStreams, getRemoteStreams_, getStreamById, getStreamById_,
-        getStreamByIdUnchecked, getConfiguration, getConfiguration_,
+        getStreamByIdUnsafe, getStreamByIdUnchecked, getConfiguration,
+        getConfiguration_, getConfigurationUnsafe,
         getConfigurationUnchecked, addStream, removeStream, getStats,
-        createDataChannel, createDataChannel_, createDataChannelUnchecked,
-        createDTMFSender, createDTMFSender_, createDTMFSenderUnchecked,
-        close, getLocalDescription, getLocalDescriptionUnchecked,
+        createDataChannel, createDataChannel_, createDataChannelUnsafe,
+        createDataChannelUnchecked, createDTMFSender, createDTMFSender_,
+        createDTMFSenderUnsafe, createDTMFSenderUnchecked, close,
+        getLocalDescription, getLocalDescriptionUnchecked,
         getRemoteDescription, getRemoteDescriptionUnchecked,
         getSignalingState, getIceGatheringState, getIceConnectionState,
         negotiationNeeded, iceCandidate, signalingStateChange,
@@ -17,6 +22,7 @@ module JSDOM.Generated.RTCPeerConnection
         dataChannel, RTCPeerConnection(..), gTypeRTCPeerConnection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -27,6 +33,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection Mozilla webkitRTCPeerConnection documentation> 
 newRTCPeerConnection ::
@@ -149,6 +165,15 @@ getStreamById_ self streamId
   = liftDOM (void (self ^. jsf "getStreamById" [toJSVal streamId]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getStreamById Mozilla webkitRTCPeerConnection.getStreamById documentation> 
+getStreamByIdUnsafe ::
+                    (MonadDOM m, ToJSString streamId, HasCallStack) =>
+                      RTCPeerConnection -> streamId -> m MediaStream
+getStreamByIdUnsafe self streamId
+  = liftDOM
+      (((self ^. jsf "getStreamById" [toJSVal streamId]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getStreamById Mozilla webkitRTCPeerConnection.getStreamById documentation> 
 getStreamByIdUnchecked ::
                        (MonadDOM m, ToJSString streamId) =>
                          RTCPeerConnection -> streamId -> m MediaStream
@@ -167,6 +192,15 @@ getConfiguration self
 getConfiguration_ :: (MonadDOM m) => RTCPeerConnection -> m ()
 getConfiguration_ self
   = liftDOM (void (self ^. jsf "getConfiguration" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getConfiguration Mozilla webkitRTCPeerConnection.getConfiguration documentation> 
+getConfigurationUnsafe ::
+                       (MonadDOM m, HasCallStack) =>
+                         RTCPeerConnection -> m RTCConfiguration
+getConfigurationUnsafe self
+  = liftDOM
+      (((self ^. jsf "getConfiguration" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.getConfiguration Mozilla webkitRTCPeerConnection.getConfiguration documentation> 
 getConfigurationUnchecked ::
@@ -220,6 +254,19 @@ createDataChannel_ self label options
          (self ^. jsf "createDataChannel" [toJSVal label, toJSVal options]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDataChannel Mozilla webkitRTCPeerConnection.createDataChannel documentation> 
+createDataChannelUnsafe ::
+                        (MonadDOM m, ToJSString label, IsDictionary options,
+                         HasCallStack) =>
+                          RTCPeerConnection ->
+                            Maybe label -> Maybe options -> m RTCDataChannel
+createDataChannelUnsafe self label options
+  = liftDOM
+      (((self ^. jsf "createDataChannel"
+           [toJSVal label, toJSVal options])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDataChannel Mozilla webkitRTCPeerConnection.createDataChannel documentation> 
 createDataChannelUnchecked ::
                            (MonadDOM m, ToJSString label, IsDictionary options) =>
                              RTCPeerConnection ->
@@ -243,6 +290,15 @@ createDTMFSender_ ::
                     RTCPeerConnection -> Maybe track -> m ()
 createDTMFSender_ self track
   = liftDOM (void (self ^. jsf "createDTMFSender" [toJSVal track]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDTMFSender Mozilla webkitRTCPeerConnection.createDTMFSender documentation> 
+createDTMFSenderUnsafe ::
+                       (MonadDOM m, IsMediaStreamTrack track, HasCallStack) =>
+                         RTCPeerConnection -> Maybe track -> m RTCDTMFSender
+createDTMFSenderUnsafe self track
+  = liftDOM
+      (((self ^. jsf "createDTMFSender" [toJSVal track]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDTMFSender Mozilla webkitRTCPeerConnection.createDTMFSender documentation> 
 createDTMFSenderUnchecked ::

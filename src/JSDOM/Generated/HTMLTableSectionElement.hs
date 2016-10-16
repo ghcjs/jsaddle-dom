@@ -1,12 +1,16 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableSectionElement
-       (insertRow, insertRow_, insertRowUnchecked, deleteRow, setAlign,
-        getAlign, setCh, getCh, setChOff, getChOff, setVAlign, getVAlign,
-        getRows, getRowsUnchecked, HTMLTableSectionElement(..),
-        gTypeHTMLTableSectionElement)
+       (insertRow, insertRow_, insertRowUnsafe, insertRowUnchecked,
+        deleteRow, setAlign, getAlign, setCh, getCh, setChOff, getChOff,
+        setVAlign, getVAlign, getRows, getRowsUnchecked,
+        HTMLTableSectionElement(..), gTypeHTMLTableSectionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -17,6 +21,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
 insertRow ::
@@ -30,6 +44,15 @@ insertRow_ ::
            (MonadDOM m) => HTMLTableSectionElement -> Int -> m ()
 insertRow_ self index
   = liftDOM (void (self ^. jsf "insertRow" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
+insertRowUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  HTMLTableSectionElement -> Int -> m HTMLElement
+insertRowUnsafe self index
+  = liftDOM
+      (((self ^. jsf "insertRow" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
 insertRowUnchecked ::

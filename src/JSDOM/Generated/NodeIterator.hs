@@ -1,14 +1,19 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeIterator
-       (nextNode, nextNode_, nextNodeUnchecked, previousNode,
-        previousNode_, previousNodeUnchecked, detach, getRoot,
-        getRootUnchecked, getWhatToShow, getFilter, getFilterUnchecked,
+       (nextNode, nextNode_, nextNodeUnsafe, nextNodeUnchecked,
+        previousNode, previousNode_, previousNodeUnsafe,
+        previousNodeUnchecked, detach, getRoot, getRootUnchecked,
+        getWhatToShow, getFilter, getFilterUnchecked,
         getExpandEntityReferences, getReferenceNode,
         getReferenceNodeUnchecked, getPointerBeforeReferenceNode,
         NodeIterator(..), gTypeNodeIterator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -19,6 +24,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.nextNode Mozilla NodeIterator.nextNode documentation> 
 nextNode :: (MonadDOM m) => NodeIterator -> m (Maybe Node)
@@ -27,6 +42,14 @@ nextNode self = liftDOM ((self ^. jsf "nextNode" ()) >>= fromJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.nextNode Mozilla NodeIterator.nextNode documentation> 
 nextNode_ :: (MonadDOM m) => NodeIterator -> m ()
 nextNode_ self = liftDOM (void (self ^. jsf "nextNode" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.nextNode Mozilla NodeIterator.nextNode documentation> 
+nextNodeUnsafe ::
+               (MonadDOM m, HasCallStack) => NodeIterator -> m Node
+nextNodeUnsafe self
+  = liftDOM
+      (((self ^. jsf "nextNode" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.nextNode Mozilla NodeIterator.nextNode documentation> 
 nextNodeUnchecked :: (MonadDOM m) => NodeIterator -> m Node
@@ -41,6 +64,14 @@ previousNode self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.previousNode Mozilla NodeIterator.previousNode documentation> 
 previousNode_ :: (MonadDOM m) => NodeIterator -> m ()
 previousNode_ self = liftDOM (void (self ^. jsf "previousNode" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.previousNode Mozilla NodeIterator.previousNode documentation> 
+previousNodeUnsafe ::
+                   (MonadDOM m, HasCallStack) => NodeIterator -> m Node
+previousNodeUnsafe self
+  = liftDOM
+      (((self ^. jsf "previousNode" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.previousNode Mozilla NodeIterator.previousNode documentation> 
 previousNodeUnchecked :: (MonadDOM m) => NodeIterator -> m Node

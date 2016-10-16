@@ -1,10 +1,14 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSPrimitiveValue
        (setFloatValue, getFloatValue, getFloatValue_, setStringValue,
         getStringValue, getStringValue_, getCounterValue, getCounterValue_,
-        getCounterValueUnchecked, getRectValue, getRectValue_,
-        getRectValueUnchecked, getRGBColorValue, getRGBColorValue_,
+        getCounterValueUnsafe, getCounterValueUnchecked, getRectValue,
+        getRectValue_, getRectValueUnsafe, getRectValueUnchecked,
+        getRGBColorValue, getRGBColorValue_, getRGBColorValueUnsafe,
         getRGBColorValueUnchecked, pattern CSS_UNKNOWN, pattern CSS_NUMBER,
         pattern CSS_PERCENTAGE, pattern CSS_EMS, pattern CSS_EXS,
         pattern CSS_PX, pattern CSS_CM, pattern CSS_MM, pattern CSS_IN,
@@ -17,6 +21,7 @@ module JSDOM.Generated.CSSPrimitiveValue
         getPrimitiveType, CSSPrimitiveValue(..), gTypeCSSPrimitiveValue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -27,6 +32,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.setFloatValue Mozilla CSSPrimitiveValue.setFloatValue documentation> 
 setFloatValue ::
@@ -84,6 +99,14 @@ getCounterValue_ self
   = liftDOM (void (self ^. jsf "getCounterValue" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getCounterValue Mozilla CSSPrimitiveValue.getCounterValue documentation> 
+getCounterValueUnsafe ::
+                      (MonadDOM m, HasCallStack) => CSSPrimitiveValue -> m Counter
+getCounterValueUnsafe self
+  = liftDOM
+      (((self ^. jsf "getCounterValue" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getCounterValue Mozilla CSSPrimitiveValue.getCounterValue documentation> 
 getCounterValueUnchecked ::
                          (MonadDOM m) => CSSPrimitiveValue -> m Counter
 getCounterValueUnchecked self
@@ -98,6 +121,14 @@ getRectValue self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRectValue Mozilla CSSPrimitiveValue.getRectValue documentation> 
 getRectValue_ :: (MonadDOM m) => CSSPrimitiveValue -> m ()
 getRectValue_ self = liftDOM (void (self ^. jsf "getRectValue" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRectValue Mozilla CSSPrimitiveValue.getRectValue documentation> 
+getRectValueUnsafe ::
+                   (MonadDOM m, HasCallStack) => CSSPrimitiveValue -> m Rect
+getRectValueUnsafe self
+  = liftDOM
+      (((self ^. jsf "getRectValue" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRectValue Mozilla CSSPrimitiveValue.getRectValue documentation> 
 getRectValueUnchecked ::
@@ -115,6 +146,14 @@ getRGBColorValue self
 getRGBColorValue_ :: (MonadDOM m) => CSSPrimitiveValue -> m ()
 getRGBColorValue_ self
   = liftDOM (void (self ^. jsf "getRGBColorValue" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRGBColorValue Mozilla CSSPrimitiveValue.getRGBColorValue documentation> 
+getRGBColorValueUnsafe ::
+                       (MonadDOM m, HasCallStack) => CSSPrimitiveValue -> m RGBColor
+getRGBColorValueUnsafe self
+  = liftDOM
+      (((self ^. jsf "getRGBColorValue" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPrimitiveValue.getRGBColorValue Mozilla CSSPrimitiveValue.getRGBColorValue documentation> 
 getRGBColorValueUnchecked ::

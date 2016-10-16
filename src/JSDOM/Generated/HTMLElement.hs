@@ -1,20 +1,25 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLElement
        (insertAdjacentElement, insertAdjacentElement_,
-        insertAdjacentElementUnchecked, insertAdjacentHTML,
-        insertAdjacentText, click, setTitle, getTitle, setLang, getLang,
-        setTranslate, getTranslate, setDir, getDir, setTabIndex,
-        getTabIndex, setDraggable, getDraggable, setWebkitdropzone,
-        getWebkitdropzone, setHidden, getHidden, setAccessKey,
-        getAccessKey, setInnerText, getInnerText, getInnerTextUnchecked,
-        setOuterText, getOuterText, getOuterTextUnchecked, getChildren,
-        getChildrenUnchecked, setContentEditable, getContentEditable,
+        insertAdjacentElementUnsafe, insertAdjacentElementUnchecked,
+        insertAdjacentHTML, insertAdjacentText, click, setTitle, getTitle,
+        setLang, getLang, setTranslate, getTranslate, setDir, getDir,
+        setTabIndex, getTabIndex, setDraggable, getDraggable,
+        setWebkitdropzone, getWebkitdropzone, setHidden, getHidden,
+        setAccessKey, getAccessKey, setInnerText, getInnerText,
+        getInnerTextUnchecked, setOuterText, getOuterText,
+        getOuterTextUnchecked, getChildren, getChildrenUnchecked,
+        setContentEditable, getContentEditable,
         getContentEditableUnchecked, getIsContentEditable, setSpellcheck,
         getSpellcheck, HTMLElement(..), gTypeHTMLElement, IsHTMLElement,
         toHTMLElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -25,6 +30,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
 insertAdjacentElement ::
@@ -47,6 +62,18 @@ insertAdjacentElement_ self where' element
       (void
          ((toHTMLElement self) ^. jsf "insertAdjacentElement"
             [toJSVal where', toJSVal element]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
+insertAdjacentElementUnsafe ::
+                            (MonadDOM m, IsHTMLElement self, ToJSString where',
+                             IsElement element, HasCallStack) =>
+                              self -> where' -> Maybe element -> m Element
+insertAdjacentElementUnsafe self where' element
+  = liftDOM
+      ((((toHTMLElement self) ^. jsf "insertAdjacentElement"
+           [toJSVal where', toJSVal element])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
 insertAdjacentElementUnchecked ::

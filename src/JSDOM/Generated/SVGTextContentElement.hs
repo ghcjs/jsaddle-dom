@@ -1,14 +1,18 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTextContentElement
        (getNumberOfChars, getNumberOfChars_, getComputedTextLength,
         getComputedTextLength_, getSubStringLength, getSubStringLength_,
         getStartPositionOfChar, getStartPositionOfChar_,
-        getStartPositionOfCharUnchecked, getEndPositionOfChar,
-        getEndPositionOfChar_, getEndPositionOfCharUnchecked,
-        getExtentOfChar, getExtentOfChar_, getExtentOfCharUnchecked,
-        getRotationOfChar, getRotationOfChar_, getCharNumAtPosition,
-        getCharNumAtPosition_, selectSubString,
+        getStartPositionOfCharUnsafe, getStartPositionOfCharUnchecked,
+        getEndPositionOfChar, getEndPositionOfChar_,
+        getEndPositionOfCharUnsafe, getEndPositionOfCharUnchecked,
+        getExtentOfChar, getExtentOfChar_, getExtentOfCharUnsafe,
+        getExtentOfCharUnchecked, getRotationOfChar, getRotationOfChar_,
+        getCharNumAtPosition, getCharNumAtPosition_, selectSubString,
         pattern LENGTHADJUST_UNKNOWN, pattern LENGTHADJUST_SPACING,
         pattern LENGTHADJUST_SPACINGANDGLYPHS, getTextLength,
         getTextLengthUnchecked, getLengthAdjust, getLengthAdjustUnchecked,
@@ -16,6 +20,7 @@ module JSDOM.Generated.SVGTextContentElement
         IsSVGTextContentElement, toSVGTextContentElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -26,6 +31,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getNumberOfChars Mozilla SVGTextContentElement.getNumberOfChars documentation> 
 getNumberOfChars ::
@@ -102,6 +117,17 @@ getStartPositionOfChar_ self offset
             [toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getStartPositionOfChar Mozilla SVGTextContentElement.getStartPositionOfChar documentation> 
+getStartPositionOfCharUnsafe ::
+                             (MonadDOM m, IsSVGTextContentElement self, HasCallStack) =>
+                               self -> Word -> m SVGPoint
+getStartPositionOfCharUnsafe self offset
+  = liftDOM
+      ((((toSVGTextContentElement self) ^. jsf "getStartPositionOfChar"
+           [toJSVal offset])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getStartPositionOfChar Mozilla SVGTextContentElement.getStartPositionOfChar documentation> 
 getStartPositionOfCharUnchecked ::
                                 (MonadDOM m, IsSVGTextContentElement self) =>
                                   self -> Word -> m SVGPoint
@@ -131,6 +157,17 @@ getEndPositionOfChar_ self offset
             [toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getEndPositionOfChar Mozilla SVGTextContentElement.getEndPositionOfChar documentation> 
+getEndPositionOfCharUnsafe ::
+                           (MonadDOM m, IsSVGTextContentElement self, HasCallStack) =>
+                             self -> Word -> m SVGPoint
+getEndPositionOfCharUnsafe self offset
+  = liftDOM
+      ((((toSVGTextContentElement self) ^. jsf "getEndPositionOfChar"
+           [toJSVal offset])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getEndPositionOfChar Mozilla SVGTextContentElement.getEndPositionOfChar documentation> 
 getEndPositionOfCharUnchecked ::
                               (MonadDOM m, IsSVGTextContentElement self) =>
                                 self -> Word -> m SVGPoint
@@ -158,6 +195,17 @@ getExtentOfChar_ self offset
       (void
          ((toSVGTextContentElement self) ^. jsf "getExtentOfChar"
             [toJSVal offset]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getExtentOfChar Mozilla SVGTextContentElement.getExtentOfChar documentation> 
+getExtentOfCharUnsafe ::
+                      (MonadDOM m, IsSVGTextContentElement self, HasCallStack) =>
+                        self -> Word -> m SVGRect
+getExtentOfCharUnsafe self offset
+  = liftDOM
+      ((((toSVGTextContentElement self) ^. jsf "getExtentOfChar"
+           [toJSVal offset])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.getExtentOfChar Mozilla SVGTextContentElement.getExtentOfChar documentation> 
 getExtentOfCharUnchecked ::

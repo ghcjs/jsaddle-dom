@@ -1,14 +1,20 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPointList
-       (clear, initialize, initialize_, initializeUnchecked, getItem,
-        getItem_, getItemUnchecked, insertItemBefore, insertItemBefore_,
-        insertItemBeforeUnchecked, replaceItem, replaceItem_,
-        replaceItemUnchecked, removeItem, removeItem_, removeItemUnchecked,
-        appendItem, appendItem_, appendItemUnchecked, getNumberOfItems,
-        SVGPointList(..), gTypeSVGPointList)
+       (clear, initialize, initialize_, initializeUnsafe,
+        initializeUnchecked, getItem, getItem_, getItemUnsafe,
+        getItemUnchecked, insertItemBefore, insertItemBefore_,
+        insertItemBeforeUnsafe, insertItemBeforeUnchecked, replaceItem,
+        replaceItem_, replaceItemUnsafe, replaceItemUnchecked, removeItem,
+        removeItem_, removeItemUnsafe, removeItemUnchecked, appendItem,
+        appendItem_, appendItemUnsafe, appendItemUnchecked,
+        getNumberOfItems, SVGPointList(..), gTypeSVGPointList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -19,6 +25,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.clear Mozilla SVGPointList.clear documentation> 
 clear :: (MonadDOM m) => SVGPointList -> m ()
@@ -38,6 +54,15 @@ initialize_ self item
   = liftDOM (void (self ^. jsf "initialize" [toJSVal item]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.initialize Mozilla SVGPointList.initialize documentation> 
+initializeUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGPointList -> Maybe SVGPoint -> m SVGPoint
+initializeUnsafe self item
+  = liftDOM
+      (((self ^. jsf "initialize" [toJSVal item]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.initialize Mozilla SVGPointList.initialize documentation> 
 initializeUnchecked ::
                     (MonadDOM m) => SVGPointList -> Maybe SVGPoint -> m SVGPoint
 initializeUnchecked self item
@@ -54,6 +79,14 @@ getItem self index
 getItem_ :: (MonadDOM m) => SVGPointList -> Word -> m ()
 getItem_ self index
   = liftDOM (void (self ^. jsf "getItem" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.getItem Mozilla SVGPointList.getItem documentation> 
+getItemUnsafe ::
+              (MonadDOM m, HasCallStack) => SVGPointList -> Word -> m SVGPoint
+getItemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "getItem" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.getItem Mozilla SVGPointList.getItem documentation> 
 getItemUnchecked ::
@@ -78,6 +111,16 @@ insertItemBefore_ self item index
   = liftDOM
       (void
          (self ^. jsf "insertItemBefore" [toJSVal item, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.insertItemBefore Mozilla SVGPointList.insertItemBefore documentation> 
+insertItemBeforeUnsafe ::
+                       (MonadDOM m, HasCallStack) =>
+                         SVGPointList -> Maybe SVGPoint -> Word -> m SVGPoint
+insertItemBeforeUnsafe self item index
+  = liftDOM
+      (((self ^. jsf "insertItemBefore" [toJSVal item, toJSVal index])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.insertItemBefore Mozilla SVGPointList.insertItemBefore documentation> 
 insertItemBeforeUnchecked ::
@@ -105,6 +148,16 @@ replaceItem_ self item index
       (void (self ^. jsf "replaceItem" [toJSVal item, toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.replaceItem Mozilla SVGPointList.replaceItem documentation> 
+replaceItemUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    SVGPointList -> Maybe SVGPoint -> Word -> m SVGPoint
+replaceItemUnsafe self item index
+  = liftDOM
+      (((self ^. jsf "replaceItem" [toJSVal item, toJSVal index]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.replaceItem Mozilla SVGPointList.replaceItem documentation> 
 replaceItemUnchecked ::
                      (MonadDOM m) =>
                        SVGPointList -> Maybe SVGPoint -> Word -> m SVGPoint
@@ -126,6 +179,14 @@ removeItem_ self index
   = liftDOM (void (self ^. jsf "removeItem" [toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.removeItem Mozilla SVGPointList.removeItem documentation> 
+removeItemUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGPointList -> Word -> m SVGPoint
+removeItemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "removeItem" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.removeItem Mozilla SVGPointList.removeItem documentation> 
 removeItemUnchecked ::
                     (MonadDOM m) => SVGPointList -> Word -> m SVGPoint
 removeItemUnchecked self index
@@ -144,6 +205,15 @@ appendItem_ ::
             (MonadDOM m) => SVGPointList -> Maybe SVGPoint -> m ()
 appendItem_ self item
   = liftDOM (void (self ^. jsf "appendItem" [toJSVal item]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.appendItem Mozilla SVGPointList.appendItem documentation> 
+appendItemUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGPointList -> Maybe SVGPoint -> m SVGPoint
+appendItemUnsafe self item
+  = liftDOM
+      (((self ^. jsf "appendItem" [toJSVal item]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPointList.appendItem Mozilla SVGPointList.appendItem documentation> 
 appendItemUnchecked ::

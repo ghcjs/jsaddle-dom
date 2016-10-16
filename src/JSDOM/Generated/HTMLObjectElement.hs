@@ -1,19 +1,24 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLObjectElement
        (checkValidity, checkValidity_, setCustomValidity, getSVGDocument,
-        getSVGDocument_, getSVGDocumentUnchecked, getForm,
-        getFormUnchecked, setCode, getCode, setAlign, getAlign, setArchive,
-        getArchive, setBorder, getBorder, setCodeBase, getCodeBase,
-        setCodeType, getCodeType, setData, getData, setDeclare, getDeclare,
-        setHeight, getHeight, setHspace, getHspace, setName, getName,
-        setStandby, getStandby, setType, getType, setUseMap, getUseMap,
-        setVspace, getVspace, setWidth, getWidth, getWillValidate,
-        getValidity, getValidityUnchecked, getValidationMessage,
-        getContentDocument, getContentDocumentUnchecked,
-        HTMLObjectElement(..), gTypeHTMLObjectElement)
+        getSVGDocument_, getSVGDocumentUnsafe, getSVGDocumentUnchecked,
+        getForm, getFormUnchecked, setCode, getCode, setAlign, getAlign,
+        setArchive, getArchive, setBorder, getBorder, setCodeBase,
+        getCodeBase, setCodeType, getCodeType, setData, getData,
+        setDeclare, getDeclare, setHeight, getHeight, setHspace, getHspace,
+        setName, getName, setStandby, getStandby, setType, getType,
+        setUseMap, getUseMap, setVspace, getVspace, setWidth, getWidth,
+        getWillValidate, getValidity, getValidityUnchecked,
+        getValidationMessage, getContentDocument,
+        getContentDocumentUnchecked, HTMLObjectElement(..),
+        gTypeHTMLObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -24,6 +29,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.checkValidity Mozilla HTMLObjectElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLObjectElement -> m Bool
@@ -52,6 +67,14 @@ getSVGDocument self
 getSVGDocument_ :: (MonadDOM m) => HTMLObjectElement -> m ()
 getSVGDocument_ self
   = liftDOM (void (self ^. jsf "getSVGDocument" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
+getSVGDocumentUnsafe ::
+                     (MonadDOM m, HasCallStack) => HTMLObjectElement -> m SVGDocument
+getSVGDocumentUnsafe self
+  = liftDOM
+      (((self ^. jsf "getSVGDocument" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
 getSVGDocumentUnchecked ::

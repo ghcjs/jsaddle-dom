@@ -1,43 +1,48 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMediaElement
        (load, canPlayType, canPlayType_, play, pause, fastSeek,
         webkitGenerateKeyRequest, webkitAddKey, webkitCancelKeyRequest,
         webkitSetMediaKeys, addTextTrack, addTextTrack_,
-        addTextTrackUnchecked, getVideoPlaybackQuality,
-        getVideoPlaybackQuality_, getVideoPlaybackQualityUnchecked,
-        webkitShowPlaybackTargetPicker, pattern NETWORK_EMPTY,
-        pattern NETWORK_IDLE, pattern NETWORK_LOADING,
-        pattern NETWORK_NO_SOURCE, pattern HAVE_NOTHING,
-        pattern HAVE_METADATA, pattern HAVE_CURRENT_DATA,
-        pattern HAVE_FUTURE_DATA, pattern HAVE_ENOUGH_DATA, getError,
-        getErrorUnchecked, setSrc, getSrc, getCurrentSrc, getNetworkState,
-        setPreload, getPreload, getBuffered, getBufferedUnchecked,
-        getReadyState, getSeeking, setCurrentTime, getCurrentTime,
-        getDuration, getPaused, setDefaultPlaybackRate,
-        getDefaultPlaybackRate, setPlaybackRate, getPlaybackRate,
-        getPlayed, getPlayedUnchecked, getSeekable, getSeekableUnchecked,
-        getEnded, setAutoplay, getAutoplay, setLoop, getLoop, setControls,
-        getControls, setVolume, getVolume, setMuted, getMuted,
-        setDefaultMuted, getDefaultMuted, emptied, loadedMetadata,
-        loadedData, canPlay, canPlayThrough, playing, ended, waiting,
-        durationChange, timeUpdate, playEvent, pauseEvent, rateChange,
-        volumeChange, setWebkitPreservesPitch, getWebkitPreservesPitch,
-        getWebkitHasClosedCaptions, setWebkitClosedCaptionsVisible,
-        getWebkitClosedCaptionsVisible, getWebkitAudioDecodedByteCount,
-        getWebkitVideoDecodedByteCount, webKitKeyAdded, webKitKeyError,
-        webKitKeyMessage, webKitNeedKey, getWebkitKeys,
-        getWebkitKeysUnchecked, getAudioTracks, getAudioTracksUnchecked,
-        getTextTracks, getTextTracksUnchecked, getVideoTracks,
-        getVideoTracksUnchecked, setMediaGroup, getMediaGroup,
-        getMediaGroupUnchecked, setController, getController,
-        getControllerUnchecked, getWebkitCurrentPlaybackTargetIsWireless,
+        addTextTrackUnsafe, addTextTrackUnchecked, getVideoPlaybackQuality,
+        getVideoPlaybackQuality_, getVideoPlaybackQualityUnsafe,
+        getVideoPlaybackQualityUnchecked, webkitShowPlaybackTargetPicker,
+        pattern NETWORK_EMPTY, pattern NETWORK_IDLE,
+        pattern NETWORK_LOADING, pattern NETWORK_NO_SOURCE,
+        pattern HAVE_NOTHING, pattern HAVE_METADATA,
+        pattern HAVE_CURRENT_DATA, pattern HAVE_FUTURE_DATA,
+        pattern HAVE_ENOUGH_DATA, getError, getErrorUnchecked, setSrc,
+        getSrc, getCurrentSrc, getNetworkState, setPreload, getPreload,
+        getBuffered, getBufferedUnchecked, getReadyState, getSeeking,
+        setCurrentTime, getCurrentTime, getDuration, getPaused,
+        setDefaultPlaybackRate, getDefaultPlaybackRate, setPlaybackRate,
+        getPlaybackRate, getPlayed, getPlayedUnchecked, getSeekable,
+        getSeekableUnchecked, getEnded, setAutoplay, getAutoplay, setLoop,
+        getLoop, setControls, getControls, setVolume, getVolume, setMuted,
+        getMuted, setDefaultMuted, getDefaultMuted, emptied,
+        loadedMetadata, loadedData, canPlay, canPlayThrough, playing,
+        ended, waiting, durationChange, timeUpdate, playEvent, pauseEvent,
+        rateChange, volumeChange, setWebkitPreservesPitch,
+        getWebkitPreservesPitch, getWebkitHasClosedCaptions,
+        setWebkitClosedCaptionsVisible, getWebkitClosedCaptionsVisible,
+        getWebkitAudioDecodedByteCount, getWebkitVideoDecodedByteCount,
+        webKitKeyAdded, webKitKeyError, webKitKeyMessage, webKitNeedKey,
+        getWebkitKeys, getWebkitKeysUnchecked, getAudioTracks,
+        getAudioTracksUnchecked, getTextTracks, getTextTracksUnchecked,
+        getVideoTracks, getVideoTracksUnchecked, setMediaGroup,
+        getMediaGroup, getMediaGroupUnchecked, setController,
+        getController, getControllerUnchecked,
+        getWebkitCurrentPlaybackTargetIsWireless,
         webKitCurrentPlaybackTargetIsWirelessChanged,
         webKitPlaybackTargetAvailabilityChanged, setSrcObject,
         getSrcObject, getSrcObjectUnchecked, HTMLMediaElement(..),
         gTypeHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -48,6 +53,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.load Mozilla HTMLMediaElement.load documentation> 
 load :: (MonadDOM m, IsHTMLMediaElement self) => self -> m ()
@@ -161,6 +176,18 @@ addTextTrack_ self kind label language
             [toJSVal kind, toJSVal label, toJSVal language]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.addTextTrack Mozilla HTMLMediaElement.addTextTrack documentation> 
+addTextTrackUnsafe ::
+                   (MonadDOM m, IsHTMLMediaElement self, ToJSString kind,
+                    ToJSString label, ToJSString language, HasCallStack) =>
+                     self -> kind -> label -> language -> m TextTrack
+addTextTrackUnsafe self kind label language
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. jsf "addTextTrack"
+           [toJSVal kind, toJSVal label, toJSVal language])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.addTextTrack Mozilla HTMLMediaElement.addTextTrack documentation> 
 addTextTrackUnchecked ::
                       (MonadDOM m, IsHTMLMediaElement self, ToJSString kind,
                        ToJSString label, ToJSString language) =>
@@ -187,6 +214,16 @@ getVideoPlaybackQuality_ self
   = liftDOM
       (void
          ((toHTMLMediaElement self) ^. jsf "getVideoPlaybackQuality" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.getVideoPlaybackQuality Mozilla HTMLMediaElement.getVideoPlaybackQuality documentation> 
+getVideoPlaybackQualityUnsafe ::
+                              (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                                self -> m VideoPlaybackQuality
+getVideoPlaybackQualityUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. jsf "getVideoPlaybackQuality" ())
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.getVideoPlaybackQuality Mozilla HTMLMediaElement.getVideoPlaybackQuality documentation> 
 getVideoPlaybackQualityUnchecked ::

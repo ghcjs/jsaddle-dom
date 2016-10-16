@@ -1,7 +1,10 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSTransformValue
-       (_get, _get_, _getUnchecked, pattern CSS_TRANSLATE,
+       (_get, _get_, _getUnsafe, _getUnchecked, pattern CSS_TRANSLATE,
         pattern CSS_TRANSLATEX, pattern CSS_TRANSLATEY, pattern CSS_ROTATE,
         pattern CSS_SCALE, pattern CSS_SCALEX, pattern CSS_SCALEY,
         pattern CSS_SKEW, pattern CSS_SKEWX, pattern CSS_SKEWY,
@@ -13,6 +16,7 @@ module JSDOM.Generated.WebKitCSSTransformValue
         gTypeWebKitCSSTransformValue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -23,6 +27,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSTransformValue._get Mozilla WebKitCSSTransformValue._get documentation> 
 _get ::
@@ -35,6 +49,15 @@ _get self index
 _get_ :: (MonadDOM m) => WebKitCSSTransformValue -> Word -> m ()
 _get_ self index
   = liftDOM (void (self ^. jsf "_get" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSTransformValue._get Mozilla WebKitCSSTransformValue._get documentation> 
+_getUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             WebKitCSSTransformValue -> Word -> m CSSValue
+_getUnsafe self index
+  = liftDOM
+      (((self ^. jsf "_get" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSTransformValue._get Mozilla WebKitCSSTransformValue._get documentation> 
 _getUnchecked ::

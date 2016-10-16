@@ -1,13 +1,18 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitNamedFlow
        (getRegionsByContent, getRegionsByContent_,
-        getRegionsByContentUnchecked, getRegions, getRegions_,
-        getRegionsUnchecked, getContent, getContent_, getContentUnchecked,
+        getRegionsByContentUnsafe, getRegionsByContentUnchecked,
+        getRegions, getRegions_, getRegionsUnsafe, getRegionsUnchecked,
+        getContent, getContent_, getContentUnsafe, getContentUnchecked,
         getName, getOverset, getFirstEmptyRegionIndex, WebKitNamedFlow(..),
         gTypeWebKitNamedFlow)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -18,6 +23,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegionsByContent Mozilla WebKitNamedFlow.getRegionsByContent documentation> 
 getRegionsByContent ::
@@ -35,6 +50,16 @@ getRegionsByContent_ ::
 getRegionsByContent_ self contentNode
   = liftDOM
       (void (self ^. jsf "getRegionsByContent" [toJSVal contentNode]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegionsByContent Mozilla WebKitNamedFlow.getRegionsByContent documentation> 
+getRegionsByContentUnsafe ::
+                          (MonadDOM m, IsNode contentNode, HasCallStack) =>
+                            WebKitNamedFlow -> Maybe contentNode -> m NodeList
+getRegionsByContentUnsafe self contentNode
+  = liftDOM
+      (((self ^. jsf "getRegionsByContent" [toJSVal contentNode]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegionsByContent Mozilla WebKitNamedFlow.getRegionsByContent documentation> 
 getRegionsByContentUnchecked ::
@@ -55,6 +80,14 @@ getRegions_ :: (MonadDOM m) => WebKitNamedFlow -> m ()
 getRegions_ self = liftDOM (void (self ^. jsf "getRegions" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegions Mozilla WebKitNamedFlow.getRegions documentation> 
+getRegionsUnsafe ::
+                 (MonadDOM m, HasCallStack) => WebKitNamedFlow -> m NodeList
+getRegionsUnsafe self
+  = liftDOM
+      (((self ^. jsf "getRegions" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getRegions Mozilla WebKitNamedFlow.getRegions documentation> 
 getRegionsUnchecked ::
                     (MonadDOM m) => WebKitNamedFlow -> m NodeList
 getRegionsUnchecked self
@@ -68,6 +101,14 @@ getContent self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
 getContent_ :: (MonadDOM m) => WebKitNamedFlow -> m ()
 getContent_ self = liftDOM (void (self ^. jsf "getContent" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
+getContentUnsafe ::
+                 (MonadDOM m, HasCallStack) => WebKitNamedFlow -> m NodeList
+getContentUnsafe self
+  = liftDOM
+      (((self ^. jsf "getContent" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlow.getContent Mozilla WebKitNamedFlow.getContent documentation> 
 getContentUnchecked ::

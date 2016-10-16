@@ -1,21 +1,29 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBObjectStore
-       (put, put_, putUnchecked, add, add_, addUnchecked, deleteRange,
-        deleteRange_, deleteRangeUnchecked, delete, delete_,
-        deleteUnchecked, getRange, getRange_, getRangeUnchecked, get, get_,
-        getUnchecked, clear, clear_, clearUnchecked, openCursorRange,
-        openCursorRange_, openCursorRangeUnchecked, openCursor,
-        openCursor_, openCursorUnchecked, createIndex', createIndex'_,
+       (put, put_, putUnsafe, putUnchecked, add, add_, addUnsafe,
+        addUnchecked, deleteRange, deleteRange_, deleteRangeUnsafe,
+        deleteRangeUnchecked, delete, delete_, deleteUnsafe,
+        deleteUnchecked, getRange, getRange_, getRangeUnsafe,
+        getRangeUnchecked, get, get_, getUnsafe, getUnchecked, clear,
+        clear_, clearUnsafe, clearUnchecked, openCursorRange,
+        openCursorRange_, openCursorRangeUnsafe, openCursorRangeUnchecked,
+        openCursor, openCursor_, openCursorUnsafe, openCursorUnchecked,
+        createIndex', createIndex'_, createIndex'Unsafe,
         createIndex'Unchecked, createIndex, createIndex_,
-        createIndexUnchecked, index, index_, indexUnchecked, deleteIndex,
-        countRange, countRange_, countRangeUnchecked, count, count_,
+        createIndexUnsafe, createIndexUnchecked, index, index_,
+        indexUnsafe, indexUnchecked, deleteIndex, countRange, countRange_,
+        countRangeUnsafe, countRangeUnchecked, count, count_, countUnsafe,
         countUnchecked, getName, getNameUnchecked, getKeyPath,
         getKeyPathUnchecked, getIndexNames, getIndexNamesUnchecked,
         getTransaction, getTransactionUnchecked, getAutoIncrement,
         IDBObjectStore(..), gTypeIDBObjectStore)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -26,6 +34,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.put Mozilla IDBObjectStore.put documentation> 
 put ::
@@ -39,6 +57,15 @@ put self value key
 put_ :: (MonadDOM m) => IDBObjectStore -> JSVal -> JSVal -> m ()
 put_ self value key
   = liftDOM (void (self ^. jsf "put" [toJSVal value, toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.put Mozilla IDBObjectStore.put documentation> 
+putUnsafe ::
+          (MonadDOM m, HasCallStack) =>
+            IDBObjectStore -> JSVal -> JSVal -> m IDBRequest
+putUnsafe self value key
+  = liftDOM
+      (((self ^. jsf "put" [toJSVal value, toJSVal key]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.put Mozilla IDBObjectStore.put documentation> 
 putUnchecked ::
@@ -62,6 +89,15 @@ add_ self value key
   = liftDOM (void (self ^. jsf "add" [toJSVal value, toJSVal key]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.add Mozilla IDBObjectStore.add documentation> 
+addUnsafe ::
+          (MonadDOM m, HasCallStack) =>
+            IDBObjectStore -> JSVal -> JSVal -> m IDBRequest
+addUnsafe self value key
+  = liftDOM
+      (((self ^. jsf "add" [toJSVal value, toJSVal key]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.add Mozilla IDBObjectStore.add documentation> 
 addUnchecked ::
              (MonadDOM m) => IDBObjectStore -> JSVal -> JSVal -> m IDBRequest
 addUnchecked self value key
@@ -83,6 +119,15 @@ deleteRange_ self keyRange
   = liftDOM (void (self ^. jsf "delete" [toJSVal keyRange]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.delete Mozilla IDBObjectStore.delete documentation> 
+deleteRangeUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    IDBObjectStore -> Maybe IDBKeyRange -> m IDBRequest
+deleteRangeUnsafe self keyRange
+  = liftDOM
+      (((self ^. jsf "delete" [toJSVal keyRange]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.delete Mozilla IDBObjectStore.delete documentation> 
 deleteRangeUnchecked ::
                      (MonadDOM m) => IDBObjectStore -> Maybe IDBKeyRange -> m IDBRequest
 deleteRangeUnchecked self keyRange
@@ -99,6 +144,15 @@ delete self key
 delete_ :: (MonadDOM m) => IDBObjectStore -> JSVal -> m ()
 delete_ self key
   = liftDOM (void (self ^. jsf "delete" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.delete Mozilla IDBObjectStore.delete documentation> 
+deleteUnsafe ::
+             (MonadDOM m, HasCallStack) =>
+               IDBObjectStore -> JSVal -> m IDBRequest
+deleteUnsafe self key
+  = liftDOM
+      (((self ^. jsf "delete" [toJSVal key]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.delete Mozilla IDBObjectStore.delete documentation> 
 deleteUnchecked ::
@@ -121,6 +175,15 @@ getRange_ self key
   = liftDOM (void (self ^. jsf "get" [toJSVal key]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.get Mozilla IDBObjectStore.get documentation> 
+getRangeUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 IDBObjectStore -> Maybe IDBKeyRange -> m IDBRequest
+getRangeUnsafe self key
+  = liftDOM
+      (((self ^. jsf "get" [toJSVal key]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.get Mozilla IDBObjectStore.get documentation> 
 getRangeUnchecked ::
                   (MonadDOM m) => IDBObjectStore -> Maybe IDBKeyRange -> m IDBRequest
 getRangeUnchecked self key
@@ -138,6 +201,15 @@ get_ :: (MonadDOM m) => IDBObjectStore -> JSVal -> m ()
 get_ self key = liftDOM (void (self ^. jsf "get" [toJSVal key]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.get Mozilla IDBObjectStore.get documentation> 
+getUnsafe ::
+          (MonadDOM m, HasCallStack) =>
+            IDBObjectStore -> JSVal -> m IDBRequest
+getUnsafe self key
+  = liftDOM
+      (((self ^. jsf "get" [toJSVal key]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.get Mozilla IDBObjectStore.get documentation> 
 getUnchecked ::
              (MonadDOM m) => IDBObjectStore -> JSVal -> m IDBRequest
 getUnchecked self key
@@ -151,6 +223,14 @@ clear self = liftDOM ((self ^. jsf "clear" ()) >>= fromJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.clear Mozilla IDBObjectStore.clear documentation> 
 clear_ :: (MonadDOM m) => IDBObjectStore -> m ()
 clear_ self = liftDOM (void (self ^. jsf "clear" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.clear Mozilla IDBObjectStore.clear documentation> 
+clearUnsafe ::
+            (MonadDOM m, HasCallStack) => IDBObjectStore -> m IDBRequest
+clearUnsafe self
+  = liftDOM
+      (((self ^. jsf "clear" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.clear Mozilla IDBObjectStore.clear documentation> 
 clearUnchecked :: (MonadDOM m) => IDBObjectStore -> m IDBRequest
@@ -177,6 +257,16 @@ openCursorRange_ self range direction
          (self ^. jsf "openCursor" [toJSVal range, toJSVal direction]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.openCursor Mozilla IDBObjectStore.openCursor documentation> 
+openCursorRangeUnsafe ::
+                      (MonadDOM m, ToJSString direction, HasCallStack) =>
+                        IDBObjectStore -> Maybe IDBKeyRange -> direction -> m IDBRequest
+openCursorRangeUnsafe self range direction
+  = liftDOM
+      (((self ^. jsf "openCursor" [toJSVal range, toJSVal direction]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.openCursor Mozilla IDBObjectStore.openCursor documentation> 
 openCursorRangeUnchecked ::
                          (MonadDOM m, ToJSString direction) =>
                            IDBObjectStore -> Maybe IDBKeyRange -> direction -> m IDBRequest
@@ -201,6 +291,16 @@ openCursor_ ::
 openCursor_ self key direction
   = liftDOM
       (void (self ^. jsf "openCursor" [toJSVal key, toJSVal direction]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.openCursor Mozilla IDBObjectStore.openCursor documentation> 
+openCursorUnsafe ::
+                 (MonadDOM m, ToJSString direction, HasCallStack) =>
+                   IDBObjectStore -> JSVal -> direction -> m IDBRequest
+openCursorUnsafe self key direction
+  = liftDOM
+      (((self ^. jsf "openCursor" [toJSVal key, toJSVal direction]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.openCursor Mozilla IDBObjectStore.openCursor documentation> 
 openCursorUnchecked ::
@@ -233,6 +333,18 @@ createIndex'_ self name keyPath options
       (void
          (self ^. jsf "createIndex"
             [toJSVal name, toJSVal (array keyPath), toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.createIndex Mozilla IDBObjectStore.createIndex documentation> 
+createIndex'Unsafe ::
+                   (MonadDOM m, ToJSString name, ToJSString keyPath,
+                    IsDictionary options, HasCallStack) =>
+                     IDBObjectStore -> name -> [keyPath] -> Maybe options -> m IDBIndex
+createIndex'Unsafe self name keyPath options
+  = liftDOM
+      (((self ^. jsf "createIndex"
+           [toJSVal name, toJSVal (array keyPath), toJSVal options])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.createIndex Mozilla IDBObjectStore.createIndex documentation> 
 createIndex'Unchecked ::
@@ -269,6 +381,18 @@ createIndex_ self name keyPath options
             [toJSVal name, toJSVal keyPath, toJSVal options]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.createIndex Mozilla IDBObjectStore.createIndex documentation> 
+createIndexUnsafe ::
+                  (MonadDOM m, ToJSString name, ToJSString keyPath,
+                   IsDictionary options, HasCallStack) =>
+                    IDBObjectStore -> name -> keyPath -> Maybe options -> m IDBIndex
+createIndexUnsafe self name keyPath options
+  = liftDOM
+      (((self ^. jsf "createIndex"
+           [toJSVal name, toJSVal keyPath, toJSVal options])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.createIndex Mozilla IDBObjectStore.createIndex documentation> 
 createIndexUnchecked ::
                      (MonadDOM m, ToJSString name, ToJSString keyPath,
                       IsDictionary options) =>
@@ -291,6 +415,15 @@ index_ ::
        (MonadDOM m, ToJSString name) => IDBObjectStore -> name -> m ()
 index_ self name
   = liftDOM (void (self ^. jsf "index" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.index Mozilla IDBObjectStore.index documentation> 
+indexUnsafe ::
+            (MonadDOM m, ToJSString name, HasCallStack) =>
+              IDBObjectStore -> name -> m IDBIndex
+indexUnsafe self name
+  = liftDOM
+      (((self ^. jsf "index" [toJSVal name]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.index Mozilla IDBObjectStore.index documentation> 
 indexUnchecked ::
@@ -320,6 +453,15 @@ countRange_ self range
   = liftDOM (void (self ^. jsf "count" [toJSVal range]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.count Mozilla IDBObjectStore.count documentation> 
+countRangeUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   IDBObjectStore -> Maybe IDBKeyRange -> m IDBRequest
+countRangeUnsafe self range
+  = liftDOM
+      (((self ^. jsf "count" [toJSVal range]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.count Mozilla IDBObjectStore.count documentation> 
 countRangeUnchecked ::
                     (MonadDOM m) => IDBObjectStore -> Maybe IDBKeyRange -> m IDBRequest
 countRangeUnchecked self range
@@ -336,6 +478,15 @@ count self key
 count_ :: (MonadDOM m) => IDBObjectStore -> JSVal -> m ()
 count_ self key
   = liftDOM (void (self ^. jsf "count" [toJSVal key]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.count Mozilla IDBObjectStore.count documentation> 
+countUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              IDBObjectStore -> JSVal -> m IDBRequest
+countUnsafe self key
+  = liftDOM
+      (((self ^. jsf "count" [toJSVal key]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.count Mozilla IDBObjectStore.count documentation> 
 countUnchecked ::

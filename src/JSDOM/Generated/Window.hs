@@ -1,19 +1,27 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Window
-       (openDatabase, openDatabase_, openDatabaseUnchecked, getSelection,
-        getSelection_, getSelectionUnchecked, focus, blur, close, print,
-        stop, open, open_, openUnchecked, showModalDialog,
-        showModalDialog_, alert, confirm, confirm_, prompt, prompt_,
-        promptUnchecked, find, find_, scrollBy, scrollTo, scroll, moveBy,
-        moveTo, resizeBy, resizeTo, matchMedia, matchMedia_,
-        matchMediaUnchecked, getComputedStyle, getComputedStyle_,
+       (openDatabase, openDatabase_, openDatabaseUnsafe,
+        openDatabaseUnchecked, getSelection, getSelection_,
+        getSelectionUnsafe, getSelectionUnchecked, focus, blur, close,
+        print, stop, open, open_, openUnsafe, openUnchecked,
+        showModalDialog, showModalDialog_, alert, confirm, confirm_,
+        prompt, prompt_, promptUnsafe, promptUnchecked, find, find_,
+        scrollBy, scrollTo, scroll, moveBy, moveTo, resizeBy, resizeTo,
+        matchMedia, matchMedia_, matchMediaUnsafe, matchMediaUnchecked,
+        getComputedStyle, getComputedStyle_, getComputedStyleUnsafe,
         getComputedStyleUnchecked, getMatchedCSSRules, getMatchedCSSRules_,
-        getMatchedCSSRulesUnchecked, webkitConvertPointFromPageToNode,
+        getMatchedCSSRulesUnsafe, getMatchedCSSRulesUnchecked,
+        webkitConvertPointFromPageToNode,
         webkitConvertPointFromPageToNode_,
+        webkitConvertPointFromPageToNodeUnsafe,
         webkitConvertPointFromPageToNodeUnchecked,
         webkitConvertPointFromNodeToPage,
         webkitConvertPointFromNodeToPage_,
+        webkitConvertPointFromNodeToPageUnsafe,
         webkitConvertPointFromNodeToPageUnchecked, postMessage,
         requestAnimationFrame, requestAnimationFrame_,
         cancelAnimationFrame, webkitRequestAnimationFrame,
@@ -66,6 +74,7 @@ module JSDOM.Generated.Window
         gTypeWindow)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -76,6 +85,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.openDatabase Mozilla Window.openDatabase documentation> 
 openDatabase ::
@@ -109,6 +128,23 @@ openDatabase_ self name version displayName estimatedSize
              toJSVal estimatedSize, toJSVal creationCallback]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.openDatabase Mozilla Window.openDatabase documentation> 
+openDatabaseUnsafe ::
+                   (MonadDOM m, ToJSString name, ToJSString version,
+                    ToJSString displayName, HasCallStack) =>
+                     Window ->
+                       name ->
+                         version ->
+                           displayName -> Word -> Maybe DatabaseCallback -> m Database
+openDatabaseUnsafe self name version displayName estimatedSize
+  creationCallback
+  = liftDOM
+      (((self ^. jsf "openDatabase"
+           [toJSVal name, toJSVal version, toJSVal displayName,
+            toJSVal estimatedSize, toJSVal creationCallback])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.openDatabase Mozilla Window.openDatabase documentation> 
 openDatabaseUnchecked ::
                       (MonadDOM m, ToJSString name, ToJSString version,
                        ToJSString displayName) =>
@@ -132,6 +168,14 @@ getSelection self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
 getSelection_ :: (MonadDOM m) => Window -> m ()
 getSelection_ self = liftDOM (void (self ^. jsf "getSelection" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
+getSelectionUnsafe ::
+                   (MonadDOM m, HasCallStack) => Window -> m Selection
+getSelectionUnsafe self
+  = liftDOM
+      (((self ^. jsf "getSelection" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getSelection Mozilla Window.getSelection documentation> 
 getSelectionUnchecked :: (MonadDOM m) => Window -> m Selection
@@ -177,6 +221,17 @@ open_ self url name options
   = liftDOM
       (void
          (self ^. jsf "open" [toJSVal url, toJSVal name, toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.open Mozilla Window.open documentation> 
+openUnsafe ::
+           (MonadDOM m, ToJSString url, ToJSString name, ToJSString options,
+            HasCallStack) =>
+             Window -> url -> name -> options -> m Window
+openUnsafe self url name options
+  = liftDOM
+      (((self ^. jsf "open" [toJSVal url, toJSVal name, toJSVal options])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.open Mozilla Window.open documentation> 
 openUnchecked ::
@@ -244,6 +299,17 @@ prompt_ self message defaultValue
   = liftDOM
       (void
          (self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 
+promptUnsafe ::
+             (MonadDOM m, ToJSString message, ToJSString defaultValue,
+              HasCallStack, FromJSString result) =>
+               Window -> message -> Maybe defaultValue -> m result
+promptUnsafe self message defaultValue
+  = liftDOM
+      (((self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue])
+          >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 
 promptUnchecked ::
@@ -334,6 +400,15 @@ matchMedia_ self query
   = liftDOM (void (self ^. jsf "matchMedia" [toJSVal query]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.matchMedia Mozilla Window.matchMedia documentation> 
+matchMediaUnsafe ::
+                 (MonadDOM m, ToJSString query, HasCallStack) =>
+                   Window -> query -> m MediaQueryList
+matchMediaUnsafe self query
+  = liftDOM
+      (((self ^. jsf "matchMedia" [toJSVal query]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.matchMedia Mozilla Window.matchMedia documentation> 
 matchMediaUnchecked ::
                     (MonadDOM m, ToJSString query) =>
                       Window -> query -> m MediaQueryList
@@ -362,6 +437,19 @@ getComputedStyle_ self element pseudoElement
       (void
          (self ^. jsf "getComputedStyle"
             [toJSVal element, toJSVal pseudoElement]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getComputedStyle Mozilla Window.getComputedStyle documentation> 
+getComputedStyleUnsafe ::
+                       (MonadDOM m, IsElement element, ToJSString pseudoElement,
+                        HasCallStack) =>
+                         Window ->
+                           Maybe element -> Maybe pseudoElement -> m CSSStyleDeclaration
+getComputedStyleUnsafe self element pseudoElement
+  = liftDOM
+      (((self ^. jsf "getComputedStyle"
+           [toJSVal element, toJSVal pseudoElement])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getComputedStyle Mozilla Window.getComputedStyle documentation> 
 getComputedStyleUnchecked ::
@@ -396,6 +484,18 @@ getMatchedCSSRules_ self element pseudoElement
             [toJSVal element, toJSVal pseudoElement]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getMatchedCSSRules Mozilla Window.getMatchedCSSRules documentation> 
+getMatchedCSSRulesUnsafe ::
+                         (MonadDOM m, IsElement element, ToJSString pseudoElement,
+                          HasCallStack) =>
+                           Window -> Maybe element -> Maybe pseudoElement -> m CSSRuleList
+getMatchedCSSRulesUnsafe self element pseudoElement
+  = liftDOM
+      (((self ^. jsf "getMatchedCSSRules"
+           [toJSVal element, toJSVal pseudoElement])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.getMatchedCSSRules Mozilla Window.getMatchedCSSRules documentation> 
 getMatchedCSSRulesUnchecked ::
                             (MonadDOM m, IsElement element, ToJSString pseudoElement) =>
                               Window -> Maybe element -> Maybe pseudoElement -> m CSSRuleList
@@ -425,6 +525,17 @@ webkitConvertPointFromPageToNode_ self node p
       (void
          (self ^. jsf "webkitConvertPointFromPageToNode"
             [toJSVal node, toJSVal p]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromPageToNode Mozilla Window.webkitConvertPointFromPageToNode documentation> 
+webkitConvertPointFromPageToNodeUnsafe ::
+                                       (MonadDOM m, IsNode node, HasCallStack) =>
+                                         Window -> Maybe node -> Maybe WebKitPoint -> m WebKitPoint
+webkitConvertPointFromPageToNodeUnsafe self node p
+  = liftDOM
+      (((self ^. jsf "webkitConvertPointFromPageToNode"
+           [toJSVal node, toJSVal p])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromPageToNode Mozilla Window.webkitConvertPointFromPageToNode documentation> 
 webkitConvertPointFromPageToNodeUnchecked ::
@@ -457,6 +568,17 @@ webkitConvertPointFromNodeToPage_ self node p
       (void
          (self ^. jsf "webkitConvertPointFromNodeToPage"
             [toJSVal node, toJSVal p]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromNodeToPage Mozilla Window.webkitConvertPointFromNodeToPage documentation> 
+webkitConvertPointFromNodeToPageUnsafe ::
+                                       (MonadDOM m, IsNode node, HasCallStack) =>
+                                         Window -> Maybe node -> Maybe WebKitPoint -> m WebKitPoint
+webkitConvertPointFromNodeToPageUnsafe self node p
+  = liftDOM
+      (((self ^. jsf "webkitConvertPointFromNodeToPage"
+           [toJSVal node, toJSVal p])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitConvertPointFromNodeToPage Mozilla Window.webkitConvertPointFromNodeToPage documentation> 
 webkitConvertPointFromNodeToPageUnchecked ::

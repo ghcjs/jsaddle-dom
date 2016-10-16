@@ -1,19 +1,23 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSelectElement
-       (item, item_, itemUnchecked, namedItem, namedItem_,
-        namedItemUnchecked, addBefore, add, remove, checkValidity,
-        checkValidity_, setCustomValidity, setAutofocus, getAutofocus,
-        setDisabled, getDisabled, getForm, getFormUnchecked, setMultiple,
-        getMultiple, setName, getName, setRequired, getRequired, setSize,
-        getSize, getType, getOptions, getOptionsUnchecked, setLength,
-        getLength, getSelectedOptions, getSelectedOptionsUnchecked,
-        setSelectedIndex, getSelectedIndex, setValue, getValue,
-        getValueUnchecked, getWillValidate, getValidity,
-        getValidityUnchecked, getValidationMessage, getLabels,
+       (item, item_, itemUnsafe, itemUnchecked, namedItem, namedItem_,
+        namedItemUnsafe, namedItemUnchecked, addBefore, add, remove,
+        checkValidity, checkValidity_, setCustomValidity, setAutofocus,
+        getAutofocus, setDisabled, getDisabled, getForm, getFormUnchecked,
+        setMultiple, getMultiple, setName, getName, setRequired,
+        getRequired, setSize, getSize, getType, getOptions,
+        getOptionsUnchecked, setLength, getLength, getSelectedOptions,
+        getSelectedOptionsUnchecked, setSelectedIndex, getSelectedIndex,
+        setValue, getValue, getValueUnchecked, getWillValidate,
+        getValidity, getValidityUnchecked, getValidationMessage, getLabels,
         getLabelsUnchecked, HTMLSelectElement(..), gTypeHTMLSelectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -24,6 +28,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
 item :: (MonadDOM m) => HTMLSelectElement -> Word -> m (Maybe Node)
@@ -34,6 +48,14 @@ item self index
 item_ :: (MonadDOM m) => HTMLSelectElement -> Word -> m ()
 item_ self index
   = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
+itemUnsafe ::
+           (MonadDOM m, HasCallStack) => HTMLSelectElement -> Word -> m Node
+itemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
 itemUnchecked ::
@@ -54,6 +76,15 @@ namedItem_ ::
            (MonadDOM m, ToJSString name) => HTMLSelectElement -> name -> m ()
 namedItem_ self name
   = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
+namedItemUnsafe ::
+                (MonadDOM m, ToJSString name, HasCallStack) =>
+                  HTMLSelectElement -> name -> m Node
+namedItemUnsafe self name
+  = liftDOM
+      (((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
 namedItemUnchecked ::

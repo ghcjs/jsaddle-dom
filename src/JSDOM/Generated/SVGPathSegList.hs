@@ -1,14 +1,20 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPathSegList
-       (clear, initialize, initialize_, initializeUnchecked, getItem,
-        getItem_, getItemUnchecked, insertItemBefore, insertItemBefore_,
-        insertItemBeforeUnchecked, replaceItem, replaceItem_,
-        replaceItemUnchecked, removeItem, removeItem_, removeItemUnchecked,
-        appendItem, appendItem_, appendItemUnchecked, getNumberOfItems,
-        SVGPathSegList(..), gTypeSVGPathSegList)
+       (clear, initialize, initialize_, initializeUnsafe,
+        initializeUnchecked, getItem, getItem_, getItemUnsafe,
+        getItemUnchecked, insertItemBefore, insertItemBefore_,
+        insertItemBeforeUnsafe, insertItemBeforeUnchecked, replaceItem,
+        replaceItem_, replaceItemUnsafe, replaceItemUnchecked, removeItem,
+        removeItem_, removeItemUnsafe, removeItemUnchecked, appendItem,
+        appendItem_, appendItemUnsafe, appendItemUnchecked,
+        getNumberOfItems, SVGPathSegList(..), gTypeSVGPathSegList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -19,6 +25,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.clear Mozilla SVGPathSegList.clear documentation> 
 clear :: (MonadDOM m) => SVGPathSegList -> m ()
@@ -40,6 +56,15 @@ initialize_ self newItem
   = liftDOM (void (self ^. jsf "initialize" [toJSVal newItem]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.initialize Mozilla SVGPathSegList.initialize documentation> 
+initializeUnsafe ::
+                 (MonadDOM m, IsSVGPathSeg newItem, HasCallStack) =>
+                   SVGPathSegList -> Maybe newItem -> m SVGPathSeg
+initializeUnsafe self newItem
+  = liftDOM
+      (((self ^. jsf "initialize" [toJSVal newItem]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.initialize Mozilla SVGPathSegList.initialize documentation> 
 initializeUnchecked ::
                     (MonadDOM m, IsSVGPathSeg newItem) =>
                       SVGPathSegList -> Maybe newItem -> m SVGPathSeg
@@ -58,6 +83,15 @@ getItem self index
 getItem_ :: (MonadDOM m) => SVGPathSegList -> Word -> m ()
 getItem_ self index
   = liftDOM (void (self ^. jsf "getItem" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.getItem Mozilla SVGPathSegList.getItem documentation> 
+getItemUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                SVGPathSegList -> Word -> m SVGPathSeg
+getItemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "getItem" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.getItem Mozilla SVGPathSegList.getItem documentation> 
 getItemUnchecked ::
@@ -83,6 +117,16 @@ insertItemBefore_ self newItem index
   = liftDOM
       (void
          (self ^. jsf "insertItemBefore" [toJSVal newItem, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.insertItemBefore Mozilla SVGPathSegList.insertItemBefore documentation> 
+insertItemBeforeUnsafe ::
+                       (MonadDOM m, IsSVGPathSeg newItem, HasCallStack) =>
+                         SVGPathSegList -> Maybe newItem -> Word -> m SVGPathSeg
+insertItemBeforeUnsafe self newItem index
+  = liftDOM
+      (((self ^. jsf "insertItemBefore" [toJSVal newItem, toJSVal index])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.insertItemBefore Mozilla SVGPathSegList.insertItemBefore documentation> 
 insertItemBeforeUnchecked ::
@@ -111,6 +155,16 @@ replaceItem_ self newItem index
       (void (self ^. jsf "replaceItem" [toJSVal newItem, toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.replaceItem Mozilla SVGPathSegList.replaceItem documentation> 
+replaceItemUnsafe ::
+                  (MonadDOM m, IsSVGPathSeg newItem, HasCallStack) =>
+                    SVGPathSegList -> Maybe newItem -> Word -> m SVGPathSeg
+replaceItemUnsafe self newItem index
+  = liftDOM
+      (((self ^. jsf "replaceItem" [toJSVal newItem, toJSVal index]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.replaceItem Mozilla SVGPathSegList.replaceItem documentation> 
 replaceItemUnchecked ::
                      (MonadDOM m, IsSVGPathSeg newItem) =>
                        SVGPathSegList -> Maybe newItem -> Word -> m SVGPathSeg
@@ -130,6 +184,15 @@ removeItem self index
 removeItem_ :: (MonadDOM m) => SVGPathSegList -> Word -> m ()
 removeItem_ self index
   = liftDOM (void (self ^. jsf "removeItem" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.removeItem Mozilla SVGPathSegList.removeItem documentation> 
+removeItemUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGPathSegList -> Word -> m SVGPathSeg
+removeItemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "removeItem" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.removeItem Mozilla SVGPathSegList.removeItem documentation> 
 removeItemUnchecked ::
@@ -152,6 +215,15 @@ appendItem_ ::
               SVGPathSegList -> Maybe newItem -> m ()
 appendItem_ self newItem
   = liftDOM (void (self ^. jsf "appendItem" [toJSVal newItem]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.appendItem Mozilla SVGPathSegList.appendItem documentation> 
+appendItemUnsafe ::
+                 (MonadDOM m, IsSVGPathSeg newItem, HasCallStack) =>
+                   SVGPathSegList -> Maybe newItem -> m SVGPathSeg
+appendItemUnsafe self newItem
+  = liftDOM
+      (((self ^. jsf "appendItem" [toJSVal newItem]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathSegList.appendItem Mozilla SVGPathSegList.appendItem documentation> 
 appendItemUnchecked ::

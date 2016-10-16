@@ -1,11 +1,15 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMNamedFlowCollection
-       (item, item_, itemUnchecked, namedItem, namedItem_,
-        namedItemUnchecked, getLength, DOMNamedFlowCollection(..),
-        gTypeDOMNamedFlowCollection)
+       (item, item_, itemUnsafe, itemUnchecked, namedItem, namedItem_,
+        namedItemUnsafe, namedItemUnchecked, getLength,
+        DOMNamedFlowCollection(..), gTypeDOMNamedFlowCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -16,6 +20,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlowCollection.item Mozilla WebKitNamedFlowCollection.item documentation> 
 item ::
@@ -28,6 +42,15 @@ item self index
 item_ :: (MonadDOM m) => DOMNamedFlowCollection -> Word -> m ()
 item_ self index
   = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlowCollection.item Mozilla WebKitNamedFlowCollection.item documentation> 
+itemUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             DOMNamedFlowCollection -> Word -> m WebKitNamedFlow
+itemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlowCollection.item Mozilla WebKitNamedFlowCollection.item documentation> 
 itemUnchecked ::
@@ -49,6 +72,15 @@ namedItem_ ::
              DOMNamedFlowCollection -> name -> m ()
 namedItem_ self name
   = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlowCollection.namedItem Mozilla WebKitNamedFlowCollection.namedItem documentation> 
+namedItemUnsafe ::
+                (MonadDOM m, ToJSString name, HasCallStack) =>
+                  DOMNamedFlowCollection -> name -> m WebKitNamedFlow
+namedItemUnsafe self name
+  = liftDOM
+      (((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamedFlowCollection.namedItem Mozilla WebKitNamedFlowCollection.namedItem documentation> 
 namedItemUnchecked ::

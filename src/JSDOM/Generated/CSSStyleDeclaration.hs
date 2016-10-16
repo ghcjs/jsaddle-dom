@@ -1,18 +1,25 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleDeclaration
-       (getPropertyValue, getPropertyValue_, getPropertyValueUnchecked,
-        getPropertyCSSValue, getPropertyCSSValue_,
+       (getPropertyValue, getPropertyValue_, getPropertyValueUnsafe,
+        getPropertyValueUnchecked, getPropertyCSSValue,
+        getPropertyCSSValue_, getPropertyCSSValueUnsafe,
         getPropertyCSSValueUnchecked, removeProperty, removeProperty_,
-        removePropertyUnchecked, getPropertyPriority, getPropertyPriority_,
+        removePropertyUnsafe, removePropertyUnchecked, getPropertyPriority,
+        getPropertyPriority_, getPropertyPriorityUnsafe,
         getPropertyPriorityUnchecked, setProperty, item, item_,
         getPropertyShorthand, getPropertyShorthand_,
-        getPropertyShorthandUnchecked, isPropertyImplicit,
-        isPropertyImplicit_, setCssText, getCssText, getCssTextUnchecked,
-        getLength, getParentRule, getParentRuleUnchecked,
-        CSSStyleDeclaration(..), gTypeCSSStyleDeclaration)
+        getPropertyShorthandUnsafe, getPropertyShorthandUnchecked,
+        isPropertyImplicit, isPropertyImplicit_, setCssText, getCssText,
+        getCssTextUnchecked, getLength, getParentRule,
+        getParentRuleUnchecked, CSSStyleDeclaration(..),
+        gTypeCSSStyleDeclaration)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -23,6 +30,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
 getPropertyValue ::
@@ -40,6 +57,17 @@ getPropertyValue_ ::
 getPropertyValue_ self propertyName
   = liftDOM
       (void (self ^. jsf "getPropertyValue" [toJSVal propertyName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
+getPropertyValueUnsafe ::
+                       (MonadDOM m, ToJSString propertyName, HasCallStack,
+                        FromJSString result) =>
+                         CSSStyleDeclaration -> propertyName -> m result
+getPropertyValueUnsafe self propertyName
+  = liftDOM
+      (((self ^. jsf "getPropertyValue" [toJSVal propertyName]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
 getPropertyValueUnchecked ::
@@ -68,6 +96,16 @@ getPropertyCSSValue_ self propertyName
       (void (self ^. jsf "getPropertyCSSValue" [toJSVal propertyName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyCSSValue Mozilla CSSStyleDeclaration.getPropertyCSSValue documentation> 
+getPropertyCSSValueUnsafe ::
+                          (MonadDOM m, ToJSString propertyName, HasCallStack) =>
+                            CSSStyleDeclaration -> propertyName -> m CSSValue
+getPropertyCSSValueUnsafe self propertyName
+  = liftDOM
+      (((self ^. jsf "getPropertyCSSValue" [toJSVal propertyName]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyCSSValue Mozilla CSSStyleDeclaration.getPropertyCSSValue documentation> 
 getPropertyCSSValueUnchecked ::
                              (MonadDOM m, ToJSString propertyName) =>
                                CSSStyleDeclaration -> propertyName -> m CSSValue
@@ -94,6 +132,17 @@ removeProperty_ self propertyName
       (void (self ^. jsf "removeProperty" [toJSVal propertyName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.removeProperty Mozilla CSSStyleDeclaration.removeProperty documentation> 
+removePropertyUnsafe ::
+                     (MonadDOM m, ToJSString propertyName, HasCallStack,
+                      FromJSString result) =>
+                       CSSStyleDeclaration -> propertyName -> m result
+removePropertyUnsafe self propertyName
+  = liftDOM
+      (((self ^. jsf "removeProperty" [toJSVal propertyName]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.removeProperty Mozilla CSSStyleDeclaration.removeProperty documentation> 
 removePropertyUnchecked ::
                         (MonadDOM m, ToJSString propertyName, FromJSString result) =>
                           CSSStyleDeclaration -> propertyName -> m result
@@ -118,6 +167,17 @@ getPropertyPriority_ ::
 getPropertyPriority_ self propertyName
   = liftDOM
       (void (self ^. jsf "getPropertyPriority" [toJSVal propertyName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
+getPropertyPriorityUnsafe ::
+                          (MonadDOM m, ToJSString propertyName, HasCallStack,
+                           FromJSString result) =>
+                            CSSStyleDeclaration -> propertyName -> m result
+getPropertyPriorityUnsafe self propertyName
+  = liftDOM
+      (((self ^. jsf "getPropertyPriority" [toJSVal propertyName]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
 getPropertyPriorityUnchecked ::
@@ -169,6 +229,17 @@ getPropertyShorthand_ ::
 getPropertyShorthand_ self propertyName
   = liftDOM
       (void (self ^. jsf "getPropertyShorthand" [toJSVal propertyName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 
+getPropertyShorthandUnsafe ::
+                           (MonadDOM m, ToJSString propertyName, HasCallStack,
+                            FromJSString result) =>
+                             CSSStyleDeclaration -> propertyName -> m result
+getPropertyShorthandUnsafe self propertyName
+  = liftDOM
+      (((self ^. jsf "getPropertyShorthand" [toJSVal propertyName]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 
 getPropertyShorthandUnchecked ::

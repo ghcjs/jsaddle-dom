@@ -1,37 +1,47 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Element
-       (getAttribute, getAttribute_, getAttributeUnchecked, setAttribute,
-        removeAttribute, getAttributeNode, getAttributeNode_,
+       (getAttribute, getAttribute_, getAttributeUnsafe,
+        getAttributeUnchecked, setAttribute, removeAttribute,
+        getAttributeNode, getAttributeNode_, getAttributeNodeUnsafe,
         getAttributeNodeUnchecked, setAttributeNode, setAttributeNode_,
-        setAttributeNodeUnchecked, removeAttributeNode,
-        removeAttributeNode_, removeAttributeNodeUnchecked,
+        setAttributeNodeUnsafe, setAttributeNodeUnchecked,
+        removeAttributeNode, removeAttributeNode_,
+        removeAttributeNodeUnsafe, removeAttributeNodeUnchecked,
         getElementsByTagName, getElementsByTagName_,
-        getElementsByTagNameUnchecked, hasAttributes, hasAttributes_,
-        getAttributeNS, getAttributeNS_, setAttributeNS, removeAttributeNS,
-        getElementsByTagNameNS, getElementsByTagNameNS_,
+        getElementsByTagNameUnsafe, getElementsByTagNameUnchecked,
+        hasAttributes, hasAttributes_, getAttributeNS, getAttributeNS_,
+        setAttributeNS, removeAttributeNS, getElementsByTagNameNS,
+        getElementsByTagNameNS_, getElementsByTagNameNSUnsafe,
         getElementsByTagNameNSUnchecked, getAttributeNodeNS,
-        getAttributeNodeNS_, getAttributeNodeNSUnchecked,
-        setAttributeNodeNS, setAttributeNodeNS_,
+        getAttributeNodeNS_, getAttributeNodeNSUnsafe,
+        getAttributeNodeNSUnchecked, setAttributeNodeNS,
+        setAttributeNodeNS_, setAttributeNodeNSUnsafe,
         setAttributeNodeNSUnchecked, hasAttribute, hasAttribute_,
         hasAttributeNS, hasAttributeNS_, focus, blur, scrollIntoView,
         scrollIntoViewIfNeeded, scrollByLines, scrollByPages,
         getElementsByClassName, getElementsByClassName_,
-        getElementsByClassNameUnchecked, querySelector, querySelector_,
+        getElementsByClassNameUnsafe, getElementsByClassNameUnchecked,
+        querySelector, querySelector_, querySelectorUnsafe,
         querySelectorUnchecked, querySelectorAll, querySelectorAll_,
-        querySelectorAllUnchecked, matches, matches_, closest, closest_,
-        closestUnchecked, webkitMatchesSelector, webkitMatchesSelector_,
-        getClientRects, getClientRects_, getClientRectsUnchecked,
+        querySelectorAllUnsafe, querySelectorAllUnchecked, matches,
+        matches_, closest, closest_, closestUnsafe, closestUnchecked,
+        webkitMatchesSelector, webkitMatchesSelector_, getClientRects,
+        getClientRects_, getClientRectsUnsafe, getClientRectsUnchecked,
         getBoundingClientRect, getBoundingClientRect_,
-        getBoundingClientRectUnchecked, webkitRequestFullScreen,
-        webkitRequestFullscreen, requestPointerLock,
-        webkitGetRegionFlowRanges, webkitGetRegionFlowRanges_,
-        pattern ALLOW_KEYBOARD_INPUT, getTagName, getTagNameUnchecked,
-        getAttributes, getAttributesUnchecked, getStyle, getStyleUnchecked,
-        setId, getId, getOffsetLeft, getOffsetTop, getOffsetWidth,
-        getOffsetHeight, getClientLeft, getClientTop, getClientWidth,
-        getClientHeight, setScrollLeft, getScrollLeft, setScrollTop,
-        getScrollTop, getScrollWidth, getScrollHeight, getOffsetParent,
+        getBoundingClientRectUnsafe, getBoundingClientRectUnchecked,
+        webkitRequestFullScreen, webkitRequestFullscreen,
+        requestPointerLock, webkitGetRegionFlowRanges,
+        webkitGetRegionFlowRanges_, pattern ALLOW_KEYBOARD_INPUT,
+        getTagName, getTagNameUnchecked, getAttributes,
+        getAttributesUnchecked, getStyle, getStyleUnchecked, setId, getId,
+        getOffsetLeft, getOffsetTop, getOffsetWidth, getOffsetHeight,
+        getClientLeft, getClientTop, getClientWidth, getClientHeight,
+        setScrollLeft, getScrollLeft, setScrollTop, getScrollTop,
+        getScrollWidth, getScrollHeight, getOffsetParent,
         getOffsetParentUnchecked, setInnerHTML, getInnerHTML,
         getInnerHTMLUnchecked, setOuterHTML, getOuterHTML,
         getOuterHTMLUnchecked, setClassName, getClassName, getClassList,
@@ -54,6 +64,7 @@ module JSDOM.Generated.Element
         Element(..), gTypeElement, IsElement, toElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -64,6 +75,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
 getAttribute ::
@@ -82,6 +103,17 @@ getAttribute_ ::
 getAttribute_ self name
   = liftDOM
       (void ((toElement self) ^. jsf "getAttribute" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
+getAttributeUnsafe ::
+                   (MonadDOM m, IsElement self, ToJSString name, HasCallStack,
+                    FromJSString result) =>
+                     self -> name -> m result
+getAttributeUnsafe self name
+  = liftDOM
+      ((((toElement self) ^. jsf "getAttribute" [toJSVal name]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
 getAttributeUnchecked ::
@@ -129,6 +161,16 @@ getAttributeNode_ self name
       (void ((toElement self) ^. jsf "getAttributeNode" [toJSVal name]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNode Mozilla Element.getAttributeNode documentation> 
+getAttributeNodeUnsafe ::
+                       (MonadDOM m, IsElement self, ToJSString name, HasCallStack) =>
+                         self -> name -> m Attr
+getAttributeNodeUnsafe self name
+  = liftDOM
+      ((((toElement self) ^. jsf "getAttributeNode" [toJSVal name]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNode Mozilla Element.getAttributeNode documentation> 
 getAttributeNodeUnchecked ::
                           (MonadDOM m, IsElement self, ToJSString name) =>
                             self -> name -> m Attr
@@ -153,6 +195,16 @@ setAttributeNode_ self newAttr
   = liftDOM
       (void
          ((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
+setAttributeNodeUnsafe ::
+                       (MonadDOM m, IsElement self, HasCallStack) =>
+                         self -> Maybe Attr -> m Attr
+setAttributeNodeUnsafe self newAttr
+  = liftDOM
+      ((((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
 setAttributeNodeUnchecked ::
@@ -180,6 +232,16 @@ removeAttributeNode_ self oldAttr
          ((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
+removeAttributeNodeUnsafe ::
+                          (MonadDOM m, IsElement self, HasCallStack) =>
+                            self -> Maybe Attr -> m Attr
+removeAttributeNodeUnsafe self oldAttr
+  = liftDOM
+      ((((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
 removeAttributeNodeUnchecked ::
                              (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
 removeAttributeNodeUnchecked self oldAttr
@@ -204,6 +266,16 @@ getElementsByTagName_ self name
   = liftDOM
       (void
          ((toElement self) ^. jsf "getElementsByTagName" [toJSVal name]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
+getElementsByTagNameUnsafe ::
+                           (MonadDOM m, IsElement self, ToJSString name, HasCallStack) =>
+                             self -> name -> m NodeList
+getElementsByTagNameUnsafe self name
+  = liftDOM
+      ((((toElement self) ^. jsf "getElementsByTagName" [toJSVal name])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
 getElementsByTagNameUnchecked ::
@@ -292,6 +364,18 @@ getElementsByTagNameNS_ self namespaceURI localName
             [toJSVal namespaceURI, toJSVal localName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
+getElementsByTagNameNSUnsafe ::
+                             (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                              ToJSString localName, HasCallStack) =>
+                               self -> Maybe namespaceURI -> localName -> m NodeList
+getElementsByTagNameNSUnsafe self namespaceURI localName
+  = liftDOM
+      ((((toElement self) ^. jsf "getElementsByTagNameNS"
+           [toJSVal namespaceURI, toJSVal localName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
 getElementsByTagNameNSUnchecked ::
                                 (MonadDOM m, IsElement self, ToJSString namespaceURI,
                                  ToJSString localName) =>
@@ -325,6 +409,18 @@ getAttributeNodeNS_ self namespaceURI localName
             [toJSVal namespaceURI, toJSVal localName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNodeNS Mozilla Element.getAttributeNodeNS documentation> 
+getAttributeNodeNSUnsafe ::
+                         (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                          ToJSString localName, HasCallStack) =>
+                           self -> Maybe namespaceURI -> localName -> m Attr
+getAttributeNodeNSUnsafe self namespaceURI localName
+  = liftDOM
+      ((((toElement self) ^. jsf "getAttributeNodeNS"
+           [toJSVal namespaceURI, toJSVal localName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNodeNS Mozilla Element.getAttributeNodeNS documentation> 
 getAttributeNodeNSUnchecked ::
                             (MonadDOM m, IsElement self, ToJSString namespaceURI,
                              ToJSString localName) =>
@@ -351,6 +447,16 @@ setAttributeNodeNS_ self newAttr
   = liftDOM
       (void
          ((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
+setAttributeNodeNSUnsafe ::
+                         (MonadDOM m, IsElement self, HasCallStack) =>
+                           self -> Maybe Attr -> m Attr
+setAttributeNodeNSUnsafe self newAttr
+  = liftDOM
+      ((((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
 setAttributeNodeNSUnchecked ::
@@ -457,6 +563,16 @@ getElementsByClassName_ self name
          ((toElement self) ^. jsf "getElementsByClassName" [toJSVal name]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
+getElementsByClassNameUnsafe ::
+                             (MonadDOM m, IsElement self, ToJSString name, HasCallStack) =>
+                               self -> name -> m NodeList
+getElementsByClassNameUnsafe self name
+  = liftDOM
+      ((((toElement self) ^. jsf "getElementsByClassName" [toJSVal name])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
 getElementsByClassNameUnchecked ::
                                 (MonadDOM m, IsElement self, ToJSString name) =>
                                   self -> name -> m NodeList
@@ -484,6 +600,16 @@ querySelector_ self selectors
          ((toElement self) ^. jsf "querySelector" [toJSVal selectors]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
+querySelectorUnsafe ::
+                    (MonadDOM m, IsElement self, ToJSString selectors, HasCallStack) =>
+                      self -> selectors -> m Element
+querySelectorUnsafe self selectors
+  = liftDOM
+      ((((toElement self) ^. jsf "querySelector" [toJSVal selectors]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
 querySelectorUnchecked ::
                        (MonadDOM m, IsElement self, ToJSString selectors) =>
                          self -> selectors -> m Element
@@ -509,6 +635,16 @@ querySelectorAll_ self selectors
   = liftDOM
       (void
          ((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
+querySelectorAllUnsafe ::
+                       (MonadDOM m, IsElement self, ToJSString selectors, HasCallStack) =>
+                         self -> selectors -> m NodeList
+querySelectorAllUnsafe self selectors
+  = liftDOM
+      ((((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
 querySelectorAllUnchecked ::
@@ -554,6 +690,16 @@ closest_ self selectors
       (void ((toElement self) ^. jsf "closest" [toJSVal selectors]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.closest Mozilla Element.closest documentation> 
+closestUnsafe ::
+              (MonadDOM m, IsElement self, ToJSString selectors, HasCallStack) =>
+                self -> selectors -> m Element
+closestUnsafe self selectors
+  = liftDOM
+      ((((toElement self) ^. jsf "closest" [toJSVal selectors]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.closest Mozilla Element.closest documentation> 
 closestUnchecked ::
                  (MonadDOM m, IsElement self, ToJSString selectors) =>
                    self -> selectors -> m Element
@@ -595,6 +741,15 @@ getClientRects_ self
   = liftDOM (void ((toElement self) ^. jsf "getClientRects" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
+getClientRectsUnsafe ::
+                     (MonadDOM m, IsElement self, HasCallStack) =>
+                       self -> m ClientRectList
+getClientRectsUnsafe self
+  = liftDOM
+      ((((toElement self) ^. jsf "getClientRects" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
 getClientRectsUnchecked ::
                         (MonadDOM m, IsElement self) => self -> m ClientRectList
 getClientRectsUnchecked self
@@ -616,6 +771,15 @@ getBoundingClientRect_ ::
 getBoundingClientRect_ self
   = liftDOM
       (void ((toElement self) ^. jsf "getBoundingClientRect" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
+getBoundingClientRectUnsafe ::
+                            (MonadDOM m, IsElement self, HasCallStack) => self -> m ClientRect
+getBoundingClientRectUnsafe self
+  = liftDOM
+      ((((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
 getBoundingClientRectUnchecked ::

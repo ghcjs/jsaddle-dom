@@ -1,4 +1,7 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebGL2RenderingContext
        (copyBufferSubData, getBufferSubDataView, getBufferSubData,
@@ -19,36 +22,41 @@ module JSDOM.Generated.WebGL2RenderingContext
         vertexAttribI4uiv, vertexAttribIPointer, vertexAttribDivisor,
         drawArraysInstanced, drawElementsInstanced, drawRangeElements,
         drawBuffers, clearBufferiv, clearBufferuiv, clearBufferfv,
-        clearBufferfi, createQuery, createQuery_, createQueryUnchecked,
-        deleteQuery, isQuery, isQuery_, beginQuery, endQuery, getQuery,
-        getQuery_, getQueryUnchecked, getQueryParameter,
-        getQueryParameter_, createSampler, createSampler_,
-        createSamplerUnchecked, deleteSampler, isSampler, isSampler_,
-        bindSampler, samplerParameteri, samplerParameterf,
-        getSamplerParameter, getSamplerParameter_, fenceSync, fenceSync_,
+        clearBufferfi, createQuery, createQuery_, createQueryUnsafe,
+        createQueryUnchecked, deleteQuery, isQuery, isQuery_, beginQuery,
+        endQuery, getQuery, getQuery_, getQueryUnsafe, getQueryUnchecked,
+        getQueryParameter, getQueryParameter_, createSampler,
+        createSampler_, createSamplerUnsafe, createSamplerUnchecked,
+        deleteSampler, isSampler, isSampler_, bindSampler,
+        samplerParameteri, samplerParameterf, getSamplerParameter,
+        getSamplerParameter_, fenceSync, fenceSync_, fenceSyncUnsafe,
         fenceSyncUnchecked, isSync, isSync_, deleteSync, clientWaitSync,
         clientWaitSync_, waitSync, getSyncParameter, getSyncParameter_,
         createTransformFeedback, createTransformFeedback_,
-        createTransformFeedbackUnchecked, deleteTransformFeedback,
-        isTransformFeedback, isTransformFeedback_, bindTransformFeedback,
-        beginTransformFeedback, endTransformFeedback,
-        transformFeedbackVaryings, getTransformFeedbackVarying,
-        getTransformFeedbackVarying_, getTransformFeedbackVaryingUnchecked,
-        pauseTransformFeedback, resumeTransformFeedback, bindBufferBase,
-        bindBufferRange, getIndexedParameter, getIndexedParameter_,
-        getUniformIndices, getUniformIndices_, getUniformIndicesUnchecked,
-        getActiveUniforms, getActiveUniforms_, getActiveUniformsUnchecked,
+        createTransformFeedbackUnsafe, createTransformFeedbackUnchecked,
+        deleteTransformFeedback, isTransformFeedback, isTransformFeedback_,
+        bindTransformFeedback, beginTransformFeedback,
+        endTransformFeedback, transformFeedbackVaryings,
+        getTransformFeedbackVarying, getTransformFeedbackVarying_,
+        getTransformFeedbackVaryingUnsafe,
+        getTransformFeedbackVaryingUnchecked, pauseTransformFeedback,
+        resumeTransformFeedback, bindBufferBase, bindBufferRange,
+        getIndexedParameter, getIndexedParameter_, getUniformIndices,
+        getUniformIndices_, getUniformIndicesUnsafe,
+        getUniformIndicesUnchecked, getActiveUniforms, getActiveUniforms_,
+        getActiveUniformsUnsafe, getActiveUniformsUnchecked,
         getUniformBlockIndex, getUniformBlockIndex_,
         getActiveUniformBlockParameter, getActiveUniformBlockParameter_,
         getActiveUniformBlockName, getActiveUniformBlockName_,
         uniformBlockBinding, createVertexArray, createVertexArray_,
-        createVertexArrayUnchecked, deleteVertexArray, isVertexArray,
-        isVertexArray_, bindVertexArray, pattern READ_BUFFER,
-        pattern UNPACK_ROW_LENGTH, pattern UNPACK_SKIP_ROWS,
-        pattern UNPACK_SKIP_PIXELS, pattern PACK_ROW_LENGTH,
-        pattern PACK_SKIP_ROWS, pattern PACK_SKIP_PIXELS, pattern COLOR,
-        pattern DEPTH, pattern STENCIL, pattern RED, pattern RGB8,
-        pattern RGBA8, pattern RGB10_A2, pattern TEXTURE_BINDING_3D,
+        createVertexArrayUnsafe, createVertexArrayUnchecked,
+        deleteVertexArray, isVertexArray, isVertexArray_, bindVertexArray,
+        pattern READ_BUFFER, pattern UNPACK_ROW_LENGTH,
+        pattern UNPACK_SKIP_ROWS, pattern UNPACK_SKIP_PIXELS,
+        pattern PACK_ROW_LENGTH, pattern PACK_SKIP_ROWS,
+        pattern PACK_SKIP_PIXELS, pattern COLOR, pattern DEPTH,
+        pattern STENCIL, pattern RED, pattern RGB8, pattern RGBA8,
+        pattern RGB10_A2, pattern TEXTURE_BINDING_3D,
         pattern UNPACK_SKIP_IMAGES, pattern UNPACK_IMAGE_HEIGHT,
         pattern TEXTURE_3D, pattern TEXTURE_WRAP_R,
         pattern MAX_3D_TEXTURE_SIZE, pattern UNSIGNED_INT_2_10_10_10_REV,
@@ -193,6 +201,7 @@ module JSDOM.Generated.WebGL2RenderingContext
         gTypeWebGL2RenderingContext)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -203,6 +212,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.copyBufferSubData Mozilla WebGL2RenderingContext.copyBufferSubData documentation> 
 copyBufferSubData ::
@@ -862,6 +881,15 @@ createQuery_ :: (MonadDOM m) => WebGL2RenderingContext -> m ()
 createQuery_ self = liftDOM (void (self ^. jsf "createQuery" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createQuery Mozilla WebGL2RenderingContext.createQuery documentation> 
+createQueryUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    WebGL2RenderingContext -> m WebGLQuery
+createQueryUnsafe self
+  = liftDOM
+      (((self ^. jsf "createQuery" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createQuery Mozilla WebGL2RenderingContext.createQuery documentation> 
 createQueryUnchecked ::
                      (MonadDOM m) => WebGL2RenderingContext -> m WebGLQuery
 createQueryUnchecked self
@@ -918,6 +946,16 @@ getQuery_ self target pname
       (void (self ^. jsf "getQuery" [toJSVal target, toJSVal pname]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getQuery Mozilla WebGL2RenderingContext.getQuery documentation> 
+getQueryUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 WebGL2RenderingContext -> GLenum -> GLenum -> m WebGLQuery
+getQueryUnsafe self target pname
+  = liftDOM
+      (((self ^. jsf "getQuery" [toJSVal target, toJSVal pname]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getQuery Mozilla WebGL2RenderingContext.getQuery documentation> 
 getQueryUnchecked ::
                   (MonadDOM m) =>
                     WebGL2RenderingContext -> GLenum -> GLenum -> m WebGLQuery
@@ -954,6 +992,15 @@ createSampler self
 createSampler_ :: (MonadDOM m) => WebGL2RenderingContext -> m ()
 createSampler_ self
   = liftDOM (void (self ^. jsf "createSampler" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createSampler Mozilla WebGL2RenderingContext.createSampler documentation> 
+createSamplerUnsafe ::
+                    (MonadDOM m, HasCallStack) =>
+                      WebGL2RenderingContext -> m WebGLSampler
+createSamplerUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSampler" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createSampler Mozilla WebGL2RenderingContext.createSampler documentation> 
 createSamplerUnchecked ::
@@ -1053,6 +1100,16 @@ fenceSync_ self condition flags
       (void (self ^. jsf "fenceSync" [toJSVal condition, toJSVal flags]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.fenceSync Mozilla WebGL2RenderingContext.fenceSync documentation> 
+fenceSyncUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  WebGL2RenderingContext -> GLenum -> GLbitfield -> m WebGLSync
+fenceSyncUnsafe self condition flags
+  = liftDOM
+      (((self ^. jsf "fenceSync" [toJSVal condition, toJSVal flags]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.fenceSync Mozilla WebGL2RenderingContext.fenceSync documentation> 
 fenceSyncUnchecked ::
                    (MonadDOM m) =>
                      WebGL2RenderingContext -> GLenum -> GLbitfield -> m WebGLSync
@@ -1147,6 +1204,15 @@ createTransformFeedback_ self
   = liftDOM (void (self ^. jsf "createTransformFeedback" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createTransformFeedback Mozilla WebGL2RenderingContext.createTransformFeedback documentation> 
+createTransformFeedbackUnsafe ::
+                              (MonadDOM m, HasCallStack) =>
+                                WebGL2RenderingContext -> m WebGLTransformFeedback
+createTransformFeedbackUnsafe self
+  = liftDOM
+      (((self ^. jsf "createTransformFeedback" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createTransformFeedback Mozilla WebGL2RenderingContext.createTransformFeedback documentation> 
 createTransformFeedbackUnchecked ::
                                  (MonadDOM m) => WebGL2RenderingContext -> m WebGLTransformFeedback
 createTransformFeedbackUnchecked self
@@ -1233,6 +1299,18 @@ getTransformFeedbackVarying_ self program index
       (void
          (self ^. jsf "getTransformFeedbackVarying"
             [toJSVal program, toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getTransformFeedbackVarying Mozilla WebGL2RenderingContext.getTransformFeedbackVarying documentation> 
+getTransformFeedbackVaryingUnsafe ::
+                                  (MonadDOM m, HasCallStack) =>
+                                    WebGL2RenderingContext ->
+                                      Maybe WebGLProgram -> GLuint -> m WebGLActiveInfo
+getTransformFeedbackVaryingUnsafe self program index
+  = liftDOM
+      (((self ^. jsf "getTransformFeedbackVarying"
+           [toJSVal program, toJSVal index])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getTransformFeedbackVarying Mozilla WebGL2RenderingContext.getTransformFeedbackVarying documentation> 
 getTransformFeedbackVaryingUnchecked ::
@@ -1323,6 +1401,18 @@ getUniformIndices_ self program uniformNames
             [toJSVal program, toJSVal (array uniformNames)]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getUniformIndices Mozilla WebGL2RenderingContext.getUniformIndices documentation> 
+getUniformIndicesUnsafe ::
+                        (MonadDOM m, ToJSString uniformNames, HasCallStack) =>
+                          WebGL2RenderingContext ->
+                            Maybe WebGLProgram -> [uniformNames] -> m Uint32Array
+getUniformIndicesUnsafe self program uniformNames
+  = liftDOM
+      (((self ^. jsf "getUniformIndices"
+           [toJSVal program, toJSVal (array uniformNames)])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getUniformIndices Mozilla WebGL2RenderingContext.getUniformIndices documentation> 
 getUniformIndicesUnchecked ::
                            (MonadDOM m, ToJSString uniformNames) =>
                              WebGL2RenderingContext ->
@@ -1355,6 +1445,19 @@ getActiveUniforms_ self program uniformIndices pname
       (void
          (self ^. jsf "getActiveUniforms"
             [toJSVal program, toJSVal uniformIndices, toJSVal pname]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getActiveUniforms Mozilla WebGL2RenderingContext.getActiveUniforms documentation> 
+getActiveUniformsUnsafe ::
+                        (MonadDOM m, IsUint32Array uniformIndices, HasCallStack) =>
+                          WebGL2RenderingContext ->
+                            Maybe WebGLProgram ->
+                              Maybe uniformIndices -> GLenum -> m Int32Array
+getActiveUniformsUnsafe self program uniformIndices pname
+  = liftDOM
+      (((self ^. jsf "getActiveUniforms"
+           [toJSVal program, toJSVal uniformIndices, toJSVal pname])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getActiveUniforms Mozilla WebGL2RenderingContext.getActiveUniforms documentation> 
 getActiveUniformsUnchecked ::
@@ -1458,6 +1561,15 @@ createVertexArray_ ::
                    (MonadDOM m) => WebGL2RenderingContext -> m ()
 createVertexArray_ self
   = liftDOM (void (self ^. jsf "createVertexArray" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createVertexArray Mozilla WebGL2RenderingContext.createVertexArray documentation> 
+createVertexArrayUnsafe ::
+                        (MonadDOM m, HasCallStack) =>
+                          WebGL2RenderingContext -> m WebGLVertexArrayObject
+createVertexArrayUnsafe self
+  = liftDOM
+      (((self ^. jsf "createVertexArray" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.createVertexArray Mozilla WebGL2RenderingContext.createVertexArray documentation> 
 createVertexArrayUnchecked ::

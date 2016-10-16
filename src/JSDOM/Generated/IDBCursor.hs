@@ -1,12 +1,16 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBCursor
-       (update, update_, updateUnchecked, advance, continue, delete,
-        delete_, deleteUnchecked, getSource, getSourceUnchecked,
-        getDirection, getKey, getPrimaryKey, IDBCursor(..), gTypeIDBCursor,
-        IsIDBCursor, toIDBCursor)
+       (update, update_, updateUnsafe, updateUnchecked, advance, continue,
+        delete, delete_, deleteUnsafe, deleteUnchecked, getSource,
+        getSourceUnchecked, getDirection, getKey, getPrimaryKey,
+        IDBCursor(..), gTypeIDBCursor, IsIDBCursor, toIDBCursor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -17,6 +21,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.update Mozilla IDBCursor.update documentation> 
 update ::
@@ -32,6 +46,16 @@ update_ :: (MonadDOM m, IsIDBCursor self) => self -> JSVal -> m ()
 update_ self value
   = liftDOM
       (void ((toIDBCursor self) ^. jsf "update" [toJSVal value]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.update Mozilla IDBCursor.update documentation> 
+updateUnsafe ::
+             (MonadDOM m, IsIDBCursor self, HasCallStack) =>
+               self -> JSVal -> m IDBRequest
+updateUnsafe self value
+  = liftDOM
+      ((((toIDBCursor self) ^. jsf "update" [toJSVal value]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.update Mozilla IDBCursor.update documentation> 
 updateUnchecked ::
@@ -63,6 +87,15 @@ delete self
 delete_ :: (MonadDOM m, IsIDBCursor self) => self -> m ()
 delete_ self
   = liftDOM (void ((toIDBCursor self) ^. jsf "delete" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.delete Mozilla IDBCursor.delete documentation> 
+deleteUnsafe ::
+             (MonadDOM m, IsIDBCursor self, HasCallStack) =>
+               self -> m IDBRequest
+deleteUnsafe self
+  = liftDOM
+      ((((toIDBCursor self) ^. jsf "delete" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.delete Mozilla IDBCursor.delete documentation> 
 deleteUnchecked ::

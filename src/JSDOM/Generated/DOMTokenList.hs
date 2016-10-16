@@ -1,11 +1,16 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMTokenList
-       (item, item_, itemUnchecked, contains, contains_, add, remove,
-        toggle, toggle_, toString, toString_, getLength, DOMTokenList(..),
-        gTypeDOMTokenList, IsDOMTokenList, toDOMTokenList)
+       (item, item_, itemUnsafe, itemUnchecked, contains, contains_, add,
+        remove, toggle, toggle_, toString, toString_, getLength,
+        DOMTokenList(..), gTypeDOMTokenList, IsDOMTokenList,
+        toDOMTokenList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -16,6 +21,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.item Mozilla DOMTokenList.item documentation> 
 item ::
@@ -31,6 +46,17 @@ item_ :: (MonadDOM m, IsDOMTokenList self) => self -> Word -> m ()
 item_ self index
   = liftDOM
       (void ((toDOMTokenList self) ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.item Mozilla DOMTokenList.item documentation> 
+itemUnsafe ::
+           (MonadDOM m, IsDOMTokenList self, HasCallStack,
+            FromJSString result) =>
+             self -> Word -> m result
+itemUnsafe self index
+  = liftDOM
+      ((((toDOMTokenList self) ^. jsf "item" [toJSVal index]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList.item Mozilla DOMTokenList.item documentation> 
 itemUnchecked ::

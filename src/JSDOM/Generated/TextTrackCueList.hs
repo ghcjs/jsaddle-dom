@@ -1,11 +1,15 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrackCueList
-       (item, item_, itemUnchecked, getCueById, getCueById_,
-        getCueByIdUnchecked, getLength, TextTrackCueList(..),
-        gTypeTextTrackCueList)
+       (item, item_, itemUnsafe, itemUnchecked, getCueById, getCueById_,
+        getCueByIdUnsafe, getCueByIdUnchecked, getLength,
+        TextTrackCueList(..), gTypeTextTrackCueList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -16,6 +20,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.item Mozilla TextTrackCueList.item documentation> 
 item ::
@@ -27,6 +41,15 @@ item self index
 item_ :: (MonadDOM m) => TextTrackCueList -> Word -> m ()
 item_ self index
   = liftDOM (void (self ^. jsf "item" [toJSVal index]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.item Mozilla TextTrackCueList.item documentation> 
+itemUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             TextTrackCueList -> Word -> m TextTrackCue
+itemUnsafe self index
+  = liftDOM
+      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.item Mozilla TextTrackCueList.item documentation> 
 itemUnchecked ::
@@ -47,6 +70,15 @@ getCueById_ ::
             (MonadDOM m, ToJSString id) => TextTrackCueList -> id -> m ()
 getCueById_ self id
   = liftDOM (void (self ^. jsf "getCueById" [toJSVal id]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.getCueById Mozilla TextTrackCueList.getCueById documentation> 
+getCueByIdUnsafe ::
+                 (MonadDOM m, ToJSString id, HasCallStack) =>
+                   TextTrackCueList -> id -> m TextTrackCue
+getCueByIdUnsafe self id
+  = liftDOM
+      (((self ^. jsf "getCueById" [toJSVal id]) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCueList.getCueById Mozilla TextTrackCueList.getCueById documentation> 
 getCueByIdUnchecked ::

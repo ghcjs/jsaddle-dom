@@ -1,4 +1,7 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGSVGElement
        (suspendRedraw, suspendRedraw_, unsuspendRedraw,
@@ -6,30 +9,36 @@ module JSDOM.Generated.SVGSVGElement
         unpauseAnimations, animationsPaused, animationsPaused_,
         getCurrentTime, getCurrentTime_, setCurrentTime,
         getIntersectionList, getIntersectionList_,
-        getIntersectionListUnchecked, getEnclosureList, getEnclosureList_,
+        getIntersectionListUnsafe, getIntersectionListUnchecked,
+        getEnclosureList, getEnclosureList_, getEnclosureListUnsafe,
         getEnclosureListUnchecked, checkIntersection, checkIntersection_,
         checkEnclosure, checkEnclosure_, deselectAll, createSVGNumber,
-        createSVGNumber_, createSVGNumberUnchecked, createSVGLength,
-        createSVGLength_, createSVGLengthUnchecked, createSVGAngle,
-        createSVGAngle_, createSVGAngleUnchecked, createSVGPoint,
-        createSVGPoint_, createSVGPointUnchecked, createSVGMatrix,
-        createSVGMatrix_, createSVGMatrixUnchecked, createSVGRect,
-        createSVGRect_, createSVGRectUnchecked, createSVGTransform,
-        createSVGTransform_, createSVGTransformUnchecked,
-        createSVGTransformFromMatrix, createSVGTransformFromMatrix_,
+        createSVGNumber_, createSVGNumberUnsafe, createSVGNumberUnchecked,
+        createSVGLength, createSVGLength_, createSVGLengthUnsafe,
+        createSVGLengthUnchecked, createSVGAngle, createSVGAngle_,
+        createSVGAngleUnsafe, createSVGAngleUnchecked, createSVGPoint,
+        createSVGPoint_, createSVGPointUnsafe, createSVGPointUnchecked,
+        createSVGMatrix, createSVGMatrix_, createSVGMatrixUnsafe,
+        createSVGMatrixUnchecked, createSVGRect, createSVGRect_,
+        createSVGRectUnsafe, createSVGRectUnchecked, createSVGTransform,
+        createSVGTransform_, createSVGTransformUnsafe,
+        createSVGTransformUnchecked, createSVGTransformFromMatrix,
+        createSVGTransformFromMatrix_, createSVGTransformFromMatrixUnsafe,
         createSVGTransformFromMatrixUnchecked, getElementById,
-        getElementById_, getElementByIdUnchecked, getX, getXUnchecked,
-        getY, getYUnchecked, getWidth, getWidthUnchecked, getHeight,
-        getHeightUnchecked, setContentScriptType, getContentScriptType,
-        setContentStyleType, getContentStyleType, getViewport,
-        getViewportUnchecked, getPixelUnitToMillimeterX,
-        getPixelUnitToMillimeterY, getScreenPixelToMillimeterX,
-        getScreenPixelToMillimeterY, getUseCurrentView, getCurrentView,
-        getCurrentViewUnchecked, setCurrentScale, getCurrentScale,
-        getCurrentTranslate, getCurrentTranslateUnchecked,
-        SVGSVGElement(..), gTypeSVGSVGElement)
+        getElementById_, getElementByIdUnsafe, getElementByIdUnchecked,
+        getX, getXUnchecked, getY, getYUnchecked, getWidth,
+        getWidthUnchecked, getHeight, getHeightUnchecked,
+        setContentScriptType, getContentScriptType, setContentStyleType,
+        getContentStyleType, getViewport, getViewportUnchecked,
+        getPixelUnitToMillimeterX, getPixelUnitToMillimeterY,
+        getScreenPixelToMillimeterX, getScreenPixelToMillimeterY,
+        getUseCurrentView, getCurrentView, getCurrentViewUnchecked,
+        setCurrentScale, getCurrentScale, getCurrentTranslate,
+        getCurrentTranslateUnchecked, SVGSVGElement(..),
+        gTypeSVGSVGElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -40,6 +49,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.suspendRedraw Mozilla SVGSVGElement.suspendRedraw documentation> 
 suspendRedraw :: (MonadDOM m) => SVGSVGElement -> Word -> m Word
@@ -129,6 +148,18 @@ getIntersectionList_ self rect referenceElement
             [toJSVal rect, toJSVal referenceElement]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getIntersectionList Mozilla SVGSVGElement.getIntersectionList documentation> 
+getIntersectionListUnsafe ::
+                          (MonadDOM m, IsSVGElement referenceElement, HasCallStack) =>
+                            SVGSVGElement ->
+                              Maybe SVGRect -> Maybe referenceElement -> m NodeList
+getIntersectionListUnsafe self rect referenceElement
+  = liftDOM
+      (((self ^. jsf "getIntersectionList"
+           [toJSVal rect, toJSVal referenceElement])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getIntersectionList Mozilla SVGSVGElement.getIntersectionList documentation> 
 getIntersectionListUnchecked ::
                              (MonadDOM m, IsSVGElement referenceElement) =>
                                SVGSVGElement ->
@@ -159,6 +190,18 @@ getEnclosureList_ self rect referenceElement
       (void
          (self ^. jsf "getEnclosureList"
             [toJSVal rect, toJSVal referenceElement]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getEnclosureList Mozilla SVGSVGElement.getEnclosureList documentation> 
+getEnclosureListUnsafe ::
+                       (MonadDOM m, IsSVGElement referenceElement, HasCallStack) =>
+                         SVGSVGElement ->
+                           Maybe SVGRect -> Maybe referenceElement -> m NodeList
+getEnclosureListUnsafe self rect referenceElement
+  = liftDOM
+      (((self ^. jsf "getEnclosureList"
+           [toJSVal rect, toJSVal referenceElement])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getEnclosureList Mozilla SVGSVGElement.getEnclosureList documentation> 
 getEnclosureListUnchecked ::
@@ -223,6 +266,14 @@ createSVGNumber_ self
   = liftDOM (void (self ^. jsf "createSVGNumber" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGNumber Mozilla SVGSVGElement.createSVGNumber documentation> 
+createSVGNumberUnsafe ::
+                      (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGNumber
+createSVGNumberUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGNumber" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGNumber Mozilla SVGSVGElement.createSVGNumber documentation> 
 createSVGNumberUnchecked ::
                          (MonadDOM m) => SVGSVGElement -> m SVGNumber
 createSVGNumberUnchecked self
@@ -239,6 +290,14 @@ createSVGLength self
 createSVGLength_ :: (MonadDOM m) => SVGSVGElement -> m ()
 createSVGLength_ self
   = liftDOM (void (self ^. jsf "createSVGLength" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGLength Mozilla SVGSVGElement.createSVGLength documentation> 
+createSVGLengthUnsafe ::
+                      (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGLength
+createSVGLengthUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGLength" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGLength Mozilla SVGSVGElement.createSVGLength documentation> 
 createSVGLengthUnchecked ::
@@ -259,6 +318,14 @@ createSVGAngle_ self
   = liftDOM (void (self ^. jsf "createSVGAngle" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGAngle Mozilla SVGSVGElement.createSVGAngle documentation> 
+createSVGAngleUnsafe ::
+                     (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGAngle
+createSVGAngleUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGAngle" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGAngle Mozilla SVGSVGElement.createSVGAngle documentation> 
 createSVGAngleUnchecked ::
                         (MonadDOM m) => SVGSVGElement -> m SVGAngle
 createSVGAngleUnchecked self
@@ -275,6 +342,14 @@ createSVGPoint self
 createSVGPoint_ :: (MonadDOM m) => SVGSVGElement -> m ()
 createSVGPoint_ self
   = liftDOM (void (self ^. jsf "createSVGPoint" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGPoint Mozilla SVGSVGElement.createSVGPoint documentation> 
+createSVGPointUnsafe ::
+                     (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGPoint
+createSVGPointUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGPoint" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGPoint Mozilla SVGSVGElement.createSVGPoint documentation> 
 createSVGPointUnchecked ::
@@ -295,6 +370,14 @@ createSVGMatrix_ self
   = liftDOM (void (self ^. jsf "createSVGMatrix" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGMatrix Mozilla SVGSVGElement.createSVGMatrix documentation> 
+createSVGMatrixUnsafe ::
+                      (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGMatrix
+createSVGMatrixUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGMatrix" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGMatrix Mozilla SVGSVGElement.createSVGMatrix documentation> 
 createSVGMatrixUnchecked ::
                          (MonadDOM m) => SVGSVGElement -> m SVGMatrix
 createSVGMatrixUnchecked self
@@ -312,6 +395,14 @@ createSVGRect_ self
   = liftDOM (void (self ^. jsf "createSVGRect" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGRect Mozilla SVGSVGElement.createSVGRect documentation> 
+createSVGRectUnsafe ::
+                    (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGRect
+createSVGRectUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGRect" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGRect Mozilla SVGSVGElement.createSVGRect documentation> 
 createSVGRectUnchecked ::
                        (MonadDOM m) => SVGSVGElement -> m SVGRect
 createSVGRectUnchecked self
@@ -327,6 +418,14 @@ createSVGTransform self
 createSVGTransform_ :: (MonadDOM m) => SVGSVGElement -> m ()
 createSVGTransform_ self
   = liftDOM (void (self ^. jsf "createSVGTransform" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGTransform Mozilla SVGSVGElement.createSVGTransform documentation> 
+createSVGTransformUnsafe ::
+                         (MonadDOM m, HasCallStack) => SVGSVGElement -> m SVGTransform
+createSVGTransformUnsafe self
+  = liftDOM
+      (((self ^. jsf "createSVGTransform" ()) >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGTransform Mozilla SVGSVGElement.createSVGTransform documentation> 
 createSVGTransformUnchecked ::
@@ -353,6 +452,16 @@ createSVGTransformFromMatrix_ self matrix
          (self ^. jsf "createSVGTransformFromMatrix" [toJSVal matrix]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGTransformFromMatrix Mozilla SVGSVGElement.createSVGTransformFromMatrix documentation> 
+createSVGTransformFromMatrixUnsafe ::
+                                   (MonadDOM m, HasCallStack) =>
+                                     SVGSVGElement -> Maybe SVGMatrix -> m SVGTransform
+createSVGTransformFromMatrixUnsafe self matrix
+  = liftDOM
+      (((self ^. jsf "createSVGTransformFromMatrix" [toJSVal matrix]) >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.createSVGTransformFromMatrix Mozilla SVGSVGElement.createSVGTransformFromMatrix documentation> 
 createSVGTransformFromMatrixUnchecked ::
                                       (MonadDOM m) =>
                                         SVGSVGElement -> Maybe SVGMatrix -> m SVGTransform
@@ -375,6 +484,15 @@ getElementById_ ::
                   SVGSVGElement -> elementId -> m ()
 getElementById_ self elementId
   = liftDOM (void (self ^. jsf "getElementById" [toJSVal elementId]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getElementById Mozilla SVGSVGElement.getElementById documentation> 
+getElementByIdUnsafe ::
+                     (MonadDOM m, ToJSString elementId, HasCallStack) =>
+                       SVGSVGElement -> elementId -> m Element
+getElementByIdUnsafe self elementId
+  = liftDOM
+      (((self ^. jsf "getElementById" [toJSVal elementId]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement.getElementById Mozilla SVGSVGElement.getElementById documentation> 
 getElementByIdUnchecked ::

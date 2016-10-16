@@ -1,21 +1,26 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XMLHttpRequest
        (newXMLHttpRequest, open, setRequestHeader, send, abort,
         getAllResponseHeaders, getAllResponseHeaders_,
-        getAllResponseHeadersUnchecked, getResponseHeader,
-        getResponseHeader_, getResponseHeaderUnchecked, overrideMimeType,
-        pattern UNSENT, pattern OPENED, pattern HEADERS_RECEIVED,
-        pattern LOADING, pattern DONE, abortEvent, error, load, loadEnd,
-        loadStart, progress, timeout, readyStateChange, setTimeout,
-        getTimeout, getReadyState, setWithCredentials, getWithCredentials,
-        getUpload, getUploadUnchecked, getResponseText,
-        getResponseTextUnchecked, getResponseXML, getResponseXMLUnchecked,
-        setResponseType, getResponseType, getResponse,
-        getResponseUnchecked, getStatus, getStatusText, getResponseURL,
-        XMLHttpRequest(..), gTypeXMLHttpRequest)
+        getAllResponseHeadersUnsafe, getAllResponseHeadersUnchecked,
+        getResponseHeader, getResponseHeader_, getResponseHeaderUnsafe,
+        getResponseHeaderUnchecked, overrideMimeType, pattern UNSENT,
+        pattern OPENED, pattern HEADERS_RECEIVED, pattern LOADING,
+        pattern DONE, abortEvent, error, load, loadEnd, loadStart,
+        progress, timeout, readyStateChange, setTimeout, getTimeout,
+        getReadyState, setWithCredentials, getWithCredentials, getUpload,
+        getUploadUnchecked, getResponseText, getResponseTextUnchecked,
+        getResponseXML, getResponseXMLUnchecked, setResponseType,
+        getResponseType, getResponse, getResponseUnchecked, getStatus,
+        getStatusText, getResponseURL, XMLHttpRequest(..),
+        gTypeXMLHttpRequest)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -26,6 +31,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest Mozilla XMLHttpRequest documentation> 
 newXMLHttpRequest :: (MonadDOM m) => m XMLHttpRequest
@@ -75,6 +90,15 @@ getAllResponseHeaders_ self
   = liftDOM (void (self ^. jsf "getAllResponseHeaders" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getAllResponseHeaders Mozilla XMLHttpRequest.getAllResponseHeaders documentation> 
+getAllResponseHeadersUnsafe ::
+                            (MonadDOM m, HasCallStack, FromJSString result) =>
+                              XMLHttpRequest -> m result
+getAllResponseHeadersUnsafe self
+  = liftDOM
+      (((self ^. jsf "getAllResponseHeaders" ()) >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getAllResponseHeaders Mozilla XMLHttpRequest.getAllResponseHeaders documentation> 
 getAllResponseHeadersUnchecked ::
                                (MonadDOM m, FromJSString result) => XMLHttpRequest -> m result
 getAllResponseHeadersUnchecked self
@@ -95,6 +119,17 @@ getResponseHeader_ ::
                    (MonadDOM m, ToJSString header) => XMLHttpRequest -> header -> m ()
 getResponseHeader_ self header
   = liftDOM (void (self ^. jsf "getResponseHeader" [toJSVal header]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
+getResponseHeaderUnsafe ::
+                        (MonadDOM m, ToJSString header, HasCallStack,
+                         FromJSString result) =>
+                          XMLHttpRequest -> header -> m result
+getResponseHeaderUnsafe self header
+  = liftDOM
+      (((self ^. jsf "getResponseHeader" [toJSVal header]) >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
 getResponseHeaderUnchecked ::

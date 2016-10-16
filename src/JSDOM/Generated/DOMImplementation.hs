@@ -1,14 +1,20 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMImplementation
        (hasFeature, hasFeature_, createDocumentType, createDocumentType_,
-        createDocumentTypeUnchecked, createDocument, createDocument_,
+        createDocumentTypeUnsafe, createDocumentTypeUnchecked,
+        createDocument, createDocument_, createDocumentUnsafe,
         createDocumentUnchecked, createCSSStyleSheet, createCSSStyleSheet_,
-        createCSSStyleSheetUnchecked, createHTMLDocument,
-        createHTMLDocument_, createHTMLDocumentUnchecked,
-        DOMImplementation(..), gTypeDOMImplementation)
+        createCSSStyleSheetUnsafe, createCSSStyleSheetUnchecked,
+        createHTMLDocument, createHTMLDocument_, createHTMLDocumentUnsafe,
+        createHTMLDocumentUnchecked, DOMImplementation(..),
+        gTypeDOMImplementation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
+import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
 import Data.Int (Int64)
@@ -19,6 +25,16 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+#if MIN_VERSION_base(4,9,0)
+import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.hasFeature Mozilla DOMImplementation.hasFeature documentation> 
 hasFeature ::
@@ -64,6 +80,20 @@ createDocumentType_ self qualifiedName publicId systemId
             [toJSVal qualifiedName, toJSVal publicId, toJSVal systemId]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createDocumentType Mozilla DOMImplementation.createDocumentType documentation> 
+createDocumentTypeUnsafe ::
+                         (MonadDOM m, ToJSString qualifiedName, ToJSString publicId,
+                          ToJSString systemId, HasCallStack) =>
+                           DOMImplementation ->
+                             Maybe qualifiedName ->
+                               Maybe publicId -> Maybe systemId -> m DocumentType
+createDocumentTypeUnsafe self qualifiedName publicId systemId
+  = liftDOM
+      (((self ^. jsf "createDocumentType"
+           [toJSVal qualifiedName, toJSVal publicId, toJSVal systemId])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createDocumentType Mozilla DOMImplementation.createDocumentType documentation> 
 createDocumentTypeUnchecked ::
                             (MonadDOM m, ToJSString qualifiedName, ToJSString publicId,
                              ToJSString systemId) =>
@@ -101,6 +131,20 @@ createDocument_ self namespaceURI qualifiedName doctype
             [toJSVal namespaceURI, toJSVal qualifiedName, toJSVal doctype]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createDocument Mozilla DOMImplementation.createDocument documentation> 
+createDocumentUnsafe ::
+                     (MonadDOM m, ToJSString namespaceURI, ToJSString qualifiedName,
+                      HasCallStack) =>
+                       DOMImplementation ->
+                         Maybe namespaceURI ->
+                           Maybe qualifiedName -> Maybe DocumentType -> m Document
+createDocumentUnsafe self namespaceURI qualifiedName doctype
+  = liftDOM
+      (((self ^. jsf "createDocument"
+           [toJSVal namespaceURI, toJSVal qualifiedName, toJSVal doctype])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createDocument Mozilla DOMImplementation.createDocument documentation> 
 createDocumentUnchecked ::
                         (MonadDOM m, ToJSString namespaceURI, ToJSString qualifiedName) =>
                           DOMImplementation ->
@@ -131,6 +175,17 @@ createCSSStyleSheet_ self title media
          (self ^. jsf "createCSSStyleSheet" [toJSVal title, toJSVal media]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createCSSStyleSheet Mozilla DOMImplementation.createCSSStyleSheet documentation> 
+createCSSStyleSheetUnsafe ::
+                          (MonadDOM m, ToJSString title, ToJSString media, HasCallStack) =>
+                            DOMImplementation -> title -> media -> m CSSStyleSheet
+createCSSStyleSheetUnsafe self title media
+  = liftDOM
+      (((self ^. jsf "createCSSStyleSheet"
+           [toJSVal title, toJSVal media])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createCSSStyleSheet Mozilla DOMImplementation.createCSSStyleSheet documentation> 
 createCSSStyleSheetUnchecked ::
                              (MonadDOM m, ToJSString title, ToJSString media) =>
                                DOMImplementation -> title -> media -> m CSSStyleSheet
@@ -153,6 +208,15 @@ createHTMLDocument_ ::
                       DOMImplementation -> title -> m ()
 createHTMLDocument_ self title
   = liftDOM (void (self ^. jsf "createHTMLDocument" [toJSVal title]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument Mozilla DOMImplementation.createHTMLDocument documentation> 
+createHTMLDocumentUnsafe ::
+                         (MonadDOM m, ToJSString title, HasCallStack) =>
+                           DOMImplementation -> title -> m HTMLDocument
+createHTMLDocumentUnsafe self title
+  = liftDOM
+      (((self ^. jsf "createHTMLDocument" [toJSVal title]) >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument Mozilla DOMImplementation.createHTMLDocument documentation> 
 createHTMLDocumentUnchecked ::
