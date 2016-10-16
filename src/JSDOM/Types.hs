@@ -6,7 +6,8 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE ImplicitParams #-}
+-- For HasCallStack compatibility
+{-# LANGUAGE ImplicitParams, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Types (
   -- * JavaScript Context and Monad
@@ -707,7 +708,16 @@ import Control.Exception (bracket)
 #ifdef ghcjs_HOST_OS
 import GHCJS.Marshal.Pure (PToJSVal(..), PFromJSVal(..))
 #endif
+#if MIN_VERSION_base(4,9,0)
 import GHC.Stack (HasCallStack)
+#elif MIN_VERSION_base(4,8,0)
+import GHC.Stack (CallStack)
+import GHC.Exts (Constraint)
+type HasCallStack = ((?callStack :: CallStack) :: Constraint)
+#else
+import GHC.Exts (Constraint)
+type HasCallStack = (() :: Constraint)
+#endif
 
 -- | This is the same as 'JSM' except when using ghcjs-dom-webkit with GHC (instead of ghcjs-dom-jsaddle)
 type DOM = JSM
