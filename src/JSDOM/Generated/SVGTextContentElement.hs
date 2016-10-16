@@ -15,7 +15,8 @@ module JSDOM.Generated.SVGTextContentElement
         getCharNumAtPosition, getCharNumAtPosition_, selectSubString,
         pattern LENGTHADJUST_UNKNOWN, pattern LENGTHADJUST_SPACING,
         pattern LENGTHADJUST_SPACINGANDGLYPHS, getTextLength,
-        getTextLengthUnchecked, getLengthAdjust, getLengthAdjustUnchecked,
+        getTextLengthUnsafe, getTextLengthUnchecked, getLengthAdjust,
+        getLengthAdjustUnsafe, getLengthAdjustUnchecked,
         SVGTextContentElement(..), gTypeSVGTextContentElement,
         IsSVGTextContentElement, toSVGTextContentElement)
        where
@@ -280,6 +281,16 @@ getTextLength self
       (((toSVGTextContentElement self) ^. js "textLength") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.textLength Mozilla SVGTextContentElement.textLength documentation> 
+getTextLengthUnsafe ::
+                    (MonadDOM m, IsSVGTextContentElement self, HasCallStack) =>
+                      self -> m SVGAnimatedLength
+getTextLengthUnsafe self
+  = liftDOM
+      ((((toSVGTextContentElement self) ^. js "textLength") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.textLength Mozilla SVGTextContentElement.textLength documentation> 
 getTextLengthUnchecked ::
                        (MonadDOM m, IsSVGTextContentElement self) =>
                          self -> m SVGAnimatedLength
@@ -296,6 +307,16 @@ getLengthAdjust self
   = liftDOM
       (((toSVGTextContentElement self) ^. js "lengthAdjust") >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.lengthAdjust Mozilla SVGTextContentElement.lengthAdjust documentation> 
+getLengthAdjustUnsafe ::
+                      (MonadDOM m, IsSVGTextContentElement self, HasCallStack) =>
+                        self -> m SVGAnimatedEnumeration
+getLengthAdjustUnsafe self
+  = liftDOM
+      ((((toSVGTextContentElement self) ^. js "lengthAdjust") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextContentElement.lengthAdjust Mozilla SVGTextContentElement.lengthAdjust documentation> 
 getLengthAdjustUnchecked ::

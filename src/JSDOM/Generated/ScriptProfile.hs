@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ScriptProfile
-       (getTitle, getUid, getRootNode, getRootNodeUnchecked,
-        ScriptProfile(..), gTypeScriptProfile)
+       (getTitle, getUid, getRootNode, getRootNodeUnsafe,
+        getRootNodeUnchecked, ScriptProfile(..), gTypeScriptProfile)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -45,6 +45,14 @@ getUid self
 getRootNode ::
             (MonadDOM m) => ScriptProfile -> m (Maybe ScriptProfileNode)
 getRootNode self = liftDOM ((self ^. js "rootNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfile.rootNode Mozilla ScriptProfile.rootNode documentation> 
+getRootNodeUnsafe ::
+                  (MonadDOM m, HasCallStack) => ScriptProfile -> m ScriptProfileNode
+getRootNodeUnsafe self
+  = liftDOM
+      (((self ^. js "rootNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ScriptProfile.rootNode Mozilla ScriptProfile.rootNode documentation> 
 getRootNodeUnchecked ::

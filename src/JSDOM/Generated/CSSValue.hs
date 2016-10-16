@@ -6,8 +6,8 @@
 module JSDOM.Generated.CSSValue
        (pattern CSS_INHERIT, pattern CSS_PRIMITIVE_VALUE,
         pattern CSS_VALUE_LIST, pattern CSS_CUSTOM, setCssText, getCssText,
-        getCssTextUnchecked, getCssValueType, CSSValue(..), gTypeCSSValue,
-        IsCSSValue, toCSSValue)
+        getCssTextUnsafe, getCssTextUnchecked, getCssValueType,
+        CSSValue(..), gTypeCSSValue, IsCSSValue, toCSSValue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -50,6 +50,15 @@ getCssText ::
 getCssText self
   = liftDOM
       (((toCSSValue self) ^. js "cssText") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValue.cssText Mozilla CSSValue.cssText documentation> 
+getCssTextUnsafe ::
+                 (MonadDOM m, IsCSSValue self, HasCallStack, FromJSString result) =>
+                   self -> m result
+getCssTextUnsafe self
+  = liftDOM
+      ((((toCSSValue self) ^. js "cssText") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValue.cssText Mozilla CSSValue.cssText documentation> 
 getCssTextUnchecked ::

@@ -23,9 +23,11 @@ module JSDOM.Generated.Range
         pattern START_TO_END, pattern END_TO_END, pattern END_TO_START,
         pattern NODE_BEFORE, pattern NODE_AFTER,
         pattern NODE_BEFORE_AND_AFTER, pattern NODE_INSIDE,
-        getStartContainer, getStartContainerUnchecked, getStartOffset,
-        getEndContainer, getEndContainerUnchecked, getEndOffset,
+        getStartContainer, getStartContainerUnsafe,
+        getStartContainerUnchecked, getStartOffset, getEndContainer,
+        getEndContainerUnsafe, getEndContainerUnchecked, getEndOffset,
         getCollapsed, getCommonAncestorContainer,
+        getCommonAncestorContainerUnsafe,
         getCommonAncestorContainerUnchecked, Range(..), gTypeRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -404,6 +406,14 @@ getStartContainer self
   = liftDOM ((self ^. js "startContainer") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startContainer Mozilla Range.startContainer documentation> 
+getStartContainerUnsafe ::
+                        (MonadDOM m, HasCallStack) => Range -> m Node
+getStartContainerUnsafe self
+  = liftDOM
+      (((self ^. js "startContainer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startContainer Mozilla Range.startContainer documentation> 
 getStartContainerUnchecked :: (MonadDOM m) => Range -> m Node
 getStartContainerUnchecked self
   = liftDOM ((self ^. js "startContainer") >>= fromJSValUnchecked)
@@ -417,6 +427,14 @@ getStartOffset self
 getEndContainer :: (MonadDOM m) => Range -> m (Maybe Node)
 getEndContainer self
   = liftDOM ((self ^. js "endContainer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endContainer Mozilla Range.endContainer documentation> 
+getEndContainerUnsafe ::
+                      (MonadDOM m, HasCallStack) => Range -> m Node
+getEndContainerUnsafe self
+  = liftDOM
+      (((self ^. js "endContainer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endContainer Mozilla Range.endContainer documentation> 
 getEndContainerUnchecked :: (MonadDOM m) => Range -> m Node
@@ -438,6 +456,14 @@ getCommonAncestorContainer ::
                            (MonadDOM m) => Range -> m (Maybe Node)
 getCommonAncestorContainer self
   = liftDOM ((self ^. js "commonAncestorContainer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.commonAncestorContainer Mozilla Range.commonAncestorContainer documentation> 
+getCommonAncestorContainerUnsafe ::
+                                 (MonadDOM m, HasCallStack) => Range -> m Node
+getCommonAncestorContainerUnsafe self
+  = liftDOM
+      (((self ^. js "commonAncestorContainer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.commonAncestorContainer Mozilla Range.commonAncestorContainer documentation> 
 getCommonAncestorContainerUnchecked ::

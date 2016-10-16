@@ -8,8 +8,8 @@ module JSDOM.Generated.ReadableStream
         cancel_, cancelUnsafe, cancelUnchecked, pipeTo, pipeTo_,
         pipeToUnsafe, pipeToUnchecked, pipeThrough, pipeThrough_,
         pipeThroughUnsafe, pipeThroughUnchecked, getState, getClosed,
-        getClosedUnchecked, getReady, getReadyUnchecked,
-        ReadableStream(..), gTypeReadableStream)
+        getClosedUnsafe, getClosedUnchecked, getReady, getReadyUnsafe,
+        getReadyUnchecked, ReadableStream(..), gTypeReadableStream)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -170,6 +170,14 @@ getClosed :: (MonadDOM m) => ReadableStream -> m (Maybe Promise)
 getClosed self = liftDOM ((self ^. js "closed") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.closed Mozilla ReadableStream.closed documentation> 
+getClosedUnsafe ::
+                (MonadDOM m, HasCallStack) => ReadableStream -> m Promise
+getClosedUnsafe self
+  = liftDOM
+      (((self ^. js "closed") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.closed Mozilla ReadableStream.closed documentation> 
 getClosedUnchecked :: (MonadDOM m) => ReadableStream -> m Promise
 getClosedUnchecked self
   = liftDOM ((self ^. js "closed") >>= fromJSValUnchecked)
@@ -177,6 +185,14 @@ getClosedUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.ready Mozilla ReadableStream.ready documentation> 
 getReady :: (MonadDOM m) => ReadableStream -> m (Maybe Promise)
 getReady self = liftDOM ((self ^. js "ready") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.ready Mozilla ReadableStream.ready documentation> 
+getReadyUnsafe ::
+               (MonadDOM m, HasCallStack) => ReadableStream -> m Promise
+getReadyUnsafe self
+  = liftDOM
+      (((self ^. js "ready") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream.ready Mozilla ReadableStream.ready documentation> 
 getReadyUnchecked :: (MonadDOM m) => ReadableStream -> m Promise

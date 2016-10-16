@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCIceCandidateEvent
-       (getCandidate, getCandidateUnchecked, RTCIceCandidateEvent(..),
-        gTypeRTCIceCandidateEvent)
+       (getCandidate, getCandidateUnsafe, getCandidateUnchecked,
+        RTCIceCandidateEvent(..), gTypeRTCIceCandidateEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -35,6 +35,15 @@ getCandidate ::
              (MonadDOM m) => RTCIceCandidateEvent -> m (Maybe RTCIceCandidate)
 getCandidate self
   = liftDOM ((self ^. js "candidate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidateEvent.candidate Mozilla RTCIceCandidateEvent.candidate documentation> 
+getCandidateUnsafe ::
+                   (MonadDOM m, HasCallStack) =>
+                     RTCIceCandidateEvent -> m RTCIceCandidate
+getCandidateUnsafe self
+  = liftDOM
+      (((self ^. js "candidate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidateEvent.candidate Mozilla RTCIceCandidateEvent.candidate documentation> 
 getCandidateUnchecked ::

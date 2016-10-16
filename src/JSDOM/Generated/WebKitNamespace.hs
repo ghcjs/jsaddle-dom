@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitNamespace
-       (getMessageHandlers, getMessageHandlersUnchecked,
-        WebKitNamespace(..), gTypeWebKitNamespace)
+       (getMessageHandlers, getMessageHandlersUnsafe,
+        getMessageHandlersUnchecked, WebKitNamespace(..),
+        gTypeWebKitNamespace)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +37,15 @@ getMessageHandlers ::
                      WebKitNamespace -> m (Maybe UserMessageHandlersNamespace)
 getMessageHandlers self
   = liftDOM ((self ^. js "messageHandlers") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamespace.messageHandlers Mozilla WebKitNamespace.messageHandlers documentation> 
+getMessageHandlersUnsafe ::
+                         (MonadDOM m, HasCallStack) =>
+                           WebKitNamespace -> m UserMessageHandlersNamespace
+getMessageHandlersUnsafe self
+  = liftDOM
+      (((self ^. js "messageHandlers") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitNamespace.messageHandlers Mozilla WebKitNamespace.messageHandlers documentation> 
 getMessageHandlersUnchecked ::

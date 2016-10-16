@@ -9,12 +9,14 @@ module JSDOM.Generated.SVGMarkerElement
         pattern SVG_MARKERUNITS_USERSPACEONUSE,
         pattern SVG_MARKERUNITS_STROKEWIDTH,
         pattern SVG_MARKER_ORIENT_UNKNOWN, pattern SVG_MARKER_ORIENT_AUTO,
-        pattern SVG_MARKER_ORIENT_ANGLE, getRefX, getRefXUnchecked,
-        getRefY, getRefYUnchecked, getMarkerUnits, getMarkerUnitsUnchecked,
-        getMarkerWidth, getMarkerWidthUnchecked, getMarkerHeight,
-        getMarkerHeightUnchecked, getOrientType, getOrientTypeUnchecked,
-        getOrientAngle, getOrientAngleUnchecked, SVGMarkerElement(..),
-        gTypeSVGMarkerElement)
+        pattern SVG_MARKER_ORIENT_ANGLE, getRefX, getRefXUnsafe,
+        getRefXUnchecked, getRefY, getRefYUnsafe, getRefYUnchecked,
+        getMarkerUnits, getMarkerUnitsUnsafe, getMarkerUnitsUnchecked,
+        getMarkerWidth, getMarkerWidthUnsafe, getMarkerWidthUnchecked,
+        getMarkerHeight, getMarkerHeightUnsafe, getMarkerHeightUnchecked,
+        getOrientType, getOrientTypeUnsafe, getOrientTypeUnchecked,
+        getOrientAngle, getOrientAngleUnsafe, getOrientAngleUnchecked,
+        SVGMarkerElement(..), gTypeSVGMarkerElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -62,6 +64,15 @@ getRefX ::
 getRefX self = liftDOM ((self ^. js "refX") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.refX Mozilla SVGMarkerElement.refX documentation> 
+getRefXUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                SVGMarkerElement -> m SVGAnimatedLength
+getRefXUnsafe self
+  = liftDOM
+      (((self ^. js "refX") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.refX Mozilla SVGMarkerElement.refX documentation> 
 getRefXUnchecked ::
                  (MonadDOM m) => SVGMarkerElement -> m SVGAnimatedLength
 getRefXUnchecked self
@@ -71,6 +82,15 @@ getRefXUnchecked self
 getRefY ::
         (MonadDOM m) => SVGMarkerElement -> m (Maybe SVGAnimatedLength)
 getRefY self = liftDOM ((self ^. js "refY") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.refY Mozilla SVGMarkerElement.refY documentation> 
+getRefYUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                SVGMarkerElement -> m SVGAnimatedLength
+getRefYUnsafe self
+  = liftDOM
+      (((self ^. js "refY") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.refY Mozilla SVGMarkerElement.refY documentation> 
 getRefYUnchecked ::
@@ -86,6 +106,15 @@ getMarkerUnits self
   = liftDOM ((self ^. js "markerUnits") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.markerUnits Mozilla SVGMarkerElement.markerUnits documentation> 
+getMarkerUnitsUnsafe ::
+                     (MonadDOM m, HasCallStack) =>
+                       SVGMarkerElement -> m SVGAnimatedEnumeration
+getMarkerUnitsUnsafe self
+  = liftDOM
+      (((self ^. js "markerUnits") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.markerUnits Mozilla SVGMarkerElement.markerUnits documentation> 
 getMarkerUnitsUnchecked ::
                         (MonadDOM m) => SVGMarkerElement -> m SVGAnimatedEnumeration
 getMarkerUnitsUnchecked self
@@ -98,6 +127,15 @@ getMarkerWidth self
   = liftDOM ((self ^. js "markerWidth") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.markerWidth Mozilla SVGMarkerElement.markerWidth documentation> 
+getMarkerWidthUnsafe ::
+                     (MonadDOM m, HasCallStack) =>
+                       SVGMarkerElement -> m SVGAnimatedLength
+getMarkerWidthUnsafe self
+  = liftDOM
+      (((self ^. js "markerWidth") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.markerWidth Mozilla SVGMarkerElement.markerWidth documentation> 
 getMarkerWidthUnchecked ::
                         (MonadDOM m) => SVGMarkerElement -> m SVGAnimatedLength
 getMarkerWidthUnchecked self
@@ -108,6 +146,15 @@ getMarkerHeight ::
                 (MonadDOM m) => SVGMarkerElement -> m (Maybe SVGAnimatedLength)
 getMarkerHeight self
   = liftDOM ((self ^. js "markerHeight") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.markerHeight Mozilla SVGMarkerElement.markerHeight documentation> 
+getMarkerHeightUnsafe ::
+                      (MonadDOM m, HasCallStack) =>
+                        SVGMarkerElement -> m SVGAnimatedLength
+getMarkerHeightUnsafe self
+  = liftDOM
+      (((self ^. js "markerHeight") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.markerHeight Mozilla SVGMarkerElement.markerHeight documentation> 
 getMarkerHeightUnchecked ::
@@ -123,6 +170,15 @@ getOrientType self
   = liftDOM ((self ^. js "orientType") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.orientType Mozilla SVGMarkerElement.orientType documentation> 
+getOrientTypeUnsafe ::
+                    (MonadDOM m, HasCallStack) =>
+                      SVGMarkerElement -> m SVGAnimatedEnumeration
+getOrientTypeUnsafe self
+  = liftDOM
+      (((self ^. js "orientType") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.orientType Mozilla SVGMarkerElement.orientType documentation> 
 getOrientTypeUnchecked ::
                        (MonadDOM m) => SVGMarkerElement -> m SVGAnimatedEnumeration
 getOrientTypeUnchecked self
@@ -133,6 +189,15 @@ getOrientAngle ::
                (MonadDOM m) => SVGMarkerElement -> m (Maybe SVGAnimatedAngle)
 getOrientAngle self
   = liftDOM ((self ^. js "orientAngle") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.orientAngle Mozilla SVGMarkerElement.orientAngle documentation> 
+getOrientAngleUnsafe ::
+                     (MonadDOM m, HasCallStack) =>
+                       SVGMarkerElement -> m SVGAnimatedAngle
+getOrientAngleUnsafe self
+  = liftDOM
+      (((self ^. js "orientAngle") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGMarkerElement.orientAngle Mozilla SVGMarkerElement.orientAngle documentation> 
 getOrientAngleUnchecked ::

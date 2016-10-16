@@ -4,9 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioProcessingEvent
-       (getPlaybackTime, getInputBuffer, getInputBufferUnchecked,
-        getOutputBuffer, getOutputBufferUnchecked,
-        AudioProcessingEvent(..), gTypeAudioProcessingEvent)
+       (getPlaybackTime, getInputBuffer, getInputBufferUnsafe,
+        getInputBufferUnchecked, getOutputBuffer, getOutputBufferUnsafe,
+        getOutputBufferUnchecked, AudioProcessingEvent(..),
+        gTypeAudioProcessingEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -43,6 +44,14 @@ getInputBuffer self
   = liftDOM ((self ^. js "inputBuffer") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioProcessingEvent.inputBuffer Mozilla AudioProcessingEvent.inputBuffer documentation> 
+getInputBufferUnsafe ::
+                     (MonadDOM m, HasCallStack) => AudioProcessingEvent -> m AudioBuffer
+getInputBufferUnsafe self
+  = liftDOM
+      (((self ^. js "inputBuffer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioProcessingEvent.inputBuffer Mozilla AudioProcessingEvent.inputBuffer documentation> 
 getInputBufferUnchecked ::
                         (MonadDOM m) => AudioProcessingEvent -> m AudioBuffer
 getInputBufferUnchecked self
@@ -53,6 +62,14 @@ getOutputBuffer ::
                 (MonadDOM m) => AudioProcessingEvent -> m (Maybe AudioBuffer)
 getOutputBuffer self
   = liftDOM ((self ^. js "outputBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioProcessingEvent.outputBuffer Mozilla AudioProcessingEvent.outputBuffer documentation> 
+getOutputBufferUnsafe ::
+                      (MonadDOM m, HasCallStack) => AudioProcessingEvent -> m AudioBuffer
+getOutputBufferUnsafe self
+  = liftDOM
+      (((self ^. js "outputBuffer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioProcessingEvent.outputBuffer Mozilla AudioProcessingEvent.outputBuffer documentation> 
 getOutputBufferUnchecked ::

@@ -4,10 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TextTrackCue
-       (newTextTrackCue, getTrack, getTrackUnchecked, setId, getId,
-        setStartTime, getStartTime, setEndTime, getEndTime, setPauseOnExit,
-        getPauseOnExit, enter, exit, TextTrackCue(..), gTypeTextTrackCue,
-        IsTextTrackCue, toTextTrackCue)
+       (newTextTrackCue, getTrack, getTrackUnsafe, getTrackUnchecked,
+        setId, getId, setStartTime, getStartTime, setEndTime, getEndTime,
+        setPauseOnExit, getPauseOnExit, enter, exit, TextTrackCue(..),
+        gTypeTextTrackCue, IsTextTrackCue, toTextTrackCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -47,6 +47,15 @@ getTrack ::
          (MonadDOM m, IsTextTrackCue self) => self -> m (Maybe TextTrack)
 getTrack self
   = liftDOM (((toTextTrackCue self) ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCue.track Mozilla TextTrackCue.track documentation> 
+getTrackUnsafe ::
+               (MonadDOM m, IsTextTrackCue self, HasCallStack) =>
+                 self -> m TextTrack
+getTrackUnsafe self
+  = liftDOM
+      ((((toTextTrackCue self) ^. js "track") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrackCue.track Mozilla TextTrackCue.track documentation> 
 getTrackUnchecked ::

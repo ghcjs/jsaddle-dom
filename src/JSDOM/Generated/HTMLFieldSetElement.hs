@@ -5,9 +5,10 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFieldSetElement
        (checkValidity, checkValidity_, setCustomValidity, setDisabled,
-        getDisabled, getForm, getFormUnchecked, setName, getName, getType,
-        getElements, getElementsUnchecked, getWillValidate, getValidity,
-        getValidityUnchecked, getValidationMessage,
+        getDisabled, getForm, getFormUnsafe, getFormUnchecked, setName,
+        getName, getType, getElements, getElementsUnsafe,
+        getElementsUnchecked, getWillValidate, getValidity,
+        getValidityUnsafe, getValidityUnchecked, getValidationMessage,
         HTMLFieldSetElement(..), gTypeHTMLFieldSetElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -65,6 +66,15 @@ getForm ::
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.form Mozilla HTMLFieldSetElement.form documentation> 
+getFormUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                HTMLFieldSetElement -> m HTMLFormElement
+getFormUnsafe self
+  = liftDOM
+      (((self ^. js "form") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.form Mozilla HTMLFieldSetElement.form documentation> 
 getFormUnchecked ::
                  (MonadDOM m) => HTMLFieldSetElement -> m HTMLFormElement
 getFormUnchecked self
@@ -93,6 +103,15 @@ getElements ::
 getElements self = liftDOM ((self ^. js "elements") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.elements Mozilla HTMLFieldSetElement.elements documentation> 
+getElementsUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    HTMLFieldSetElement -> m HTMLCollection
+getElementsUnsafe self
+  = liftDOM
+      (((self ^. js "elements") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.elements Mozilla HTMLFieldSetElement.elements documentation> 
 getElementsUnchecked ::
                      (MonadDOM m) => HTMLFieldSetElement -> m HTMLCollection
 getElementsUnchecked self
@@ -107,6 +126,15 @@ getWillValidate self
 getValidity ::
             (MonadDOM m) => HTMLFieldSetElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validity Mozilla HTMLFieldSetElement.validity documentation> 
+getValidityUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    HTMLFieldSetElement -> m ValidityState
+getValidityUnsafe self
+  = liftDOM
+      (((self ^. js "validity") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validity Mozilla HTMLFieldSetElement.validity documentation> 
 getValidityUnchecked ::

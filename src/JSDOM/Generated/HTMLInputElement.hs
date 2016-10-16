@@ -10,29 +10,32 @@ module JSDOM.Generated.HTMLInputElement
         setAutocomplete, getAutocomplete, setAutofocus, getAutofocus,
         setDefaultChecked, getDefaultChecked, setChecked, getChecked,
         setDirName, getDirName, setDisabled, getDisabled, getForm,
-        getFormUnchecked, setFiles, getFiles, getFilesUnchecked,
-        setFormAction, getFormAction, setFormEnctype, getFormEnctype,
+        getFormUnsafe, getFormUnchecked, setFiles, getFiles,
+        getFilesUnsafe, getFilesUnchecked, setFormAction, getFormAction,
+        setFormEnctype, getFormEnctype, getFormEnctypeUnsafe,
         getFormEnctypeUnchecked, setFormMethod, getFormMethod,
-        getFormMethodUnchecked, setFormNoValidate, getFormNoValidate,
-        setFormTarget, getFormTarget, setHeight, getHeight,
-        setIndeterminate, getIndeterminate, getList, getListUnchecked,
-        setMax, getMax, setMaxLength, getMaxLength, setMin, getMin,
-        setMultiple, getMultiple, setName, getName, setPattern, getPattern,
-        setPlaceholder, getPlaceholder, setReadOnly, getReadOnly,
-        setRequired, getRequired, setSize, getSize, setSrc, getSrc,
-        setStep, getStep, setType, getType, setDefaultValue,
-        getDefaultValue, getDefaultValueUnchecked, setValue, getValue,
+        getFormMethodUnsafe, getFormMethodUnchecked, setFormNoValidate,
+        getFormNoValidate, setFormTarget, getFormTarget, setHeight,
+        getHeight, setIndeterminate, getIndeterminate, getList,
+        getListUnsafe, getListUnchecked, setMax, getMax, setMaxLength,
+        getMaxLength, setMin, getMin, setMultiple, getMultiple, setName,
+        getName, setPattern, getPattern, setPlaceholder, getPlaceholder,
+        setReadOnly, getReadOnly, setRequired, getRequired, setSize,
+        getSize, setSrc, getSrc, setStep, getStep, setType, getType,
+        setDefaultValue, getDefaultValue, getDefaultValueUnsafe,
+        getDefaultValueUnchecked, setValue, getValue, getValueUnsafe,
         getValueUnchecked, setValueAsDate, getValueAsDate,
-        getValueAsDateUnchecked, setValueAsNumber, getValueAsNumber,
-        setWidth, getWidth, getWillValidate, getValidity,
-        getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnchecked, setSelectionStart, getSelectionStart,
-        setSelectionEnd, getSelectionEnd, setSelectionDirection,
-        getSelectionDirection, setAlign, getAlign, setUseMap, getUseMap,
-        setIncremental, getIncremental, setAutocorrect, getAutocorrect,
-        setAutocapitalize, getAutocapitalize, getAutocapitalizeUnchecked,
-        setCapture, getCapture, HTMLInputElement(..),
-        gTypeHTMLInputElement)
+        getValueAsDateUnsafe, getValueAsDateUnchecked, setValueAsNumber,
+        getValueAsNumber, setWidth, getWidth, getWillValidate, getValidity,
+        getValidityUnsafe, getValidityUnchecked, getValidationMessage,
+        getLabels, getLabelsUnsafe, getLabelsUnchecked, setSelectionStart,
+        getSelectionStart, setSelectionEnd, getSelectionEnd,
+        setSelectionDirection, getSelectionDirection, setAlign, getAlign,
+        setUseMap, getUseMap, setIncremental, getIncremental,
+        setAutocorrect, getAutocorrect, setAutocapitalize,
+        getAutocapitalize, getAutocapitalizeUnsafe,
+        getAutocapitalizeUnchecked, setCapture, getCapture,
+        HTMLInputElement(..), gTypeHTMLInputElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -204,6 +207,14 @@ getForm ::
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.form Mozilla HTMLInputElement.form documentation> 
+getFormUnsafe ::
+              (MonadDOM m, HasCallStack) => HTMLInputElement -> m HTMLFormElement
+getFormUnsafe self
+  = liftDOM
+      (((self ^. js "form") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.form Mozilla HTMLInputElement.form documentation> 
 getFormUnchecked ::
                  (MonadDOM m) => HTMLInputElement -> m HTMLFormElement
 getFormUnchecked self
@@ -217,6 +228,14 @@ setFiles self val = liftDOM (self ^. jss "files" (toJSVal val))
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.files Mozilla HTMLInputElement.files documentation> 
 getFiles :: (MonadDOM m) => HTMLInputElement -> m (Maybe FileList)
 getFiles self = liftDOM ((self ^. js "files") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.files Mozilla HTMLInputElement.files documentation> 
+getFilesUnsafe ::
+               (MonadDOM m, HasCallStack) => HTMLInputElement -> m FileList
+getFilesUnsafe self
+  = liftDOM
+      (((self ^. js "files") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.files Mozilla HTMLInputElement.files documentation> 
 getFilesUnchecked :: (MonadDOM m) => HTMLInputElement -> m FileList
@@ -250,6 +269,15 @@ getFormEnctype self
   = liftDOM ((self ^. js "formEnctype") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.formEnctype Mozilla HTMLInputElement.formEnctype documentation> 
+getFormEnctypeUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLInputElement -> m result
+getFormEnctypeUnsafe self
+  = liftDOM
+      (((self ^. js "formEnctype") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.formEnctype Mozilla HTMLInputElement.formEnctype documentation> 
 getFormEnctypeUnchecked ::
                         (MonadDOM m, FromJSString result) => HTMLInputElement -> m result
 getFormEnctypeUnchecked self
@@ -268,6 +296,15 @@ getFormMethod ::
                 HTMLInputElement -> m (Maybe result)
 getFormMethod self
   = liftDOM ((self ^. js "formMethod") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.formMethod Mozilla HTMLInputElement.formMethod documentation> 
+getFormMethodUnsafe ::
+                    (MonadDOM m, HasCallStack, FromJSString result) =>
+                      HTMLInputElement -> m result
+getFormMethodUnsafe self
+  = liftDOM
+      (((self ^. js "formMethod") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.formMethod Mozilla HTMLInputElement.formMethod documentation> 
 getFormMethodUnchecked ::
@@ -322,6 +359,14 @@ getIndeterminate self
 getList ::
         (MonadDOM m) => HTMLInputElement -> m (Maybe HTMLElement)
 getList self = liftDOM ((self ^. js "list") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.list Mozilla HTMLInputElement.list documentation> 
+getListUnsafe ::
+              (MonadDOM m, HasCallStack) => HTMLInputElement -> m HTMLElement
+getListUnsafe self
+  = liftDOM
+      (((self ^. js "list") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.list Mozilla HTMLInputElement.list documentation> 
 getListUnchecked ::
@@ -473,6 +518,15 @@ getDefaultValue self
   = liftDOM ((self ^. js "defaultValue") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.defaultValue Mozilla HTMLInputElement.defaultValue documentation> 
+getDefaultValueUnsafe ::
+                      (MonadDOM m, HasCallStack, FromJSString result) =>
+                        HTMLInputElement -> m result
+getDefaultValueUnsafe self
+  = liftDOM
+      (((self ^. js "defaultValue") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.defaultValue Mozilla HTMLInputElement.defaultValue documentation> 
 getDefaultValueUnchecked ::
                          (MonadDOM m, FromJSString result) => HTMLInputElement -> m result
 getDefaultValueUnchecked self
@@ -492,6 +546,15 @@ getValue self
   = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.value Mozilla HTMLInputElement.value documentation> 
+getValueUnsafe ::
+               (MonadDOM m, HasCallStack, FromJSString result) =>
+                 HTMLInputElement -> m result
+getValueUnsafe self
+  = liftDOM
+      (((self ^. js "value") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.value Mozilla HTMLInputElement.value documentation> 
 getValueUnchecked ::
                   (MonadDOM m, FromJSString result) => HTMLInputElement -> m result
 getValueUnchecked self
@@ -508,6 +571,14 @@ getValueAsDate ::
                (MonadDOM m) => HTMLInputElement -> m (Maybe Date)
 getValueAsDate self
   = liftDOM ((self ^. js "valueAsDate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.valueAsDate Mozilla HTMLInputElement.valueAsDate documentation> 
+getValueAsDateUnsafe ::
+                     (MonadDOM m, HasCallStack) => HTMLInputElement -> m Date
+getValueAsDateUnsafe self
+  = liftDOM
+      (((self ^. js "valueAsDate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.valueAsDate Mozilla HTMLInputElement.valueAsDate documentation> 
 getValueAsDateUnchecked ::
@@ -546,6 +617,14 @@ getValidity ::
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.validity Mozilla HTMLInputElement.validity documentation> 
+getValidityUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLInputElement -> m ValidityState
+getValidityUnsafe self
+  = liftDOM
+      (((self ^. js "validity") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.validity Mozilla HTMLInputElement.validity documentation> 
 getValidityUnchecked ::
                      (MonadDOM m) => HTMLInputElement -> m ValidityState
 getValidityUnchecked self
@@ -560,6 +639,14 @@ getValidationMessage self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.labels Mozilla HTMLInputElement.labels documentation> 
 getLabels :: (MonadDOM m) => HTMLInputElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.labels Mozilla HTMLInputElement.labels documentation> 
+getLabelsUnsafe ::
+                (MonadDOM m, HasCallStack) => HTMLInputElement -> m NodeList
+getLabelsUnsafe self
+  = liftDOM
+      (((self ^. js "labels") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.labels Mozilla HTMLInputElement.labels documentation> 
 getLabelsUnchecked ::
@@ -657,6 +744,15 @@ getAutocapitalize ::
                     HTMLInputElement -> m (Maybe result)
 getAutocapitalize self
   = liftDOM ((self ^. js "autocapitalize") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.autocapitalize Mozilla HTMLInputElement.autocapitalize documentation> 
+getAutocapitalizeUnsafe ::
+                        (MonadDOM m, HasCallStack, FromJSString result) =>
+                          HTMLInputElement -> m result
+getAutocapitalizeUnsafe self
+  = liftDOM
+      (((self ^. js "autocapitalize") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.autocapitalize Mozilla HTMLInputElement.autocapitalize documentation> 
 getAutocapitalizeUnchecked ::

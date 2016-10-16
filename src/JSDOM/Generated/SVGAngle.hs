@@ -9,8 +9,8 @@ module JSDOM.Generated.SVGAngle
         pattern SVG_ANGLETYPE_DEG, pattern SVG_ANGLETYPE_RAD,
         pattern SVG_ANGLETYPE_GRAD, getUnitType, setValue, getValue,
         setValueInSpecifiedUnits, getValueInSpecifiedUnits,
-        setValueAsString, getValueAsString, getValueAsStringUnchecked,
-        SVGAngle(..), gTypeSVGAngle)
+        setValueAsString, getValueAsString, getValueAsStringUnsafe,
+        getValueAsStringUnchecked, SVGAngle(..), gTypeSVGAngle)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -93,6 +93,15 @@ getValueAsString ::
                  (MonadDOM m, FromJSString result) => SVGAngle -> m (Maybe result)
 getValueAsString self
   = liftDOM ((self ^. js "valueAsString") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAngle.valueAsString Mozilla SVGAngle.valueAsString documentation> 
+getValueAsStringUnsafe ::
+                       (MonadDOM m, HasCallStack, FromJSString result) =>
+                         SVGAngle -> m result
+getValueAsStringUnsafe self
+  = liftDOM
+      (((self ^. js "valueAsString") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAngle.valueAsString Mozilla SVGAngle.valueAsString documentation> 
 getValueAsStringUnchecked ::

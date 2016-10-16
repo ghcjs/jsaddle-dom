@@ -5,9 +5,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SpeechSynthesisUtterance
        (newSpeechSynthesisUtterance, setText, getText, setLang, getLang,
-        setVoice, getVoice, getVoiceUnchecked, setVolume, getVolume,
-        setRate, getRate, setPitch, getPitch, start, end, error, pause,
-        resume, mark, boundary, SpeechSynthesisUtterance(..),
+        setVoice, getVoice, getVoiceUnsafe, getVoiceUnchecked, setVolume,
+        getVolume, setRate, getRate, setPitch, getPitch, start, end, error,
+        pause, resume, mark, boundary, SpeechSynthesisUtterance(..),
         gTypeSpeechSynthesisUtterance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -76,6 +76,15 @@ getVoice ::
          (MonadDOM m) =>
            SpeechSynthesisUtterance -> m (Maybe SpeechSynthesisVoice)
 getVoice self = liftDOM ((self ^. js "voice") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance.voice Mozilla SpeechSynthesisUtterance.voice documentation> 
+getVoiceUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 SpeechSynthesisUtterance -> m SpeechSynthesisVoice
+getVoiceUnsafe self
+  = liftDOM
+      (((self ^. js "voice") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance.voice Mozilla SpeechSynthesisUtterance.voice documentation> 
 getVoiceUnchecked ::

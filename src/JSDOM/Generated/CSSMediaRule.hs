@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSMediaRule
-       (insertRule, insertRule_, deleteRule, getMedia, getMediaUnchecked,
-        getCssRules, getCssRulesUnchecked, CSSMediaRule(..),
-        gTypeCSSMediaRule)
+       (insertRule, insertRule_, deleteRule, getMedia, getMediaUnsafe,
+        getMediaUnchecked, getCssRules, getCssRulesUnsafe,
+        getCssRulesUnchecked, CSSMediaRule(..), gTypeCSSMediaRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -59,6 +59,14 @@ getMedia :: (MonadDOM m) => CSSMediaRule -> m (Maybe MediaList)
 getMedia self = liftDOM ((self ^. js "media") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSMediaRule.media Mozilla CSSMediaRule.media documentation> 
+getMediaUnsafe ::
+               (MonadDOM m, HasCallStack) => CSSMediaRule -> m MediaList
+getMediaUnsafe self
+  = liftDOM
+      (((self ^. js "media") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSMediaRule.media Mozilla CSSMediaRule.media documentation> 
 getMediaUnchecked :: (MonadDOM m) => CSSMediaRule -> m MediaList
 getMediaUnchecked self
   = liftDOM ((self ^. js "media") >>= fromJSValUnchecked)
@@ -67,6 +75,14 @@ getMediaUnchecked self
 getCssRules ::
             (MonadDOM m) => CSSMediaRule -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSMediaRule.cssRules Mozilla CSSMediaRule.cssRules documentation> 
+getCssRulesUnsafe ::
+                  (MonadDOM m, HasCallStack) => CSSMediaRule -> m CSSRuleList
+getCssRulesUnsafe self
+  = liftDOM
+      (((self ^. js "cssRules") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSMediaRule.cssRules Mozilla CSSMediaRule.cssRules documentation> 
 getCssRulesUnchecked ::

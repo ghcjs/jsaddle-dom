@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WaveShaperNode
-       (setCurve, getCurve, getCurveUnchecked, setOversample,
-        getOversample, WaveShaperNode(..), gTypeWaveShaperNode)
+       (setCurve, getCurve, getCurveUnsafe, getCurveUnchecked,
+        setOversample, getOversample, WaveShaperNode(..),
+        gTypeWaveShaperNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -40,6 +41,14 @@ setCurve self val = liftDOM (self ^. jss "curve" (toJSVal val))
 getCurve ::
          (MonadDOM m) => WaveShaperNode -> m (Maybe Float32Array)
 getCurve self = liftDOM ((self ^. js "curve") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode.curve Mozilla WaveShaperNode.curve documentation> 
+getCurveUnsafe ::
+               (MonadDOM m, HasCallStack) => WaveShaperNode -> m Float32Array
+getCurveUnsafe self
+  = liftDOM
+      (((self ^. js "curve") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode.curve Mozilla WaveShaperNode.curve documentation> 
 getCurveUnchecked ::

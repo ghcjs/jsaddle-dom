@@ -6,9 +6,11 @@
 module JSDOM.Generated.SVGFEGaussianBlurElement
        (setStdDeviation, pattern SVG_EDGEMODE_UNKNOWN,
         pattern SVG_EDGEMODE_DUPLICATE, pattern SVG_EDGEMODE_WRAP,
-        pattern SVG_EDGEMODE_NONE, getIn1, getIn1Unchecked,
-        getStdDeviationX, getStdDeviationXUnchecked, getStdDeviationY,
-        getStdDeviationYUnchecked, getEdgeMode, getEdgeModeUnchecked,
+        pattern SVG_EDGEMODE_NONE, getIn1, getIn1Unsafe, getIn1Unchecked,
+        getStdDeviationX, getStdDeviationXUnsafe,
+        getStdDeviationXUnchecked, getStdDeviationY,
+        getStdDeviationYUnsafe, getStdDeviationYUnchecked, getEdgeMode,
+        getEdgeModeUnsafe, getEdgeModeUnchecked,
         SVGFEGaussianBlurElement(..), gTypeSVGFEGaussianBlurElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -54,6 +56,15 @@ getIn1 ::
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.in1 Mozilla SVGFEGaussianBlurElement.in1 documentation> 
+getIn1Unsafe ::
+             (MonadDOM m, HasCallStack) =>
+               SVGFEGaussianBlurElement -> m SVGAnimatedString
+getIn1Unsafe self
+  = liftDOM
+      (((self ^. js "in1") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.in1 Mozilla SVGFEGaussianBlurElement.in1 documentation> 
 getIn1Unchecked ::
                 (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedString
 getIn1Unchecked self
@@ -65,6 +76,15 @@ getStdDeviationX ::
                    SVGFEGaussianBlurElement -> m (Maybe SVGAnimatedNumber)
 getStdDeviationX self
   = liftDOM ((self ^. js "stdDeviationX") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationX Mozilla SVGFEGaussianBlurElement.stdDeviationX documentation> 
+getStdDeviationXUnsafe ::
+                       (MonadDOM m, HasCallStack) =>
+                         SVGFEGaussianBlurElement -> m SVGAnimatedNumber
+getStdDeviationXUnsafe self
+  = liftDOM
+      (((self ^. js "stdDeviationX") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationX Mozilla SVGFEGaussianBlurElement.stdDeviationX documentation> 
 getStdDeviationXUnchecked ::
@@ -80,6 +100,15 @@ getStdDeviationY self
   = liftDOM ((self ^. js "stdDeviationY") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationY Mozilla SVGFEGaussianBlurElement.stdDeviationY documentation> 
+getStdDeviationYUnsafe ::
+                       (MonadDOM m, HasCallStack) =>
+                         SVGFEGaussianBlurElement -> m SVGAnimatedNumber
+getStdDeviationYUnsafe self
+  = liftDOM
+      (((self ^. js "stdDeviationY") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationY Mozilla SVGFEGaussianBlurElement.stdDeviationY documentation> 
 getStdDeviationYUnchecked ::
                           (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedNumber
 getStdDeviationYUnchecked self
@@ -90,6 +119,15 @@ getEdgeMode ::
             (MonadDOM m) =>
               SVGFEGaussianBlurElement -> m (Maybe SVGAnimatedEnumeration)
 getEdgeMode self = liftDOM ((self ^. js "edgeMode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.edgeMode Mozilla SVGFEGaussianBlurElement.edgeMode documentation> 
+getEdgeModeUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    SVGFEGaussianBlurElement -> m SVGAnimatedEnumeration
+getEdgeModeUnsafe self
+  = liftDOM
+      (((self ^. js "edgeMode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.edgeMode Mozilla SVGFEGaussianBlurElement.edgeMode documentation> 
 getEdgeModeUnchecked ::

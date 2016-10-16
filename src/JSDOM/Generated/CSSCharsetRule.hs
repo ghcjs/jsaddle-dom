@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSCharsetRule
-       (setEncoding, getEncoding, getEncodingUnchecked,
+       (setEncoding, getEncoding, getEncodingUnsafe, getEncodingUnchecked,
         CSSCharsetRule(..), gTypeCSSCharsetRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -42,6 +42,15 @@ getEncoding ::
               CSSCharsetRule -> m (Maybe result)
 getEncoding self
   = liftDOM ((self ^. js "encoding") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSCharsetRule.encoding Mozilla CSSCharsetRule.encoding documentation> 
+getEncodingUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    CSSCharsetRule -> m result
+getEncodingUnsafe self
+  = liftDOM
+      (((self ^. js "encoding") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSCharsetRule.encoding Mozilla CSSCharsetRule.encoding documentation> 
 getEncodingUnchecked ::

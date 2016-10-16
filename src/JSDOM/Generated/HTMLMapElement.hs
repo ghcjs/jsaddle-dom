@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLMapElement
-       (getAreas, getAreasUnchecked, setName, getName, HTMLMapElement(..),
-        gTypeHTMLMapElement)
+       (getAreas, getAreasUnsafe, getAreasUnchecked, setName, getName,
+        HTMLMapElement(..), gTypeHTMLMapElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +34,14 @@ type HasCallStack = (() :: Constraint)
 getAreas ::
          (MonadDOM m) => HTMLMapElement -> m (Maybe HTMLCollection)
 getAreas self = liftDOM ((self ^. js "areas") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMapElement.areas Mozilla HTMLMapElement.areas documentation> 
+getAreasUnsafe ::
+               (MonadDOM m, HasCallStack) => HTMLMapElement -> m HTMLCollection
+getAreasUnsafe self
+  = liftDOM
+      (((self ^. js "areas") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMapElement.areas Mozilla HTMLMapElement.areas documentation> 
 getAreasUnchecked ::

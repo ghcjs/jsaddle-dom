@@ -7,8 +7,9 @@ module JSDOM.Generated.BiquadFilterNode
        (getFrequencyResponse, pattern LOWPASS, pattern HIGHPASS,
         pattern BANDPASS, pattern LOWSHELF, pattern HIGHSHELF,
         pattern PEAKING, pattern NOTCH, pattern ALLPASS, setType, getType,
-        getFrequency, getFrequencyUnchecked, getDetune, getDetuneUnchecked,
-        getQ, getQUnchecked, getGain, getGainUnchecked,
+        getFrequency, getFrequencyUnsafe, getFrequencyUnchecked, getDetune,
+        getDetuneUnsafe, getDetuneUnchecked, getQ, getQUnsafe,
+        getQUnchecked, getGain, getGainUnsafe, getGainUnchecked,
         BiquadFilterNode(..), gTypeBiquadFilterNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -72,6 +73,14 @@ getFrequency self
   = liftDOM ((self ^. js "frequency") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.frequency Mozilla BiquadFilterNode.frequency documentation> 
+getFrequencyUnsafe ::
+                   (MonadDOM m, HasCallStack) => BiquadFilterNode -> m AudioParam
+getFrequencyUnsafe self
+  = liftDOM
+      (((self ^. js "frequency") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.frequency Mozilla BiquadFilterNode.frequency documentation> 
 getFrequencyUnchecked ::
                       (MonadDOM m) => BiquadFilterNode -> m AudioParam
 getFrequencyUnchecked self
@@ -81,6 +90,14 @@ getFrequencyUnchecked self
 getDetune ::
           (MonadDOM m) => BiquadFilterNode -> m (Maybe AudioParam)
 getDetune self = liftDOM ((self ^. js "detune") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.detune Mozilla BiquadFilterNode.detune documentation> 
+getDetuneUnsafe ::
+                (MonadDOM m, HasCallStack) => BiquadFilterNode -> m AudioParam
+getDetuneUnsafe self
+  = liftDOM
+      (((self ^. js "detune") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.detune Mozilla BiquadFilterNode.detune documentation> 
 getDetuneUnchecked ::
@@ -93,6 +110,14 @@ getQ :: (MonadDOM m) => BiquadFilterNode -> m (Maybe AudioParam)
 getQ self = liftDOM ((self ^. js "Q") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.Q Mozilla BiquadFilterNode.Q documentation> 
+getQUnsafe ::
+           (MonadDOM m, HasCallStack) => BiquadFilterNode -> m AudioParam
+getQUnsafe self
+  = liftDOM
+      (((self ^. js "Q") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.Q Mozilla BiquadFilterNode.Q documentation> 
 getQUnchecked :: (MonadDOM m) => BiquadFilterNode -> m AudioParam
 getQUnchecked self
   = liftDOM ((self ^. js "Q") >>= fromJSValUnchecked)
@@ -100,6 +125,14 @@ getQUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.gain Mozilla BiquadFilterNode.gain documentation> 
 getGain :: (MonadDOM m) => BiquadFilterNode -> m (Maybe AudioParam)
 getGain self = liftDOM ((self ^. js "gain") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.gain Mozilla BiquadFilterNode.gain documentation> 
+getGainUnsafe ::
+              (MonadDOM m, HasCallStack) => BiquadFilterNode -> m AudioParam
+getGainUnsafe self
+  = liftDOM
+      (((self ^. js "gain") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode.gain Mozilla BiquadFilterNode.gain documentation> 
 getGainUnchecked ::

@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.File
-       (getName, getLastModifiedDate, getLastModifiedDateUnchecked,
-        File(..), gTypeFile)
+       (getName, getLastModifiedDate, getLastModifiedDateUnsafe,
+        getLastModifiedDateUnchecked, File(..), gTypeFile)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -38,6 +38,14 @@ getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
 getLastModifiedDate :: (MonadDOM m) => File -> m (Maybe Date)
 getLastModifiedDate self
   = liftDOM ((self ^. js "lastModifiedDate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/File.lastModifiedDate Mozilla File.lastModifiedDate documentation> 
+getLastModifiedDateUnsafe ::
+                          (MonadDOM m, HasCallStack) => File -> m Date
+getLastModifiedDateUnsafe self
+  = liftDOM
+      (((self ^. js "lastModifiedDate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/File.lastModifiedDate Mozilla File.lastModifiedDate documentation> 
 getLastModifiedDateUnchecked :: (MonadDOM m) => File -> m Date

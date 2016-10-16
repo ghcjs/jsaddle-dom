@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTitleElement
-       (setText, getText, getTextUnchecked, HTMLTitleElement(..),
-        gTypeHTMLTitleElement)
+       (setText, getText, getTextUnsafe, getTextUnchecked,
+        HTMLTitleElement(..), gTypeHTMLTitleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -41,6 +41,15 @@ getText ::
         (MonadDOM m, FromJSString result) =>
           HTMLTitleElement -> m (Maybe result)
 getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTitleElement.text Mozilla HTMLTitleElement.text documentation> 
+getTextUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                HTMLTitleElement -> m result
+getTextUnsafe self
+  = liftDOM
+      (((self ^. js "text") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTitleElement.text Mozilla HTMLTitleElement.text documentation> 
 getTextUnchecked ::

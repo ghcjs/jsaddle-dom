@@ -9,14 +9,17 @@ module JSDOM.Generated.Navigator
         isProtocolHandlerRegistered_, unregisterProtocolHandler,
         vibratePattern, vibratePattern_, vibrate, vibrate_, javaEnabled,
         javaEnabled_, getStorageUpdates, getWebkitBattery,
-        getWebkitBatteryUnchecked, getGeolocation, getGeolocationUnchecked,
-        getWebkitTemporaryStorage, getWebkitTemporaryStorageUnchecked,
-        getWebkitPersistentStorage, getWebkitPersistentStorageUnchecked,
-        getAppCodeName, getAppName, getAppVersion, getLanguage,
-        getUserAgent, getPlatform, getPlugins, getPluginsUnchecked,
-        getMimeTypes, getMimeTypesUnchecked, getProduct, getProductSub,
-        getVendor, getVendorSub, getCookieEnabled, getOnLine,
-        getHardwareConcurrency, Navigator(..), gTypeNavigator)
+        getWebkitBatteryUnsafe, getWebkitBatteryUnchecked, getGeolocation,
+        getGeolocationUnsafe, getGeolocationUnchecked,
+        getWebkitTemporaryStorage, getWebkitTemporaryStorageUnsafe,
+        getWebkitTemporaryStorageUnchecked, getWebkitPersistentStorage,
+        getWebkitPersistentStorageUnsafe,
+        getWebkitPersistentStorageUnchecked, getAppCodeName, getAppName,
+        getAppVersion, getLanguage, getUserAgent, getPlatform, getPlugins,
+        getPluginsUnsafe, getPluginsUnchecked, getMimeTypes,
+        getMimeTypesUnsafe, getMimeTypesUnchecked, getProduct,
+        getProductSub, getVendor, getVendorSub, getCookieEnabled,
+        getOnLine, getHardwareConcurrency, Navigator(..), gTypeNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -147,6 +150,14 @@ getWebkitBattery self
   = liftDOM ((self ^. js "webkitBattery") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
+getWebkitBatteryUnsafe ::
+                       (MonadDOM m, HasCallStack) => Navigator -> m BatteryManager
+getWebkitBatteryUnsafe self
+  = liftDOM
+      (((self ^. js "webkitBattery") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
 getWebkitBatteryUnchecked ::
                           (MonadDOM m) => Navigator -> m BatteryManager
 getWebkitBatteryUnchecked self
@@ -157,6 +168,14 @@ getGeolocation ::
                (MonadDOM m) => Navigator -> m (Maybe Geolocation)
 getGeolocation self
   = liftDOM ((self ^. js "geolocation") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
+getGeolocationUnsafe ::
+                     (MonadDOM m, HasCallStack) => Navigator -> m Geolocation
+getGeolocationUnsafe self
+  = liftDOM
+      (((self ^. js "geolocation") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
 getGeolocationUnchecked ::
@@ -171,6 +190,14 @@ getWebkitTemporaryStorage self
   = liftDOM ((self ^. js "webkitTemporaryStorage") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
+getWebkitTemporaryStorageUnsafe ::
+                                (MonadDOM m, HasCallStack) => Navigator -> m StorageQuota
+getWebkitTemporaryStorageUnsafe self
+  = liftDOM
+      (((self ^. js "webkitTemporaryStorage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
 getWebkitTemporaryStorageUnchecked ::
                                    (MonadDOM m) => Navigator -> m StorageQuota
 getWebkitTemporaryStorageUnchecked self
@@ -182,6 +209,14 @@ getWebkitPersistentStorage ::
                            (MonadDOM m) => Navigator -> m (Maybe StorageQuota)
 getWebkitPersistentStorage self
   = liftDOM ((self ^. js "webkitPersistentStorage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
+getWebkitPersistentStorageUnsafe ::
+                                 (MonadDOM m, HasCallStack) => Navigator -> m StorageQuota
+getWebkitPersistentStorageUnsafe self
+  = liftDOM
+      (((self ^. js "webkitPersistentStorage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
 getWebkitPersistentStorageUnchecked ::
@@ -231,6 +266,14 @@ getPlugins :: (MonadDOM m) => Navigator -> m (Maybe PluginArray)
 getPlugins self = liftDOM ((self ^. js "plugins") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.plugins Mozilla Navigator.plugins documentation> 
+getPluginsUnsafe ::
+                 (MonadDOM m, HasCallStack) => Navigator -> m PluginArray
+getPluginsUnsafe self
+  = liftDOM
+      (((self ^. js "plugins") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.plugins Mozilla Navigator.plugins documentation> 
 getPluginsUnchecked :: (MonadDOM m) => Navigator -> m PluginArray
 getPluginsUnchecked self
   = liftDOM ((self ^. js "plugins") >>= fromJSValUnchecked)
@@ -240,6 +283,14 @@ getMimeTypes ::
              (MonadDOM m) => Navigator -> m (Maybe MimeTypeArray)
 getMimeTypes self
   = liftDOM ((self ^. js "mimeTypes") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
+getMimeTypesUnsafe ::
+                   (MonadDOM m, HasCallStack) => Navigator -> m MimeTypeArray
+getMimeTypesUnsafe self
+  = liftDOM
+      (((self ^. js "mimeTypes") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
 getMimeTypesUnchecked ::

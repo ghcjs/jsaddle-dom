@@ -5,12 +5,13 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SourceBuffer
        (appendBuffer, appendBufferView, abort, remove, setMode, getMode,
-        getUpdating, getBuffered, getBufferedUnchecked, setTimestampOffset,
-        getTimestampOffset, getAudioTracks, getAudioTracksUnchecked,
-        getVideoTracks, getVideoTracksUnchecked, getTextTracks,
-        getTextTracksUnchecked, setAppendWindowStart, getAppendWindowStart,
-        setAppendWindowEnd, getAppendWindowEnd, SourceBuffer(..),
-        gTypeSourceBuffer)
+        getUpdating, getBuffered, getBufferedUnsafe, getBufferedUnchecked,
+        setTimestampOffset, getTimestampOffset, getAudioTracks,
+        getAudioTracksUnsafe, getAudioTracksUnchecked, getVideoTracks,
+        getVideoTracksUnsafe, getVideoTracksUnchecked, getTextTracks,
+        getTextTracksUnsafe, getTextTracksUnchecked, setAppendWindowStart,
+        getAppendWindowStart, setAppendWindowEnd, getAppendWindowEnd,
+        SourceBuffer(..), gTypeSourceBuffer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -76,6 +77,14 @@ getBuffered :: (MonadDOM m) => SourceBuffer -> m (Maybe TimeRanges)
 getBuffered self = liftDOM ((self ^. js "buffered") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.buffered Mozilla SourceBuffer.buffered documentation> 
+getBufferedUnsafe ::
+                  (MonadDOM m, HasCallStack) => SourceBuffer -> m TimeRanges
+getBufferedUnsafe self
+  = liftDOM
+      (((self ^. js "buffered") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.buffered Mozilla SourceBuffer.buffered documentation> 
 getBufferedUnchecked ::
                      (MonadDOM m) => SourceBuffer -> m TimeRanges
 getBufferedUnchecked self
@@ -99,6 +108,14 @@ getAudioTracks self
   = liftDOM ((self ^. js "audioTracks") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.audioTracks Mozilla SourceBuffer.audioTracks documentation> 
+getAudioTracksUnsafe ::
+                     (MonadDOM m, HasCallStack) => SourceBuffer -> m AudioTrackList
+getAudioTracksUnsafe self
+  = liftDOM
+      (((self ^. js "audioTracks") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.audioTracks Mozilla SourceBuffer.audioTracks documentation> 
 getAudioTracksUnchecked ::
                         (MonadDOM m) => SourceBuffer -> m AudioTrackList
 getAudioTracksUnchecked self
@@ -111,6 +128,14 @@ getVideoTracks self
   = liftDOM ((self ^. js "videoTracks") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.videoTracks Mozilla SourceBuffer.videoTracks documentation> 
+getVideoTracksUnsafe ::
+                     (MonadDOM m, HasCallStack) => SourceBuffer -> m VideoTrackList
+getVideoTracksUnsafe self
+  = liftDOM
+      (((self ^. js "videoTracks") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.videoTracks Mozilla SourceBuffer.videoTracks documentation> 
 getVideoTracksUnchecked ::
                         (MonadDOM m) => SourceBuffer -> m VideoTrackList
 getVideoTracksUnchecked self
@@ -121,6 +146,14 @@ getTextTracks ::
               (MonadDOM m) => SourceBuffer -> m (Maybe TextTrackList)
 getTextTracks self
   = liftDOM ((self ^. js "textTracks") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.textTracks Mozilla SourceBuffer.textTracks documentation> 
+getTextTracksUnsafe ::
+                    (MonadDOM m, HasCallStack) => SourceBuffer -> m TextTrackList
+getTextTracksUnsafe self
+  = liftDOM
+      (((self ^. js "textTracks") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.textTracks Mozilla SourceBuffer.textTracks documentation> 
 getTextTracksUnchecked ::

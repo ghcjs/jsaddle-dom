@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBRequest
-       (getResult, getResultUnchecked, getError, getErrorUnchecked,
-        getSource, getSourceUnchecked, getTransaction,
+       (getResult, getResultUnsafe, getResultUnchecked, getError,
+        getErrorUnsafe, getErrorUnchecked, getSource, getSourceUnsafe,
+        getSourceUnchecked, getTransaction, getTransactionUnsafe,
         getTransactionUnchecked, getReadyState, success, error,
         IDBRequest(..), gTypeIDBRequest, IsIDBRequest, toIDBRequest)
        where
@@ -39,6 +40,14 @@ getResult self
   = liftDOM (((toIDBRequest self) ^. js "result") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.result Mozilla IDBRequest.result documentation> 
+getResultUnsafe ::
+                (MonadDOM m, IsIDBRequest self, HasCallStack) => self -> m IDBAny
+getResultUnsafe self
+  = liftDOM
+      ((((toIDBRequest self) ^. js "result") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.result Mozilla IDBRequest.result documentation> 
 getResultUnchecked ::
                    (MonadDOM m, IsIDBRequest self) => self -> m IDBAny
 getResultUnchecked self
@@ -50,6 +59,14 @@ getError ::
          (MonadDOM m, IsIDBRequest self) => self -> m (Maybe DOMError)
 getError self
   = liftDOM (((toIDBRequest self) ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.error Mozilla IDBRequest.error documentation> 
+getErrorUnsafe ::
+               (MonadDOM m, IsIDBRequest self, HasCallStack) => self -> m DOMError
+getErrorUnsafe self
+  = liftDOM
+      ((((toIDBRequest self) ^. js "error") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.error Mozilla IDBRequest.error documentation> 
 getErrorUnchecked ::
@@ -65,6 +82,14 @@ getSource self
   = liftDOM (((toIDBRequest self) ^. js "source") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.source Mozilla IDBRequest.source documentation> 
+getSourceUnsafe ::
+                (MonadDOM m, IsIDBRequest self, HasCallStack) => self -> m IDBAny
+getSourceUnsafe self
+  = liftDOM
+      ((((toIDBRequest self) ^. js "source") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.source Mozilla IDBRequest.source documentation> 
 getSourceUnchecked ::
                    (MonadDOM m, IsIDBRequest self) => self -> m IDBAny
 getSourceUnchecked self
@@ -76,6 +101,15 @@ getTransaction ::
                (MonadDOM m, IsIDBRequest self) => self -> m (Maybe IDBTransaction)
 getTransaction self
   = liftDOM (((toIDBRequest self) ^. js "transaction") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.transaction Mozilla IDBRequest.transaction documentation> 
+getTransactionUnsafe ::
+                     (MonadDOM m, IsIDBRequest self, HasCallStack) =>
+                       self -> m IDBTransaction
+getTransactionUnsafe self
+  = liftDOM
+      ((((toIDBRequest self) ^. js "transaction") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest.transaction Mozilla IDBRequest.transaction documentation> 
 getTransactionUnchecked ::

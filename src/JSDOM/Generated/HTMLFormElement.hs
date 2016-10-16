@@ -8,12 +8,13 @@ module JSDOM.Generated.HTMLFormElement
         checkValidity, checkValidity_, requestAutocomplete,
         setAcceptCharset, getAcceptCharset, setAction, getAction,
         setAutocomplete, getAutocomplete, setEnctype, getEnctype,
-        getEnctypeUnchecked, setEncoding, getEncoding,
-        getEncodingUnchecked, setMethod, getMethod, getMethodUnchecked,
-        setName, getName, setNoValidate, getNoValidate, setTarget,
-        getTarget, getElements, getElementsUnchecked, getLength,
-        setAutocorrect, getAutocorrect, setAutocapitalize,
-        getAutocapitalize, getAutocapitalizeUnchecked, autocomplete,
+        getEnctypeUnsafe, getEnctypeUnchecked, setEncoding, getEncoding,
+        getEncodingUnsafe, getEncodingUnchecked, setMethod, getMethod,
+        getMethodUnsafe, getMethodUnchecked, setName, getName,
+        setNoValidate, getNoValidate, setTarget, getTarget, getElements,
+        getElementsUnsafe, getElementsUnchecked, getLength, setAutocorrect,
+        getAutocorrect, setAutocapitalize, getAutocapitalize,
+        getAutocapitalizeUnsafe, getAutocapitalizeUnchecked, autocomplete,
         autocompleteerror, HTMLFormElement(..), gTypeHTMLFormElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -137,6 +138,15 @@ getEnctype self
   = liftDOM ((self ^. js "enctype") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.enctype Mozilla HTMLFormElement.enctype documentation> 
+getEnctypeUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   HTMLFormElement -> m result
+getEnctypeUnsafe self
+  = liftDOM
+      (((self ^. js "enctype") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.enctype Mozilla HTMLFormElement.enctype documentation> 
 getEnctypeUnchecked ::
                     (MonadDOM m, FromJSString result) => HTMLFormElement -> m result
 getEnctypeUnchecked self
@@ -157,6 +167,15 @@ getEncoding self
   = liftDOM ((self ^. js "encoding") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.encoding Mozilla HTMLFormElement.encoding documentation> 
+getEncodingUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    HTMLFormElement -> m result
+getEncodingUnsafe self
+  = liftDOM
+      (((self ^. js "encoding") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.encoding Mozilla HTMLFormElement.encoding documentation> 
 getEncodingUnchecked ::
                      (MonadDOM m, FromJSString result) => HTMLFormElement -> m result
 getEncodingUnchecked self
@@ -174,6 +193,15 @@ getMethod ::
             HTMLFormElement -> m (Maybe result)
 getMethod self
   = liftDOM ((self ^. js "method") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.method Mozilla HTMLFormElement.method documentation> 
+getMethodUnsafe ::
+                (MonadDOM m, HasCallStack, FromJSString result) =>
+                  HTMLFormElement -> m result
+getMethodUnsafe self
+  = liftDOM
+      (((self ^. js "method") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.method Mozilla HTMLFormElement.method documentation> 
 getMethodUnchecked ::
@@ -218,6 +246,14 @@ getElements ::
 getElements self = liftDOM ((self ^. js "elements") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.elements Mozilla HTMLFormElement.elements documentation> 
+getElementsUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLFormElement -> m HTMLCollection
+getElementsUnsafe self
+  = liftDOM
+      (((self ^. js "elements") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.elements Mozilla HTMLFormElement.elements documentation> 
 getElementsUnchecked ::
                      (MonadDOM m) => HTMLFormElement -> m HTMLCollection
 getElementsUnchecked self
@@ -251,6 +287,15 @@ getAutocapitalize ::
                     HTMLFormElement -> m (Maybe result)
 getAutocapitalize self
   = liftDOM ((self ^. js "autocapitalize") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.autocapitalize Mozilla HTMLFormElement.autocapitalize documentation> 
+getAutocapitalizeUnsafe ::
+                        (MonadDOM m, HasCallStack, FromJSString result) =>
+                          HTMLFormElement -> m result
+getAutocapitalizeUnsafe self
+  = liftDOM
+      (((self ^. js "autocapitalize") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement.autocapitalize Mozilla HTMLFormElement.autocapitalize documentation> 
 getAutocapitalizeUnchecked ::

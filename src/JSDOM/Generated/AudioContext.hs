@@ -41,10 +41,11 @@ module JSDOM.Generated.AudioContext
         createDelayNode_, createDelayNodeUnsafe, createDelayNodeUnchecked,
         createJavaScriptNode, createJavaScriptNode_,
         createJavaScriptNodeUnsafe, createJavaScriptNodeUnchecked,
-        getDestination, getDestinationUnchecked, getCurrentTime,
-        getSampleRate, getListener, getListenerUnchecked,
-        getActiveSourceCount, complete, AudioContext(..),
-        gTypeAudioContext, IsAudioContext, toAudioContext)
+        getDestination, getDestinationUnsafe, getDestinationUnchecked,
+        getCurrentTime, getSampleRate, getListener, getListenerUnsafe,
+        getListenerUnchecked, getActiveSourceCount, complete,
+        AudioContext(..), gTypeAudioContext, IsAudioContext,
+        toAudioContext)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -935,6 +936,15 @@ getDestination self
       (((toAudioContext self) ^. js "destination") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.destination Mozilla AudioContext.destination documentation> 
+getDestinationUnsafe ::
+                     (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                       self -> m AudioDestinationNode
+getDestinationUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. js "destination") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.destination Mozilla AudioContext.destination documentation> 
 getDestinationUnchecked ::
                         (MonadDOM m, IsAudioContext self) => self -> m AudioDestinationNode
 getDestinationUnchecked self
@@ -963,6 +973,15 @@ getListener ::
               self -> m (Maybe AudioListener)
 getListener self
   = liftDOM (((toAudioContext self) ^. js "listener") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.listener Mozilla AudioContext.listener documentation> 
+getListenerUnsafe ::
+                  (MonadDOM m, IsAudioContext self, HasCallStack) =>
+                    self -> m AudioListener
+getListenerUnsafe self
+  = liftDOM
+      ((((toAudioContext self) ^. js "listener") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioContext.listener Mozilla AudioContext.listener documentation> 
 getListenerUnchecked ::

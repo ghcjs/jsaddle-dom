@@ -8,7 +8,8 @@ module JSDOM.Generated.Location
         setProtocol, getProtocol, setHost, getHost, setHostname,
         getHostname, setPort, getPort, setPathname, getPathname, setSearch,
         getSearch, setHash, getHash, getOrigin, getAncestorOrigins,
-        getAncestorOriginsUnchecked, Location(..), gTypeLocation)
+        getAncestorOriginsUnsafe, getAncestorOriginsUnchecked,
+        Location(..), gTypeLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -151,6 +152,14 @@ getAncestorOrigins ::
                    (MonadDOM m) => Location -> m (Maybe DOMStringList)
 getAncestorOrigins self
   = liftDOM ((self ^. js "ancestorOrigins") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.ancestorOrigins Mozilla Location.ancestorOrigins documentation> 
+getAncestorOriginsUnsafe ::
+                         (MonadDOM m, HasCallStack) => Location -> m DOMStringList
+getAncestorOriginsUnsafe self
+  = liftDOM
+      (((self ^. js "ancestorOrigins") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.ancestorOrigins Mozilla Location.ancestorOrigins documentation> 
 getAncestorOriginsUnchecked ::

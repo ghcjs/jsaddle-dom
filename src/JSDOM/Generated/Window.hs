@@ -27,43 +27,55 @@ module JSDOM.Generated.Window
         cancelAnimationFrame, webkitRequestAnimationFrame,
         webkitRequestAnimationFrame_, webkitCancelAnimationFrame,
         webkitCancelRequestAnimationFrame, captureEvents, releaseEvents,
-        getWebkitIndexedDB, getWebkitIndexedDBUnchecked, getIndexedDB,
+        getWebkitIndexedDB, getWebkitIndexedDBUnsafe,
+        getWebkitIndexedDBUnchecked, getIndexedDB, getIndexedDBUnsafe,
         getIndexedDBUnchecked, getWebkitStorageInfo,
-        getWebkitStorageInfoUnchecked, getSpeechSynthesis,
-        getSpeechSynthesisUnchecked, getScreen, getScreenUnchecked,
-        getHistory, getHistoryUnchecked, getLocationbar,
-        getLocationbarUnchecked, getMenubar, getMenubarUnchecked,
-        getPersonalbar, getPersonalbarUnchecked, getScrollbars,
-        getScrollbarsUnchecked, getStatusbar, getStatusbarUnchecked,
-        getToolbar, getToolbarUnchecked, getNavigator,
+        getWebkitStorageInfoUnsafe, getWebkitStorageInfoUnchecked,
+        getSpeechSynthesis, getSpeechSynthesisUnsafe,
+        getSpeechSynthesisUnchecked, getScreen, getScreenUnsafe,
+        getScreenUnchecked, getHistory, getHistoryUnsafe,
+        getHistoryUnchecked, getLocationbar, getLocationbarUnsafe,
+        getLocationbarUnchecked, getMenubar, getMenubarUnsafe,
+        getMenubarUnchecked, getPersonalbar, getPersonalbarUnsafe,
+        getPersonalbarUnchecked, getScrollbars, getScrollbarsUnsafe,
+        getScrollbarsUnchecked, getStatusbar, getStatusbarUnsafe,
+        getStatusbarUnchecked, getToolbar, getToolbarUnsafe,
+        getToolbarUnchecked, getNavigator, getNavigatorUnsafe,
         getNavigatorUnchecked, getClientInformation,
-        getClientInformationUnchecked, getCrypto, getCryptoUnchecked,
-        setLocation, getLocation, getLocationUnchecked, getEvent,
-        getEventUnchecked, getFrameElement, getFrameElementUnchecked,
+        getClientInformationUnsafe, getClientInformationUnchecked,
+        getCrypto, getCryptoUnsafe, getCryptoUnchecked, setLocation,
+        getLocation, getLocationUnsafe, getLocationUnchecked, getEvent,
+        getEventUnsafe, getEventUnchecked, getFrameElement,
+        getFrameElementUnsafe, getFrameElementUnchecked,
         getOffscreenBuffering, getOuterHeight, getOuterWidth,
         getInnerHeight, getInnerWidth, getScreenX, getScreenY,
         getScreenLeft, getScreenTop, getScrollX, getScrollY,
         getPageXOffset, getPageYOffset, getClosed, getLength, setName,
         getName, setStatus, getStatus, setDefaultStatus, getDefaultStatus,
-        setDefaultstatus, getDefaultstatus, getSelf, getSelfUnchecked,
-        getWindow, getWindowUnchecked, getFrames, getFramesUnchecked,
-        getOpener, getOpenerUnchecked, getParent, getParentUnchecked,
-        getTop, getTopUnchecked, getDocument, getDocumentUnchecked,
-        getStyleMedia, getStyleMediaUnchecked, getDevicePixelRatio,
-        getApplicationCache, getApplicationCacheUnchecked,
-        getSessionStorage, getSessionStorageUnchecked, getLocalStorage,
+        setDefaultstatus, getDefaultstatus, getSelf, getSelfUnsafe,
+        getSelfUnchecked, getWindow, getWindowUnsafe, getWindowUnchecked,
+        getFrames, getFramesUnsafe, getFramesUnchecked, getOpener,
+        getOpenerUnsafe, getOpenerUnchecked, getParent, getParentUnsafe,
+        getParentUnchecked, getTop, getTopUnsafe, getTopUnchecked,
+        getDocument, getDocumentUnsafe, getDocumentUnchecked,
+        getStyleMedia, getStyleMediaUnsafe, getStyleMediaUnchecked,
+        getDevicePixelRatio, getApplicationCache,
+        getApplicationCacheUnsafe, getApplicationCacheUnchecked,
+        getSessionStorage, getSessionStorageUnsafe,
+        getSessionStorageUnchecked, getLocalStorage, getLocalStorageUnsafe,
         getLocalStorageUnchecked, getOrientation, getPerformance,
-        getPerformanceUnchecked, getCSS, getCSSUnchecked, abort,
-        beforeUnload, blurEvent, canPlay, canPlayThrough, change, click,
-        contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
-        dragOver, dragStart, drop, durationChange, emptied, ended, error,
-        focusEvent, hashChange, input, invalid, keyDown, keyPress, keyUp,
-        load, loadedData, loadedMetadata, loadStart, message, mouseDown,
-        mouseEnter, mouseLeave, mouseMove, mouseOut, mouseOver, mouseUp,
-        mouseWheel, offline, online, pageHide, pageShow, pause, play,
-        playing, popState, progress, rateChange, resize, scrollEvent,
-        seeked, seeking, select, stalled, storage, submit, suspend,
-        timeUpdate, unload, volumeChange, waiting, wheel, reset, search,
+        getPerformanceUnsafe, getPerformanceUnchecked, getCSS,
+        getCSSUnsafe, getCSSUnchecked, abort, beforeUnload, blurEvent,
+        canPlay, canPlayThrough, change, click, contextMenu, dblClick,
+        drag, dragEnd, dragEnter, dragLeave, dragOver, dragStart, drop,
+        durationChange, emptied, ended, error, focusEvent, hashChange,
+        input, invalid, keyDown, keyPress, keyUp, load, loadedData,
+        loadedMetadata, loadStart, message, mouseDown, mouseEnter,
+        mouseLeave, mouseMove, mouseOut, mouseOver, mouseUp, mouseWheel,
+        offline, online, pageHide, pageShow, pause, play, playing,
+        popState, progress, rateChange, resize, scrollEvent, seeked,
+        seeking, select, stalled, storage, submit, suspend, timeUpdate,
+        unload, volumeChange, waiting, wheel, reset, search,
         webKitAnimationEnd, webKitAnimationIteration, webKitAnimationStart,
         animationEnd, animationIteration, animationStart,
         webKitTransitionEnd, transitionEnd, orientationChange, touchStart,
@@ -676,6 +688,14 @@ getWebkitIndexedDB self
   = liftDOM ((self ^. js "webkitIndexedDB") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitIndexedDB Mozilla Window.webkitIndexedDB documentation> 
+getWebkitIndexedDBUnsafe ::
+                         (MonadDOM m, HasCallStack) => Window -> m IDBFactory
+getWebkitIndexedDBUnsafe self
+  = liftDOM
+      (((self ^. js "webkitIndexedDB") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitIndexedDB Mozilla Window.webkitIndexedDB documentation> 
 getWebkitIndexedDBUnchecked ::
                             (MonadDOM m) => Window -> m IDBFactory
 getWebkitIndexedDBUnchecked self
@@ -687,6 +707,14 @@ getIndexedDB self
   = liftDOM ((self ^. js "indexedDB") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.indexedDB Mozilla Window.indexedDB documentation> 
+getIndexedDBUnsafe ::
+                   (MonadDOM m, HasCallStack) => Window -> m IDBFactory
+getIndexedDBUnsafe self
+  = liftDOM
+      (((self ^. js "indexedDB") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.indexedDB Mozilla Window.indexedDB documentation> 
 getIndexedDBUnchecked :: (MonadDOM m) => Window -> m IDBFactory
 getIndexedDBUnchecked self
   = liftDOM ((self ^. js "indexedDB") >>= fromJSValUnchecked)
@@ -696,6 +724,14 @@ getWebkitStorageInfo ::
                      (MonadDOM m) => Window -> m (Maybe StorageInfo)
 getWebkitStorageInfo self
   = liftDOM ((self ^. js "webkitStorageInfo") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitStorageInfo Mozilla Window.webkitStorageInfo documentation> 
+getWebkitStorageInfoUnsafe ::
+                           (MonadDOM m, HasCallStack) => Window -> m StorageInfo
+getWebkitStorageInfoUnsafe self
+  = liftDOM
+      (((self ^. js "webkitStorageInfo") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.webkitStorageInfo Mozilla Window.webkitStorageInfo documentation> 
 getWebkitStorageInfoUnchecked ::
@@ -710,6 +746,14 @@ getSpeechSynthesis self
   = liftDOM ((self ^. js "speechSynthesis") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.speechSynthesis Mozilla Window.speechSynthesis documentation> 
+getSpeechSynthesisUnsafe ::
+                         (MonadDOM m, HasCallStack) => Window -> m SpeechSynthesis
+getSpeechSynthesisUnsafe self
+  = liftDOM
+      (((self ^. js "speechSynthesis") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.speechSynthesis Mozilla Window.speechSynthesis documentation> 
 getSpeechSynthesisUnchecked ::
                             (MonadDOM m) => Window -> m SpeechSynthesis
 getSpeechSynthesisUnchecked self
@@ -720,6 +764,13 @@ getScreen :: (MonadDOM m) => Window -> m (Maybe Screen)
 getScreen self = liftDOM ((self ^. js "screen") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.screen Mozilla Window.screen documentation> 
+getScreenUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Screen
+getScreenUnsafe self
+  = liftDOM
+      (((self ^. js "screen") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.screen Mozilla Window.screen documentation> 
 getScreenUnchecked :: (MonadDOM m) => Window -> m Screen
 getScreenUnchecked self
   = liftDOM ((self ^. js "screen") >>= fromJSValUnchecked)
@@ -727,6 +778,14 @@ getScreenUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.history Mozilla Window.history documentation> 
 getHistory :: (MonadDOM m) => Window -> m (Maybe History)
 getHistory self = liftDOM ((self ^. js "history") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.history Mozilla Window.history documentation> 
+getHistoryUnsafe ::
+                 (MonadDOM m, HasCallStack) => Window -> m History
+getHistoryUnsafe self
+  = liftDOM
+      (((self ^. js "history") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.history Mozilla Window.history documentation> 
 getHistoryUnchecked :: (MonadDOM m) => Window -> m History
@@ -739,6 +798,14 @@ getLocationbar self
   = liftDOM ((self ^. js "locationbar") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.locationbar Mozilla Window.locationbar documentation> 
+getLocationbarUnsafe ::
+                     (MonadDOM m, HasCallStack) => Window -> m BarProp
+getLocationbarUnsafe self
+  = liftDOM
+      (((self ^. js "locationbar") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.locationbar Mozilla Window.locationbar documentation> 
 getLocationbarUnchecked :: (MonadDOM m) => Window -> m BarProp
 getLocationbarUnchecked self
   = liftDOM ((self ^. js "locationbar") >>= fromJSValUnchecked)
@@ -746,6 +813,14 @@ getLocationbarUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.menubar Mozilla Window.menubar documentation> 
 getMenubar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getMenubar self = liftDOM ((self ^. js "menubar") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.menubar Mozilla Window.menubar documentation> 
+getMenubarUnsafe ::
+                 (MonadDOM m, HasCallStack) => Window -> m BarProp
+getMenubarUnsafe self
+  = liftDOM
+      (((self ^. js "menubar") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.menubar Mozilla Window.menubar documentation> 
 getMenubarUnchecked :: (MonadDOM m) => Window -> m BarProp
@@ -758,6 +833,14 @@ getPersonalbar self
   = liftDOM ((self ^. js "personalbar") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.personalbar Mozilla Window.personalbar documentation> 
+getPersonalbarUnsafe ::
+                     (MonadDOM m, HasCallStack) => Window -> m BarProp
+getPersonalbarUnsafe self
+  = liftDOM
+      (((self ^. js "personalbar") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.personalbar Mozilla Window.personalbar documentation> 
 getPersonalbarUnchecked :: (MonadDOM m) => Window -> m BarProp
 getPersonalbarUnchecked self
   = liftDOM ((self ^. js "personalbar") >>= fromJSValUnchecked)
@@ -766,6 +849,14 @@ getPersonalbarUnchecked self
 getScrollbars :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getScrollbars self
   = liftDOM ((self ^. js "scrollbars") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollbars Mozilla Window.scrollbars documentation> 
+getScrollbarsUnsafe ::
+                    (MonadDOM m, HasCallStack) => Window -> m BarProp
+getScrollbarsUnsafe self
+  = liftDOM
+      (((self ^. js "scrollbars") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollbars Mozilla Window.scrollbars documentation> 
 getScrollbarsUnchecked :: (MonadDOM m) => Window -> m BarProp
@@ -778,6 +869,14 @@ getStatusbar self
   = liftDOM ((self ^. js "statusbar") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.statusbar Mozilla Window.statusbar documentation> 
+getStatusbarUnsafe ::
+                   (MonadDOM m, HasCallStack) => Window -> m BarProp
+getStatusbarUnsafe self
+  = liftDOM
+      (((self ^. js "statusbar") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.statusbar Mozilla Window.statusbar documentation> 
 getStatusbarUnchecked :: (MonadDOM m) => Window -> m BarProp
 getStatusbarUnchecked self
   = liftDOM ((self ^. js "statusbar") >>= fromJSValUnchecked)
@@ -785,6 +884,14 @@ getStatusbarUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.toolbar Mozilla Window.toolbar documentation> 
 getToolbar :: (MonadDOM m) => Window -> m (Maybe BarProp)
 getToolbar self = liftDOM ((self ^. js "toolbar") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.toolbar Mozilla Window.toolbar documentation> 
+getToolbarUnsafe ::
+                 (MonadDOM m, HasCallStack) => Window -> m BarProp
+getToolbarUnsafe self
+  = liftDOM
+      (((self ^. js "toolbar") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.toolbar Mozilla Window.toolbar documentation> 
 getToolbarUnchecked :: (MonadDOM m) => Window -> m BarProp
@@ -795,6 +902,14 @@ getToolbarUnchecked self
 getNavigator :: (MonadDOM m) => Window -> m (Maybe Navigator)
 getNavigator self
   = liftDOM ((self ^. js "navigator") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.navigator Mozilla Window.navigator documentation> 
+getNavigatorUnsafe ::
+                   (MonadDOM m, HasCallStack) => Window -> m Navigator
+getNavigatorUnsafe self
+  = liftDOM
+      (((self ^. js "navigator") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.navigator Mozilla Window.navigator documentation> 
 getNavigatorUnchecked :: (MonadDOM m) => Window -> m Navigator
@@ -808,6 +923,14 @@ getClientInformation self
   = liftDOM ((self ^. js "clientInformation") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.clientInformation Mozilla Window.clientInformation documentation> 
+getClientInformationUnsafe ::
+                           (MonadDOM m, HasCallStack) => Window -> m Navigator
+getClientInformationUnsafe self
+  = liftDOM
+      (((self ^. js "clientInformation") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.clientInformation Mozilla Window.clientInformation documentation> 
 getClientInformationUnchecked ::
                               (MonadDOM m) => Window -> m Navigator
 getClientInformationUnchecked self
@@ -816,6 +939,13 @@ getClientInformationUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.crypto Mozilla Window.crypto documentation> 
 getCrypto :: (MonadDOM m) => Window -> m (Maybe Crypto)
 getCrypto self = liftDOM ((self ^. js "crypto") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.crypto Mozilla Window.crypto documentation> 
+getCryptoUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Crypto
+getCryptoUnsafe self
+  = liftDOM
+      (((self ^. js "crypto") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.crypto Mozilla Window.crypto documentation> 
 getCryptoUnchecked :: (MonadDOM m) => Window -> m Crypto
@@ -832,6 +962,14 @@ getLocation :: (MonadDOM m) => Window -> m (Maybe Location)
 getLocation self = liftDOM ((self ^. js "location") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.location Mozilla Window.location documentation> 
+getLocationUnsafe ::
+                  (MonadDOM m, HasCallStack) => Window -> m Location
+getLocationUnsafe self
+  = liftDOM
+      (((self ^. js "location") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.location Mozilla Window.location documentation> 
 getLocationUnchecked :: (MonadDOM m) => Window -> m Location
 getLocationUnchecked self
   = liftDOM ((self ^. js "location") >>= fromJSValUnchecked)
@@ -839,6 +977,13 @@ getLocationUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.event Mozilla Window.event documentation> 
 getEvent :: (MonadDOM m) => Window -> m (Maybe Event)
 getEvent self = liftDOM ((self ^. js "event") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.event Mozilla Window.event documentation> 
+getEventUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Event
+getEventUnsafe self
+  = liftDOM
+      (((self ^. js "event") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.event Mozilla Window.event documentation> 
 getEventUnchecked :: (MonadDOM m) => Window -> m Event
@@ -849,6 +994,14 @@ getEventUnchecked self
 getFrameElement :: (MonadDOM m) => Window -> m (Maybe Element)
 getFrameElement self
   = liftDOM ((self ^. js "frameElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frameElement Mozilla Window.frameElement documentation> 
+getFrameElementUnsafe ::
+                      (MonadDOM m, HasCallStack) => Window -> m Element
+getFrameElementUnsafe self
+  = liftDOM
+      (((self ^. js "frameElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frameElement Mozilla Window.frameElement documentation> 
 getFrameElementUnchecked :: (MonadDOM m) => Window -> m Element
@@ -976,6 +1129,13 @@ getSelf :: (MonadDOM m) => Window -> m (Maybe Window)
 getSelf self = liftDOM ((self ^. js "self") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.self Mozilla Window.self documentation> 
+getSelfUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Window
+getSelfUnsafe self
+  = liftDOM
+      (((self ^. js "self") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.self Mozilla Window.self documentation> 
 getSelfUnchecked :: (MonadDOM m) => Window -> m Window
 getSelfUnchecked self
   = liftDOM ((self ^. js "self") >>= fromJSValUnchecked)
@@ -983,6 +1143,13 @@ getSelfUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.window Mozilla Window.window documentation> 
 getWindow :: (MonadDOM m) => Window -> m (Maybe Window)
 getWindow self = liftDOM ((self ^. js "window") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.window Mozilla Window.window documentation> 
+getWindowUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Window
+getWindowUnsafe self
+  = liftDOM
+      (((self ^. js "window") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.window Mozilla Window.window documentation> 
 getWindowUnchecked :: (MonadDOM m) => Window -> m Window
@@ -994,6 +1161,13 @@ getFrames :: (MonadDOM m) => Window -> m (Maybe Window)
 getFrames self = liftDOM ((self ^. js "frames") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frames Mozilla Window.frames documentation> 
+getFramesUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Window
+getFramesUnsafe self
+  = liftDOM
+      (((self ^. js "frames") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.frames Mozilla Window.frames documentation> 
 getFramesUnchecked :: (MonadDOM m) => Window -> m Window
 getFramesUnchecked self
   = liftDOM ((self ^. js "frames") >>= fromJSValUnchecked)
@@ -1001,6 +1175,13 @@ getFramesUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.opener Mozilla Window.opener documentation> 
 getOpener :: (MonadDOM m) => Window -> m (Maybe Window)
 getOpener self = liftDOM ((self ^. js "opener") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.opener Mozilla Window.opener documentation> 
+getOpenerUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Window
+getOpenerUnsafe self
+  = liftDOM
+      (((self ^. js "opener") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.opener Mozilla Window.opener documentation> 
 getOpenerUnchecked :: (MonadDOM m) => Window -> m Window
@@ -1012,6 +1193,13 @@ getParent :: (MonadDOM m) => Window -> m (Maybe Window)
 getParent self = liftDOM ((self ^. js "parent") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.parent Mozilla Window.parent documentation> 
+getParentUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Window
+getParentUnsafe self
+  = liftDOM
+      (((self ^. js "parent") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.parent Mozilla Window.parent documentation> 
 getParentUnchecked :: (MonadDOM m) => Window -> m Window
 getParentUnchecked self
   = liftDOM ((self ^. js "parent") >>= fromJSValUnchecked)
@@ -1019,6 +1207,13 @@ getParentUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.top Mozilla Window.top documentation> 
 getTop :: (MonadDOM m) => Window -> m (Maybe Window)
 getTop self = liftDOM ((self ^. js "top") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.top Mozilla Window.top documentation> 
+getTopUnsafe :: (MonadDOM m, HasCallStack) => Window -> m Window
+getTopUnsafe self
+  = liftDOM
+      (((self ^. js "top") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.top Mozilla Window.top documentation> 
 getTopUnchecked :: (MonadDOM m) => Window -> m Window
@@ -1030,6 +1225,14 @@ getDocument :: (MonadDOM m) => Window -> m (Maybe Document)
 getDocument self = liftDOM ((self ^. js "document") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.document Mozilla Window.document documentation> 
+getDocumentUnsafe ::
+                  (MonadDOM m, HasCallStack) => Window -> m Document
+getDocumentUnsafe self
+  = liftDOM
+      (((self ^. js "document") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.document Mozilla Window.document documentation> 
 getDocumentUnchecked :: (MonadDOM m) => Window -> m Document
 getDocumentUnchecked self
   = liftDOM ((self ^. js "document") >>= fromJSValUnchecked)
@@ -1038,6 +1241,14 @@ getDocumentUnchecked self
 getStyleMedia :: (MonadDOM m) => Window -> m (Maybe StyleMedia)
 getStyleMedia self
   = liftDOM ((self ^. js "styleMedia") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.styleMedia Mozilla Window.styleMedia documentation> 
+getStyleMediaUnsafe ::
+                    (MonadDOM m, HasCallStack) => Window -> m StyleMedia
+getStyleMediaUnsafe self
+  = liftDOM
+      (((self ^. js "styleMedia") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.styleMedia Mozilla Window.styleMedia documentation> 
 getStyleMediaUnchecked :: (MonadDOM m) => Window -> m StyleMedia
@@ -1056,6 +1267,14 @@ getApplicationCache self
   = liftDOM ((self ^. js "applicationCache") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.applicationCache Mozilla Window.applicationCache documentation> 
+getApplicationCacheUnsafe ::
+                          (MonadDOM m, HasCallStack) => Window -> m ApplicationCache
+getApplicationCacheUnsafe self
+  = liftDOM
+      (((self ^. js "applicationCache") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.applicationCache Mozilla Window.applicationCache documentation> 
 getApplicationCacheUnchecked ::
                              (MonadDOM m) => Window -> m ApplicationCache
 getApplicationCacheUnchecked self
@@ -1067,6 +1286,14 @@ getSessionStorage self
   = liftDOM ((self ^. js "sessionStorage") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.sessionStorage Mozilla Window.sessionStorage documentation> 
+getSessionStorageUnsafe ::
+                        (MonadDOM m, HasCallStack) => Window -> m Storage
+getSessionStorageUnsafe self
+  = liftDOM
+      (((self ^. js "sessionStorage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.sessionStorage Mozilla Window.sessionStorage documentation> 
 getSessionStorageUnchecked :: (MonadDOM m) => Window -> m Storage
 getSessionStorageUnchecked self
   = liftDOM ((self ^. js "sessionStorage") >>= fromJSValUnchecked)
@@ -1075,6 +1302,14 @@ getSessionStorageUnchecked self
 getLocalStorage :: (MonadDOM m) => Window -> m (Maybe Storage)
 getLocalStorage self
   = liftDOM ((self ^. js "localStorage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.localStorage Mozilla Window.localStorage documentation> 
+getLocalStorageUnsafe ::
+                      (MonadDOM m, HasCallStack) => Window -> m Storage
+getLocalStorageUnsafe self
+  = liftDOM
+      (((self ^. js "localStorage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.localStorage Mozilla Window.localStorage documentation> 
 getLocalStorageUnchecked :: (MonadDOM m) => Window -> m Storage
@@ -1092,6 +1327,14 @@ getPerformance self
   = liftDOM ((self ^. js "performance") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.performance Mozilla Window.performance documentation> 
+getPerformanceUnsafe ::
+                     (MonadDOM m, HasCallStack) => Window -> m Performance
+getPerformanceUnsafe self
+  = liftDOM
+      (((self ^. js "performance") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.performance Mozilla Window.performance documentation> 
 getPerformanceUnchecked :: (MonadDOM m) => Window -> m Performance
 getPerformanceUnchecked self
   = liftDOM ((self ^. js "performance") >>= fromJSValUnchecked)
@@ -1099,6 +1342,13 @@ getPerformanceUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.CSS Mozilla Window.CSS documentation> 
 getCSS :: (MonadDOM m) => Window -> m (Maybe CSS)
 getCSS self = liftDOM ((self ^. js "CSS") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.CSS Mozilla Window.CSS documentation> 
+getCSSUnsafe :: (MonadDOM m, HasCallStack) => Window -> m CSS
+getCSSUnsafe self
+  = liftDOM
+      (((self ^. js "CSS") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.CSS Mozilla Window.CSS documentation> 
 getCSSUnchecked :: (MonadDOM m) => Window -> m CSS

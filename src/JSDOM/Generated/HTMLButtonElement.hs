@@ -5,14 +5,17 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLButtonElement
        (checkValidity, checkValidity_, setCustomValidity, setAutofocus,
-        getAutofocus, setDisabled, getDisabled, getForm, getFormUnchecked,
-        setFormAction, getFormAction, setFormEnctype, getFormEnctype,
-        getFormEnctypeUnchecked, setFormMethod, getFormMethod,
+        getAutofocus, setDisabled, getDisabled, getForm, getFormUnsafe,
+        getFormUnchecked, setFormAction, getFormAction, setFormEnctype,
+        getFormEnctype, getFormEnctypeUnsafe, getFormEnctypeUnchecked,
+        setFormMethod, getFormMethod, getFormMethodUnsafe,
         getFormMethodUnchecked, setFormNoValidate, getFormNoValidate,
         setFormTarget, getFormTarget, setName, getName, setType, getType,
-        getTypeUnchecked, setValue, getValue, getWillValidate, getValidity,
+        getTypeUnsafe, getTypeUnchecked, setValue, getValue,
+        getWillValidate, getValidity, getValidityUnsafe,
         getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnchecked, HTMLButtonElement(..), gTypeHTMLButtonElement)
+        getLabelsUnsafe, getLabelsUnchecked, HTMLButtonElement(..),
+        gTypeHTMLButtonElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -79,6 +82,15 @@ getForm ::
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.form Mozilla HTMLButtonElement.form documentation> 
+getFormUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                HTMLButtonElement -> m HTMLFormElement
+getFormUnsafe self
+  = liftDOM
+      (((self ^. js "form") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.form Mozilla HTMLButtonElement.form documentation> 
 getFormUnchecked ::
                  (MonadDOM m) => HTMLButtonElement -> m HTMLFormElement
 getFormUnchecked self
@@ -111,6 +123,15 @@ getFormEnctype self
   = liftDOM ((self ^. js "formEnctype") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formEnctype Mozilla HTMLButtonElement.formEnctype documentation> 
+getFormEnctypeUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLButtonElement -> m result
+getFormEnctypeUnsafe self
+  = liftDOM
+      (((self ^. js "formEnctype") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formEnctype Mozilla HTMLButtonElement.formEnctype documentation> 
 getFormEnctypeUnchecked ::
                         (MonadDOM m, FromJSString result) => HTMLButtonElement -> m result
 getFormEnctypeUnchecked self
@@ -129,6 +150,15 @@ getFormMethod ::
                 HTMLButtonElement -> m (Maybe result)
 getFormMethod self
   = liftDOM ((self ^. js "formMethod") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formMethod Mozilla HTMLButtonElement.formMethod documentation> 
+getFormMethodUnsafe ::
+                    (MonadDOM m, HasCallStack, FromJSString result) =>
+                      HTMLButtonElement -> m result
+getFormMethodUnsafe self
+  = liftDOM
+      (((self ^. js "formMethod") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.formMethod Mozilla HTMLButtonElement.formMethod documentation> 
 getFormMethodUnchecked ::
@@ -182,6 +212,15 @@ getType ::
 getType self = liftDOM ((self ^. js "type") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.type Mozilla HTMLButtonElement.type documentation> 
+getTypeUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                HTMLButtonElement -> m result
+getTypeUnsafe self
+  = liftDOM
+      (((self ^. js "type") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.type Mozilla HTMLButtonElement.type documentation> 
 getTypeUnchecked ::
                  (MonadDOM m, FromJSString result) => HTMLButtonElement -> m result
 getTypeUnchecked self
@@ -209,6 +248,14 @@ getValidity ::
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.validity Mozilla HTMLButtonElement.validity documentation> 
+getValidityUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLButtonElement -> m ValidityState
+getValidityUnsafe self
+  = liftDOM
+      (((self ^. js "validity") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.validity Mozilla HTMLButtonElement.validity documentation> 
 getValidityUnchecked ::
                      (MonadDOM m) => HTMLButtonElement -> m ValidityState
 getValidityUnchecked self
@@ -224,6 +271,14 @@ getValidationMessage self
 getLabels ::
           (MonadDOM m) => HTMLButtonElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.labels Mozilla HTMLButtonElement.labels documentation> 
+getLabelsUnsafe ::
+                (MonadDOM m, HasCallStack) => HTMLButtonElement -> m NodeList
+getLabelsUnsafe self
+  = liftDOM
+      (((self ^. js "labels") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement.labels Mozilla HTMLButtonElement.labels documentation> 
 getLabelsUnchecked ::

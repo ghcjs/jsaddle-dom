@@ -148,8 +148,8 @@ module JSDOM.Generated.Internals
         pattern LAYER_TREE_INCLUDES_REPAINT_RECTS,
         pattern LAYER_TREE_INCLUDES_PAINTING_PHASES,
         pattern LAYER_TREE_INCLUDES_CONTENT_LAYERS, getSettings,
-        getSettingsUnchecked, getWorkerThreadCount, getConsoleProfiles,
-        Internals(..), gTypeInternals)
+        getSettingsUnsafe, getSettingsUnchecked, getWorkerThreadCount,
+        getConsoleProfiles, Internals(..), gTypeInternals)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -2691,6 +2691,14 @@ pattern LAYER_TREE_INCLUDES_CONTENT_LAYERS = 16
 getSettings ::
             (MonadDOM m) => Internals -> m (Maybe InternalSettings)
 getSettings self = liftDOM ((self ^. js "settings") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.settings Mozilla Internals.settings documentation> 
+getSettingsUnsafe ::
+                  (MonadDOM m, HasCallStack) => Internals -> m InternalSettings
+getSettingsUnsafe self
+  = liftDOM
+      (((self ^. js "settings") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.settings Mozilla Internals.settings documentation> 
 getSettingsUnchecked ::

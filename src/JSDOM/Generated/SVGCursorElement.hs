@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGCursorElement
-       (getX, getXUnchecked, getY, getYUnchecked, SVGCursorElement(..),
-        gTypeSVGCursorElement)
+       (getX, getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
+        SVGCursorElement(..), gTypeSVGCursorElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +36,15 @@ getX ::
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.x Mozilla SVGCursorElement.x documentation> 
+getXUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGCursorElement -> m SVGAnimatedLength
+getXUnsafe self
+  = liftDOM
+      (((self ^. js "x") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.x Mozilla SVGCursorElement.x documentation> 
 getXUnchecked ::
               (MonadDOM m) => SVGCursorElement -> m SVGAnimatedLength
 getXUnchecked self
@@ -45,6 +54,15 @@ getXUnchecked self
 getY ::
      (MonadDOM m) => SVGCursorElement -> m (Maybe SVGAnimatedLength)
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.y Mozilla SVGCursorElement.y documentation> 
+getYUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGCursorElement -> m SVGAnimatedLength
+getYUnsafe self
+  = liftDOM
+      (((self ^. js "y") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCursorElement.y Mozilla SVGCursorElement.y documentation> 
 getYUnchecked ::

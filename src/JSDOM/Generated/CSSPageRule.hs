@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSPageRule
-       (setSelectorText, getSelectorText, getSelectorTextUnchecked,
-        getStyle, getStyleUnchecked, CSSPageRule(..), gTypeCSSPageRule)
+       (setSelectorText, getSelectorText, getSelectorTextUnsafe,
+        getSelectorTextUnchecked, getStyle, getStyleUnsafe,
+        getStyleUnchecked, CSSPageRule(..), gTypeCSSPageRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -44,6 +45,15 @@ getSelectorText self
   = liftDOM ((self ^. js "selectorText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.selectorText Mozilla CSSPageRule.selectorText documentation> 
+getSelectorTextUnsafe ::
+                      (MonadDOM m, HasCallStack, FromJSString result) =>
+                        CSSPageRule -> m result
+getSelectorTextUnsafe self
+  = liftDOM
+      (((self ^. js "selectorText") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.selectorText Mozilla CSSPageRule.selectorText documentation> 
 getSelectorTextUnchecked ::
                          (MonadDOM m, FromJSString result) => CSSPageRule -> m result
 getSelectorTextUnchecked self
@@ -53,6 +63,14 @@ getSelectorTextUnchecked self
 getStyle ::
          (MonadDOM m) => CSSPageRule -> m (Maybe CSSStyleDeclaration)
 getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.style Mozilla CSSPageRule.style documentation> 
+getStyleUnsafe ::
+               (MonadDOM m, HasCallStack) => CSSPageRule -> m CSSStyleDeclaration
+getStyleUnsafe self
+  = liftDOM
+      (((self ^. js "style") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.style Mozilla CSSPageRule.style documentation> 
 getStyleUnchecked ::

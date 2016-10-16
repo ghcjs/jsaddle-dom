@@ -4,7 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.GainNode
-       (getGain, getGainUnchecked, GainNode(..), gTypeGainNode) where
+       (getGain, getGainUnsafe, getGainUnchecked, GainNode(..),
+        gTypeGainNode)
+       where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
@@ -31,6 +33,14 @@ type HasCallStack = (() :: Constraint)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/GainNode.gain Mozilla GainNode.gain documentation> 
 getGain :: (MonadDOM m) => GainNode -> m (Maybe AudioParam)
 getGain self = liftDOM ((self ^. js "gain") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/GainNode.gain Mozilla GainNode.gain documentation> 
+getGainUnsafe ::
+              (MonadDOM m, HasCallStack) => GainNode -> m AudioParam
+getGainUnsafe self
+  = liftDOM
+      (((self ^. js "gain") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/GainNode.gain Mozilla GainNode.gain documentation> 
 getGainUnchecked :: (MonadDOM m) => GainNode -> m AudioParam

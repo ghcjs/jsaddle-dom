@@ -5,8 +5,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioTrack
        (getId, setKind, getKind, getLabel, setLanguage, getLanguage,
-        setEnabled, getEnabled, getSourceBuffer, getSourceBufferUnchecked,
-        AudioTrack(..), gTypeAudioTrack)
+        setEnabled, getEnabled, getSourceBuffer, getSourceBufferUnsafe,
+        getSourceBufferUnchecked, AudioTrack(..), gTypeAudioTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -77,6 +77,14 @@ getSourceBuffer ::
                 (MonadDOM m) => AudioTrack -> m (Maybe SourceBuffer)
 getSourceBuffer self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrack.sourceBuffer Mozilla AudioTrack.sourceBuffer documentation> 
+getSourceBufferUnsafe ::
+                      (MonadDOM m, HasCallStack) => AudioTrack -> m SourceBuffer
+getSourceBufferUnsafe self
+  = liftDOM
+      (((self ^. js "sourceBuffer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioTrack.sourceBuffer Mozilla AudioTrack.sourceBuffer documentation> 
 getSourceBufferUnchecked ::

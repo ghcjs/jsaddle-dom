@@ -6,11 +6,12 @@
 module JSDOM.Generated.SVGGradientElement
        (pattern SVG_SPREADMETHOD_UNKNOWN, pattern SVG_SPREADMETHOD_PAD,
         pattern SVG_SPREADMETHOD_REFLECT, pattern SVG_SPREADMETHOD_REPEAT,
-        getGradientUnits, getGradientUnitsUnchecked, getGradientTransform,
-        getGradientTransformUnchecked, getSpreadMethod,
-        getSpreadMethodUnchecked, SVGGradientElement(..),
-        gTypeSVGGradientElement, IsSVGGradientElement,
-        toSVGGradientElement)
+        getGradientUnits, getGradientUnitsUnsafe,
+        getGradientUnitsUnchecked, getGradientTransform,
+        getGradientTransformUnsafe, getGradientTransformUnchecked,
+        getSpreadMethod, getSpreadMethodUnsafe, getSpreadMethodUnchecked,
+        SVGGradientElement(..), gTypeSVGGradientElement,
+        IsSVGGradientElement, toSVGGradientElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -48,6 +49,16 @@ getGradientUnits self
       (((toSVGGradientElement self) ^. js "gradientUnits") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGradientElement.gradientUnits Mozilla SVGGradientElement.gradientUnits documentation> 
+getGradientUnitsUnsafe ::
+                       (MonadDOM m, IsSVGGradientElement self, HasCallStack) =>
+                         self -> m SVGAnimatedEnumeration
+getGradientUnitsUnsafe self
+  = liftDOM
+      ((((toSVGGradientElement self) ^. js "gradientUnits") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGradientElement.gradientUnits Mozilla SVGGradientElement.gradientUnits documentation> 
 getGradientUnitsUnchecked ::
                           (MonadDOM m, IsSVGGradientElement self) =>
                             self -> m SVGAnimatedEnumeration
@@ -66,6 +77,16 @@ getGradientTransform self
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGradientElement.gradientTransform Mozilla SVGGradientElement.gradientTransform documentation> 
+getGradientTransformUnsafe ::
+                           (MonadDOM m, IsSVGGradientElement self, HasCallStack) =>
+                             self -> m SVGAnimatedTransformList
+getGradientTransformUnsafe self
+  = liftDOM
+      ((((toSVGGradientElement self) ^. js "gradientTransform") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGradientElement.gradientTransform Mozilla SVGGradientElement.gradientTransform documentation> 
 getGradientTransformUnchecked ::
                               (MonadDOM m, IsSVGGradientElement self) =>
                                 self -> m SVGAnimatedTransformList
@@ -81,6 +102,15 @@ getSpreadMethod ::
 getSpreadMethod self
   = liftDOM
       (((toSVGGradientElement self) ^. js "spreadMethod") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGradientElement.spreadMethod Mozilla SVGGradientElement.spreadMethod documentation> 
+getSpreadMethodUnsafe ::
+                      (MonadDOM m, IsSVGGradientElement self, HasCallStack) =>
+                        self -> m SVGAnimatedEnumeration
+getSpreadMethodUnsafe self
+  = liftDOM
+      ((((toSVGGradientElement self) ^. js "spreadMethod") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGradientElement.spreadMethod Mozilla SVGGradientElement.spreadMethod documentation> 
 getSpreadMethodUnchecked ::

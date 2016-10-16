@@ -14,9 +14,9 @@ module JSDOM.Generated.CSSStyleDeclaration
         getPropertyShorthand, getPropertyShorthand_,
         getPropertyShorthandUnsafe, getPropertyShorthandUnchecked,
         isPropertyImplicit, isPropertyImplicit_, setCssText, getCssText,
-        getCssTextUnchecked, getLength, getParentRule,
-        getParentRuleUnchecked, CSSStyleDeclaration(..),
-        gTypeCSSStyleDeclaration)
+        getCssTextUnsafe, getCssTextUnchecked, getLength, getParentRule,
+        getParentRuleUnsafe, getParentRuleUnchecked,
+        CSSStyleDeclaration(..), gTypeCSSStyleDeclaration)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -281,6 +281,15 @@ getCssText self
   = liftDOM ((self ^. js "cssText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.cssText Mozilla CSSStyleDeclaration.cssText documentation> 
+getCssTextUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   CSSStyleDeclaration -> m result
+getCssTextUnsafe self
+  = liftDOM
+      (((self ^. js "cssText") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.cssText Mozilla CSSStyleDeclaration.cssText documentation> 
 getCssTextUnchecked ::
                     (MonadDOM m, FromJSString result) =>
                       CSSStyleDeclaration -> m result
@@ -297,6 +306,14 @@ getParentRule ::
               (MonadDOM m) => CSSStyleDeclaration -> m (Maybe CSSRule)
 getParentRule self
   = liftDOM ((self ^. js "parentRule") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.parentRule Mozilla CSSStyleDeclaration.parentRule documentation> 
+getParentRuleUnsafe ::
+                    (MonadDOM m, HasCallStack) => CSSStyleDeclaration -> m CSSRule
+getParentRuleUnsafe self
+  = liftDOM
+      (((self ^. js "parentRule") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.parentRule Mozilla CSSStyleDeclaration.parentRule documentation> 
 getParentRuleUnchecked ::

@@ -9,9 +9,9 @@ module JSDOM.Generated.SVGFEColorMatrixElement
         pattern SVG_FECOLORMATRIX_TYPE_SATURATE,
         pattern SVG_FECOLORMATRIX_TYPE_HUEROTATE,
         pattern SVG_FECOLORMATRIX_TYPE_LUMINANCETOALPHA, getIn1,
-        getIn1Unchecked, getType, getTypeUnchecked, getValues,
-        getValuesUnchecked, SVGFEColorMatrixElement(..),
-        gTypeSVGFEColorMatrixElement)
+        getIn1Unsafe, getIn1Unchecked, getType, getTypeUnsafe,
+        getTypeUnchecked, getValues, getValuesUnsafe, getValuesUnchecked,
+        SVGFEColorMatrixElement(..), gTypeSVGFEColorMatrixElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -48,6 +48,15 @@ getIn1 ::
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement.in1 Mozilla SVGFEColorMatrixElement.in1 documentation> 
+getIn1Unsafe ::
+             (MonadDOM m, HasCallStack) =>
+               SVGFEColorMatrixElement -> m SVGAnimatedString
+getIn1Unsafe self
+  = liftDOM
+      (((self ^. js "in1") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement.in1 Mozilla SVGFEColorMatrixElement.in1 documentation> 
 getIn1Unchecked ::
                 (MonadDOM m) => SVGFEColorMatrixElement -> m SVGAnimatedString
 getIn1Unchecked self
@@ -60,6 +69,15 @@ getType ::
 getType self = liftDOM ((self ^. js "type") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement.type Mozilla SVGFEColorMatrixElement.type documentation> 
+getTypeUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                SVGFEColorMatrixElement -> m SVGAnimatedEnumeration
+getTypeUnsafe self
+  = liftDOM
+      (((self ^. js "type") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement.type Mozilla SVGFEColorMatrixElement.type documentation> 
 getTypeUnchecked ::
                  (MonadDOM m) => SVGFEColorMatrixElement -> m SVGAnimatedEnumeration
 getTypeUnchecked self
@@ -70,6 +88,15 @@ getValues ::
           (MonadDOM m) =>
             SVGFEColorMatrixElement -> m (Maybe SVGAnimatedNumberList)
 getValues self = liftDOM ((self ^. js "values") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement.values Mozilla SVGFEColorMatrixElement.values documentation> 
+getValuesUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  SVGFEColorMatrixElement -> m SVGAnimatedNumberList
+getValuesUnsafe self
+  = liftDOM
+      (((self ^. js "values") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement.values Mozilla SVGFEColorMatrixElement.values documentation> 
 getValuesUnchecked ::

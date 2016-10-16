@@ -13,11 +13,12 @@ module JSDOM.Generated.XMLHttpRequest
         pattern DONE, abortEvent, error, load, loadEnd, loadStart,
         progress, timeout, readyStateChange, setTimeout, getTimeout,
         getReadyState, setWithCredentials, getWithCredentials, getUpload,
-        getUploadUnchecked, getResponseText, getResponseTextUnchecked,
-        getResponseXML, getResponseXMLUnchecked, setResponseType,
-        getResponseType, getResponse, getResponseUnchecked, getStatus,
-        getStatusText, getResponseURL, XMLHttpRequest(..),
-        gTypeXMLHttpRequest)
+        getUploadUnsafe, getUploadUnchecked, getResponseText,
+        getResponseTextUnsafe, getResponseTextUnchecked, getResponseXML,
+        getResponseXMLUnsafe, getResponseXMLUnchecked, setResponseType,
+        getResponseType, getResponse, getResponseUnsafe,
+        getResponseUnchecked, getStatus, getStatusText, getResponseURL,
+        XMLHttpRequest(..), gTypeXMLHttpRequest)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -216,6 +217,15 @@ getUpload ::
 getUpload self = liftDOM ((self ^. js "upload") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.upload Mozilla XMLHttpRequest.upload documentation> 
+getUploadUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  XMLHttpRequest -> m XMLHttpRequestUpload
+getUploadUnsafe self
+  = liftDOM
+      (((self ^. js "upload") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.upload Mozilla XMLHttpRequest.upload documentation> 
 getUploadUnchecked ::
                    (MonadDOM m) => XMLHttpRequest -> m XMLHttpRequestUpload
 getUploadUnchecked self
@@ -229,6 +239,15 @@ getResponseText self
   = liftDOM ((self ^. js "responseText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseText Mozilla XMLHttpRequest.responseText documentation> 
+getResponseTextUnsafe ::
+                      (MonadDOM m, HasCallStack, FromJSString result) =>
+                        XMLHttpRequest -> m result
+getResponseTextUnsafe self
+  = liftDOM
+      (((self ^. js "responseText") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseText Mozilla XMLHttpRequest.responseText documentation> 
 getResponseTextUnchecked ::
                          (MonadDOM m, FromJSString result) => XMLHttpRequest -> m result
 getResponseTextUnchecked self
@@ -239,6 +258,14 @@ getResponseXML ::
                (MonadDOM m) => XMLHttpRequest -> m (Maybe Document)
 getResponseXML self
   = liftDOM ((self ^. js "responseXML") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseXML Mozilla XMLHttpRequest.responseXML documentation> 
+getResponseXMLUnsafe ::
+                     (MonadDOM m, HasCallStack) => XMLHttpRequest -> m Document
+getResponseXMLUnsafe self
+  = liftDOM
+      (((self ^. js "responseXML") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseXML Mozilla XMLHttpRequest.responseXML documentation> 
 getResponseXMLUnchecked ::
@@ -262,6 +289,14 @@ getResponseType self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.response Mozilla XMLHttpRequest.response documentation> 
 getResponse :: (MonadDOM m) => XMLHttpRequest -> m (Maybe GObject)
 getResponse self = liftDOM ((self ^. js "response") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.response Mozilla XMLHttpRequest.response documentation> 
+getResponseUnsafe ::
+                  (MonadDOM m, HasCallStack) => XMLHttpRequest -> m GObject
+getResponseUnsafe self
+  = liftDOM
+      (((self ^. js "response") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.response Mozilla XMLHttpRequest.response documentation> 
 getResponseUnchecked :: (MonadDOM m) => XMLHttpRequest -> m GObject

@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioNode
-       (connect, connectParam, disconnect, getContext,
+       (connect, connectParam, disconnect, getContext, getContextUnsafe,
         getContextUnchecked, getNumberOfInputs, getNumberOfOutputs,
         setChannelCount, getChannelCount, setChannelCountMode,
         getChannelCountMode, setChannelInterpretation,
@@ -66,6 +66,15 @@ getContext ::
            (MonadDOM m, IsAudioNode self) => self -> m (Maybe AudioContext)
 getContext self
   = liftDOM (((toAudioNode self) ^. js "context") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.context Mozilla AudioNode.context documentation> 
+getContextUnsafe ::
+                 (MonadDOM m, IsAudioNode self, HasCallStack) =>
+                   self -> m AudioContext
+getContextUnsafe self
+  = liftDOM
+      ((((toAudioNode self) ^. js "context") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.context Mozilla AudioNode.context documentation> 
 getContextUnchecked ::

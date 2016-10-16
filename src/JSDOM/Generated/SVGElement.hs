@@ -6,12 +6,14 @@
 module JSDOM.Generated.SVGElement
        (getPresentationAttribute, getPresentationAttribute_,
         getPresentationAttributeUnsafe, getPresentationAttributeUnchecked,
-        setXmlbase, getXmlbase, getXmlbaseUnchecked, getOwnerSVGElement,
+        setXmlbase, getXmlbase, getXmlbaseUnsafe, getXmlbaseUnchecked,
+        getOwnerSVGElement, getOwnerSVGElementUnsafe,
         getOwnerSVGElementUnchecked, getViewportElement,
-        getViewportElementUnchecked, setXmllang, getXmllang, setXmlspace,
-        getXmlspace, getClassName, getClassNameUnchecked, getStyle,
-        getStyleUnchecked, setTabIndex, getTabIndex, SVGElement(..),
-        gTypeSVGElement, IsSVGElement, toSVGElement)
+        getViewportElementUnsafe, getViewportElementUnchecked, setXmllang,
+        getXmllang, setXmlspace, getXmlspace, getClassName,
+        getClassNameUnsafe, getClassNameUnchecked, getStyle,
+        getStyleUnsafe, getStyleUnchecked, setTabIndex, getTabIndex,
+        SVGElement(..), gTypeSVGElement, IsSVGElement, toSVGElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -93,6 +95,16 @@ getXmlbase self
       (((toSVGElement self) ^. js "xmlbase") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.xmlbase Mozilla SVGElement.xmlbase documentation> 
+getXmlbaseUnsafe ::
+                 (MonadDOM m, IsSVGElement self, HasCallStack,
+                  FromJSString result) =>
+                   self -> m result
+getXmlbaseUnsafe self
+  = liftDOM
+      ((((toSVGElement self) ^. js "xmlbase") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.xmlbase Mozilla SVGElement.xmlbase documentation> 
 getXmlbaseUnchecked ::
                     (MonadDOM m, IsSVGElement self, FromJSString result) =>
                       self -> m result
@@ -108,6 +120,15 @@ getOwnerSVGElement self
       (((toSVGElement self) ^. js "ownerSVGElement") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.ownerSVGElement Mozilla SVGElement.ownerSVGElement documentation> 
+getOwnerSVGElementUnsafe ::
+                         (MonadDOM m, IsSVGElement self, HasCallStack) =>
+                           self -> m SVGSVGElement
+getOwnerSVGElementUnsafe self
+  = liftDOM
+      ((((toSVGElement self) ^. js "ownerSVGElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.ownerSVGElement Mozilla SVGElement.ownerSVGElement documentation> 
 getOwnerSVGElementUnchecked ::
                             (MonadDOM m, IsSVGElement self) => self -> m SVGSVGElement
 getOwnerSVGElementUnchecked self
@@ -121,6 +142,15 @@ getViewportElement ::
 getViewportElement self
   = liftDOM
       (((toSVGElement self) ^. js "viewportElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.viewportElement Mozilla SVGElement.viewportElement documentation> 
+getViewportElementUnsafe ::
+                         (MonadDOM m, IsSVGElement self, HasCallStack) =>
+                           self -> m SVGElement
+getViewportElementUnsafe self
+  = liftDOM
+      ((((toSVGElement self) ^. js "viewportElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.viewportElement Mozilla SVGElement.viewportElement documentation> 
 getViewportElementUnchecked ::
@@ -168,6 +198,15 @@ getClassName self
   = liftDOM (((toSVGElement self) ^. js "className") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.className Mozilla SVGElement.className documentation> 
+getClassNameUnsafe ::
+                   (MonadDOM m, IsSVGElement self, HasCallStack) =>
+                     self -> m SVGAnimatedString
+getClassNameUnsafe self
+  = liftDOM
+      ((((toSVGElement self) ^. js "className") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.className Mozilla SVGElement.className documentation> 
 getClassNameUnchecked ::
                       (MonadDOM m, IsSVGElement self) => self -> m SVGAnimatedString
 getClassNameUnchecked self
@@ -180,6 +219,15 @@ getStyle ::
            self -> m (Maybe CSSStyleDeclaration)
 getStyle self
   = liftDOM (((toSVGElement self) ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.style Mozilla SVGElement.style documentation> 
+getStyleUnsafe ::
+               (MonadDOM m, IsSVGElement self, HasCallStack) =>
+                 self -> m CSSStyleDeclaration
+getStyleUnsafe self
+  = liftDOM
+      ((((toSVGElement self) ^. js "style") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.style Mozilla SVGElement.style documentation> 
 getStyleUnchecked ::

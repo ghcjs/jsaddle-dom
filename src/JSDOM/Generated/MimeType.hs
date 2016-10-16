@@ -5,7 +5,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MimeType
        (getType, getSuffixes, getDescription, getEnabledPlugin,
-        getEnabledPluginUnchecked, MimeType(..), gTypeMimeType)
+        getEnabledPluginUnsafe, getEnabledPluginUnchecked, MimeType(..),
+        gTypeMimeType)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -51,6 +52,14 @@ getDescription self
 getEnabledPlugin :: (MonadDOM m) => MimeType -> m (Maybe Plugin)
 getEnabledPlugin self
   = liftDOM ((self ^. js "enabledPlugin") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeType.enabledPlugin Mozilla MimeType.enabledPlugin documentation> 
+getEnabledPluginUnsafe ::
+                       (MonadDOM m, HasCallStack) => MimeType -> m Plugin
+getEnabledPluginUnsafe self
+  = liftDOM
+      (((self ^. js "enabledPlugin") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MimeType.enabledPlugin Mozilla MimeType.enabledPlugin documentation> 
 getEnabledPluginUnchecked :: (MonadDOM m) => MimeType -> m Plugin

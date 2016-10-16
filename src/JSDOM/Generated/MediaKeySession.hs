@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeySession
-       (update, close, getError, getErrorUnchecked, getKeySystem,
-        getSessionId, webKitKeyAdded, webKitKeyError, webKitKeyMessage,
-        MediaKeySession(..), gTypeMediaKeySession)
+       (update, close, getError, getErrorUnsafe, getErrorUnchecked,
+        getKeySystem, getSessionId, webKitKeyAdded, webKitKeyError,
+        webKitKeyMessage, MediaKeySession(..), gTypeMediaKeySession)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -46,6 +46,14 @@ close self = liftDOM (void (self ^. jsf "close" ()))
 getError ::
          (MonadDOM m) => MediaKeySession -> m (Maybe MediaKeyError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeySession.error Mozilla WebKitMediaKeySession.error documentation> 
+getErrorUnsafe ::
+               (MonadDOM m, HasCallStack) => MediaKeySession -> m MediaKeyError
+getErrorUnsafe self
+  = liftDOM
+      (((self ^. js "error") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeySession.error Mozilla WebKitMediaKeySession.error documentation> 
 getErrorUnchecked ::

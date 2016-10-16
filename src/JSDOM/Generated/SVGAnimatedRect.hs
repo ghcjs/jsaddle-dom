@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedRect
-       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
-        SVGAnimatedRect(..), gTypeSVGAnimatedRect)
+       (getBaseVal, getBaseValUnsafe, getBaseValUnchecked, getAnimVal,
+        getAnimValUnsafe, getAnimValUnchecked, SVGAnimatedRect(..),
+        gTypeSVGAnimatedRect)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -35,6 +36,14 @@ getBaseVal :: (MonadDOM m) => SVGAnimatedRect -> m (Maybe SVGRect)
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.baseVal Mozilla SVGAnimatedRect.baseVal documentation> 
+getBaseValUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGAnimatedRect -> m SVGRect
+getBaseValUnsafe self
+  = liftDOM
+      (((self ^. js "baseVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.baseVal Mozilla SVGAnimatedRect.baseVal documentation> 
 getBaseValUnchecked :: (MonadDOM m) => SVGAnimatedRect -> m SVGRect
 getBaseValUnchecked self
   = liftDOM ((self ^. js "baseVal") >>= fromJSValUnchecked)
@@ -42,6 +51,14 @@ getBaseValUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.animVal Mozilla SVGAnimatedRect.animVal documentation> 
 getAnimVal :: (MonadDOM m) => SVGAnimatedRect -> m (Maybe SVGRect)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.animVal Mozilla SVGAnimatedRect.animVal documentation> 
+getAnimValUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGAnimatedRect -> m SVGRect
+getAnimValUnsafe self
+  = liftDOM
+      (((self ^. js "animVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedRect.animVal Mozilla SVGAnimatedRect.animVal documentation> 
 getAnimValUnchecked :: (MonadDOM m) => SVGAnimatedRect -> m SVGRect

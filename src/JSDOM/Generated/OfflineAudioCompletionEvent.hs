@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OfflineAudioCompletionEvent
-       (getRenderedBuffer, getRenderedBufferUnchecked,
-        OfflineAudioCompletionEvent(..), gTypeOfflineAudioCompletionEvent)
+       (getRenderedBuffer, getRenderedBufferUnsafe,
+        getRenderedBufferUnchecked, OfflineAudioCompletionEvent(..),
+        gTypeOfflineAudioCompletionEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +37,15 @@ getRenderedBuffer ::
                     OfflineAudioCompletionEvent -> m (Maybe AudioBuffer)
 getRenderedBuffer self
   = liftDOM ((self ^. js "renderedBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioCompletionEvent.renderedBuffer Mozilla OfflineAudioCompletionEvent.renderedBuffer documentation> 
+getRenderedBufferUnsafe ::
+                        (MonadDOM m, HasCallStack) =>
+                          OfflineAudioCompletionEvent -> m AudioBuffer
+getRenderedBufferUnsafe self
+  = liftDOM
+      (((self ^. js "renderedBuffer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioCompletionEvent.renderedBuffer Mozilla OfflineAudioCompletionEvent.renderedBuffer documentation> 
 getRenderedBufferUnchecked ::

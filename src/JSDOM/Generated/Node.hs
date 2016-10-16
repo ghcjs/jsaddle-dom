@@ -28,19 +28,24 @@ module JSDOM.Generated.Node
         pattern DOCUMENT_POSITION_CONTAINS,
         pattern DOCUMENT_POSITION_CONTAINED_BY,
         pattern DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, getNodeName,
-        getNodeNameUnchecked, setNodeValue, getNodeValue,
-        getNodeValueUnchecked, getNodeType, getParentNode,
-        getParentNodeUnchecked, getChildNodes, getChildNodesUnchecked,
-        getFirstChild, getFirstChildUnchecked, getLastChild,
+        getNodeNameUnsafe, getNodeNameUnchecked, setNodeValue,
+        getNodeValue, getNodeValueUnsafe, getNodeValueUnchecked,
+        getNodeType, getParentNode, getParentNodeUnsafe,
+        getParentNodeUnchecked, getChildNodes, getChildNodesUnsafe,
+        getChildNodesUnchecked, getFirstChild, getFirstChildUnsafe,
+        getFirstChildUnchecked, getLastChild, getLastChildUnsafe,
         getLastChildUnchecked, getPreviousSibling,
-        getPreviousSiblingUnchecked, getNextSibling,
-        getNextSiblingUnchecked, getOwnerDocument,
-        getOwnerDocumentUnchecked, getNamespaceURI,
-        getNamespaceURIUnchecked, setPrefix, getPrefix, getPrefixUnchecked,
-        getLocalName, getLocalNameUnchecked, getBaseURI,
+        getPreviousSiblingUnsafe, getPreviousSiblingUnchecked,
+        getNextSibling, getNextSiblingUnsafe, getNextSiblingUnchecked,
+        getOwnerDocument, getOwnerDocumentUnsafe,
+        getOwnerDocumentUnchecked, getNamespaceURI, getNamespaceURIUnsafe,
+        getNamespaceURIUnchecked, setPrefix, getPrefix, getPrefixUnsafe,
+        getPrefixUnchecked, getLocalName, getLocalNameUnsafe,
+        getLocalNameUnchecked, getBaseURI, getBaseURIUnsafe,
         getBaseURIUnchecked, setTextContent, getTextContent,
-        getTextContentUnchecked, getParentElement,
-        getParentElementUnchecked, Node(..), gTypeNode, IsNode, toNode)
+        getTextContentUnsafe, getTextContentUnchecked, getParentElement,
+        getParentElementUnsafe, getParentElementUnchecked, Node(..),
+        gTypeNode, IsNode, toNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -475,6 +480,15 @@ getNodeName self
   = liftDOM (((toNode self) ^. js "nodeName") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeName Mozilla Node.nodeName documentation> 
+getNodeNameUnsafe ::
+                  (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                    self -> m result
+getNodeNameUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "nodeName") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeName Mozilla Node.nodeName documentation> 
 getNodeNameUnchecked ::
                      (MonadDOM m, IsNode self, FromJSString result) => self -> m result
 getNodeNameUnchecked self
@@ -493,6 +507,15 @@ getNodeValue ::
                self -> m (Maybe result)
 getNodeValue self
   = liftDOM (((toNode self) ^. js "nodeValue") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
+getNodeValueUnsafe ::
+                   (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                     self -> m result
+getNodeValueUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "nodeValue") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
 getNodeValueUnchecked ::
@@ -514,6 +537,14 @@ getParentNode self
   = liftDOM (((toNode self) ^. js "parentNode") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentNode Mozilla Node.parentNode documentation> 
+getParentNodeUnsafe ::
+                    (MonadDOM m, IsNode self, HasCallStack) => self -> m Node
+getParentNodeUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "parentNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentNode Mozilla Node.parentNode documentation> 
 getParentNodeUnchecked ::
                        (MonadDOM m, IsNode self) => self -> m Node
 getParentNodeUnchecked self
@@ -525,6 +556,14 @@ getChildNodes ::
               (MonadDOM m, IsNode self) => self -> m (Maybe NodeList)
 getChildNodes self
   = liftDOM (((toNode self) ^. js "childNodes") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes Mozilla Node.childNodes documentation> 
+getChildNodesUnsafe ::
+                    (MonadDOM m, IsNode self, HasCallStack) => self -> m NodeList
+getChildNodesUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "childNodes") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes Mozilla Node.childNodes documentation> 
 getChildNodesUnchecked ::
@@ -540,6 +579,14 @@ getFirstChild self
   = liftDOM (((toNode self) ^. js "firstChild") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.firstChild Mozilla Node.firstChild documentation> 
+getFirstChildUnsafe ::
+                    (MonadDOM m, IsNode self, HasCallStack) => self -> m Node
+getFirstChildUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "firstChild") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.firstChild Mozilla Node.firstChild documentation> 
 getFirstChildUnchecked ::
                        (MonadDOM m, IsNode self) => self -> m Node
 getFirstChildUnchecked self
@@ -550,6 +597,14 @@ getFirstChildUnchecked self
 getLastChild :: (MonadDOM m, IsNode self) => self -> m (Maybe Node)
 getLastChild self
   = liftDOM (((toNode self) ^. js "lastChild") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lastChild Mozilla Node.lastChild documentation> 
+getLastChildUnsafe ::
+                   (MonadDOM m, IsNode self, HasCallStack) => self -> m Node
+getLastChildUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "lastChild") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lastChild Mozilla Node.lastChild documentation> 
 getLastChildUnchecked ::
@@ -565,6 +620,14 @@ getPreviousSibling self
   = liftDOM (((toNode self) ^. js "previousSibling") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.previousSibling Mozilla Node.previousSibling documentation> 
+getPreviousSiblingUnsafe ::
+                         (MonadDOM m, IsNode self, HasCallStack) => self -> m Node
+getPreviousSiblingUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "previousSibling") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.previousSibling Mozilla Node.previousSibling documentation> 
 getPreviousSiblingUnchecked ::
                             (MonadDOM m, IsNode self) => self -> m Node
 getPreviousSiblingUnchecked self
@@ -576,6 +639,14 @@ getNextSibling ::
                (MonadDOM m, IsNode self) => self -> m (Maybe Node)
 getNextSibling self
   = liftDOM (((toNode self) ^. js "nextSibling") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nextSibling Mozilla Node.nextSibling documentation> 
+getNextSiblingUnsafe ::
+                     (MonadDOM m, IsNode self, HasCallStack) => self -> m Node
+getNextSiblingUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "nextSibling") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nextSibling Mozilla Node.nextSibling documentation> 
 getNextSiblingUnchecked ::
@@ -591,6 +662,14 @@ getOwnerDocument self
   = liftDOM (((toNode self) ^. js "ownerDocument") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
+getOwnerDocumentUnsafe ::
+                       (MonadDOM m, IsNode self, HasCallStack) => self -> m Document
+getOwnerDocumentUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "ownerDocument") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
 getOwnerDocumentUnchecked ::
                           (MonadDOM m, IsNode self) => self -> m Document
 getOwnerDocumentUnchecked self
@@ -604,6 +683,15 @@ getNamespaceURI ::
 getNamespaceURI self
   = liftDOM
       (((toNode self) ^. js "namespaceURI") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.namespaceURI Mozilla Node.namespaceURI documentation> 
+getNamespaceURIUnsafe ::
+                      (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                        self -> m result
+getNamespaceURIUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "namespaceURI") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.namespaceURI Mozilla Node.namespaceURI documentation> 
 getNamespaceURIUnchecked ::
@@ -627,6 +715,15 @@ getPrefix self
   = liftDOM (((toNode self) ^. js "prefix") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.prefix Mozilla Node.prefix documentation> 
+getPrefixUnsafe ::
+                (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                  self -> m result
+getPrefixUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "prefix") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.prefix Mozilla Node.prefix documentation> 
 getPrefixUnchecked ::
                    (MonadDOM m, IsNode self, FromJSString result) => self -> m result
 getPrefixUnchecked self
@@ -638,6 +735,15 @@ getLocalName ::
                self -> m (Maybe result)
 getLocalName self
   = liftDOM (((toNode self) ^. js "localName") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.localName Mozilla Node.localName documentation> 
+getLocalNameUnsafe ::
+                   (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                     self -> m result
+getLocalNameUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "localName") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.localName Mozilla Node.localName documentation> 
 getLocalNameUnchecked ::
@@ -652,6 +758,15 @@ getBaseURI ::
              self -> m (Maybe result)
 getBaseURI self
   = liftDOM (((toNode self) ^. js "baseURI") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.baseURI Mozilla Node.baseURI documentation> 
+getBaseURIUnsafe ::
+                 (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                   self -> m result
+getBaseURIUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "baseURI") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.baseURI Mozilla Node.baseURI documentation> 
 getBaseURIUnchecked ::
@@ -675,6 +790,15 @@ getTextContent self
       (((toNode self) ^. js "textContent") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent Mozilla Node.textContent documentation> 
+getTextContentUnsafe ::
+                     (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                       self -> m result
+getTextContentUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "textContent") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent Mozilla Node.textContent documentation> 
 getTextContentUnchecked ::
                         (MonadDOM m, IsNode self, FromJSString result) => self -> m result
 getTextContentUnchecked self
@@ -686,6 +810,14 @@ getParentElement ::
                  (MonadDOM m, IsNode self) => self -> m (Maybe Element)
 getParentElement self
   = liftDOM (((toNode self) ^. js "parentElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
+getParentElementUnsafe ::
+                       (MonadDOM m, IsNode self, HasCallStack) => self -> m Element
+getParentElementUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "parentElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
 getParentElementUnchecked ::

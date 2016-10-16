@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedPreserveAspectRatio
-       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
+       (getBaseVal, getBaseValUnsafe, getBaseValUnchecked, getAnimVal,
+        getAnimValUnsafe, getAnimValUnchecked,
         SVGAnimatedPreserveAspectRatio(..),
         gTypeSVGAnimatedPreserveAspectRatio)
        where
@@ -38,6 +39,15 @@ getBaseVal ::
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.baseVal Mozilla SVGAnimatedPreserveAspectRatio.baseVal documentation> 
+getBaseValUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGAnimatedPreserveAspectRatio -> m SVGPreserveAspectRatio
+getBaseValUnsafe self
+  = liftDOM
+      (((self ^. js "baseVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.baseVal Mozilla SVGAnimatedPreserveAspectRatio.baseVal documentation> 
 getBaseValUnchecked ::
                     (MonadDOM m) =>
                       SVGAnimatedPreserveAspectRatio -> m SVGPreserveAspectRatio
@@ -49,6 +59,15 @@ getAnimVal ::
            (MonadDOM m) =>
              SVGAnimatedPreserveAspectRatio -> m (Maybe SVGPreserveAspectRatio)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.animVal Mozilla SVGAnimatedPreserveAspectRatio.animVal documentation> 
+getAnimValUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGAnimatedPreserveAspectRatio -> m SVGPreserveAspectRatio
+getAnimValUnsafe self
+  = liftDOM
+      (((self ^. js "animVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedPreserveAspectRatio.animVal Mozilla SVGAnimatedPreserveAspectRatio.animVal documentation> 
 getAnimValUnchecked ::

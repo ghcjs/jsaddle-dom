@@ -6,8 +6,9 @@
 module JSDOM.Generated.CSSKeyframesRule
        (insertRule, appendRule, deleteRule, findRule, findRule_,
         findRuleUnsafe, findRuleUnchecked, _get, _get_, _getUnsafe,
-        _getUnchecked, setName, getName, getNameUnchecked, getCssRules,
-        getCssRulesUnchecked, CSSKeyframesRule(..), gTypeCSSKeyframesRule)
+        _getUnchecked, setName, getName, getNameUnsafe, getNameUnchecked,
+        getCssRules, getCssRulesUnsafe, getCssRulesUnchecked,
+        CSSKeyframesRule(..), gTypeCSSKeyframesRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -121,6 +122,15 @@ getName ::
 getName self = liftDOM ((self ^. js "name") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.name Mozilla CSSKeyframesRule.name documentation> 
+getNameUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                CSSKeyframesRule -> m result
+getNameUnsafe self
+  = liftDOM
+      (((self ^. js "name") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.name Mozilla CSSKeyframesRule.name documentation> 
 getNameUnchecked ::
                  (MonadDOM m, FromJSString result) => CSSKeyframesRule -> m result
 getNameUnchecked self
@@ -130,6 +140,14 @@ getNameUnchecked self
 getCssRules ::
             (MonadDOM m) => CSSKeyframesRule -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.cssRules Mozilla CSSKeyframesRule.cssRules documentation> 
+getCssRulesUnsafe ::
+                  (MonadDOM m, HasCallStack) => CSSKeyframesRule -> m CSSRuleList
+getCssRulesUnsafe self
+  = liftDOM
+      (((self ^. js "cssRules") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.cssRules Mozilla CSSKeyframesRule.cssRules documentation> 
 getCssRulesUnchecked ::

@@ -4,9 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCStatsReport
-       (stat, stat_, names, names_, getTimestamp, getTimestampUnchecked,
-        getId, getType, getLocal, getLocalUnchecked, getRemote,
-        getRemoteUnchecked, RTCStatsReport(..), gTypeRTCStatsReport)
+       (stat, stat_, names, names_, getTimestamp, getTimestampUnsafe,
+        getTimestampUnchecked, getId, getType, getLocal, getLocalUnsafe,
+        getLocalUnchecked, getRemote, getRemoteUnsafe, getRemoteUnchecked,
+        RTCStatsReport(..), gTypeRTCStatsReport)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -61,6 +62,14 @@ getTimestamp self
   = liftDOM ((self ^. js "timestamp") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.timestamp Mozilla RTCStatsReport.timestamp documentation> 
+getTimestampUnsafe ::
+                   (MonadDOM m, HasCallStack) => RTCStatsReport -> m Date
+getTimestampUnsafe self
+  = liftDOM
+      (((self ^. js "timestamp") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.timestamp Mozilla RTCStatsReport.timestamp documentation> 
 getTimestampUnchecked :: (MonadDOM m) => RTCStatsReport -> m Date
 getTimestampUnchecked self
   = liftDOM ((self ^. js "timestamp") >>= fromJSValUnchecked)
@@ -81,6 +90,14 @@ getLocal ::
 getLocal self = liftDOM ((self ^. js "local") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.local Mozilla RTCStatsReport.local documentation> 
+getLocalUnsafe ::
+               (MonadDOM m, HasCallStack) => RTCStatsReport -> m RTCStatsReport
+getLocalUnsafe self
+  = liftDOM
+      (((self ^. js "local") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.local Mozilla RTCStatsReport.local documentation> 
 getLocalUnchecked ::
                   (MonadDOM m) => RTCStatsReport -> m RTCStatsReport
 getLocalUnchecked self
@@ -90,6 +107,14 @@ getLocalUnchecked self
 getRemote ::
           (MonadDOM m) => RTCStatsReport -> m (Maybe RTCStatsReport)
 getRemote self = liftDOM ((self ^. js "remote") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.remote Mozilla RTCStatsReport.remote documentation> 
+getRemoteUnsafe ::
+                (MonadDOM m, HasCallStack) => RTCStatsReport -> m RTCStatsReport
+getRemoteUnsafe self
+  = liftDOM
+      (((self ^. js "remote") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport.remote Mozilla RTCStatsReport.remote documentation> 
 getRemoteUnchecked ::

@@ -9,8 +9,10 @@ module JSDOM.Generated.SVGGraphicsElement
         getScreenCTM_, getScreenCTMUnsafe, getScreenCTMUnchecked,
         getTransformToElement, getTransformToElement_,
         getTransformToElementUnsafe, getTransformToElementUnchecked,
-        getTransform, getTransformUnchecked, getNearestViewportElement,
+        getTransform, getTransformUnsafe, getTransformUnchecked,
+        getNearestViewportElement, getNearestViewportElementUnsafe,
         getNearestViewportElementUnchecked, getFarthestViewportElement,
+        getFarthestViewportElementUnsafe,
         getFarthestViewportElementUnchecked, SVGGraphicsElement(..),
         gTypeSVGGraphicsElement, IsSVGGraphicsElement,
         toSVGGraphicsElement)
@@ -183,6 +185,15 @@ getTransform self
       (((toSVGGraphicsElement self) ^. js "transform") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.transform Mozilla SVGGraphicsElement.transform documentation> 
+getTransformUnsafe ::
+                   (MonadDOM m, IsSVGGraphicsElement self, HasCallStack) =>
+                     self -> m SVGAnimatedTransformList
+getTransformUnsafe self
+  = liftDOM
+      ((((toSVGGraphicsElement self) ^. js "transform") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.transform Mozilla SVGGraphicsElement.transform documentation> 
 getTransformUnchecked ::
                       (MonadDOM m, IsSVGGraphicsElement self) =>
                         self -> m SVGAnimatedTransformList
@@ -201,6 +212,16 @@ getNearestViewportElement self
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.nearestViewportElement Mozilla SVGGraphicsElement.nearestViewportElement documentation> 
+getNearestViewportElementUnsafe ::
+                                (MonadDOM m, IsSVGGraphicsElement self, HasCallStack) =>
+                                  self -> m SVGElement
+getNearestViewportElementUnsafe self
+  = liftDOM
+      ((((toSVGGraphicsElement self) ^. js "nearestViewportElement") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.nearestViewportElement Mozilla SVGGraphicsElement.nearestViewportElement documentation> 
 getNearestViewportElementUnchecked ::
                                    (MonadDOM m, IsSVGGraphicsElement self) => self -> m SVGElement
 getNearestViewportElementUnchecked self
@@ -216,6 +237,16 @@ getFarthestViewportElement self
   = liftDOM
       (((toSVGGraphicsElement self) ^. js "farthestViewportElement") >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.farthestViewportElement Mozilla SVGGraphicsElement.farthestViewportElement documentation> 
+getFarthestViewportElementUnsafe ::
+                                 (MonadDOM m, IsSVGGraphicsElement self, HasCallStack) =>
+                                   self -> m SVGElement
+getFarthestViewportElementUnsafe self
+  = liftDOM
+      ((((toSVGGraphicsElement self) ^. js "farthestViewportElement") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement.farthestViewportElement Mozilla SVGGraphicsElement.farthestViewportElement documentation> 
 getFarthestViewportElementUnchecked ::

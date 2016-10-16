@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGExternalResourcesRequired
-       (getExternalResourcesRequired,
+       (getExternalResourcesRequired, getExternalResourcesRequiredUnsafe,
         getExternalResourcesRequiredUnchecked,
         SVGExternalResourcesRequired(..),
         gTypeSVGExternalResourcesRequired)
@@ -38,6 +38,15 @@ getExternalResourcesRequired ::
                                SVGExternalResourcesRequired -> m (Maybe SVGAnimatedBoolean)
 getExternalResourcesRequired self
   = liftDOM ((self ^. js "externalResourcesRequired") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGExternalResourcesRequired.externalResourcesRequired Mozilla SVGExternalResourcesRequired.externalResourcesRequired documentation> 
+getExternalResourcesRequiredUnsafe ::
+                                   (MonadDOM m, HasCallStack) =>
+                                     SVGExternalResourcesRequired -> m SVGAnimatedBoolean
+getExternalResourcesRequiredUnsafe self
+  = liftDOM
+      (((self ^. js "externalResourcesRequired") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGExternalResourcesRequired.externalResourcesRequired Mozilla SVGExternalResourcesRequired.externalResourcesRequired documentation> 
 getExternalResourcesRequiredUnchecked ::

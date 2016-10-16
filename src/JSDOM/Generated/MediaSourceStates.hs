@@ -4,10 +4,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaSourceStates
-       (getSourceType, getSourceId, getWidth, getWidthUnchecked,
-        getHeight, getHeightUnchecked, getFrameRate, getFrameRateUnchecked,
-        getAspectRatio, getAspectRatioUnchecked, getFacingMode,
-        getFacingModeUnchecked, getVolume, getVolumeUnchecked,
+       (getSourceType, getSourceId, getWidth, getWidthUnsafe,
+        getWidthUnchecked, getHeight, getHeightUnsafe, getHeightUnchecked,
+        getFrameRate, getFrameRateUnsafe, getFrameRateUnchecked,
+        getAspectRatio, getAspectRatioUnsafe, getAspectRatioUnchecked,
+        getFacingMode, getFacingModeUnsafe, getFacingModeUnchecked,
+        getVolume, getVolumeUnsafe, getVolumeUnchecked,
         MediaSourceStates(..), gTypeMediaSourceStates)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -50,6 +52,14 @@ getWidth :: (MonadDOM m) => MediaSourceStates -> m (Maybe Word)
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.width Mozilla MediaSourceStates.width documentation> 
+getWidthUnsafe ::
+               (MonadDOM m, HasCallStack) => MediaSourceStates -> m Word
+getWidthUnsafe self
+  = liftDOM
+      (((self ^. js "width") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.width Mozilla MediaSourceStates.width documentation> 
 getWidthUnchecked :: (MonadDOM m) => MediaSourceStates -> m Word
 getWidthUnchecked self
   = liftDOM ((self ^. js "width") >>= fromJSValUnchecked)
@@ -57,6 +67,14 @@ getWidthUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.height Mozilla MediaSourceStates.height documentation> 
 getHeight :: (MonadDOM m) => MediaSourceStates -> m (Maybe Word)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.height Mozilla MediaSourceStates.height documentation> 
+getHeightUnsafe ::
+                (MonadDOM m, HasCallStack) => MediaSourceStates -> m Word
+getHeightUnsafe self
+  = liftDOM
+      (((self ^. js "height") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.height Mozilla MediaSourceStates.height documentation> 
 getHeightUnchecked :: (MonadDOM m) => MediaSourceStates -> m Word
@@ -68,6 +86,14 @@ getFrameRate ::
              (MonadDOM m) => MediaSourceStates -> m (Maybe Float)
 getFrameRate self
   = liftDOM ((self ^. js "frameRate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.frameRate Mozilla MediaSourceStates.frameRate documentation> 
+getFrameRateUnsafe ::
+                   (MonadDOM m, HasCallStack) => MediaSourceStates -> m Float
+getFrameRateUnsafe self
+  = liftDOM
+      (((self ^. js "frameRate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.frameRate Mozilla MediaSourceStates.frameRate documentation> 
 getFrameRateUnchecked ::
@@ -82,6 +108,14 @@ getAspectRatio self
   = liftDOM ((self ^. js "aspectRatio") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.aspectRatio Mozilla MediaSourceStates.aspectRatio documentation> 
+getAspectRatioUnsafe ::
+                     (MonadDOM m, HasCallStack) => MediaSourceStates -> m Float
+getAspectRatioUnsafe self
+  = liftDOM
+      (((self ^. js "aspectRatio") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.aspectRatio Mozilla MediaSourceStates.aspectRatio documentation> 
 getAspectRatioUnchecked ::
                         (MonadDOM m) => MediaSourceStates -> m Float
 getAspectRatioUnchecked self
@@ -94,6 +128,15 @@ getFacingMode self
   = liftDOM ((self ^. js "facingMode") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.facingMode Mozilla MediaSourceStates.facingMode documentation> 
+getFacingModeUnsafe ::
+                    (MonadDOM m, HasCallStack) =>
+                      MediaSourceStates -> m VideoFacingModeEnum
+getFacingModeUnsafe self
+  = liftDOM
+      (((self ^. js "facingMode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.facingMode Mozilla MediaSourceStates.facingMode documentation> 
 getFacingModeUnchecked ::
                        (MonadDOM m) => MediaSourceStates -> m VideoFacingModeEnum
 getFacingModeUnchecked self
@@ -102,6 +145,14 @@ getFacingModeUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.volume Mozilla MediaSourceStates.volume documentation> 
 getVolume :: (MonadDOM m) => MediaSourceStates -> m (Maybe Word)
 getVolume self = liftDOM ((self ^. js "volume") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.volume Mozilla MediaSourceStates.volume documentation> 
+getVolumeUnsafe ::
+                (MonadDOM m, HasCallStack) => MediaSourceStates -> m Word
+getVolumeUnsafe self
+  = liftDOM
+      (((self ^. js "volume") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSourceStates.volume Mozilla MediaSourceStates.volume documentation> 
 getVolumeUnchecked :: (MonadDOM m) => MediaSourceStates -> m Word

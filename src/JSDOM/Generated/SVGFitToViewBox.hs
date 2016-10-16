@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFitToViewBox
-       (getViewBox, getViewBoxUnchecked, getPreserveAspectRatio,
+       (getViewBox, getViewBoxUnsafe, getViewBoxUnchecked,
+        getPreserveAspectRatio, getPreserveAspectRatioUnsafe,
         getPreserveAspectRatioUnchecked, SVGFitToViewBox(..),
         gTypeSVGFitToViewBox)
        where
@@ -37,6 +38,14 @@ getViewBox ::
 getViewBox self = liftDOM ((self ^. js "viewBox") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.viewBox Mozilla SVGFitToViewBox.viewBox documentation> 
+getViewBoxUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGFitToViewBox -> m SVGAnimatedRect
+getViewBoxUnsafe self
+  = liftDOM
+      (((self ^. js "viewBox") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.viewBox Mozilla SVGFitToViewBox.viewBox documentation> 
 getViewBoxUnchecked ::
                     (MonadDOM m) => SVGFitToViewBox -> m SVGAnimatedRect
 getViewBoxUnchecked self
@@ -48,6 +57,15 @@ getPreserveAspectRatio ::
                          SVGFitToViewBox -> m (Maybe SVGAnimatedPreserveAspectRatio)
 getPreserveAspectRatio self
   = liftDOM ((self ^. js "preserveAspectRatio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.preserveAspectRatio Mozilla SVGFitToViewBox.preserveAspectRatio documentation> 
+getPreserveAspectRatioUnsafe ::
+                             (MonadDOM m, HasCallStack) =>
+                               SVGFitToViewBox -> m SVGAnimatedPreserveAspectRatio
+getPreserveAspectRatioUnsafe self
+  = liftDOM
+      (((self ^. js "preserveAspectRatio") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFitToViewBox.preserveAspectRatio Mozilla SVGFitToViewBox.preserveAspectRatio documentation> 
 getPreserveAspectRatioUnchecked ::

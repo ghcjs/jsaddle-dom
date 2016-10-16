@@ -6,10 +6,11 @@
 module JSDOM.Generated.HTMLLinkElement
        (setDisabled, getDisabled, setCharset, getCharset, setHref,
         getHref, setHreflang, getHreflang, setMedia, getMedia, setRel,
-        getRel, setRev, getRev, setSizes, getSizes, getSizesUnchecked,
-        setTarget, getTarget, setType, getType, getSheet,
-        getSheetUnchecked, getRelList, getRelListUnchecked,
-        HTMLLinkElement(..), gTypeHTMLLinkElement)
+        getRel, setRev, getRev, setSizes, getSizes, getSizesUnsafe,
+        getSizesUnchecked, setTarget, getTarget, setType, getType,
+        getSheet, getSheetUnsafe, getSheetUnchecked, getRelList,
+        getRelListUnsafe, getRelListUnchecked, HTMLLinkElement(..),
+        gTypeHTMLLinkElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -119,6 +120,15 @@ getSizes ::
 getSizes self = liftDOM ((self ^. js "sizes") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
+getSizesUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 HTMLLinkElement -> m DOMSettableTokenList
+getSizesUnsafe self
+  = liftDOM
+      (((self ^. js "sizes") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
 getSizesUnchecked ::
                   (MonadDOM m) => HTMLLinkElement -> m DOMSettableTokenList
 getSizesUnchecked self
@@ -150,6 +160,14 @@ getSheet :: (MonadDOM m) => HTMLLinkElement -> m (Maybe StyleSheet)
 getSheet self = liftDOM ((self ^. js "sheet") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sheet Mozilla HTMLLinkElement.sheet documentation> 
+getSheetUnsafe ::
+               (MonadDOM m, HasCallStack) => HTMLLinkElement -> m StyleSheet
+getSheetUnsafe self
+  = liftDOM
+      (((self ^. js "sheet") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sheet Mozilla HTMLLinkElement.sheet documentation> 
 getSheetUnchecked ::
                   (MonadDOM m) => HTMLLinkElement -> m StyleSheet
 getSheetUnchecked self
@@ -159,6 +177,14 @@ getSheetUnchecked self
 getRelList ::
            (MonadDOM m) => HTMLLinkElement -> m (Maybe DOMTokenList)
 getRelList self = liftDOM ((self ^. js "relList") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
+getRelListUnsafe ::
+                 (MonadDOM m, HasCallStack) => HTMLLinkElement -> m DOMTokenList
+getRelListUnsafe self
+  = liftDOM
+      (((self ^. js "relList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
 getRelListUnchecked ::

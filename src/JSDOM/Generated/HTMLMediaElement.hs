@@ -14,32 +14,36 @@ module JSDOM.Generated.HTMLMediaElement
         pattern NETWORK_LOADING, pattern NETWORK_NO_SOURCE,
         pattern HAVE_NOTHING, pattern HAVE_METADATA,
         pattern HAVE_CURRENT_DATA, pattern HAVE_FUTURE_DATA,
-        pattern HAVE_ENOUGH_DATA, getError, getErrorUnchecked, setSrc,
-        getSrc, getCurrentSrc, getNetworkState, setPreload, getPreload,
-        getBuffered, getBufferedUnchecked, getReadyState, getSeeking,
-        setCurrentTime, getCurrentTime, getDuration, getPaused,
-        setDefaultPlaybackRate, getDefaultPlaybackRate, setPlaybackRate,
-        getPlaybackRate, getPlayed, getPlayedUnchecked, getSeekable,
-        getSeekableUnchecked, getEnded, setAutoplay, getAutoplay, setLoop,
-        getLoop, setControls, getControls, setVolume, getVolume, setMuted,
-        getMuted, setDefaultMuted, getDefaultMuted, emptied,
-        loadedMetadata, loadedData, canPlay, canPlayThrough, playing,
-        ended, waiting, durationChange, timeUpdate, playEvent, pauseEvent,
-        rateChange, volumeChange, setWebkitPreservesPitch,
+        pattern HAVE_ENOUGH_DATA, getError, getErrorUnsafe,
+        getErrorUnchecked, setSrc, getSrc, getCurrentSrc, getNetworkState,
+        setPreload, getPreload, getBuffered, getBufferedUnsafe,
+        getBufferedUnchecked, getReadyState, getSeeking, setCurrentTime,
+        getCurrentTime, getDuration, getPaused, setDefaultPlaybackRate,
+        getDefaultPlaybackRate, setPlaybackRate, getPlaybackRate,
+        getPlayed, getPlayedUnsafe, getPlayedUnchecked, getSeekable,
+        getSeekableUnsafe, getSeekableUnchecked, getEnded, setAutoplay,
+        getAutoplay, setLoop, getLoop, setControls, getControls, setVolume,
+        getVolume, setMuted, getMuted, setDefaultMuted, getDefaultMuted,
+        emptied, loadedMetadata, loadedData, canPlay, canPlayThrough,
+        playing, ended, waiting, durationChange, timeUpdate, playEvent,
+        pauseEvent, rateChange, volumeChange, setWebkitPreservesPitch,
         getWebkitPreservesPitch, getWebkitHasClosedCaptions,
         setWebkitClosedCaptionsVisible, getWebkitClosedCaptionsVisible,
         getWebkitAudioDecodedByteCount, getWebkitVideoDecodedByteCount,
         webKitKeyAdded, webKitKeyError, webKitKeyMessage, webKitNeedKey,
-        getWebkitKeys, getWebkitKeysUnchecked, getAudioTracks,
-        getAudioTracksUnchecked, getTextTracks, getTextTracksUnchecked,
-        getVideoTracks, getVideoTracksUnchecked, setMediaGroup,
-        getMediaGroup, getMediaGroupUnchecked, setController,
-        getController, getControllerUnchecked,
+        getWebkitKeys, getWebkitKeysUnsafe, getWebkitKeysUnchecked,
+        getAudioTracks, getAudioTracksUnsafe, getAudioTracksUnchecked,
+        getTextTracks, getTextTracksUnsafe, getTextTracksUnchecked,
+        getVideoTracks, getVideoTracksUnsafe, getVideoTracksUnchecked,
+        setMediaGroup, getMediaGroup, getMediaGroupUnsafe,
+        getMediaGroupUnchecked, setController, getController,
+        getControllerUnsafe, getControllerUnchecked,
         getWebkitCurrentPlaybackTargetIsWireless,
         webKitCurrentPlaybackTargetIsWirelessChanged,
         webKitPlaybackTargetAvailabilityChanged, setSrcObject,
-        getSrcObject, getSrcObjectUnchecked, HTMLMediaElement(..),
-        gTypeHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement)
+        getSrcObject, getSrcObjectUnsafe, getSrcObjectUnchecked,
+        HTMLMediaElement(..), gTypeHTMLMediaElement, IsHTMLMediaElement,
+        toHTMLMediaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -260,6 +264,15 @@ getError self
   = liftDOM (((toHTMLMediaElement self) ^. js "error") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.error Mozilla HTMLMediaElement.error documentation> 
+getErrorUnsafe ::
+               (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                 self -> m MediaError
+getErrorUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "error") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.error Mozilla HTMLMediaElement.error documentation> 
 getErrorUnchecked ::
                   (MonadDOM m, IsHTMLMediaElement self) => self -> m MediaError
 getErrorUnchecked self
@@ -322,6 +335,15 @@ getBuffered ::
 getBuffered self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "buffered") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.buffered Mozilla HTMLMediaElement.buffered documentation> 
+getBufferedUnsafe ::
+                  (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                    self -> m TimeRanges
+getBufferedUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "buffered") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.buffered Mozilla HTMLMediaElement.buffered documentation> 
 getBufferedUnchecked ::
@@ -413,6 +435,15 @@ getPlayed self
       (((toHTMLMediaElement self) ^. js "played") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.played Mozilla HTMLMediaElement.played documentation> 
+getPlayedUnsafe ::
+                (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                  self -> m TimeRanges
+getPlayedUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "played") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.played Mozilla HTMLMediaElement.played documentation> 
 getPlayedUnchecked ::
                    (MonadDOM m, IsHTMLMediaElement self) => self -> m TimeRanges
 getPlayedUnchecked self
@@ -426,6 +457,15 @@ getSeekable ::
 getSeekable self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "seekable") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.seekable Mozilla HTMLMediaElement.seekable documentation> 
+getSeekableUnsafe ::
+                  (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                    self -> m TimeRanges
+getSeekableUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "seekable") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.seekable Mozilla HTMLMediaElement.seekable documentation> 
 getSeekableUnchecked ::
@@ -692,6 +732,15 @@ getWebkitKeys self
       (((toHTMLMediaElement self) ^. js "webkitKeys") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.webkitKeys Mozilla HTMLMediaElement.webkitKeys documentation> 
+getWebkitKeysUnsafe ::
+                    (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                      self -> m MediaKeys
+getWebkitKeysUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "webkitKeys") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.webkitKeys Mozilla HTMLMediaElement.webkitKeys documentation> 
 getWebkitKeysUnchecked ::
                        (MonadDOM m, IsHTMLMediaElement self) => self -> m MediaKeys
 getWebkitKeysUnchecked self
@@ -706,6 +755,15 @@ getAudioTracks ::
 getAudioTracks self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "audioTracks") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.audioTracks Mozilla HTMLMediaElement.audioTracks documentation> 
+getAudioTracksUnsafe ::
+                     (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                       self -> m AudioTrackList
+getAudioTracksUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "audioTracks") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.audioTracks Mozilla HTMLMediaElement.audioTracks documentation> 
 getAudioTracksUnchecked ::
@@ -724,6 +782,15 @@ getTextTracks self
       (((toHTMLMediaElement self) ^. js "textTracks") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.textTracks Mozilla HTMLMediaElement.textTracks documentation> 
+getTextTracksUnsafe ::
+                    (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                      self -> m TextTrackList
+getTextTracksUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "textTracks") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.textTracks Mozilla HTMLMediaElement.textTracks documentation> 
 getTextTracksUnchecked ::
                        (MonadDOM m, IsHTMLMediaElement self) => self -> m TextTrackList
 getTextTracksUnchecked self
@@ -738,6 +805,15 @@ getVideoTracks ::
 getVideoTracks self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "videoTracks") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.videoTracks Mozilla HTMLMediaElement.videoTracks documentation> 
+getVideoTracksUnsafe ::
+                     (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                       self -> m VideoTrackList
+getVideoTracksUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "videoTracks") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.videoTracks Mozilla HTMLMediaElement.videoTracks documentation> 
 getVideoTracksUnchecked ::
@@ -765,6 +841,17 @@ getMediaGroup self
          fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.mediaGroup Mozilla HTMLMediaElement.mediaGroup documentation> 
+getMediaGroupUnsafe ::
+                    (MonadDOM m, IsHTMLMediaElement self, HasCallStack,
+                     FromJSString result) =>
+                      self -> m result
+getMediaGroupUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "mediaGroup") >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.mediaGroup Mozilla HTMLMediaElement.mediaGroup documentation> 
 getMediaGroupUnchecked ::
                        (MonadDOM m, IsHTMLMediaElement self, FromJSString result) =>
                          self -> m result
@@ -788,6 +875,15 @@ getController ::
 getController self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "controller") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.controller Mozilla HTMLMediaElement.controller documentation> 
+getControllerUnsafe ::
+                    (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                      self -> m MediaController
+getControllerUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "controller") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.controller Mozilla HTMLMediaElement.controller documentation> 
 getControllerUnchecked ::
@@ -837,6 +933,15 @@ getSrcObject ::
 getSrcObject self
   = liftDOM
       (((toHTMLMediaElement self) ^. js "srcObject") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.srcObject Mozilla HTMLMediaElement.srcObject documentation> 
+getSrcObjectUnsafe ::
+                   (MonadDOM m, IsHTMLMediaElement self, HasCallStack) =>
+                     self -> m MediaStream
+getSrcObjectUnsafe self
+  = liftDOM
+      ((((toHTMLMediaElement self) ^. js "srcObject") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.srcObject Mozilla HTMLMediaElement.srcObject documentation> 
 getSrcObjectUnchecked ::

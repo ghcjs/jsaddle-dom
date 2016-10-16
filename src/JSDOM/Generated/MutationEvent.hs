@@ -5,9 +5,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationEvent
        (initMutationEvent, pattern MODIFICATION, pattern ADDITION,
-        pattern REMOVAL, getRelatedNode, getRelatedNodeUnchecked,
-        getPrevValue, getNewValue, getAttrName, getAttrChange,
-        MutationEvent(..), gTypeMutationEvent)
+        pattern REMOVAL, getRelatedNode, getRelatedNodeUnsafe,
+        getRelatedNodeUnchecked, getPrevValue, getNewValue, getAttrName,
+        getAttrChange, MutationEvent(..), gTypeMutationEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -58,6 +58,14 @@ pattern REMOVAL = 3
 getRelatedNode :: (MonadDOM m) => MutationEvent -> m (Maybe Node)
 getRelatedNode self
   = liftDOM ((self ^. js "relatedNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent.relatedNode Mozilla MutationEvent.relatedNode documentation> 
+getRelatedNodeUnsafe ::
+                     (MonadDOM m, HasCallStack) => MutationEvent -> m Node
+getRelatedNodeUnsafe self
+  = liftDOM
+      (((self ^. js "relatedNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent.relatedNode Mozilla MutationEvent.relatedNode documentation> 
 getRelatedNodeUnchecked :: (MonadDOM m) => MutationEvent -> m Node

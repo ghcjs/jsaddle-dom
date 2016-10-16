@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLLegendElement
-       (getForm, getFormUnchecked, setAlign, getAlign,
+       (getForm, getFormUnsafe, getFormUnchecked, setAlign, getAlign,
         HTMLLegendElement(..), gTypeHTMLLegendElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -34,6 +34,15 @@ type HasCallStack = (() :: Constraint)
 getForm ::
         (MonadDOM m) => HTMLLegendElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.form Mozilla HTMLLegendElement.form documentation> 
+getFormUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                HTMLLegendElement -> m HTMLFormElement
+getFormUnsafe self
+  = liftDOM
+      (((self ^. js "form") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.form Mozilla HTMLLegendElement.form documentation> 
 getFormUnchecked ::

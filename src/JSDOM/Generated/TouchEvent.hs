@@ -4,10 +4,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TouchEvent
-       (initTouchEvent, getTouches, getTouchesUnchecked, getTargetTouches,
+       (initTouchEvent, getTouches, getTouchesUnsafe, getTouchesUnchecked,
+        getTargetTouches, getTargetTouchesUnsafe,
         getTargetTouchesUnchecked, getChangedTouches,
-        getChangedTouchesUnchecked, getCtrlKey, getShiftKey, getAltKey,
-        getMetaKey, TouchEvent(..), gTypeTouchEvent)
+        getChangedTouchesUnsafe, getChangedTouchesUnchecked, getCtrlKey,
+        getShiftKey, getAltKey, getMetaKey, TouchEvent(..),
+        gTypeTouchEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -57,6 +59,14 @@ getTouches :: (MonadDOM m) => TouchEvent -> m (Maybe TouchList)
 getTouches self = liftDOM ((self ^. js "touches") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.touches Mozilla TouchEvent.touches documentation> 
+getTouchesUnsafe ::
+                 (MonadDOM m, HasCallStack) => TouchEvent -> m TouchList
+getTouchesUnsafe self
+  = liftDOM
+      (((self ^. js "touches") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.touches Mozilla TouchEvent.touches documentation> 
 getTouchesUnchecked :: (MonadDOM m) => TouchEvent -> m TouchList
 getTouchesUnchecked self
   = liftDOM ((self ^. js "touches") >>= fromJSValUnchecked)
@@ -66,6 +76,14 @@ getTargetTouches ::
                  (MonadDOM m) => TouchEvent -> m (Maybe TouchList)
 getTargetTouches self
   = liftDOM ((self ^. js "targetTouches") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.targetTouches Mozilla TouchEvent.targetTouches documentation> 
+getTargetTouchesUnsafe ::
+                       (MonadDOM m, HasCallStack) => TouchEvent -> m TouchList
+getTargetTouchesUnsafe self
+  = liftDOM
+      (((self ^. js "targetTouches") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.targetTouches Mozilla TouchEvent.targetTouches documentation> 
 getTargetTouchesUnchecked ::
@@ -78,6 +96,14 @@ getChangedTouches ::
                   (MonadDOM m) => TouchEvent -> m (Maybe TouchList)
 getChangedTouches self
   = liftDOM ((self ^. js "changedTouches") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.changedTouches Mozilla TouchEvent.changedTouches documentation> 
+getChangedTouchesUnsafe ::
+                        (MonadDOM m, HasCallStack) => TouchEvent -> m TouchList
+getChangedTouchesUnsafe self
+  = liftDOM
+      (((self ^. js "changedTouches") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent.changedTouches Mozilla TouchEvent.changedTouches documentation> 
 getChangedTouchesUnchecked ::

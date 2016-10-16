@@ -12,8 +12,9 @@ module JSDOM.Generated.TreeWalker
         nextSiblingUnsafe, nextSiblingUnchecked, previousNode,
         previousNode_, previousNodeUnsafe, previousNodeUnchecked, nextNode,
         nextNode_, nextNodeUnsafe, nextNodeUnchecked, getRoot,
-        getRootUnchecked, getWhatToShow, getFilter, getFilterUnchecked,
-        getExpandEntityReferences, setCurrentNode, getCurrentNode,
+        getRootUnsafe, getRootUnchecked, getWhatToShow, getFilter,
+        getFilterUnsafe, getFilterUnchecked, getExpandEntityReferences,
+        setCurrentNode, getCurrentNode, getCurrentNodeUnsafe,
         getCurrentNodeUnchecked, TreeWalker(..), gTypeTreeWalker)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -199,6 +200,13 @@ getRoot :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
 getRoot self = liftDOM ((self ^. js "root") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.root Mozilla TreeWalker.root documentation> 
+getRootUnsafe :: (MonadDOM m, HasCallStack) => TreeWalker -> m Node
+getRootUnsafe self
+  = liftDOM
+      (((self ^. js "root") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.root Mozilla TreeWalker.root documentation> 
 getRootUnchecked :: (MonadDOM m) => TreeWalker -> m Node
 getRootUnchecked self
   = liftDOM ((self ^. js "root") >>= fromJSValUnchecked)
@@ -211,6 +219,14 @@ getWhatToShow self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.filter Mozilla TreeWalker.filter documentation> 
 getFilter :: (MonadDOM m) => TreeWalker -> m (Maybe NodeFilter)
 getFilter self = liftDOM ((self ^. js "filter") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.filter Mozilla TreeWalker.filter documentation> 
+getFilterUnsafe ::
+                (MonadDOM m, HasCallStack) => TreeWalker -> m NodeFilter
+getFilterUnsafe self
+  = liftDOM
+      (((self ^. js "filter") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.filter Mozilla TreeWalker.filter documentation> 
 getFilterUnchecked :: (MonadDOM m) => TreeWalker -> m NodeFilter
@@ -232,6 +248,14 @@ setCurrentNode self val
 getCurrentNode :: (MonadDOM m) => TreeWalker -> m (Maybe Node)
 getCurrentNode self
   = liftDOM ((self ^. js "currentNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.currentNode Mozilla TreeWalker.currentNode documentation> 
+getCurrentNodeUnsafe ::
+                     (MonadDOM m, HasCallStack) => TreeWalker -> m Node
+getCurrentNodeUnsafe self
+  = liftDOM
+      (((self ^. js "currentNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker.currentNode Mozilla TreeWalker.currentNode documentation> 
 getCurrentNodeUnchecked :: (MonadDOM m) => TreeWalker -> m Node

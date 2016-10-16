@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaTrackConstraints
-       (getMandatory, getMandatoryUnchecked, getOptional,
-        MediaTrackConstraints(..), gTypeMediaTrackConstraints)
+       (getMandatory, getMandatoryUnsafe, getMandatoryUnchecked,
+        getOptional, MediaTrackConstraints(..), gTypeMediaTrackConstraints)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +36,15 @@ getMandatory ::
                MediaTrackConstraints -> m (Maybe MediaTrackConstraintSet)
 getMandatory self
   = liftDOM ((self ^. js "mandatory") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints.mandatory Mozilla MediaTrackConstraints.mandatory documentation> 
+getMandatoryUnsafe ::
+                   (MonadDOM m, HasCallStack) =>
+                     MediaTrackConstraints -> m MediaTrackConstraintSet
+getMandatoryUnsafe self
+  = liftDOM
+      (((self ^. js "mandatory") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints.mandatory Mozilla MediaTrackConstraints.mandatory documentation> 
 getMandatoryUnchecked ::

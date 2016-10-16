@@ -11,9 +11,10 @@ module JSDOM.Generated.HTMLElement
         setTabIndex, getTabIndex, setDraggable, getDraggable,
         setWebkitdropzone, getWebkitdropzone, setHidden, getHidden,
         setAccessKey, getAccessKey, setInnerText, getInnerText,
-        getInnerTextUnchecked, setOuterText, getOuterText,
-        getOuterTextUnchecked, getChildren, getChildrenUnchecked,
-        setContentEditable, getContentEditable,
+        getInnerTextUnsafe, getInnerTextUnchecked, setOuterText,
+        getOuterText, getOuterTextUnsafe, getOuterTextUnchecked,
+        getChildren, getChildrenUnsafe, getChildrenUnchecked,
+        setContentEditable, getContentEditable, getContentEditableUnsafe,
         getContentEditableUnchecked, getIsContentEditable, setSpellcheck,
         getSpellcheck, HTMLElement(..), gTypeHTMLElement, IsHTMLElement,
         toHTMLElement)
@@ -252,6 +253,16 @@ getInnerText self
       (((toHTMLElement self) ^. js "innerText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
+getInnerTextUnsafe ::
+                   (MonadDOM m, IsHTMLElement self, HasCallStack,
+                    FromJSString result) =>
+                     self -> m result
+getInnerTextUnsafe self
+  = liftDOM
+      ((((toHTMLElement self) ^. js "innerText") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
 getInnerTextUnchecked ::
                       (MonadDOM m, IsHTMLElement self, FromJSString result) =>
                         self -> m result
@@ -275,6 +286,16 @@ getOuterText self
       (((toHTMLElement self) ^. js "outerText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
+getOuterTextUnsafe ::
+                   (MonadDOM m, IsHTMLElement self, HasCallStack,
+                    FromJSString result) =>
+                     self -> m result
+getOuterTextUnsafe self
+  = liftDOM
+      ((((toHTMLElement self) ^. js "outerText") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
 getOuterTextUnchecked ::
                       (MonadDOM m, IsHTMLElement self, FromJSString result) =>
                         self -> m result
@@ -288,6 +309,15 @@ getChildren ::
               self -> m (Maybe HTMLCollection)
 getChildren self
   = liftDOM (((toHTMLElement self) ^. js "children") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
+getChildrenUnsafe ::
+                  (MonadDOM m, IsHTMLElement self, HasCallStack) =>
+                    self -> m HTMLCollection
+getChildrenUnsafe self
+  = liftDOM
+      ((((toHTMLElement self) ^. js "children") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
 getChildrenUnchecked ::
@@ -312,6 +342,17 @@ getContentEditable self
   = liftDOM
       (((toHTMLElement self) ^. js "contentEditable") >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
+getContentEditableUnsafe ::
+                         (MonadDOM m, IsHTMLElement self, HasCallStack,
+                          FromJSString result) =>
+                           self -> m result
+getContentEditableUnsafe self
+  = liftDOM
+      ((((toHTMLElement self) ^. js "contentEditable") >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
 getContentEditableUnchecked ::

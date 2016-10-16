@@ -5,8 +5,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSSupportsRule
        (insertRule, insertRule_, deleteRule, getCssRules,
-        getCssRulesUnchecked, getConditionText, CSSSupportsRule(..),
-        gTypeCSSSupportsRule)
+        getCssRulesUnsafe, getCssRulesUnchecked, getConditionText,
+        CSSSupportsRule(..), gTypeCSSSupportsRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -58,6 +58,14 @@ deleteRule self index
 getCssRules ::
             (MonadDOM m) => CSSSupportsRule -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.cssRules Mozilla CSSSupportsRule.cssRules documentation> 
+getCssRulesUnsafe ::
+                  (MonadDOM m, HasCallStack) => CSSSupportsRule -> m CSSRuleList
+getCssRulesUnsafe self
+  = liftDOM
+      (((self ^. js "cssRules") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.cssRules Mozilla CSSSupportsRule.cssRules documentation> 
 getCssRulesUnchecked ::

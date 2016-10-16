@@ -6,8 +6,8 @@
 module JSDOM.Generated.HTMLTableRowElement
        (insertCell, insertCell_, insertCellUnsafe, insertCellUnchecked,
         deleteCell, getRowIndex, getSectionRowIndex, getCells,
-        getCellsUnchecked, setAlign, getAlign, setBgColor, getBgColor,
-        setCh, getCh, setChOff, getChOff, setVAlign, getVAlign,
+        getCellsUnsafe, getCellsUnchecked, setAlign, getAlign, setBgColor,
+        getBgColor, setCh, getCh, setChOff, getChOff, setVAlign, getVAlign,
         HTMLTableRowElement(..), gTypeHTMLTableRowElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -81,6 +81,15 @@ getSectionRowIndex self
 getCells ::
          (MonadDOM m) => HTMLTableRowElement -> m (Maybe HTMLCollection)
 getCells self = liftDOM ((self ^. js "cells") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.cells Mozilla HTMLTableRowElement.cells documentation> 
+getCellsUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 HTMLTableRowElement -> m HTMLCollection
+getCellsUnsafe self
+  = liftDOM
+      (((self ^. js "cells") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.cells Mozilla HTMLTableRowElement.cells documentation> 
 getCellsUnchecked ::

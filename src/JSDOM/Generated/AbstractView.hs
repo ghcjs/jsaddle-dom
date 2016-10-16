@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AbstractView
-       (getDocument, getDocumentUnchecked, getStyleMedia,
-        getStyleMediaUnchecked, AbstractView(..), gTypeAbstractView)
+       (getDocument, getDocumentUnsafe, getDocumentUnchecked,
+        getStyleMedia, getStyleMediaUnsafe, getStyleMediaUnchecked,
+        AbstractView(..), gTypeAbstractView)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -35,6 +36,14 @@ getDocument :: (MonadDOM m) => AbstractView -> m (Maybe Document)
 getDocument self = liftDOM ((self ^. js "document") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.document Mozilla AbstractView.document documentation> 
+getDocumentUnsafe ::
+                  (MonadDOM m, HasCallStack) => AbstractView -> m Document
+getDocumentUnsafe self
+  = liftDOM
+      (((self ^. js "document") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.document Mozilla AbstractView.document documentation> 
 getDocumentUnchecked :: (MonadDOM m) => AbstractView -> m Document
 getDocumentUnchecked self
   = liftDOM ((self ^. js "document") >>= fromJSValUnchecked)
@@ -44,6 +53,14 @@ getStyleMedia ::
               (MonadDOM m) => AbstractView -> m (Maybe StyleMedia)
 getStyleMedia self
   = liftDOM ((self ^. js "styleMedia") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.styleMedia Mozilla AbstractView.styleMedia documentation> 
+getStyleMediaUnsafe ::
+                    (MonadDOM m, HasCallStack) => AbstractView -> m StyleMedia
+getStyleMediaUnsafe self
+  = liftDOM
+      (((self ^. js "styleMedia") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractView.styleMedia Mozilla AbstractView.styleMedia documentation> 
 getStyleMediaUnchecked ::

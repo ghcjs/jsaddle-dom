@@ -5,7 +5,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.History
        (back, forward, go, pushState, replaceState, getLength, getState,
-        getStateUnchecked, History(..), gTypeHistory)
+        getStateUnsafe, getStateUnchecked, History(..), gTypeHistory)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -72,6 +72,14 @@ getLength self
 getState ::
          (MonadDOM m) => History -> m (Maybe SerializedScriptValue)
 getState self = liftDOM ((self ^. js "state") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
+getStateUnsafe ::
+               (MonadDOM m, HasCallStack) => History -> m SerializedScriptValue
+getStateUnsafe self
+  = liftDOM
+      (((self ^. js "state") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
 getStateUnchecked ::

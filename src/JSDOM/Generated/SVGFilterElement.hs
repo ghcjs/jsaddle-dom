@@ -4,11 +4,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFilterElement
-       (setFilterRes, getFilterUnits, getFilterUnitsUnchecked,
-        getPrimitiveUnits, getPrimitiveUnitsUnchecked, getX, getXUnchecked,
-        getY, getYUnchecked, getWidth, getWidthUnchecked, getHeight,
-        getHeightUnchecked, getFilterResX, getFilterResXUnchecked,
-        getFilterResY, getFilterResYUnchecked, SVGFilterElement(..),
+       (setFilterRes, getFilterUnits, getFilterUnitsUnsafe,
+        getFilterUnitsUnchecked, getPrimitiveUnits,
+        getPrimitiveUnitsUnsafe, getPrimitiveUnitsUnchecked, getX,
+        getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
+        getWidth, getWidthUnsafe, getWidthUnchecked, getHeight,
+        getHeightUnsafe, getHeightUnchecked, getFilterResX,
+        getFilterResXUnsafe, getFilterResXUnchecked, getFilterResY,
+        getFilterResYUnsafe, getFilterResYUnchecked, SVGFilterElement(..),
         gTypeSVGFilterElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -51,6 +54,15 @@ getFilterUnits self
   = liftDOM ((self ^. js "filterUnits") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.filterUnits Mozilla SVGFilterElement.filterUnits documentation> 
+getFilterUnitsUnsafe ::
+                     (MonadDOM m, HasCallStack) =>
+                       SVGFilterElement -> m SVGAnimatedEnumeration
+getFilterUnitsUnsafe self
+  = liftDOM
+      (((self ^. js "filterUnits") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.filterUnits Mozilla SVGFilterElement.filterUnits documentation> 
 getFilterUnitsUnchecked ::
                         (MonadDOM m) => SVGFilterElement -> m SVGAnimatedEnumeration
 getFilterUnitsUnchecked self
@@ -64,6 +76,15 @@ getPrimitiveUnits self
   = liftDOM ((self ^. js "primitiveUnits") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.primitiveUnits Mozilla SVGFilterElement.primitiveUnits documentation> 
+getPrimitiveUnitsUnsafe ::
+                        (MonadDOM m, HasCallStack) =>
+                          SVGFilterElement -> m SVGAnimatedEnumeration
+getPrimitiveUnitsUnsafe self
+  = liftDOM
+      (((self ^. js "primitiveUnits") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.primitiveUnits Mozilla SVGFilterElement.primitiveUnits documentation> 
 getPrimitiveUnitsUnchecked ::
                            (MonadDOM m) => SVGFilterElement -> m SVGAnimatedEnumeration
 getPrimitiveUnitsUnchecked self
@@ -73,6 +94,15 @@ getPrimitiveUnitsUnchecked self
 getX ::
      (MonadDOM m) => SVGFilterElement -> m (Maybe SVGAnimatedLength)
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.x Mozilla SVGFilterElement.x documentation> 
+getXUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGFilterElement -> m SVGAnimatedLength
+getXUnsafe self
+  = liftDOM
+      (((self ^. js "x") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.x Mozilla SVGFilterElement.x documentation> 
 getXUnchecked ::
@@ -86,6 +116,15 @@ getY ::
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.y Mozilla SVGFilterElement.y documentation> 
+getYUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGFilterElement -> m SVGAnimatedLength
+getYUnsafe self
+  = liftDOM
+      (((self ^. js "y") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.y Mozilla SVGFilterElement.y documentation> 
 getYUnchecked ::
               (MonadDOM m) => SVGFilterElement -> m SVGAnimatedLength
 getYUnchecked self
@@ -97,6 +136,15 @@ getWidth ::
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.width Mozilla SVGFilterElement.width documentation> 
+getWidthUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 SVGFilterElement -> m SVGAnimatedLength
+getWidthUnsafe self
+  = liftDOM
+      (((self ^. js "width") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.width Mozilla SVGFilterElement.width documentation> 
 getWidthUnchecked ::
                   (MonadDOM m) => SVGFilterElement -> m SVGAnimatedLength
 getWidthUnchecked self
@@ -106,6 +154,15 @@ getWidthUnchecked self
 getHeight ::
           (MonadDOM m) => SVGFilterElement -> m (Maybe SVGAnimatedLength)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.height Mozilla SVGFilterElement.height documentation> 
+getHeightUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  SVGFilterElement -> m SVGAnimatedLength
+getHeightUnsafe self
+  = liftDOM
+      (((self ^. js "height") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.height Mozilla SVGFilterElement.height documentation> 
 getHeightUnchecked ::
@@ -120,6 +177,15 @@ getFilterResX self
   = liftDOM ((self ^. js "filterResX") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.filterResX Mozilla SVGFilterElement.filterResX documentation> 
+getFilterResXUnsafe ::
+                    (MonadDOM m, HasCallStack) =>
+                      SVGFilterElement -> m SVGAnimatedInteger
+getFilterResXUnsafe self
+  = liftDOM
+      (((self ^. js "filterResX") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.filterResX Mozilla SVGFilterElement.filterResX documentation> 
 getFilterResXUnchecked ::
                        (MonadDOM m) => SVGFilterElement -> m SVGAnimatedInteger
 getFilterResXUnchecked self
@@ -130,6 +196,15 @@ getFilterResY ::
               (MonadDOM m) => SVGFilterElement -> m (Maybe SVGAnimatedInteger)
 getFilterResY self
   = liftDOM ((self ^. js "filterResY") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.filterResY Mozilla SVGFilterElement.filterResY documentation> 
+getFilterResYUnsafe ::
+                    (MonadDOM m, HasCallStack) =>
+                      SVGFilterElement -> m SVGAnimatedInteger
+getFilterResYUnsafe self
+  = liftDOM
+      (((self ^. js "filterResY") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterElement.filterResY Mozilla SVGFilterElement.filterResY documentation> 
 getFilterResYUnchecked ::

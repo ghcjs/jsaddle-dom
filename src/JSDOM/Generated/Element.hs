@@ -36,20 +36,25 @@ module JSDOM.Generated.Element
         webkitRequestFullScreen, webkitRequestFullscreen,
         requestPointerLock, webkitGetRegionFlowRanges,
         webkitGetRegionFlowRanges_, pattern ALLOW_KEYBOARD_INPUT,
-        getTagName, getTagNameUnchecked, getAttributes,
-        getAttributesUnchecked, getStyle, getStyleUnchecked, setId, getId,
-        getOffsetLeft, getOffsetTop, getOffsetWidth, getOffsetHeight,
-        getClientLeft, getClientTop, getClientWidth, getClientHeight,
-        setScrollLeft, getScrollLeft, setScrollTop, getScrollTop,
-        getScrollWidth, getScrollHeight, getOffsetParent,
+        getTagName, getTagNameUnsafe, getTagNameUnchecked, getAttributes,
+        getAttributesUnsafe, getAttributesUnchecked, getStyle,
+        getStyleUnsafe, getStyleUnchecked, setId, getId, getOffsetLeft,
+        getOffsetTop, getOffsetWidth, getOffsetHeight, getClientLeft,
+        getClientTop, getClientWidth, getClientHeight, setScrollLeft,
+        getScrollLeft, setScrollTop, getScrollTop, getScrollWidth,
+        getScrollHeight, getOffsetParent, getOffsetParentUnsafe,
         getOffsetParentUnchecked, setInnerHTML, getInnerHTML,
-        getInnerHTMLUnchecked, setOuterHTML, getOuterHTML,
-        getOuterHTMLUnchecked, setClassName, getClassName, getClassList,
-        getClassListUnchecked, getDataset, getDatasetUnchecked,
-        getFirstElementChild, getFirstElementChildUnchecked,
-        getLastElementChild, getLastElementChildUnchecked,
-        getPreviousElementSibling, getPreviousElementSiblingUnchecked,
-        getNextElementSibling, getNextElementSiblingUnchecked,
+        getInnerHTMLUnsafe, getInnerHTMLUnchecked, setOuterHTML,
+        getOuterHTML, getOuterHTMLUnsafe, getOuterHTMLUnchecked,
+        setClassName, getClassName, getClassList, getClassListUnsafe,
+        getClassListUnchecked, getDataset, getDatasetUnsafe,
+        getDatasetUnchecked, getFirstElementChild,
+        getFirstElementChildUnsafe, getFirstElementChildUnchecked,
+        getLastElementChild, getLastElementChildUnsafe,
+        getLastElementChildUnchecked, getPreviousElementSibling,
+        getPreviousElementSiblingUnsafe,
+        getPreviousElementSiblingUnchecked, getNextElementSibling,
+        getNextElementSiblingUnsafe, getNextElementSiblingUnchecked,
         getChildElementCount, setUiactions, getUiactions,
         getWebkitRegionOverset, abort, blurEvent, change, click,
         contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
@@ -835,6 +840,15 @@ getTagName self
       (((toElement self) ^. js "tagName") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
+getTagNameUnsafe ::
+                 (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
+                   self -> m result
+getTagNameUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "tagName") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
 getTagNameUnchecked ::
                     (MonadDOM m, IsElement self, FromJSString result) =>
                       self -> m result
@@ -849,6 +863,15 @@ getAttributes self
   = liftDOM (((toElement self) ^. js "attributes") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
+getAttributesUnsafe ::
+                    (MonadDOM m, IsElement self, HasCallStack) =>
+                      self -> m NamedNodeMap
+getAttributesUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "attributes") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
 getAttributesUnchecked ::
                        (MonadDOM m, IsElement self) => self -> m NamedNodeMap
 getAttributesUnchecked self
@@ -861,6 +884,15 @@ getStyle ::
            self -> m (Maybe CSSStyleDeclaration)
 getStyle self
   = liftDOM (((toElement self) ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
+getStyleUnsafe ::
+               (MonadDOM m, IsElement self, HasCallStack) =>
+                 self -> m CSSStyleDeclaration
+getStyleUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "style") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
 getStyleUnchecked ::
@@ -965,6 +997,14 @@ getOffsetParent self
   = liftDOM (((toElement self) ^. js "offsetParent") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetParent Mozilla Element.offsetParent documentation> 
+getOffsetParentUnsafe ::
+                      (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
+getOffsetParentUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "offsetParent") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetParent Mozilla Element.offsetParent documentation> 
 getOffsetParentUnchecked ::
                          (MonadDOM m, IsElement self) => self -> m Element
 getOffsetParentUnchecked self
@@ -985,6 +1025,15 @@ getInnerHTML ::
 getInnerHTML self
   = liftDOM
       (((toElement self) ^. js "innerHTML") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
+getInnerHTMLUnsafe ::
+                   (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
+                     self -> m result
+getInnerHTMLUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "innerHTML") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
 getInnerHTMLUnchecked ::
@@ -1008,6 +1057,15 @@ getOuterHTML ::
 getOuterHTML self
   = liftDOM
       (((toElement self) ^. js "outerHTML") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
+getOuterHTMLUnsafe ::
+                   (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
+                     self -> m result
+getOuterHTMLUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "outerHTML") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
 getOuterHTMLUnchecked ::
@@ -1038,6 +1096,15 @@ getClassList self
   = liftDOM (((toElement self) ^. js "classList") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.classList Mozilla Element.classList documentation> 
+getClassListUnsafe ::
+                   (MonadDOM m, IsElement self, HasCallStack) =>
+                     self -> m DOMTokenList
+getClassListUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "classList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.classList Mozilla Element.classList documentation> 
 getClassListUnchecked ::
                       (MonadDOM m, IsElement self) => self -> m DOMTokenList
 getClassListUnchecked self
@@ -1049,6 +1116,15 @@ getDataset ::
            (MonadDOM m, IsElement self) => self -> m (Maybe DOMStringMap)
 getDataset self
   = liftDOM (((toElement self) ^. js "dataset") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
+getDatasetUnsafe ::
+                 (MonadDOM m, IsElement self, HasCallStack) =>
+                   self -> m DOMStringMap
+getDatasetUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "dataset") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
 getDatasetUnchecked ::
@@ -1063,6 +1139,14 @@ getFirstElementChild ::
 getFirstElementChild self
   = liftDOM
       (((toElement self) ^. js "firstElementChild") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
+getFirstElementChildUnsafe ::
+                           (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
+getFirstElementChildUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "firstElementChild") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
 getFirstElementChildUnchecked ::
@@ -1080,6 +1164,14 @@ getLastElementChild self
       (((toElement self) ^. js "lastElementChild") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
+getLastElementChildUnsafe ::
+                          (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
+getLastElementChildUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "lastElementChild") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
 getLastElementChildUnchecked ::
                              (MonadDOM m, IsElement self) => self -> m Element
 getLastElementChildUnchecked self
@@ -1095,6 +1187,14 @@ getPreviousElementSibling self
       (((toElement self) ^. js "previousElementSibling") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
+getPreviousElementSiblingUnsafe ::
+                                (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
+getPreviousElementSiblingUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "previousElementSibling") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
 getPreviousElementSiblingUnchecked ::
                                    (MonadDOM m, IsElement self) => self -> m Element
 getPreviousElementSiblingUnchecked self
@@ -1108,6 +1208,14 @@ getNextElementSibling ::
 getNextElementSibling self
   = liftDOM
       (((toElement self) ^. js "nextElementSibling") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
+getNextElementSiblingUnsafe ::
+                            (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
+getNextElementSiblingUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "nextElementSibling") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
 getNextElementSiblingUnchecked ::

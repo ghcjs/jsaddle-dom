@@ -5,9 +5,11 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTests
        (hasExtension, hasExtension_, getRequiredFeatures,
-        getRequiredFeaturesUnchecked, getRequiredExtensions,
+        getRequiredFeaturesUnsafe, getRequiredFeaturesUnchecked,
+        getRequiredExtensions, getRequiredExtensionsUnsafe,
         getRequiredExtensionsUnchecked, getSystemLanguage,
-        getSystemLanguageUnchecked, SVGTests(..), gTypeSVGTests)
+        getSystemLanguageUnsafe, getSystemLanguageUnchecked, SVGTests(..),
+        gTypeSVGTests)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -53,6 +55,14 @@ getRequiredFeatures self
   = liftDOM ((self ^. js "requiredFeatures") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredFeatures Mozilla SVGTests.requiredFeatures documentation> 
+getRequiredFeaturesUnsafe ::
+                          (MonadDOM m, HasCallStack) => SVGTests -> m SVGStringList
+getRequiredFeaturesUnsafe self
+  = liftDOM
+      (((self ^. js "requiredFeatures") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredFeatures Mozilla SVGTests.requiredFeatures documentation> 
 getRequiredFeaturesUnchecked ::
                              (MonadDOM m) => SVGTests -> m SVGStringList
 getRequiredFeaturesUnchecked self
@@ -63,6 +73,14 @@ getRequiredExtensions ::
                       (MonadDOM m) => SVGTests -> m (Maybe SVGStringList)
 getRequiredExtensions self
   = liftDOM ((self ^. js "requiredExtensions") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredExtensions Mozilla SVGTests.requiredExtensions documentation> 
+getRequiredExtensionsUnsafe ::
+                            (MonadDOM m, HasCallStack) => SVGTests -> m SVGStringList
+getRequiredExtensionsUnsafe self
+  = liftDOM
+      (((self ^. js "requiredExtensions") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.requiredExtensions Mozilla SVGTests.requiredExtensions documentation> 
 getRequiredExtensionsUnchecked ::
@@ -76,6 +94,14 @@ getSystemLanguage ::
                   (MonadDOM m) => SVGTests -> m (Maybe SVGStringList)
 getSystemLanguage self
   = liftDOM ((self ^. js "systemLanguage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.systemLanguage Mozilla SVGTests.systemLanguage documentation> 
+getSystemLanguageUnsafe ::
+                        (MonadDOM m, HasCallStack) => SVGTests -> m SVGStringList
+getSystemLanguageUnsafe self
+  = liftDOM
+      (((self ^. js "systemLanguage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTests.systemLanguage Mozilla SVGTests.systemLanguage documentation> 
 getSystemLanguageUnchecked ::

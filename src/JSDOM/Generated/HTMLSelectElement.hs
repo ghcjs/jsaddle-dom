@@ -7,14 +7,17 @@ module JSDOM.Generated.HTMLSelectElement
        (item, item_, itemUnsafe, itemUnchecked, namedItem, namedItem_,
         namedItemUnsafe, namedItemUnchecked, addBefore, add, remove,
         checkValidity, checkValidity_, setCustomValidity, setAutofocus,
-        getAutofocus, setDisabled, getDisabled, getForm, getFormUnchecked,
-        setMultiple, getMultiple, setName, getName, setRequired,
-        getRequired, setSize, getSize, getType, getOptions,
-        getOptionsUnchecked, setLength, getLength, getSelectedOptions,
+        getAutofocus, setDisabled, getDisabled, getForm, getFormUnsafe,
+        getFormUnchecked, setMultiple, getMultiple, setName, getName,
+        setRequired, getRequired, setSize, getSize, getType, getOptions,
+        getOptionsUnsafe, getOptionsUnchecked, setLength, getLength,
+        getSelectedOptions, getSelectedOptionsUnsafe,
         getSelectedOptionsUnchecked, setSelectedIndex, getSelectedIndex,
-        setValue, getValue, getValueUnchecked, getWillValidate,
-        getValidity, getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnchecked, HTMLSelectElement(..), gTypeHTMLSelectElement)
+        setValue, getValue, getValueUnsafe, getValueUnchecked,
+        getWillValidate, getValidity, getValidityUnsafe,
+        getValidityUnchecked, getValidationMessage, getLabels,
+        getLabelsUnsafe, getLabelsUnchecked, HTMLSelectElement(..),
+        gTypeHTMLSelectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -156,6 +159,15 @@ getForm ::
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.form Mozilla HTMLSelectElement.form documentation> 
+getFormUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                HTMLSelectElement -> m HTMLFormElement
+getFormUnsafe self
+  = liftDOM
+      (((self ^. js "form") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.form Mozilla HTMLSelectElement.form documentation> 
 getFormUnchecked ::
                  (MonadDOM m) => HTMLSelectElement -> m HTMLFormElement
 getFormUnchecked self
@@ -210,6 +222,15 @@ getOptions ::
 getOptions self = liftDOM ((self ^. js "options") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.options Mozilla HTMLSelectElement.options documentation> 
+getOptionsUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   HTMLSelectElement -> m HTMLOptionsCollection
+getOptionsUnsafe self
+  = liftDOM
+      (((self ^. js "options") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.options Mozilla HTMLSelectElement.options documentation> 
 getOptionsUnchecked ::
                     (MonadDOM m) => HTMLSelectElement -> m HTMLOptionsCollection
 getOptionsUnchecked self
@@ -229,6 +250,14 @@ getSelectedOptions ::
                    (MonadDOM m) => HTMLSelectElement -> m (Maybe HTMLCollection)
 getSelectedOptions self
   = liftDOM ((self ^. js "selectedOptions") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedOptions Mozilla HTMLSelectElement.selectedOptions documentation> 
+getSelectedOptionsUnsafe ::
+                         (MonadDOM m, HasCallStack) => HTMLSelectElement -> m HTMLCollection
+getSelectedOptionsUnsafe self
+  = liftDOM
+      (((self ^. js "selectedOptions") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedOptions Mozilla HTMLSelectElement.selectedOptions documentation> 
 getSelectedOptionsUnchecked ::
@@ -262,6 +291,15 @@ getValue self
   = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
+getValueUnsafe ::
+               (MonadDOM m, HasCallStack, FromJSString result) =>
+                 HTMLSelectElement -> m result
+getValueUnsafe self
+  = liftDOM
+      (((self ^. js "value") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
 getValueUnchecked ::
                   (MonadDOM m, FromJSString result) => HTMLSelectElement -> m result
 getValueUnchecked self
@@ -276,6 +314,14 @@ getWillValidate self
 getValidity ::
             (MonadDOM m) => HTMLSelectElement -> m (Maybe ValidityState)
 getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validity Mozilla HTMLSelectElement.validity documentation> 
+getValidityUnsafe ::
+                  (MonadDOM m, HasCallStack) => HTMLSelectElement -> m ValidityState
+getValidityUnsafe self
+  = liftDOM
+      (((self ^. js "validity") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validity Mozilla HTMLSelectElement.validity documentation> 
 getValidityUnchecked ::
@@ -293,6 +339,14 @@ getValidationMessage self
 getLabels ::
           (MonadDOM m) => HTMLSelectElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.labels Mozilla HTMLSelectElement.labels documentation> 
+getLabelsUnsafe ::
+                (MonadDOM m, HasCallStack) => HTMLSelectElement -> m NodeList
+getLabelsUnsafe self
+  = liftDOM
+      (((self ^. js "labels") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.labels Mozilla HTMLSelectElement.labels documentation> 
 getLabelsUnchecked ::

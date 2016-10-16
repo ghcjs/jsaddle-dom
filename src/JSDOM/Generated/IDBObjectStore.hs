@@ -17,9 +17,10 @@ module JSDOM.Generated.IDBObjectStore
         createIndexUnsafe, createIndexUnchecked, index, index_,
         indexUnsafe, indexUnchecked, deleteIndex, countRange, countRange_,
         countRangeUnsafe, countRangeUnchecked, count, count_, countUnsafe,
-        countUnchecked, getName, getNameUnchecked, getKeyPath,
-        getKeyPathUnchecked, getIndexNames, getIndexNamesUnchecked,
-        getTransaction, getTransactionUnchecked, getAutoIncrement,
+        countUnchecked, getName, getNameUnsafe, getNameUnchecked,
+        getKeyPath, getKeyPathUnsafe, getKeyPathUnchecked, getIndexNames,
+        getIndexNamesUnsafe, getIndexNamesUnchecked, getTransaction,
+        getTransactionUnsafe, getTransactionUnchecked, getAutoIncrement,
         IDBObjectStore(..), gTypeIDBObjectStore)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -502,6 +503,15 @@ getName ::
 getName self = liftDOM ((self ^. js "name") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.name Mozilla IDBObjectStore.name documentation> 
+getNameUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                IDBObjectStore -> m result
+getNameUnsafe self
+  = liftDOM
+      (((self ^. js "name") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.name Mozilla IDBObjectStore.name documentation> 
 getNameUnchecked ::
                  (MonadDOM m, FromJSString result) => IDBObjectStore -> m result
 getNameUnchecked self
@@ -510,6 +520,14 @@ getNameUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.keyPath Mozilla IDBObjectStore.keyPath documentation> 
 getKeyPath :: (MonadDOM m) => IDBObjectStore -> m (Maybe IDBAny)
 getKeyPath self = liftDOM ((self ^. js "keyPath") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.keyPath Mozilla IDBObjectStore.keyPath documentation> 
+getKeyPathUnsafe ::
+                 (MonadDOM m, HasCallStack) => IDBObjectStore -> m IDBAny
+getKeyPathUnsafe self
+  = liftDOM
+      (((self ^. js "keyPath") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.keyPath Mozilla IDBObjectStore.keyPath documentation> 
 getKeyPathUnchecked :: (MonadDOM m) => IDBObjectStore -> m IDBAny
@@ -523,6 +541,14 @@ getIndexNames self
   = liftDOM ((self ^. js "indexNames") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.indexNames Mozilla IDBObjectStore.indexNames documentation> 
+getIndexNamesUnsafe ::
+                    (MonadDOM m, HasCallStack) => IDBObjectStore -> m DOMStringList
+getIndexNamesUnsafe self
+  = liftDOM
+      (((self ^. js "indexNames") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.indexNames Mozilla IDBObjectStore.indexNames documentation> 
 getIndexNamesUnchecked ::
                        (MonadDOM m) => IDBObjectStore -> m DOMStringList
 getIndexNamesUnchecked self
@@ -533,6 +559,14 @@ getTransaction ::
                (MonadDOM m) => IDBObjectStore -> m (Maybe IDBTransaction)
 getTransaction self
   = liftDOM ((self ^. js "transaction") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.transaction Mozilla IDBObjectStore.transaction documentation> 
+getTransactionUnsafe ::
+                     (MonadDOM m, HasCallStack) => IDBObjectStore -> m IDBTransaction
+getTransactionUnsafe self
+  = liftDOM
+      (((self ^. js "transaction") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore.transaction Mozilla IDBObjectStore.transaction documentation> 
 getTransactionUnchecked ::

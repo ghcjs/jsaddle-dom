@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedLength
-       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
-        SVGAnimatedLength(..), gTypeSVGAnimatedLength)
+       (getBaseVal, getBaseValUnsafe, getBaseValUnchecked, getAnimVal,
+        getAnimValUnsafe, getAnimValUnchecked, SVGAnimatedLength(..),
+        gTypeSVGAnimatedLength)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +37,14 @@ getBaseVal ::
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.baseVal Mozilla SVGAnimatedLength.baseVal documentation> 
+getBaseValUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGAnimatedLength -> m SVGLength
+getBaseValUnsafe self
+  = liftDOM
+      (((self ^. js "baseVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.baseVal Mozilla SVGAnimatedLength.baseVal documentation> 
 getBaseValUnchecked ::
                     (MonadDOM m) => SVGAnimatedLength -> m SVGLength
 getBaseValUnchecked self
@@ -45,6 +54,14 @@ getBaseValUnchecked self
 getAnimVal ::
            (MonadDOM m) => SVGAnimatedLength -> m (Maybe SVGLength)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.animVal Mozilla SVGAnimatedLength.animVal documentation> 
+getAnimValUnsafe ::
+                 (MonadDOM m, HasCallStack) => SVGAnimatedLength -> m SVGLength
+getAnimValUnsafe self
+  = liftDOM
+      (((self ^. js "animVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedLength.animVal Mozilla SVGAnimatedLength.animVal documentation> 
 getAnimValUnchecked ::

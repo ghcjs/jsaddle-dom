@@ -6,7 +6,7 @@
 module JSDOM.Generated.HTMLTableSectionElement
        (insertRow, insertRow_, insertRowUnsafe, insertRowUnchecked,
         deleteRow, setAlign, getAlign, setCh, getCh, setChOff, getChOff,
-        setVAlign, getVAlign, getRows, getRowsUnchecked,
+        setVAlign, getVAlign, getRows, getRowsUnsafe, getRowsUnchecked,
         HTMLTableSectionElement(..), gTypeHTMLTableSectionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -121,6 +121,15 @@ getVAlign self
 getRows ::
         (MonadDOM m) => HTMLTableSectionElement -> m (Maybe HTMLCollection)
 getRows self = liftDOM ((self ^. js "rows") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.rows Mozilla HTMLTableSectionElement.rows documentation> 
+getRowsUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                HTMLTableSectionElement -> m HTMLCollection
+getRowsUnsafe self
+  = liftDOM
+      (((self ^. js "rows") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.rows Mozilla HTMLTableSectionElement.rows documentation> 
 getRowsUnchecked ::

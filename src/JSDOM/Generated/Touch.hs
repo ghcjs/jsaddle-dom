@@ -5,9 +5,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Touch
        (getClientX, getClientY, getScreenX, getScreenY, getPageX,
-        getPageY, getTarget, getTargetUnchecked, getIdentifier,
-        getWebkitRadiusX, getWebkitRadiusY, getWebkitRotationAngle,
-        getWebkitForce, Touch(..), gTypeTouch)
+        getPageY, getTarget, getTargetUnsafe, getTargetUnchecked,
+        getIdentifier, getWebkitRadiusX, getWebkitRadiusY,
+        getWebkitRotationAngle, getWebkitForce, Touch(..), gTypeTouch)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -65,6 +65,14 @@ getPageY self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Touch.target Mozilla Touch.target documentation> 
 getTarget :: (MonadDOM m) => Touch -> m (Maybe EventTarget)
 getTarget self = liftDOM ((self ^. js "target") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Touch.target Mozilla Touch.target documentation> 
+getTargetUnsafe ::
+                (MonadDOM m, HasCallStack) => Touch -> m EventTarget
+getTargetUnsafe self
+  = liftDOM
+      (((self ^. js "target") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Touch.target Mozilla Touch.target documentation> 
 getTargetUnchecked :: (MonadDOM m) => Touch -> m EventTarget

@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSRegionRule
-       (getCssRules, getCssRulesUnchecked, WebKitCSSRegionRule(..),
-        gTypeWebKitCSSRegionRule)
+       (getCssRules, getCssRulesUnsafe, getCssRulesUnchecked,
+        WebKitCSSRegionRule(..), gTypeWebKitCSSRegionRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +34,14 @@ type HasCallStack = (() :: Constraint)
 getCssRules ::
             (MonadDOM m) => WebKitCSSRegionRule -> m (Maybe CSSRuleList)
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSRegionRule.cssRules Mozilla WebKitCSSRegionRule.cssRules documentation> 
+getCssRulesUnsafe ::
+                  (MonadDOM m, HasCallStack) => WebKitCSSRegionRule -> m CSSRuleList
+getCssRulesUnsafe self
+  = liftDOM
+      (((self ^. js "cssRules") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSRegionRule.cssRules Mozilla WebKitCSSRegionRule.cssRules documentation> 
 getCssRulesUnchecked ::

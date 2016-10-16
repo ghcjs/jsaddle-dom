@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEImageElement
-       (getPreserveAspectRatio, getPreserveAspectRatioUnchecked,
-        SVGFEImageElement(..), gTypeSVGFEImageElement)
+       (getPreserveAspectRatio, getPreserveAspectRatioUnsafe,
+        getPreserveAspectRatioUnchecked, SVGFEImageElement(..),
+        gTypeSVGFEImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +37,15 @@ getPreserveAspectRatio ::
                          SVGFEImageElement -> m (Maybe SVGAnimatedPreserveAspectRatio)
 getPreserveAspectRatio self
   = liftDOM ((self ^. js "preserveAspectRatio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEImageElement.preserveAspectRatio Mozilla SVGFEImageElement.preserveAspectRatio documentation> 
+getPreserveAspectRatioUnsafe ::
+                             (MonadDOM m, HasCallStack) =>
+                               SVGFEImageElement -> m SVGAnimatedPreserveAspectRatio
+getPreserveAspectRatioUnsafe self
+  = liftDOM
+      (((self ^. js "preserveAspectRatio") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEImageElement.preserveAspectRatio Mozilla SVGFEImageElement.preserveAspectRatio documentation> 
 getPreserveAspectRatioUnchecked ::

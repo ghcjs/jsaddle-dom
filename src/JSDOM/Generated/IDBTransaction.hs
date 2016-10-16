@@ -5,9 +5,10 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBTransaction
        (objectStore, objectStore_, objectStoreUnsafe,
-        objectStoreUnchecked, abort, getMode, getDb, getDbUnchecked,
-        getError, getErrorUnchecked, abortEvent, complete, error,
-        IDBTransaction(..), gTypeIDBTransaction)
+        objectStoreUnchecked, abort, getMode, getDb, getDbUnsafe,
+        getDbUnchecked, getError, getErrorUnsafe, getErrorUnchecked,
+        abortEvent, complete, error, IDBTransaction(..),
+        gTypeIDBTransaction)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -77,6 +78,14 @@ getDb :: (MonadDOM m) => IDBTransaction -> m (Maybe IDBDatabase)
 getDb self = liftDOM ((self ^. js "db") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.db Mozilla IDBTransaction.db documentation> 
+getDbUnsafe ::
+            (MonadDOM m, HasCallStack) => IDBTransaction -> m IDBDatabase
+getDbUnsafe self
+  = liftDOM
+      (((self ^. js "db") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.db Mozilla IDBTransaction.db documentation> 
 getDbUnchecked :: (MonadDOM m) => IDBTransaction -> m IDBDatabase
 getDbUnchecked self
   = liftDOM ((self ^. js "db") >>= fromJSValUnchecked)
@@ -84,6 +93,14 @@ getDbUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
 getError :: (MonadDOM m) => IDBTransaction -> m (Maybe DOMError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
+getErrorUnsafe ::
+               (MonadDOM m, HasCallStack) => IDBTransaction -> m DOMError
+getErrorUnsafe self
+  = liftDOM
+      (((self ^. js "error") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
 getErrorUnchecked :: (MonadDOM m) => IDBTransaction -> m DOMError

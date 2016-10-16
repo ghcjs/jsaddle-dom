@@ -9,11 +9,12 @@ module JSDOM.Generated.Selection
         getRangeAt_, getRangeAtUnsafe, getRangeAtUnchecked,
         removeAllRanges, addRange, toString, toString_, modify,
         setBaseAndExtent, setPosition, empty, getAnchorNode,
-        getAnchorNodeUnchecked, getAnchorOffset, getFocusNode,
-        getFocusNodeUnchecked, getFocusOffset, getIsCollapsed,
-        getRangeCount, getBaseNode, getBaseNodeUnchecked, getBaseOffset,
-        getExtentNode, getExtentNodeUnchecked, getExtentOffset, getType,
-        Selection(..), gTypeSelection)
+        getAnchorNodeUnsafe, getAnchorNodeUnchecked, getAnchorOffset,
+        getFocusNode, getFocusNodeUnsafe, getFocusNodeUnchecked,
+        getFocusOffset, getIsCollapsed, getRangeCount, getBaseNode,
+        getBaseNodeUnsafe, getBaseNodeUnchecked, getBaseOffset,
+        getExtentNode, getExtentNodeUnsafe, getExtentNodeUnchecked,
+        getExtentOffset, getType, Selection(..), gTypeSelection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -176,6 +177,14 @@ getAnchorNode self
   = liftDOM ((self ^. js "anchorNode") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorNode Mozilla Selection.anchorNode documentation> 
+getAnchorNodeUnsafe ::
+                    (MonadDOM m, HasCallStack) => Selection -> m Node
+getAnchorNodeUnsafe self
+  = liftDOM
+      (((self ^. js "anchorNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorNode Mozilla Selection.anchorNode documentation> 
 getAnchorNodeUnchecked :: (MonadDOM m) => Selection -> m Node
 getAnchorNodeUnchecked self
   = liftDOM ((self ^. js "anchorNode") >>= fromJSValUnchecked)
@@ -189,6 +198,14 @@ getAnchorOffset self
 getFocusNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getFocusNode self
   = liftDOM ((self ^. js "focusNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.focusNode Mozilla Selection.focusNode documentation> 
+getFocusNodeUnsafe ::
+                   (MonadDOM m, HasCallStack) => Selection -> m Node
+getFocusNodeUnsafe self
+  = liftDOM
+      (((self ^. js "focusNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.focusNode Mozilla Selection.focusNode documentation> 
 getFocusNodeUnchecked :: (MonadDOM m) => Selection -> m Node
@@ -215,6 +232,14 @@ getBaseNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getBaseNode self = liftDOM ((self ^. js "baseNode") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.baseNode Mozilla Selection.baseNode documentation> 
+getBaseNodeUnsafe ::
+                  (MonadDOM m, HasCallStack) => Selection -> m Node
+getBaseNodeUnsafe self
+  = liftDOM
+      (((self ^. js "baseNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.baseNode Mozilla Selection.baseNode documentation> 
 getBaseNodeUnchecked :: (MonadDOM m) => Selection -> m Node
 getBaseNodeUnchecked self
   = liftDOM ((self ^. js "baseNode") >>= fromJSValUnchecked)
@@ -228,6 +253,14 @@ getBaseOffset self
 getExtentNode :: (MonadDOM m) => Selection -> m (Maybe Node)
 getExtentNode self
   = liftDOM ((self ^. js "extentNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.extentNode Mozilla Selection.extentNode documentation> 
+getExtentNodeUnsafe ::
+                    (MonadDOM m, HasCallStack) => Selection -> m Node
+getExtentNodeUnsafe self
+  = liftDOM
+      (((self ^. js "extentNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.extentNode Mozilla Selection.extentNode documentation> 
 getExtentNodeUnchecked :: (MonadDOM m) => Selection -> m Node

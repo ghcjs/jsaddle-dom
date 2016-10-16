@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGViewElement
-       (getViewTarget, getViewTargetUnchecked, SVGViewElement(..),
-        gTypeSVGViewElement)
+       (getViewTarget, getViewTargetUnsafe, getViewTargetUnchecked,
+        SVGViewElement(..), gTypeSVGViewElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -35,6 +35,14 @@ getViewTarget ::
               (MonadDOM m) => SVGViewElement -> m (Maybe SVGStringList)
 getViewTarget self
   = liftDOM ((self ^. js "viewTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewElement.viewTarget Mozilla SVGViewElement.viewTarget documentation> 
+getViewTargetUnsafe ::
+                    (MonadDOM m, HasCallStack) => SVGViewElement -> m SVGStringList
+getViewTargetUnsafe self
+  = liftDOM
+      (((self ^. js "viewTarget") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewElement.viewTarget Mozilla SVGViewElement.viewTarget documentation> 
 getViewTargetUnchecked ::

@@ -7,9 +7,11 @@ module JSDOM.Generated.TextTrack
        (addCue, removeCue, addRegion, removeRegion, getId, setKind,
         getKind, getLabel, setLanguage, getLanguage,
         getInBandMetadataTrackDispatchType, setMode, getMode, getCues,
-        getCuesUnchecked, getActiveCues, getActiveCuesUnchecked, cueChange,
-        getRegions, getRegionsUnchecked, getSourceBuffer,
-        getSourceBufferUnchecked, TextTrack(..), gTypeTextTrack)
+        getCuesUnsafe, getCuesUnchecked, getActiveCues,
+        getActiveCuesUnsafe, getActiveCuesUnchecked, cueChange, getRegions,
+        getRegionsUnsafe, getRegionsUnchecked, getSourceBuffer,
+        getSourceBufferUnsafe, getSourceBufferUnchecked, TextTrack(..),
+        gTypeTextTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -108,6 +110,14 @@ getCues :: (MonadDOM m) => TextTrack -> m (Maybe TextTrackCueList)
 getCues self = liftDOM ((self ^. js "cues") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.cues Mozilla TextTrack.cues documentation> 
+getCuesUnsafe ::
+              (MonadDOM m, HasCallStack) => TextTrack -> m TextTrackCueList
+getCuesUnsafe self
+  = liftDOM
+      (((self ^. js "cues") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.cues Mozilla TextTrack.cues documentation> 
 getCuesUnchecked :: (MonadDOM m) => TextTrack -> m TextTrackCueList
 getCuesUnchecked self
   = liftDOM ((self ^. js "cues") >>= fromJSValUnchecked)
@@ -117,6 +127,14 @@ getActiveCues ::
               (MonadDOM m) => TextTrack -> m (Maybe TextTrackCueList)
 getActiveCues self
   = liftDOM ((self ^. js "activeCues") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.activeCues Mozilla TextTrack.activeCues documentation> 
+getActiveCuesUnsafe ::
+                    (MonadDOM m, HasCallStack) => TextTrack -> m TextTrackCueList
+getActiveCuesUnsafe self
+  = liftDOM
+      (((self ^. js "activeCues") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.activeCues Mozilla TextTrack.activeCues documentation> 
 getActiveCuesUnchecked ::
@@ -133,6 +151,14 @@ getRegions :: (MonadDOM m) => TextTrack -> m (Maybe VTTRegionList)
 getRegions self = liftDOM ((self ^. js "regions") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.regions Mozilla TextTrack.regions documentation> 
+getRegionsUnsafe ::
+                 (MonadDOM m, HasCallStack) => TextTrack -> m VTTRegionList
+getRegionsUnsafe self
+  = liftDOM
+      (((self ^. js "regions") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.regions Mozilla TextTrack.regions documentation> 
 getRegionsUnchecked :: (MonadDOM m) => TextTrack -> m VTTRegionList
 getRegionsUnchecked self
   = liftDOM ((self ^. js "regions") >>= fromJSValUnchecked)
@@ -142,6 +168,14 @@ getSourceBuffer ::
                 (MonadDOM m) => TextTrack -> m (Maybe SourceBuffer)
 getSourceBuffer self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
+getSourceBufferUnsafe ::
+                      (MonadDOM m, HasCallStack) => TextTrack -> m SourceBuffer
+getSourceBufferUnsafe self
+  = liftDOM
+      (((self ^. js "sourceBuffer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
 getSourceBufferUnchecked ::

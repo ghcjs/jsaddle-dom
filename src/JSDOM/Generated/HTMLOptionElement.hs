@@ -4,10 +4,11 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionElement
-       (setDisabled, getDisabled, getForm, getFormUnchecked, setLabel,
-        getLabel, setDefaultSelected, getDefaultSelected, setSelected,
-        getSelected, setValue, getValue, setText, getText, getIndex,
-        HTMLOptionElement(..), gTypeHTMLOptionElement)
+       (setDisabled, getDisabled, getForm, getFormUnsafe,
+        getFormUnchecked, setLabel, getLabel, setDefaultSelected,
+        getDefaultSelected, setSelected, getSelected, setValue, getValue,
+        setText, getText, getIndex, HTMLOptionElement(..),
+        gTypeHTMLOptionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -45,6 +46,15 @@ getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 getForm ::
         (MonadDOM m) => HTMLOptionElement -> m (Maybe HTMLFormElement)
 getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.form Mozilla HTMLOptionElement.form documentation> 
+getFormUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                HTMLOptionElement -> m HTMLFormElement
+getFormUnsafe self
+  = liftDOM
+      (((self ^. js "form") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.form Mozilla HTMLOptionElement.form documentation> 
 getFormUnchecked ::

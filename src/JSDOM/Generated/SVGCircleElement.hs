@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGCircleElement
-       (getCx, getCxUnchecked, getCy, getCyUnchecked, getR, getRUnchecked,
+       (getCx, getCxUnsafe, getCxUnchecked, getCy, getCyUnsafe,
+        getCyUnchecked, getR, getRUnsafe, getRUnchecked,
         SVGCircleElement(..), gTypeSVGCircleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -36,6 +37,15 @@ getCx ::
 getCx self = liftDOM ((self ^. js "cx") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cx Mozilla SVGCircleElement.cx documentation> 
+getCxUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGCircleElement -> m SVGAnimatedLength
+getCxUnsafe self
+  = liftDOM
+      (((self ^. js "cx") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cx Mozilla SVGCircleElement.cx documentation> 
 getCxUnchecked ::
                (MonadDOM m) => SVGCircleElement -> m SVGAnimatedLength
 getCxUnchecked self
@@ -47,6 +57,15 @@ getCy ::
 getCy self = liftDOM ((self ^. js "cy") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cy Mozilla SVGCircleElement.cy documentation> 
+getCyUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGCircleElement -> m SVGAnimatedLength
+getCyUnsafe self
+  = liftDOM
+      (((self ^. js "cy") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.cy Mozilla SVGCircleElement.cy documentation> 
 getCyUnchecked ::
                (MonadDOM m) => SVGCircleElement -> m SVGAnimatedLength
 getCyUnchecked self
@@ -56,6 +75,15 @@ getCyUnchecked self
 getR ::
      (MonadDOM m) => SVGCircleElement -> m (Maybe SVGAnimatedLength)
 getR self = liftDOM ((self ^. js "r") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.r Mozilla SVGCircleElement.r documentation> 
+getRUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGCircleElement -> m SVGAnimatedLength
+getRUnsafe self
+  = liftDOM
+      (((self ^. js "r") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement.r Mozilla SVGCircleElement.r documentation> 
 getRUnchecked ::

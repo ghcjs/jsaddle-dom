@@ -61,47 +61,59 @@ module JSDOM.Generated.Document
         webkitGetNamedFlowsUnchecked, createTouch, createTouch_,
         createTouchUnsafe, createTouchUnchecked, createTouchList,
         createTouchList_, createTouchListUnsafe, createTouchListUnchecked,
-        getDoctype, getDoctypeUnchecked, getImplementation,
+        getDoctype, getDoctypeUnsafe, getDoctypeUnchecked,
+        getImplementation, getImplementationUnsafe,
         getImplementationUnchecked, getDocumentElement,
-        getDocumentElementUnchecked, getInputEncoding,
-        getInputEncodingUnchecked, getXmlEncoding, getXmlEncodingUnchecked,
-        setXmlVersion, getXmlVersion, getXmlVersionUnchecked,
-        setXmlStandalone, getXmlStandalone, getDocumentURI,
-        getDocumentURIUnchecked, getDefaultView, getDefaultViewUnchecked,
-        getStyleSheets, getStyleSheetsUnchecked, getContentType, setTitle,
-        getTitle, getTitleUnchecked, getReferrer, setDomain, getDomain,
-        getDomainUnchecked, getURL, setCookie, getCookie,
-        getCookieUnchecked, setBody, getBody, getBodyUnchecked, getHead,
-        getHeadUnchecked, getImages, getImagesUnchecked, getApplets,
-        getAppletsUnchecked, getLinks, getLinksUnchecked, getForms,
-        getFormsUnchecked, getAnchors, getAnchorsUnchecked,
-        getLastModified, setLocation, getLocation, getLocationUnchecked,
-        setCharset, getCharset, getCharsetUnchecked, getDefaultCharset,
-        getDefaultCharsetUnchecked, getReadyState, getReadyStateUnchecked,
-        getCharacterSet, getCharacterSetUnchecked,
-        getPreferredStylesheetSet, getPreferredStylesheetSetUnchecked,
-        setSelectedStylesheetSet, getSelectedStylesheetSet,
+        getDocumentElementUnsafe, getDocumentElementUnchecked,
+        getInputEncoding, getInputEncodingUnsafe,
+        getInputEncodingUnchecked, getXmlEncoding, getXmlEncodingUnsafe,
+        getXmlEncodingUnchecked, setXmlVersion, getXmlVersion,
+        getXmlVersionUnsafe, getXmlVersionUnchecked, setXmlStandalone,
+        getXmlStandalone, getDocumentURI, getDocumentURIUnsafe,
+        getDocumentURIUnchecked, getDefaultView, getDefaultViewUnsafe,
+        getDefaultViewUnchecked, getStyleSheets, getStyleSheetsUnsafe,
+        getStyleSheetsUnchecked, getContentType, setTitle, getTitle,
+        getTitleUnsafe, getTitleUnchecked, getReferrer, setDomain,
+        getDomain, getDomainUnsafe, getDomainUnchecked, getURL, setCookie,
+        getCookie, getCookieUnsafe, getCookieUnchecked, setBody, getBody,
+        getBodyUnsafe, getBodyUnchecked, getHead, getHeadUnsafe,
+        getHeadUnchecked, getImages, getImagesUnsafe, getImagesUnchecked,
+        getApplets, getAppletsUnsafe, getAppletsUnchecked, getLinks,
+        getLinksUnsafe, getLinksUnchecked, getForms, getFormsUnsafe,
+        getFormsUnchecked, getAnchors, getAnchorsUnsafe,
+        getAnchorsUnchecked, getLastModified, setLocation, getLocation,
+        getLocationUnsafe, getLocationUnchecked, setCharset, getCharset,
+        getCharsetUnsafe, getCharsetUnchecked, getDefaultCharset,
+        getDefaultCharsetUnsafe, getDefaultCharsetUnchecked, getReadyState,
+        getReadyStateUnsafe, getReadyStateUnchecked, getCharacterSet,
+        getCharacterSetUnsafe, getCharacterSetUnchecked,
+        getPreferredStylesheetSet, getPreferredStylesheetSetUnsafe,
+        getPreferredStylesheetSetUnchecked, setSelectedStylesheetSet,
+        getSelectedStylesheetSet, getSelectedStylesheetSetUnsafe,
         getSelectedStylesheetSetUnchecked, getActiveElement,
-        getActiveElementUnchecked, getCompatMode, getWebkitIsFullScreen,
-        getWebkitFullScreenKeyboardInputAllowed,
+        getActiveElementUnsafe, getActiveElementUnchecked, getCompatMode,
+        getWebkitIsFullScreen, getWebkitFullScreenKeyboardInputAllowed,
         getWebkitCurrentFullScreenElement,
+        getWebkitCurrentFullScreenElementUnsafe,
         getWebkitCurrentFullScreenElementUnchecked,
         getWebkitFullscreenEnabled, getWebkitFullscreenElement,
+        getWebkitFullscreenElementUnsafe,
         getWebkitFullscreenElementUnchecked, getPointerLockElement,
-        getPointerLockElementUnchecked, getFonts, getFontsUnchecked, abort,
-        blur, change, click, contextMenu, dblClick, drag, dragEnd,
-        dragEnter, dragLeave, dragOver, dragStart, drop, error, focus,
-        input, invalid, keyDown, keyPress, keyUp, load, mouseDown,
-        mouseEnter, mouseLeave, mouseMove, mouseOut, mouseOver, mouseUp,
-        mouseWheel, readyStateChange, scroll, select, submit, wheel,
-        beforeCut, cut, beforeCopy, copy, beforePaste, paste, reset,
-        search, selectStart, selectionchange, touchStart, touchMove,
-        touchEnd, touchCancel, webKitFullscreenChange,
-        webKitFullscreenError, pointerlockchange, pointerlockerror,
-        securitypolicyviolation, webKitWillRevealBottom,
+        getPointerLockElementUnsafe, getPointerLockElementUnchecked,
+        getFonts, getFontsUnsafe, getFontsUnchecked, abort, blur, change,
+        click, contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
+        dragOver, dragStart, drop, error, focus, input, invalid, keyDown,
+        keyPress, keyUp, load, mouseDown, mouseEnter, mouseLeave,
+        mouseMove, mouseOut, mouseOver, mouseUp, mouseWheel,
+        readyStateChange, scroll, select, submit, wheel, beforeCut, cut,
+        beforeCopy, copy, beforePaste, paste, reset, search, selectStart,
+        selectionchange, touchStart, touchMove, touchEnd, touchCancel,
+        webKitFullscreenChange, webKitFullscreenError, pointerlockchange,
+        pointerlockerror, securitypolicyviolation, webKitWillRevealBottom,
         webKitWillRevealLeft, webKitWillRevealRight, webKitWillRevealTop,
         getVisibilityState, getHidden, getSecurityPolicy,
-        getSecurityPolicyUnchecked, getCurrentScript,
+        getSecurityPolicyUnsafe, getSecurityPolicyUnchecked,
+        getCurrentScript, getCurrentScriptUnsafe,
         getCurrentScriptUnchecked, getOrigin, Document(..), gTypeDocument,
         IsDocument, toDocument)
        where
@@ -1685,6 +1697,15 @@ getDoctype self
   = liftDOM (((toDocument self) ^. js "doctype") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.doctype Mozilla Document.doctype documentation> 
+getDoctypeUnsafe ::
+                 (MonadDOM m, IsDocument self, HasCallStack) =>
+                   self -> m DocumentType
+getDoctypeUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "doctype") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.doctype Mozilla Document.doctype documentation> 
 getDoctypeUnchecked ::
                     (MonadDOM m, IsDocument self) => self -> m DocumentType
 getDoctypeUnchecked self
@@ -1700,6 +1721,15 @@ getImplementation self
       (((toDocument self) ^. js "implementation") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.implementation Mozilla Document.implementation documentation> 
+getImplementationUnsafe ::
+                        (MonadDOM m, IsDocument self, HasCallStack) =>
+                          self -> m DOMImplementation
+getImplementationUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "implementation") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.implementation Mozilla Document.implementation documentation> 
 getImplementationUnchecked ::
                            (MonadDOM m, IsDocument self) => self -> m DOMImplementation
 getImplementationUnchecked self
@@ -1712,6 +1742,14 @@ getDocumentElement ::
 getDocumentElement self
   = liftDOM
       (((toDocument self) ^. js "documentElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.documentElement Mozilla Document.documentElement documentation> 
+getDocumentElementUnsafe ::
+                         (MonadDOM m, IsDocument self, HasCallStack) => self -> m Element
+getDocumentElementUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "documentElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.documentElement Mozilla Document.documentElement documentation> 
 getDocumentElementUnchecked ::
@@ -1730,6 +1768,15 @@ getInputEncoding self
       (((toDocument self) ^. js "inputEncoding") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.inputEncoding Mozilla Document.inputEncoding documentation> 
+getInputEncodingUnsafe ::
+                       (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                         self -> m result
+getInputEncodingUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "inputEncoding") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.inputEncoding Mozilla Document.inputEncoding documentation> 
 getInputEncodingUnchecked ::
                           (MonadDOM m, IsDocument self, FromJSString result) =>
                             self -> m result
@@ -1744,6 +1791,15 @@ getXmlEncoding ::
 getXmlEncoding self
   = liftDOM
       (((toDocument self) ^. js "xmlEncoding") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlEncoding Mozilla Document.xmlEncoding documentation> 
+getXmlEncodingUnsafe ::
+                     (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                       self -> m result
+getXmlEncodingUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "xmlEncoding") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlEncoding Mozilla Document.xmlEncoding documentation> 
 getXmlEncodingUnchecked ::
@@ -1767,6 +1823,15 @@ getXmlVersion ::
 getXmlVersion self
   = liftDOM
       (((toDocument self) ^. js "xmlVersion") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlVersion Mozilla Document.xmlVersion documentation> 
+getXmlVersionUnsafe ::
+                    (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                      self -> m result
+getXmlVersionUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "xmlVersion") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlVersion Mozilla Document.xmlVersion documentation> 
 getXmlVersionUnchecked ::
@@ -1796,6 +1861,15 @@ getDocumentURI self
       (((toDocument self) ^. js "documentURI") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.documentURI Mozilla Document.documentURI documentation> 
+getDocumentURIUnsafe ::
+                     (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                       self -> m result
+getDocumentURIUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "documentURI") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.documentURI Mozilla Document.documentURI documentation> 
 getDocumentURIUnchecked ::
                         (MonadDOM m, IsDocument self, FromJSString result) =>
                           self -> m result
@@ -1810,6 +1884,14 @@ getDefaultView self
   = liftDOM (((toDocument self) ^. js "defaultView") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.defaultView Mozilla Document.defaultView documentation> 
+getDefaultViewUnsafe ::
+                     (MonadDOM m, IsDocument self, HasCallStack) => self -> m Window
+getDefaultViewUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "defaultView") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.defaultView Mozilla Document.defaultView documentation> 
 getDefaultViewUnchecked ::
                         (MonadDOM m, IsDocument self) => self -> m Window
 getDefaultViewUnchecked self
@@ -1821,6 +1903,15 @@ getStyleSheets ::
                (MonadDOM m, IsDocument self) => self -> m (Maybe StyleSheetList)
 getStyleSheets self
   = liftDOM (((toDocument self) ^. js "styleSheets") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.styleSheets Mozilla Document.styleSheets documentation> 
+getStyleSheetsUnsafe ::
+                     (MonadDOM m, IsDocument self, HasCallStack) =>
+                       self -> m StyleSheetList
+getStyleSheetsUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "styleSheets") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.styleSheets Mozilla Document.styleSheets documentation> 
 getStyleSheetsUnchecked ::
@@ -1850,6 +1941,15 @@ getTitle ::
            self -> m (Maybe result)
 getTitle self
   = liftDOM (((toDocument self) ^. js "title") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.title Mozilla Document.title documentation> 
+getTitleUnsafe ::
+               (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                 self -> m result
+getTitleUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "title") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.title Mozilla Document.title documentation> 
 getTitleUnchecked ::
@@ -1883,6 +1983,15 @@ getDomain self
       (((toDocument self) ^. js "domain") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.domain Mozilla Document.domain documentation> 
+getDomainUnsafe ::
+                (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                  self -> m result
+getDomainUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "domain") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.domain Mozilla Document.domain documentation> 
 getDomainUnchecked ::
                    (MonadDOM m, IsDocument self, FromJSString result) =>
                      self -> m result
@@ -1913,6 +2022,15 @@ getCookie self
       (((toDocument self) ^. js "cookie") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.cookie Mozilla Document.cookie documentation> 
+getCookieUnsafe ::
+                (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                  self -> m result
+getCookieUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "cookie") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.cookie Mozilla Document.cookie documentation> 
 getCookieUnchecked ::
                    (MonadDOM m, IsDocument self, FromJSString result) =>
                      self -> m result
@@ -1934,6 +2052,15 @@ getBody self
   = liftDOM (((toDocument self) ^. js "body") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.body Mozilla Document.body documentation> 
+getBodyUnsafe ::
+              (MonadDOM m, IsDocument self, HasCallStack) =>
+                self -> m HTMLElement
+getBodyUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "body") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.body Mozilla Document.body documentation> 
 getBodyUnchecked ::
                  (MonadDOM m, IsDocument self) => self -> m HTMLElement
 getBodyUnchecked self
@@ -1946,6 +2073,15 @@ getHead self
   = liftDOM (((toDocument self) ^. js "head") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.head Mozilla Document.head documentation> 
+getHeadUnsafe ::
+              (MonadDOM m, IsDocument self, HasCallStack) =>
+                self -> m HTMLHeadElement
+getHeadUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "head") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.head Mozilla Document.head documentation> 
 getHeadUnchecked ::
                  (MonadDOM m, IsDocument self) => self -> m HTMLHeadElement
 getHeadUnchecked self
@@ -1956,6 +2092,15 @@ getImages ::
           (MonadDOM m, IsDocument self) => self -> m (Maybe HTMLCollection)
 getImages self
   = liftDOM (((toDocument self) ^. js "images") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.images Mozilla Document.images documentation> 
+getImagesUnsafe ::
+                (MonadDOM m, IsDocument self, HasCallStack) =>
+                  self -> m HTMLCollection
+getImagesUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "images") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.images Mozilla Document.images documentation> 
 getImagesUnchecked ::
@@ -1971,6 +2116,15 @@ getApplets self
   = liftDOM (((toDocument self) ^. js "applets") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.applets Mozilla Document.applets documentation> 
+getAppletsUnsafe ::
+                 (MonadDOM m, IsDocument self, HasCallStack) =>
+                   self -> m HTMLCollection
+getAppletsUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "applets") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.applets Mozilla Document.applets documentation> 
 getAppletsUnchecked ::
                     (MonadDOM m, IsDocument self) => self -> m HTMLCollection
 getAppletsUnchecked self
@@ -1982,6 +2136,15 @@ getLinks ::
          (MonadDOM m, IsDocument self) => self -> m (Maybe HTMLCollection)
 getLinks self
   = liftDOM (((toDocument self) ^. js "links") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.links Mozilla Document.links documentation> 
+getLinksUnsafe ::
+               (MonadDOM m, IsDocument self, HasCallStack) =>
+                 self -> m HTMLCollection
+getLinksUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "links") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.links Mozilla Document.links documentation> 
 getLinksUnchecked ::
@@ -1997,6 +2160,15 @@ getForms self
   = liftDOM (((toDocument self) ^. js "forms") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.forms Mozilla Document.forms documentation> 
+getFormsUnsafe ::
+               (MonadDOM m, IsDocument self, HasCallStack) =>
+                 self -> m HTMLCollection
+getFormsUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "forms") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.forms Mozilla Document.forms documentation> 
 getFormsUnchecked ::
                   (MonadDOM m, IsDocument self) => self -> m HTMLCollection
 getFormsUnchecked self
@@ -2008,6 +2180,15 @@ getAnchors ::
            (MonadDOM m, IsDocument self) => self -> m (Maybe HTMLCollection)
 getAnchors self
   = liftDOM (((toDocument self) ^. js "anchors") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.anchors Mozilla Document.anchors documentation> 
+getAnchorsUnsafe ::
+                 (MonadDOM m, IsDocument self, HasCallStack) =>
+                   self -> m HTMLCollection
+getAnchorsUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "anchors") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.anchors Mozilla Document.anchors documentation> 
 getAnchorsUnchecked ::
@@ -2037,6 +2218,14 @@ getLocation self
   = liftDOM (((toDocument self) ^. js "location") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.location Mozilla Document.location documentation> 
+getLocationUnsafe ::
+                  (MonadDOM m, IsDocument self, HasCallStack) => self -> m Location
+getLocationUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "location") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.location Mozilla Document.location documentation> 
 getLocationUnchecked ::
                      (MonadDOM m, IsDocument self) => self -> m Location
 getLocationUnchecked self
@@ -2059,6 +2248,15 @@ getCharset self
       (((toDocument self) ^. js "charset") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.charset Mozilla Document.charset documentation> 
+getCharsetUnsafe ::
+                 (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                   self -> m result
+getCharsetUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "charset") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.charset Mozilla Document.charset documentation> 
 getCharsetUnchecked ::
                     (MonadDOM m, IsDocument self, FromJSString result) =>
                       self -> m result
@@ -2073,6 +2271,15 @@ getDefaultCharset ::
 getDefaultCharset self
   = liftDOM
       (((toDocument self) ^. js "defaultCharset") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.defaultCharset Mozilla Document.defaultCharset documentation> 
+getDefaultCharsetUnsafe ::
+                        (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                          self -> m result
+getDefaultCharsetUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "defaultCharset") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.defaultCharset Mozilla Document.defaultCharset documentation> 
 getDefaultCharsetUnchecked ::
@@ -2091,6 +2298,15 @@ getReadyState self
       (((toDocument self) ^. js "readyState") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.readyState Mozilla Document.readyState documentation> 
+getReadyStateUnsafe ::
+                    (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                      self -> m result
+getReadyStateUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "readyState") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.readyState Mozilla Document.readyState documentation> 
 getReadyStateUnchecked ::
                        (MonadDOM m, IsDocument self, FromJSString result) =>
                          self -> m result
@@ -2105,6 +2321,15 @@ getCharacterSet ::
 getCharacterSet self
   = liftDOM
       (((toDocument self) ^. js "characterSet") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.characterSet Mozilla Document.characterSet documentation> 
+getCharacterSetUnsafe ::
+                      (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                        self -> m result
+getCharacterSetUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "characterSet") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.characterSet Mozilla Document.characterSet documentation> 
 getCharacterSetUnchecked ::
@@ -2122,6 +2347,16 @@ getPreferredStylesheetSet self
   = liftDOM
       (((toDocument self) ^. js "preferredStylesheetSet") >>=
          fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.preferredStylesheetSet Mozilla Document.preferredStylesheetSet documentation> 
+getPreferredStylesheetSetUnsafe ::
+                                (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                                  self -> m result
+getPreferredStylesheetSetUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "preferredStylesheetSet") >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.preferredStylesheetSet Mozilla Document.preferredStylesheetSet documentation> 
 getPreferredStylesheetSetUnchecked ::
@@ -2150,6 +2385,16 @@ getSelectedStylesheetSet self
          fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.selectedStylesheetSet Mozilla Document.selectedStylesheetSet documentation> 
+getSelectedStylesheetSetUnsafe ::
+                               (MonadDOM m, IsDocument self, HasCallStack, FromJSString result) =>
+                                 self -> m result
+getSelectedStylesheetSetUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "selectedStylesheetSet") >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.selectedStylesheetSet Mozilla Document.selectedStylesheetSet documentation> 
 getSelectedStylesheetSetUnchecked ::
                                   (MonadDOM m, IsDocument self, FromJSString result) =>
                                     self -> m result
@@ -2163,6 +2408,14 @@ getActiveElement ::
                  (MonadDOM m, IsDocument self) => self -> m (Maybe Element)
 getActiveElement self
   = liftDOM (((toDocument self) ^. js "activeElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.activeElement Mozilla Document.activeElement documentation> 
+getActiveElementUnsafe ::
+                       (MonadDOM m, IsDocument self, HasCallStack) => self -> m Element
+getActiveElementUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "activeElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.activeElement Mozilla Document.activeElement documentation> 
 getActiveElementUnchecked ::
@@ -2203,6 +2456,16 @@ getWebkitCurrentFullScreenElement self
          fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitCurrentFullScreenElement Mozilla Document.webkitCurrentFullScreenElement documentation> 
+getWebkitCurrentFullScreenElementUnsafe ::
+                                        (MonadDOM m, IsDocument self, HasCallStack) =>
+                                          self -> m Element
+getWebkitCurrentFullScreenElementUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "webkitCurrentFullScreenElement") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitCurrentFullScreenElement Mozilla Document.webkitCurrentFullScreenElement documentation> 
 getWebkitCurrentFullScreenElementUnchecked ::
                                            (MonadDOM m, IsDocument self) => self -> m Element
 getWebkitCurrentFullScreenElementUnchecked self
@@ -2225,6 +2488,15 @@ getWebkitFullscreenElement self
       (((toDocument self) ^. js "webkitFullscreenElement") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitFullscreenElement Mozilla Document.webkitFullscreenElement documentation> 
+getWebkitFullscreenElementUnsafe ::
+                                 (MonadDOM m, IsDocument self, HasCallStack) => self -> m Element
+getWebkitFullscreenElementUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "webkitFullscreenElement") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.webkitFullscreenElement Mozilla Document.webkitFullscreenElement documentation> 
 getWebkitFullscreenElementUnchecked ::
                                     (MonadDOM m, IsDocument self) => self -> m Element
 getWebkitFullscreenElementUnchecked self
@@ -2240,6 +2512,14 @@ getPointerLockElement self
       (((toDocument self) ^. js "pointerLockElement") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.pointerLockElement Mozilla Document.pointerLockElement documentation> 
+getPointerLockElementUnsafe ::
+                            (MonadDOM m, IsDocument self, HasCallStack) => self -> m Element
+getPointerLockElementUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "pointerLockElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.pointerLockElement Mozilla Document.pointerLockElement documentation> 
 getPointerLockElementUnchecked ::
                                (MonadDOM m, IsDocument self) => self -> m Element
 getPointerLockElementUnchecked self
@@ -2252,6 +2532,14 @@ getFonts ::
          (MonadDOM m, IsDocument self) => self -> m (Maybe FontLoader)
 getFonts self
   = liftDOM (((toDocument self) ^. js "fonts") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.fonts Mozilla Document.fonts documentation> 
+getFontsUnsafe ::
+               (MonadDOM m, IsDocument self, HasCallStack) => self -> m FontLoader
+getFontsUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "fonts") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.fonts Mozilla Document.fonts documentation> 
 getFontsUnchecked ::
@@ -2580,6 +2868,15 @@ getSecurityPolicy self
       (((toDocument self) ^. js "securityPolicy") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.securityPolicy Mozilla Document.securityPolicy documentation> 
+getSecurityPolicyUnsafe ::
+                        (MonadDOM m, IsDocument self, HasCallStack) =>
+                          self -> m SecurityPolicy
+getSecurityPolicyUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "securityPolicy") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.securityPolicy Mozilla Document.securityPolicy documentation> 
 getSecurityPolicyUnchecked ::
                            (MonadDOM m, IsDocument self) => self -> m SecurityPolicy
 getSecurityPolicyUnchecked self
@@ -2592,6 +2889,15 @@ getCurrentScript ::
                    self -> m (Maybe HTMLScriptElement)
 getCurrentScript self
   = liftDOM (((toDocument self) ^. js "currentScript") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.currentScript Mozilla Document.currentScript documentation> 
+getCurrentScriptUnsafe ::
+                       (MonadDOM m, IsDocument self, HasCallStack) =>
+                         self -> m HTMLScriptElement
+getCurrentScriptUnsafe self
+  = liftDOM
+      ((((toDocument self) ^. js "currentScript") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.currentScript Mozilla Document.currentScript documentation> 
 getCurrentScriptUnchecked ::

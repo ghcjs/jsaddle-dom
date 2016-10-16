@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGPolygonElement
-       (getPoints, getPointsUnchecked, getAnimatedPoints,
-        getAnimatedPointsUnchecked, SVGPolygonElement(..),
-        gTypeSVGPolygonElement)
+       (getPoints, getPointsUnsafe, getPointsUnchecked, getAnimatedPoints,
+        getAnimatedPointsUnsafe, getAnimatedPointsUnchecked,
+        SVGPolygonElement(..), gTypeSVGPolygonElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -37,6 +37,14 @@ getPoints ::
 getPoints self = liftDOM ((self ^. js "points") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolygonElement.points Mozilla SVGPolygonElement.points documentation> 
+getPointsUnsafe ::
+                (MonadDOM m, HasCallStack) => SVGPolygonElement -> m SVGPointList
+getPointsUnsafe self
+  = liftDOM
+      (((self ^. js "points") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolygonElement.points Mozilla SVGPolygonElement.points documentation> 
 getPointsUnchecked ::
                    (MonadDOM m) => SVGPolygonElement -> m SVGPointList
 getPointsUnchecked self
@@ -47,6 +55,14 @@ getAnimatedPoints ::
                   (MonadDOM m) => SVGPolygonElement -> m (Maybe SVGPointList)
 getAnimatedPoints self
   = liftDOM ((self ^. js "animatedPoints") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolygonElement.animatedPoints Mozilla SVGPolygonElement.animatedPoints documentation> 
+getAnimatedPointsUnsafe ::
+                        (MonadDOM m, HasCallStack) => SVGPolygonElement -> m SVGPointList
+getAnimatedPointsUnsafe self
+  = liftDOM
+      (((self ^. js "animatedPoints") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPolygonElement.animatedPoints Mozilla SVGPolygonElement.animatedPoints documentation> 
 getAnimatedPointsUnchecked ::

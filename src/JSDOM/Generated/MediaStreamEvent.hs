@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamEvent
-       (getStream, getStreamUnchecked, MediaStreamEvent(..),
-        gTypeMediaStreamEvent)
+       (getStream, getStreamUnsafe, getStreamUnchecked,
+        MediaStreamEvent(..), gTypeMediaStreamEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +34,14 @@ type HasCallStack = (() :: Constraint)
 getStream ::
           (MonadDOM m) => MediaStreamEvent -> m (Maybe MediaStream)
 getStream self = liftDOM ((self ^. js "stream") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamEvent.stream Mozilla MediaStreamEvent.stream documentation> 
+getStreamUnsafe ::
+                (MonadDOM m, HasCallStack) => MediaStreamEvent -> m MediaStream
+getStreamUnsafe self
+  = liftDOM
+      (((self ^. js "stream") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamEvent.stream Mozilla MediaStreamEvent.stream documentation> 
 getStreamUnchecked ::

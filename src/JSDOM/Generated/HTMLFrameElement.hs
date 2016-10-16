@@ -9,10 +9,11 @@ module JSDOM.Generated.HTMLFrameElement
         setLongDesc, getLongDesc, setMarginHeight, getMarginHeight,
         setMarginWidth, getMarginWidth, setName, getName, setNoResize,
         getNoResize, setScrolling, getScrolling, setSrc, getSrc,
-        getContentDocument, getContentDocumentUnchecked, getContentWindow,
-        getContentWindowUnchecked, setLocation, getLocation,
-        getLocationUnchecked, getWidth, getHeight, HTMLFrameElement(..),
-        gTypeHTMLFrameElement)
+        getContentDocument, getContentDocumentUnsafe,
+        getContentDocumentUnchecked, getContentWindow,
+        getContentWindowUnsafe, getContentWindowUnchecked, setLocation,
+        getLocation, getLocationUnsafe, getLocationUnchecked, getWidth,
+        getHeight, HTMLFrameElement(..), gTypeHTMLFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -159,6 +160,14 @@ getContentDocument self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentDocument Mozilla HTMLFrameElement.contentDocument documentation> 
+getContentDocumentUnsafe ::
+                         (MonadDOM m, HasCallStack) => HTMLFrameElement -> m Document
+getContentDocumentUnsafe self
+  = liftDOM
+      (((self ^. js "contentDocument") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentDocument Mozilla HTMLFrameElement.contentDocument documentation> 
 getContentDocumentUnchecked ::
                             (MonadDOM m) => HTMLFrameElement -> m Document
 getContentDocumentUnchecked self
@@ -169,6 +178,14 @@ getContentWindow ::
                  (MonadDOM m) => HTMLFrameElement -> m (Maybe Window)
 getContentWindow self
   = liftDOM ((self ^. js "contentWindow") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
+getContentWindowUnsafe ::
+                       (MonadDOM m, HasCallStack) => HTMLFrameElement -> m Window
+getContentWindowUnsafe self
+  = liftDOM
+      (((self ^. js "contentWindow") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
 getContentWindowUnchecked ::
@@ -189,6 +206,15 @@ getLocation ::
               HTMLFrameElement -> m (Maybe result)
 getLocation self
   = liftDOM ((self ^. js "location") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
+getLocationUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    HTMLFrameElement -> m result
+getLocationUnsafe self
+  = liftDOM
+      (((self ^. js "location") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
 getLocationUnchecked ::

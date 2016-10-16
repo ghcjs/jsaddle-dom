@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBaseElement
-       (setHref, getHref, getHrefUnchecked, setTarget, getTarget,
-        HTMLBaseElement(..), gTypeHTMLBaseElement)
+       (setHref, getHref, getHrefUnsafe, getHrefUnchecked, setTarget,
+        getTarget, HTMLBaseElement(..), gTypeHTMLBaseElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -41,6 +41,15 @@ getHref ::
         (MonadDOM m, FromJSString result) =>
           HTMLBaseElement -> m (Maybe result)
 getHref self = liftDOM ((self ^. js "href") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
+getHrefUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                HTMLBaseElement -> m result
+getHrefUnsafe self
+  = liftDOM
+      (((self ^. js "href") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
 getHrefUnchecked ::

@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGScriptElement
-       (setType, getType, getTypeUnchecked, SVGScriptElement(..),
-        gTypeSVGScriptElement)
+       (setType, getType, getTypeUnsafe, getTypeUnchecked,
+        SVGScriptElement(..), gTypeSVGScriptElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -41,6 +41,15 @@ getType ::
         (MonadDOM m, FromJSString result) =>
           SVGScriptElement -> m (Maybe result)
 getType self = liftDOM ((self ^. js "type") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGScriptElement.type Mozilla SVGScriptElement.type documentation> 
+getTypeUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                SVGScriptElement -> m result
+getTypeUnsafe self
+  = liftDOM
+      (((self ^. js "type") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGScriptElement.type Mozilla SVGScriptElement.type documentation> 
 getTypeUnchecked ::

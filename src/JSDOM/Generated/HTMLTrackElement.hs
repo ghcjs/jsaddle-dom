@@ -7,7 +7,8 @@ module JSDOM.Generated.HTMLTrackElement
        (pattern NONE, pattern LOADING, pattern LOADED, pattern ERROR,
         setKind, getKind, setSrc, getSrc, setSrclang, getSrclang, setLabel,
         getLabel, setDefault, getDefault, getReadyState, getTrack,
-        getTrackUnchecked, HTMLTrackElement(..), gTypeHTMLTrackElement)
+        getTrackUnsafe, getTrackUnchecked, HTMLTrackElement(..),
+        gTypeHTMLTrackElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -94,6 +95,14 @@ getReadyState self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement.track Mozilla HTMLTrackElement.track documentation> 
 getTrack :: (MonadDOM m) => HTMLTrackElement -> m (Maybe TextTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement.track Mozilla HTMLTrackElement.track documentation> 
+getTrackUnsafe ::
+               (MonadDOM m, HasCallStack) => HTMLTrackElement -> m TextTrack
+getTrackUnsafe self
+  = liftDOM
+      (((self ^. js "track") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement.track Mozilla HTMLTrackElement.track documentation> 
 getTrackUnchecked ::

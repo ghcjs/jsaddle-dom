@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTemplateElement
-       (getContent, getContentUnchecked, HTMLTemplateElement(..),
-        gTypeHTMLTemplateElement)
+       (getContent, getContentUnsafe, getContentUnchecked,
+        HTMLTemplateElement(..), gTypeHTMLTemplateElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +34,15 @@ type HasCallStack = (() :: Constraint)
 getContent ::
            (MonadDOM m) => HTMLTemplateElement -> m (Maybe DocumentFragment)
 getContent self = liftDOM ((self ^. js "content") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTemplateElement.content Mozilla HTMLTemplateElement.content documentation> 
+getContentUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   HTMLTemplateElement -> m DocumentFragment
+getContentUnsafe self
+  = liftDOM
+      (((self ^. js "content") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTemplateElement.content Mozilla HTMLTemplateElement.content documentation> 
 getContentUnchecked ::

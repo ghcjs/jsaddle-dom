@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEOffsetElement
-       (getIn1, getIn1Unchecked, getDx, getDxUnchecked, getDy,
-        getDyUnchecked, SVGFEOffsetElement(..), gTypeSVGFEOffsetElement)
+       (getIn1, getIn1Unsafe, getIn1Unchecked, getDx, getDxUnsafe,
+        getDxUnchecked, getDy, getDyUnsafe, getDyUnchecked,
+        SVGFEOffsetElement(..), gTypeSVGFEOffsetElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +37,15 @@ getIn1 ::
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement.in1 Mozilla SVGFEOffsetElement.in1 documentation> 
+getIn1Unsafe ::
+             (MonadDOM m, HasCallStack) =>
+               SVGFEOffsetElement -> m SVGAnimatedString
+getIn1Unsafe self
+  = liftDOM
+      (((self ^. js "in1") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement.in1 Mozilla SVGFEOffsetElement.in1 documentation> 
 getIn1Unchecked ::
                 (MonadDOM m) => SVGFEOffsetElement -> m SVGAnimatedString
 getIn1Unchecked self
@@ -47,6 +57,15 @@ getDx ::
 getDx self = liftDOM ((self ^. js "dx") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement.dx Mozilla SVGFEOffsetElement.dx documentation> 
+getDxUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGFEOffsetElement -> m SVGAnimatedNumber
+getDxUnsafe self
+  = liftDOM
+      (((self ^. js "dx") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement.dx Mozilla SVGFEOffsetElement.dx documentation> 
 getDxUnchecked ::
                (MonadDOM m) => SVGFEOffsetElement -> m SVGAnimatedNumber
 getDxUnchecked self
@@ -56,6 +75,15 @@ getDxUnchecked self
 getDy ::
       (MonadDOM m) => SVGFEOffsetElement -> m (Maybe SVGAnimatedNumber)
 getDy self = liftDOM ((self ^. js "dy") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement.dy Mozilla SVGFEOffsetElement.dy documentation> 
+getDyUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGFEOffsetElement -> m SVGAnimatedNumber
+getDyUnsafe self
+  = liftDOM
+      (((self ^. js "dy") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement.dy Mozilla SVGFEOffsetElement.dy documentation> 
 getDyUnchecked ::

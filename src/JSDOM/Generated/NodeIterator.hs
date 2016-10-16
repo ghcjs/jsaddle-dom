@@ -6,11 +6,11 @@
 module JSDOM.Generated.NodeIterator
        (nextNode, nextNode_, nextNodeUnsafe, nextNodeUnchecked,
         previousNode, previousNode_, previousNodeUnsafe,
-        previousNodeUnchecked, detach, getRoot, getRootUnchecked,
-        getWhatToShow, getFilter, getFilterUnchecked,
-        getExpandEntityReferences, getReferenceNode,
-        getReferenceNodeUnchecked, getPointerBeforeReferenceNode,
-        NodeIterator(..), gTypeNodeIterator)
+        previousNodeUnchecked, detach, getRoot, getRootUnsafe,
+        getRootUnchecked, getWhatToShow, getFilter, getFilterUnsafe,
+        getFilterUnchecked, getExpandEntityReferences, getReferenceNode,
+        getReferenceNodeUnsafe, getReferenceNodeUnchecked,
+        getPointerBeforeReferenceNode, NodeIterator(..), gTypeNodeIterator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -87,6 +87,14 @@ getRoot :: (MonadDOM m) => NodeIterator -> m (Maybe Node)
 getRoot self = liftDOM ((self ^. js "root") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.root Mozilla NodeIterator.root documentation> 
+getRootUnsafe ::
+              (MonadDOM m, HasCallStack) => NodeIterator -> m Node
+getRootUnsafe self
+  = liftDOM
+      (((self ^. js "root") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.root Mozilla NodeIterator.root documentation> 
 getRootUnchecked :: (MonadDOM m) => NodeIterator -> m Node
 getRootUnchecked self
   = liftDOM ((self ^. js "root") >>= fromJSValUnchecked)
@@ -99,6 +107,14 @@ getWhatToShow self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.filter Mozilla NodeIterator.filter documentation> 
 getFilter :: (MonadDOM m) => NodeIterator -> m (Maybe NodeFilter)
 getFilter self = liftDOM ((self ^. js "filter") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.filter Mozilla NodeIterator.filter documentation> 
+getFilterUnsafe ::
+                (MonadDOM m, HasCallStack) => NodeIterator -> m NodeFilter
+getFilterUnsafe self
+  = liftDOM
+      (((self ^. js "filter") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.filter Mozilla NodeIterator.filter documentation> 
 getFilterUnchecked :: (MonadDOM m) => NodeIterator -> m NodeFilter
@@ -114,6 +130,14 @@ getExpandEntityReferences self
 getReferenceNode :: (MonadDOM m) => NodeIterator -> m (Maybe Node)
 getReferenceNode self
   = liftDOM ((self ^. js "referenceNode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.referenceNode Mozilla NodeIterator.referenceNode documentation> 
+getReferenceNodeUnsafe ::
+                       (MonadDOM m, HasCallStack) => NodeIterator -> m Node
+getReferenceNodeUnsafe self
+  = liftDOM
+      (((self ^. js "referenceNode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator.referenceNode Mozilla NodeIterator.referenceNode documentation> 
 getReferenceNodeUnchecked :: (MonadDOM m) => NodeIterator -> m Node

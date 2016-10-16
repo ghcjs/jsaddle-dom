@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FocusEvent
-       (getRelatedTarget, getRelatedTargetUnchecked, FocusEvent(..),
-        gTypeFocusEvent)
+       (getRelatedTarget, getRelatedTargetUnsafe,
+        getRelatedTargetUnchecked, FocusEvent(..), gTypeFocusEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -35,6 +35,14 @@ getRelatedTarget ::
                  (MonadDOM m) => FocusEvent -> m (Maybe EventTarget)
 getRelatedTarget self
   = liftDOM ((self ^. js "relatedTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent.relatedTarget Mozilla FocusEvent.relatedTarget documentation> 
+getRelatedTargetUnsafe ::
+                       (MonadDOM m, HasCallStack) => FocusEvent -> m EventTarget
+getRelatedTargetUnsafe self
+  = liftDOM
+      (((self ^. js "relatedTarget") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent.relatedTarget Mozilla FocusEvent.relatedTarget documentation> 
 getRelatedTargetUnchecked ::

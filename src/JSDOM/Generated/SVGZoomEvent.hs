@@ -4,10 +4,11 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGZoomEvent
-       (getZoomRectScreen, getZoomRectScreenUnchecked, getPreviousScale,
-        getPreviousTranslate, getPreviousTranslateUnchecked, getNewScale,
-        getNewTranslate, getNewTranslateUnchecked, SVGZoomEvent(..),
-        gTypeSVGZoomEvent)
+       (getZoomRectScreen, getZoomRectScreenUnsafe,
+        getZoomRectScreenUnchecked, getPreviousScale, getPreviousTranslate,
+        getPreviousTranslateUnsafe, getPreviousTranslateUnchecked,
+        getNewScale, getNewTranslate, getNewTranslateUnsafe,
+        getNewTranslateUnchecked, SVGZoomEvent(..), gTypeSVGZoomEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -39,6 +40,14 @@ getZoomRectScreen self
   = liftDOM ((self ^. js "zoomRectScreen") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGZoomEvent.zoomRectScreen Mozilla SVGZoomEvent.zoomRectScreen documentation> 
+getZoomRectScreenUnsafe ::
+                        (MonadDOM m, HasCallStack) => SVGZoomEvent -> m SVGRect
+getZoomRectScreenUnsafe self
+  = liftDOM
+      (((self ^. js "zoomRectScreen") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGZoomEvent.zoomRectScreen Mozilla SVGZoomEvent.zoomRectScreen documentation> 
 getZoomRectScreenUnchecked ::
                            (MonadDOM m) => SVGZoomEvent -> m SVGRect
 getZoomRectScreenUnchecked self
@@ -57,6 +66,14 @@ getPreviousTranslate self
   = liftDOM ((self ^. js "previousTranslate") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGZoomEvent.previousTranslate Mozilla SVGZoomEvent.previousTranslate documentation> 
+getPreviousTranslateUnsafe ::
+                           (MonadDOM m, HasCallStack) => SVGZoomEvent -> m SVGPoint
+getPreviousTranslateUnsafe self
+  = liftDOM
+      (((self ^. js "previousTranslate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGZoomEvent.previousTranslate Mozilla SVGZoomEvent.previousTranslate documentation> 
 getPreviousTranslateUnchecked ::
                               (MonadDOM m) => SVGZoomEvent -> m SVGPoint
 getPreviousTranslateUnchecked self
@@ -73,6 +90,14 @@ getNewTranslate ::
                 (MonadDOM m) => SVGZoomEvent -> m (Maybe SVGPoint)
 getNewTranslate self
   = liftDOM ((self ^. js "newTranslate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGZoomEvent.newTranslate Mozilla SVGZoomEvent.newTranslate documentation> 
+getNewTranslateUnsafe ::
+                      (MonadDOM m, HasCallStack) => SVGZoomEvent -> m SVGPoint
+getNewTranslateUnsafe self
+  = liftDOM
+      (((self ^. js "newTranslate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGZoomEvent.newTranslate Mozilla SVGZoomEvent.newTranslate documentation> 
 getNewTranslateUnchecked ::

@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamTrackEvent
-       (getTrack, getTrackUnchecked, MediaStreamTrackEvent(..),
-        gTypeMediaStreamTrackEvent)
+       (getTrack, getTrackUnsafe, getTrackUnchecked,
+        MediaStreamTrackEvent(..), gTypeMediaStreamTrackEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +34,15 @@ type HasCallStack = (() :: Constraint)
 getTrack ::
          (MonadDOM m) => MediaStreamTrackEvent -> m (Maybe MediaStreamTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrackEvent.track Mozilla MediaStreamTrackEvent.track documentation> 
+getTrackUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 MediaStreamTrackEvent -> m MediaStreamTrack
+getTrackUnsafe self
+  = liftDOM
+      (((self ^. js "track") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrackEvent.track Mozilla MediaStreamTrackEvent.track documentation> 
 getTrackUnchecked ::

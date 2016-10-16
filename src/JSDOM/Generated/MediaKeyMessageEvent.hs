@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyMessageEvent
-       (getMessage, getMessageUnchecked, getDestinationURL,
-        MediaKeyMessageEvent(..), gTypeMediaKeyMessageEvent)
+       (getMessage, getMessageUnsafe, getMessageUnchecked,
+        getDestinationURL, MediaKeyMessageEvent(..),
+        gTypeMediaKeyMessageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +35,14 @@ type HasCallStack = (() :: Constraint)
 getMessage ::
            (MonadDOM m) => MediaKeyMessageEvent -> m (Maybe Uint8Array)
 getMessage self = liftDOM ((self ^. js "message") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeyMessageEvent.message Mozilla WebKitMediaKeyMessageEvent.message documentation> 
+getMessageUnsafe ::
+                 (MonadDOM m, HasCallStack) => MediaKeyMessageEvent -> m Uint8Array
+getMessageUnsafe self
+  = liftDOM
+      (((self ^. js "message") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeyMessageEvent.message Mozilla WebKitMediaKeyMessageEvent.message documentation> 
 getMessageUnchecked ::

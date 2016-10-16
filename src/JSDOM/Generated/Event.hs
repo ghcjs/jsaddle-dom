@@ -11,12 +11,14 @@ module JSDOM.Generated.Event
         pattern MOUSEMOVE, pattern MOUSEDRAG, pattern CLICK,
         pattern DBLCLICK, pattern KEYDOWN, pattern KEYUP, pattern KEYPRESS,
         pattern DRAGDROP, pattern FOCUS, pattern BLUR, pattern SELECT,
-        pattern CHANGE, getType, getTarget, getTargetUnchecked,
-        getCurrentTarget, getCurrentTargetUnchecked, getEventPhase,
-        getBubbles, getCancelable, getTimeStamp, getDefaultPrevented,
-        getSrcElement, getSrcElementUnchecked, setReturnValue,
+        pattern CHANGE, getType, getTarget, getTargetUnsafe,
+        getTargetUnchecked, getCurrentTarget, getCurrentTargetUnsafe,
+        getCurrentTargetUnchecked, getEventPhase, getBubbles,
+        getCancelable, getTimeStamp, getDefaultPrevented, getSrcElement,
+        getSrcElementUnsafe, getSrcElementUnchecked, setReturnValue,
         getReturnValue, setCancelBubble, getCancelBubble, getClipboardData,
-        getClipboardDataUnchecked, Event(..), gTypeEvent, IsEvent, toEvent)
+        getClipboardDataUnsafe, getClipboardDataUnchecked, Event(..),
+        gTypeEvent, IsEvent, toEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -101,6 +103,14 @@ getTarget self
   = liftDOM (((toEvent self) ^. js "target") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.target Mozilla Event.target documentation> 
+getTargetUnsafe ::
+                (MonadDOM m, IsEvent self, HasCallStack) => self -> m EventTarget
+getTargetUnsafe self
+  = liftDOM
+      ((((toEvent self) ^. js "target") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.target Mozilla Event.target documentation> 
 getTargetUnchecked ::
                    (MonadDOM m, IsEvent self) => self -> m EventTarget
 getTargetUnchecked self
@@ -111,6 +121,14 @@ getCurrentTarget ::
                  (MonadDOM m, IsEvent self) => self -> m (Maybe EventTarget)
 getCurrentTarget self
   = liftDOM (((toEvent self) ^. js "currentTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
+getCurrentTargetUnsafe ::
+                       (MonadDOM m, IsEvent self, HasCallStack) => self -> m EventTarget
+getCurrentTargetUnsafe self
+  = liftDOM
+      ((((toEvent self) ^. js "currentTarget") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
 getCurrentTargetUnchecked ::
@@ -153,6 +171,14 @@ getSrcElement self
   = liftDOM (((toEvent self) ^. js "srcElement") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.srcElement Mozilla Event.srcElement documentation> 
+getSrcElementUnsafe ::
+                    (MonadDOM m, IsEvent self, HasCallStack) => self -> m EventTarget
+getSrcElementUnsafe self
+  = liftDOM
+      ((((toEvent self) ^. js "srcElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.srcElement Mozilla Event.srcElement documentation> 
 getSrcElementUnchecked ::
                        (MonadDOM m, IsEvent self) => self -> m EventTarget
 getSrcElementUnchecked self
@@ -186,6 +212,14 @@ getClipboardData ::
                  (MonadDOM m, IsEvent self) => self -> m (Maybe DataTransfer)
 getClipboardData self
   = liftDOM (((toEvent self) ^. js "clipboardData") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.clipboardData Mozilla Event.clipboardData documentation> 
+getClipboardDataUnsafe ::
+                       (MonadDOM m, IsEvent self, HasCallStack) => self -> m DataTransfer
+getClipboardDataUnsafe self
+  = liftDOM
+      ((((toEvent self) ^. js "clipboardData") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.clipboardData Mozilla Event.clipboardData documentation> 
 getClipboardDataUnchecked ::

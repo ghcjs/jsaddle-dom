@@ -4,10 +4,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Coordinates
-       (getLatitude, getLongitude, getAltitude, getAltitudeUnchecked,
-        getAccuracy, getAltitudeAccuracy, getAltitudeAccuracyUnchecked,
-        getHeading, getHeadingUnchecked, getSpeed, getSpeedUnchecked,
-        Coordinates(..), gTypeCoordinates)
+       (getLatitude, getLongitude, getAltitude, getAltitudeUnsafe,
+        getAltitudeUnchecked, getAccuracy, getAltitudeAccuracy,
+        getAltitudeAccuracyUnsafe, getAltitudeAccuracyUnchecked,
+        getHeading, getHeadingUnsafe, getHeadingUnchecked, getSpeed,
+        getSpeedUnsafe, getSpeedUnchecked, Coordinates(..),
+        gTypeCoordinates)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -47,6 +49,14 @@ getAltitude :: (MonadDOM m) => Coordinates -> m (Maybe Double)
 getAltitude self = liftDOM ((self ^. js "altitude") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.altitude Mozilla Coordinates.altitude documentation> 
+getAltitudeUnsafe ::
+                  (MonadDOM m, HasCallStack) => Coordinates -> m Double
+getAltitudeUnsafe self
+  = liftDOM
+      (((self ^. js "altitude") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.altitude Mozilla Coordinates.altitude documentation> 
 getAltitudeUnchecked :: (MonadDOM m) => Coordinates -> m Double
 getAltitudeUnchecked self
   = liftDOM ((self ^. js "altitude") >>= fromJSValUnchecked)
@@ -63,6 +73,14 @@ getAltitudeAccuracy self
   = liftDOM ((self ^. js "altitudeAccuracy") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.altitudeAccuracy Mozilla Coordinates.altitudeAccuracy documentation> 
+getAltitudeAccuracyUnsafe ::
+                          (MonadDOM m, HasCallStack) => Coordinates -> m Double
+getAltitudeAccuracyUnsafe self
+  = liftDOM
+      (((self ^. js "altitudeAccuracy") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.altitudeAccuracy Mozilla Coordinates.altitudeAccuracy documentation> 
 getAltitudeAccuracyUnchecked ::
                              (MonadDOM m) => Coordinates -> m Double
 getAltitudeAccuracyUnchecked self
@@ -73,6 +91,14 @@ getHeading :: (MonadDOM m) => Coordinates -> m (Maybe Double)
 getHeading self = liftDOM ((self ^. js "heading") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.heading Mozilla Coordinates.heading documentation> 
+getHeadingUnsafe ::
+                 (MonadDOM m, HasCallStack) => Coordinates -> m Double
+getHeadingUnsafe self
+  = liftDOM
+      (((self ^. js "heading") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.heading Mozilla Coordinates.heading documentation> 
 getHeadingUnchecked :: (MonadDOM m) => Coordinates -> m Double
 getHeadingUnchecked self
   = liftDOM ((self ^. js "heading") >>= fromJSValUnchecked)
@@ -80,6 +106,14 @@ getHeadingUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.speed Mozilla Coordinates.speed documentation> 
 getSpeed :: (MonadDOM m) => Coordinates -> m (Maybe Double)
 getSpeed self = liftDOM ((self ^. js "speed") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.speed Mozilla Coordinates.speed documentation> 
+getSpeedUnsafe ::
+               (MonadDOM m, HasCallStack) => Coordinates -> m Double
+getSpeedUnsafe self
+  = liftDOM
+      (((self ^. js "speed") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Coordinates.speed Mozilla Coordinates.speed documentation> 
 getSpeedUnchecked :: (MonadDOM m) => Coordinates -> m Double

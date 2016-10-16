@@ -14,8 +14,9 @@ module JSDOM.Generated.RTCPeerConnection
         createDataChannel, createDataChannel_, createDataChannelUnsafe,
         createDataChannelUnchecked, createDTMFSender, createDTMFSender_,
         createDTMFSenderUnsafe, createDTMFSenderUnchecked, close,
-        getLocalDescription, getLocalDescriptionUnchecked,
-        getRemoteDescription, getRemoteDescriptionUnchecked,
+        getLocalDescription, getLocalDescriptionUnsafe,
+        getLocalDescriptionUnchecked, getRemoteDescription,
+        getRemoteDescriptionUnsafe, getRemoteDescriptionUnchecked,
         getSignalingState, getIceGatheringState, getIceConnectionState,
         negotiationNeeded, iceCandidate, signalingStateChange,
         addStreamEvent, removeStreamEvent, iceConnectionStateChange,
@@ -321,6 +322,15 @@ getLocalDescription self
   = liftDOM ((self ^. js "localDescription") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.localDescription Mozilla webkitRTCPeerConnection.localDescription documentation> 
+getLocalDescriptionUnsafe ::
+                          (MonadDOM m, HasCallStack) =>
+                            RTCPeerConnection -> m RTCSessionDescription
+getLocalDescriptionUnsafe self
+  = liftDOM
+      (((self ^. js "localDescription") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.localDescription Mozilla webkitRTCPeerConnection.localDescription documentation> 
 getLocalDescriptionUnchecked ::
                              (MonadDOM m) => RTCPeerConnection -> m RTCSessionDescription
 getLocalDescriptionUnchecked self
@@ -332,6 +342,15 @@ getRemoteDescription ::
                        RTCPeerConnection -> m (Maybe RTCSessionDescription)
 getRemoteDescription self
   = liftDOM ((self ^. js "remoteDescription") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.remoteDescription Mozilla webkitRTCPeerConnection.remoteDescription documentation> 
+getRemoteDescriptionUnsafe ::
+                           (MonadDOM m, HasCallStack) =>
+                             RTCPeerConnection -> m RTCSessionDescription
+getRemoteDescriptionUnsafe self
+  = liftDOM
+      (((self ^. js "remoteDescription") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.remoteDescription Mozilla webkitRTCPeerConnection.remoteDescription documentation> 
 getRemoteDescriptionUnchecked ::

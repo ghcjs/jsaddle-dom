@@ -6,8 +6,8 @@
 module JSDOM.Generated.CharacterData
        (substringData, substringData_, substringDataUnsafe,
         substringDataUnchecked, appendData, insertData, deleteData,
-        replaceData, setData, getData, getDataUnchecked, getLength,
-        CharacterData(..), gTypeCharacterData, IsCharacterData,
+        replaceData, setData, getData, getDataUnsafe, getDataUnchecked,
+        getLength, CharacterData(..), gTypeCharacterData, IsCharacterData,
         toCharacterData)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -125,6 +125,16 @@ getData ::
 getData self
   = liftDOM
       (((toCharacterData self) ^. js "data") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
+getDataUnsafe ::
+              (MonadDOM m, IsCharacterData self, HasCallStack,
+               FromJSString result) =>
+                self -> m result
+getDataUnsafe self
+  = liftDOM
+      ((((toCharacterData self) ^. js "data") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
 getDataUnchecked ::

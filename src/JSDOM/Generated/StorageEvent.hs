@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StorageEvent
-       (initStorageEvent, getKey, getOldValue, getOldValueUnchecked,
-        getNewValue, getNewValueUnchecked, getUrl, getStorageArea,
+       (initStorageEvent, getKey, getOldValue, getOldValueUnsafe,
+        getOldValueUnchecked, getNewValue, getNewValueUnsafe,
+        getNewValueUnchecked, getUrl, getStorageArea, getStorageAreaUnsafe,
         getStorageAreaUnchecked, StorageEvent(..), gTypeStorageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -65,6 +66,15 @@ getOldValue self
   = liftDOM ((self ^. js "oldValue") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.oldValue Mozilla StorageEvent.oldValue documentation> 
+getOldValueUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    StorageEvent -> m result
+getOldValueUnsafe self
+  = liftDOM
+      (((self ^. js "oldValue") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.oldValue Mozilla StorageEvent.oldValue documentation> 
 getOldValueUnchecked ::
                      (MonadDOM m, FromJSString result) => StorageEvent -> m result
 getOldValueUnchecked self
@@ -76,6 +86,15 @@ getNewValue ::
               StorageEvent -> m (Maybe result)
 getNewValue self
   = liftDOM ((self ^. js "newValue") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.newValue Mozilla StorageEvent.newValue documentation> 
+getNewValueUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    StorageEvent -> m result
+getNewValueUnsafe self
+  = liftDOM
+      (((self ^. js "newValue") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.newValue Mozilla StorageEvent.newValue documentation> 
 getNewValueUnchecked ::
@@ -92,6 +111,14 @@ getUrl self = liftDOM ((self ^. js "url") >>= fromJSValUnchecked)
 getStorageArea :: (MonadDOM m) => StorageEvent -> m (Maybe Storage)
 getStorageArea self
   = liftDOM ((self ^. js "storageArea") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.storageArea Mozilla StorageEvent.storageArea documentation> 
+getStorageAreaUnsafe ::
+                     (MonadDOM m, HasCallStack) => StorageEvent -> m Storage
+getStorageAreaUnsafe self
+  = liftDOM
+      (((self ^. js "storageArea") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.storageArea Mozilla StorageEvent.storageArea documentation> 
 getStorageAreaUnchecked ::

@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAElement
-       (getTarget, getTargetUnchecked, SVGAElement(..), gTypeSVGAElement)
+       (getTarget, getTargetUnsafe, getTargetUnchecked, SVGAElement(..),
+        gTypeSVGAElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -33,6 +34,14 @@ type HasCallStack = (() :: Constraint)
 getTarget ::
           (MonadDOM m) => SVGAElement -> m (Maybe SVGAnimatedString)
 getTarget self = liftDOM ((self ^. js "target") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAElement.target Mozilla SVGAElement.target documentation> 
+getTargetUnsafe ::
+                (MonadDOM m, HasCallStack) => SVGAElement -> m SVGAnimatedString
+getTargetUnsafe self
+  = liftDOM
+      (((self ^. js "target") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAElement.target Mozilla SVGAElement.target documentation> 
 getTargetUnchecked ::

@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TrackEvent
-       (getTrack, getTrackUnchecked, TrackEvent(..), gTypeTrackEvent)
+       (getTrack, getTrackUnsafe, getTrackUnchecked, TrackEvent(..),
+        gTypeTrackEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -32,6 +33,14 @@ type HasCallStack = (() :: Constraint)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TrackEvent.track Mozilla TrackEvent.track documentation> 
 getTrack :: (MonadDOM m) => TrackEvent -> m (Maybe GObject)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/TrackEvent.track Mozilla TrackEvent.track documentation> 
+getTrackUnsafe ::
+               (MonadDOM m, HasCallStack) => TrackEvent -> m GObject
+getTrackUnsafe self
+  = liftDOM
+      (((self ^. js "track") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TrackEvent.track Mozilla TrackEvent.track documentation> 
 getTrackUnchecked :: (MonadDOM m) => TrackEvent -> m GObject

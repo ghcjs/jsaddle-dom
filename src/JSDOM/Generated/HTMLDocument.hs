@@ -5,15 +5,19 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLDocument
        (open, close, write, writeln, clear, captureEvents, releaseEvents,
-        getEmbeds, getEmbedsUnchecked, getPlugins, getPluginsUnchecked,
-        getScripts, getScriptsUnchecked, getAll, getAllUnchecked, getWidth,
-        getHeight, setDir, getDir, getDirUnchecked, setDesignMode,
-        getDesignMode, getDesignModeUnchecked, getCompatMode, setBgColor,
-        getBgColor, getBgColorUnchecked, setFgColor, getFgColor,
-        getFgColorUnchecked, setAlinkColor, getAlinkColor,
-        getAlinkColorUnchecked, setLinkColor, getLinkColor,
+        getEmbeds, getEmbedsUnsafe, getEmbedsUnchecked, getPlugins,
+        getPluginsUnsafe, getPluginsUnchecked, getScripts,
+        getScriptsUnsafe, getScriptsUnchecked, getAll, getAllUnsafe,
+        getAllUnchecked, getWidth, getHeight, setDir, getDir, getDirUnsafe,
+        getDirUnchecked, setDesignMode, getDesignMode, getDesignModeUnsafe,
+        getDesignModeUnchecked, getCompatMode, setBgColor, getBgColor,
+        getBgColorUnsafe, getBgColorUnchecked, setFgColor, getFgColor,
+        getFgColorUnsafe, getFgColorUnchecked, setAlinkColor,
+        getAlinkColor, getAlinkColorUnsafe, getAlinkColorUnchecked,
+        setLinkColor, getLinkColor, getLinkColorUnsafe,
         getLinkColorUnchecked, setVlinkColor, getVlinkColor,
-        getVlinkColorUnchecked, HTMLDocument(..), gTypeHTMLDocument)
+        getVlinkColorUnsafe, getVlinkColorUnchecked, HTMLDocument(..),
+        gTypeHTMLDocument)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -78,6 +82,14 @@ getEmbeds ::
 getEmbeds self = liftDOM ((self ^. js "embeds") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.embeds Mozilla HTMLDocument.embeds documentation> 
+getEmbedsUnsafe ::
+                (MonadDOM m, HasCallStack) => HTMLDocument -> m HTMLCollection
+getEmbedsUnsafe self
+  = liftDOM
+      (((self ^. js "embeds") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.embeds Mozilla HTMLDocument.embeds documentation> 
 getEmbedsUnchecked ::
                    (MonadDOM m) => HTMLDocument -> m HTMLCollection
 getEmbedsUnchecked self
@@ -87,6 +99,14 @@ getEmbedsUnchecked self
 getPlugins ::
            (MonadDOM m) => HTMLDocument -> m (Maybe HTMLCollection)
 getPlugins self = liftDOM ((self ^. js "plugins") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.plugins Mozilla HTMLDocument.plugins documentation> 
+getPluginsUnsafe ::
+                 (MonadDOM m, HasCallStack) => HTMLDocument -> m HTMLCollection
+getPluginsUnsafe self
+  = liftDOM
+      (((self ^. js "plugins") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.plugins Mozilla HTMLDocument.plugins documentation> 
 getPluginsUnchecked ::
@@ -100,6 +120,14 @@ getScripts ::
 getScripts self = liftDOM ((self ^. js "scripts") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.scripts Mozilla HTMLDocument.scripts documentation> 
+getScriptsUnsafe ::
+                 (MonadDOM m, HasCallStack) => HTMLDocument -> m HTMLCollection
+getScriptsUnsafe self
+  = liftDOM
+      (((self ^. js "scripts") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.scripts Mozilla HTMLDocument.scripts documentation> 
 getScriptsUnchecked ::
                     (MonadDOM m) => HTMLDocument -> m HTMLCollection
 getScriptsUnchecked self
@@ -109,6 +137,14 @@ getScriptsUnchecked self
 getAll ::
        (MonadDOM m) => HTMLDocument -> m (Maybe HTMLAllCollection)
 getAll self = liftDOM ((self ^. js "all") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.all Mozilla HTMLDocument.all documentation> 
+getAllUnsafe ::
+             (MonadDOM m, HasCallStack) => HTMLDocument -> m HTMLAllCollection
+getAllUnsafe self
+  = liftDOM
+      (((self ^. js "all") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.all Mozilla HTMLDocument.all documentation> 
 getAllUnchecked ::
@@ -138,6 +174,15 @@ getDir ::
 getDir self = liftDOM ((self ^. js "dir") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.dir Mozilla HTMLDocument.dir documentation> 
+getDirUnsafe ::
+             (MonadDOM m, HasCallStack, FromJSString result) =>
+               HTMLDocument -> m result
+getDirUnsafe self
+  = liftDOM
+      (((self ^. js "dir") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.dir Mozilla HTMLDocument.dir documentation> 
 getDirUnchecked ::
                 (MonadDOM m, FromJSString result) => HTMLDocument -> m result
 getDirUnchecked self
@@ -155,6 +200,15 @@ getDesignMode ::
                 HTMLDocument -> m (Maybe result)
 getDesignMode self
   = liftDOM ((self ^. js "designMode") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.designMode Mozilla HTMLDocument.designMode documentation> 
+getDesignModeUnsafe ::
+                    (MonadDOM m, HasCallStack, FromJSString result) =>
+                      HTMLDocument -> m result
+getDesignModeUnsafe self
+  = liftDOM
+      (((self ^. js "designMode") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.designMode Mozilla HTMLDocument.designMode documentation> 
 getDesignModeUnchecked ::
@@ -181,6 +235,15 @@ getBgColor self
   = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.bgColor Mozilla HTMLDocument.bgColor documentation> 
+getBgColorUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   HTMLDocument -> m result
+getBgColorUnsafe self
+  = liftDOM
+      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.bgColor Mozilla HTMLDocument.bgColor documentation> 
 getBgColorUnchecked ::
                     (MonadDOM m, FromJSString result) => HTMLDocument -> m result
 getBgColorUnchecked self
@@ -197,6 +260,15 @@ getFgColor ::
              HTMLDocument -> m (Maybe result)
 getFgColor self
   = liftDOM ((self ^. js "fgColor") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.fgColor Mozilla HTMLDocument.fgColor documentation> 
+getFgColorUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   HTMLDocument -> m result
+getFgColorUnsafe self
+  = liftDOM
+      (((self ^. js "fgColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.fgColor Mozilla HTMLDocument.fgColor documentation> 
 getFgColorUnchecked ::
@@ -218,6 +290,15 @@ getAlinkColor self
   = liftDOM ((self ^. js "alinkColor") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.alinkColor Mozilla HTMLDocument.alinkColor documentation> 
+getAlinkColorUnsafe ::
+                    (MonadDOM m, HasCallStack, FromJSString result) =>
+                      HTMLDocument -> m result
+getAlinkColorUnsafe self
+  = liftDOM
+      (((self ^. js "alinkColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.alinkColor Mozilla HTMLDocument.alinkColor documentation> 
 getAlinkColorUnchecked ::
                        (MonadDOM m, FromJSString result) => HTMLDocument -> m result
 getAlinkColorUnchecked self
@@ -237,6 +318,15 @@ getLinkColor self
   = liftDOM ((self ^. js "linkColor") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.linkColor Mozilla HTMLDocument.linkColor documentation> 
+getLinkColorUnsafe ::
+                   (MonadDOM m, HasCallStack, FromJSString result) =>
+                     HTMLDocument -> m result
+getLinkColorUnsafe self
+  = liftDOM
+      (((self ^. js "linkColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.linkColor Mozilla HTMLDocument.linkColor documentation> 
 getLinkColorUnchecked ::
                       (MonadDOM m, FromJSString result) => HTMLDocument -> m result
 getLinkColorUnchecked self
@@ -254,6 +344,15 @@ getVlinkColor ::
                 HTMLDocument -> m (Maybe result)
 getVlinkColor self
   = liftDOM ((self ^. js "vlinkColor") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.vlinkColor Mozilla HTMLDocument.vlinkColor documentation> 
+getVlinkColorUnsafe ::
+                    (MonadDOM m, HasCallStack, FromJSString result) =>
+                      HTMLDocument -> m result
+getVlinkColorUnsafe self
+  = liftDOM
+      (((self ^. js "vlinkColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument.vlinkColor Mozilla HTMLDocument.vlinkColor documentation> 
 getVlinkColorUnchecked ::

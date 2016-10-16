@@ -14,9 +14,9 @@ module JSDOM.Generated.XPathResult
         pattern ORDERED_NODE_SNAPSHOT_TYPE,
         pattern ANY_UNORDERED_NODE_TYPE, pattern FIRST_ORDERED_NODE_TYPE,
         getResultType, getNumberValue, getStringValue, getBooleanValue,
-        getSingleNodeValue, getSingleNodeValueUnchecked,
-        getInvalidIteratorState, getSnapshotLength, XPathResult(..),
-        gTypeXPathResult)
+        getSingleNodeValue, getSingleNodeValueUnsafe,
+        getSingleNodeValueUnchecked, getInvalidIteratorState,
+        getSnapshotLength, XPathResult(..), gTypeXPathResult)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -126,6 +126,14 @@ getBooleanValue self
 getSingleNodeValue :: (MonadDOM m) => XPathResult -> m (Maybe Node)
 getSingleNodeValue self
   = liftDOM ((self ^. js "singleNodeValue") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathResult.singleNodeValue Mozilla XPathResult.singleNodeValue documentation> 
+getSingleNodeValueUnsafe ::
+                         (MonadDOM m, HasCallStack) => XPathResult -> m Node
+getSingleNodeValueUnsafe self
+  = liftDOM
+      (((self ^. js "singleNodeValue") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathResult.singleNodeValue Mozilla XPathResult.singleNodeValue documentation> 
 getSingleNodeValueUnchecked ::

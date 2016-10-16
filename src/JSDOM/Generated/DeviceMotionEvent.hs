@@ -4,11 +4,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DeviceMotionEvent
-       (initDeviceMotionEvent, getAcceleration, getAccelerationUnchecked,
-        getAccelerationIncludingGravity,
+       (initDeviceMotionEvent, getAcceleration, getAccelerationUnsafe,
+        getAccelerationUnchecked, getAccelerationIncludingGravity,
+        getAccelerationIncludingGravityUnsafe,
         getAccelerationIncludingGravityUnchecked, getRotationRate,
-        getRotationRateUnchecked, getInterval, DeviceMotionEvent(..),
-        gTypeDeviceMotionEvent)
+        getRotationRateUnsafe, getRotationRateUnchecked, getInterval,
+        DeviceMotionEvent(..), gTypeDeviceMotionEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -61,6 +62,14 @@ getAcceleration self
   = liftDOM ((self ^. js "acceleration") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.acceleration Mozilla DeviceMotionEvent.acceleration documentation> 
+getAccelerationUnsafe ::
+                      (MonadDOM m, HasCallStack) => DeviceMotionEvent -> m Acceleration
+getAccelerationUnsafe self
+  = liftDOM
+      (((self ^. js "acceleration") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.acceleration Mozilla DeviceMotionEvent.acceleration documentation> 
 getAccelerationUnchecked ::
                          (MonadDOM m) => DeviceMotionEvent -> m Acceleration
 getAccelerationUnchecked self
@@ -72,6 +81,15 @@ getAccelerationIncludingGravity ::
 getAccelerationIncludingGravity self
   = liftDOM
       ((self ^. js "accelerationIncludingGravity") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.accelerationIncludingGravity Mozilla DeviceMotionEvent.accelerationIncludingGravity documentation> 
+getAccelerationIncludingGravityUnsafe ::
+                                      (MonadDOM m, HasCallStack) =>
+                                        DeviceMotionEvent -> m Acceleration
+getAccelerationIncludingGravityUnsafe self
+  = liftDOM
+      (((self ^. js "accelerationIncludingGravity") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.accelerationIncludingGravity Mozilla DeviceMotionEvent.accelerationIncludingGravity documentation> 
 getAccelerationIncludingGravityUnchecked ::
@@ -86,6 +104,14 @@ getRotationRate ::
                 (MonadDOM m) => DeviceMotionEvent -> m (Maybe RotationRate)
 getRotationRate self
   = liftDOM ((self ^. js "rotationRate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.rotationRate Mozilla DeviceMotionEvent.rotationRate documentation> 
+getRotationRateUnsafe ::
+                      (MonadDOM m, HasCallStack) => DeviceMotionEvent -> m RotationRate
+getRotationRateUnsafe self
+  = liftDOM
+      (((self ^. js "rotationRate") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.rotationRate Mozilla DeviceMotionEvent.rotationRate documentation> 
 getRotationRateUnchecked ::

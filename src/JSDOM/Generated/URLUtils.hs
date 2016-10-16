@@ -5,13 +5,15 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.URLUtils
        (toString, toString_, setHref, getHref, getOrigin, setProtocol,
-        getProtocol, getProtocolUnchecked, setUsername, getUsername,
-        getUsernameUnchecked, setPassword, getPassword,
-        getPasswordUnchecked, setHost, getHost, getHostUnchecked,
-        setHostname, getHostname, getHostnameUnchecked, setPort, getPort,
-        getPortUnchecked, setPathname, getPathname, getPathnameUnchecked,
-        setSearch, getSearch, getSearchUnchecked, setHash, getHash,
-        getHashUnchecked, URLUtils(..), gTypeURLUtils)
+        getProtocol, getProtocolUnsafe, getProtocolUnchecked, setUsername,
+        getUsername, getUsernameUnsafe, getUsernameUnchecked, setPassword,
+        getPassword, getPasswordUnsafe, getPasswordUnchecked, setHost,
+        getHost, getHostUnsafe, getHostUnchecked, setHostname, getHostname,
+        getHostnameUnsafe, getHostnameUnchecked, setPort, getPort,
+        getPortUnsafe, getPortUnchecked, setPathname, getPathname,
+        getPathnameUnsafe, getPathnameUnchecked, setSearch, getSearch,
+        getSearchUnsafe, getSearchUnchecked, setHash, getHash,
+        getHashUnsafe, getHashUnchecked, URLUtils(..), gTypeURLUtils)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -74,6 +76,15 @@ getProtocol self
   = liftDOM ((self ^. js "protocol") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.protocol Mozilla URLUtils.protocol documentation> 
+getProtocolUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    URLUtils -> m result
+getProtocolUnsafe self
+  = liftDOM
+      (((self ^. js "protocol") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.protocol Mozilla URLUtils.protocol documentation> 
 getProtocolUnchecked ::
                      (MonadDOM m, FromJSString result) => URLUtils -> m result
 getProtocolUnchecked self
@@ -90,6 +101,15 @@ getUsername ::
             (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getUsername self
   = liftDOM ((self ^. js "username") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.username Mozilla URLUtils.username documentation> 
+getUsernameUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    URLUtils -> m result
+getUsernameUnsafe self
+  = liftDOM
+      (((self ^. js "username") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.username Mozilla URLUtils.username documentation> 
 getUsernameUnchecked ::
@@ -110,6 +130,15 @@ getPassword self
   = liftDOM ((self ^. js "password") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.password Mozilla URLUtils.password documentation> 
+getPasswordUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    URLUtils -> m result
+getPasswordUnsafe self
+  = liftDOM
+      (((self ^. js "password") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.password Mozilla URLUtils.password documentation> 
 getPasswordUnchecked ::
                      (MonadDOM m, FromJSString result) => URLUtils -> m result
 getPasswordUnchecked self
@@ -124,6 +153,15 @@ setHost self val = liftDOM (self ^. jss "host" (toJSVal val))
 getHost ::
         (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getHost self = liftDOM ((self ^. js "host") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.host Mozilla URLUtils.host documentation> 
+getHostUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                URLUtils -> m result
+getHostUnsafe self
+  = liftDOM
+      (((self ^. js "host") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.host Mozilla URLUtils.host documentation> 
 getHostUnchecked ::
@@ -144,6 +182,15 @@ getHostname self
   = liftDOM ((self ^. js "hostname") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hostname Mozilla URLUtils.hostname documentation> 
+getHostnameUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    URLUtils -> m result
+getHostnameUnsafe self
+  = liftDOM
+      (((self ^. js "hostname") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hostname Mozilla URLUtils.hostname documentation> 
 getHostnameUnchecked ::
                      (MonadDOM m, FromJSString result) => URLUtils -> m result
 getHostnameUnchecked self
@@ -158,6 +205,15 @@ setPort self val = liftDOM (self ^. jss "port" (toJSVal val))
 getPort ::
         (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getPort self = liftDOM ((self ^. js "port") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.port Mozilla URLUtils.port documentation> 
+getPortUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                URLUtils -> m result
+getPortUnsafe self
+  = liftDOM
+      (((self ^. js "port") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.port Mozilla URLUtils.port documentation> 
 getPortUnchecked ::
@@ -178,6 +234,15 @@ getPathname self
   = liftDOM ((self ^. js "pathname") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.pathname Mozilla URLUtils.pathname documentation> 
+getPathnameUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    URLUtils -> m result
+getPathnameUnsafe self
+  = liftDOM
+      (((self ^. js "pathname") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.pathname Mozilla URLUtils.pathname documentation> 
 getPathnameUnchecked ::
                      (MonadDOM m, FromJSString result) => URLUtils -> m result
 getPathnameUnchecked self
@@ -195,6 +260,15 @@ getSearch self
   = liftDOM ((self ^. js "search") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.search Mozilla URLUtils.search documentation> 
+getSearchUnsafe ::
+                (MonadDOM m, HasCallStack, FromJSString result) =>
+                  URLUtils -> m result
+getSearchUnsafe self
+  = liftDOM
+      (((self ^. js "search") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.search Mozilla URLUtils.search documentation> 
 getSearchUnchecked ::
                    (MonadDOM m, FromJSString result) => URLUtils -> m result
 getSearchUnchecked self
@@ -209,6 +283,15 @@ setHash self val = liftDOM (self ^. jss "hash" (toJSVal val))
 getHash ::
         (MonadDOM m, FromJSString result) => URLUtils -> m (Maybe result)
 getHash self = liftDOM ((self ^. js "hash") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hash Mozilla URLUtils.hash documentation> 
+getHashUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                URLUtils -> m result
+getHashUnsafe self
+  = liftDOM
+      (((self ^. js "hash") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLUtils.hash Mozilla URLUtils.hash documentation> 
 getHashUnchecked ::

@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CryptoKeyPair
-       (getPublicKey, getPublicKeyUnchecked, getPrivateKey,
-        getPrivateKeyUnchecked, CryptoKeyPair(..), gTypeCryptoKeyPair)
+       (getPublicKey, getPublicKeyUnsafe, getPublicKeyUnchecked,
+        getPrivateKey, getPrivateKeyUnsafe, getPrivateKeyUnchecked,
+        CryptoKeyPair(..), gTypeCryptoKeyPair)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -37,6 +38,14 @@ getPublicKey self
   = liftDOM ((self ^. js "publicKey") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.publicKey Mozilla CryptoKeyPair.publicKey documentation> 
+getPublicKeyUnsafe ::
+                   (MonadDOM m, HasCallStack) => CryptoKeyPair -> m CryptoKey
+getPublicKeyUnsafe self
+  = liftDOM
+      (((self ^. js "publicKey") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.publicKey Mozilla CryptoKeyPair.publicKey documentation> 
 getPublicKeyUnchecked ::
                       (MonadDOM m) => CryptoKeyPair -> m CryptoKey
 getPublicKeyUnchecked self
@@ -47,6 +56,14 @@ getPrivateKey ::
               (MonadDOM m) => CryptoKeyPair -> m (Maybe CryptoKey)
 getPrivateKey self
   = liftDOM ((self ^. js "privateKey") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.privateKey Mozilla CryptoKeyPair.privateKey documentation> 
+getPrivateKeyUnsafe ::
+                    (MonadDOM m, HasCallStack) => CryptoKeyPair -> m CryptoKey
+getPrivateKeyUnsafe self
+  = liftDOM
+      (((self ^. js "privateKey") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair.privateKey Mozilla CryptoKeyPair.privateKey documentation> 
 getPrivateKeyUnchecked ::

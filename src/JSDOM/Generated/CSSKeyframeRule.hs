@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSKeyframeRule
-       (setKeyText, getKeyText, getStyle, getStyleUnchecked,
-        CSSKeyframeRule(..), gTypeCSSKeyframeRule)
+       (setKeyText, getKeyText, getStyle, getStyleUnsafe,
+        getStyleUnchecked, CSSKeyframeRule(..), gTypeCSSKeyframeRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -45,6 +45,15 @@ getKeyText self
 getStyle ::
          (MonadDOM m) => CSSKeyframeRule -> m (Maybe CSSStyleDeclaration)
 getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframeRule.style Mozilla CSSKeyframeRule.style documentation> 
+getStyleUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 CSSKeyframeRule -> m CSSStyleDeclaration
+getStyleUnsafe self
+  = liftDOM
+      (((self ^. js "style") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframeRule.style Mozilla CSSKeyframeRule.style documentation> 
 getStyleUnchecked ::

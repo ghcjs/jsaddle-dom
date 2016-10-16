@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyNeededEvent
-       (getInitData, getInitDataUnchecked, MediaKeyNeededEvent(..),
-        gTypeMediaKeyNeededEvent)
+       (getInitData, getInitDataUnsafe, getInitDataUnchecked,
+        MediaKeyNeededEvent(..), gTypeMediaKeyNeededEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -34,6 +34,14 @@ type HasCallStack = (() :: Constraint)
 getInitData ::
             (MonadDOM m) => MediaKeyNeededEvent -> m (Maybe Uint8Array)
 getInitData self = liftDOM ((self ^. js "initData") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyNeededEvent.initData Mozilla MediaKeyNeededEvent.initData documentation> 
+getInitDataUnsafe ::
+                  (MonadDOM m, HasCallStack) => MediaKeyNeededEvent -> m Uint8Array
+getInitDataUnsafe self
+  = liftDOM
+      (((self ^. js "initData") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyNeededEvent.initData Mozilla MediaKeyNeededEvent.initData documentation> 
 getInitDataUnchecked ::

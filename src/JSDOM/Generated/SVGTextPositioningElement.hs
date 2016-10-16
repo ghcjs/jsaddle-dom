@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGTextPositioningElement
-       (getX, getXUnchecked, getY, getYUnchecked, getDx, getDxUnchecked,
-        getDy, getDyUnchecked, getRotate, getRotateUnchecked,
+       (getX, getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
+        getDx, getDxUnsafe, getDxUnchecked, getDy, getDyUnsafe,
+        getDyUnchecked, getRotate, getRotateUnsafe, getRotateUnchecked,
         SVGTextPositioningElement(..), gTypeSVGTextPositioningElement,
         IsSVGTextPositioningElement, toSVGTextPositioningElement)
        where
@@ -41,6 +42,15 @@ getX self
       (((toSVGTextPositioningElement self) ^. js "x") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.x Mozilla SVGTextPositioningElement.x documentation> 
+getXUnsafe ::
+           (MonadDOM m, IsSVGTextPositioningElement self, HasCallStack) =>
+             self -> m SVGAnimatedLengthList
+getXUnsafe self
+  = liftDOM
+      ((((toSVGTextPositioningElement self) ^. js "x") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.x Mozilla SVGTextPositioningElement.x documentation> 
 getXUnchecked ::
               (MonadDOM m, IsSVGTextPositioningElement self) =>
                 self -> m SVGAnimatedLengthList
@@ -56,6 +66,15 @@ getY ::
 getY self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.y Mozilla SVGTextPositioningElement.y documentation> 
+getYUnsafe ::
+           (MonadDOM m, IsSVGTextPositioningElement self, HasCallStack) =>
+             self -> m SVGAnimatedLengthList
+getYUnsafe self
+  = liftDOM
+      ((((toSVGTextPositioningElement self) ^. js "y") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.y Mozilla SVGTextPositioningElement.y documentation> 
 getYUnchecked ::
@@ -75,6 +94,15 @@ getDx self
       (((toSVGTextPositioningElement self) ^. js "dx") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dx Mozilla SVGTextPositioningElement.dx documentation> 
+getDxUnsafe ::
+            (MonadDOM m, IsSVGTextPositioningElement self, HasCallStack) =>
+              self -> m SVGAnimatedLengthList
+getDxUnsafe self
+  = liftDOM
+      ((((toSVGTextPositioningElement self) ^. js "dx") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dx Mozilla SVGTextPositioningElement.dx documentation> 
 getDxUnchecked ::
                (MonadDOM m, IsSVGTextPositioningElement self) =>
                  self -> m SVGAnimatedLengthList
@@ -92,6 +120,15 @@ getDy self
       (((toSVGTextPositioningElement self) ^. js "dy") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dy Mozilla SVGTextPositioningElement.dy documentation> 
+getDyUnsafe ::
+            (MonadDOM m, IsSVGTextPositioningElement self, HasCallStack) =>
+              self -> m SVGAnimatedLengthList
+getDyUnsafe self
+  = liftDOM
+      ((((toSVGTextPositioningElement self) ^. js "dy") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.dy Mozilla SVGTextPositioningElement.dy documentation> 
 getDyUnchecked ::
                (MonadDOM m, IsSVGTextPositioningElement self) =>
                  self -> m SVGAnimatedLengthList
@@ -107,6 +144,16 @@ getRotate ::
 getRotate self
   = liftDOM
       (((toSVGTextPositioningElement self) ^. js "rotate") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.rotate Mozilla SVGTextPositioningElement.rotate documentation> 
+getRotateUnsafe ::
+                (MonadDOM m, IsSVGTextPositioningElement self, HasCallStack) =>
+                  self -> m SVGAnimatedNumberList
+getRotateUnsafe self
+  = liftDOM
+      ((((toSVGTextPositioningElement self) ^. js "rotate") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPositioningElement.rotate Mozilla SVGTextPositioningElement.rotate documentation> 
 getRotateUnchecked ::

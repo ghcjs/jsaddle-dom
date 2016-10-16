@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFEComponentTransferElement
-       (getIn1, getIn1Unchecked, SVGFEComponentTransferElement(..),
+       (getIn1, getIn1Unsafe, getIn1Unchecked,
+        SVGFEComponentTransferElement(..),
         gTypeSVGFEComponentTransferElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -35,6 +36,15 @@ getIn1 ::
        (MonadDOM m) =>
          SVGFEComponentTransferElement -> m (Maybe SVGAnimatedString)
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEComponentTransferElement.in1 Mozilla SVGFEComponentTransferElement.in1 documentation> 
+getIn1Unsafe ::
+             (MonadDOM m, HasCallStack) =>
+               SVGFEComponentTransferElement -> m SVGAnimatedString
+getIn1Unsafe self
+  = liftDOM
+      (((self ^. js "in1") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEComponentTransferElement.in1 Mozilla SVGFEComponentTransferElement.in1 documentation> 
 getIn1Unchecked ::

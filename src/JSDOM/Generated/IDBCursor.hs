@@ -6,8 +6,9 @@
 module JSDOM.Generated.IDBCursor
        (update, update_, updateUnsafe, updateUnchecked, advance, continue,
         delete, delete_, deleteUnsafe, deleteUnchecked, getSource,
-        getSourceUnchecked, getDirection, getKey, getPrimaryKey,
-        IDBCursor(..), gTypeIDBCursor, IsIDBCursor, toIDBCursor)
+        getSourceUnsafe, getSourceUnchecked, getDirection, getKey,
+        getPrimaryKey, IDBCursor(..), gTypeIDBCursor, IsIDBCursor,
+        toIDBCursor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -109,6 +110,14 @@ getSource ::
           (MonadDOM m, IsIDBCursor self) => self -> m (Maybe IDBAny)
 getSource self
   = liftDOM (((toIDBCursor self) ^. js "source") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.source Mozilla IDBCursor.source documentation> 
+getSourceUnsafe ::
+                (MonadDOM m, IsIDBCursor self, HasCallStack) => self -> m IDBAny
+getSourceUnsafe self
+  = liftDOM
+      ((((toIDBCursor self) ^. js "source") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBCursor.source Mozilla IDBCursor.source documentation> 
 getSourceUnchecked ::

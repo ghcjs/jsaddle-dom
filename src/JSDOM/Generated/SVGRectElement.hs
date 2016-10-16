@@ -4,10 +4,11 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGRectElement
-       (getX, getXUnchecked, getY, getYUnchecked, getWidth,
-        getWidthUnchecked, getHeight, getHeightUnchecked, getRx,
-        getRxUnchecked, getRy, getRyUnchecked, SVGRectElement(..),
-        gTypeSVGRectElement)
+       (getX, getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
+        getWidth, getWidthUnsafe, getWidthUnchecked, getHeight,
+        getHeightUnsafe, getHeightUnchecked, getRx, getRxUnsafe,
+        getRxUnchecked, getRy, getRyUnsafe, getRyUnchecked,
+        SVGRectElement(..), gTypeSVGRectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -38,6 +39,14 @@ getX ::
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.x Mozilla SVGRectElement.x documentation> 
+getXUnsafe ::
+           (MonadDOM m, HasCallStack) => SVGRectElement -> m SVGAnimatedLength
+getXUnsafe self
+  = liftDOM
+      (((self ^. js "x") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.x Mozilla SVGRectElement.x documentation> 
 getXUnchecked ::
               (MonadDOM m) => SVGRectElement -> m SVGAnimatedLength
 getXUnchecked self
@@ -47,6 +56,14 @@ getXUnchecked self
 getY ::
      (MonadDOM m) => SVGRectElement -> m (Maybe SVGAnimatedLength)
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.y Mozilla SVGRectElement.y documentation> 
+getYUnsafe ::
+           (MonadDOM m, HasCallStack) => SVGRectElement -> m SVGAnimatedLength
+getYUnsafe self
+  = liftDOM
+      (((self ^. js "y") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.y Mozilla SVGRectElement.y documentation> 
 getYUnchecked ::
@@ -60,6 +77,14 @@ getWidth ::
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.width Mozilla SVGRectElement.width documentation> 
+getWidthUnsafe ::
+               (MonadDOM m, HasCallStack) => SVGRectElement -> m SVGAnimatedLength
+getWidthUnsafe self
+  = liftDOM
+      (((self ^. js "width") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.width Mozilla SVGRectElement.width documentation> 
 getWidthUnchecked ::
                   (MonadDOM m) => SVGRectElement -> m SVGAnimatedLength
 getWidthUnchecked self
@@ -69,6 +94,14 @@ getWidthUnchecked self
 getHeight ::
           (MonadDOM m) => SVGRectElement -> m (Maybe SVGAnimatedLength)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.height Mozilla SVGRectElement.height documentation> 
+getHeightUnsafe ::
+                (MonadDOM m, HasCallStack) => SVGRectElement -> m SVGAnimatedLength
+getHeightUnsafe self
+  = liftDOM
+      (((self ^. js "height") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.height Mozilla SVGRectElement.height documentation> 
 getHeightUnchecked ::
@@ -82,6 +115,14 @@ getRx ::
 getRx self = liftDOM ((self ^. js "rx") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.rx Mozilla SVGRectElement.rx documentation> 
+getRxUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGRectElement -> m SVGAnimatedLength
+getRxUnsafe self
+  = liftDOM
+      (((self ^. js "rx") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.rx Mozilla SVGRectElement.rx documentation> 
 getRxUnchecked ::
                (MonadDOM m) => SVGRectElement -> m SVGAnimatedLength
 getRxUnchecked self
@@ -91,6 +132,14 @@ getRxUnchecked self
 getRy ::
       (MonadDOM m) => SVGRectElement -> m (Maybe SVGAnimatedLength)
 getRy self = liftDOM ((self ^. js "ry") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.ry Mozilla SVGRectElement.ry documentation> 
+getRyUnsafe ::
+            (MonadDOM m, HasCallStack) => SVGRectElement -> m SVGAnimatedLength
+getRyUnsafe self
+  = liftDOM
+      (((self ^. js "ry") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement.ry Mozilla SVGRectElement.ry documentation> 
 getRyUnchecked ::

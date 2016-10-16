@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaStreamAudioDestinationNode
-       (getStream, getStreamUnchecked,
+       (getStream, getStreamUnsafe, getStreamUnchecked,
         MediaStreamAudioDestinationNode(..),
         gTypeMediaStreamAudioDestinationNode)
        where
@@ -36,6 +36,15 @@ getStream ::
           (MonadDOM m) =>
             MediaStreamAudioDestinationNode -> m (Maybe MediaStream)
 getStream self = liftDOM ((self ^. js "stream") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamAudioDestinationNode.stream Mozilla MediaStreamAudioDestinationNode.stream documentation> 
+getStreamUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  MediaStreamAudioDestinationNode -> m MediaStream
+getStreamUnsafe self
+  = liftDOM
+      (((self ^. js "stream") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamAudioDestinationNode.stream Mozilla MediaStreamAudioDestinationNode.stream documentation> 
 getStreamUnchecked ::

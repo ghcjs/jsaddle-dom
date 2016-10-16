@@ -7,9 +7,9 @@ module JSDOM.Generated.SVGAnimationElement
        (getStartTime, getStartTime_, getCurrentTime, getCurrentTime_,
         getSimpleDuration, getSimpleDuration_, beginElement,
         beginElementAt, endElement, endElementAt, getTargetElement,
-        getTargetElementUnchecked, SVGAnimationElement(..),
-        gTypeSVGAnimationElement, IsSVGAnimationElement,
-        toSVGAnimationElement)
+        getTargetElementUnsafe, getTargetElementUnchecked,
+        SVGAnimationElement(..), gTypeSVGAnimationElement,
+        IsSVGAnimationElement, toSVGAnimationElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -122,6 +122,16 @@ getTargetElement self
   = liftDOM
       (((toSVGAnimationElement self) ^. js "targetElement") >>=
          fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.targetElement Mozilla SVGAnimationElement.targetElement documentation> 
+getTargetElementUnsafe ::
+                       (MonadDOM m, IsSVGAnimationElement self, HasCallStack) =>
+                         self -> m SVGElement
+getTargetElementUnsafe self
+  = liftDOM
+      ((((toSVGAnimationElement self) ^. js "targetElement") >>=
+          fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.targetElement Mozilla SVGAnimationElement.targetElement documentation> 
 getTargetElementUnchecked ::

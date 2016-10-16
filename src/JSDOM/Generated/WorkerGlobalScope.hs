@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerGlobalScope
-       (close, importScripts, getSelf, getSelfUnchecked, getLocation,
-        getLocationUnchecked, error, offline, online, getNavigator,
+       (close, importScripts, getSelf, getSelfUnsafe, getSelfUnchecked,
+        getLocation, getLocationUnsafe, getLocationUnchecked, error,
+        offline, online, getNavigator, getNavigatorUnsafe,
         getNavigatorUnchecked, WorkerGlobalScope(..),
         gTypeWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope)
        where
@@ -52,6 +53,15 @@ getSelf self
   = liftDOM (((toWorkerGlobalScope self) ^. js "self") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.self Mozilla WorkerGlobalScope.self documentation> 
+getSelfUnsafe ::
+              (MonadDOM m, IsWorkerGlobalScope self, HasCallStack) =>
+                self -> m WorkerGlobalScope
+getSelfUnsafe self
+  = liftDOM
+      ((((toWorkerGlobalScope self) ^. js "self") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.self Mozilla WorkerGlobalScope.self documentation> 
 getSelfUnchecked ::
                  (MonadDOM m, IsWorkerGlobalScope self) =>
                    self -> m WorkerGlobalScope
@@ -66,6 +76,15 @@ getLocation ::
 getLocation self
   = liftDOM
       (((toWorkerGlobalScope self) ^. js "location") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.location Mozilla WorkerGlobalScope.location documentation> 
+getLocationUnsafe ::
+                  (MonadDOM m, IsWorkerGlobalScope self, HasCallStack) =>
+                    self -> m WorkerLocation
+getLocationUnsafe self
+  = liftDOM
+      ((((toWorkerGlobalScope self) ^. js "location") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.location Mozilla WorkerGlobalScope.location documentation> 
 getLocationUnchecked ::
@@ -100,6 +119,15 @@ getNavigator ::
 getNavigator self
   = liftDOM
       (((toWorkerGlobalScope self) ^. js "navigator") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.navigator Mozilla WorkerGlobalScope.navigator documentation> 
+getNavigatorUnsafe ::
+                   (MonadDOM m, IsWorkerGlobalScope self, HasCallStack) =>
+                     self -> m WorkerNavigator
+getNavigatorUnsafe self
+  = liftDOM
+      ((((toWorkerGlobalScope self) ^. js "navigator") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope.navigator Mozilla WorkerGlobalScope.navigator documentation> 
 getNavigatorUnchecked ::

@@ -5,7 +5,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VideoTrack
        (getId, setKind, getKind, getLabel, setLanguage, getLanguage,
-        setSelected, getSelected, getSourceBuffer,
+        setSelected, getSelected, getSourceBuffer, getSourceBufferUnsafe,
         getSourceBufferUnchecked, VideoTrack(..), gTypeVideoTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -78,6 +78,14 @@ getSourceBuffer ::
                 (MonadDOM m) => VideoTrack -> m (Maybe SourceBuffer)
 getSourceBuffer self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrack.sourceBuffer Mozilla VideoTrack.sourceBuffer documentation> 
+getSourceBufferUnsafe ::
+                      (MonadDOM m, HasCallStack) => VideoTrack -> m SourceBuffer
+getSourceBufferUnsafe self
+  = liftDOM
+      (((self ^. js "sourceBuffer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VideoTrack.sourceBuffer Mozilla VideoTrack.sourceBuffer documentation> 
 getSourceBufferUnchecked ::

@@ -6,7 +6,8 @@
 module JSDOM.Generated.DataTransfer
        (clearData, getData, getData_, setData, setDragImage,
         setDropEffect, getDropEffect, setEffectAllowed, getEffectAllowed,
-        getTypes, getTypesUnchecked, getFiles, getFilesUnchecked, getItems,
+        getTypes, getTypesUnsafe, getTypesUnchecked, getFiles,
+        getFilesUnsafe, getFilesUnchecked, getItems, getItemsUnsafe,
         getItemsUnchecked, DataTransfer(..), gTypeDataTransfer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -98,6 +99,14 @@ getTypes :: (MonadDOM m) => DataTransfer -> m (Maybe Array)
 getTypes self = liftDOM ((self ^. js "types") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.types Mozilla DataTransfer.types documentation> 
+getTypesUnsafe ::
+               (MonadDOM m, HasCallStack) => DataTransfer -> m Array
+getTypesUnsafe self
+  = liftDOM
+      (((self ^. js "types") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.types Mozilla DataTransfer.types documentation> 
 getTypesUnchecked :: (MonadDOM m) => DataTransfer -> m Array
 getTypesUnchecked self
   = liftDOM ((self ^. js "types") >>= fromJSValUnchecked)
@@ -105,6 +114,14 @@ getTypesUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.files Mozilla DataTransfer.files documentation> 
 getFiles :: (MonadDOM m) => DataTransfer -> m (Maybe FileList)
 getFiles self = liftDOM ((self ^. js "files") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.files Mozilla DataTransfer.files documentation> 
+getFilesUnsafe ::
+               (MonadDOM m, HasCallStack) => DataTransfer -> m FileList
+getFilesUnsafe self
+  = liftDOM
+      (((self ^. js "files") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.files Mozilla DataTransfer.files documentation> 
 getFilesUnchecked :: (MonadDOM m) => DataTransfer -> m FileList
@@ -115,6 +132,15 @@ getFilesUnchecked self
 getItems ::
          (MonadDOM m) => DataTransfer -> m (Maybe DataTransferItemList)
 getItems self = liftDOM ((self ^. js "items") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.items Mozilla DataTransfer.items documentation> 
+getItemsUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 DataTransfer -> m DataTransferItemList
+getItemsUnsafe self
+  = liftDOM
+      (((self ^. js "items") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer.items Mozilla DataTransfer.items documentation> 
 getItemsUnchecked ::

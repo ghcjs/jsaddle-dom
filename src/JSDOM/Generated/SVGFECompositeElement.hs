@@ -10,11 +10,13 @@ module JSDOM.Generated.SVGFECompositeElement
         pattern SVG_FECOMPOSITE_OPERATOR_OUT,
         pattern SVG_FECOMPOSITE_OPERATOR_ATOP,
         pattern SVG_FECOMPOSITE_OPERATOR_XOR,
-        pattern SVG_FECOMPOSITE_OPERATOR_ARITHMETIC, getIn1,
-        getIn1Unchecked, getIn2, getIn2Unchecked, getOperator,
-        getOperatorUnchecked, getK1, getK1Unchecked, getK2, getK2Unchecked,
-        getK3, getK3Unchecked, getK4, getK4Unchecked,
-        SVGFECompositeElement(..), gTypeSVGFECompositeElement)
+        pattern SVG_FECOMPOSITE_OPERATOR_ARITHMETIC, getIn1, getIn1Unsafe,
+        getIn1Unchecked, getIn2, getIn2Unsafe, getIn2Unchecked,
+        getOperator, getOperatorUnsafe, getOperatorUnchecked, getK1,
+        getK1Unsafe, getK1Unchecked, getK2, getK2Unsafe, getK2Unchecked,
+        getK3, getK3Unsafe, getK3Unchecked, getK4, getK4Unsafe,
+        getK4Unchecked, SVGFECompositeElement(..),
+        gTypeSVGFECompositeElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -53,6 +55,15 @@ getIn1 ::
 getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.in1 Mozilla SVGFECompositeElement.in1 documentation> 
+getIn1Unsafe ::
+             (MonadDOM m, HasCallStack) =>
+               SVGFECompositeElement -> m SVGAnimatedString
+getIn1Unsafe self
+  = liftDOM
+      (((self ^. js "in1") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.in1 Mozilla SVGFECompositeElement.in1 documentation> 
 getIn1Unchecked ::
                 (MonadDOM m) => SVGFECompositeElement -> m SVGAnimatedString
 getIn1Unchecked self
@@ -63,6 +74,15 @@ getIn2 ::
        (MonadDOM m) =>
          SVGFECompositeElement -> m (Maybe SVGAnimatedString)
 getIn2 self = liftDOM ((self ^. js "in2") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.in2 Mozilla SVGFECompositeElement.in2 documentation> 
+getIn2Unsafe ::
+             (MonadDOM m, HasCallStack) =>
+               SVGFECompositeElement -> m SVGAnimatedString
+getIn2Unsafe self
+  = liftDOM
+      (((self ^. js "in2") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.in2 Mozilla SVGFECompositeElement.in2 documentation> 
 getIn2Unchecked ::
@@ -77,6 +97,15 @@ getOperator ::
 getOperator self = liftDOM ((self ^. js "operator") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.operator Mozilla SVGFECompositeElement.operator documentation> 
+getOperatorUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    SVGFECompositeElement -> m SVGAnimatedEnumeration
+getOperatorUnsafe self
+  = liftDOM
+      (((self ^. js "operator") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.operator Mozilla SVGFECompositeElement.operator documentation> 
 getOperatorUnchecked ::
                      (MonadDOM m) => SVGFECompositeElement -> m SVGAnimatedEnumeration
 getOperatorUnchecked self
@@ -87,6 +116,15 @@ getK1 ::
       (MonadDOM m) =>
         SVGFECompositeElement -> m (Maybe SVGAnimatedNumber)
 getK1 self = liftDOM ((self ^. js "k1") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k1 Mozilla SVGFECompositeElement.k1 documentation> 
+getK1Unsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGFECompositeElement -> m SVGAnimatedNumber
+getK1Unsafe self
+  = liftDOM
+      (((self ^. js "k1") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k1 Mozilla SVGFECompositeElement.k1 documentation> 
 getK1Unchecked ::
@@ -101,6 +139,15 @@ getK2 ::
 getK2 self = liftDOM ((self ^. js "k2") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k2 Mozilla SVGFECompositeElement.k2 documentation> 
+getK2Unsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGFECompositeElement -> m SVGAnimatedNumber
+getK2Unsafe self
+  = liftDOM
+      (((self ^. js "k2") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k2 Mozilla SVGFECompositeElement.k2 documentation> 
 getK2Unchecked ::
                (MonadDOM m) => SVGFECompositeElement -> m SVGAnimatedNumber
 getK2Unchecked self
@@ -113,6 +160,15 @@ getK3 ::
 getK3 self = liftDOM ((self ^. js "k3") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k3 Mozilla SVGFECompositeElement.k3 documentation> 
+getK3Unsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGFECompositeElement -> m SVGAnimatedNumber
+getK3Unsafe self
+  = liftDOM
+      (((self ^. js "k3") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k3 Mozilla SVGFECompositeElement.k3 documentation> 
 getK3Unchecked ::
                (MonadDOM m) => SVGFECompositeElement -> m SVGAnimatedNumber
 getK3Unchecked self
@@ -123,6 +179,15 @@ getK4 ::
       (MonadDOM m) =>
         SVGFECompositeElement -> m (Maybe SVGAnimatedNumber)
 getK4 self = liftDOM ((self ^. js "k4") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k4 Mozilla SVGFECompositeElement.k4 documentation> 
+getK4Unsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGFECompositeElement -> m SVGAnimatedNumber
+getK4Unsafe self
+  = liftDOM
+      (((self ^. js "k4") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement.k4 Mozilla SVGFECompositeElement.k4 documentation> 
 getK4Unchecked ::

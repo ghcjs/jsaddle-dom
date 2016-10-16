@@ -4,8 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CryptoKey
-       (getType, getExtractable, getAlgorithm, getAlgorithmUnchecked,
-        getUsages, CryptoKey(..), gTypeCryptoKey)
+       (getType, getExtractable, getAlgorithm, getAlgorithmUnsafe,
+        getAlgorithmUnchecked, getUsages, CryptoKey(..), gTypeCryptoKey)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -43,6 +43,14 @@ getExtractable self
 getAlgorithm :: (MonadDOM m) => CryptoKey -> m (Maybe Algorithm)
 getAlgorithm self
   = liftDOM ((self ^. js "algorithm") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.algorithm Mozilla CryptoKey.algorithm documentation> 
+getAlgorithmUnsafe ::
+                   (MonadDOM m, HasCallStack) => CryptoKey -> m Algorithm
+getAlgorithmUnsafe self
+  = liftDOM
+      (((self ^. js "algorithm") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.algorithm Mozilla CryptoKey.algorithm documentation> 
 getAlgorithmUnchecked :: (MonadDOM m) => CryptoKey -> m Algorithm

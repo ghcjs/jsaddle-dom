@@ -7,8 +7,9 @@ module JSDOM.Generated.MediaSource
        (newMediaSource, addSourceBuffer, addSourceBuffer_,
         addSourceBufferUnsafe, addSourceBufferUnchecked,
         removeSourceBuffer, endOfStream, isTypeSupported, isTypeSupported_,
-        getSourceBuffers, getSourceBuffersUnchecked,
-        getActiveSourceBuffers, getActiveSourceBuffersUnchecked,
+        getSourceBuffers, getSourceBuffersUnsafe,
+        getSourceBuffersUnchecked, getActiveSourceBuffers,
+        getActiveSourceBuffersUnsafe, getActiveSourceBuffersUnchecked,
         setDuration, getDuration, getReadyState, MediaSource(..),
         gTypeMediaSource)
        where
@@ -105,6 +106,14 @@ getSourceBuffers self
   = liftDOM ((self ^. js "sourceBuffers") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
+getSourceBuffersUnsafe ::
+                       (MonadDOM m, HasCallStack) => MediaSource -> m SourceBufferList
+getSourceBuffersUnsafe self
+  = liftDOM
+      (((self ^. js "sourceBuffers") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
 getSourceBuffersUnchecked ::
                           (MonadDOM m) => MediaSource -> m SourceBufferList
 getSourceBuffersUnchecked self
@@ -115,6 +124,14 @@ getActiveSourceBuffers ::
                        (MonadDOM m) => MediaSource -> m (Maybe SourceBufferList)
 getActiveSourceBuffers self
   = liftDOM ((self ^. js "activeSourceBuffers") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
+getActiveSourceBuffersUnsafe ::
+                             (MonadDOM m, HasCallStack) => MediaSource -> m SourceBufferList
+getActiveSourceBuffersUnsafe self
+  = liftDOM
+      (((self ^. js "activeSourceBuffers") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
 getActiveSourceBuffersUnchecked ::

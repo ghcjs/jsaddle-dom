@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaElementAudioSourceNode
-       (getMediaElement, getMediaElementUnchecked,
+       (getMediaElement, getMediaElementUnsafe, getMediaElementUnchecked,
         MediaElementAudioSourceNode(..), gTypeMediaElementAudioSourceNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -36,6 +36,15 @@ getMediaElement ::
                   MediaElementAudioSourceNode -> m (Maybe HTMLMediaElement)
 getMediaElement self
   = liftDOM ((self ^. js "mediaElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode.mediaElement Mozilla MediaElementAudioSourceNode.mediaElement documentation> 
+getMediaElementUnsafe ::
+                      (MonadDOM m, HasCallStack) =>
+                        MediaElementAudioSourceNode -> m HTMLMediaElement
+getMediaElementUnsafe self
+  = liftDOM
+      (((self ^. js "mediaElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode.mediaElement Mozilla MediaElementAudioSourceNode.mediaElement documentation> 
 getMediaElementUnchecked ::

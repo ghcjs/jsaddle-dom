@@ -5,8 +5,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGDocument
        (createEvent, createEvent_, createEventUnsafe,
-        createEventUnchecked, getRootElement, getRootElementUnchecked,
-        SVGDocument(..), gTypeSVGDocument)
+        createEventUnchecked, getRootElement, getRootElementUnsafe,
+        getRootElementUnchecked, SVGDocument(..), gTypeSVGDocument)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -69,6 +69,14 @@ getRootElement ::
                (MonadDOM m) => SVGDocument -> m (Maybe SVGSVGElement)
 getRootElement self
   = liftDOM ((self ^. js "rootElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGDocument.rootElement Mozilla SVGDocument.rootElement documentation> 
+getRootElementUnsafe ::
+                     (MonadDOM m, HasCallStack) => SVGDocument -> m SVGSVGElement
+getRootElementUnsafe self
+  = liftDOM
+      (((self ^. js "rootElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGDocument.rootElement Mozilla SVGDocument.rootElement documentation> 
 getRootElementUnchecked ::

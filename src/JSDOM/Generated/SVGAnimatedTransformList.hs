@@ -4,7 +4,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGAnimatedTransformList
-       (getBaseVal, getBaseValUnchecked, getAnimVal, getAnimValUnchecked,
+       (getBaseVal, getBaseValUnsafe, getBaseValUnchecked, getAnimVal,
+        getAnimValUnsafe, getAnimValUnchecked,
         SVGAnimatedTransformList(..), gTypeSVGAnimatedTransformList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -37,6 +38,15 @@ getBaseVal ::
 getBaseVal self = liftDOM ((self ^. js "baseVal") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedTransformList.baseVal Mozilla SVGAnimatedTransformList.baseVal documentation> 
+getBaseValUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGAnimatedTransformList -> m SVGTransformList
+getBaseValUnsafe self
+  = liftDOM
+      (((self ^. js "baseVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedTransformList.baseVal Mozilla SVGAnimatedTransformList.baseVal documentation> 
 getBaseValUnchecked ::
                     (MonadDOM m) => SVGAnimatedTransformList -> m SVGTransformList
 getBaseValUnchecked self
@@ -47,6 +57,15 @@ getAnimVal ::
            (MonadDOM m) =>
              SVGAnimatedTransformList -> m (Maybe SVGTransformList)
 getAnimVal self = liftDOM ((self ^. js "animVal") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedTransformList.animVal Mozilla SVGAnimatedTransformList.animVal documentation> 
+getAnimValUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGAnimatedTransformList -> m SVGTransformList
+getAnimValUnsafe self
+  = liftDOM
+      (((self ^. js "animVal") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimatedTransformList.animVal Mozilla SVGAnimatedTransformList.animVal documentation> 
 getAnimValUnchecked ::

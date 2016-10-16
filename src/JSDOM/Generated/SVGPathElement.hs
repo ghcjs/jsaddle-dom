@@ -68,10 +68,13 @@ module JSDOM.Generated.SVGPathElement
         createSVGPathSegCurvetoQuadraticSmoothRel_,
         createSVGPathSegCurvetoQuadraticSmoothRelUnsafe,
         createSVGPathSegCurvetoQuadraticSmoothRelUnchecked, getPathLength,
-        getPathLengthUnchecked, getPathSegList, getPathSegListUnchecked,
-        getNormalizedPathSegList, getNormalizedPathSegListUnchecked,
-        getAnimatedPathSegList, getAnimatedPathSegListUnchecked,
+        getPathLengthUnsafe, getPathLengthUnchecked, getPathSegList,
+        getPathSegListUnsafe, getPathSegListUnchecked,
+        getNormalizedPathSegList, getNormalizedPathSegListUnsafe,
+        getNormalizedPathSegListUnchecked, getAnimatedPathSegList,
+        getAnimatedPathSegListUnsafe, getAnimatedPathSegListUnchecked,
         getAnimatedNormalizedPathSegList,
+        getAnimatedNormalizedPathSegListUnsafe,
         getAnimatedNormalizedPathSegListUnchecked, SVGPathElement(..),
         gTypeSVGPathElement)
        where
@@ -1036,6 +1039,14 @@ getPathLength self
   = liftDOM ((self ^. js "pathLength") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.pathLength Mozilla SVGPathElement.pathLength documentation> 
+getPathLengthUnsafe ::
+                    (MonadDOM m, HasCallStack) => SVGPathElement -> m SVGAnimatedNumber
+getPathLengthUnsafe self
+  = liftDOM
+      (((self ^. js "pathLength") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.pathLength Mozilla SVGPathElement.pathLength documentation> 
 getPathLengthUnchecked ::
                        (MonadDOM m) => SVGPathElement -> m SVGAnimatedNumber
 getPathLengthUnchecked self
@@ -1048,6 +1059,14 @@ getPathSegList self
   = liftDOM ((self ^. js "pathSegList") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.pathSegList Mozilla SVGPathElement.pathSegList documentation> 
+getPathSegListUnsafe ::
+                     (MonadDOM m, HasCallStack) => SVGPathElement -> m SVGPathSegList
+getPathSegListUnsafe self
+  = liftDOM
+      (((self ^. js "pathSegList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.pathSegList Mozilla SVGPathElement.pathSegList documentation> 
 getPathSegListUnchecked ::
                         (MonadDOM m) => SVGPathElement -> m SVGPathSegList
 getPathSegListUnchecked self
@@ -1058,6 +1077,14 @@ getNormalizedPathSegList ::
                          (MonadDOM m) => SVGPathElement -> m (Maybe SVGPathSegList)
 getNormalizedPathSegList self
   = liftDOM ((self ^. js "normalizedPathSegList") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.normalizedPathSegList Mozilla SVGPathElement.normalizedPathSegList documentation> 
+getNormalizedPathSegListUnsafe ::
+                               (MonadDOM m, HasCallStack) => SVGPathElement -> m SVGPathSegList
+getNormalizedPathSegListUnsafe self
+  = liftDOM
+      (((self ^. js "normalizedPathSegList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.normalizedPathSegList Mozilla SVGPathElement.normalizedPathSegList documentation> 
 getNormalizedPathSegListUnchecked ::
@@ -1073,6 +1100,14 @@ getAnimatedPathSegList self
   = liftDOM ((self ^. js "animatedPathSegList") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.animatedPathSegList Mozilla SVGPathElement.animatedPathSegList documentation> 
+getAnimatedPathSegListUnsafe ::
+                             (MonadDOM m, HasCallStack) => SVGPathElement -> m SVGPathSegList
+getAnimatedPathSegListUnsafe self
+  = liftDOM
+      (((self ^. js "animatedPathSegList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.animatedPathSegList Mozilla SVGPathElement.animatedPathSegList documentation> 
 getAnimatedPathSegListUnchecked ::
                                 (MonadDOM m) => SVGPathElement -> m SVGPathSegList
 getAnimatedPathSegListUnchecked self
@@ -1085,6 +1120,15 @@ getAnimatedNormalizedPathSegList ::
 getAnimatedNormalizedPathSegList self
   = liftDOM
       ((self ^. js "animatedNormalizedPathSegList") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.animatedNormalizedPathSegList Mozilla SVGPathElement.animatedNormalizedPathSegList documentation> 
+getAnimatedNormalizedPathSegListUnsafe ::
+                                       (MonadDOM m, HasCallStack) =>
+                                         SVGPathElement -> m SVGPathSegList
+getAnimatedNormalizedPathSegListUnsafe self
+  = liftDOM
+      (((self ^. js "animatedNormalizedPathSegList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement.animatedNormalizedPathSegList Mozilla SVGPathElement.animatedNormalizedPathSegList documentation> 
 getAnimatedNormalizedPathSegListUnchecked ::

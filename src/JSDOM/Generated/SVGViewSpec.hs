@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGViewSpec
-       (getTransform, getTransformUnchecked, getViewTarget,
-        getViewTargetUnchecked, getViewBoxString,
-        getPreserveAspectRatioString, getTransformString,
+       (getTransform, getTransformUnsafe, getTransformUnchecked,
+        getViewTarget, getViewTargetUnsafe, getViewTargetUnchecked,
+        getViewBoxString, getPreserveAspectRatioString, getTransformString,
         getViewTargetString, setZoomAndPan, getZoomAndPan, SVGViewSpec(..),
         gTypeSVGViewSpec)
        where
@@ -40,6 +40,14 @@ getTransform self
   = liftDOM ((self ^. js "transform") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.transform Mozilla SVGViewSpec.transform documentation> 
+getTransformUnsafe ::
+                   (MonadDOM m, HasCallStack) => SVGViewSpec -> m SVGTransformList
+getTransformUnsafe self
+  = liftDOM
+      (((self ^. js "transform") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.transform Mozilla SVGViewSpec.transform documentation> 
 getTransformUnchecked ::
                       (MonadDOM m) => SVGViewSpec -> m SVGTransformList
 getTransformUnchecked self
@@ -50,6 +58,14 @@ getViewTarget ::
               (MonadDOM m) => SVGViewSpec -> m (Maybe SVGElement)
 getViewTarget self
   = liftDOM ((self ^. js "viewTarget") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
+getViewTargetUnsafe ::
+                    (MonadDOM m, HasCallStack) => SVGViewSpec -> m SVGElement
+getViewTargetUnsafe self
+  = liftDOM
+      (((self ^. js "viewTarget") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
 getViewTargetUnchecked ::

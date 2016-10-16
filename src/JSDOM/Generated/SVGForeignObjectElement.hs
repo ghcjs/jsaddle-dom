@@ -4,9 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGForeignObjectElement
-       (getX, getXUnchecked, getY, getYUnchecked, getWidth,
-        getWidthUnchecked, getHeight, getHeightUnchecked,
-        SVGForeignObjectElement(..), gTypeSVGForeignObjectElement)
+       (getX, getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
+        getWidth, getWidthUnsafe, getWidthUnchecked, getHeight,
+        getHeightUnsafe, getHeightUnchecked, SVGForeignObjectElement(..),
+        gTypeSVGForeignObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -38,6 +39,15 @@ getX ::
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.x Mozilla SVGForeignObjectElement.x documentation> 
+getXUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGForeignObjectElement -> m SVGAnimatedLength
+getXUnsafe self
+  = liftDOM
+      (((self ^. js "x") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.x Mozilla SVGForeignObjectElement.x documentation> 
 getXUnchecked ::
               (MonadDOM m) => SVGForeignObjectElement -> m SVGAnimatedLength
 getXUnchecked self
@@ -48,6 +58,15 @@ getY ::
      (MonadDOM m) =>
        SVGForeignObjectElement -> m (Maybe SVGAnimatedLength)
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.y Mozilla SVGForeignObjectElement.y documentation> 
+getYUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGForeignObjectElement -> m SVGAnimatedLength
+getYUnsafe self
+  = liftDOM
+      (((self ^. js "y") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.y Mozilla SVGForeignObjectElement.y documentation> 
 getYUnchecked ::
@@ -62,6 +81,15 @@ getWidth ::
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.width Mozilla SVGForeignObjectElement.width documentation> 
+getWidthUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 SVGForeignObjectElement -> m SVGAnimatedLength
+getWidthUnsafe self
+  = liftDOM
+      (((self ^. js "width") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.width Mozilla SVGForeignObjectElement.width documentation> 
 getWidthUnchecked ::
                   (MonadDOM m) => SVGForeignObjectElement -> m SVGAnimatedLength
 getWidthUnchecked self
@@ -72,6 +100,15 @@ getHeight ::
           (MonadDOM m) =>
             SVGForeignObjectElement -> m (Maybe SVGAnimatedLength)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.height Mozilla SVGForeignObjectElement.height documentation> 
+getHeightUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  SVGForeignObjectElement -> m SVGAnimatedLength
+getHeightUnsafe self
+  = liftDOM
+      (((self ^. js "height") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGForeignObjectElement.height Mozilla SVGForeignObjectElement.height documentation> 
 getHeightUnchecked ::

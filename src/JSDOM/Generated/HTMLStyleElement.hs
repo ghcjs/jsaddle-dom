@@ -5,7 +5,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLStyleElement
        (setDisabled, getDisabled, setMedia, getMedia, setType, getType,
-        getSheet, getSheetUnchecked, HTMLStyleElement(..),
+        getSheet, getSheetUnsafe, getSheetUnchecked, HTMLStyleElement(..),
         gTypeHTMLStyleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -65,6 +65,14 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 getSheet ::
          (MonadDOM m) => HTMLStyleElement -> m (Maybe StyleSheet)
 getSheet self = liftDOM ((self ^. js "sheet") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.sheet Mozilla HTMLStyleElement.sheet documentation> 
+getSheetUnsafe ::
+               (MonadDOM m, HasCallStack) => HTMLStyleElement -> m StyleSheet
+getSheetUnsafe self
+  = liftDOM
+      (((self ^. js "sheet") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.sheet Mozilla HTMLStyleElement.sheet documentation> 
 getSheetUnchecked ::

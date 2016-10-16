@@ -4,10 +4,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DocumentType
-       (getName, getEntities, getEntitiesUnchecked, getNotations,
-        getNotationsUnchecked, getPublicId, getPublicIdUnchecked,
-        getSystemId, getSystemIdUnchecked, getInternalSubset,
-        getInternalSubsetUnchecked, DocumentType(..), gTypeDocumentType)
+       (getName, getEntities, getEntitiesUnsafe, getEntitiesUnchecked,
+        getNotations, getNotationsUnsafe, getNotationsUnchecked,
+        getPublicId, getPublicIdUnsafe, getPublicIdUnchecked, getSystemId,
+        getSystemIdUnsafe, getSystemIdUnchecked, getInternalSubset,
+        getInternalSubsetUnsafe, getInternalSubsetUnchecked,
+        DocumentType(..), gTypeDocumentType)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -43,6 +45,14 @@ getEntities ::
 getEntities self = liftDOM ((self ^. js "entities") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.entities Mozilla DocumentType.entities documentation> 
+getEntitiesUnsafe ::
+                  (MonadDOM m, HasCallStack) => DocumentType -> m NamedNodeMap
+getEntitiesUnsafe self
+  = liftDOM
+      (((self ^. js "entities") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.entities Mozilla DocumentType.entities documentation> 
 getEntitiesUnchecked ::
                      (MonadDOM m) => DocumentType -> m NamedNodeMap
 getEntitiesUnchecked self
@@ -53,6 +63,14 @@ getNotations ::
              (MonadDOM m) => DocumentType -> m (Maybe NamedNodeMap)
 getNotations self
   = liftDOM ((self ^. js "notations") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.notations Mozilla DocumentType.notations documentation> 
+getNotationsUnsafe ::
+                   (MonadDOM m, HasCallStack) => DocumentType -> m NamedNodeMap
+getNotationsUnsafe self
+  = liftDOM
+      (((self ^. js "notations") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.notations Mozilla DocumentType.notations documentation> 
 getNotationsUnchecked ::
@@ -68,6 +86,15 @@ getPublicId self
   = liftDOM ((self ^. js "publicId") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.publicId Mozilla DocumentType.publicId documentation> 
+getPublicIdUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    DocumentType -> m result
+getPublicIdUnsafe self
+  = liftDOM
+      (((self ^. js "publicId") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.publicId Mozilla DocumentType.publicId documentation> 
 getPublicIdUnchecked ::
                      (MonadDOM m, FromJSString result) => DocumentType -> m result
 getPublicIdUnchecked self
@@ -81,6 +108,15 @@ getSystemId self
   = liftDOM ((self ^. js "systemId") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.systemId Mozilla DocumentType.systemId documentation> 
+getSystemIdUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    DocumentType -> m result
+getSystemIdUnsafe self
+  = liftDOM
+      (((self ^. js "systemId") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.systemId Mozilla DocumentType.systemId documentation> 
 getSystemIdUnchecked ::
                      (MonadDOM m, FromJSString result) => DocumentType -> m result
 getSystemIdUnchecked self
@@ -92,6 +128,15 @@ getInternalSubset ::
                     DocumentType -> m (Maybe result)
 getInternalSubset self
   = liftDOM ((self ^. js "internalSubset") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.internalSubset Mozilla DocumentType.internalSubset documentation> 
+getInternalSubsetUnsafe ::
+                        (MonadDOM m, HasCallStack, FromJSString result) =>
+                          DocumentType -> m result
+getInternalSubsetUnsafe self
+  = liftDOM
+      (((self ^. js "internalSubset") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DocumentType.internalSubset Mozilla DocumentType.internalSubset documentation> 
 getInternalSubsetUnchecked ::

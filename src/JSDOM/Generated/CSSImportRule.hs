@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSImportRule
-       (getHref, getHrefUnchecked, getMedia, getMediaUnchecked,
-        getStyleSheet, getStyleSheetUnchecked, CSSImportRule(..),
+       (getHref, getHrefUnsafe, getHrefUnchecked, getMedia,
+        getMediaUnsafe, getMediaUnchecked, getStyleSheet,
+        getStyleSheetUnsafe, getStyleSheetUnchecked, CSSImportRule(..),
         gTypeCSSImportRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -38,6 +39,15 @@ getHref ::
 getHref self = liftDOM ((self ^. js "href") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.href Mozilla CSSImportRule.href documentation> 
+getHrefUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                CSSImportRule -> m result
+getHrefUnsafe self
+  = liftDOM
+      (((self ^. js "href") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.href Mozilla CSSImportRule.href documentation> 
 getHrefUnchecked ::
                  (MonadDOM m, FromJSString result) => CSSImportRule -> m result
 getHrefUnchecked self
@@ -46,6 +56,14 @@ getHrefUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.media Mozilla CSSImportRule.media documentation> 
 getMedia :: (MonadDOM m) => CSSImportRule -> m (Maybe MediaList)
 getMedia self = liftDOM ((self ^. js "media") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.media Mozilla CSSImportRule.media documentation> 
+getMediaUnsafe ::
+               (MonadDOM m, HasCallStack) => CSSImportRule -> m MediaList
+getMediaUnsafe self
+  = liftDOM
+      (((self ^. js "media") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.media Mozilla CSSImportRule.media documentation> 
 getMediaUnchecked :: (MonadDOM m) => CSSImportRule -> m MediaList
@@ -57,6 +75,14 @@ getStyleSheet ::
               (MonadDOM m) => CSSImportRule -> m (Maybe CSSStyleSheet)
 getStyleSheet self
   = liftDOM ((self ^. js "styleSheet") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.styleSheet Mozilla CSSImportRule.styleSheet documentation> 
+getStyleSheetUnsafe ::
+                    (MonadDOM m, HasCallStack) => CSSImportRule -> m CSSStyleSheet
+getStyleSheetUnsafe self
+  = liftDOM
+      (((self ^. js "styleSheet") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.styleSheet Mozilla CSSImportRule.styleSheet documentation> 
 getStyleSheetUnchecked ::

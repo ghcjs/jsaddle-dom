@@ -4,10 +4,11 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeyEvent
-       (getKeySystem, getSessionId, getInitData, getInitDataUnchecked,
-        getMessage, getMessageUnchecked, getDefaultURL, getErrorCode,
-        getErrorCodeUnchecked, getSystemCode, MediaKeyEvent(..),
-        gTypeMediaKeyEvent)
+       (getKeySystem, getSessionId, getInitData, getInitDataUnsafe,
+        getInitDataUnchecked, getMessage, getMessageUnsafe,
+        getMessageUnchecked, getDefaultURL, getErrorCode,
+        getErrorCodeUnsafe, getErrorCodeUnchecked, getSystemCode,
+        MediaKeyEvent(..), gTypeMediaKeyEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -50,6 +51,14 @@ getInitData ::
 getInitData self = liftDOM ((self ^. js "initData") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.initData Mozilla MediaKeyEvent.initData documentation> 
+getInitDataUnsafe ::
+                  (MonadDOM m, HasCallStack) => MediaKeyEvent -> m Uint8Array
+getInitDataUnsafe self
+  = liftDOM
+      (((self ^. js "initData") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.initData Mozilla MediaKeyEvent.initData documentation> 
 getInitDataUnchecked ::
                      (MonadDOM m) => MediaKeyEvent -> m Uint8Array
 getInitDataUnchecked self
@@ -58,6 +67,14 @@ getInitDataUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.message Mozilla MediaKeyEvent.message documentation> 
 getMessage :: (MonadDOM m) => MediaKeyEvent -> m (Maybe Uint8Array)
 getMessage self = liftDOM ((self ^. js "message") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.message Mozilla MediaKeyEvent.message documentation> 
+getMessageUnsafe ::
+                 (MonadDOM m, HasCallStack) => MediaKeyEvent -> m Uint8Array
+getMessageUnsafe self
+  = liftDOM
+      (((self ^. js "message") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.message Mozilla MediaKeyEvent.message documentation> 
 getMessageUnchecked ::
@@ -76,6 +93,14 @@ getErrorCode ::
              (MonadDOM m) => MediaKeyEvent -> m (Maybe MediaKeyError)
 getErrorCode self
   = liftDOM ((self ^. js "errorCode") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.errorCode Mozilla MediaKeyEvent.errorCode documentation> 
+getErrorCodeUnsafe ::
+                   (MonadDOM m, HasCallStack) => MediaKeyEvent -> m MediaKeyError
+getErrorCodeUnsafe self
+  = liftDOM
+      (((self ^. js "errorCode") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaKeyEvent.errorCode Mozilla MediaKeyEvent.errorCode documentation> 
 getErrorCodeUnchecked ::

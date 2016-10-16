@@ -8,8 +8,8 @@ module JSDOM.Generated.SVGColor
         pattern SVG_COLORTYPE_UNKNOWN, pattern SVG_COLORTYPE_RGBCOLOR,
         pattern SVG_COLORTYPE_RGBCOLOR_ICCCOLOR,
         pattern SVG_COLORTYPE_CURRENTCOLOR, getColorType, getRgbColor,
-        getRgbColorUnchecked, SVGColor(..), gTypeSVGColor, IsSVGColor,
-        toSVGColor)
+        getRgbColorUnsafe, getRgbColorUnchecked, SVGColor(..),
+        gTypeSVGColor, IsSVGColor, toSVGColor)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -79,6 +79,14 @@ getRgbColor ::
             (MonadDOM m, IsSVGColor self) => self -> m (Maybe RGBColor)
 getRgbColor self
   = liftDOM (((toSVGColor self) ^. js "rgbColor") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGColor.rgbColor Mozilla SVGColor.rgbColor documentation> 
+getRgbColorUnsafe ::
+                  (MonadDOM m, IsSVGColor self, HasCallStack) => self -> m RGBColor
+getRgbColorUnsafe self
+  = liftDOM
+      ((((toSVGColor self) ^. js "rgbColor") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGColor.rgbColor Mozilla SVGColor.rgbColor documentation> 
 getRgbColorUnchecked ::

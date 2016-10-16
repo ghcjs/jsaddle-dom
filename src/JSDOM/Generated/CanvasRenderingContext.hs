@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CanvasRenderingContext
-       (getCanvas, getCanvasUnchecked, CanvasRenderingContext(..),
-        gTypeCanvasRenderingContext, IsCanvasRenderingContext,
-        toCanvasRenderingContext)
+       (getCanvas, getCanvasUnsafe, getCanvasUnchecked,
+        CanvasRenderingContext(..), gTypeCanvasRenderingContext,
+        IsCanvasRenderingContext, toCanvasRenderingContext)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -38,6 +38,15 @@ getCanvas ::
 getCanvas self
   = liftDOM
       (((toCanvasRenderingContext self) ^. js "canvas") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext.canvas Mozilla CanvasRenderingContext.canvas documentation> 
+getCanvasUnsafe ::
+                (MonadDOM m, IsCanvasRenderingContext self, HasCallStack) =>
+                  self -> m HTMLCanvasElement
+getCanvasUnsafe self
+  = liftDOM
+      ((((toCanvasRenderingContext self) ^. js "canvas") >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext.canvas Mozilla CanvasRenderingContext.canvas documentation> 
 getCanvasUnchecked ::

@@ -12,8 +12,8 @@ module JSDOM.Generated.SecurityPolicy
         allowsPluginType_, allowsScriptFrom, allowsScriptFrom_,
         allowsStyleFrom, allowsStyleFrom_, getAllowsEval,
         getAllowsInlineScript, getAllowsInlineStyle, getIsActive,
-        getReportURIs, getReportURIsUnchecked, SecurityPolicy(..),
-        gTypeSecurityPolicy)
+        getReportURIs, getReportURIsUnsafe, getReportURIsUnchecked,
+        SecurityPolicy(..), gTypeSecurityPolicy)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -192,6 +192,14 @@ getReportURIs ::
               (MonadDOM m) => SecurityPolicy -> m (Maybe DOMStringList)
 getReportURIs self
   = liftDOM ((self ^. js "reportURIs") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.reportURIs Mozilla SecurityPolicy.reportURIs documentation> 
+getReportURIsUnsafe ::
+                    (MonadDOM m, HasCallStack) => SecurityPolicy -> m DOMStringList
+getReportURIsUnsafe self
+  = liftDOM
+      (((self ^. js "reportURIs") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicy.reportURIs Mozilla SecurityPolicy.reportURIs documentation> 
 getReportURIsUnchecked ::

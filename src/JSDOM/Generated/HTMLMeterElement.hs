@@ -6,7 +6,8 @@
 module JSDOM.Generated.HTMLMeterElement
        (setValue, getValue, setMin, getMin, setMax, getMax, setLow,
         getLow, setHigh, getHigh, setOptimum, getOptimum, getLabels,
-        getLabelsUnchecked, HTMLMeterElement(..), gTypeHTMLMeterElement)
+        getLabelsUnsafe, getLabelsUnchecked, HTMLMeterElement(..),
+        gTypeHTMLMeterElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -82,6 +83,14 @@ getOptimum self = liftDOM ((self ^. js "optimum") >>= valToNumber)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
 getLabels :: (MonadDOM m) => HTMLMeterElement -> m (Maybe NodeList)
 getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
+getLabelsUnsafe ::
+                (MonadDOM m, HasCallStack) => HTMLMeterElement -> m NodeList
+getLabelsUnsafe self
+  = liftDOM
+      (((self ^. js "labels") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
 getLabelsUnchecked ::

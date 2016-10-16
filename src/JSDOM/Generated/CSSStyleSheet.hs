@@ -5,8 +5,9 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleSheet
        (insertRule, insertRule_, deleteRule, addRule, addRule_,
-        removeRule, getOwnerRule, getOwnerRuleUnchecked, getCssRules,
-        getCssRulesUnchecked, getRules, getRulesUnchecked,
+        removeRule, getOwnerRule, getOwnerRuleUnsafe,
+        getOwnerRuleUnchecked, getCssRules, getCssRulesUnsafe,
+        getCssRulesUnchecked, getRules, getRulesUnsafe, getRulesUnchecked,
         CSSStyleSheet(..), gTypeCSSStyleSheet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -87,6 +88,14 @@ getOwnerRule self
   = liftDOM ((self ^. js "ownerRule") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.ownerRule Mozilla CSSStyleSheet.ownerRule documentation> 
+getOwnerRuleUnsafe ::
+                   (MonadDOM m, HasCallStack) => CSSStyleSheet -> m CSSRule
+getOwnerRuleUnsafe self
+  = liftDOM
+      (((self ^. js "ownerRule") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.ownerRule Mozilla CSSStyleSheet.ownerRule documentation> 
 getOwnerRuleUnchecked :: (MonadDOM m) => CSSStyleSheet -> m CSSRule
 getOwnerRuleUnchecked self
   = liftDOM ((self ^. js "ownerRule") >>= fromJSValUnchecked)
@@ -97,6 +106,14 @@ getCssRules ::
 getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.cssRules Mozilla CSSStyleSheet.cssRules documentation> 
+getCssRulesUnsafe ::
+                  (MonadDOM m, HasCallStack) => CSSStyleSheet -> m CSSRuleList
+getCssRulesUnsafe self
+  = liftDOM
+      (((self ^. js "cssRules") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.cssRules Mozilla CSSStyleSheet.cssRules documentation> 
 getCssRulesUnchecked ::
                      (MonadDOM m) => CSSStyleSheet -> m CSSRuleList
 getCssRulesUnchecked self
@@ -105,6 +122,14 @@ getCssRulesUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.rules Mozilla CSSStyleSheet.rules documentation> 
 getRules :: (MonadDOM m) => CSSStyleSheet -> m (Maybe CSSRuleList)
 getRules self = liftDOM ((self ^. js "rules") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.rules Mozilla CSSStyleSheet.rules documentation> 
+getRulesUnsafe ::
+               (MonadDOM m, HasCallStack) => CSSStyleSheet -> m CSSRuleList
+getRulesUnsafe self
+  = liftDOM
+      (((self ^. js "rules") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet.rules Mozilla CSSStyleSheet.rules documentation> 
 getRulesUnchecked :: (MonadDOM m) => CSSStyleSheet -> m CSSRuleList

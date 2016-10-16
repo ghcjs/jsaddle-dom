@@ -4,8 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSFontFaceLoadEvent
-       (getFontface, getFontfaceUnchecked, getError, getErrorUnchecked,
-        CSSFontFaceLoadEvent(..), gTypeCSSFontFaceLoadEvent)
+       (getFontface, getFontfaceUnsafe, getFontfaceUnchecked, getError,
+        getErrorUnsafe, getErrorUnchecked, CSSFontFaceLoadEvent(..),
+        gTypeCSSFontFaceLoadEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -36,6 +37,15 @@ getFontface ::
 getFontface self = liftDOM ((self ^. js "fontface") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.fontface Mozilla CSSFontFaceLoadEvent.fontface documentation> 
+getFontfaceUnsafe ::
+                  (MonadDOM m, HasCallStack) =>
+                    CSSFontFaceLoadEvent -> m CSSFontFaceRule
+getFontfaceUnsafe self
+  = liftDOM
+      (((self ^. js "fontface") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.fontface Mozilla CSSFontFaceLoadEvent.fontface documentation> 
 getFontfaceUnchecked ::
                      (MonadDOM m) => CSSFontFaceLoadEvent -> m CSSFontFaceRule
 getFontfaceUnchecked self
@@ -45,6 +55,14 @@ getFontfaceUnchecked self
 getError ::
          (MonadDOM m) => CSSFontFaceLoadEvent -> m (Maybe DOMError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.error Mozilla CSSFontFaceLoadEvent.error documentation> 
+getErrorUnsafe ::
+               (MonadDOM m, HasCallStack) => CSSFontFaceLoadEvent -> m DOMError
+getErrorUnsafe self
+  = liftDOM
+      (((self ^. js "error") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceLoadEvent.error Mozilla CSSFontFaceLoadEvent.error documentation> 
 getErrorUnchecked ::

@@ -4,10 +4,13 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DynamicsCompressorNode
-       (getThreshold, getThresholdUnchecked, getKnee, getKneeUnchecked,
-        getRatio, getRatioUnchecked, getReduction, getReductionUnchecked,
-        getAttack, getAttackUnchecked, getRelease, getReleaseUnchecked,
-        DynamicsCompressorNode(..), gTypeDynamicsCompressorNode)
+       (getThreshold, getThresholdUnsafe, getThresholdUnchecked, getKnee,
+        getKneeUnsafe, getKneeUnchecked, getRatio, getRatioUnsafe,
+        getRatioUnchecked, getReduction, getReductionUnsafe,
+        getReductionUnchecked, getAttack, getAttackUnsafe,
+        getAttackUnchecked, getRelease, getReleaseUnsafe,
+        getReleaseUnchecked, DynamicsCompressorNode(..),
+        gTypeDynamicsCompressorNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -39,6 +42,15 @@ getThreshold self
   = liftDOM ((self ^. js "threshold") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.threshold Mozilla DynamicsCompressorNode.threshold documentation> 
+getThresholdUnsafe ::
+                   (MonadDOM m, HasCallStack) =>
+                     DynamicsCompressorNode -> m AudioParam
+getThresholdUnsafe self
+  = liftDOM
+      (((self ^. js "threshold") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.threshold Mozilla DynamicsCompressorNode.threshold documentation> 
 getThresholdUnchecked ::
                       (MonadDOM m) => DynamicsCompressorNode -> m AudioParam
 getThresholdUnchecked self
@@ -50,6 +62,15 @@ getKnee ::
 getKnee self = liftDOM ((self ^. js "knee") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.knee Mozilla DynamicsCompressorNode.knee documentation> 
+getKneeUnsafe ::
+              (MonadDOM m, HasCallStack) =>
+                DynamicsCompressorNode -> m AudioParam
+getKneeUnsafe self
+  = liftDOM
+      (((self ^. js "knee") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.knee Mozilla DynamicsCompressorNode.knee documentation> 
 getKneeUnchecked ::
                  (MonadDOM m) => DynamicsCompressorNode -> m AudioParam
 getKneeUnchecked self
@@ -59,6 +80,15 @@ getKneeUnchecked self
 getRatio ::
          (MonadDOM m) => DynamicsCompressorNode -> m (Maybe AudioParam)
 getRatio self = liftDOM ((self ^. js "ratio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.ratio Mozilla DynamicsCompressorNode.ratio documentation> 
+getRatioUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 DynamicsCompressorNode -> m AudioParam
+getRatioUnsafe self
+  = liftDOM
+      (((self ^. js "ratio") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.ratio Mozilla DynamicsCompressorNode.ratio documentation> 
 getRatioUnchecked ::
@@ -73,6 +103,15 @@ getReduction self
   = liftDOM ((self ^. js "reduction") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.reduction Mozilla DynamicsCompressorNode.reduction documentation> 
+getReductionUnsafe ::
+                   (MonadDOM m, HasCallStack) =>
+                     DynamicsCompressorNode -> m AudioParam
+getReductionUnsafe self
+  = liftDOM
+      (((self ^. js "reduction") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.reduction Mozilla DynamicsCompressorNode.reduction documentation> 
 getReductionUnchecked ::
                       (MonadDOM m) => DynamicsCompressorNode -> m AudioParam
 getReductionUnchecked self
@@ -84,6 +123,15 @@ getAttack ::
 getAttack self = liftDOM ((self ^. js "attack") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.attack Mozilla DynamicsCompressorNode.attack documentation> 
+getAttackUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  DynamicsCompressorNode -> m AudioParam
+getAttackUnsafe self
+  = liftDOM
+      (((self ^. js "attack") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.attack Mozilla DynamicsCompressorNode.attack documentation> 
 getAttackUnchecked ::
                    (MonadDOM m) => DynamicsCompressorNode -> m AudioParam
 getAttackUnchecked self
@@ -93,6 +141,15 @@ getAttackUnchecked self
 getRelease ::
            (MonadDOM m) => DynamicsCompressorNode -> m (Maybe AudioParam)
 getRelease self = liftDOM ((self ^. js "release") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.release Mozilla DynamicsCompressorNode.release documentation> 
+getReleaseUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   DynamicsCompressorNode -> m AudioParam
+getReleaseUnsafe self
+  = liftDOM
+      (((self ^. js "release") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DynamicsCompressorNode.release Mozilla DynamicsCompressorNode.release documentation> 
 getReleaseUnchecked ::

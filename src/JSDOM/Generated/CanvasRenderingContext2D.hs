@@ -39,22 +39,24 @@ module JSDOM.Generated.CanvasRenderingContext2D
         webkitGetImageDataHDUnsafe, webkitGetImageDataHDUnchecked,
         drawFocusIfNeeded, drawFocusIfNeededPath, setGlobalAlpha,
         getGlobalAlpha, setGlobalCompositeOperation,
-        getGlobalCompositeOperation, getGlobalCompositeOperationUnchecked,
-        setLineWidth, getLineWidth, setLineCap, getLineCap,
-        getLineCapUnchecked, setLineJoin, getLineJoin,
-        getLineJoinUnchecked, setMiterLimit, getMiterLimit,
-        setShadowOffsetX, getShadowOffsetX, setShadowOffsetY,
-        getShadowOffsetY, setShadowBlur, getShadowBlur, setShadowColor,
-        getShadowColor, getShadowColorUnchecked, setLineDashOffset,
-        getLineDashOffset, setWebkitLineDash, getWebkitLineDash,
+        getGlobalCompositeOperation, getGlobalCompositeOperationUnsafe,
+        getGlobalCompositeOperationUnchecked, setLineWidth, getLineWidth,
+        setLineCap, getLineCap, getLineCapUnsafe, getLineCapUnchecked,
+        setLineJoin, getLineJoin, getLineJoinUnsafe, getLineJoinUnchecked,
+        setMiterLimit, getMiterLimit, setShadowOffsetX, getShadowOffsetX,
+        setShadowOffsetY, getShadowOffsetY, setShadowBlur, getShadowBlur,
+        setShadowColor, getShadowColor, getShadowColorUnsafe,
+        getShadowColorUnchecked, setLineDashOffset, getLineDashOffset,
+        setWebkitLineDash, getWebkitLineDash, getWebkitLineDashUnsafe,
         getWebkitLineDashUnchecked, setWebkitLineDashOffset,
         getWebkitLineDashOffset, setFont, getFont, setTextAlign,
         getTextAlign, setTextBaseline, getTextBaseline, setDirection,
-        getDirection, setStrokeStyle, getStrokeStyle,
+        getDirection, setStrokeStyle, getStrokeStyle, getStrokeStyleUnsafe,
         getStrokeStyleUnchecked, setFillStyle, getFillStyle,
-        getFillStyleUnchecked, getWebkitBackingStorePixelRatio,
-        setWebkitImageSmoothingEnabled, getWebkitImageSmoothingEnabled,
-        CanvasRenderingContext2D(..), gTypeCanvasRenderingContext2D)
+        getFillStyleUnsafe, getFillStyleUnchecked,
+        getWebkitBackingStorePixelRatio, setWebkitImageSmoothingEnabled,
+        getWebkitImageSmoothingEnabled, CanvasRenderingContext2D(..),
+        gTypeCanvasRenderingContext2D)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -1173,6 +1175,15 @@ getGlobalCompositeOperation self
       ((self ^. js "globalCompositeOperation") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.globalCompositeOperation Mozilla CanvasRenderingContext2D.globalCompositeOperation documentation> 
+getGlobalCompositeOperationUnsafe ::
+                                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                                    CanvasRenderingContext2D -> m result
+getGlobalCompositeOperationUnsafe self
+  = liftDOM
+      (((self ^. js "globalCompositeOperation") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.globalCompositeOperation Mozilla CanvasRenderingContext2D.globalCompositeOperation documentation> 
 getGlobalCompositeOperationUnchecked ::
                                      (MonadDOM m, FromJSString result) =>
                                        CanvasRenderingContext2D -> m result
@@ -1206,6 +1217,15 @@ getLineCap self
   = liftDOM ((self ^. js "lineCap") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineCap Mozilla CanvasRenderingContext2D.lineCap documentation> 
+getLineCapUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   CanvasRenderingContext2D -> m result
+getLineCapUnsafe self
+  = liftDOM
+      (((self ^. js "lineCap") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineCap Mozilla CanvasRenderingContext2D.lineCap documentation> 
 getLineCapUnchecked ::
                     (MonadDOM m, FromJSString result) =>
                       CanvasRenderingContext2D -> m result
@@ -1225,6 +1245,15 @@ getLineJoin ::
               CanvasRenderingContext2D -> m (Maybe result)
 getLineJoin self
   = liftDOM ((self ^. js "lineJoin") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineJoin Mozilla CanvasRenderingContext2D.lineJoin documentation> 
+getLineJoinUnsafe ::
+                  (MonadDOM m, HasCallStack, FromJSString result) =>
+                    CanvasRenderingContext2D -> m result
+getLineJoinUnsafe self
+  = liftDOM
+      (((self ^. js "lineJoin") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineJoin Mozilla CanvasRenderingContext2D.lineJoin documentation> 
 getLineJoinUnchecked ::
@@ -1300,6 +1329,15 @@ getShadowColor self
   = liftDOM ((self ^. js "shadowColor") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.shadowColor Mozilla CanvasRenderingContext2D.shadowColor documentation> 
+getShadowColorUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       CanvasRenderingContext2D -> m result
+getShadowColorUnsafe self
+  = liftDOM
+      (((self ^. js "shadowColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.shadowColor Mozilla CanvasRenderingContext2D.shadowColor documentation> 
 getShadowColorUnchecked ::
                         (MonadDOM m, FromJSString result) =>
                           CanvasRenderingContext2D -> m result
@@ -1331,6 +1369,14 @@ getWebkitLineDash ::
                   (MonadDOM m) => CanvasRenderingContext2D -> m (Maybe Array)
 getWebkitLineDash self
   = liftDOM ((self ^. js "webkitLineDash") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitLineDash Mozilla CanvasRenderingContext2D.webkitLineDash documentation> 
+getWebkitLineDashUnsafe ::
+                        (MonadDOM m, HasCallStack) => CanvasRenderingContext2D -> m Array
+getWebkitLineDashUnsafe self
+  = liftDOM
+      (((self ^. js "webkitLineDash") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.webkitLineDash Mozilla CanvasRenderingContext2D.webkitLineDash documentation> 
 getWebkitLineDashUnchecked ::
@@ -1420,6 +1466,15 @@ getStrokeStyle self
   = liftDOM ((self ^. js "strokeStyle") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.strokeStyle Mozilla CanvasRenderingContext2D.strokeStyle documentation> 
+getStrokeStyleUnsafe ::
+                     (MonadDOM m, HasCallStack) =>
+                       CanvasRenderingContext2D -> m CanvasStyle
+getStrokeStyleUnsafe self
+  = liftDOM
+      (((self ^. js "strokeStyle") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.strokeStyle Mozilla CanvasRenderingContext2D.strokeStyle documentation> 
 getStrokeStyleUnchecked ::
                         (MonadDOM m) => CanvasRenderingContext2D -> m CanvasStyle
 getStrokeStyleUnchecked self
@@ -1437,6 +1492,15 @@ getFillStyle ::
              (MonadDOM m) => CanvasRenderingContext2D -> m (Maybe CanvasStyle)
 getFillStyle self
   = liftDOM ((self ^. js "fillStyle") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.fillStyle Mozilla CanvasRenderingContext2D.fillStyle documentation> 
+getFillStyleUnsafe ::
+                   (MonadDOM m, HasCallStack) =>
+                     CanvasRenderingContext2D -> m CanvasStyle
+getFillStyleUnsafe self
+  = liftDOM
+      (((self ^. js "fillStyle") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.fillStyle Mozilla CanvasRenderingContext2D.fillStyle documentation> 
 getFillStyleUnchecked ::

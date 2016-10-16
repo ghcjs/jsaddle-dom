@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLScriptElement
-       (setText, getText, getTextUnchecked, setHtmlFor, getHtmlFor,
-        setEvent, getEvent, setCharset, getCharset, setAsync, getAsync,
-        setDefer, getDefer, setSrc, getSrc, setType, getType,
+       (setText, getText, getTextUnsafe, getTextUnchecked, setHtmlFor,
+        getHtmlFor, setEvent, getEvent, setCharset, getCharset, setAsync,
+        getAsync, setDefer, getDefer, setSrc, getSrc, setType, getType,
         setCrossOrigin, getCrossOrigin, setNonce, getNonce,
         HTMLScriptElement(..), gTypeHTMLScriptElement)
        where
@@ -44,6 +44,15 @@ getText ::
         (MonadDOM m, FromJSString result) =>
           HTMLScriptElement -> m (Maybe result)
 getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
+getTextUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                HTMLScriptElement -> m result
+getTextUnsafe self
+  = liftDOM
+      (((self ^. js "text") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
 getTextUnchecked ::

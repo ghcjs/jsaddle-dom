@@ -4,10 +4,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerNavigator
-       (getWebkitTemporaryStorage, getWebkitTemporaryStorageUnchecked,
-        getWebkitPersistentStorage, getWebkitPersistentStorageUnchecked,
-        getAppName, getAppVersion, getPlatform, getUserAgent, getOnLine,
-        WorkerNavigator(..), gTypeWorkerNavigator)
+       (getWebkitTemporaryStorage, getWebkitTemporaryStorageUnsafe,
+        getWebkitTemporaryStorageUnchecked, getWebkitPersistentStorage,
+        getWebkitPersistentStorageUnsafe,
+        getWebkitPersistentStorageUnchecked, getAppName, getAppVersion,
+        getPlatform, getUserAgent, getOnLine, WorkerNavigator(..),
+        gTypeWorkerNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -39,6 +41,14 @@ getWebkitTemporaryStorage self
   = liftDOM ((self ^. js "webkitTemporaryStorage") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitTemporaryStorage Mozilla WorkerNavigator.webkitTemporaryStorage documentation> 
+getWebkitTemporaryStorageUnsafe ::
+                                (MonadDOM m, HasCallStack) => WorkerNavigator -> m StorageQuota
+getWebkitTemporaryStorageUnsafe self
+  = liftDOM
+      (((self ^. js "webkitTemporaryStorage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitTemporaryStorage Mozilla WorkerNavigator.webkitTemporaryStorage documentation> 
 getWebkitTemporaryStorageUnchecked ::
                                    (MonadDOM m) => WorkerNavigator -> m StorageQuota
 getWebkitTemporaryStorageUnchecked self
@@ -50,6 +60,14 @@ getWebkitPersistentStorage ::
                            (MonadDOM m) => WorkerNavigator -> m (Maybe StorageQuota)
 getWebkitPersistentStorage self
   = liftDOM ((self ^. js "webkitPersistentStorage") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitPersistentStorage Mozilla WorkerNavigator.webkitPersistentStorage documentation> 
+getWebkitPersistentStorageUnsafe ::
+                                 (MonadDOM m, HasCallStack) => WorkerNavigator -> m StorageQuota
+getWebkitPersistentStorageUnsafe self
+  = liftDOM
+      (((self ^. js "webkitPersistentStorage") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerNavigator.webkitPersistentStorage Mozilla WorkerNavigator.webkitPersistentStorage documentation> 
 getWebkitPersistentStorageUnchecked ::

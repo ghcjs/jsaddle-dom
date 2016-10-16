@@ -4,9 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Attr
-       (getName, getNameUnchecked, getSpecified, setValue, getValue,
-        getValueUnchecked, getOwnerElement, getOwnerElementUnchecked,
-        getIsId, Attr(..), gTypeAttr)
+       (getName, getNameUnsafe, getNameUnchecked, getSpecified, setValue,
+        getValue, getValueUnsafe, getValueUnchecked, getOwnerElement,
+        getOwnerElementUnsafe, getOwnerElementUnchecked, getIsId, Attr(..),
+        gTypeAttr)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -37,6 +38,14 @@ getName ::
 getName self = liftDOM ((self ^. js "name") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.name Mozilla Attr.name documentation> 
+getNameUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) => Attr -> m result
+getNameUnsafe self
+  = liftDOM
+      (((self ^. js "name") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.name Mozilla Attr.name documentation> 
 getNameUnchecked ::
                  (MonadDOM m, FromJSString result) => Attr -> m result
 getNameUnchecked self
@@ -59,6 +68,14 @@ getValue self
   = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.value Mozilla Attr.value documentation> 
+getValueUnsafe ::
+               (MonadDOM m, HasCallStack, FromJSString result) => Attr -> m result
+getValueUnsafe self
+  = liftDOM
+      (((self ^. js "value") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.value Mozilla Attr.value documentation> 
 getValueUnchecked ::
                   (MonadDOM m, FromJSString result) => Attr -> m result
 getValueUnchecked self
@@ -68,6 +85,14 @@ getValueUnchecked self
 getOwnerElement :: (MonadDOM m) => Attr -> m (Maybe Element)
 getOwnerElement self
   = liftDOM ((self ^. js "ownerElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.ownerElement Mozilla Attr.ownerElement documentation> 
+getOwnerElementUnsafe ::
+                      (MonadDOM m, HasCallStack) => Attr -> m Element
+getOwnerElementUnsafe self
+  = liftDOM
+      (((self ^. js "ownerElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.ownerElement Mozilla Attr.ownerElement documentation> 
 getOwnerElementUnchecked :: (MonadDOM m) => Attr -> m Element

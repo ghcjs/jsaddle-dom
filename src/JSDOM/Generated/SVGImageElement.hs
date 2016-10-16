@@ -4,9 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGImageElement
-       (getX, getXUnchecked, getY, getYUnchecked, getWidth,
-        getWidthUnchecked, getHeight, getHeightUnchecked,
-        getPreserveAspectRatio, getPreserveAspectRatioUnchecked,
+       (getX, getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
+        getWidth, getWidthUnsafe, getWidthUnchecked, getHeight,
+        getHeightUnsafe, getHeightUnchecked, getPreserveAspectRatio,
+        getPreserveAspectRatioUnsafe, getPreserveAspectRatioUnchecked,
         SVGImageElement(..), gTypeSVGImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -38,6 +39,15 @@ getX ::
 getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.x Mozilla SVGImageElement.x documentation> 
+getXUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGImageElement -> m SVGAnimatedLength
+getXUnsafe self
+  = liftDOM
+      (((self ^. js "x") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.x Mozilla SVGImageElement.x documentation> 
 getXUnchecked ::
               (MonadDOM m) => SVGImageElement -> m SVGAnimatedLength
 getXUnchecked self
@@ -47,6 +57,15 @@ getXUnchecked self
 getY ::
      (MonadDOM m) => SVGImageElement -> m (Maybe SVGAnimatedLength)
 getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.y Mozilla SVGImageElement.y documentation> 
+getYUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGImageElement -> m SVGAnimatedLength
+getYUnsafe self
+  = liftDOM
+      (((self ^. js "y") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.y Mozilla SVGImageElement.y documentation> 
 getYUnchecked ::
@@ -60,6 +79,15 @@ getWidth ::
 getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.width Mozilla SVGImageElement.width documentation> 
+getWidthUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 SVGImageElement -> m SVGAnimatedLength
+getWidthUnsafe self
+  = liftDOM
+      (((self ^. js "width") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.width Mozilla SVGImageElement.width documentation> 
 getWidthUnchecked ::
                   (MonadDOM m) => SVGImageElement -> m SVGAnimatedLength
 getWidthUnchecked self
@@ -69,6 +97,15 @@ getWidthUnchecked self
 getHeight ::
           (MonadDOM m) => SVGImageElement -> m (Maybe SVGAnimatedLength)
 getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.height Mozilla SVGImageElement.height documentation> 
+getHeightUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  SVGImageElement -> m SVGAnimatedLength
+getHeightUnsafe self
+  = liftDOM
+      (((self ^. js "height") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.height Mozilla SVGImageElement.height documentation> 
 getHeightUnchecked ::
@@ -82,6 +119,15 @@ getPreserveAspectRatio ::
                          SVGImageElement -> m (Maybe SVGAnimatedPreserveAspectRatio)
 getPreserveAspectRatio self
   = liftDOM ((self ^. js "preserveAspectRatio") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.preserveAspectRatio Mozilla SVGImageElement.preserveAspectRatio documentation> 
+getPreserveAspectRatioUnsafe ::
+                             (MonadDOM m, HasCallStack) =>
+                               SVGImageElement -> m SVGAnimatedPreserveAspectRatio
+getPreserveAspectRatioUnsafe self
+  = liftDOM
+      (((self ^. js "preserveAspectRatio") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement.preserveAspectRatio Mozilla SVGImageElement.preserveAspectRatio documentation> 
 getPreserveAspectRatioUnchecked ::

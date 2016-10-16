@@ -12,7 +12,8 @@ module JSDOM.Generated.Performance
         webkitGetEntriesByNameUnchecked, webkitClearResourceTimings,
         webkitSetResourceTimingBufferSize, webkitMark, webkitClearMarks,
         webkitMeasure, webkitClearMeasures, now, now_, getNavigation,
-        getNavigationUnchecked, getTiming, getTimingUnchecked,
+        getNavigationUnsafe, getNavigationUnchecked, getTiming,
+        getTimingUnsafe, getTimingUnchecked,
         webKitResourceTimingBufferFull, Performance(..), gTypePerformance)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -205,6 +206,15 @@ getNavigation self
   = liftDOM ((self ^. js "navigation") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.navigation Mozilla Performance.navigation documentation> 
+getNavigationUnsafe ::
+                    (MonadDOM m, HasCallStack) =>
+                      Performance -> m PerformanceNavigation
+getNavigationUnsafe self
+  = liftDOM
+      (((self ^. js "navigation") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.navigation Mozilla Performance.navigation documentation> 
 getNavigationUnchecked ::
                        (MonadDOM m) => Performance -> m PerformanceNavigation
 getNavigationUnchecked self
@@ -214,6 +224,14 @@ getNavigationUnchecked self
 getTiming ::
           (MonadDOM m) => Performance -> m (Maybe PerformanceTiming)
 getTiming self = liftDOM ((self ^. js "timing") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.timing Mozilla Performance.timing documentation> 
+getTimingUnsafe ::
+                (MonadDOM m, HasCallStack) => Performance -> m PerformanceTiming
+getTimingUnsafe self
+  = liftDOM
+      (((self ^. js "timing") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Performance.timing Mozilla Performance.timing documentation> 
 getTimingUnchecked ::

@@ -11,13 +11,15 @@ module JSDOM.Generated.HTMLTableElement
         createCaption, createCaption_, createCaptionUnsafe,
         createCaptionUnchecked, deleteCaption, insertRow, insertRow_,
         insertRowUnsafe, insertRowUnchecked, deleteRow, setCaption,
-        getCaption, getCaptionUnchecked, setTHead, getTHead,
-        getTHeadUnchecked, setTFoot, getTFoot, getTFootUnchecked, getRows,
-        getRowsUnchecked, getTBodies, getTBodiesUnchecked, setAlign,
-        getAlign, setBgColor, getBgColor, setBorder, getBorder,
-        setCellPadding, getCellPadding, setCellSpacing, getCellSpacing,
-        setFrame, getFrame, setRules, getRules, setSummary, getSummary,
-        setWidth, getWidth, HTMLTableElement(..), gTypeHTMLTableElement)
+        getCaption, getCaptionUnsafe, getCaptionUnchecked, setTHead,
+        getTHead, getTHeadUnsafe, getTHeadUnchecked, setTFoot, getTFoot,
+        getTFootUnsafe, getTFootUnchecked, getRows, getRowsUnsafe,
+        getRowsUnchecked, getTBodies, getTBodiesUnsafe,
+        getTBodiesUnchecked, setAlign, getAlign, setBgColor, getBgColor,
+        setBorder, getBorder, setCellPadding, getCellPadding,
+        setCellSpacing, getCellSpacing, setFrame, getFrame, setRules,
+        getRules, setSummary, getSummary, setWidth, getWidth,
+        HTMLTableElement(..), gTypeHTMLTableElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -197,6 +199,15 @@ getCaption ::
 getCaption self = liftDOM ((self ^. js "caption") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.caption Mozilla HTMLTableElement.caption documentation> 
+getCaptionUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   HTMLTableElement -> m HTMLTableCaptionElement
+getCaptionUnsafe self
+  = liftDOM
+      (((self ^. js "caption") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.caption Mozilla HTMLTableElement.caption documentation> 
 getCaptionUnchecked ::
                     (MonadDOM m) => HTMLTableElement -> m HTMLTableCaptionElement
 getCaptionUnchecked self
@@ -213,6 +224,15 @@ getTHead ::
          (MonadDOM m) =>
            HTMLTableElement -> m (Maybe HTMLTableSectionElement)
 getTHead self = liftDOM ((self ^. js "tHead") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.tHead Mozilla HTMLTableElement.tHead documentation> 
+getTHeadUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 HTMLTableElement -> m HTMLTableSectionElement
+getTHeadUnsafe self
+  = liftDOM
+      (((self ^. js "tHead") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.tHead Mozilla HTMLTableElement.tHead documentation> 
 getTHeadUnchecked ::
@@ -233,6 +253,15 @@ getTFoot ::
 getTFoot self = liftDOM ((self ^. js "tFoot") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.tFoot Mozilla HTMLTableElement.tFoot documentation> 
+getTFootUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 HTMLTableElement -> m HTMLTableSectionElement
+getTFootUnsafe self
+  = liftDOM
+      (((self ^. js "tFoot") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.tFoot Mozilla HTMLTableElement.tFoot documentation> 
 getTFootUnchecked ::
                   (MonadDOM m) => HTMLTableElement -> m HTMLTableSectionElement
 getTFootUnchecked self
@@ -244,6 +273,14 @@ getRows ::
 getRows self = liftDOM ((self ^. js "rows") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.rows Mozilla HTMLTableElement.rows documentation> 
+getRowsUnsafe ::
+              (MonadDOM m, HasCallStack) => HTMLTableElement -> m HTMLCollection
+getRowsUnsafe self
+  = liftDOM
+      (((self ^. js "rows") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.rows Mozilla HTMLTableElement.rows documentation> 
 getRowsUnchecked ::
                  (MonadDOM m) => HTMLTableElement -> m HTMLCollection
 getRowsUnchecked self
@@ -253,6 +290,14 @@ getRowsUnchecked self
 getTBodies ::
            (MonadDOM m) => HTMLTableElement -> m (Maybe HTMLCollection)
 getTBodies self = liftDOM ((self ^. js "tBodies") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.tBodies Mozilla HTMLTableElement.tBodies documentation> 
+getTBodiesUnsafe ::
+                 (MonadDOM m, HasCallStack) => HTMLTableElement -> m HTMLCollection
+getTBodiesUnsafe self
+  = liftDOM
+      (((self ^. js "tBodies") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.tBodies Mozilla HTMLTableElement.tBodies documentation> 
 getTBodiesUnchecked ::

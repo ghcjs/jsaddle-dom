@@ -9,8 +9,9 @@ module JSDOM.Generated.IDBDatabase
         transaction_, transactionUnsafe, transactionUnchecked,
         transaction', transaction'_, transaction'Unsafe,
         transaction'Unchecked, close, getName, getVersion,
-        getObjectStoreNames, getObjectStoreNamesUnchecked, abort, error,
-        versionChange, IDBDatabase(..), gTypeIDBDatabase)
+        getObjectStoreNames, getObjectStoreNamesUnsafe,
+        getObjectStoreNamesUnchecked, abort, error, versionChange,
+        IDBDatabase(..), gTypeIDBDatabase)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -178,6 +179,14 @@ getObjectStoreNames ::
                     (MonadDOM m) => IDBDatabase -> m (Maybe DOMStringList)
 getObjectStoreNames self
   = liftDOM ((self ^. js "objectStoreNames") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.objectStoreNames Mozilla IDBDatabase.objectStoreNames documentation> 
+getObjectStoreNamesUnsafe ::
+                          (MonadDOM m, HasCallStack) => IDBDatabase -> m DOMStringList
+getObjectStoreNamesUnsafe self
+  = liftDOM
+      (((self ^. js "objectStoreNames") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase.objectStoreNames Mozilla IDBDatabase.objectStoreNames documentation> 
 getObjectStoreNamesUnchecked ::

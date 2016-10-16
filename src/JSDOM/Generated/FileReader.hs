@@ -6,9 +6,9 @@
 module JSDOM.Generated.FileReader
        (newFileReader, readAsArrayBuffer, readAsBinaryString, readAsText,
         readAsDataURL, abort, pattern EMPTY, pattern LOADING, pattern DONE,
-        getReadyState, getResult, getError, getErrorUnchecked, loadStart,
-        progress, load, abortEvent, error, loadEnd, FileReader(..),
-        gTypeFileReader)
+        getReadyState, getResult, getError, getErrorUnsafe,
+        getErrorUnchecked, loadStart, progress, load, abortEvent, error,
+        loadEnd, FileReader(..), gTypeFileReader)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -82,6 +82,14 @@ getResult self = liftDOM ((self ^. js "result") >>= toJSVal)
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
 getError :: (MonadDOM m) => FileReader -> m (Maybe FileError)
 getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
+getErrorUnsafe ::
+               (MonadDOM m, HasCallStack) => FileReader -> m FileError
+getErrorUnsafe self
+  = liftDOM
+      (((self ^. js "error") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
 getErrorUnchecked :: (MonadDOM m) => FileReader -> m FileError

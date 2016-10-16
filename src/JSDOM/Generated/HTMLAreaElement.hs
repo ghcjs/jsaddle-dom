@@ -7,8 +7,8 @@ module JSDOM.Generated.HTMLAreaElement
        (setAlt, getAlt, setCoords, getCoords, setHref, getHref, setNoHref,
         getNoHref, setPing, getPing, setRel, getRel, setShape, getShape,
         setTarget, getTarget, getHash, getHost, getHostname, getPathname,
-        getPort, getProtocol, getSearch, getRelList, getRelListUnchecked,
-        HTMLAreaElement(..), gTypeHTMLAreaElement)
+        getPort, getProtocol, getSearch, getRelList, getRelListUnsafe,
+        getRelListUnchecked, HTMLAreaElement(..), gTypeHTMLAreaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -157,6 +157,14 @@ getSearch self
 getRelList ::
            (MonadDOM m) => HTMLAreaElement -> m (Maybe DOMTokenList)
 getRelList self = liftDOM ((self ^. js "relList") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.relList Mozilla HTMLAreaElement.relList documentation> 
+getRelListUnsafe ::
+                 (MonadDOM m, HasCallStack) => HTMLAreaElement -> m DOMTokenList
+getRelListUnsafe self
+  = liftDOM
+      (((self ^. js "relList") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.relList Mozilla HTMLAreaElement.relList documentation> 
 getRelListUnchecked ::

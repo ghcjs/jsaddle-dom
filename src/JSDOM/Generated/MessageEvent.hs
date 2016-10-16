@@ -5,8 +5,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MessageEvent
        (initMessageEvent, webkitInitMessageEvent, getOrigin,
-        getLastEventId, getSource, getSourceUnchecked, getData, getPorts,
-        MessageEvent(..), gTypeMessageEvent)
+        getLastEventId, getSource, getSourceUnsafe, getSourceUnchecked,
+        getData, getPorts, MessageEvent(..), gTypeMessageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -86,6 +86,14 @@ getLastEventId self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.source Mozilla MessageEvent.source documentation> 
 getSource :: (MonadDOM m) => MessageEvent -> m (Maybe EventTarget)
 getSource self = liftDOM ((self ^. js "source") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.source Mozilla MessageEvent.source documentation> 
+getSourceUnsafe ::
+                (MonadDOM m, HasCallStack) => MessageEvent -> m EventTarget
+getSourceUnsafe self
+  = liftDOM
+      (((self ^. js "source") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.source Mozilla MessageEvent.source documentation> 
 getSourceUnchecked :: (MonadDOM m) => MessageEvent -> m EventTarget

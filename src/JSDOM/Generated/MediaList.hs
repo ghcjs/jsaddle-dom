@@ -5,8 +5,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaList
        (item, item_, itemUnsafe, itemUnchecked, deleteMedium,
-        appendMedium, setMediaText, getMediaText, getMediaTextUnchecked,
-        getLength, MediaList(..), gTypeMediaList)
+        appendMedium, setMediaText, getMediaText, getMediaTextUnsafe,
+        getMediaTextUnchecked, getLength, MediaList(..), gTypeMediaList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -85,6 +85,15 @@ getMediaText ::
              (MonadDOM m, FromJSString result) => MediaList -> m (Maybe result)
 getMediaText self
   = liftDOM ((self ^. js "mediaText") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
+getMediaTextUnsafe ::
+                   (MonadDOM m, HasCallStack, FromJSString result) =>
+                     MediaList -> m result
+getMediaTextUnsafe self
+  = liftDOM
+      (((self ^. js "mediaText") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
 getMediaTextUnchecked ::

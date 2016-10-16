@@ -6,11 +6,13 @@
 module JSDOM.Generated.MouseEvent
        (initMouseEvent, getScreenX, getScreenY, getClientX, getClientY,
         getCtrlKey, getShiftKey, getAltKey, getMetaKey, getButton,
-        getRelatedTarget, getRelatedTargetUnchecked, getMovementX,
-        getMovementY, getOffsetX, getOffsetY, getX, getY, getFromElement,
-        getFromElementUnchecked, getToElement, getToElementUnchecked,
-        getDataTransfer, getDataTransferUnchecked, MouseEvent(..),
-        gTypeMouseEvent, IsMouseEvent, toMouseEvent)
+        getRelatedTarget, getRelatedTargetUnsafe,
+        getRelatedTargetUnchecked, getMovementX, getMovementY, getOffsetX,
+        getOffsetY, getX, getY, getFromElement, getFromElementUnsafe,
+        getFromElementUnchecked, getToElement, getToElementUnsafe,
+        getToElementUnchecked, getDataTransfer, getDataTransferUnsafe,
+        getDataTransferUnchecked, MouseEvent(..), gTypeMouseEvent,
+        IsMouseEvent, toMouseEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -120,6 +122,15 @@ getRelatedTarget self
       (((toMouseEvent self) ^. js "relatedTarget") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.relatedTarget Mozilla MouseEvent.relatedTarget documentation> 
+getRelatedTargetUnsafe ::
+                       (MonadDOM m, IsMouseEvent self, HasCallStack) =>
+                         self -> m EventTarget
+getRelatedTargetUnsafe self
+  = liftDOM
+      ((((toMouseEvent self) ^. js "relatedTarget") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.relatedTarget Mozilla MouseEvent.relatedTarget documentation> 
 getRelatedTargetUnchecked ::
                           (MonadDOM m, IsMouseEvent self) => self -> m EventTarget
 getRelatedTargetUnchecked self
@@ -172,6 +183,14 @@ getFromElement self
   = liftDOM (((toMouseEvent self) ^. js "fromElement") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.fromElement Mozilla MouseEvent.fromElement documentation> 
+getFromElementUnsafe ::
+                     (MonadDOM m, IsMouseEvent self, HasCallStack) => self -> m Node
+getFromElementUnsafe self
+  = liftDOM
+      ((((toMouseEvent self) ^. js "fromElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.fromElement Mozilla MouseEvent.fromElement documentation> 
 getFromElementUnchecked ::
                         (MonadDOM m, IsMouseEvent self) => self -> m Node
 getFromElementUnchecked self
@@ -183,6 +202,14 @@ getToElement ::
              (MonadDOM m, IsMouseEvent self) => self -> m (Maybe Node)
 getToElement self
   = liftDOM (((toMouseEvent self) ^. js "toElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.toElement Mozilla MouseEvent.toElement documentation> 
+getToElementUnsafe ::
+                   (MonadDOM m, IsMouseEvent self, HasCallStack) => self -> m Node
+getToElementUnsafe self
+  = liftDOM
+      ((((toMouseEvent self) ^. js "toElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.toElement Mozilla MouseEvent.toElement documentation> 
 getToElementUnchecked ::
@@ -197,6 +224,15 @@ getDataTransfer ::
 getDataTransfer self
   = liftDOM
       (((toMouseEvent self) ^. js "dataTransfer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.dataTransfer Mozilla MouseEvent.dataTransfer documentation> 
+getDataTransferUnsafe ::
+                      (MonadDOM m, IsMouseEvent self, HasCallStack) =>
+                        self -> m DataTransfer
+getDataTransferUnsafe self
+  = liftDOM
+      ((((toMouseEvent self) ^. js "dataTransfer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.dataTransfer Mozilla MouseEvent.dataTransfer documentation> 
 getDataTransferUnchecked ::

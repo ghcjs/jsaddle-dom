@@ -4,7 +4,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSFontFaceRule
-       (getStyle, getStyleUnchecked, CSSFontFaceRule(..),
+       (getStyle, getStyleUnsafe, getStyleUnchecked, CSSFontFaceRule(..),
         gTypeCSSFontFaceRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -34,6 +34,15 @@ type HasCallStack = (() :: Constraint)
 getStyle ::
          (MonadDOM m) => CSSFontFaceRule -> m (Maybe CSSStyleDeclaration)
 getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceRule.style Mozilla CSSFontFaceRule.style documentation> 
+getStyleUnsafe ::
+               (MonadDOM m, HasCallStack) =>
+                 CSSFontFaceRule -> m CSSStyleDeclaration
+getStyleUnsafe self
+  = liftDOM
+      (((self ^. js "style") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSFontFaceRule.style Mozilla CSSFontFaceRule.style documentation> 
 getStyleUnchecked ::

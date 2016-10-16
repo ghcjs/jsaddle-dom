@@ -4,9 +4,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGRadialGradientElement
-       (getCx, getCxUnchecked, getCy, getCyUnchecked, getR, getRUnchecked,
-        getFx, getFxUnchecked, getFy, getFyUnchecked, getFr,
-        getFrUnchecked, SVGRadialGradientElement(..),
+       (getCx, getCxUnsafe, getCxUnchecked, getCy, getCyUnsafe,
+        getCyUnchecked, getR, getRUnsafe, getRUnchecked, getFx,
+        getFxUnsafe, getFxUnchecked, getFy, getFyUnsafe, getFyUnchecked,
+        getFr, getFrUnsafe, getFrUnchecked, SVGRadialGradientElement(..),
         gTypeSVGRadialGradientElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -39,6 +40,15 @@ getCx ::
 getCx self = liftDOM ((self ^. js "cx") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.cx Mozilla SVGRadialGradientElement.cx documentation> 
+getCxUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGRadialGradientElement -> m SVGAnimatedLength
+getCxUnsafe self
+  = liftDOM
+      (((self ^. js "cx") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.cx Mozilla SVGRadialGradientElement.cx documentation> 
 getCxUnchecked ::
                (MonadDOM m) => SVGRadialGradientElement -> m SVGAnimatedLength
 getCxUnchecked self
@@ -49,6 +59,15 @@ getCy ::
       (MonadDOM m) =>
         SVGRadialGradientElement -> m (Maybe SVGAnimatedLength)
 getCy self = liftDOM ((self ^. js "cy") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.cy Mozilla SVGRadialGradientElement.cy documentation> 
+getCyUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGRadialGradientElement -> m SVGAnimatedLength
+getCyUnsafe self
+  = liftDOM
+      (((self ^. js "cy") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.cy Mozilla SVGRadialGradientElement.cy documentation> 
 getCyUnchecked ::
@@ -63,6 +82,15 @@ getR ::
 getR self = liftDOM ((self ^. js "r") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.r Mozilla SVGRadialGradientElement.r documentation> 
+getRUnsafe ::
+           (MonadDOM m, HasCallStack) =>
+             SVGRadialGradientElement -> m SVGAnimatedLength
+getRUnsafe self
+  = liftDOM
+      (((self ^. js "r") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.r Mozilla SVGRadialGradientElement.r documentation> 
 getRUnchecked ::
               (MonadDOM m) => SVGRadialGradientElement -> m SVGAnimatedLength
 getRUnchecked self
@@ -73,6 +101,15 @@ getFx ::
       (MonadDOM m) =>
         SVGRadialGradientElement -> m (Maybe SVGAnimatedLength)
 getFx self = liftDOM ((self ^. js "fx") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.fx Mozilla SVGRadialGradientElement.fx documentation> 
+getFxUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGRadialGradientElement -> m SVGAnimatedLength
+getFxUnsafe self
+  = liftDOM
+      (((self ^. js "fx") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.fx Mozilla SVGRadialGradientElement.fx documentation> 
 getFxUnchecked ::
@@ -87,6 +124,15 @@ getFy ::
 getFy self = liftDOM ((self ^. js "fy") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.fy Mozilla SVGRadialGradientElement.fy documentation> 
+getFyUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGRadialGradientElement -> m SVGAnimatedLength
+getFyUnsafe self
+  = liftDOM
+      (((self ^. js "fy") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.fy Mozilla SVGRadialGradientElement.fy documentation> 
 getFyUnchecked ::
                (MonadDOM m) => SVGRadialGradientElement -> m SVGAnimatedLength
 getFyUnchecked self
@@ -97,6 +143,15 @@ getFr ::
       (MonadDOM m) =>
         SVGRadialGradientElement -> m (Maybe SVGAnimatedLength)
 getFr self = liftDOM ((self ^. js "fr") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.fr Mozilla SVGRadialGradientElement.fr documentation> 
+getFrUnsafe ::
+            (MonadDOM m, HasCallStack) =>
+              SVGRadialGradientElement -> m SVGAnimatedLength
+getFrUnsafe self
+  = liftDOM
+      (((self ^. js "fr") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGRadialGradientElement.fr Mozilla SVGRadialGradientElement.fr documentation> 
 getFrUnchecked ::

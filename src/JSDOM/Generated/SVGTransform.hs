@@ -8,7 +8,7 @@ module JSDOM.Generated.SVGTransform
         pattern SVG_TRANSFORM_UNKNOWN, pattern SVG_TRANSFORM_MATRIX,
         pattern SVG_TRANSFORM_TRANSLATE, pattern SVG_TRANSFORM_SCALE,
         pattern SVG_TRANSFORM_ROTATE, pattern SVG_TRANSFORM_SKEWX,
-        pattern SVG_TRANSFORM_SKEWY, getType, getMatrix,
+        pattern SVG_TRANSFORM_SKEWY, getType, getMatrix, getMatrixUnsafe,
         getMatrixUnchecked, getAngle, SVGTransform(..), gTypeSVGTransform)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
@@ -85,6 +85,14 @@ getType self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
 getMatrix :: (MonadDOM m) => SVGTransform -> m (Maybe SVGMatrix)
 getMatrix self = liftDOM ((self ^. js "matrix") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
+getMatrixUnsafe ::
+                (MonadDOM m, HasCallStack) => SVGTransform -> m SVGMatrix
+getMatrixUnsafe self
+  = liftDOM
+      (((self ^. js "matrix") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
 getMatrixUnchecked :: (MonadDOM m) => SVGTransform -> m SVGMatrix

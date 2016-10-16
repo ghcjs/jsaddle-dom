@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.UIEvent
-       (initUIEvent, getView, getViewUnchecked, getDetail, getKeyCode,
-        getCharCode, getLayerX, getLayerY, getPageX, getPageY, getWhich,
-        UIEvent(..), gTypeUIEvent, IsUIEvent, toUIEvent)
+       (initUIEvent, getView, getViewUnsafe, getViewUnchecked, getDetail,
+        getKeyCode, getCharCode, getLayerX, getLayerY, getPageX, getPageY,
+        getWhich, UIEvent(..), gTypeUIEvent, IsUIEvent, toUIEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -45,6 +45,14 @@ initUIEvent self type' canBubble cancelable view detail
 getView :: (MonadDOM m, IsUIEvent self) => self -> m (Maybe Window)
 getView self
   = liftDOM (((toUIEvent self) ^. js "view") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/UIEvent.view Mozilla UIEvent.view documentation> 
+getViewUnsafe ::
+              (MonadDOM m, IsUIEvent self, HasCallStack) => self -> m Window
+getViewUnsafe self
+  = liftDOM
+      ((((toUIEvent self) ^. js "view") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/UIEvent.view Mozilla UIEvent.view documentation> 
 getViewUnchecked ::

@@ -4,9 +4,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCDTMFSender
-       (insertDTMF, getCanInsertDTMF, getTrack, getTrackUnchecked,
-        getToneBuffer, getDuration, getInterToneGap, toneChange,
-        RTCDTMFSender(..), gTypeRTCDTMFSender)
+       (insertDTMF, getCanInsertDTMF, getTrack, getTrackUnsafe,
+        getTrackUnchecked, getToneBuffer, getDuration, getInterToneGap,
+        toneChange, RTCDTMFSender(..), gTypeRTCDTMFSender)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -50,6 +50,14 @@ getCanInsertDTMF self
 getTrack ::
          (MonadDOM m) => RTCDTMFSender -> m (Maybe MediaStreamTrack)
 getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.track Mozilla RTCDTMFSender.track documentation> 
+getTrackUnsafe ::
+               (MonadDOM m, HasCallStack) => RTCDTMFSender -> m MediaStreamTrack
+getTrackUnsafe self
+  = liftDOM
+      (((self ^. js "track") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.track Mozilla RTCDTMFSender.track documentation> 
 getTrackUnchecked ::

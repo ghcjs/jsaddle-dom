@@ -11,12 +11,14 @@ module JSDOM.Generated.MediaControlsHost
         setSelectedTextTrack, updateTextTrackContainer, enteredFullscreen,
         exitedFullscreen, enterFullscreenOptimized, mediaUIImageData,
         mediaUIImageData_, getCaptionMenuOffItem,
-        getCaptionMenuOffItemUnchecked, getCaptionMenuAutomaticItem,
+        getCaptionMenuOffItemUnsafe, getCaptionMenuOffItemUnchecked,
+        getCaptionMenuAutomaticItem, getCaptionMenuAutomaticItemUnsafe,
         getCaptionMenuAutomaticItemUnchecked, getCaptionDisplayMode,
-        getTextTrackContainer, getTextTrackContainerUnchecked,
-        getMediaPlaybackAllowsInline, getSupportsFullscreen,
-        getUserGestureRequired, getExternalDeviceDisplayName,
-        getExternalDeviceType, setControlsDependOnPageScaleFactor,
+        getTextTrackContainer, getTextTrackContainerUnsafe,
+        getTextTrackContainerUnchecked, getMediaPlaybackAllowsInline,
+        getSupportsFullscreen, getUserGestureRequired,
+        getExternalDeviceDisplayName, getExternalDeviceType,
+        setControlsDependOnPageScaleFactor,
         getControlsDependOnPageScaleFactor, MediaControlsHost(..),
         gTypeMediaControlsHost)
        where
@@ -158,6 +160,14 @@ getCaptionMenuOffItem self
   = liftDOM ((self ^. js "captionMenuOffItem") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
+getCaptionMenuOffItemUnsafe ::
+                            (MonadDOM m, HasCallStack) => MediaControlsHost -> m TextTrack
+getCaptionMenuOffItemUnsafe self
+  = liftDOM
+      (((self ^. js "captionMenuOffItem") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
 getCaptionMenuOffItemUnchecked ::
                                (MonadDOM m) => MediaControlsHost -> m TextTrack
 getCaptionMenuOffItemUnchecked self
@@ -169,6 +179,14 @@ getCaptionMenuAutomaticItem ::
                             (MonadDOM m) => MediaControlsHost -> m (Maybe TextTrack)
 getCaptionMenuAutomaticItem self
   = liftDOM ((self ^. js "captionMenuAutomaticItem") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
+getCaptionMenuAutomaticItemUnsafe ::
+                                  (MonadDOM m, HasCallStack) => MediaControlsHost -> m TextTrack
+getCaptionMenuAutomaticItemUnsafe self
+  = liftDOM
+      (((self ^. js "captionMenuAutomaticItem") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
 getCaptionMenuAutomaticItemUnchecked ::
@@ -189,6 +207,14 @@ getTextTrackContainer ::
                       (MonadDOM m) => MediaControlsHost -> m (Maybe HTMLElement)
 getTextTrackContainer self
   = liftDOM ((self ^. js "textTrackContainer") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.textTrackContainer Mozilla MediaControlsHost.textTrackContainer documentation> 
+getTextTrackContainerUnsafe ::
+                            (MonadDOM m, HasCallStack) => MediaControlsHost -> m HTMLElement
+getTextTrackContainerUnsafe self
+  = liftDOM
+      (((self ^. js "textTrackContainer") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.textTrackContainer Mozilla MediaControlsHost.textTrackContainer documentation> 
 getTextTrackContainerUnchecked ::

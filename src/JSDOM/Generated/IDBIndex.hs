@@ -15,7 +15,8 @@ module JSDOM.Generated.IDBIndex
         getKeyRangeUnchecked, getKey, getKey_, getKeyUnsafe,
         getKeyUnchecked, countRange, countRange_, countRangeUnsafe,
         countRangeUnchecked, count, count_, countUnsafe, countUnchecked,
-        getName, getObjectStore, getObjectStoreUnchecked, getKeyPath,
+        getName, getObjectStore, getObjectStoreUnsafe,
+        getObjectStoreUnchecked, getKeyPath, getKeyPathUnsafe,
         getKeyPathUnchecked, getMultiEntry, getUnique, IDBIndex(..),
         gTypeIDBIndex)
        where
@@ -359,6 +360,14 @@ getObjectStore self
   = liftDOM ((self ^. js "objectStore") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.objectStore Mozilla IDBIndex.objectStore documentation> 
+getObjectStoreUnsafe ::
+                     (MonadDOM m, HasCallStack) => IDBIndex -> m IDBObjectStore
+getObjectStoreUnsafe self
+  = liftDOM
+      (((self ^. js "objectStore") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.objectStore Mozilla IDBIndex.objectStore documentation> 
 getObjectStoreUnchecked ::
                         (MonadDOM m) => IDBIndex -> m IDBObjectStore
 getObjectStoreUnchecked self
@@ -367,6 +376,14 @@ getObjectStoreUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.keyPath Mozilla IDBIndex.keyPath documentation> 
 getKeyPath :: (MonadDOM m) => IDBIndex -> m (Maybe IDBAny)
 getKeyPath self = liftDOM ((self ^. js "keyPath") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.keyPath Mozilla IDBIndex.keyPath documentation> 
+getKeyPathUnsafe ::
+                 (MonadDOM m, HasCallStack) => IDBIndex -> m IDBAny
+getKeyPathUnsafe self
+  = liftDOM
+      (((self ^. js "keyPath") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBIndex.keyPath Mozilla IDBIndex.keyPath documentation> 
 getKeyPathUnchecked :: (MonadDOM m) => IDBIndex -> m IDBAny

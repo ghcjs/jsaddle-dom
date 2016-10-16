@@ -10,9 +10,10 @@ module JSDOM.Generated.HTMLIFrameElement
         setMarginHeight, getMarginHeight, setMarginWidth, getMarginWidth,
         setName, getName, setSandbox, getSandbox, setScrolling,
         getScrolling, setSrc, getSrc, setSrcdoc, getSrcdoc, setWidth,
-        getWidth, getContentDocument, getContentDocumentUnchecked,
-        getContentWindow, getContentWindowUnchecked, HTMLIFrameElement(..),
-        gTypeHTMLIFrameElement)
+        getWidth, getContentDocument, getContentDocumentUnsafe,
+        getContentDocumentUnchecked, getContentWindow,
+        getContentWindowUnsafe, getContentWindowUnchecked,
+        HTMLIFrameElement(..), gTypeHTMLIFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -205,6 +206,14 @@ getContentDocument self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentDocument Mozilla HTMLIFrameElement.contentDocument documentation> 
+getContentDocumentUnsafe ::
+                         (MonadDOM m, HasCallStack) => HTMLIFrameElement -> m Document
+getContentDocumentUnsafe self
+  = liftDOM
+      (((self ^. js "contentDocument") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentDocument Mozilla HTMLIFrameElement.contentDocument documentation> 
 getContentDocumentUnchecked ::
                             (MonadDOM m) => HTMLIFrameElement -> m Document
 getContentDocumentUnchecked self
@@ -215,6 +224,14 @@ getContentWindow ::
                  (MonadDOM m) => HTMLIFrameElement -> m (Maybe Window)
 getContentWindow self
   = liftDOM ((self ^. js "contentWindow") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
+getContentWindowUnsafe ::
+                       (MonadDOM m, HasCallStack) => HTMLIFrameElement -> m Window
+getContentWindowUnsafe self
+  = liftDOM
+      (((self ^. js "contentWindow") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
 getContentWindowUnchecked ::

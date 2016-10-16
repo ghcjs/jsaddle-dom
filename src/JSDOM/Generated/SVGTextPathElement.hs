@@ -10,7 +10,8 @@ module JSDOM.Generated.SVGTextPathElement
         pattern TEXTPATH_SPACINGTYPE_UNKNOWN,
         pattern TEXTPATH_SPACINGTYPE_AUTO,
         pattern TEXTPATH_SPACINGTYPE_EXACT, getStartOffset,
-        getStartOffsetUnchecked, getMethod, getMethodUnchecked, getSpacing,
+        getStartOffsetUnsafe, getStartOffsetUnchecked, getMethod,
+        getMethodUnsafe, getMethodUnchecked, getSpacing, getSpacingUnsafe,
         getSpacingUnchecked, SVGTextPathElement(..),
         gTypeSVGTextPathElement)
        where
@@ -50,6 +51,15 @@ getStartOffset self
   = liftDOM ((self ^. js "startOffset") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.startOffset Mozilla SVGTextPathElement.startOffset documentation> 
+getStartOffsetUnsafe ::
+                     (MonadDOM m, HasCallStack) =>
+                       SVGTextPathElement -> m SVGAnimatedLength
+getStartOffsetUnsafe self
+  = liftDOM
+      (((self ^. js "startOffset") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.startOffset Mozilla SVGTextPathElement.startOffset documentation> 
 getStartOffsetUnchecked ::
                         (MonadDOM m) => SVGTextPathElement -> m SVGAnimatedLength
 getStartOffsetUnchecked self
@@ -62,6 +72,15 @@ getMethod ::
 getMethod self = liftDOM ((self ^. js "method") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.method Mozilla SVGTextPathElement.method documentation> 
+getMethodUnsafe ::
+                (MonadDOM m, HasCallStack) =>
+                  SVGTextPathElement -> m SVGAnimatedEnumeration
+getMethodUnsafe self
+  = liftDOM
+      (((self ^. js "method") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.method Mozilla SVGTextPathElement.method documentation> 
 getMethodUnchecked ::
                    (MonadDOM m) => SVGTextPathElement -> m SVGAnimatedEnumeration
 getMethodUnchecked self
@@ -72,6 +91,15 @@ getSpacing ::
            (MonadDOM m) =>
              SVGTextPathElement -> m (Maybe SVGAnimatedEnumeration)
 getSpacing self = liftDOM ((self ^. js "spacing") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.spacing Mozilla SVGTextPathElement.spacing documentation> 
+getSpacingUnsafe ::
+                 (MonadDOM m, HasCallStack) =>
+                   SVGTextPathElement -> m SVGAnimatedEnumeration
+getSpacingUnsafe self
+  = liftDOM
+      (((self ^. js "spacing") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTextPathElement.spacing Mozilla SVGTextPathElement.spacing documentation> 
 getSpacingUnchecked ::
