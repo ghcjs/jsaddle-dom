@@ -1,4 +1,3 @@
-{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
 -- For HasCallStack compatibility
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
@@ -22,16 +21,6 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
-#if MIN_VERSION_base(4,9,0)
-import GHC.Stack (HasCallStack)
-#elif MIN_VERSION_base(4,8,0)
-import GHC.Stack (CallStack)
-import GHC.Exts (Constraint)
-type HasCallStack = ((?callStack :: CallStack) :: Constraint)
-#else
-import GHC.Exts (Constraint)
-type HasCallStack = (() :: Constraint)
-#endif
 pattern COMPRESSED_RGB_S3TC_DXT1_EXT = 33776
 pattern COMPRESSED_RGBA_S3TC_DXT1_EXT = 33777
 pattern COMPRESSED_RGBA_S3TC_DXT3_EXT = 33778

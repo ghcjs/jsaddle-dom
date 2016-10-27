@@ -1,4 +1,3 @@
-{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
 -- For HasCallStack compatibility
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
@@ -33,16 +32,6 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
-#if MIN_VERSION_base(4,9,0)
-import GHC.Stack (HasCallStack)
-#elif MIN_VERSION_base(4,8,0)
-import GHC.Stack (CallStack)
-import GHC.Exts (Constraint)
-type HasCallStack = ((?callStack :: CallStack) :: Constraint)
-#else
-import GHC.Exts (Constraint)
-type HasCallStack = (() :: Constraint)
-#endif
 pattern SVG_FECOMPONENTTRANSFER_TYPE_UNKNOWN = 0
 pattern SVG_FECOMPONENTTRANSFER_TYPE_IDENTITY = 1
 pattern SVG_FECOMPONENTTRANSFER_TYPE_TABLE = 2

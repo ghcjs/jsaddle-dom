@@ -117,6 +117,9 @@ module JSDOM.Types (
 
   -- * Interface types from IDL files
 
+  -- * Used for better error messages
+  , HasCallStack
+
 -- AUTO GENERATION STARTS HERE
   , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArrays, gTypeANGLEInstancedArrays
   , AbstractView(AbstractView), unAbstractView, gTypeAbstractView
@@ -710,10 +713,6 @@ import GHCJS.Marshal.Pure (PToJSVal(..), PFromJSVal(..))
 #endif
 #if MIN_VERSION_base(4,9,0)
 import GHC.Stack (HasCallStack)
-#elif MIN_VERSION_base(4,8,0)
-import GHC.Stack (CallStack)
-import GHC.Exts (Constraint)
-type HasCallStack = ((?callStack :: CallStack) :: Constraint)
 #else
 import GHC.Exts (Constraint)
 type HasCallStack = (() :: Constraint)
