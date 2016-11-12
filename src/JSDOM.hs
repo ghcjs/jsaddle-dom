@@ -2,7 +2,6 @@
 module JSDOM (
   currentWindow
 , currentDocument
-, run
 , syncPoint
 , syncAfter
 , waitForAnimationFrame
@@ -14,7 +13,7 @@ module JSDOM (
 import JSDOM.Types
        (FromJSVal(..), MonadDOM, liftDOM, Document(..), Window(..))
 import Language.Javascript.JSaddle
-       (run, syncPoint, syncAfter, waitForAnimationFrame,
+       (syncPoint, syncAfter, waitForAnimationFrame,
         nextAnimationFrame, catch, bracket)
 import Language.Javascript.JSaddle.Object (jsg)
 
