@@ -26,8 +26,9 @@ open ::
        IDBFactory -> name -> Word64 -> m (Maybe IDBOpenDBRequest)
 open self name version
   = liftDOM
-      ((self ^. jsf "open" [toJSVal name, toJSVal version]) >>=
-         fromJSVal)
+      ((self ^. jsf "open"
+          [toJSVal name, integralToDoubleToJSVal version])
+         >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory.open Mozilla IDBFactory.open documentation> 
 open_ ::
@@ -35,7 +36,9 @@ open_ ::
         IDBFactory -> name -> Word64 -> m ()
 open_ self name version
   = liftDOM
-      (void (self ^. jsf "open" [toJSVal name, toJSVal version]))
+      (void
+         (self ^. jsf "open"
+            [toJSVal name, integralToDoubleToJSVal version]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory.open Mozilla IDBFactory.open documentation> 
 openUnsafe ::
@@ -43,8 +46,9 @@ openUnsafe ::
              IDBFactory -> name -> Word64 -> m IDBOpenDBRequest
 openUnsafe self name version
   = liftDOM
-      (((self ^. jsf "open" [toJSVal name, toJSVal version]) >>=
-          fromJSVal)
+      (((self ^. jsf "open"
+           [toJSVal name, integralToDoubleToJSVal version])
+          >>= fromJSVal)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory.open Mozilla IDBFactory.open documentation> 
@@ -53,8 +57,9 @@ openUnchecked ::
                 IDBFactory -> name -> Word64 -> m IDBOpenDBRequest
 openUnchecked self name version
   = liftDOM
-      ((self ^. jsf "open" [toJSVal name, toJSVal version]) >>=
-         fromJSValUnchecked)
+      ((self ^. jsf "open"
+          [toJSVal name, integralToDoubleToJSVal version])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory.deleteDatabase Mozilla IDBFactory.deleteDatabase documentation> 
 deleteDatabase ::

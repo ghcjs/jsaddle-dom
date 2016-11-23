@@ -2036,7 +2036,8 @@ setApplicationCacheOriginQuota ::
 setApplicationCacheOriginQuota self quota
   = liftDOM
       (void
-         (self ^. jsf "setApplicationCacheOriginQuota" [toJSVal quota]))
+         (self ^. jsf "setApplicationCacheOriginQuota"
+            [integralToDoubleToJSVal quota]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Internals.registerURLSchemeAsBypassingContentSecurityPolicy Mozilla Internals.registerURLSchemeAsBypassingContentSecurityPolicy documentation> 
 registerURLSchemeAsBypassingContentSecurityPolicy ::

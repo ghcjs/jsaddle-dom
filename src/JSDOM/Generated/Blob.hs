@@ -39,7 +39,8 @@ slice ::
 slice self start end contentType
   = liftDOM
       (((toBlob self) ^. jsf "slice"
-          [toJSVal start, toJSVal end, toJSVal contentType])
+          [integralToDoubleToJSVal start, integralToDoubleToJSVal end,
+           toJSVal contentType])
          >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Blob.slice Mozilla Blob.slice documentation> 
@@ -50,7 +51,8 @@ slice_ self start end contentType
   = liftDOM
       (void
          ((toBlob self) ^. jsf "slice"
-            [toJSVal start, toJSVal end, toJSVal contentType]))
+            [integralToDoubleToJSVal start, integralToDoubleToJSVal end,
+             toJSVal contentType]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Blob.slice Mozilla Blob.slice documentation> 
 sliceUnsafe ::
@@ -59,7 +61,8 @@ sliceUnsafe ::
 sliceUnsafe self start end contentType
   = liftDOM
       ((((toBlob self) ^. jsf "slice"
-           [toJSVal start, toJSVal end, toJSVal contentType])
+           [integralToDoubleToJSVal start, integralToDoubleToJSVal end,
+            toJSVal contentType])
           >>= fromJSVal)
          >>= maybe (Prelude.error "Nothing to return") return)
 
@@ -70,7 +73,8 @@ sliceUnchecked ::
 sliceUnchecked self start end contentType
   = liftDOM
       (((toBlob self) ^. jsf "slice"
-          [toJSVal start, toJSVal end, toJSVal contentType])
+          [integralToDoubleToJSVal start, integralToDoubleToJSVal end,
+           toJSVal contentType])
          >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Blob.size Mozilla Blob.size documentation> 

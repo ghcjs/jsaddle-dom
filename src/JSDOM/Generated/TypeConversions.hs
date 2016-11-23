@@ -83,7 +83,8 @@ getTestEnforceRangeUnsignedLong self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TypeConversions.testLongLong Mozilla TypeConversions.testLongLong documentation> 
 setTestLongLong :: (MonadDOM m) => TypeConversions -> Int64 -> m ()
 setTestLongLong self val
-  = liftDOM (self ^. jss "testLongLong" (toJSVal val))
+  = liftDOM
+      (self ^. jss "testLongLong" (integralToDoubleToJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TypeConversions.testLongLong Mozilla TypeConversions.testLongLong documentation> 
 getTestLongLong :: (MonadDOM m) => TypeConversions -> m Int64
@@ -94,7 +95,9 @@ getTestLongLong self
 setTestEnforceRangeLongLong ::
                             (MonadDOM m) => TypeConversions -> Int64 -> m ()
 setTestEnforceRangeLongLong self val
-  = liftDOM (self ^. jss "testEnforceRangeLongLong" (toJSVal val))
+  = liftDOM
+      (self ^. jss "testEnforceRangeLongLong"
+         (integralToDoubleToJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TypeConversions.testEnforceRangeLongLong Mozilla TypeConversions.testEnforceRangeLongLong documentation> 
 getTestEnforceRangeLongLong ::
@@ -108,7 +111,8 @@ getTestEnforceRangeLongLong self
 setTestUnsignedLongLong ::
                         (MonadDOM m) => TypeConversions -> Word64 -> m ()
 setTestUnsignedLongLong self val
-  = liftDOM (self ^. jss "testUnsignedLongLong" (toJSVal val))
+  = liftDOM
+      (self ^. jss "testUnsignedLongLong" (integralToDoubleToJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TypeConversions.testUnsignedLongLong Mozilla TypeConversions.testUnsignedLongLong documentation> 
 getTestUnsignedLongLong ::
@@ -122,7 +126,8 @@ setTestEnforceRangeUnsignedLongLong ::
                                     (MonadDOM m) => TypeConversions -> Word64 -> m ()
 setTestEnforceRangeUnsignedLongLong self val
   = liftDOM
-      (self ^. jss "testEnforceRangeUnsignedLongLong" (toJSVal val))
+      (self ^. jss "testEnforceRangeUnsignedLongLong"
+         (integralToDoubleToJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TypeConversions.testEnforceRangeUnsignedLongLong Mozilla TypeConversions.testEnforceRangeUnsignedLongLong documentation> 
 getTestEnforceRangeUnsignedLongLong ::

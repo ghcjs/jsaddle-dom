@@ -40,5 +40,5 @@ requestQuota self newQuotaInBytes quotaCallback errorCallback
   = liftDOM
       (void
          (self ^. jsf "requestQuota"
-            [toJSVal newQuotaInBytes, toJSVal quotaCallback,
+            [integralToDoubleToJSVal newQuotaInBytes, toJSVal quotaCallback,
              toJSVal errorCallback]))

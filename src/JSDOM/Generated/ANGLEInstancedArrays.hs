@@ -39,8 +39,8 @@ drawElementsInstancedANGLE self mode count type' offset primcount
   = liftDOM
       (void
          (self ^. jsf "drawElementsInstancedANGLE"
-            [toJSVal mode, toJSVal count, toJSVal type', toJSVal offset,
-             toJSVal primcount]))
+            [toJSVal mode, toJSVal count, toJSVal type',
+             integralToDoubleToJSVal offset, toJSVal primcount]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ANGLEInstancedArrays.vertexAttribDivisorANGLE Mozilla ANGLEInstancedArrays.vertexAttribDivisorANGLE documentation> 
 vertexAttribDivisorANGLE ::

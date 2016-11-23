@@ -222,8 +222,10 @@ copyBufferSubData self readTarget writeTarget readOffset
   = liftDOM
       (void
          (self ^. jsf "copyBufferSubData"
-            [toJSVal readTarget, toJSVal writeTarget, toJSVal readOffset,
-             toJSVal writeOffset, toJSVal size]))
+            [toJSVal readTarget, toJSVal writeTarget,
+             integralToDoubleToJSVal readOffset,
+             integralToDoubleToJSVal writeOffset,
+             integralToDoubleToJSVal size]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getBufferSubData Mozilla WebGL2RenderingContext.getBufferSubData documentation> 
 getBufferSubDataView ::
@@ -234,7 +236,8 @@ getBufferSubDataView self target offset returnedData
   = liftDOM
       (void
          (self ^. jsf "getBufferSubData"
-            [toJSVal target, toJSVal offset, toJSVal returnedData]))
+            [toJSVal target, integralToDoubleToJSVal offset,
+             toJSVal returnedData]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getBufferSubData Mozilla WebGL2RenderingContext.getBufferSubData documentation> 
 getBufferSubData ::
@@ -245,7 +248,8 @@ getBufferSubData self target offset returnedData
   = liftDOM
       (void
          (self ^. jsf "getBufferSubData"
-            [toJSVal target, toJSVal offset, toJSVal returnedData]))
+            [toJSVal target, integralToDoubleToJSVal offset,
+             toJSVal returnedData]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getFramebufferAttachmentParameter Mozilla WebGL2RenderingContext.getFramebufferAttachmentParameter documentation> 
 getFramebufferAttachmentParameter ::
@@ -763,7 +767,7 @@ vertexAttribIPointer self index size type' stride offset
       (void
          (self ^. jsf "vertexAttribIPointer"
             [toJSVal index, toJSVal size, toJSVal type', toJSVal stride,
-             toJSVal offset]))
+             integralToDoubleToJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.vertexAttribDivisor Mozilla WebGL2RenderingContext.vertexAttribDivisor documentation> 
 vertexAttribDivisor ::
@@ -795,8 +799,8 @@ drawElementsInstanced self mode count type' offset instanceCount
   = liftDOM
       (void
          (self ^. jsf "drawElementsInstanced"
-            [toJSVal mode, toJSVal count, toJSVal type', toJSVal offset,
-             toJSVal instanceCount]))
+            [toJSVal mode, toJSVal count, toJSVal type',
+             integralToDoubleToJSVal offset, toJSVal instanceCount]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.drawRangeElements Mozilla WebGL2RenderingContext.drawRangeElements documentation> 
 drawRangeElements ::
@@ -808,7 +812,7 @@ drawRangeElements self mode start end count type' offset
       (void
          (self ^. jsf "drawRangeElements"
             [toJSVal mode, toJSVal start, toJSVal end, toJSVal count,
-             toJSVal type', toJSVal offset]))
+             toJSVal type', integralToDoubleToJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.drawBuffers Mozilla WebGL2RenderingContext.drawBuffers documentation> 
 drawBuffers ::
@@ -1135,7 +1139,7 @@ clientWaitSync ::
 clientWaitSync self sync flags timeout
   = liftDOM
       ((self ^. jsf "clientWaitSync"
-          [toJSVal sync, toJSVal flags, toJSVal timeout])
+          [toJSVal sync, toJSVal flags, integralToDoubleToJSVal timeout])
          >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.clientWaitSync Mozilla WebGL2RenderingContext.clientWaitSync documentation> 
@@ -1147,7 +1151,7 @@ clientWaitSync_ self sync flags timeout
   = liftDOM
       (void
          (self ^. jsf "clientWaitSync"
-            [toJSVal sync, toJSVal flags, toJSVal timeout]))
+            [toJSVal sync, toJSVal flags, integralToDoubleToJSVal timeout]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.waitSync Mozilla WebGL2RenderingContext.waitSync documentation> 
 waitSync ::
@@ -1158,7 +1162,7 @@ waitSync self sync flags timeout
   = liftDOM
       (void
          (self ^. jsf "waitSync"
-            [toJSVal sync, toJSVal flags, toJSVal timeout]))
+            [toJSVal sync, toJSVal flags, integralToDoubleToJSVal timeout]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getSyncParameter Mozilla WebGL2RenderingContext.getSyncParameter documentation> 
 getSyncParameter ::
@@ -1345,8 +1349,8 @@ bindBufferRange self target index buffer offset size
   = liftDOM
       (void
          (self ^. jsf "bindBufferRange"
-            [toJSVal target, toJSVal index, toJSVal buffer, toJSVal offset,
-             toJSVal size]))
+            [toJSVal target, toJSVal index, toJSVal buffer,
+             integralToDoubleToJSVal offset, integralToDoubleToJSVal size]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext.getIndexedParameter Mozilla WebGL2RenderingContext.getIndexedParameter documentation> 
 getIndexedParameter ::

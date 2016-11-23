@@ -44,7 +44,7 @@ requestQuota self storageType newQuotaInBytes quotaCallback
   = liftDOM
       (void
          (self ^. jsf "requestQuota"
-            [toJSVal storageType, toJSVal newQuotaInBytes,
+            [toJSVal storageType, integralToDoubleToJSVal newQuotaInBytes,
              toJSVal quotaCallback, toJSVal errorCallback]))
 pattern TEMPORARY = 0
 pattern PERSISTENT = 1

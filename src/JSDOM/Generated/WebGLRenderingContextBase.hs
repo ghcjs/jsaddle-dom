@@ -370,7 +370,7 @@ bufferDataPtr self target size usage
   = liftDOM
       (void
          ((toWebGLRenderingContextBase self) ^. jsf "bufferData"
-            [toJSVal target, toJSVal size, toJSVal usage]))
+            [toJSVal target, integralToDoubleToJSVal size, toJSVal usage]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.bufferSubData Mozilla WebGLRenderingContextBase.bufferSubData documentation> 
 bufferSubData ::
@@ -381,7 +381,7 @@ bufferSubData self target offset data'
   = liftDOM
       (void
          ((toWebGLRenderingContextBase self) ^. jsf "bufferSubData"
-            [toJSVal target, toJSVal offset, toJSVal data']))
+            [toJSVal target, integralToDoubleToJSVal offset, toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.bufferSubData Mozilla WebGLRenderingContextBase.bufferSubData documentation> 
 bufferSubDataView ::
@@ -392,7 +392,7 @@ bufferSubDataView self target offset data'
   = liftDOM
       (void
          ((toWebGLRenderingContextBase self) ^. jsf "bufferSubData"
-            [toJSVal target, toJSVal offset, toJSVal data']))
+            [toJSVal target, integralToDoubleToJSVal offset, toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.checkFramebufferStatus Mozilla WebGLRenderingContextBase.checkFramebufferStatus documentation> 
 checkFramebufferStatus ::
@@ -913,7 +913,8 @@ drawElements self mode count type' offset
   = liftDOM
       (void
          ((toWebGLRenderingContextBase self) ^. jsf "drawElements"
-            [toJSVal mode, toJSVal count, toJSVal type', toJSVal offset]))
+            [toJSVal mode, toJSVal count, toJSVal type',
+             integralToDoubleToJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.enable Mozilla WebGLRenderingContextBase.enable documentation> 
 enable ::
@@ -1615,7 +1616,7 @@ getVertexAttribOffset self index pname
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "getVertexAttribOffset"
           [toJSVal index, toJSVal pname])
-         >>= fromJSValUnchecked)
+         >>= integralFromDoubleFromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getVertexAttribOffset Mozilla WebGLRenderingContextBase.getVertexAttribOffset documentation> 
 getVertexAttribOffset_ ::
@@ -2453,7 +2454,7 @@ vertexAttribPointer self indx size type' normalized stride offset
       (void
          ((toWebGLRenderingContextBase self) ^. jsf "vertexAttribPointer"
             [toJSVal indx, toJSVal size, toJSVal type', toJSVal normalized,
-             toJSVal stride, toJSVal offset]))
+             toJSVal stride, integralToDoubleToJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.viewport Mozilla WebGLRenderingContextBase.viewport documentation> 
 viewport ::

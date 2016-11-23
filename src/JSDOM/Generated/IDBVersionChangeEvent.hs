@@ -29,18 +29,21 @@ getOldVersion self
 getNewVersion ::
               (MonadDOM m) => IDBVersionChangeEvent -> m (Maybe Word64)
 getNewVersion self
-  = liftDOM ((self ^. js "newVersion") >>= fromJSVal)
+  = liftDOM
+      ((self ^. js "newVersion") >>= integralFromDoubleFromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBVersionChangeEvent.newVersion Mozilla IDBVersionChangeEvent.newVersion documentation> 
 getNewVersionUnsafe ::
                     (MonadDOM m, HasCallStack) => IDBVersionChangeEvent -> m Word64
 getNewVersionUnsafe self
   = liftDOM
-      (((self ^. js "newVersion") >>= fromJSVal) >>=
+      (((self ^. js "newVersion") >>= integralFromDoubleFromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBVersionChangeEvent.newVersion Mozilla IDBVersionChangeEvent.newVersion documentation> 
 getNewVersionUnchecked ::
                        (MonadDOM m) => IDBVersionChangeEvent -> m Word64
 getNewVersionUnchecked self
-  = liftDOM ((self ^. js "newVersion") >>= fromJSValUnchecked)
+  = liftDOM
+      ((self ^. js "newVersion") >>=
+         integralFromDoubleFromJSValUnchecked)

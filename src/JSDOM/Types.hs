@@ -18,6 +18,7 @@ module JSDOM.Types (
 
   -- * JavaScript Value
   , JSVal(..), ToJSVal(..), FromJSVal(..), PToJSVal(..), PFromJSVal(..)
+  , integralToDoubleToJSVal, integralFromDoubleFromJSVal, integralFromDoubleFromJSValUnchecked
 
   -- * JavaScript String
   , JSString(..), ToJSString(..), FromJSString(..)
@@ -694,10 +695,12 @@ import Control.Monad.IO.Class (MonadIO(..))
 import Data.Int (Int8, Int16, Int32, Int64)
 import Data.Word (Word8, Word16, Word32, Word64)
 import Data.Monoid ((<>))
+import GHCJS.Marshal (ToJSVal(..), FromJSVal(..))
+import GHCJS.Marshal.Pure (PToJSVal(..), PFromJSVal(..))
 import Language.Javascript.JSaddle
        (Object(..), valToBool, valNull, valToNumber, (!!), js, valToText,
         JSVal, JSString, JSM, maybeNullOrUndefined, maybeNullOrUndefined',
-        valToStr, jsg, ToJSString(..), strToText, MakeObject(..),
+        valToStr, jsg, ToJSString(..), FromJSString(..), strToText, MakeObject(..),
         Nullable(..), Function(..), freeFunction, instanceOf, JSContextRef,
         askJSM, runJSM, MonadJSM(..), liftJSM, strictEqual)
 import Foreign.Ptr (nullPtr)
@@ -708,9 +711,6 @@ import Control.Monad ((>=>))
 import Data.Coerce (coerce, Coercible)
 import Control.Monad.Trans.Reader (ReaderT(..), ask)
 import Control.Exception (bracket)
-#ifdef ghcjs_HOST_OS
-import GHCJS.Marshal.Pure (PToJSVal(..), PFromJSVal(..))
-#endif
 #if MIN_VERSION_base(4,9,0)
 import GHC.Stack (HasCallStack)
 #else
@@ -794,36 +794,13 @@ class (ToJSVal o, FromJSVal o, Coercible o JSVal) => IsGObject o where
 toGObject :: IsGObject o => o -> GObject
 toGObject = GObject . coerce
 
-#ifndef ghcjs_HOST_OS
-class PToJSVal o where
-  pToJSVal :: o -> JSVal
-
-class PFromJSVal o where
-  pFromJSVal :: JSVal -> o
-#endif
-
---class ToJSVal o where
---  toJSVal :: o -> JSM JSVal
-
-class FromJSVal o where
-    fromJSVal :: JSVal -> JSM (Maybe o)
-    fromJSVal = maybeNullOrUndefined' fromJSValUnchecked
-
-    fromJSValUnchecked :: JSVal -> JSM o
-    fromJSValUnchecked v =
-        fromJSVal v >>= \case
-            Nothing -> error "fromJSValUnchecked"
-            Just r  -> return r
-
 fromJSArray :: FromJSVal o => JSVal -> JSM [Maybe o]
 fromJSArray a = do
     l <- a ^. js "length" >>= valToNumber
     mapM (\i -> a !! i >>= fromJSVal) [0..round l - 1]
 
 fromJSArrayUnchecked :: FromJSVal o => JSVal -> JSM [o]
-fromJSArrayUnchecked a = do
-    l <- a ^. js "length" >>= valToNumber
-    mapM (\i -> a !! i >>= fromJSValUnchecked) [0..round l - 1]
+fromJSArrayUnchecked = fromJSValUncheckedListOf
 
 -- newtype Nullable a = Nullable JSVal
 
@@ -887,17 +864,10 @@ objectToString self = fromJSValUnchecked (unGObject $ toGObject self)
 --   give it back as is.
 type DOMString = JSString
 
-class FromJSVal s => FromJSString s where
-    fromJSString :: JSString -> JSM s
-
 fromJSStringArray :: FromJSString s => JSVal -> JSM [s]
 fromJSStringArray a = do
     l <- a ^. js "length" >>= valToNumber
-    mapM (\i -> a !! i >>= valToStr >>= fromJSString) [0..round l - 1]
-
---fromJSString :: FromJSString a => JSString -> a
---fromJSString a = pFromJSVal . pToJSVal
---{-# INLINE fromJSString #-}
+    mapM (\i -> fromJSString <$> (a !! i >>= valToStr)) [0..round l - 1]
 
 toMaybeJSString :: ToJSString a => Maybe a -> JSM JSVal
 toMaybeJSString Nothing = return valNull
@@ -905,41 +875,17 @@ toMaybeJSString (Just a) = toJSVal (toJSString a)
 {-# INLINE toMaybeJSString #-}
 
 fromMaybeJSString :: FromJSString a => JSVal -> JSM (Maybe a)
-fromMaybeJSString = maybeNullOrUndefined' (valToStr >=> fromJSString)
+fromMaybeJSString = maybeNullOrUndefined' (fmap fromJSString . valToStr)
 {-# INLINE fromMaybeJSString #-}
 
-instance FromJSVal JSVal where
-    fromJSValUnchecked = return
-instance FromJSVal Double where
-    fromJSValUnchecked = valToNumber
-instance FromJSVal Float where
-    fromJSValUnchecked v = realToFrac <$> valToNumber v
-instance FromJSVal Int where
-    fromJSValUnchecked v = round <$> valToNumber v
-instance FromJSVal Int32 where
-    fromJSValUnchecked v = round <$> valToNumber v
-instance FromJSVal Int64 where
-    fromJSValUnchecked v = round <$> valToNumber v
-instance FromJSVal Word where
-    fromJSValUnchecked v = round <$> valToNumber v
-instance FromJSVal Word32 where
-    fromJSValUnchecked v = round <$> valToNumber v
-instance FromJSVal Word64 where
-    fromJSValUnchecked v = round <$> valToNumber v
-instance FromJSVal Bool where
-    fromJSValUnchecked = valToBool
-instance FromJSVal T.Text where
-    fromJSValUnchecked v = strToText <$> valToStr v
-instance FromJSString T.Text where
-    fromJSString = return . strToText
-instance FromJSVal String where
-    fromJSValUnchecked v = T.unpack . strToText <$> valToStr v
-instance FromJSString String where
-    fromJSString v = return . T.unpack $ strToText v
-instance FromJSVal JSString where
-    fromJSValUnchecked = valToStr
-instance FromJSString JSString where
-    fromJSString = return
+integralToDoubleToJSVal :: Integral a => a -> JSM JSVal
+integralToDoubleToJSVal a = toJSVal (fromIntegral a :: Double)
+
+integralFromDoubleFromJSVal :: Integral a => JSVal -> JSM (Maybe a)
+integralFromDoubleFromJSVal = fmap (fmap round) . (fromJSVal :: JSVal -> JSM (Maybe Double))
+
+integralFromDoubleFromJSValUnchecked :: Integral a => JSVal -> JSM a
+integralFromDoubleFromJSValUnchecked = fmap round . (fromJSValUnchecked :: JSVal -> JSM Double)
 
 type ToDOMString s = ToJSString s
 type FromDOMString s = FromJSString s
