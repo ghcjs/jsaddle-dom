@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings, PatternSynonyms #-}
 module JSDOM (
   currentWindow
+, currentWindowUnchecked
 , currentDocument
+, currentDocumentUnchecked
 , syncPoint
 , syncAfter
 , waitForAnimationFrame
@@ -20,6 +22,12 @@ import Language.Javascript.JSaddle.Object (jsg)
 currentWindow :: MonadDOM m => m (Maybe Window)
 currentWindow = liftDOM $ jsg ("window" :: String) >>= fromJSVal
 
+currentWindowUnchecked :: MonadDOM m => m Window
+currentWindowUnchecked = liftDOM $ jsg ("window" :: String) >>= fromJSValUnchecked
+
 currentDocument :: MonadDOM m => m (Maybe Document)
 currentDocument = liftDOM $ jsg ("document" :: String) >>= fromJSVal
+
+currentDocumentUnchecked :: MonadDOM m => m Document
+currentDocumentUnchecked = liftDOM $ jsg ("document" :: String) >>= fromJSValUnchecked
 
