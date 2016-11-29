@@ -828,6 +828,8 @@ instance ToJSVal GObject where
 instance FromJSVal GObject where
   fromJSVal val = fmap GObject <$> maybeNullOrUndefined val
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . GObject
+  {-# INLINE fromJSValUnchecked #-}
 
 --instance IsGObject o => PToJSVal o where
 --  pToJSVal = unGObject . toGObject
@@ -967,6 +969,8 @@ instance ToJSVal SerializedScriptValue where
 instance FromJSVal SerializedScriptValue where
   fromJSVal v = fmap SerializedScriptValue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SerializedScriptValue
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsSerializedScriptValue o
 toSerializedScriptValue :: IsSerializedScriptValue o => o -> SerializedScriptValue
@@ -997,6 +1001,8 @@ instance ToJSVal PositionOptions where
 instance FromJSVal PositionOptions where
   fromJSVal v = fmap PositionOptions <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PositionOptions
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsPositionOptions o
 toPositionOptions :: IsPositionOptions o => o -> PositionOptions
@@ -1027,6 +1033,8 @@ instance ToJSVal Dictionary where
 instance FromJSVal Dictionary where
   fromJSVal v = fmap Dictionary <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Dictionary
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsDictionary o
 toDictionary :: IsDictionary o => o -> Dictionary
@@ -1057,6 +1065,8 @@ instance ToJSVal BlobPropertyBag where
 instance FromJSVal BlobPropertyBag where
   fromJSVal v = fmap BlobPropertyBag <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BlobPropertyBag
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsBlobPropertyBag o
 toBlobPropertyBag :: IsBlobPropertyBag o => o -> BlobPropertyBag
@@ -1087,6 +1097,8 @@ instance ToJSVal MutationCallback where
 instance FromJSVal MutationCallback where
   fromJSVal v = fmap MutationCallback <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MutationCallback
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsMutationCallback o
 toMutationCallback :: IsMutationCallback o => o -> MutationCallback
@@ -1117,6 +1129,8 @@ instance ToJSVal Promise where
 instance FromJSVal Promise where
   fromJSVal v = fmap Promise <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Promise
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsPromise o
 toPromise :: IsPromise o => o -> Promise
@@ -1150,6 +1164,8 @@ instance ToJSVal ArrayBuffer where
 instance FromJSVal ArrayBuffer where
   fromJSVal v = fmap ArrayBuffer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ArrayBuffer
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsArrayBuffer o
 toArrayBuffer :: IsArrayBuffer o => o -> ArrayBuffer
@@ -1183,6 +1199,8 @@ instance ToJSVal Float32Array where
 instance FromJSVal Float32Array where
   fromJSVal v = fmap Float32Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Float32Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsFloat32Array o
 toFloat32Array :: IsFloat32Array o => o -> Float32Array
@@ -1216,6 +1234,8 @@ instance ToJSVal Float64Array where
 instance FromJSVal Float64Array where
   fromJSVal v = fmap Float64Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Float64Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsFloat64Array o
 toFloat64Array :: IsFloat64Array o => o -> Float64Array
@@ -1249,6 +1269,8 @@ instance ToJSVal Uint8Array where
 instance FromJSVal Uint8Array where
   fromJSVal v = fmap Uint8Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Uint8Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsUint8Array o
 toUint8Array :: IsUint8Array o => o -> Uint8Array
@@ -1282,6 +1304,8 @@ instance ToJSVal Uint8ClampedArray where
 instance FromJSVal Uint8ClampedArray where
   fromJSVal v = fmap Uint8ClampedArray <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Uint8ClampedArray
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsUint8ClampedArray o
 toUint8ClampedArray :: IsUint8ClampedArray o => o -> Uint8ClampedArray
@@ -1315,6 +1339,8 @@ instance ToJSVal Uint16Array where
 instance FromJSVal Uint16Array where
   fromJSVal v = fmap Uint16Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Uint16Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsUint16Array o
 toUint16Array :: IsUint16Array o => o -> Uint16Array
@@ -1348,6 +1374,8 @@ instance ToJSVal Uint32Array where
 instance FromJSVal Uint32Array where
   fromJSVal v = fmap Uint32Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Uint32Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsUint32Array o
 toUint32Array :: IsUint32Array o => o -> Uint32Array
@@ -1381,6 +1409,8 @@ instance ToJSVal Int8Array where
 instance FromJSVal Int8Array where
   fromJSVal v = fmap Int8Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Int8Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsInt8Array o
 toInt8Array :: IsInt8Array o => o -> Int8Array
@@ -1414,6 +1444,8 @@ instance ToJSVal Int16Array where
 instance FromJSVal Int16Array where
   fromJSVal v = fmap Int16Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Int16Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsInt16Array o
 toInt16Array :: IsInt16Array o => o -> Int16Array
@@ -1447,6 +1479,8 @@ instance ToJSVal Int32Array where
 instance FromJSVal Int32Array where
   fromJSVal v = fmap Int32Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Int32Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsInt32Array o
 toInt32Array :: IsInt32Array o => o -> Int32Array
@@ -1480,6 +1514,8 @@ instance ToJSVal ObjectArray where
 instance FromJSVal ObjectArray where
   fromJSVal v = fmap ObjectArray <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ObjectArray
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsObjectArray o
 toObjectArray :: IsObjectArray o => o -> ObjectArray
@@ -1510,6 +1546,8 @@ instance ToJSVal ArrayBufferView where
 instance FromJSVal ArrayBufferView where
   fromJSVal v = fmap ArrayBufferView <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ArrayBufferView
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsArrayBufferView o
 toArrayBufferView :: IsArrayBufferView o => o -> ArrayBufferView
@@ -1540,6 +1578,8 @@ instance ToJSVal Array where
 instance FromJSVal Array where
   fromJSVal v = fmap Array <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Array
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsArray o
 toArray :: IsArray o => o -> Array
@@ -1573,6 +1613,8 @@ instance ToJSVal Date where
 instance FromJSVal Date where
   fromJSVal v = fmap Date <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Date
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsDate o
 toDate :: IsDate o => o -> Date
@@ -1606,6 +1648,8 @@ instance ToJSVal Acceleration where
 instance FromJSVal Acceleration where
   fromJSVal v = fmap Acceleration <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Acceleration
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsAcceleration o
 toAcceleration :: IsAcceleration o => o -> Acceleration
@@ -1636,6 +1680,8 @@ instance ToJSVal RotationRate where
 instance FromJSVal RotationRate where
   fromJSVal v = fmap RotationRate <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RotationRate
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsRotationRate o
 toRotationRate :: IsRotationRate o => o -> RotationRate
@@ -1666,6 +1712,8 @@ instance ToJSVal Algorithm where
 instance FromJSVal Algorithm where
   fromJSVal v = fmap Algorithm <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Algorithm
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsAlgorithm o
 toAlgorithm :: IsAlgorithm o => o -> Algorithm
@@ -1696,6 +1744,8 @@ instance ToJSVal CryptoOperationData where
 instance FromJSVal CryptoOperationData where
   fromJSVal v = fmap CryptoOperationData <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CryptoOperationData
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsCryptoOperationData o
 toCryptoOperationData :: IsCryptoOperationData o => o -> CryptoOperationData
@@ -1728,6 +1778,8 @@ instance ToJSVal CanvasStyle where
 instance FromJSVal CanvasStyle where
   fromJSVal v = fmap CanvasStyle <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasStyle
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsCanvasStyle o
 toCanvasStyle :: IsCanvasStyle o => o -> CanvasStyle
@@ -1760,6 +1812,8 @@ instance ToJSVal DOMException where
 instance FromJSVal DOMException where
   fromJSVal v = fmap DOMException <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMException
+  {-# INLINE fromJSValUnchecked #-}
 
 class IsGObject o => IsDOMException o
 toDOMException :: IsDOMException o => o -> DOMException
@@ -1812,6 +1866,8 @@ instance ToJSVal ANGLEInstancedArrays where
 instance FromJSVal ANGLEInstancedArrays where
   fromJSVal v = fmap ANGLEInstancedArrays <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ANGLEInstancedArrays
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ANGLEInstancedArrays where
   makeObject = makeObject . unANGLEInstancedArrays
@@ -1846,6 +1902,8 @@ instance ToJSVal AbstractView where
 instance FromJSVal AbstractView where
   fromJSVal v = fmap AbstractView <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AbstractView
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AbstractView where
   makeObject = makeObject . unAbstractView
@@ -1880,6 +1938,8 @@ instance ToJSVal AbstractWorker where
 instance FromJSVal AbstractWorker where
   fromJSVal v = fmap AbstractWorker <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AbstractWorker
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AbstractWorker where
   makeObject = makeObject . unAbstractWorker
@@ -1917,6 +1977,8 @@ instance ToJSVal AllAudioCapabilities where
 instance FromJSVal AllAudioCapabilities where
   fromJSVal v = fmap AllAudioCapabilities <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AllAudioCapabilities
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AllAudioCapabilities where
   makeObject = makeObject . unAllAudioCapabilities
@@ -1955,6 +2017,8 @@ instance ToJSVal AllVideoCapabilities where
 instance FromJSVal AllVideoCapabilities where
   fromJSVal v = fmap AllVideoCapabilities <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AllVideoCapabilities
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AllVideoCapabilities where
   makeObject = makeObject . unAllVideoCapabilities
@@ -1994,6 +2058,8 @@ instance ToJSVal AnalyserNode where
 instance FromJSVal AnalyserNode where
   fromJSVal v = fmap AnalyserNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AnalyserNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AnalyserNode where
   makeObject = makeObject . unAnalyserNode
@@ -2033,6 +2099,8 @@ instance ToJSVal AnimationEvent where
 instance FromJSVal AnimationEvent where
   fromJSVal v = fmap AnimationEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AnimationEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AnimationEvent where
   makeObject = makeObject . unAnimationEvent
@@ -2071,6 +2139,8 @@ instance ToJSVal ApplicationCache where
 instance FromJSVal ApplicationCache where
   fromJSVal v = fmap ApplicationCache <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ApplicationCache
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ApplicationCache where
   makeObject = makeObject . unApplicationCache
@@ -2112,6 +2182,8 @@ instance ToJSVal Attr where
 instance FromJSVal Attr where
   fromJSVal v = fmap Attr <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Attr
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Attr where
   makeObject = makeObject . unAttr
@@ -2150,6 +2222,8 @@ instance ToJSVal AudioBuffer where
 instance FromJSVal AudioBuffer where
   fromJSVal v = fmap AudioBuffer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioBuffer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioBuffer where
   makeObject = makeObject . unAudioBuffer
@@ -2188,6 +2262,8 @@ instance ToJSVal AudioBufferSourceNode where
 instance FromJSVal AudioBufferSourceNode where
   fromJSVal v = fmap AudioBufferSourceNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioBufferSourceNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioBufferSourceNode where
   makeObject = makeObject . unAudioBufferSourceNode
@@ -2227,6 +2303,8 @@ instance ToJSVal AudioContext where
 instance FromJSVal AudioContext where
   fromJSVal v = fmap AudioContext <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioContext
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioContext where
   makeObject = makeObject . unAudioContext
@@ -2271,6 +2349,8 @@ instance ToJSVal AudioDestinationNode where
 instance FromJSVal AudioDestinationNode where
   fromJSVal v = fmap AudioDestinationNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioDestinationNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioDestinationNode where
   makeObject = makeObject . unAudioDestinationNode
@@ -2307,6 +2387,8 @@ instance ToJSVal AudioListener where
 instance FromJSVal AudioListener where
   fromJSVal v = fmap AudioListener <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioListener
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioListener where
   makeObject = makeObject . unAudioListener
@@ -2344,6 +2426,8 @@ instance ToJSVal AudioNode where
 instance FromJSVal AudioNode where
   fromJSVal v = fmap AudioNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioNode where
   makeObject = makeObject . unAudioNode
@@ -2384,6 +2468,8 @@ instance ToJSVal AudioParam where
 instance FromJSVal AudioParam where
   fromJSVal v = fmap AudioParam <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioParam
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioParam where
   makeObject = makeObject . unAudioParam
@@ -2421,6 +2507,8 @@ instance ToJSVal AudioProcessingEvent where
 instance FromJSVal AudioProcessingEvent where
   fromJSVal v = fmap AudioProcessingEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioProcessingEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioProcessingEvent where
   makeObject = makeObject . unAudioProcessingEvent
@@ -2460,6 +2548,8 @@ instance ToJSVal AudioStreamTrack where
 instance FromJSVal AudioStreamTrack where
   fromJSVal v = fmap AudioStreamTrack <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioStreamTrack
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioStreamTrack where
   makeObject = makeObject . unAudioStreamTrack
@@ -2496,6 +2586,8 @@ instance ToJSVal AudioTrack where
 instance FromJSVal AudioTrack where
   fromJSVal v = fmap AudioTrack <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioTrack
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioTrack where
   makeObject = makeObject . unAudioTrack
@@ -2537,6 +2629,8 @@ instance ToJSVal AudioTrackList where
 instance FromJSVal AudioTrackList where
   fromJSVal v = fmap AudioTrackList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AudioTrackList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AudioTrackList where
   makeObject = makeObject . unAudioTrackList
@@ -2579,6 +2673,8 @@ instance ToJSVal AutocompleteErrorEvent where
 instance FromJSVal AutocompleteErrorEvent where
   fromJSVal v = fmap AutocompleteErrorEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AutocompleteErrorEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject AutocompleteErrorEvent where
   makeObject = makeObject . unAutocompleteErrorEvent
@@ -2614,6 +2710,8 @@ instance ToJSVal BarProp where
 instance FromJSVal BarProp where
   fromJSVal v = fmap BarProp <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BarProp
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject BarProp where
   makeObject = makeObject . unBarProp
@@ -2655,6 +2753,8 @@ instance ToJSVal BatteryManager where
 instance FromJSVal BatteryManager where
   fromJSVal v = fmap BatteryManager <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BatteryManager
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject BatteryManager where
   makeObject = makeObject . unBatteryManager
@@ -2697,6 +2797,8 @@ instance ToJSVal BeforeLoadEvent where
 instance FromJSVal BeforeLoadEvent where
   fromJSVal v = fmap BeforeLoadEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BeforeLoadEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject BeforeLoadEvent where
   makeObject = makeObject . unBeforeLoadEvent
@@ -2735,6 +2837,8 @@ instance ToJSVal BeforeUnloadEvent where
 instance FromJSVal BeforeUnloadEvent where
   fromJSVal v = fmap BeforeUnloadEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BeforeUnloadEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject BeforeUnloadEvent where
   makeObject = makeObject . unBeforeUnloadEvent
@@ -2774,6 +2878,8 @@ instance ToJSVal BiquadFilterNode where
 instance FromJSVal BiquadFilterNode where
   fromJSVal v = fmap BiquadFilterNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BiquadFilterNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject BiquadFilterNode where
   makeObject = makeObject . unBiquadFilterNode
@@ -2810,6 +2916,8 @@ instance ToJSVal Blob where
 instance FromJSVal Blob where
   fromJSVal v = fmap Blob <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Blob
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Blob where
   makeObject = makeObject . unBlob
@@ -2857,6 +2965,8 @@ instance ToJSVal CDATASection where
 instance FromJSVal CDATASection where
   fromJSVal v = fmap CDATASection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CDATASection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CDATASection where
   makeObject = makeObject . unCDATASection
@@ -2897,6 +3007,8 @@ instance ToJSVal CSS where
 instance FromJSVal CSS where
   fromJSVal v = fmap CSS <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSS
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSS where
   makeObject = makeObject . unCSS
@@ -2938,6 +3050,8 @@ instance ToJSVal CSSCharsetRule where
 instance FromJSVal CSSCharsetRule where
   fromJSVal v = fmap CSSCharsetRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSCharsetRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSCharsetRule where
   makeObject = makeObject . unCSSCharsetRule
@@ -2976,6 +3090,8 @@ instance ToJSVal CSSFontFaceLoadEvent where
 instance FromJSVal CSSFontFaceLoadEvent where
   fromJSVal v = fmap CSSFontFaceLoadEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSFontFaceLoadEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSFontFaceLoadEvent where
   makeObject = makeObject . unCSSFontFaceLoadEvent
@@ -3014,6 +3130,8 @@ instance ToJSVal CSSFontFaceRule where
 instance FromJSVal CSSFontFaceRule where
   fromJSVal v = fmap CSSFontFaceRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSFontFaceRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSFontFaceRule where
   makeObject = makeObject . unCSSFontFaceRule
@@ -3052,6 +3170,8 @@ instance ToJSVal CSSImportRule where
 instance FromJSVal CSSImportRule where
   fromJSVal v = fmap CSSImportRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSImportRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSImportRule where
   makeObject = makeObject . unCSSImportRule
@@ -3090,6 +3210,8 @@ instance ToJSVal CSSKeyframeRule where
 instance FromJSVal CSSKeyframeRule where
   fromJSVal v = fmap CSSKeyframeRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSKeyframeRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSKeyframeRule where
   makeObject = makeObject . unCSSKeyframeRule
@@ -3128,6 +3250,8 @@ instance ToJSVal CSSKeyframesRule where
 instance FromJSVal CSSKeyframesRule where
   fromJSVal v = fmap CSSKeyframesRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSKeyframesRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSKeyframesRule where
   makeObject = makeObject . unCSSKeyframesRule
@@ -3166,6 +3290,8 @@ instance ToJSVal CSSMediaRule where
 instance FromJSVal CSSMediaRule where
   fromJSVal v = fmap CSSMediaRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSMediaRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSMediaRule where
   makeObject = makeObject . unCSSMediaRule
@@ -3204,6 +3330,8 @@ instance ToJSVal CSSPageRule where
 instance FromJSVal CSSPageRule where
   fromJSVal v = fmap CSSPageRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSPageRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSPageRule where
   makeObject = makeObject . unCSSPageRule
@@ -3242,6 +3370,8 @@ instance ToJSVal CSSPrimitiveValue where
 instance FromJSVal CSSPrimitiveValue where
   fromJSVal v = fmap CSSPrimitiveValue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSPrimitiveValue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSPrimitiveValue where
   makeObject = makeObject . unCSSPrimitiveValue
@@ -3277,6 +3407,8 @@ instance ToJSVal CSSRule where
 instance FromJSVal CSSRule where
   fromJSVal v = fmap CSSRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSRule where
   makeObject = makeObject . unCSSRule
@@ -3318,6 +3450,8 @@ instance ToJSVal CSSRuleList where
 instance FromJSVal CSSRuleList where
   fromJSVal v = fmap CSSRuleList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSRuleList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSRuleList where
   makeObject = makeObject . unCSSRuleList
@@ -3354,6 +3488,8 @@ instance ToJSVal CSSStyleDeclaration where
 instance FromJSVal CSSStyleDeclaration where
   fromJSVal v = fmap CSSStyleDeclaration <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSStyleDeclaration
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSStyleDeclaration where
   makeObject = makeObject . unCSSStyleDeclaration
@@ -3393,6 +3529,8 @@ instance ToJSVal CSSStyleRule where
 instance FromJSVal CSSStyleRule where
   fromJSVal v = fmap CSSStyleRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSStyleRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSStyleRule where
   makeObject = makeObject . unCSSStyleRule
@@ -3431,6 +3569,8 @@ instance ToJSVal CSSStyleSheet where
 instance FromJSVal CSSStyleSheet where
   fromJSVal v = fmap CSSStyleSheet <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSStyleSheet
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSStyleSheet where
   makeObject = makeObject . unCSSStyleSheet
@@ -3471,6 +3611,8 @@ instance ToJSVal CSSSupportsRule where
 instance FromJSVal CSSSupportsRule where
   fromJSVal v = fmap CSSSupportsRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSSupportsRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSSupportsRule where
   makeObject = makeObject . unCSSSupportsRule
@@ -3509,6 +3651,8 @@ instance ToJSVal CSSUnknownRule where
 instance FromJSVal CSSUnknownRule where
   fromJSVal v = fmap CSSUnknownRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSUnknownRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSUnknownRule where
   makeObject = makeObject . unCSSUnknownRule
@@ -3544,6 +3688,8 @@ instance ToJSVal CSSValue where
 instance FromJSVal CSSValue where
   fromJSVal v = fmap CSSValue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSValue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSValue where
   makeObject = makeObject . unCSSValue
@@ -3588,6 +3734,8 @@ instance ToJSVal CSSValueList where
 instance FromJSVal CSSValueList where
   fromJSVal v = fmap CSSValueList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CSSValueList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CSSValueList where
   makeObject = makeObject . unCSSValueList
@@ -3628,6 +3776,8 @@ instance ToJSVal CanvasGradient where
 instance FromJSVal CanvasGradient where
   fromJSVal v = fmap CanvasGradient <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasGradient
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CanvasGradient where
   makeObject = makeObject . unCanvasGradient
@@ -3662,6 +3812,8 @@ instance ToJSVal CanvasPattern where
 instance FromJSVal CanvasPattern where
   fromJSVal v = fmap CanvasPattern <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasPattern
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CanvasPattern where
   makeObject = makeObject . unCanvasPattern
@@ -3696,6 +3848,8 @@ instance ToJSVal CanvasProxy where
 instance FromJSVal CanvasProxy where
   fromJSVal v = fmap CanvasProxy <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasProxy
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CanvasProxy where
   makeObject = makeObject . unCanvasProxy
@@ -3730,6 +3884,8 @@ instance ToJSVal CanvasRenderingContext where
 instance FromJSVal CanvasRenderingContext where
   fromJSVal v = fmap CanvasRenderingContext <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasRenderingContext
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CanvasRenderingContext where
   makeObject = makeObject . unCanvasRenderingContext
@@ -3772,6 +3928,8 @@ instance ToJSVal CanvasRenderingContext2D where
 instance FromJSVal CanvasRenderingContext2D where
   fromJSVal v = fmap CanvasRenderingContext2D <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasRenderingContext2D
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CanvasRenderingContext2D where
   makeObject = makeObject . unCanvasRenderingContext2D
@@ -3807,6 +3965,8 @@ instance ToJSVal CapabilityRange where
 instance FromJSVal CapabilityRange where
   fromJSVal v = fmap CapabilityRange <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CapabilityRange
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CapabilityRange where
   makeObject = makeObject . unCapabilityRange
@@ -3845,6 +4005,8 @@ instance ToJSVal ChannelMergerNode where
 instance FromJSVal ChannelMergerNode where
   fromJSVal v = fmap ChannelMergerNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ChannelMergerNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ChannelMergerNode where
   makeObject = makeObject . unChannelMergerNode
@@ -3885,6 +4047,8 @@ instance ToJSVal ChannelSplitterNode where
 instance FromJSVal ChannelSplitterNode where
   fromJSVal v = fmap ChannelSplitterNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ChannelSplitterNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ChannelSplitterNode where
   makeObject = makeObject . unChannelSplitterNode
@@ -3925,6 +4089,8 @@ instance ToJSVal CharacterData where
 instance FromJSVal CharacterData where
   fromJSVal v = fmap CharacterData <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CharacterData
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CharacterData where
   makeObject = makeObject . unCharacterData
@@ -3968,6 +4134,8 @@ instance ToJSVal ChildNode where
 instance FromJSVal ChildNode where
   fromJSVal v = fmap ChildNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ChildNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ChildNode where
   makeObject = makeObject . unChildNode
@@ -4002,6 +4170,8 @@ instance ToJSVal ClientRect where
 instance FromJSVal ClientRect where
   fromJSVal v = fmap ClientRect <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ClientRect
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ClientRect where
   makeObject = makeObject . unClientRect
@@ -4036,6 +4206,8 @@ instance ToJSVal ClientRectList where
 instance FromJSVal ClientRectList where
   fromJSVal v = fmap ClientRectList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ClientRectList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ClientRectList where
   makeObject = makeObject . unClientRectList
@@ -4073,6 +4245,8 @@ instance ToJSVal CloseEvent where
 instance FromJSVal CloseEvent where
   fromJSVal v = fmap CloseEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CloseEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CloseEvent where
   makeObject = makeObject . unCloseEvent
@@ -4108,6 +4282,8 @@ instance ToJSVal CommandLineAPIHost where
 instance FromJSVal CommandLineAPIHost where
   fromJSVal v = fmap CommandLineAPIHost <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CommandLineAPIHost
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CommandLineAPIHost where
   makeObject = makeObject . unCommandLineAPIHost
@@ -4147,6 +4323,8 @@ instance ToJSVal Comment where
 instance FromJSVal Comment where
   fromJSVal v = fmap Comment <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Comment
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Comment where
   makeObject = makeObject . unComment
@@ -4190,6 +4368,8 @@ instance ToJSVal CompositionEvent where
 instance FromJSVal CompositionEvent where
   fromJSVal v = fmap CompositionEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CompositionEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CompositionEvent where
   makeObject = makeObject . unCompositionEvent
@@ -4230,6 +4410,8 @@ instance ToJSVal ConvolverNode where
 instance FromJSVal ConvolverNode where
   fromJSVal v = fmap ConvolverNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ConvolverNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ConvolverNode where
   makeObject = makeObject . unConvolverNode
@@ -4266,6 +4448,8 @@ instance ToJSVal Coordinates where
 instance FromJSVal Coordinates where
   fromJSVal v = fmap Coordinates <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Coordinates
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Coordinates where
   makeObject = makeObject . unCoordinates
@@ -4300,6 +4484,8 @@ instance ToJSVal Counter where
 instance FromJSVal Counter where
   fromJSVal v = fmap Counter <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Counter
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Counter where
   makeObject = makeObject . unCounter
@@ -4334,6 +4520,8 @@ instance ToJSVal Crypto where
 instance FromJSVal Crypto where
   fromJSVal v = fmap Crypto <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Crypto
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Crypto where
   makeObject = makeObject . unCrypto
@@ -4368,6 +4556,8 @@ instance ToJSVal CryptoKey where
 instance FromJSVal CryptoKey where
   fromJSVal v = fmap CryptoKey <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CryptoKey
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CryptoKey where
   makeObject = makeObject . unCryptoKey
@@ -4402,6 +4592,8 @@ instance ToJSVal CryptoKeyPair where
 instance FromJSVal CryptoKeyPair where
   fromJSVal v = fmap CryptoKeyPair <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CryptoKeyPair
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CryptoKeyPair where
   makeObject = makeObject . unCryptoKeyPair
@@ -4439,6 +4631,8 @@ instance ToJSVal CustomEvent where
 instance FromJSVal CustomEvent where
   fromJSVal v = fmap CustomEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CustomEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject CustomEvent where
   makeObject = makeObject . unCustomEvent
@@ -4474,6 +4668,8 @@ instance ToJSVal DOMError where
 instance FromJSVal DOMError where
   fromJSVal v = fmap DOMError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMError where
   makeObject = makeObject . unDOMError
@@ -4513,6 +4709,8 @@ instance ToJSVal DOMImplementation where
 instance FromJSVal DOMImplementation where
   fromJSVal v = fmap DOMImplementation <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMImplementation
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMImplementation where
   makeObject = makeObject . unDOMImplementation
@@ -4549,6 +4747,8 @@ instance ToJSVal DOMNamedFlowCollection where
 instance FromJSVal DOMNamedFlowCollection where
   fromJSVal v = fmap DOMNamedFlowCollection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMNamedFlowCollection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMNamedFlowCollection where
   makeObject = makeObject . unDOMNamedFlowCollection
@@ -4587,6 +4787,8 @@ instance ToJSVal DOMParser where
 instance FromJSVal DOMParser where
   fromJSVal v = fmap DOMParser <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMParser
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMParser where
   makeObject = makeObject . unDOMParser
@@ -4624,6 +4826,8 @@ instance ToJSVal DOMSettableTokenList where
 instance FromJSVal DOMSettableTokenList where
   fromJSVal v = fmap DOMSettableTokenList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMSettableTokenList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMSettableTokenList where
   makeObject = makeObject . unDOMSettableTokenList
@@ -4661,6 +4865,8 @@ instance ToJSVal DOMStringList where
 instance FromJSVal DOMStringList where
   fromJSVal v = fmap DOMStringList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMStringList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMStringList where
   makeObject = makeObject . unDOMStringList
@@ -4697,6 +4903,8 @@ instance ToJSVal DOMStringMap where
 instance FromJSVal DOMStringMap where
   fromJSVal v = fmap DOMStringMap <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMStringMap
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMStringMap where
   makeObject = makeObject . unDOMStringMap
@@ -4731,6 +4939,8 @@ instance ToJSVal DOMTokenList where
 instance FromJSVal DOMTokenList where
   fromJSVal v = fmap DOMTokenList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DOMTokenList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DOMTokenList where
   makeObject = makeObject . unDOMTokenList
@@ -4776,6 +4986,8 @@ instance ToJSVal DataCue where
 instance FromJSVal DataCue where
   fromJSVal v = fmap DataCue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DataCue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DataCue where
   makeObject = makeObject . unDataCue
@@ -4812,6 +5024,8 @@ instance ToJSVal DataTransfer where
 instance FromJSVal DataTransfer where
   fromJSVal v = fmap DataTransfer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DataTransfer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DataTransfer where
   makeObject = makeObject . unDataTransfer
@@ -4846,6 +5060,8 @@ instance ToJSVal DataTransferItem where
 instance FromJSVal DataTransferItem where
   fromJSVal v = fmap DataTransferItem <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DataTransferItem
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DataTransferItem where
   makeObject = makeObject . unDataTransferItem
@@ -4880,6 +5096,8 @@ instance ToJSVal DataTransferItemList where
 instance FromJSVal DataTransferItemList where
   fromJSVal v = fmap DataTransferItemList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DataTransferItemList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DataTransferItemList where
   makeObject = makeObject . unDataTransferItemList
@@ -4914,6 +5132,8 @@ instance ToJSVal Database where
 instance FromJSVal Database where
   fromJSVal v = fmap Database <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Database
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Database where
   makeObject = makeObject . unDatabase
@@ -4952,6 +5172,8 @@ instance ToJSVal DedicatedWorkerGlobalScope where
 instance FromJSVal DedicatedWorkerGlobalScope where
   fromJSVal v = fmap DedicatedWorkerGlobalScope <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DedicatedWorkerGlobalScope
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DedicatedWorkerGlobalScope where
   makeObject = makeObject . unDedicatedWorkerGlobalScope
@@ -4992,6 +5214,8 @@ instance ToJSVal DelayNode where
 instance FromJSVal DelayNode where
   fromJSVal v = fmap DelayNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DelayNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DelayNode where
   makeObject = makeObject . unDelayNode
@@ -5031,6 +5255,8 @@ instance ToJSVal DeviceMotionEvent where
 instance FromJSVal DeviceMotionEvent where
   fromJSVal v = fmap DeviceMotionEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DeviceMotionEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DeviceMotionEvent where
   makeObject = makeObject . unDeviceMotionEvent
@@ -5069,6 +5295,8 @@ instance ToJSVal DeviceOrientationEvent where
 instance FromJSVal DeviceOrientationEvent where
   fromJSVal v = fmap DeviceOrientationEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DeviceOrientationEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DeviceOrientationEvent where
   makeObject = makeObject . unDeviceOrientationEvent
@@ -5107,6 +5335,8 @@ instance ToJSVal DeviceProximityEvent where
 instance FromJSVal DeviceProximityEvent where
   fromJSVal v = fmap DeviceProximityEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DeviceProximityEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DeviceProximityEvent where
   makeObject = makeObject . unDeviceProximityEvent
@@ -5146,6 +5376,8 @@ instance ToJSVal Document where
 instance FromJSVal Document where
   fromJSVal v = fmap Document <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Document
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Document where
   makeObject = makeObject . unDocument
@@ -5193,6 +5425,8 @@ instance ToJSVal DocumentFragment where
 instance FromJSVal DocumentFragment where
   fromJSVal v = fmap DocumentFragment <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DocumentFragment
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DocumentFragment where
   makeObject = makeObject . unDocumentFragment
@@ -5235,6 +5469,8 @@ instance ToJSVal DocumentType where
 instance FromJSVal DocumentType where
   fromJSVal v = fmap DocumentType <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DocumentType
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DocumentType where
   makeObject = makeObject . unDocumentType
@@ -5277,6 +5513,8 @@ instance ToJSVal DynamicsCompressorNode where
 instance FromJSVal DynamicsCompressorNode where
   fromJSVal v = fmap DynamicsCompressorNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DynamicsCompressorNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject DynamicsCompressorNode where
   makeObject = makeObject . unDynamicsCompressorNode
@@ -5313,6 +5551,8 @@ instance ToJSVal EXTBlendMinMax where
 instance FromJSVal EXTBlendMinMax where
   fromJSVal v = fmap EXTBlendMinMax <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EXTBlendMinMax
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EXTBlendMinMax where
   makeObject = makeObject . unEXTBlendMinMax
@@ -5347,6 +5587,8 @@ instance ToJSVal EXTFragDepth where
 instance FromJSVal EXTFragDepth where
   fromJSVal v = fmap EXTFragDepth <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EXTFragDepth
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EXTFragDepth where
   makeObject = makeObject . unEXTFragDepth
@@ -5381,6 +5623,8 @@ instance ToJSVal EXTShaderTextureLOD where
 instance FromJSVal EXTShaderTextureLOD where
   fromJSVal v = fmap EXTShaderTextureLOD <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EXTShaderTextureLOD
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EXTShaderTextureLOD where
   makeObject = makeObject . unEXTShaderTextureLOD
@@ -5415,6 +5659,8 @@ instance ToJSVal EXTTextureFilterAnisotropic where
 instance FromJSVal EXTTextureFilterAnisotropic where
   fromJSVal v = fmap EXTTextureFilterAnisotropic <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EXTTextureFilterAnisotropic
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EXTTextureFilterAnisotropic where
   makeObject = makeObject . unEXTTextureFilterAnisotropic
@@ -5449,6 +5695,8 @@ instance ToJSVal EXTsRGB where
 instance FromJSVal EXTsRGB where
   fromJSVal v = fmap EXTsRGB <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EXTsRGB
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EXTsRGB where
   makeObject = makeObject . unEXTsRGB
@@ -5487,6 +5735,8 @@ instance ToJSVal Element where
 instance FromJSVal Element where
   fromJSVal v = fmap Element <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Element
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Element where
   makeObject = makeObject . unElement
@@ -5534,6 +5784,8 @@ instance ToJSVal Entity where
 instance FromJSVal Entity where
   fromJSVal v = fmap Entity <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Entity
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Entity where
   makeObject = makeObject . unEntity
@@ -5574,6 +5826,8 @@ instance ToJSVal EntityReference where
 instance FromJSVal EntityReference where
   fromJSVal v = fmap EntityReference <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EntityReference
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EntityReference where
   makeObject = makeObject . unEntityReference
@@ -5615,6 +5869,8 @@ instance ToJSVal ErrorEvent where
 instance FromJSVal ErrorEvent where
   fromJSVal v = fmap ErrorEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ErrorEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ErrorEvent where
   makeObject = makeObject . unErrorEvent
@@ -5650,6 +5906,8 @@ instance ToJSVal Event where
 instance FromJSVal Event where
   fromJSVal v = fmap Event <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Event
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Event where
   makeObject = makeObject . unEvent
@@ -5691,6 +5949,8 @@ instance ToJSVal EventListener where
 instance FromJSVal EventListener where
   fromJSVal v = fmap EventListener <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EventListener
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EventListener where
   makeObject = makeObject . unEventListener
@@ -5728,6 +5988,8 @@ instance ToJSVal EventSource where
 instance FromJSVal EventSource where
   fromJSVal v = fmap EventSource <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EventSource
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EventSource where
   makeObject = makeObject . unEventSource
@@ -5763,6 +6025,8 @@ instance ToJSVal EventTarget where
 instance FromJSVal EventTarget where
   fromJSVal v = fmap EventTarget <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EventTarget
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject EventTarget where
   makeObject = makeObject . unEventTarget
@@ -5807,6 +6071,8 @@ instance ToJSVal File where
 instance FromJSVal File where
   fromJSVal v = fmap File <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . File
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject File where
   makeObject = makeObject . unFile
@@ -5844,6 +6110,8 @@ instance ToJSVal FileError where
 instance FromJSVal FileError where
   fromJSVal v = fmap FileError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FileError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FileError where
   makeObject = makeObject . unFileError
@@ -5878,6 +6146,8 @@ instance ToJSVal FileList where
 instance FromJSVal FileList where
   fromJSVal v = fmap FileList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FileList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FileList where
   makeObject = makeObject . unFileList
@@ -5917,6 +6187,8 @@ instance ToJSVal FileReader where
 instance FromJSVal FileReader where
   fromJSVal v = fmap FileReader <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FileReader
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FileReader where
   makeObject = makeObject . unFileReader
@@ -5952,6 +6224,8 @@ instance ToJSVal FileReaderSync where
 instance FromJSVal FileReaderSync where
   fromJSVal v = fmap FileReaderSync <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FileReaderSync
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FileReaderSync where
   makeObject = makeObject . unFileReaderSync
@@ -5990,6 +6264,8 @@ instance ToJSVal FocusEvent where
 instance FromJSVal FocusEvent where
   fromJSVal v = fmap FocusEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FocusEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FocusEvent where
   makeObject = makeObject . unFocusEvent
@@ -6029,6 +6305,8 @@ instance ToJSVal FontLoader where
 instance FromJSVal FontLoader where
   fromJSVal v = fmap FontLoader <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FontLoader
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FontLoader where
   makeObject = makeObject . unFontLoader
@@ -6064,6 +6342,8 @@ instance ToJSVal FormData where
 instance FromJSVal FormData where
   fromJSVal v = fmap FormData <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . FormData
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject FormData where
   makeObject = makeObject . unFormData
@@ -6102,6 +6382,8 @@ instance ToJSVal GainNode where
 instance FromJSVal GainNode where
   fromJSVal v = fmap GainNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . GainNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject GainNode where
   makeObject = makeObject . unGainNode
@@ -6138,6 +6420,8 @@ instance ToJSVal Gamepad where
 instance FromJSVal Gamepad where
   fromJSVal v = fmap Gamepad <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Gamepad
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Gamepad where
   makeObject = makeObject . unGamepad
@@ -6172,6 +6456,8 @@ instance ToJSVal GamepadButton where
 instance FromJSVal GamepadButton where
   fromJSVal v = fmap GamepadButton <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . GamepadButton
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject GamepadButton where
   makeObject = makeObject . unGamepadButton
@@ -6209,6 +6495,8 @@ instance ToJSVal GamepadEvent where
 instance FromJSVal GamepadEvent where
   fromJSVal v = fmap GamepadEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . GamepadEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject GamepadEvent where
   makeObject = makeObject . unGamepadEvent
@@ -6244,6 +6532,8 @@ instance ToJSVal Geolocation where
 instance FromJSVal Geolocation where
   fromJSVal v = fmap Geolocation <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Geolocation
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Geolocation where
   makeObject = makeObject . unGeolocation
@@ -6280,6 +6570,8 @@ instance ToJSVal Geoposition where
 instance FromJSVal Geoposition where
   fromJSVal v = fmap Geoposition <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Geoposition
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Geoposition where
   makeObject = makeObject . unGeoposition
@@ -6314,6 +6606,8 @@ instance ToJSVal HTMLAllCollection where
 instance FromJSVal HTMLAllCollection where
   fromJSVal v = fmap HTMLAllCollection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLAllCollection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLAllCollection where
   makeObject = makeObject . unHTMLAllCollection
@@ -6354,6 +6648,8 @@ instance ToJSVal HTMLAnchorElement where
 instance FromJSVal HTMLAnchorElement where
   fromJSVal v = fmap HTMLAnchorElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLAnchorElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLAnchorElement where
   makeObject = makeObject . unHTMLAnchorElement
@@ -6400,6 +6696,8 @@ instance ToJSVal HTMLAppletElement where
 instance FromJSVal HTMLAppletElement where
   fromJSVal v = fmap HTMLAppletElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLAppletElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLAppletElement where
   makeObject = makeObject . unHTMLAppletElement
@@ -6446,6 +6744,8 @@ instance ToJSVal HTMLAreaElement where
 instance FromJSVal HTMLAreaElement where
   fromJSVal v = fmap HTMLAreaElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLAreaElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLAreaElement where
   makeObject = makeObject . unHTMLAreaElement
@@ -6493,6 +6793,8 @@ instance ToJSVal HTMLAudioElement where
 instance FromJSVal HTMLAudioElement where
   fromJSVal v = fmap HTMLAudioElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLAudioElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLAudioElement where
   makeObject = makeObject . unHTMLAudioElement
@@ -6540,6 +6842,8 @@ instance ToJSVal HTMLBRElement where
 instance FromJSVal HTMLBRElement where
   fromJSVal v = fmap HTMLBRElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLBRElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLBRElement where
   makeObject = makeObject . unHTMLBRElement
@@ -6586,6 +6890,8 @@ instance ToJSVal HTMLBaseElement where
 instance FromJSVal HTMLBaseElement where
   fromJSVal v = fmap HTMLBaseElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLBaseElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLBaseElement where
   makeObject = makeObject . unHTMLBaseElement
@@ -6632,6 +6938,8 @@ instance ToJSVal HTMLBaseFontElement where
 instance FromJSVal HTMLBaseFontElement where
   fromJSVal v = fmap HTMLBaseFontElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLBaseFontElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLBaseFontElement where
   makeObject = makeObject . unHTMLBaseFontElement
@@ -6678,6 +6986,8 @@ instance ToJSVal HTMLBodyElement where
 instance FromJSVal HTMLBodyElement where
   fromJSVal v = fmap HTMLBodyElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLBodyElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLBodyElement where
   makeObject = makeObject . unHTMLBodyElement
@@ -6724,6 +7034,8 @@ instance ToJSVal HTMLButtonElement where
 instance FromJSVal HTMLButtonElement where
   fromJSVal v = fmap HTMLButtonElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLButtonElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLButtonElement where
   makeObject = makeObject . unHTMLButtonElement
@@ -6770,6 +7082,8 @@ instance ToJSVal HTMLCanvasElement where
 instance FromJSVal HTMLCanvasElement where
   fromJSVal v = fmap HTMLCanvasElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLCanvasElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLCanvasElement where
   makeObject = makeObject . unHTMLCanvasElement
@@ -6810,6 +7124,8 @@ instance ToJSVal HTMLCollection where
 instance FromJSVal HTMLCollection where
   fromJSVal v = fmap HTMLCollection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLCollection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLCollection where
   makeObject = makeObject . unHTMLCollection
@@ -6857,6 +7173,8 @@ instance ToJSVal HTMLDListElement where
 instance FromJSVal HTMLDListElement where
   fromJSVal v = fmap HTMLDListElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLDListElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLDListElement where
   makeObject = makeObject . unHTMLDListElement
@@ -6903,6 +7221,8 @@ instance ToJSVal HTMLDataListElement where
 instance FromJSVal HTMLDataListElement where
   fromJSVal v = fmap HTMLDataListElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLDataListElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLDataListElement where
   makeObject = makeObject . unHTMLDataListElement
@@ -6947,6 +7267,8 @@ instance ToJSVal HTMLDetailsElement where
 instance FromJSVal HTMLDetailsElement where
   fromJSVal v = fmap HTMLDetailsElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLDetailsElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLDetailsElement where
   makeObject = makeObject . unHTMLDetailsElement
@@ -6993,6 +7315,8 @@ instance ToJSVal HTMLDirectoryElement where
 instance FromJSVal HTMLDirectoryElement where
   fromJSVal v = fmap HTMLDirectoryElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLDirectoryElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLDirectoryElement where
   makeObject = makeObject . unHTMLDirectoryElement
@@ -7039,6 +7363,8 @@ instance ToJSVal HTMLDivElement where
 instance FromJSVal HTMLDivElement where
   fromJSVal v = fmap HTMLDivElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLDivElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLDivElement where
   makeObject = makeObject . unHTMLDivElement
@@ -7084,6 +7410,8 @@ instance ToJSVal HTMLDocument where
 instance FromJSVal HTMLDocument where
   fromJSVal v = fmap HTMLDocument <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLDocument
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLDocument where
   makeObject = makeObject . unHTMLDocument
@@ -7128,6 +7456,8 @@ instance ToJSVal HTMLElement where
 instance FromJSVal HTMLElement where
   fromJSVal v = fmap HTMLElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLElement where
   makeObject = makeObject . unHTMLElement
@@ -7178,6 +7508,8 @@ instance ToJSVal HTMLEmbedElement where
 instance FromJSVal HTMLEmbedElement where
   fromJSVal v = fmap HTMLEmbedElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLEmbedElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLEmbedElement where
   makeObject = makeObject . unHTMLEmbedElement
@@ -7224,6 +7556,8 @@ instance ToJSVal HTMLFieldSetElement where
 instance FromJSVal HTMLFieldSetElement where
   fromJSVal v = fmap HTMLFieldSetElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLFieldSetElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLFieldSetElement where
   makeObject = makeObject . unHTMLFieldSetElement
@@ -7270,6 +7604,8 @@ instance ToJSVal HTMLFontElement where
 instance FromJSVal HTMLFontElement where
   fromJSVal v = fmap HTMLFontElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLFontElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLFontElement where
   makeObject = makeObject . unHTMLFontElement
@@ -7313,6 +7649,8 @@ instance ToJSVal HTMLFormControlsCollection where
 instance FromJSVal HTMLFormControlsCollection where
   fromJSVal v = fmap HTMLFormControlsCollection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLFormControlsCollection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLFormControlsCollection where
   makeObject = makeObject . unHTMLFormControlsCollection
@@ -7354,6 +7692,8 @@ instance ToJSVal HTMLFormElement where
 instance FromJSVal HTMLFormElement where
   fromJSVal v = fmap HTMLFormElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLFormElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLFormElement where
   makeObject = makeObject . unHTMLFormElement
@@ -7400,6 +7740,8 @@ instance ToJSVal HTMLFrameElement where
 instance FromJSVal HTMLFrameElement where
   fromJSVal v = fmap HTMLFrameElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLFrameElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLFrameElement where
   makeObject = makeObject . unHTMLFrameElement
@@ -7446,6 +7788,8 @@ instance ToJSVal HTMLFrameSetElement where
 instance FromJSVal HTMLFrameSetElement where
   fromJSVal v = fmap HTMLFrameSetElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLFrameSetElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLFrameSetElement where
   makeObject = makeObject . unHTMLFrameSetElement
@@ -7492,6 +7836,8 @@ instance ToJSVal HTMLHRElement where
 instance FromJSVal HTMLHRElement where
   fromJSVal v = fmap HTMLHRElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLHRElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLHRElement where
   makeObject = makeObject . unHTMLHRElement
@@ -7538,6 +7884,8 @@ instance ToJSVal HTMLHeadElement where
 instance FromJSVal HTMLHeadElement where
   fromJSVal v = fmap HTMLHeadElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLHeadElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLHeadElement where
   makeObject = makeObject . unHTMLHeadElement
@@ -7584,6 +7932,8 @@ instance ToJSVal HTMLHeadingElement where
 instance FromJSVal HTMLHeadingElement where
   fromJSVal v = fmap HTMLHeadingElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLHeadingElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLHeadingElement where
   makeObject = makeObject . unHTMLHeadingElement
@@ -7630,6 +7980,8 @@ instance ToJSVal HTMLHtmlElement where
 instance FromJSVal HTMLHtmlElement where
   fromJSVal v = fmap HTMLHtmlElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLHtmlElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLHtmlElement where
   makeObject = makeObject . unHTMLHtmlElement
@@ -7676,6 +8028,8 @@ instance ToJSVal HTMLIFrameElement where
 instance FromJSVal HTMLIFrameElement where
   fromJSVal v = fmap HTMLIFrameElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLIFrameElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLIFrameElement where
   makeObject = makeObject . unHTMLIFrameElement
@@ -7722,6 +8076,8 @@ instance ToJSVal HTMLImageElement where
 instance FromJSVal HTMLImageElement where
   fromJSVal v = fmap HTMLImageElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLImageElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLImageElement where
   makeObject = makeObject . unHTMLImageElement
@@ -7768,6 +8124,8 @@ instance ToJSVal HTMLInputElement where
 instance FromJSVal HTMLInputElement where
   fromJSVal v = fmap HTMLInputElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLInputElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLInputElement where
   makeObject = makeObject . unHTMLInputElement
@@ -7814,6 +8172,8 @@ instance ToJSVal HTMLKeygenElement where
 instance FromJSVal HTMLKeygenElement where
   fromJSVal v = fmap HTMLKeygenElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLKeygenElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLKeygenElement where
   makeObject = makeObject . unHTMLKeygenElement
@@ -7860,6 +8220,8 @@ instance ToJSVal HTMLLIElement where
 instance FromJSVal HTMLLIElement where
   fromJSVal v = fmap HTMLLIElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLLIElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLLIElement where
   makeObject = makeObject . unHTMLLIElement
@@ -7906,6 +8268,8 @@ instance ToJSVal HTMLLabelElement where
 instance FromJSVal HTMLLabelElement where
   fromJSVal v = fmap HTMLLabelElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLLabelElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLLabelElement where
   makeObject = makeObject . unHTMLLabelElement
@@ -7952,6 +8316,8 @@ instance ToJSVal HTMLLegendElement where
 instance FromJSVal HTMLLegendElement where
   fromJSVal v = fmap HTMLLegendElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLLegendElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLLegendElement where
   makeObject = makeObject . unHTMLLegendElement
@@ -7998,6 +8364,8 @@ instance ToJSVal HTMLLinkElement where
 instance FromJSVal HTMLLinkElement where
   fromJSVal v = fmap HTMLLinkElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLLinkElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLLinkElement where
   makeObject = makeObject . unHTMLLinkElement
@@ -8044,6 +8412,8 @@ instance ToJSVal HTMLMapElement where
 instance FromJSVal HTMLMapElement where
   fromJSVal v = fmap HTMLMapElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLMapElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLMapElement where
   makeObject = makeObject . unHTMLMapElement
@@ -8090,6 +8460,8 @@ instance ToJSVal HTMLMarqueeElement where
 instance FromJSVal HTMLMarqueeElement where
   fromJSVal v = fmap HTMLMarqueeElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLMarqueeElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLMarqueeElement where
   makeObject = makeObject . unHTMLMarqueeElement
@@ -8136,6 +8508,8 @@ instance ToJSVal HTMLMediaElement where
 instance FromJSVal HTMLMediaElement where
   fromJSVal v = fmap HTMLMediaElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLMediaElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLMediaElement where
   makeObject = makeObject . unHTMLMediaElement
@@ -8187,6 +8561,8 @@ instance ToJSVal HTMLMenuElement where
 instance FromJSVal HTMLMenuElement where
   fromJSVal v = fmap HTMLMenuElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLMenuElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLMenuElement where
   makeObject = makeObject . unHTMLMenuElement
@@ -8233,6 +8609,8 @@ instance ToJSVal HTMLMetaElement where
 instance FromJSVal HTMLMetaElement where
   fromJSVal v = fmap HTMLMetaElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLMetaElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLMetaElement where
   makeObject = makeObject . unHTMLMetaElement
@@ -8279,6 +8657,8 @@ instance ToJSVal HTMLMeterElement where
 instance FromJSVal HTMLMeterElement where
   fromJSVal v = fmap HTMLMeterElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLMeterElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLMeterElement where
   makeObject = makeObject . unHTMLMeterElement
@@ -8323,6 +8703,8 @@ instance ToJSVal HTMLModElement where
 instance FromJSVal HTMLModElement where
   fromJSVal v = fmap HTMLModElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLModElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLModElement where
   makeObject = makeObject . unHTMLModElement
@@ -8369,6 +8751,8 @@ instance ToJSVal HTMLOListElement where
 instance FromJSVal HTMLOListElement where
   fromJSVal v = fmap HTMLOListElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLOListElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLOListElement where
   makeObject = makeObject . unHTMLOListElement
@@ -8415,6 +8799,8 @@ instance ToJSVal HTMLObjectElement where
 instance FromJSVal HTMLObjectElement where
   fromJSVal v = fmap HTMLObjectElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLObjectElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLObjectElement where
   makeObject = makeObject . unHTMLObjectElement
@@ -8461,6 +8847,8 @@ instance ToJSVal HTMLOptGroupElement where
 instance FromJSVal HTMLOptGroupElement where
   fromJSVal v = fmap HTMLOptGroupElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLOptGroupElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLOptGroupElement where
   makeObject = makeObject . unHTMLOptGroupElement
@@ -8507,6 +8895,8 @@ instance ToJSVal HTMLOptionElement where
 instance FromJSVal HTMLOptionElement where
   fromJSVal v = fmap HTMLOptionElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLOptionElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLOptionElement where
   makeObject = makeObject . unHTMLOptionElement
@@ -8550,6 +8940,8 @@ instance ToJSVal HTMLOptionsCollection where
 instance FromJSVal HTMLOptionsCollection where
   fromJSVal v = fmap HTMLOptionsCollection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLOptionsCollection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLOptionsCollection where
   makeObject = makeObject . unHTMLOptionsCollection
@@ -8593,6 +8985,8 @@ instance ToJSVal HTMLOutputElement where
 instance FromJSVal HTMLOutputElement where
   fromJSVal v = fmap HTMLOutputElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLOutputElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLOutputElement where
   makeObject = makeObject . unHTMLOutputElement
@@ -8637,6 +9031,8 @@ instance ToJSVal HTMLParagraphElement where
 instance FromJSVal HTMLParagraphElement where
   fromJSVal v = fmap HTMLParagraphElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLParagraphElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLParagraphElement where
   makeObject = makeObject . unHTMLParagraphElement
@@ -8683,6 +9079,8 @@ instance ToJSVal HTMLParamElement where
 instance FromJSVal HTMLParamElement where
   fromJSVal v = fmap HTMLParamElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLParamElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLParamElement where
   makeObject = makeObject . unHTMLParamElement
@@ -8729,6 +9127,8 @@ instance ToJSVal HTMLPreElement where
 instance FromJSVal HTMLPreElement where
   fromJSVal v = fmap HTMLPreElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLPreElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLPreElement where
   makeObject = makeObject . unHTMLPreElement
@@ -8775,6 +9175,8 @@ instance ToJSVal HTMLProgressElement where
 instance FromJSVal HTMLProgressElement where
   fromJSVal v = fmap HTMLProgressElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLProgressElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLProgressElement where
   makeObject = makeObject . unHTMLProgressElement
@@ -8819,6 +9221,8 @@ instance ToJSVal HTMLQuoteElement where
 instance FromJSVal HTMLQuoteElement where
   fromJSVal v = fmap HTMLQuoteElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLQuoteElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLQuoteElement where
   makeObject = makeObject . unHTMLQuoteElement
@@ -8865,6 +9269,8 @@ instance ToJSVal HTMLScriptElement where
 instance FromJSVal HTMLScriptElement where
   fromJSVal v = fmap HTMLScriptElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLScriptElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLScriptElement where
   makeObject = makeObject . unHTMLScriptElement
@@ -8911,6 +9317,8 @@ instance ToJSVal HTMLSelectElement where
 instance FromJSVal HTMLSelectElement where
   fromJSVal v = fmap HTMLSelectElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLSelectElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLSelectElement where
   makeObject = makeObject . unHTMLSelectElement
@@ -8957,6 +9365,8 @@ instance ToJSVal HTMLSourceElement where
 instance FromJSVal HTMLSourceElement where
   fromJSVal v = fmap HTMLSourceElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLSourceElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLSourceElement where
   makeObject = makeObject . unHTMLSourceElement
@@ -9001,6 +9411,8 @@ instance ToJSVal HTMLSpanElement where
 instance FromJSVal HTMLSpanElement where
   fromJSVal v = fmap HTMLSpanElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLSpanElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLSpanElement where
   makeObject = makeObject . unHTMLSpanElement
@@ -9045,6 +9457,8 @@ instance ToJSVal HTMLStyleElement where
 instance FromJSVal HTMLStyleElement where
   fromJSVal v = fmap HTMLStyleElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLStyleElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLStyleElement where
   makeObject = makeObject . unHTMLStyleElement
@@ -9091,6 +9505,8 @@ instance ToJSVal HTMLTableCaptionElement where
 instance FromJSVal HTMLTableCaptionElement where
   fromJSVal v = fmap HTMLTableCaptionElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTableCaptionElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTableCaptionElement where
   makeObject = makeObject . unHTMLTableCaptionElement
@@ -9137,6 +9553,8 @@ instance ToJSVal HTMLTableCellElement where
 instance FromJSVal HTMLTableCellElement where
   fromJSVal v = fmap HTMLTableCellElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTableCellElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTableCellElement where
   makeObject = makeObject . unHTMLTableCellElement
@@ -9183,6 +9601,8 @@ instance ToJSVal HTMLTableColElement where
 instance FromJSVal HTMLTableColElement where
   fromJSVal v = fmap HTMLTableColElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTableColElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTableColElement where
   makeObject = makeObject . unHTMLTableColElement
@@ -9229,6 +9649,8 @@ instance ToJSVal HTMLTableElement where
 instance FromJSVal HTMLTableElement where
   fromJSVal v = fmap HTMLTableElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTableElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTableElement where
   makeObject = makeObject . unHTMLTableElement
@@ -9275,6 +9697,8 @@ instance ToJSVal HTMLTableRowElement where
 instance FromJSVal HTMLTableRowElement where
   fromJSVal v = fmap HTMLTableRowElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTableRowElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTableRowElement where
   makeObject = makeObject . unHTMLTableRowElement
@@ -9321,6 +9745,8 @@ instance ToJSVal HTMLTableSectionElement where
 instance FromJSVal HTMLTableSectionElement where
   fromJSVal v = fmap HTMLTableSectionElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTableSectionElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTableSectionElement where
   makeObject = makeObject . unHTMLTableSectionElement
@@ -9367,6 +9793,8 @@ instance ToJSVal HTMLTemplateElement where
 instance FromJSVal HTMLTemplateElement where
   fromJSVal v = fmap HTMLTemplateElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTemplateElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTemplateElement where
   makeObject = makeObject . unHTMLTemplateElement
@@ -9411,6 +9839,8 @@ instance ToJSVal HTMLTextAreaElement where
 instance FromJSVal HTMLTextAreaElement where
   fromJSVal v = fmap HTMLTextAreaElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTextAreaElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTextAreaElement where
   makeObject = makeObject . unHTMLTextAreaElement
@@ -9457,6 +9887,8 @@ instance ToJSVal HTMLTitleElement where
 instance FromJSVal HTMLTitleElement where
   fromJSVal v = fmap HTMLTitleElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTitleElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTitleElement where
   makeObject = makeObject . unHTMLTitleElement
@@ -9503,6 +9935,8 @@ instance ToJSVal HTMLTrackElement where
 instance FromJSVal HTMLTrackElement where
   fromJSVal v = fmap HTMLTrackElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLTrackElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLTrackElement where
   makeObject = makeObject . unHTMLTrackElement
@@ -9547,6 +9981,8 @@ instance ToJSVal HTMLUListElement where
 instance FromJSVal HTMLUListElement where
   fromJSVal v = fmap HTMLUListElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLUListElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLUListElement where
   makeObject = makeObject . unHTMLUListElement
@@ -9593,6 +10029,8 @@ instance ToJSVal HTMLUnknownElement where
 instance FromJSVal HTMLUnknownElement where
   fromJSVal v = fmap HTMLUnknownElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLUnknownElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLUnknownElement where
   makeObject = makeObject . unHTMLUnknownElement
@@ -9638,6 +10076,8 @@ instance ToJSVal HTMLVideoElement where
 instance FromJSVal HTMLVideoElement where
   fromJSVal v = fmap HTMLVideoElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HTMLVideoElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HTMLVideoElement where
   makeObject = makeObject . unHTMLVideoElement
@@ -9682,6 +10122,8 @@ instance ToJSVal HashChangeEvent where
 instance FromJSVal HashChangeEvent where
   fromJSVal v = fmap HashChangeEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HashChangeEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject HashChangeEvent where
   makeObject = makeObject . unHashChangeEvent
@@ -9717,6 +10159,8 @@ instance ToJSVal History where
 instance FromJSVal History where
   fromJSVal v = fmap History <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . History
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject History where
   makeObject = makeObject . unHistory
@@ -9753,6 +10197,8 @@ instance ToJSVal IDBAny where
 instance FromJSVal IDBAny where
   fromJSVal v = fmap IDBAny <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBAny
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBAny where
   makeObject = makeObject . unIDBAny
@@ -9787,6 +10233,8 @@ instance ToJSVal IDBCursor where
 instance FromJSVal IDBCursor where
   fromJSVal v = fmap IDBCursor <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBCursor
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBCursor where
   makeObject = makeObject . unIDBCursor
@@ -9829,6 +10277,8 @@ instance ToJSVal IDBCursorWithValue where
 instance FromJSVal IDBCursorWithValue where
   fromJSVal v = fmap IDBCursorWithValue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBCursorWithValue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBCursorWithValue where
   makeObject = makeObject . unIDBCursorWithValue
@@ -9867,6 +10317,8 @@ instance ToJSVal IDBDatabase where
 instance FromJSVal IDBDatabase where
   fromJSVal v = fmap IDBDatabase <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBDatabase
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBDatabase where
   makeObject = makeObject . unIDBDatabase
@@ -9902,6 +10354,8 @@ instance ToJSVal IDBFactory where
 instance FromJSVal IDBFactory where
   fromJSVal v = fmap IDBFactory <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBFactory
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBFactory where
   makeObject = makeObject . unIDBFactory
@@ -9936,6 +10390,8 @@ instance ToJSVal IDBIndex where
 instance FromJSVal IDBIndex where
   fromJSVal v = fmap IDBIndex <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBIndex
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBIndex where
   makeObject = makeObject . unIDBIndex
@@ -9970,6 +10426,8 @@ instance ToJSVal IDBKeyRange where
 instance FromJSVal IDBKeyRange where
   fromJSVal v = fmap IDBKeyRange <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBKeyRange
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBKeyRange where
   makeObject = makeObject . unIDBKeyRange
@@ -10004,6 +10462,8 @@ instance ToJSVal IDBObjectStore where
 instance FromJSVal IDBObjectStore where
   fromJSVal v = fmap IDBObjectStore <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBObjectStore
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBObjectStore where
   makeObject = makeObject . unIDBObjectStore
@@ -10042,6 +10502,8 @@ instance ToJSVal IDBOpenDBRequest where
 instance FromJSVal IDBOpenDBRequest where
   fromJSVal v = fmap IDBOpenDBRequest <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBOpenDBRequest
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBOpenDBRequest where
   makeObject = makeObject . unIDBOpenDBRequest
@@ -10081,6 +10543,8 @@ instance ToJSVal IDBRequest where
 instance FromJSVal IDBRequest where
   fromJSVal v = fmap IDBRequest <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBRequest
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBRequest where
   makeObject = makeObject . unIDBRequest
@@ -10124,6 +10588,8 @@ instance ToJSVal IDBTransaction where
 instance FromJSVal IDBTransaction where
   fromJSVal v = fmap IDBTransaction <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBTransaction
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBTransaction where
   makeObject = makeObject . unIDBTransaction
@@ -10162,6 +10628,8 @@ instance ToJSVal IDBVersionChangeEvent where
 instance FromJSVal IDBVersionChangeEvent where
   fromJSVal v = fmap IDBVersionChangeEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . IDBVersionChangeEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject IDBVersionChangeEvent where
   makeObject = makeObject . unIDBVersionChangeEvent
@@ -10197,6 +10665,8 @@ instance ToJSVal ImageData where
 instance FromJSVal ImageData where
   fromJSVal v = fmap ImageData <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ImageData
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ImageData where
   makeObject = makeObject . unImageData
@@ -10231,6 +10701,8 @@ instance ToJSVal InspectorFrontendHost where
 instance FromJSVal InspectorFrontendHost where
   fromJSVal v = fmap InspectorFrontendHost <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . InspectorFrontendHost
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject InspectorFrontendHost where
   makeObject = makeObject . unInspectorFrontendHost
@@ -10267,6 +10739,8 @@ instance ToJSVal InternalSettings where
 instance FromJSVal InternalSettings where
   fromJSVal v = fmap InternalSettings <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . InternalSettings
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject InternalSettings where
   makeObject = makeObject . unInternalSettings
@@ -10301,6 +10775,8 @@ instance ToJSVal Internals where
 instance FromJSVal Internals where
   fromJSVal v = fmap Internals <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Internals
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Internals where
   makeObject = makeObject . unInternals
@@ -10339,6 +10815,8 @@ instance ToJSVal KeyboardEvent where
 instance FromJSVal KeyboardEvent where
   fromJSVal v = fmap KeyboardEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . KeyboardEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject KeyboardEvent where
   makeObject = makeObject . unKeyboardEvent
@@ -10379,6 +10857,8 @@ instance ToJSVal Location where
 instance FromJSVal Location where
   fromJSVal v = fmap Location <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Location
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Location where
   makeObject = makeObject . unLocation
@@ -10415,6 +10895,8 @@ instance ToJSVal MallocStatistics where
 instance FromJSVal MallocStatistics where
   fromJSVal v = fmap MallocStatistics <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MallocStatistics
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MallocStatistics where
   makeObject = makeObject . unMallocStatistics
@@ -10452,6 +10934,8 @@ instance ToJSVal MediaController where
 instance FromJSVal MediaController where
   fromJSVal v = fmap MediaController <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaController
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaController where
   makeObject = makeObject . unMediaController
@@ -10487,6 +10971,8 @@ instance ToJSVal MediaControlsHost where
 instance FromJSVal MediaControlsHost where
   fromJSVal v = fmap MediaControlsHost <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaControlsHost
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaControlsHost where
   makeObject = makeObject . unMediaControlsHost
@@ -10525,6 +11011,8 @@ instance ToJSVal MediaElementAudioSourceNode where
 instance FromJSVal MediaElementAudioSourceNode where
   fromJSVal v = fmap MediaElementAudioSourceNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaElementAudioSourceNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaElementAudioSourceNode where
   makeObject = makeObject . unMediaElementAudioSourceNode
@@ -10561,6 +11049,8 @@ instance ToJSVal MediaError where
 instance FromJSVal MediaError where
   fromJSVal v = fmap MediaError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaError where
   makeObject = makeObject . unMediaError
@@ -10597,6 +11087,8 @@ instance ToJSVal MediaKeyError where
 instance FromJSVal MediaKeyError where
   fromJSVal v = fmap MediaKeyError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaKeyError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaKeyError where
   makeObject = makeObject . unMediaKeyError
@@ -10634,6 +11126,8 @@ instance ToJSVal MediaKeyEvent where
 instance FromJSVal MediaKeyEvent where
   fromJSVal v = fmap MediaKeyEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaKeyEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaKeyEvent where
   makeObject = makeObject . unMediaKeyEvent
@@ -10672,6 +11166,8 @@ instance ToJSVal MediaKeyMessageEvent where
 instance FromJSVal MediaKeyMessageEvent where
   fromJSVal v = fmap MediaKeyMessageEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaKeyMessageEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaKeyMessageEvent where
   makeObject = makeObject . unMediaKeyMessageEvent
@@ -10710,6 +11206,8 @@ instance ToJSVal MediaKeyNeededEvent where
 instance FromJSVal MediaKeyNeededEvent where
   fromJSVal v = fmap MediaKeyNeededEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaKeyNeededEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaKeyNeededEvent where
   makeObject = makeObject . unMediaKeyNeededEvent
@@ -10748,6 +11246,8 @@ instance ToJSVal MediaKeySession where
 instance FromJSVal MediaKeySession where
   fromJSVal v = fmap MediaKeySession <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaKeySession
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaKeySession where
   makeObject = makeObject . unMediaKeySession
@@ -10783,6 +11283,8 @@ instance ToJSVal MediaKeys where
 instance FromJSVal MediaKeys where
   fromJSVal v = fmap MediaKeys <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaKeys
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaKeys where
   makeObject = makeObject . unMediaKeys
@@ -10817,6 +11319,8 @@ instance ToJSVal MediaList where
 instance FromJSVal MediaList where
   fromJSVal v = fmap MediaList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaList where
   makeObject = makeObject . unMediaList
@@ -10853,6 +11357,8 @@ instance ToJSVal MediaQueryList where
 instance FromJSVal MediaQueryList where
   fromJSVal v = fmap MediaQueryList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaQueryList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaQueryList where
   makeObject = makeObject . unMediaQueryList
@@ -10892,6 +11398,8 @@ instance ToJSVal MediaSource where
 instance FromJSVal MediaSource where
   fromJSVal v = fmap MediaSource <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaSource
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaSource where
   makeObject = makeObject . unMediaSource
@@ -10927,6 +11435,8 @@ instance ToJSVal MediaSourceStates where
 instance FromJSVal MediaSourceStates where
   fromJSVal v = fmap MediaSourceStates <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaSourceStates
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaSourceStates where
   makeObject = makeObject . unMediaSourceStates
@@ -10964,6 +11474,8 @@ instance ToJSVal MediaStream where
 instance FromJSVal MediaStream where
   fromJSVal v = fmap MediaStream <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStream
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStream where
   makeObject = makeObject . unMediaStream
@@ -11003,6 +11515,8 @@ instance ToJSVal MediaStreamAudioDestinationNode where
 instance FromJSVal MediaStreamAudioDestinationNode where
   fromJSVal v = fmap MediaStreamAudioDestinationNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamAudioDestinationNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStreamAudioDestinationNode where
   makeObject = makeObject . unMediaStreamAudioDestinationNode
@@ -11043,6 +11557,8 @@ instance ToJSVal MediaStreamAudioSourceNode where
 instance FromJSVal MediaStreamAudioSourceNode where
   fromJSVal v = fmap MediaStreamAudioSourceNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamAudioSourceNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStreamAudioSourceNode where
   makeObject = makeObject . unMediaStreamAudioSourceNode
@@ -11079,6 +11595,8 @@ instance ToJSVal MediaStreamCapabilities where
 instance FromJSVal MediaStreamCapabilities where
   fromJSVal v = fmap MediaStreamCapabilities <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamCapabilities
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStreamCapabilities where
   makeObject = makeObject . unMediaStreamCapabilities
@@ -11121,6 +11639,8 @@ instance ToJSVal MediaStreamEvent where
 instance FromJSVal MediaStreamEvent where
   fromJSVal v = fmap MediaStreamEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStreamEvent where
   makeObject = makeObject . unMediaStreamEvent
@@ -11159,6 +11679,8 @@ instance ToJSVal MediaStreamTrack where
 instance FromJSVal MediaStreamTrack where
   fromJSVal v = fmap MediaStreamTrack <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamTrack
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStreamTrack where
   makeObject = makeObject . unMediaStreamTrack
@@ -11202,6 +11724,8 @@ instance ToJSVal MediaStreamTrackEvent where
 instance FromJSVal MediaStreamTrackEvent where
   fromJSVal v = fmap MediaStreamTrackEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamTrackEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaStreamTrackEvent where
   makeObject = makeObject . unMediaStreamTrackEvent
@@ -11237,6 +11761,8 @@ instance ToJSVal MediaTrackConstraint where
 instance FromJSVal MediaTrackConstraint where
   fromJSVal v = fmap MediaTrackConstraint <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaTrackConstraint
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaTrackConstraint where
   makeObject = makeObject . unMediaTrackConstraint
@@ -11271,6 +11797,8 @@ instance ToJSVal MediaTrackConstraintSet where
 instance FromJSVal MediaTrackConstraintSet where
   fromJSVal v = fmap MediaTrackConstraintSet <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaTrackConstraintSet
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaTrackConstraintSet where
   makeObject = makeObject . unMediaTrackConstraintSet
@@ -11305,6 +11833,8 @@ instance ToJSVal MediaTrackConstraints where
 instance FromJSVal MediaTrackConstraints where
   fromJSVal v = fmap MediaTrackConstraints <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaTrackConstraints
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MediaTrackConstraints where
   makeObject = makeObject . unMediaTrackConstraints
@@ -11339,6 +11869,8 @@ instance ToJSVal MemoryInfo where
 instance FromJSVal MemoryInfo where
   fromJSVal v = fmap MemoryInfo <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MemoryInfo
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MemoryInfo where
   makeObject = makeObject . unMemoryInfo
@@ -11373,6 +11905,8 @@ instance ToJSVal MessageChannel where
 instance FromJSVal MessageChannel where
   fromJSVal v = fmap MessageChannel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MessageChannel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MessageChannel where
   makeObject = makeObject . unMessageChannel
@@ -11410,6 +11944,8 @@ instance ToJSVal MessageEvent where
 instance FromJSVal MessageEvent where
   fromJSVal v = fmap MessageEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MessageEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MessageEvent where
   makeObject = makeObject . unMessageEvent
@@ -11448,6 +11984,8 @@ instance ToJSVal MessagePort where
 instance FromJSVal MessagePort where
   fromJSVal v = fmap MessagePort <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MessagePort
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MessagePort where
   makeObject = makeObject . unMessagePort
@@ -11485,6 +12023,8 @@ instance ToJSVal MimeType where
 instance FromJSVal MimeType where
   fromJSVal v = fmap MimeType <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MimeType
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MimeType where
   makeObject = makeObject . unMimeType
@@ -11521,6 +12061,8 @@ instance ToJSVal MimeTypeArray where
 instance FromJSVal MimeTypeArray where
   fromJSVal v = fmap MimeTypeArray <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MimeTypeArray
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MimeTypeArray where
   makeObject = makeObject . unMimeTypeArray
@@ -11561,6 +12103,8 @@ instance ToJSVal MouseEvent where
 instance FromJSVal MouseEvent where
   fromJSVal v = fmap MouseEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MouseEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MouseEvent where
   makeObject = makeObject . unMouseEvent
@@ -11607,6 +12151,8 @@ instance ToJSVal MutationEvent where
 instance FromJSVal MutationEvent where
   fromJSVal v = fmap MutationEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MutationEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MutationEvent where
   makeObject = makeObject . unMutationEvent
@@ -11642,6 +12188,8 @@ instance ToJSVal MutationObserver where
 instance FromJSVal MutationObserver where
   fromJSVal v = fmap MutationObserver <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MutationObserver
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MutationObserver where
   makeObject = makeObject . unMutationObserver
@@ -11676,6 +12224,8 @@ instance ToJSVal MutationRecord where
 instance FromJSVal MutationRecord where
   fromJSVal v = fmap MutationRecord <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MutationRecord
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject MutationRecord where
   makeObject = makeObject . unMutationRecord
@@ -11710,6 +12260,8 @@ instance ToJSVal NamedNodeMap where
 instance FromJSVal NamedNodeMap where
   fromJSVal v = fmap NamedNodeMap <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . NamedNodeMap
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject NamedNodeMap where
   makeObject = makeObject . unNamedNodeMap
@@ -11746,6 +12298,8 @@ instance ToJSVal Navigator where
 instance FromJSVal Navigator where
   fromJSVal v = fmap Navigator <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Navigator
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Navigator where
   makeObject = makeObject . unNavigator
@@ -11785,6 +12339,8 @@ instance ToJSVal NavigatorUserMediaError where
 instance FromJSVal NavigatorUserMediaError where
   fromJSVal v = fmap NavigatorUserMediaError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . NavigatorUserMediaError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject NavigatorUserMediaError where
   makeObject = makeObject . unNavigatorUserMediaError
@@ -11823,6 +12379,8 @@ instance ToJSVal Node where
 instance FromJSVal Node where
   fromJSVal v = fmap Node <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Node
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Node where
   makeObject = makeObject . unNode
@@ -11865,6 +12423,8 @@ instance ToJSVal NodeFilter where
 instance FromJSVal NodeFilter where
   fromJSVal v = fmap NodeFilter <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . NodeFilter
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject NodeFilter where
   makeObject = makeObject . unNodeFilter
@@ -11901,6 +12461,8 @@ instance ToJSVal NodeIterator where
 instance FromJSVal NodeIterator where
   fromJSVal v = fmap NodeIterator <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . NodeIterator
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject NodeIterator where
   makeObject = makeObject . unNodeIterator
@@ -11937,6 +12499,8 @@ instance ToJSVal NodeList where
 instance FromJSVal NodeList where
   fromJSVal v = fmap NodeList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . NodeList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject NodeList where
   makeObject = makeObject . unNodeList
@@ -11981,6 +12545,8 @@ instance ToJSVal Notification where
 instance FromJSVal Notification where
   fromJSVal v = fmap Notification <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Notification
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Notification where
   makeObject = makeObject . unNotification
@@ -12016,6 +12582,8 @@ instance ToJSVal NotificationCenter where
 instance FromJSVal NotificationCenter where
   fromJSVal v = fmap NotificationCenter <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . NotificationCenter
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject NotificationCenter where
   makeObject = makeObject . unNotificationCenter
@@ -12050,6 +12618,8 @@ instance ToJSVal OESElementIndexUint where
 instance FromJSVal OESElementIndexUint where
   fromJSVal v = fmap OESElementIndexUint <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESElementIndexUint
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESElementIndexUint where
   makeObject = makeObject . unOESElementIndexUint
@@ -12084,6 +12654,8 @@ instance ToJSVal OESStandardDerivatives where
 instance FromJSVal OESStandardDerivatives where
   fromJSVal v = fmap OESStandardDerivatives <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESStandardDerivatives
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESStandardDerivatives where
   makeObject = makeObject . unOESStandardDerivatives
@@ -12118,6 +12690,8 @@ instance ToJSVal OESTextureFloat where
 instance FromJSVal OESTextureFloat where
   fromJSVal v = fmap OESTextureFloat <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESTextureFloat
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESTextureFloat where
   makeObject = makeObject . unOESTextureFloat
@@ -12152,6 +12726,8 @@ instance ToJSVal OESTextureFloatLinear where
 instance FromJSVal OESTextureFloatLinear where
   fromJSVal v = fmap OESTextureFloatLinear <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESTextureFloatLinear
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESTextureFloatLinear where
   makeObject = makeObject . unOESTextureFloatLinear
@@ -12186,6 +12762,8 @@ instance ToJSVal OESTextureHalfFloat where
 instance FromJSVal OESTextureHalfFloat where
   fromJSVal v = fmap OESTextureHalfFloat <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESTextureHalfFloat
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESTextureHalfFloat where
   makeObject = makeObject . unOESTextureHalfFloat
@@ -12220,6 +12798,8 @@ instance ToJSVal OESTextureHalfFloatLinear where
 instance FromJSVal OESTextureHalfFloatLinear where
   fromJSVal v = fmap OESTextureHalfFloatLinear <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESTextureHalfFloatLinear
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESTextureHalfFloatLinear where
   makeObject = makeObject . unOESTextureHalfFloatLinear
@@ -12254,6 +12834,8 @@ instance ToJSVal OESVertexArrayObject where
 instance FromJSVal OESVertexArrayObject where
   fromJSVal v = fmap OESVertexArrayObject <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OESVertexArrayObject
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OESVertexArrayObject where
   makeObject = makeObject . unOESVertexArrayObject
@@ -12291,6 +12873,8 @@ instance ToJSVal OfflineAudioCompletionEvent where
 instance FromJSVal OfflineAudioCompletionEvent where
   fromJSVal v = fmap OfflineAudioCompletionEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OfflineAudioCompletionEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OfflineAudioCompletionEvent where
   makeObject = makeObject . unOfflineAudioCompletionEvent
@@ -12330,6 +12914,8 @@ instance ToJSVal OfflineAudioContext where
 instance FromJSVal OfflineAudioContext where
   fromJSVal v = fmap OfflineAudioContext <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OfflineAudioContext
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OfflineAudioContext where
   makeObject = makeObject . unOfflineAudioContext
@@ -12370,6 +12956,8 @@ instance ToJSVal OscillatorNode where
 instance FromJSVal OscillatorNode where
   fromJSVal v = fmap OscillatorNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OscillatorNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OscillatorNode where
   makeObject = makeObject . unOscillatorNode
@@ -12409,6 +12997,8 @@ instance ToJSVal OverflowEvent where
 instance FromJSVal OverflowEvent where
   fromJSVal v = fmap OverflowEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . OverflowEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject OverflowEvent where
   makeObject = makeObject . unOverflowEvent
@@ -12447,6 +13037,8 @@ instance ToJSVal PageTransitionEvent where
 instance FromJSVal PageTransitionEvent where
   fromJSVal v = fmap PageTransitionEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PageTransitionEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PageTransitionEvent where
   makeObject = makeObject . unPageTransitionEvent
@@ -12486,6 +13078,8 @@ instance ToJSVal PannerNode where
 instance FromJSVal PannerNode where
   fromJSVal v = fmap PannerNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PannerNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PannerNode where
   makeObject = makeObject . unPannerNode
@@ -12522,6 +13116,8 @@ instance ToJSVal Path2D where
 instance FromJSVal Path2D where
   fromJSVal v = fmap Path2D <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Path2D
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Path2D where
   makeObject = makeObject . unPath2D
@@ -12559,6 +13155,8 @@ instance ToJSVal Performance where
 instance FromJSVal Performance where
   fromJSVal v = fmap Performance <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Performance
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Performance where
   makeObject = makeObject . unPerformance
@@ -12598,6 +13196,8 @@ instance ToJSVal PerformanceEntry where
 instance FromJSVal PerformanceEntry where
   fromJSVal v = fmap PerformanceEntry <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceEntry
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceEntry where
   makeObject = makeObject . unPerformanceEntry
@@ -12637,6 +13237,8 @@ instance ToJSVal PerformanceEntryList where
 instance FromJSVal PerformanceEntryList where
   fromJSVal v = fmap PerformanceEntryList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceEntryList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceEntryList where
   makeObject = makeObject . unPerformanceEntryList
@@ -12674,6 +13276,8 @@ instance ToJSVal PerformanceMark where
 instance FromJSVal PerformanceMark where
   fromJSVal v = fmap PerformanceMark <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceMark
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceMark where
   makeObject = makeObject . unPerformanceMark
@@ -12712,6 +13316,8 @@ instance ToJSVal PerformanceMeasure where
 instance FromJSVal PerformanceMeasure where
   fromJSVal v = fmap PerformanceMeasure <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceMeasure
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceMeasure where
   makeObject = makeObject . unPerformanceMeasure
@@ -12747,6 +13353,8 @@ instance ToJSVal PerformanceNavigation where
 instance FromJSVal PerformanceNavigation where
   fromJSVal v = fmap PerformanceNavigation <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceNavigation
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceNavigation where
   makeObject = makeObject . unPerformanceNavigation
@@ -12788,6 +13396,8 @@ instance ToJSVal PerformanceResourceTiming where
 instance FromJSVal PerformanceResourceTiming where
   fromJSVal v = fmap PerformanceResourceTiming <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceResourceTiming
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceResourceTiming where
   makeObject = makeObject . unPerformanceResourceTiming
@@ -12823,6 +13433,8 @@ instance ToJSVal PerformanceTiming where
 instance FromJSVal PerformanceTiming where
   fromJSVal v = fmap PerformanceTiming <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PerformanceTiming
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PerformanceTiming where
   makeObject = makeObject . unPerformanceTiming
@@ -12861,6 +13473,8 @@ instance ToJSVal PeriodicWave where
 instance FromJSVal PeriodicWave where
   fromJSVal v = fmap PeriodicWave <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PeriodicWave
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PeriodicWave where
   makeObject = makeObject . unPeriodicWave
@@ -12895,6 +13509,8 @@ instance ToJSVal Plugin where
 instance FromJSVal Plugin where
   fromJSVal v = fmap Plugin <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Plugin
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Plugin where
   makeObject = makeObject . unPlugin
@@ -12931,6 +13547,8 @@ instance ToJSVal PluginArray where
 instance FromJSVal PluginArray where
   fromJSVal v = fmap PluginArray <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PluginArray
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PluginArray where
   makeObject = makeObject . unPluginArray
@@ -12970,6 +13588,8 @@ instance ToJSVal PopStateEvent where
 instance FromJSVal PopStateEvent where
   fromJSVal v = fmap PopStateEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PopStateEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PopStateEvent where
   makeObject = makeObject . unPopStateEvent
@@ -13005,6 +13625,8 @@ instance ToJSVal PositionError where
 instance FromJSVal PositionError where
   fromJSVal v = fmap PositionError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PositionError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject PositionError where
   makeObject = makeObject . unPositionError
@@ -13044,6 +13666,8 @@ instance ToJSVal ProcessingInstruction where
 instance FromJSVal ProcessingInstruction where
   fromJSVal v = fmap ProcessingInstruction <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ProcessingInstruction
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ProcessingInstruction where
   makeObject = makeObject . unProcessingInstruction
@@ -13086,6 +13710,8 @@ instance ToJSVal ProgressEvent where
 instance FromJSVal ProgressEvent where
   fromJSVal v = fmap ProgressEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ProgressEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ProgressEvent where
   makeObject = makeObject . unProgressEvent
@@ -13126,6 +13752,8 @@ instance ToJSVal QuickTimePluginReplacement where
 instance FromJSVal QuickTimePluginReplacement where
   fromJSVal v = fmap QuickTimePluginReplacement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . QuickTimePluginReplacement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject QuickTimePluginReplacement where
   makeObject = makeObject . unQuickTimePluginReplacement
@@ -13160,6 +13788,8 @@ instance ToJSVal RGBColor where
 instance FromJSVal RGBColor where
   fromJSVal v = fmap RGBColor <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RGBColor
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RGBColor where
   makeObject = makeObject . unRGBColor
@@ -13194,6 +13824,8 @@ instance ToJSVal RTCConfiguration where
 instance FromJSVal RTCConfiguration where
   fromJSVal v = fmap RTCConfiguration <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCConfiguration
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCConfiguration where
   makeObject = makeObject . unRTCConfiguration
@@ -13231,6 +13863,8 @@ instance ToJSVal RTCDTMFSender where
 instance FromJSVal RTCDTMFSender where
   fromJSVal v = fmap RTCDTMFSender <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCDTMFSender
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCDTMFSender where
   makeObject = makeObject . unRTCDTMFSender
@@ -13269,6 +13903,8 @@ instance ToJSVal RTCDTMFToneChangeEvent where
 instance FromJSVal RTCDTMFToneChangeEvent where
   fromJSVal v = fmap RTCDTMFToneChangeEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCDTMFToneChangeEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCDTMFToneChangeEvent where
   makeObject = makeObject . unRTCDTMFToneChangeEvent
@@ -13307,6 +13943,8 @@ instance ToJSVal RTCDataChannel where
 instance FromJSVal RTCDataChannel where
   fromJSVal v = fmap RTCDataChannel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCDataChannel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCDataChannel where
   makeObject = makeObject . unRTCDataChannel
@@ -13345,6 +13983,8 @@ instance ToJSVal RTCDataChannelEvent where
 instance FromJSVal RTCDataChannelEvent where
   fromJSVal v = fmap RTCDataChannelEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCDataChannelEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCDataChannelEvent where
   makeObject = makeObject . unRTCDataChannelEvent
@@ -13380,6 +14020,8 @@ instance ToJSVal RTCIceCandidate where
 instance FromJSVal RTCIceCandidate where
   fromJSVal v = fmap RTCIceCandidate <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCIceCandidate
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCIceCandidate where
   makeObject = makeObject . unRTCIceCandidate
@@ -13417,6 +14059,8 @@ instance ToJSVal RTCIceCandidateEvent where
 instance FromJSVal RTCIceCandidateEvent where
   fromJSVal v = fmap RTCIceCandidateEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCIceCandidateEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCIceCandidateEvent where
   makeObject = makeObject . unRTCIceCandidateEvent
@@ -13452,6 +14096,8 @@ instance ToJSVal RTCIceServer where
 instance FromJSVal RTCIceServer where
   fromJSVal v = fmap RTCIceServer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCIceServer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCIceServer where
   makeObject = makeObject . unRTCIceServer
@@ -13489,6 +14135,8 @@ instance ToJSVal RTCPeerConnection where
 instance FromJSVal RTCPeerConnection where
   fromJSVal v = fmap RTCPeerConnection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCPeerConnection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCPeerConnection where
   makeObject = makeObject . unRTCPeerConnection
@@ -13524,6 +14172,8 @@ instance ToJSVal RTCSessionDescription where
 instance FromJSVal RTCSessionDescription where
   fromJSVal v = fmap RTCSessionDescription <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCSessionDescription
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCSessionDescription where
   makeObject = makeObject . unRTCSessionDescription
@@ -13558,6 +14208,8 @@ instance ToJSVal RTCStatsReport where
 instance FromJSVal RTCStatsReport where
   fromJSVal v = fmap RTCStatsReport <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCStatsReport
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCStatsReport where
   makeObject = makeObject . unRTCStatsReport
@@ -13592,6 +14244,8 @@ instance ToJSVal RTCStatsResponse where
 instance FromJSVal RTCStatsResponse where
   fromJSVal v = fmap RTCStatsResponse <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCStatsResponse
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RTCStatsResponse where
   makeObject = makeObject . unRTCStatsResponse
@@ -13629,6 +14283,8 @@ instance ToJSVal RadioNodeList where
 instance FromJSVal RadioNodeList where
   fromJSVal v = fmap RadioNodeList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RadioNodeList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject RadioNodeList where
   makeObject = makeObject . unRadioNodeList
@@ -13664,6 +14320,8 @@ instance ToJSVal Range where
 instance FromJSVal Range where
   fromJSVal v = fmap Range <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Range
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Range where
   makeObject = makeObject . unRange
@@ -13700,6 +14358,8 @@ instance ToJSVal ReadableStream where
 instance FromJSVal ReadableStream where
   fromJSVal v = fmap ReadableStream <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ReadableStream
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ReadableStream where
   makeObject = makeObject . unReadableStream
@@ -13734,6 +14394,8 @@ instance ToJSVal Rect where
 instance FromJSVal Rect where
   fromJSVal v = fmap Rect <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Rect
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Rect where
   makeObject = makeObject . unRect
@@ -13768,6 +14430,8 @@ instance ToJSVal SQLError where
 instance FromJSVal SQLError where
   fromJSVal v = fmap SQLError <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SQLError
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SQLError where
   makeObject = makeObject . unSQLError
@@ -13802,6 +14466,8 @@ instance ToJSVal SQLResultSet where
 instance FromJSVal SQLResultSet where
   fromJSVal v = fmap SQLResultSet <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SQLResultSet
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SQLResultSet where
   makeObject = makeObject . unSQLResultSet
@@ -13836,6 +14502,8 @@ instance ToJSVal SQLResultSetRowList where
 instance FromJSVal SQLResultSetRowList where
   fromJSVal v = fmap SQLResultSetRowList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SQLResultSetRowList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SQLResultSetRowList where
   makeObject = makeObject . unSQLResultSetRowList
@@ -13870,6 +14538,8 @@ instance ToJSVal SQLTransaction where
 instance FromJSVal SQLTransaction where
   fromJSVal v = fmap SQLTransaction <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SQLTransaction
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SQLTransaction where
   makeObject = makeObject . unSQLTransaction
@@ -13911,6 +14581,8 @@ instance ToJSVal SVGAElement where
 instance FromJSVal SVGAElement where
   fromJSVal v = fmap SVGAElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAElement where
   makeObject = makeObject . unSVGAElement
@@ -13956,6 +14628,8 @@ instance ToJSVal SVGAltGlyphDefElement where
 instance FromJSVal SVGAltGlyphDefElement where
   fromJSVal v = fmap SVGAltGlyphDefElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAltGlyphDefElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAltGlyphDefElement where
   makeObject = makeObject . unSVGAltGlyphDefElement
@@ -14003,6 +14677,8 @@ instance ToJSVal SVGAltGlyphElement where
 instance FromJSVal SVGAltGlyphElement where
   fromJSVal v = fmap SVGAltGlyphElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAltGlyphElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAltGlyphElement where
   makeObject = makeObject . unSVGAltGlyphElement
@@ -14050,6 +14726,8 @@ instance ToJSVal SVGAltGlyphItemElement where
 instance FromJSVal SVGAltGlyphItemElement where
   fromJSVal v = fmap SVGAltGlyphItemElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAltGlyphItemElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAltGlyphItemElement where
   makeObject = makeObject . unSVGAltGlyphItemElement
@@ -14088,6 +14766,8 @@ instance ToJSVal SVGAngle where
 instance FromJSVal SVGAngle where
   fromJSVal v = fmap SVGAngle <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAngle
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAngle where
   makeObject = makeObject . unSVGAngle
@@ -14129,6 +14809,8 @@ instance ToJSVal SVGAnimateColorElement where
 instance FromJSVal SVGAnimateColorElement where
   fromJSVal v = fmap SVGAnimateColorElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimateColorElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimateColorElement where
   makeObject = makeObject . unSVGAnimateColorElement
@@ -14175,6 +14857,8 @@ instance ToJSVal SVGAnimateElement where
 instance FromJSVal SVGAnimateElement where
   fromJSVal v = fmap SVGAnimateElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimateElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimateElement where
   makeObject = makeObject . unSVGAnimateElement
@@ -14221,6 +14905,8 @@ instance ToJSVal SVGAnimateMotionElement where
 instance FromJSVal SVGAnimateMotionElement where
   fromJSVal v = fmap SVGAnimateMotionElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimateMotionElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimateMotionElement where
   makeObject = makeObject . unSVGAnimateMotionElement
@@ -14267,6 +14953,8 @@ instance ToJSVal SVGAnimateTransformElement where
 instance FromJSVal SVGAnimateTransformElement where
   fromJSVal v = fmap SVGAnimateTransformElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimateTransformElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimateTransformElement where
   makeObject = makeObject . unSVGAnimateTransformElement
@@ -14306,6 +14994,8 @@ instance ToJSVal SVGAnimatedAngle where
 instance FromJSVal SVGAnimatedAngle where
   fromJSVal v = fmap SVGAnimatedAngle <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedAngle
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedAngle where
   makeObject = makeObject . unSVGAnimatedAngle
@@ -14340,6 +15030,8 @@ instance ToJSVal SVGAnimatedBoolean where
 instance FromJSVal SVGAnimatedBoolean where
   fromJSVal v = fmap SVGAnimatedBoolean <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedBoolean
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedBoolean where
   makeObject = makeObject . unSVGAnimatedBoolean
@@ -14374,6 +15066,8 @@ instance ToJSVal SVGAnimatedEnumeration where
 instance FromJSVal SVGAnimatedEnumeration where
   fromJSVal v = fmap SVGAnimatedEnumeration <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedEnumeration
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedEnumeration where
   makeObject = makeObject . unSVGAnimatedEnumeration
@@ -14408,6 +15102,8 @@ instance ToJSVal SVGAnimatedInteger where
 instance FromJSVal SVGAnimatedInteger where
   fromJSVal v = fmap SVGAnimatedInteger <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedInteger
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedInteger where
   makeObject = makeObject . unSVGAnimatedInteger
@@ -14442,6 +15138,8 @@ instance ToJSVal SVGAnimatedLength where
 instance FromJSVal SVGAnimatedLength where
   fromJSVal v = fmap SVGAnimatedLength <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedLength
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedLength where
   makeObject = makeObject . unSVGAnimatedLength
@@ -14476,6 +15174,8 @@ instance ToJSVal SVGAnimatedLengthList where
 instance FromJSVal SVGAnimatedLengthList where
   fromJSVal v = fmap SVGAnimatedLengthList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedLengthList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedLengthList where
   makeObject = makeObject . unSVGAnimatedLengthList
@@ -14510,6 +15210,8 @@ instance ToJSVal SVGAnimatedNumber where
 instance FromJSVal SVGAnimatedNumber where
   fromJSVal v = fmap SVGAnimatedNumber <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedNumber
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedNumber where
   makeObject = makeObject . unSVGAnimatedNumber
@@ -14544,6 +15246,8 @@ instance ToJSVal SVGAnimatedNumberList where
 instance FromJSVal SVGAnimatedNumberList where
   fromJSVal v = fmap SVGAnimatedNumberList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedNumberList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedNumberList where
   makeObject = makeObject . unSVGAnimatedNumberList
@@ -14578,6 +15282,8 @@ instance ToJSVal SVGAnimatedPreserveAspectRatio where
 instance FromJSVal SVGAnimatedPreserveAspectRatio where
   fromJSVal v = fmap SVGAnimatedPreserveAspectRatio <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedPreserveAspectRatio
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedPreserveAspectRatio where
   makeObject = makeObject . unSVGAnimatedPreserveAspectRatio
@@ -14612,6 +15318,8 @@ instance ToJSVal SVGAnimatedRect where
 instance FromJSVal SVGAnimatedRect where
   fromJSVal v = fmap SVGAnimatedRect <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedRect
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedRect where
   makeObject = makeObject . unSVGAnimatedRect
@@ -14646,6 +15354,8 @@ instance ToJSVal SVGAnimatedString where
 instance FromJSVal SVGAnimatedString where
   fromJSVal v = fmap SVGAnimatedString <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedString
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedString where
   makeObject = makeObject . unSVGAnimatedString
@@ -14680,6 +15390,8 @@ instance ToJSVal SVGAnimatedTransformList where
 instance FromJSVal SVGAnimatedTransformList where
   fromJSVal v = fmap SVGAnimatedTransformList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimatedTransformList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimatedTransformList where
   makeObject = makeObject . unSVGAnimatedTransformList
@@ -14720,6 +15432,8 @@ instance ToJSVal SVGAnimationElement where
 instance FromJSVal SVGAnimationElement where
   fromJSVal v = fmap SVGAnimationElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGAnimationElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGAnimationElement where
   makeObject = makeObject . unSVGAnimationElement
@@ -14770,6 +15484,8 @@ instance ToJSVal SVGCircleElement where
 instance FromJSVal SVGCircleElement where
   fromJSVal v = fmap SVGCircleElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGCircleElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGCircleElement where
   makeObject = makeObject . unSVGCircleElement
@@ -14816,6 +15532,8 @@ instance ToJSVal SVGClipPathElement where
 instance FromJSVal SVGClipPathElement where
   fromJSVal v = fmap SVGClipPathElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGClipPathElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGClipPathElement where
   makeObject = makeObject . unSVGClipPathElement
@@ -14858,6 +15576,8 @@ instance ToJSVal SVGColor where
 instance FromJSVal SVGColor where
   fromJSVal v = fmap SVGColor <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGColor
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGColor where
   makeObject = makeObject . unSVGColor
@@ -14904,6 +15624,8 @@ instance ToJSVal SVGComponentTransferFunctionElement where
 instance FromJSVal SVGComponentTransferFunctionElement where
   fromJSVal v = fmap SVGComponentTransferFunctionElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGComponentTransferFunctionElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGComponentTransferFunctionElement where
   makeObject = makeObject . unSVGComponentTransferFunctionElement
@@ -14953,6 +15675,8 @@ instance ToJSVal SVGCursorElement where
 instance FromJSVal SVGCursorElement where
   fromJSVal v = fmap SVGCursorElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGCursorElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGCursorElement where
   makeObject = makeObject . unSVGCursorElement
@@ -14998,6 +15722,8 @@ instance ToJSVal SVGDefsElement where
 instance FromJSVal SVGDefsElement where
   fromJSVal v = fmap SVGDefsElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGDefsElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGDefsElement where
   makeObject = makeObject . unSVGDefsElement
@@ -15043,6 +15769,8 @@ instance ToJSVal SVGDescElement where
 instance FromJSVal SVGDescElement where
   fromJSVal v = fmap SVGDescElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGDescElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGDescElement where
   makeObject = makeObject . unSVGDescElement
@@ -15086,6 +15814,8 @@ instance ToJSVal SVGDocument where
 instance FromJSVal SVGDocument where
   fromJSVal v = fmap SVGDocument <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGDocument
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGDocument where
   makeObject = makeObject . unSVGDocument
@@ -15128,6 +15858,8 @@ instance ToJSVal SVGElement where
 instance FromJSVal SVGElement where
   fromJSVal v = fmap SVGElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGElement where
   makeObject = makeObject . unSVGElement
@@ -15177,6 +15909,8 @@ instance ToJSVal SVGEllipseElement where
 instance FromJSVal SVGEllipseElement where
   fromJSVal v = fmap SVGEllipseElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGEllipseElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGEllipseElement where
   makeObject = makeObject . unSVGEllipseElement
@@ -15216,6 +15950,8 @@ instance ToJSVal SVGExternalResourcesRequired where
 instance FromJSVal SVGExternalResourcesRequired where
   fromJSVal v = fmap SVGExternalResourcesRequired <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGExternalResourcesRequired
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGExternalResourcesRequired where
   makeObject = makeObject . unSVGExternalResourcesRequired
@@ -15256,6 +15992,8 @@ instance ToJSVal SVGFEBlendElement where
 instance FromJSVal SVGFEBlendElement where
   fromJSVal v = fmap SVGFEBlendElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEBlendElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEBlendElement where
   makeObject = makeObject . unSVGFEBlendElement
@@ -15300,6 +16038,8 @@ instance ToJSVal SVGFEColorMatrixElement where
 instance FromJSVal SVGFEColorMatrixElement where
   fromJSVal v = fmap SVGFEColorMatrixElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEColorMatrixElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEColorMatrixElement where
   makeObject = makeObject . unSVGFEColorMatrixElement
@@ -15344,6 +16084,8 @@ instance ToJSVal SVGFEComponentTransferElement where
 instance FromJSVal SVGFEComponentTransferElement where
   fromJSVal v = fmap SVGFEComponentTransferElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEComponentTransferElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEComponentTransferElement where
   makeObject = makeObject . unSVGFEComponentTransferElement
@@ -15388,6 +16130,8 @@ instance ToJSVal SVGFECompositeElement where
 instance FromJSVal SVGFECompositeElement where
   fromJSVal v = fmap SVGFECompositeElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFECompositeElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFECompositeElement where
   makeObject = makeObject . unSVGFECompositeElement
@@ -15432,6 +16176,8 @@ instance ToJSVal SVGFEConvolveMatrixElement where
 instance FromJSVal SVGFEConvolveMatrixElement where
   fromJSVal v = fmap SVGFEConvolveMatrixElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEConvolveMatrixElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEConvolveMatrixElement where
   makeObject = makeObject . unSVGFEConvolveMatrixElement
@@ -15476,6 +16222,8 @@ instance ToJSVal SVGFEDiffuseLightingElement where
 instance FromJSVal SVGFEDiffuseLightingElement where
   fromJSVal v = fmap SVGFEDiffuseLightingElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEDiffuseLightingElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEDiffuseLightingElement where
   makeObject = makeObject . unSVGFEDiffuseLightingElement
@@ -15520,6 +16268,8 @@ instance ToJSVal SVGFEDisplacementMapElement where
 instance FromJSVal SVGFEDisplacementMapElement where
   fromJSVal v = fmap SVGFEDisplacementMapElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEDisplacementMapElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEDisplacementMapElement where
   makeObject = makeObject . unSVGFEDisplacementMapElement
@@ -15564,6 +16314,8 @@ instance ToJSVal SVGFEDistantLightElement where
 instance FromJSVal SVGFEDistantLightElement where
   fromJSVal v = fmap SVGFEDistantLightElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEDistantLightElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEDistantLightElement where
   makeObject = makeObject . unSVGFEDistantLightElement
@@ -15608,6 +16360,8 @@ instance ToJSVal SVGFEDropShadowElement where
 instance FromJSVal SVGFEDropShadowElement where
   fromJSVal v = fmap SVGFEDropShadowElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEDropShadowElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEDropShadowElement where
   makeObject = makeObject . unSVGFEDropShadowElement
@@ -15652,6 +16406,8 @@ instance ToJSVal SVGFEFloodElement where
 instance FromJSVal SVGFEFloodElement where
   fromJSVal v = fmap SVGFEFloodElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEFloodElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEFloodElement where
   makeObject = makeObject . unSVGFEFloodElement
@@ -15697,6 +16453,8 @@ instance ToJSVal SVGFEFuncAElement where
 instance FromJSVal SVGFEFuncAElement where
   fromJSVal v = fmap SVGFEFuncAElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEFuncAElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEFuncAElement where
   makeObject = makeObject . unSVGFEFuncAElement
@@ -15743,6 +16501,8 @@ instance ToJSVal SVGFEFuncBElement where
 instance FromJSVal SVGFEFuncBElement where
   fromJSVal v = fmap SVGFEFuncBElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEFuncBElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEFuncBElement where
   makeObject = makeObject . unSVGFEFuncBElement
@@ -15789,6 +16549,8 @@ instance ToJSVal SVGFEFuncGElement where
 instance FromJSVal SVGFEFuncGElement where
   fromJSVal v = fmap SVGFEFuncGElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEFuncGElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEFuncGElement where
   makeObject = makeObject . unSVGFEFuncGElement
@@ -15835,6 +16597,8 @@ instance ToJSVal SVGFEFuncRElement where
 instance FromJSVal SVGFEFuncRElement where
   fromJSVal v = fmap SVGFEFuncRElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEFuncRElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEFuncRElement where
   makeObject = makeObject . unSVGFEFuncRElement
@@ -15880,6 +16644,8 @@ instance ToJSVal SVGFEGaussianBlurElement where
 instance FromJSVal SVGFEGaussianBlurElement where
   fromJSVal v = fmap SVGFEGaussianBlurElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEGaussianBlurElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEGaussianBlurElement where
   makeObject = makeObject . unSVGFEGaussianBlurElement
@@ -15924,6 +16690,8 @@ instance ToJSVal SVGFEImageElement where
 instance FromJSVal SVGFEImageElement where
   fromJSVal v = fmap SVGFEImageElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEImageElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEImageElement where
   makeObject = makeObject . unSVGFEImageElement
@@ -15968,6 +16736,8 @@ instance ToJSVal SVGFEMergeElement where
 instance FromJSVal SVGFEMergeElement where
   fromJSVal v = fmap SVGFEMergeElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEMergeElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEMergeElement where
   makeObject = makeObject . unSVGFEMergeElement
@@ -16012,6 +16782,8 @@ instance ToJSVal SVGFEMergeNodeElement where
 instance FromJSVal SVGFEMergeNodeElement where
   fromJSVal v = fmap SVGFEMergeNodeElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEMergeNodeElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEMergeNodeElement where
   makeObject = makeObject . unSVGFEMergeNodeElement
@@ -16056,6 +16828,8 @@ instance ToJSVal SVGFEMorphologyElement where
 instance FromJSVal SVGFEMorphologyElement where
   fromJSVal v = fmap SVGFEMorphologyElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEMorphologyElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEMorphologyElement where
   makeObject = makeObject . unSVGFEMorphologyElement
@@ -16100,6 +16874,8 @@ instance ToJSVal SVGFEOffsetElement where
 instance FromJSVal SVGFEOffsetElement where
   fromJSVal v = fmap SVGFEOffsetElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEOffsetElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEOffsetElement where
   makeObject = makeObject . unSVGFEOffsetElement
@@ -16144,6 +16920,8 @@ instance ToJSVal SVGFEPointLightElement where
 instance FromJSVal SVGFEPointLightElement where
   fromJSVal v = fmap SVGFEPointLightElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFEPointLightElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFEPointLightElement where
   makeObject = makeObject . unSVGFEPointLightElement
@@ -16188,6 +16966,8 @@ instance ToJSVal SVGFESpecularLightingElement where
 instance FromJSVal SVGFESpecularLightingElement where
   fromJSVal v = fmap SVGFESpecularLightingElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFESpecularLightingElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFESpecularLightingElement where
   makeObject = makeObject . unSVGFESpecularLightingElement
@@ -16232,6 +17012,8 @@ instance ToJSVal SVGFESpotLightElement where
 instance FromJSVal SVGFESpotLightElement where
   fromJSVal v = fmap SVGFESpotLightElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFESpotLightElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFESpotLightElement where
   makeObject = makeObject . unSVGFESpotLightElement
@@ -16276,6 +17058,8 @@ instance ToJSVal SVGFETileElement where
 instance FromJSVal SVGFETileElement where
   fromJSVal v = fmap SVGFETileElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFETileElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFETileElement where
   makeObject = makeObject . unSVGFETileElement
@@ -16320,6 +17104,8 @@ instance ToJSVal SVGFETurbulenceElement where
 instance FromJSVal SVGFETurbulenceElement where
   fromJSVal v = fmap SVGFETurbulenceElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFETurbulenceElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFETurbulenceElement where
   makeObject = makeObject . unSVGFETurbulenceElement
@@ -16364,6 +17150,8 @@ instance ToJSVal SVGFilterElement where
 instance FromJSVal SVGFilterElement where
   fromJSVal v = fmap SVGFilterElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFilterElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFilterElement where
   makeObject = makeObject . unSVGFilterElement
@@ -16402,6 +17190,8 @@ instance ToJSVal SVGFilterPrimitiveStandardAttributes where
 instance FromJSVal SVGFilterPrimitiveStandardAttributes where
   fromJSVal v = fmap SVGFilterPrimitiveStandardAttributes <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFilterPrimitiveStandardAttributes
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFilterPrimitiveStandardAttributes where
   makeObject = makeObject . unSVGFilterPrimitiveStandardAttributes
@@ -16436,6 +17226,8 @@ instance ToJSVal SVGFitToViewBox where
 instance FromJSVal SVGFitToViewBox where
   fromJSVal v = fmap SVGFitToViewBox <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFitToViewBox
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFitToViewBox where
   makeObject = makeObject . unSVGFitToViewBox
@@ -16476,6 +17268,8 @@ instance ToJSVal SVGFontElement where
 instance FromJSVal SVGFontElement where
   fromJSVal v = fmap SVGFontElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFontElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFontElement where
   makeObject = makeObject . unSVGFontElement
@@ -16520,6 +17314,8 @@ instance ToJSVal SVGFontFaceElement where
 instance FromJSVal SVGFontFaceElement where
   fromJSVal v = fmap SVGFontFaceElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFontFaceElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFontFaceElement where
   makeObject = makeObject . unSVGFontFaceElement
@@ -16564,6 +17360,8 @@ instance ToJSVal SVGFontFaceFormatElement where
 instance FromJSVal SVGFontFaceFormatElement where
   fromJSVal v = fmap SVGFontFaceFormatElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFontFaceFormatElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFontFaceFormatElement where
   makeObject = makeObject . unSVGFontFaceFormatElement
@@ -16608,6 +17406,8 @@ instance ToJSVal SVGFontFaceNameElement where
 instance FromJSVal SVGFontFaceNameElement where
   fromJSVal v = fmap SVGFontFaceNameElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFontFaceNameElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFontFaceNameElement where
   makeObject = makeObject . unSVGFontFaceNameElement
@@ -16652,6 +17452,8 @@ instance ToJSVal SVGFontFaceSrcElement where
 instance FromJSVal SVGFontFaceSrcElement where
   fromJSVal v = fmap SVGFontFaceSrcElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFontFaceSrcElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFontFaceSrcElement where
   makeObject = makeObject . unSVGFontFaceSrcElement
@@ -16696,6 +17498,8 @@ instance ToJSVal SVGFontFaceUriElement where
 instance FromJSVal SVGFontFaceUriElement where
   fromJSVal v = fmap SVGFontFaceUriElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGFontFaceUriElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGFontFaceUriElement where
   makeObject = makeObject . unSVGFontFaceUriElement
@@ -16741,6 +17545,8 @@ instance ToJSVal SVGForeignObjectElement where
 instance FromJSVal SVGForeignObjectElement where
   fromJSVal v = fmap SVGForeignObjectElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGForeignObjectElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGForeignObjectElement where
   makeObject = makeObject . unSVGForeignObjectElement
@@ -16787,6 +17593,8 @@ instance ToJSVal SVGGElement where
 instance FromJSVal SVGGElement where
   fromJSVal v = fmap SVGGElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGGElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGGElement where
   makeObject = makeObject . unSVGGElement
@@ -16832,6 +17640,8 @@ instance ToJSVal SVGGlyphElement where
 instance FromJSVal SVGGlyphElement where
   fromJSVal v = fmap SVGGlyphElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGGlyphElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGGlyphElement where
   makeObject = makeObject . unSVGGlyphElement
@@ -16876,6 +17686,8 @@ instance ToJSVal SVGGlyphRefElement where
 instance FromJSVal SVGGlyphRefElement where
   fromJSVal v = fmap SVGGlyphRefElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGGlyphRefElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGGlyphRefElement where
   makeObject = makeObject . unSVGGlyphRefElement
@@ -16920,6 +17732,8 @@ instance ToJSVal SVGGradientElement where
 instance FromJSVal SVGGradientElement where
   fromJSVal v = fmap SVGGradientElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGGradientElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGGradientElement where
   makeObject = makeObject . unSVGGradientElement
@@ -16969,6 +17783,8 @@ instance ToJSVal SVGGraphicsElement where
 instance FromJSVal SVGGraphicsElement where
   fromJSVal v = fmap SVGGraphicsElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGGraphicsElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGGraphicsElement where
   makeObject = makeObject . unSVGGraphicsElement
@@ -17018,6 +17834,8 @@ instance ToJSVal SVGHKernElement where
 instance FromJSVal SVGHKernElement where
   fromJSVal v = fmap SVGHKernElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGHKernElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGHKernElement where
   makeObject = makeObject . unSVGHKernElement
@@ -17063,6 +17881,8 @@ instance ToJSVal SVGImageElement where
 instance FromJSVal SVGImageElement where
   fromJSVal v = fmap SVGImageElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGImageElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGImageElement where
   makeObject = makeObject . unSVGImageElement
@@ -17102,6 +17922,8 @@ instance ToJSVal SVGLength where
 instance FromJSVal SVGLength where
   fromJSVal v = fmap SVGLength <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGLength
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGLength where
   makeObject = makeObject . unSVGLength
@@ -17136,6 +17958,8 @@ instance ToJSVal SVGLengthList where
 instance FromJSVal SVGLengthList where
   fromJSVal v = fmap SVGLengthList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGLengthList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGLengthList where
   makeObject = makeObject . unSVGLengthList
@@ -17177,6 +18001,8 @@ instance ToJSVal SVGLineElement where
 instance FromJSVal SVGLineElement where
   fromJSVal v = fmap SVGLineElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGLineElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGLineElement where
   makeObject = makeObject . unSVGLineElement
@@ -17223,6 +18049,8 @@ instance ToJSVal SVGLinearGradientElement where
 instance FromJSVal SVGLinearGradientElement where
   fromJSVal v = fmap SVGLinearGradientElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGLinearGradientElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGLinearGradientElement where
   makeObject = makeObject . unSVGLinearGradientElement
@@ -17268,6 +18096,8 @@ instance ToJSVal SVGMPathElement where
 instance FromJSVal SVGMPathElement where
   fromJSVal v = fmap SVGMPathElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGMPathElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGMPathElement where
   makeObject = makeObject . unSVGMPathElement
@@ -17312,6 +18142,8 @@ instance ToJSVal SVGMarkerElement where
 instance FromJSVal SVGMarkerElement where
   fromJSVal v = fmap SVGMarkerElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGMarkerElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGMarkerElement where
   makeObject = makeObject . unSVGMarkerElement
@@ -17356,6 +18188,8 @@ instance ToJSVal SVGMaskElement where
 instance FromJSVal SVGMaskElement where
   fromJSVal v = fmap SVGMaskElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGMaskElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGMaskElement where
   makeObject = makeObject . unSVGMaskElement
@@ -17394,6 +18228,8 @@ instance ToJSVal SVGMatrix where
 instance FromJSVal SVGMatrix where
   fromJSVal v = fmap SVGMatrix <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGMatrix
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGMatrix where
   makeObject = makeObject . unSVGMatrix
@@ -17434,6 +18270,8 @@ instance ToJSVal SVGMetadataElement where
 instance FromJSVal SVGMetadataElement where
   fromJSVal v = fmap SVGMetadataElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGMetadataElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGMetadataElement where
   makeObject = makeObject . unSVGMetadataElement
@@ -17478,6 +18316,8 @@ instance ToJSVal SVGMissingGlyphElement where
 instance FromJSVal SVGMissingGlyphElement where
   fromJSVal v = fmap SVGMissingGlyphElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGMissingGlyphElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGMissingGlyphElement where
   makeObject = makeObject . unSVGMissingGlyphElement
@@ -17516,6 +18356,8 @@ instance ToJSVal SVGNumber where
 instance FromJSVal SVGNumber where
   fromJSVal v = fmap SVGNumber <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGNumber
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGNumber where
   makeObject = makeObject . unSVGNumber
@@ -17550,6 +18392,8 @@ instance ToJSVal SVGNumberList where
 instance FromJSVal SVGNumberList where
   fromJSVal v = fmap SVGNumberList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGNumberList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGNumberList where
   makeObject = makeObject . unSVGNumberList
@@ -17588,6 +18432,8 @@ instance ToJSVal SVGPaint where
 instance FromJSVal SVGPaint where
   fromJSVal v = fmap SVGPaint <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPaint
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPaint where
   makeObject = makeObject . unSVGPaint
@@ -17631,6 +18477,8 @@ instance ToJSVal SVGPathElement where
 instance FromJSVal SVGPathElement where
   fromJSVal v = fmap SVGPathElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathElement where
   makeObject = makeObject . unSVGPathElement
@@ -17670,6 +18518,8 @@ instance ToJSVal SVGPathSeg where
 instance FromJSVal SVGPathSeg where
   fromJSVal v = fmap SVGPathSeg <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSeg
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSeg where
   makeObject = makeObject . unSVGPathSeg
@@ -17712,6 +18562,8 @@ instance ToJSVal SVGPathSegArcAbs where
 instance FromJSVal SVGPathSegArcAbs where
   fromJSVal v = fmap SVGPathSegArcAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegArcAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegArcAbs where
   makeObject = makeObject . unSVGPathSegArcAbs
@@ -17750,6 +18602,8 @@ instance ToJSVal SVGPathSegArcRel where
 instance FromJSVal SVGPathSegArcRel where
   fromJSVal v = fmap SVGPathSegArcRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegArcRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegArcRel where
   makeObject = makeObject . unSVGPathSegArcRel
@@ -17788,6 +18642,8 @@ instance ToJSVal SVGPathSegClosePath where
 instance FromJSVal SVGPathSegClosePath where
   fromJSVal v = fmap SVGPathSegClosePath <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegClosePath
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegClosePath where
   makeObject = makeObject . unSVGPathSegClosePath
@@ -17826,6 +18682,8 @@ instance ToJSVal SVGPathSegCurvetoCubicAbs where
 instance FromJSVal SVGPathSegCurvetoCubicAbs where
   fromJSVal v = fmap SVGPathSegCurvetoCubicAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoCubicAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoCubicAbs where
   makeObject = makeObject . unSVGPathSegCurvetoCubicAbs
@@ -17864,6 +18722,8 @@ instance ToJSVal SVGPathSegCurvetoCubicRel where
 instance FromJSVal SVGPathSegCurvetoCubicRel where
   fromJSVal v = fmap SVGPathSegCurvetoCubicRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoCubicRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoCubicRel where
   makeObject = makeObject . unSVGPathSegCurvetoCubicRel
@@ -17902,6 +18762,8 @@ instance ToJSVal SVGPathSegCurvetoCubicSmoothAbs where
 instance FromJSVal SVGPathSegCurvetoCubicSmoothAbs where
   fromJSVal v = fmap SVGPathSegCurvetoCubicSmoothAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoCubicSmoothAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoCubicSmoothAbs where
   makeObject = makeObject . unSVGPathSegCurvetoCubicSmoothAbs
@@ -17940,6 +18802,8 @@ instance ToJSVal SVGPathSegCurvetoCubicSmoothRel where
 instance FromJSVal SVGPathSegCurvetoCubicSmoothRel where
   fromJSVal v = fmap SVGPathSegCurvetoCubicSmoothRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoCubicSmoothRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoCubicSmoothRel where
   makeObject = makeObject . unSVGPathSegCurvetoCubicSmoothRel
@@ -17978,6 +18842,8 @@ instance ToJSVal SVGPathSegCurvetoQuadraticAbs where
 instance FromJSVal SVGPathSegCurvetoQuadraticAbs where
   fromJSVal v = fmap SVGPathSegCurvetoQuadraticAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoQuadraticAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoQuadraticAbs where
   makeObject = makeObject . unSVGPathSegCurvetoQuadraticAbs
@@ -18016,6 +18882,8 @@ instance ToJSVal SVGPathSegCurvetoQuadraticRel where
 instance FromJSVal SVGPathSegCurvetoQuadraticRel where
   fromJSVal v = fmap SVGPathSegCurvetoQuadraticRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoQuadraticRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoQuadraticRel where
   makeObject = makeObject . unSVGPathSegCurvetoQuadraticRel
@@ -18054,6 +18922,8 @@ instance ToJSVal SVGPathSegCurvetoQuadraticSmoothAbs where
 instance FromJSVal SVGPathSegCurvetoQuadraticSmoothAbs where
   fromJSVal v = fmap SVGPathSegCurvetoQuadraticSmoothAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoQuadraticSmoothAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoQuadraticSmoothAbs where
   makeObject = makeObject . unSVGPathSegCurvetoQuadraticSmoothAbs
@@ -18092,6 +18962,8 @@ instance ToJSVal SVGPathSegCurvetoQuadraticSmoothRel where
 instance FromJSVal SVGPathSegCurvetoQuadraticSmoothRel where
   fromJSVal v = fmap SVGPathSegCurvetoQuadraticSmoothRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegCurvetoQuadraticSmoothRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegCurvetoQuadraticSmoothRel where
   makeObject = makeObject . unSVGPathSegCurvetoQuadraticSmoothRel
@@ -18130,6 +19002,8 @@ instance ToJSVal SVGPathSegLinetoAbs where
 instance FromJSVal SVGPathSegLinetoAbs where
   fromJSVal v = fmap SVGPathSegLinetoAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegLinetoAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegLinetoAbs where
   makeObject = makeObject . unSVGPathSegLinetoAbs
@@ -18168,6 +19042,8 @@ instance ToJSVal SVGPathSegLinetoHorizontalAbs where
 instance FromJSVal SVGPathSegLinetoHorizontalAbs where
   fromJSVal v = fmap SVGPathSegLinetoHorizontalAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegLinetoHorizontalAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegLinetoHorizontalAbs where
   makeObject = makeObject . unSVGPathSegLinetoHorizontalAbs
@@ -18206,6 +19082,8 @@ instance ToJSVal SVGPathSegLinetoHorizontalRel where
 instance FromJSVal SVGPathSegLinetoHorizontalRel where
   fromJSVal v = fmap SVGPathSegLinetoHorizontalRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegLinetoHorizontalRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegLinetoHorizontalRel where
   makeObject = makeObject . unSVGPathSegLinetoHorizontalRel
@@ -18244,6 +19122,8 @@ instance ToJSVal SVGPathSegLinetoRel where
 instance FromJSVal SVGPathSegLinetoRel where
   fromJSVal v = fmap SVGPathSegLinetoRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegLinetoRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegLinetoRel where
   makeObject = makeObject . unSVGPathSegLinetoRel
@@ -18282,6 +19162,8 @@ instance ToJSVal SVGPathSegLinetoVerticalAbs where
 instance FromJSVal SVGPathSegLinetoVerticalAbs where
   fromJSVal v = fmap SVGPathSegLinetoVerticalAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegLinetoVerticalAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegLinetoVerticalAbs where
   makeObject = makeObject . unSVGPathSegLinetoVerticalAbs
@@ -18320,6 +19202,8 @@ instance ToJSVal SVGPathSegLinetoVerticalRel where
 instance FromJSVal SVGPathSegLinetoVerticalRel where
   fromJSVal v = fmap SVGPathSegLinetoVerticalRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegLinetoVerticalRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegLinetoVerticalRel where
   makeObject = makeObject . unSVGPathSegLinetoVerticalRel
@@ -18355,6 +19239,8 @@ instance ToJSVal SVGPathSegList where
 instance FromJSVal SVGPathSegList where
   fromJSVal v = fmap SVGPathSegList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegList where
   makeObject = makeObject . unSVGPathSegList
@@ -18392,6 +19278,8 @@ instance ToJSVal SVGPathSegMovetoAbs where
 instance FromJSVal SVGPathSegMovetoAbs where
   fromJSVal v = fmap SVGPathSegMovetoAbs <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegMovetoAbs
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegMovetoAbs where
   makeObject = makeObject . unSVGPathSegMovetoAbs
@@ -18430,6 +19318,8 @@ instance ToJSVal SVGPathSegMovetoRel where
 instance FromJSVal SVGPathSegMovetoRel where
   fromJSVal v = fmap SVGPathSegMovetoRel <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPathSegMovetoRel
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPathSegMovetoRel where
   makeObject = makeObject . unSVGPathSegMovetoRel
@@ -18471,6 +19361,8 @@ instance ToJSVal SVGPatternElement where
 instance FromJSVal SVGPatternElement where
   fromJSVal v = fmap SVGPatternElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPatternElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPatternElement where
   makeObject = makeObject . unSVGPatternElement
@@ -18509,6 +19401,8 @@ instance ToJSVal SVGPoint where
 instance FromJSVal SVGPoint where
   fromJSVal v = fmap SVGPoint <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPoint
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPoint where
   makeObject = makeObject . unSVGPoint
@@ -18543,6 +19437,8 @@ instance ToJSVal SVGPointList where
 instance FromJSVal SVGPointList where
   fromJSVal v = fmap SVGPointList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPointList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPointList where
   makeObject = makeObject . unSVGPointList
@@ -18584,6 +19480,8 @@ instance ToJSVal SVGPolygonElement where
 instance FromJSVal SVGPolygonElement where
   fromJSVal v = fmap SVGPolygonElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPolygonElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPolygonElement where
   makeObject = makeObject . unSVGPolygonElement
@@ -18630,6 +19528,8 @@ instance ToJSVal SVGPolylineElement where
 instance FromJSVal SVGPolylineElement where
   fromJSVal v = fmap SVGPolylineElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPolylineElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPolylineElement where
   makeObject = makeObject . unSVGPolylineElement
@@ -18669,6 +19569,8 @@ instance ToJSVal SVGPreserveAspectRatio where
 instance FromJSVal SVGPreserveAspectRatio where
   fromJSVal v = fmap SVGPreserveAspectRatio <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGPreserveAspectRatio
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGPreserveAspectRatio where
   makeObject = makeObject . unSVGPreserveAspectRatio
@@ -18710,6 +19612,8 @@ instance ToJSVal SVGRadialGradientElement where
 instance FromJSVal SVGRadialGradientElement where
   fromJSVal v = fmap SVGRadialGradientElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGRadialGradientElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGRadialGradientElement where
   makeObject = makeObject . unSVGRadialGradientElement
@@ -18749,6 +19653,8 @@ instance ToJSVal SVGRect where
 instance FromJSVal SVGRect where
   fromJSVal v = fmap SVGRect <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGRect
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGRect where
   makeObject = makeObject . unSVGRect
@@ -18790,6 +19696,8 @@ instance ToJSVal SVGRectElement where
 instance FromJSVal SVGRectElement where
   fromJSVal v = fmap SVGRectElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGRectElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGRectElement where
   makeObject = makeObject . unSVGRectElement
@@ -18829,6 +19737,8 @@ instance ToJSVal SVGRenderingIntent where
 instance FromJSVal SVGRenderingIntent where
   fromJSVal v = fmap SVGRenderingIntent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGRenderingIntent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGRenderingIntent where
   makeObject = makeObject . unSVGRenderingIntent
@@ -18870,6 +19780,8 @@ instance ToJSVal SVGSVGElement where
 instance FromJSVal SVGSVGElement where
   fromJSVal v = fmap SVGSVGElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGSVGElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGSVGElement where
   makeObject = makeObject . unSVGSVGElement
@@ -18915,6 +19827,8 @@ instance ToJSVal SVGScriptElement where
 instance FromJSVal SVGScriptElement where
   fromJSVal v = fmap SVGScriptElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGScriptElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGScriptElement where
   makeObject = makeObject . unSVGScriptElement
@@ -18960,6 +19874,8 @@ instance ToJSVal SVGSetElement where
 instance FromJSVal SVGSetElement where
   fromJSVal v = fmap SVGSetElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGSetElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGSetElement where
   makeObject = makeObject . unSVGSetElement
@@ -19005,6 +19921,8 @@ instance ToJSVal SVGStopElement where
 instance FromJSVal SVGStopElement where
   fromJSVal v = fmap SVGStopElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGStopElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGStopElement where
   makeObject = makeObject . unSVGStopElement
@@ -19043,6 +19961,8 @@ instance ToJSVal SVGStringList where
 instance FromJSVal SVGStringList where
   fromJSVal v = fmap SVGStringList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGStringList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGStringList where
   makeObject = makeObject . unSVGStringList
@@ -19083,6 +20003,8 @@ instance ToJSVal SVGStyleElement where
 instance FromJSVal SVGStyleElement where
   fromJSVal v = fmap SVGStyleElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGStyleElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGStyleElement where
   makeObject = makeObject . unSVGStyleElement
@@ -19128,6 +20050,8 @@ instance ToJSVal SVGSwitchElement where
 instance FromJSVal SVGSwitchElement where
   fromJSVal v = fmap SVGSwitchElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGSwitchElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGSwitchElement where
   makeObject = makeObject . unSVGSwitchElement
@@ -19173,6 +20097,8 @@ instance ToJSVal SVGSymbolElement where
 instance FromJSVal SVGSymbolElement where
   fromJSVal v = fmap SVGSymbolElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGSymbolElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGSymbolElement where
   makeObject = makeObject . unSVGSymbolElement
@@ -19220,6 +20146,8 @@ instance ToJSVal SVGTRefElement where
 instance FromJSVal SVGTRefElement where
   fromJSVal v = fmap SVGTRefElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTRefElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTRefElement where
   makeObject = makeObject . unSVGTRefElement
@@ -19270,6 +20198,8 @@ instance ToJSVal SVGTSpanElement where
 instance FromJSVal SVGTSpanElement where
   fromJSVal v = fmap SVGTSpanElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTSpanElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTSpanElement where
   makeObject = makeObject . unSVGTSpanElement
@@ -19311,6 +20241,8 @@ instance ToJSVal SVGTests where
 instance FromJSVal SVGTests where
   fromJSVal v = fmap SVGTests <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTests
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTests where
   makeObject = makeObject . unSVGTests
@@ -19352,6 +20284,8 @@ instance ToJSVal SVGTextContentElement where
 instance FromJSVal SVGTextContentElement where
   fromJSVal v = fmap SVGTextContentElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTextContentElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTextContentElement where
   makeObject = makeObject . unSVGTextContentElement
@@ -19405,6 +20339,8 @@ instance ToJSVal SVGTextElement where
 instance FromJSVal SVGTextElement where
   fromJSVal v = fmap SVGTextElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTextElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTextElement where
   makeObject = makeObject . unSVGTextElement
@@ -19454,6 +20390,8 @@ instance ToJSVal SVGTextPathElement where
 instance FromJSVal SVGTextPathElement where
   fromJSVal v = fmap SVGTextPathElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTextPathElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTextPathElement where
   makeObject = makeObject . unSVGTextPathElement
@@ -19502,6 +20440,8 @@ instance ToJSVal SVGTextPositioningElement where
 instance FromJSVal SVGTextPositioningElement where
   fromJSVal v = fmap SVGTextPositioningElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTextPositioningElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTextPositioningElement where
   makeObject = makeObject . unSVGTextPositioningElement
@@ -19553,6 +20493,8 @@ instance ToJSVal SVGTitleElement where
 instance FromJSVal SVGTitleElement where
   fromJSVal v = fmap SVGTitleElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTitleElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTitleElement where
   makeObject = makeObject . unSVGTitleElement
@@ -19591,6 +20533,8 @@ instance ToJSVal SVGTransform where
 instance FromJSVal SVGTransform where
   fromJSVal v = fmap SVGTransform <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTransform
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTransform where
   makeObject = makeObject . unSVGTransform
@@ -19625,6 +20569,8 @@ instance ToJSVal SVGTransformList where
 instance FromJSVal SVGTransformList where
   fromJSVal v = fmap SVGTransformList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGTransformList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGTransformList where
   makeObject = makeObject . unSVGTransformList
@@ -19659,6 +20605,8 @@ instance ToJSVal SVGURIReference where
 instance FromJSVal SVGURIReference where
   fromJSVal v = fmap SVGURIReference <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGURIReference
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGURIReference where
   makeObject = makeObject . unSVGURIReference
@@ -19693,6 +20641,8 @@ instance ToJSVal SVGUnitTypes where
 instance FromJSVal SVGUnitTypes where
   fromJSVal v = fmap SVGUnitTypes <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGUnitTypes
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGUnitTypes where
   makeObject = makeObject . unSVGUnitTypes
@@ -19734,6 +20684,8 @@ instance ToJSVal SVGUseElement where
 instance FromJSVal SVGUseElement where
   fromJSVal v = fmap SVGUseElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGUseElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGUseElement where
   makeObject = makeObject . unSVGUseElement
@@ -19779,6 +20731,8 @@ instance ToJSVal SVGVKernElement where
 instance FromJSVal SVGVKernElement where
   fromJSVal v = fmap SVGVKernElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGVKernElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGVKernElement where
   makeObject = makeObject . unSVGVKernElement
@@ -19823,6 +20777,8 @@ instance ToJSVal SVGViewElement where
 instance FromJSVal SVGViewElement where
   fromJSVal v = fmap SVGViewElement <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGViewElement
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGViewElement where
   makeObject = makeObject . unSVGViewElement
@@ -19861,6 +20817,8 @@ instance ToJSVal SVGViewSpec where
 instance FromJSVal SVGViewSpec where
   fromJSVal v = fmap SVGViewSpec <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGViewSpec
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGViewSpec where
   makeObject = makeObject . unSVGViewSpec
@@ -19895,6 +20853,8 @@ instance ToJSVal SVGZoomAndPan where
 instance FromJSVal SVGZoomAndPan where
   fromJSVal v = fmap SVGZoomAndPan <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGZoomAndPan
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGZoomAndPan where
   makeObject = makeObject . unSVGZoomAndPan
@@ -19933,6 +20893,8 @@ instance ToJSVal SVGZoomEvent where
 instance FromJSVal SVGZoomEvent where
   fromJSVal v = fmap SVGZoomEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SVGZoomEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SVGZoomEvent where
   makeObject = makeObject . unSVGZoomEvent
@@ -19969,6 +20931,8 @@ instance ToJSVal Screen where
 instance FromJSVal Screen where
   fromJSVal v = fmap Screen <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Screen
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Screen where
   makeObject = makeObject . unScreen
@@ -20009,6 +20973,8 @@ instance ToJSVal ScriptProcessorNode where
 instance FromJSVal ScriptProcessorNode where
   fromJSVal v = fmap ScriptProcessorNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ScriptProcessorNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ScriptProcessorNode where
   makeObject = makeObject . unScriptProcessorNode
@@ -20045,6 +21011,8 @@ instance ToJSVal ScriptProfile where
 instance FromJSVal ScriptProfile where
   fromJSVal v = fmap ScriptProfile <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ScriptProfile
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ScriptProfile where
   makeObject = makeObject . unScriptProfile
@@ -20079,6 +21047,8 @@ instance ToJSVal ScriptProfileNode where
 instance FromJSVal ScriptProfileNode where
   fromJSVal v = fmap ScriptProfileNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ScriptProfileNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ScriptProfileNode where
   makeObject = makeObject . unScriptProfileNode
@@ -20113,6 +21083,8 @@ instance ToJSVal SecurityPolicy where
 instance FromJSVal SecurityPolicy where
   fromJSVal v = fmap SecurityPolicy <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SecurityPolicy
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SecurityPolicy where
   makeObject = makeObject . unSecurityPolicy
@@ -20154,6 +21126,8 @@ instance ToJSVal SecurityPolicyViolationEvent where
 instance FromJSVal SecurityPolicyViolationEvent where
   fromJSVal v = fmap SecurityPolicyViolationEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SecurityPolicyViolationEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SecurityPolicyViolationEvent where
   makeObject = makeObject . unSecurityPolicyViolationEvent
@@ -20189,6 +21163,8 @@ instance ToJSVal Selection where
 instance FromJSVal Selection where
   fromJSVal v = fmap Selection <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Selection
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Selection where
   makeObject = makeObject . unSelection
@@ -20228,6 +21204,8 @@ instance ToJSVal SourceBuffer where
 instance FromJSVal SourceBuffer where
   fromJSVal v = fmap SourceBuffer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SourceBuffer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SourceBuffer where
   makeObject = makeObject . unSourceBuffer
@@ -20266,6 +21244,8 @@ instance ToJSVal SourceBufferList where
 instance FromJSVal SourceBufferList where
   fromJSVal v = fmap SourceBufferList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SourceBufferList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SourceBufferList where
   makeObject = makeObject . unSourceBufferList
@@ -20301,6 +21281,8 @@ instance ToJSVal SourceInfo where
 instance FromJSVal SourceInfo where
   fromJSVal v = fmap SourceInfo <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SourceInfo
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SourceInfo where
   makeObject = makeObject . unSourceInfo
@@ -20335,6 +21317,8 @@ instance ToJSVal SpeechSynthesis where
 instance FromJSVal SpeechSynthesis where
   fromJSVal v = fmap SpeechSynthesis <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SpeechSynthesis
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SpeechSynthesis where
   makeObject = makeObject . unSpeechSynthesis
@@ -20372,6 +21356,8 @@ instance ToJSVal SpeechSynthesisEvent where
 instance FromJSVal SpeechSynthesisEvent where
   fromJSVal v = fmap SpeechSynthesisEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SpeechSynthesisEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SpeechSynthesisEvent where
   makeObject = makeObject . unSpeechSynthesisEvent
@@ -20410,6 +21396,8 @@ instance ToJSVal SpeechSynthesisUtterance where
 instance FromJSVal SpeechSynthesisUtterance where
   fromJSVal v = fmap SpeechSynthesisUtterance <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SpeechSynthesisUtterance
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SpeechSynthesisUtterance where
   makeObject = makeObject . unSpeechSynthesisUtterance
@@ -20445,6 +21433,8 @@ instance ToJSVal SpeechSynthesisVoice where
 instance FromJSVal SpeechSynthesisVoice where
   fromJSVal v = fmap SpeechSynthesisVoice <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SpeechSynthesisVoice
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SpeechSynthesisVoice where
   makeObject = makeObject . unSpeechSynthesisVoice
@@ -20479,6 +21469,8 @@ instance ToJSVal Storage where
 instance FromJSVal Storage where
   fromJSVal v = fmap Storage <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Storage
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Storage where
   makeObject = makeObject . unStorage
@@ -20518,6 +21510,8 @@ instance ToJSVal StorageEvent where
 instance FromJSVal StorageEvent where
   fromJSVal v = fmap StorageEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . StorageEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject StorageEvent where
   makeObject = makeObject . unStorageEvent
@@ -20553,6 +21547,8 @@ instance ToJSVal StorageInfo where
 instance FromJSVal StorageInfo where
   fromJSVal v = fmap StorageInfo <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . StorageInfo
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject StorageInfo where
   makeObject = makeObject . unStorageInfo
@@ -20591,6 +21587,8 @@ instance ToJSVal StorageQuota where
 instance FromJSVal StorageQuota where
   fromJSVal v = fmap StorageQuota <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . StorageQuota
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject StorageQuota where
   makeObject = makeObject . unStorageQuota
@@ -20629,6 +21627,8 @@ instance ToJSVal StyleMedia where
 instance FromJSVal StyleMedia where
   fromJSVal v = fmap StyleMedia <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . StyleMedia
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject StyleMedia where
   makeObject = makeObject . unStyleMedia
@@ -20665,6 +21665,8 @@ instance ToJSVal StyleSheet where
 instance FromJSVal StyleSheet where
   fromJSVal v = fmap StyleSheet <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . StyleSheet
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject StyleSheet where
   makeObject = makeObject . unStyleSheet
@@ -20706,6 +21708,8 @@ instance ToJSVal StyleSheetList where
 instance FromJSVal StyleSheetList where
   fromJSVal v = fmap StyleSheetList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . StyleSheetList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject StyleSheetList where
   makeObject = makeObject . unStyleSheetList
@@ -20742,6 +21746,8 @@ instance ToJSVal SubtleCrypto where
 instance FromJSVal SubtleCrypto where
   fromJSVal v = fmap SubtleCrypto <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SubtleCrypto
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject SubtleCrypto where
   makeObject = makeObject . unSubtleCrypto
@@ -20781,6 +21787,8 @@ instance ToJSVal Text where
 instance FromJSVal Text where
   fromJSVal v = fmap Text <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Text
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Text where
   makeObject = makeObject . unText
@@ -20829,6 +21837,8 @@ instance ToJSVal TextEvent where
 instance FromJSVal TextEvent where
   fromJSVal v = fmap TextEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TextEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TextEvent where
   makeObject = makeObject . unTextEvent
@@ -20865,6 +21875,8 @@ instance ToJSVal TextMetrics where
 instance FromJSVal TextMetrics where
   fromJSVal v = fmap TextMetrics <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TextMetrics
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TextMetrics where
   makeObject = makeObject . unTextMetrics
@@ -20902,6 +21914,8 @@ instance ToJSVal TextTrack where
 instance FromJSVal TextTrack where
   fromJSVal v = fmap TextTrack <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TextTrack
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TextTrack where
   makeObject = makeObject . unTextTrack
@@ -20944,6 +21958,8 @@ instance ToJSVal TextTrackCue where
 instance FromJSVal TextTrackCue where
   fromJSVal v = fmap TextTrackCue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TextTrackCue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TextTrackCue where
   makeObject = makeObject . unTextTrackCue
@@ -20988,6 +22004,8 @@ instance ToJSVal TextTrackCueList where
 instance FromJSVal TextTrackCueList where
   fromJSVal v = fmap TextTrackCueList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TextTrackCueList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TextTrackCueList where
   makeObject = makeObject . unTextTrackCueList
@@ -21029,6 +22047,8 @@ instance ToJSVal TextTrackList where
 instance FromJSVal TextTrackList where
   fromJSVal v = fmap TextTrackList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TextTrackList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TextTrackList where
   makeObject = makeObject . unTextTrackList
@@ -21068,6 +22088,8 @@ instance ToJSVal TimeRanges where
 instance FromJSVal TimeRanges where
   fromJSVal v = fmap TimeRanges <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TimeRanges
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TimeRanges where
   makeObject = makeObject . unTimeRanges
@@ -21104,6 +22126,8 @@ instance ToJSVal Touch where
 instance FromJSVal Touch where
   fromJSVal v = fmap Touch <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Touch
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Touch where
   makeObject = makeObject . unTouch
@@ -21146,6 +22170,8 @@ instance ToJSVal TouchEvent where
 instance FromJSVal TouchEvent where
   fromJSVal v = fmap TouchEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TouchEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TouchEvent where
   makeObject = makeObject . unTouchEvent
@@ -21182,6 +22208,8 @@ instance ToJSVal TouchList where
 instance FromJSVal TouchList where
   fromJSVal v = fmap TouchList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TouchList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TouchList where
   makeObject = makeObject . unTouchList
@@ -21219,6 +22247,8 @@ instance ToJSVal TrackEvent where
 instance FromJSVal TrackEvent where
   fromJSVal v = fmap TrackEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TrackEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TrackEvent where
   makeObject = makeObject . unTrackEvent
@@ -21257,6 +22287,8 @@ instance ToJSVal TransitionEvent where
 instance FromJSVal TransitionEvent where
   fromJSVal v = fmap TransitionEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TransitionEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TransitionEvent where
   makeObject = makeObject . unTransitionEvent
@@ -21292,6 +22324,8 @@ instance ToJSVal TreeWalker where
 instance FromJSVal TreeWalker where
   fromJSVal v = fmap TreeWalker <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TreeWalker
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TreeWalker where
   makeObject = makeObject . unTreeWalker
@@ -21328,6 +22362,8 @@ instance ToJSVal TypeConversions where
 instance FromJSVal TypeConversions where
   fromJSVal v = fmap TypeConversions <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . TypeConversions
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject TypeConversions where
   makeObject = makeObject . unTypeConversions
@@ -21365,6 +22401,8 @@ instance ToJSVal UIEvent where
 instance FromJSVal UIEvent where
   fromJSVal v = fmap UIEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . UIEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject UIEvent where
   makeObject = makeObject . unUIEvent
@@ -21411,6 +22449,8 @@ instance ToJSVal UIRequestEvent where
 instance FromJSVal UIRequestEvent where
   fromJSVal v = fmap UIRequestEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . UIRequestEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject UIRequestEvent where
   makeObject = makeObject . unUIRequestEvent
@@ -21447,6 +22487,8 @@ instance ToJSVal URL where
 instance FromJSVal URL where
   fromJSVal v = fmap URL <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . URL
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject URL where
   makeObject = makeObject . unURL
@@ -21481,6 +22523,8 @@ instance ToJSVal URLUtils where
 instance FromJSVal URLUtils where
   fromJSVal v = fmap URLUtils <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . URLUtils
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject URLUtils where
   makeObject = makeObject . unURLUtils
@@ -21515,6 +22559,8 @@ instance ToJSVal UserMessageHandler where
 instance FromJSVal UserMessageHandler where
   fromJSVal v = fmap UserMessageHandler <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . UserMessageHandler
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject UserMessageHandler where
   makeObject = makeObject . unUserMessageHandler
@@ -21549,6 +22595,8 @@ instance ToJSVal UserMessageHandlersNamespace where
 instance FromJSVal UserMessageHandlersNamespace where
   fromJSVal v = fmap UserMessageHandlersNamespace <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . UserMessageHandlersNamespace
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject UserMessageHandlersNamespace where
   makeObject = makeObject . unUserMessageHandlersNamespace
@@ -21587,6 +22635,8 @@ instance ToJSVal VTTCue where
 instance FromJSVal VTTCue where
   fromJSVal v = fmap VTTCue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VTTCue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VTTCue where
   makeObject = makeObject . unVTTCue
@@ -21623,6 +22673,8 @@ instance ToJSVal VTTRegion where
 instance FromJSVal VTTRegion where
   fromJSVal v = fmap VTTRegion <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VTTRegion
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VTTRegion where
   makeObject = makeObject . unVTTRegion
@@ -21657,6 +22709,8 @@ instance ToJSVal VTTRegionList where
 instance FromJSVal VTTRegionList where
   fromJSVal v = fmap VTTRegionList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VTTRegionList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VTTRegionList where
   makeObject = makeObject . unVTTRegionList
@@ -21691,6 +22745,8 @@ instance ToJSVal ValidityState where
 instance FromJSVal ValidityState where
   fromJSVal v = fmap ValidityState <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ValidityState
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject ValidityState where
   makeObject = makeObject . unValidityState
@@ -21727,6 +22783,8 @@ instance ToJSVal VideoPlaybackQuality where
 instance FromJSVal VideoPlaybackQuality where
   fromJSVal v = fmap VideoPlaybackQuality <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VideoPlaybackQuality
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VideoPlaybackQuality where
   makeObject = makeObject . unVideoPlaybackQuality
@@ -21765,6 +22823,8 @@ instance ToJSVal VideoStreamTrack where
 instance FromJSVal VideoStreamTrack where
   fromJSVal v = fmap VideoStreamTrack <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VideoStreamTrack
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VideoStreamTrack where
   makeObject = makeObject . unVideoStreamTrack
@@ -21801,6 +22861,8 @@ instance ToJSVal VideoTrack where
 instance FromJSVal VideoTrack where
   fromJSVal v = fmap VideoTrack <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VideoTrack
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VideoTrack where
   makeObject = makeObject . unVideoTrack
@@ -21842,6 +22904,8 @@ instance ToJSVal VideoTrackList where
 instance FromJSVal VideoTrackList where
   fromJSVal v = fmap VideoTrackList <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . VideoTrackList
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject VideoTrackList where
   makeObject = makeObject . unVideoTrackList
@@ -21885,6 +22949,8 @@ instance ToJSVal WaveShaperNode where
 instance FromJSVal WaveShaperNode where
   fromJSVal v = fmap WaveShaperNode <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WaveShaperNode
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WaveShaperNode where
   makeObject = makeObject . unWaveShaperNode
@@ -21925,6 +22991,8 @@ instance ToJSVal WebGL2RenderingContext where
 instance FromJSVal WebGL2RenderingContext where
   fromJSVal v = fmap WebGL2RenderingContext <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGL2RenderingContext
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGL2RenderingContext where
   makeObject = makeObject . unWebGL2RenderingContext
@@ -21961,6 +23029,8 @@ instance ToJSVal WebGLActiveInfo where
 instance FromJSVal WebGLActiveInfo where
   fromJSVal v = fmap WebGLActiveInfo <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLActiveInfo
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLActiveInfo where
   makeObject = makeObject . unWebGLActiveInfo
@@ -21995,6 +23065,8 @@ instance ToJSVal WebGLBuffer where
 instance FromJSVal WebGLBuffer where
   fromJSVal v = fmap WebGLBuffer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLBuffer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLBuffer where
   makeObject = makeObject . unWebGLBuffer
@@ -22029,6 +23101,8 @@ instance ToJSVal WebGLCompressedTextureATC where
 instance FromJSVal WebGLCompressedTextureATC where
   fromJSVal v = fmap WebGLCompressedTextureATC <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLCompressedTextureATC
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLCompressedTextureATC where
   makeObject = makeObject . unWebGLCompressedTextureATC
@@ -22063,6 +23137,8 @@ instance ToJSVal WebGLCompressedTexturePVRTC where
 instance FromJSVal WebGLCompressedTexturePVRTC where
   fromJSVal v = fmap WebGLCompressedTexturePVRTC <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLCompressedTexturePVRTC
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLCompressedTexturePVRTC where
   makeObject = makeObject . unWebGLCompressedTexturePVRTC
@@ -22097,6 +23173,8 @@ instance ToJSVal WebGLCompressedTextureS3TC where
 instance FromJSVal WebGLCompressedTextureS3TC where
   fromJSVal v = fmap WebGLCompressedTextureS3TC <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLCompressedTextureS3TC
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLCompressedTextureS3TC where
   makeObject = makeObject . unWebGLCompressedTextureS3TC
@@ -22131,6 +23209,8 @@ instance ToJSVal WebGLContextAttributes where
 instance FromJSVal WebGLContextAttributes where
   fromJSVal v = fmap WebGLContextAttributes <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLContextAttributes
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLContextAttributes where
   makeObject = makeObject . unWebGLContextAttributes
@@ -22168,6 +23248,8 @@ instance ToJSVal WebGLContextEvent where
 instance FromJSVal WebGLContextEvent where
   fromJSVal v = fmap WebGLContextEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLContextEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLContextEvent where
   makeObject = makeObject . unWebGLContextEvent
@@ -22203,6 +23285,8 @@ instance ToJSVal WebGLDebugRendererInfo where
 instance FromJSVal WebGLDebugRendererInfo where
   fromJSVal v = fmap WebGLDebugRendererInfo <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLDebugRendererInfo
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLDebugRendererInfo where
   makeObject = makeObject . unWebGLDebugRendererInfo
@@ -22237,6 +23321,8 @@ instance ToJSVal WebGLDebugShaders where
 instance FromJSVal WebGLDebugShaders where
   fromJSVal v = fmap WebGLDebugShaders <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLDebugShaders
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLDebugShaders where
   makeObject = makeObject . unWebGLDebugShaders
@@ -22271,6 +23357,8 @@ instance ToJSVal WebGLDepthTexture where
 instance FromJSVal WebGLDepthTexture where
   fromJSVal v = fmap WebGLDepthTexture <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLDepthTexture
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLDepthTexture where
   makeObject = makeObject . unWebGLDepthTexture
@@ -22305,6 +23393,8 @@ instance ToJSVal WebGLDrawBuffers where
 instance FromJSVal WebGLDrawBuffers where
   fromJSVal v = fmap WebGLDrawBuffers <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLDrawBuffers
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLDrawBuffers where
   makeObject = makeObject . unWebGLDrawBuffers
@@ -22339,6 +23429,8 @@ instance ToJSVal WebGLFramebuffer where
 instance FromJSVal WebGLFramebuffer where
   fromJSVal v = fmap WebGLFramebuffer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLFramebuffer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLFramebuffer where
   makeObject = makeObject . unWebGLFramebuffer
@@ -22373,6 +23465,8 @@ instance ToJSVal WebGLLoseContext where
 instance FromJSVal WebGLLoseContext where
   fromJSVal v = fmap WebGLLoseContext <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLLoseContext
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLLoseContext where
   makeObject = makeObject . unWebGLLoseContext
@@ -22407,6 +23501,8 @@ instance ToJSVal WebGLProgram where
 instance FromJSVal WebGLProgram where
   fromJSVal v = fmap WebGLProgram <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLProgram
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLProgram where
   makeObject = makeObject . unWebGLProgram
@@ -22441,6 +23537,8 @@ instance ToJSVal WebGLQuery where
 instance FromJSVal WebGLQuery where
   fromJSVal v = fmap WebGLQuery <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLQuery
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLQuery where
   makeObject = makeObject . unWebGLQuery
@@ -22475,6 +23573,8 @@ instance ToJSVal WebGLRenderbuffer where
 instance FromJSVal WebGLRenderbuffer where
   fromJSVal v = fmap WebGLRenderbuffer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLRenderbuffer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLRenderbuffer where
   makeObject = makeObject . unWebGLRenderbuffer
@@ -22513,6 +23613,8 @@ instance ToJSVal WebGLRenderingContext where
 instance FromJSVal WebGLRenderingContext where
   fromJSVal v = fmap WebGLRenderingContext <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLRenderingContext
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLRenderingContext where
   makeObject = makeObject . unWebGLRenderingContext
@@ -22552,6 +23654,8 @@ instance ToJSVal WebGLRenderingContextBase where
 instance FromJSVal WebGLRenderingContextBase where
   fromJSVal v = fmap WebGLRenderingContextBase <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLRenderingContextBase
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLRenderingContextBase where
   makeObject = makeObject . unWebGLRenderingContextBase
@@ -22592,6 +23696,8 @@ instance ToJSVal WebGLSampler where
 instance FromJSVal WebGLSampler where
   fromJSVal v = fmap WebGLSampler <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLSampler
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLSampler where
   makeObject = makeObject . unWebGLSampler
@@ -22626,6 +23732,8 @@ instance ToJSVal WebGLShader where
 instance FromJSVal WebGLShader where
   fromJSVal v = fmap WebGLShader <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLShader
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLShader where
   makeObject = makeObject . unWebGLShader
@@ -22660,6 +23768,8 @@ instance ToJSVal WebGLShaderPrecisionFormat where
 instance FromJSVal WebGLShaderPrecisionFormat where
   fromJSVal v = fmap WebGLShaderPrecisionFormat <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLShaderPrecisionFormat
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLShaderPrecisionFormat where
   makeObject = makeObject . unWebGLShaderPrecisionFormat
@@ -22694,6 +23804,8 @@ instance ToJSVal WebGLSync where
 instance FromJSVal WebGLSync where
   fromJSVal v = fmap WebGLSync <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLSync
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLSync where
   makeObject = makeObject . unWebGLSync
@@ -22728,6 +23840,8 @@ instance ToJSVal WebGLTexture where
 instance FromJSVal WebGLTexture where
   fromJSVal v = fmap WebGLTexture <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLTexture
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLTexture where
   makeObject = makeObject . unWebGLTexture
@@ -22762,6 +23876,8 @@ instance ToJSVal WebGLTransformFeedback where
 instance FromJSVal WebGLTransformFeedback where
   fromJSVal v = fmap WebGLTransformFeedback <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLTransformFeedback
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLTransformFeedback where
   makeObject = makeObject . unWebGLTransformFeedback
@@ -22796,6 +23912,8 @@ instance ToJSVal WebGLUniformLocation where
 instance FromJSVal WebGLUniformLocation where
   fromJSVal v = fmap WebGLUniformLocation <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLUniformLocation
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLUniformLocation where
   makeObject = makeObject . unWebGLUniformLocation
@@ -22830,6 +23948,8 @@ instance ToJSVal WebGLVertexArrayObject where
 instance FromJSVal WebGLVertexArrayObject where
   fromJSVal v = fmap WebGLVertexArrayObject <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLVertexArrayObject
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLVertexArrayObject where
   makeObject = makeObject . unWebGLVertexArrayObject
@@ -22864,6 +23984,8 @@ instance ToJSVal WebGLVertexArrayObjectOES where
 instance FromJSVal WebGLVertexArrayObjectOES where
   fromJSVal v = fmap WebGLVertexArrayObjectOES <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGLVertexArrayObjectOES
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebGLVertexArrayObjectOES where
   makeObject = makeObject . unWebGLVertexArrayObjectOES
@@ -22901,6 +24023,8 @@ instance ToJSVal WebKitAnimationEvent where
 instance FromJSVal WebKitAnimationEvent where
   fromJSVal v = fmap WebKitAnimationEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitAnimationEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitAnimationEvent where
   makeObject = makeObject . unWebKitAnimationEvent
@@ -22940,6 +24064,8 @@ instance ToJSVal WebKitCSSFilterValue where
 instance FromJSVal WebKitCSSFilterValue where
   fromJSVal v = fmap WebKitCSSFilterValue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitCSSFilterValue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitCSSFilterValue where
   makeObject = makeObject . unWebKitCSSFilterValue
@@ -22976,6 +24102,8 @@ instance ToJSVal WebKitCSSMatrix where
 instance FromJSVal WebKitCSSMatrix where
   fromJSVal v = fmap WebKitCSSMatrix <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitCSSMatrix
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitCSSMatrix where
   makeObject = makeObject . unWebKitCSSMatrix
@@ -23013,6 +24141,8 @@ instance ToJSVal WebKitCSSRegionRule where
 instance FromJSVal WebKitCSSRegionRule where
   fromJSVal v = fmap WebKitCSSRegionRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitCSSRegionRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitCSSRegionRule where
   makeObject = makeObject . unWebKitCSSRegionRule
@@ -23052,6 +24182,8 @@ instance ToJSVal WebKitCSSTransformValue where
 instance FromJSVal WebKitCSSTransformValue where
   fromJSVal v = fmap WebKitCSSTransformValue <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitCSSTransformValue
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitCSSTransformValue where
   makeObject = makeObject . unWebKitCSSTransformValue
@@ -23091,6 +24223,8 @@ instance ToJSVal WebKitCSSViewportRule where
 instance FromJSVal WebKitCSSViewportRule where
   fromJSVal v = fmap WebKitCSSViewportRule <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitCSSViewportRule
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitCSSViewportRule where
   makeObject = makeObject . unWebKitCSSViewportRule
@@ -23129,6 +24263,8 @@ instance ToJSVal WebKitNamedFlow where
 instance FromJSVal WebKitNamedFlow where
   fromJSVal v = fmap WebKitNamedFlow <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitNamedFlow
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitNamedFlow where
   makeObject = makeObject . unWebKitNamedFlow
@@ -23166,6 +24302,8 @@ instance ToJSVal WebKitNamespace where
 instance FromJSVal WebKitNamespace where
   fromJSVal v = fmap WebKitNamespace <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitNamespace
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitNamespace where
   makeObject = makeObject . unWebKitNamespace
@@ -23203,6 +24341,8 @@ instance ToJSVal WebKitPlaybackTargetAvailabilityEvent where
 instance FromJSVal WebKitPlaybackTargetAvailabilityEvent where
   fromJSVal v = fmap WebKitPlaybackTargetAvailabilityEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitPlaybackTargetAvailabilityEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitPlaybackTargetAvailabilityEvent where
   makeObject = makeObject . unWebKitPlaybackTargetAvailabilityEvent
@@ -23238,6 +24378,8 @@ instance ToJSVal WebKitPoint where
 instance FromJSVal WebKitPoint where
   fromJSVal v = fmap WebKitPoint <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitPoint
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitPoint where
   makeObject = makeObject . unWebKitPoint
@@ -23277,6 +24419,8 @@ instance ToJSVal WebKitTransitionEvent where
 instance FromJSVal WebKitTransitionEvent where
   fromJSVal v = fmap WebKitTransitionEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebKitTransitionEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebKitTransitionEvent where
   makeObject = makeObject . unWebKitTransitionEvent
@@ -23315,6 +24459,8 @@ instance ToJSVal WebSocket where
 instance FromJSVal WebSocket where
   fromJSVal v = fmap WebSocket <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebSocket
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WebSocket where
   makeObject = makeObject . unWebSocket
@@ -23355,6 +24501,8 @@ instance ToJSVal WheelEvent where
 instance FromJSVal WheelEvent where
   fromJSVal v = fmap WheelEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WheelEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WheelEvent where
   makeObject = makeObject . unWheelEvent
@@ -23399,6 +24547,8 @@ instance ToJSVal Window where
 instance FromJSVal Window where
   fromJSVal v = fmap Window <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Window
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Window where
   makeObject = makeObject . unWindow
@@ -23436,6 +24586,8 @@ instance ToJSVal WindowBase64 where
 instance FromJSVal WindowBase64 where
   fromJSVal v = fmap WindowBase64 <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WindowBase64
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WindowBase64 where
   makeObject = makeObject . unWindowBase64
@@ -23470,6 +24622,8 @@ instance ToJSVal WindowTimers where
 instance FromJSVal WindowTimers where
   fromJSVal v = fmap WindowTimers <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WindowTimers
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WindowTimers where
   makeObject = makeObject . unWindowTimers
@@ -23507,6 +24661,8 @@ instance ToJSVal Worker where
 instance FromJSVal Worker where
   fromJSVal v = fmap Worker <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Worker
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject Worker where
   makeObject = makeObject . unWorker
@@ -23545,6 +24701,8 @@ instance ToJSVal WorkerGlobalScope where
 instance FromJSVal WorkerGlobalScope where
   fromJSVal v = fmap WorkerGlobalScope <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WorkerGlobalScope
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WorkerGlobalScope where
   makeObject = makeObject . unWorkerGlobalScope
@@ -23585,6 +24743,8 @@ instance ToJSVal WorkerLocation where
 instance FromJSVal WorkerLocation where
   fromJSVal v = fmap WorkerLocation <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WorkerLocation
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WorkerLocation where
   makeObject = makeObject . unWorkerLocation
@@ -23619,6 +24779,8 @@ instance ToJSVal WorkerNavigator where
 instance FromJSVal WorkerNavigator where
   fromJSVal v = fmap WorkerNavigator <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WorkerNavigator
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject WorkerNavigator where
   makeObject = makeObject . unWorkerNavigator
@@ -23656,6 +24818,8 @@ instance ToJSVal XMLHttpRequest where
 instance FromJSVal XMLHttpRequest where
   fromJSVal v = fmap XMLHttpRequest <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XMLHttpRequest
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XMLHttpRequest where
   makeObject = makeObject . unXMLHttpRequest
@@ -23695,6 +24859,8 @@ instance ToJSVal XMLHttpRequestProgressEvent where
 instance FromJSVal XMLHttpRequestProgressEvent where
   fromJSVal v = fmap XMLHttpRequestProgressEvent <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XMLHttpRequestProgressEvent
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XMLHttpRequestProgressEvent where
   makeObject = makeObject . unXMLHttpRequestProgressEvent
@@ -23734,6 +24900,8 @@ instance ToJSVal XMLHttpRequestUpload where
 instance FromJSVal XMLHttpRequestUpload where
   fromJSVal v = fmap XMLHttpRequestUpload <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XMLHttpRequestUpload
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XMLHttpRequestUpload where
   makeObject = makeObject . unXMLHttpRequestUpload
@@ -23769,6 +24937,8 @@ instance ToJSVal XMLSerializer where
 instance FromJSVal XMLSerializer where
   fromJSVal v = fmap XMLSerializer <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XMLSerializer
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XMLSerializer where
   makeObject = makeObject . unXMLSerializer
@@ -23803,6 +24973,8 @@ instance ToJSVal XPathEvaluator where
 instance FromJSVal XPathEvaluator where
   fromJSVal v = fmap XPathEvaluator <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XPathEvaluator
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XPathEvaluator where
   makeObject = makeObject . unXPathEvaluator
@@ -23837,6 +25009,8 @@ instance ToJSVal XPathExpression where
 instance FromJSVal XPathExpression where
   fromJSVal v = fmap XPathExpression <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XPathExpression
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XPathExpression where
   makeObject = makeObject . unXPathExpression
@@ -23873,6 +25047,8 @@ instance ToJSVal XPathNSResolver where
 instance FromJSVal XPathNSResolver where
   fromJSVal v = fmap XPathNSResolver <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XPathNSResolver
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XPathNSResolver where
   makeObject = makeObject . unXPathNSResolver
@@ -23909,6 +25085,8 @@ instance ToJSVal XPathResult where
 instance FromJSVal XPathResult where
   fromJSVal v = fmap XPathResult <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XPathResult
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XPathResult where
   makeObject = makeObject . unXPathResult
@@ -23945,6 +25123,8 @@ instance ToJSVal XSLTProcessor where
 instance FromJSVal XSLTProcessor where
   fromJSVal v = fmap XSLTProcessor <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . XSLTProcessor
+  {-# INLINE fromJSValUnchecked #-}
 
 instance MakeObject XSLTProcessor where
   makeObject = makeObject . unXSLTProcessor
