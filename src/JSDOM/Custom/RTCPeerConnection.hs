@@ -8,6 +8,8 @@ module JSDOM.Custom.RTCPeerConnection (
   , setLocalDescription
   , setRemoteDescription'
   , setRemoteDescription
+  , getStats
+  , getStats'
 ) where
 
 import Data.Maybe (fromJust)
@@ -34,7 +36,6 @@ import JSDOM.Generated.VoidCallback
 import JSDOM.Generated.RTCStatsCallback
        (newRTCStatsCallback)
 
-import JSDOM.Generated.Geolocation as Generated hiding (getCurrentPosition)
 import qualified
        JSDOM.Generated.RTCPeerConnection
        as Generated
