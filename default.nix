@@ -4,7 +4,7 @@
 mkDerivation {
   pname = "jsaddle-dom";
   version = "0.7.1.0";
-  src = ./.;
+  src = builtins.filterSource (path: type: !(builtins.elem (baseNameOf path) [ ".git" "dist" ])) ./.;
   libraryHaskellDepends = [
     base base-compat jsaddle lens text transformers
   ];
