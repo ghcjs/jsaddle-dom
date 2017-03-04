@@ -1,5 +1,7 @@
 module JSDOM.Custom.RTCPeerConnection (
-    module Generated
+    module GeneratedExport
+  , addIceCandidate'
+  , addIceCandidate
   , createOffer'
   , createOffer
   , createAnswer'
@@ -39,6 +41,10 @@ import JSDOM.Generated.RTCStatsCallback
 import qualified
        JSDOM.Generated.RTCPeerConnection
        as Generated
+       (getStats, addIceCandidate, setRemoteDescription,
+        setLocalDescription, createAnswer, createOffer)
+import JSDOM.Generated.RTCPeerConnection
+       as GeneratedExport hiding
        (getStats, addIceCandidate, setRemoteDescription,
         setLocalDescription, createAnswer, createOffer)
 
