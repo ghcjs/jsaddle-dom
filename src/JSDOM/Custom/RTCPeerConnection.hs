@@ -1,5 +1,7 @@
 module JSDOM.Custom.RTCPeerConnection (
     module GeneratedExport
+  , addIceCandidate'
+  , addIceCandidate
   , createOffer'
   , createOffer
   , createAnswer'
