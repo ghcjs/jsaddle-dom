@@ -3,13 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Worker
-       (newWorker, postMessage, terminate, message, Worker(..),
+       (newWorker, terminate, postMessage, message, Worker(..),
         gTypeWorker)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,20 +26,19 @@ newWorker ::
 newWorker scriptUrl
   = liftDOM (Worker <$> new (jsg "Worker") [toJSVal scriptUrl])
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.postMessage Mozilla Worker.postMessage documentation> 
-postMessage ::
-            (MonadDOM m, IsSerializedScriptValue message,
-             IsArray messagePorts) =>
-              Worker -> Maybe message -> Maybe messagePorts -> m ()
-postMessage self message messagePorts
-  = liftDOM
-      (void
-         (self ^. jsf "postMessage"
-            [toJSVal message, toJSVal messagePorts]))
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.terminate Mozilla Worker.terminate documentation> 
 terminate :: (MonadDOM m) => Worker -> m ()
 terminate self = liftDOM (void (self ^. jsf "terminate" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.postMessage Mozilla Worker.postMessage documentation> 
+postMessage ::
+            (MonadDOM m, ToJSVal message, IsGObject transfer) =>
+              Worker -> message -> [transfer] -> m ()
+postMessage self message transfer
+  = liftDOM
+      (void
+         (self ^. jsf "postMessage"
+            [toJSVal message, toJSVal (array transfer)]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.onmessage Mozilla Worker.onmessage documentation> 
 message :: EventName Worker MessageEvent

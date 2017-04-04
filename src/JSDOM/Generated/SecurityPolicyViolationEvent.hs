@@ -3,15 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SecurityPolicyViolationEvent
-       (getDocumentURI, getReferrer, getBlockedURI, getViolatedDirective,
-        getEffectiveDirective, getOriginalPolicy, getSourceFile,
-        getLineNumber, SecurityPolicyViolationEvent(..),
+       (newSecurityPolicyViolationEvent, getDocumentURI, getReferrer,
+        getBlockedURI, getViolatedDirective, getEffectiveDirective,
+        getOriginalPolicy, getSourceFile, getStatusCode, getLineNumber,
+        getColumnNumber, SecurityPolicyViolationEvent(..),
         gTypeSecurityPolicyViolationEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -20,6 +22,18 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicyViolationEvent Mozilla SecurityPolicyViolationEvent documentation> 
+newSecurityPolicyViolationEvent ::
+                                (MonadDOM m, ToJSString type') =>
+                                  type' ->
+                                    Maybe SecurityPolicyViolationEventInit ->
+                                      m SecurityPolicyViolationEvent
+newSecurityPolicyViolationEvent type' eventInitDict
+  = liftDOM
+      (SecurityPolicyViolationEvent <$>
+         new (jsg "SecurityPolicyViolationEvent")
+           [toJSVal type', toJSVal eventInitDict])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicyViolationEvent.documentURI Mozilla SecurityPolicyViolationEvent.documentURI documentation> 
 getDocumentURI ::
@@ -71,8 +85,20 @@ getSourceFile ::
 getSourceFile self
   = liftDOM ((self ^. js "sourceFile") >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicyViolationEvent.statusCode Mozilla SecurityPolicyViolationEvent.statusCode documentation> 
+getStatusCode ::
+              (MonadDOM m) => SecurityPolicyViolationEvent -> m Word
+getStatusCode self
+  = liftDOM (round <$> ((self ^. js "statusCode") >>= valToNumber))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicyViolationEvent.lineNumber Mozilla SecurityPolicyViolationEvent.lineNumber documentation> 
 getLineNumber ::
               (MonadDOM m) => SecurityPolicyViolationEvent -> m Int
 getLineNumber self
   = liftDOM (round <$> ((self ^. js "lineNumber") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SecurityPolicyViolationEvent.columnNumber Mozilla SecurityPolicyViolationEvent.columnNumber documentation> 
+getColumnNumber ::
+                (MonadDOM m) => SecurityPolicyViolationEvent -> m Int
+getColumnNumber self
+  = liftDOM (round <$> ((self ^. js "columnNumber") >>= valToNumber))

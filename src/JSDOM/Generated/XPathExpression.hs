@@ -3,13 +3,13 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XPathExpression
-       (evaluate, evaluate_, evaluateUnsafe, evaluateUnchecked,
-        XPathExpression(..), gTypeXPathExpression)
+       (evaluate, evaluate_, XPathExpression(..), gTypeXPathExpression)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,43 +24,20 @@ evaluate ::
          (MonadDOM m, IsNode contextNode) =>
            XPathExpression ->
              Maybe contextNode ->
-               Word -> Maybe XPathResult -> m (Maybe XPathResult)
+               Maybe Word -> Maybe XPathResult -> m XPathResult
 evaluate self contextNode type' inResult
   = liftDOM
       ((self ^. jsf "evaluate"
           [toJSVal contextNode, toJSVal type', toJSVal inResult])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathExpression.evaluate Mozilla XPathExpression.evaluate documentation> 
 evaluate_ ::
           (MonadDOM m, IsNode contextNode) =>
             XPathExpression ->
-              Maybe contextNode -> Word -> Maybe XPathResult -> m ()
+              Maybe contextNode -> Maybe Word -> Maybe XPathResult -> m ()
 evaluate_ self contextNode type' inResult
   = liftDOM
       (void
          (self ^. jsf "evaluate"
             [toJSVal contextNode, toJSVal type', toJSVal inResult]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathExpression.evaluate Mozilla XPathExpression.evaluate documentation> 
-evaluateUnsafe ::
-               (MonadDOM m, IsNode contextNode, HasCallStack) =>
-                 XPathExpression ->
-                   Maybe contextNode -> Word -> Maybe XPathResult -> m XPathResult
-evaluateUnsafe self contextNode type' inResult
-  = liftDOM
-      (((self ^. jsf "evaluate"
-           [toJSVal contextNode, toJSVal type', toJSVal inResult])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathExpression.evaluate Mozilla XPathExpression.evaluate documentation> 
-evaluateUnchecked ::
-                  (MonadDOM m, IsNode contextNode) =>
-                    XPathExpression ->
-                      Maybe contextNode -> Word -> Maybe XPathResult -> m XPathResult
-evaluateUnchecked self contextNode type' inResult
-  = liftDOM
-      ((self ^. jsf "evaluate"
-          [toJSVal contextNode, toJSVal type', toJSVal inResult])
-         >>= fromJSValUnchecked)

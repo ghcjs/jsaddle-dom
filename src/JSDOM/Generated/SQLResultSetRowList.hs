@@ -9,7 +9,8 @@ module JSDOM.Generated.SQLResultSetRowList
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -20,9 +21,12 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLResultSetRowList.item Mozilla SQLResultSetRowList.item documentation> 
-item :: (MonadDOM m) => SQLResultSetRowList -> Word -> m JSVal
+item ::
+     (MonadDOM m) =>
+       SQLResultSetRowList -> Word -> m (Record DOMString SQLValue)
 item self index
-  = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= toJSVal)
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SQLResultSetRowList.item Mozilla SQLResultSetRowList.item documentation> 
 item_ :: (MonadDOM m) => SQLResultSetRowList -> Word -> m ()

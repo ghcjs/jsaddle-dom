@@ -5,17 +5,15 @@
 module JSDOM.Generated.SVGFEMorphologyElement
        (setRadius, pattern SVG_MORPHOLOGY_OPERATOR_UNKNOWN,
         pattern SVG_MORPHOLOGY_OPERATOR_ERODE,
-        pattern SVG_MORPHOLOGY_OPERATOR_DILATE, getIn1, getIn1Unsafe,
-        getIn1Unchecked, getOperator, getOperatorUnsafe,
-        getOperatorUnchecked, getRadiusX, getRadiusXUnsafe,
-        getRadiusXUnchecked, getRadiusY, getRadiusYUnsafe,
-        getRadiusYUnchecked, SVGFEMorphologyElement(..),
+        pattern SVG_MORPHOLOGY_OPERATOR_DILATE, getIn1, getOperator,
+        getRadiusX, getRadiusY, SVGFEMorphologyElement(..),
         gTypeSVGFEMorphologyElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -27,7 +25,8 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.setRadius Mozilla SVGFEMorphologyElement.setRadius documentation> 
 setRadius ::
-          (MonadDOM m) => SVGFEMorphologyElement -> Float -> Float -> m ()
+          (MonadDOM m) =>
+            SVGFEMorphologyElement -> Maybe Float -> Maybe Float -> m ()
 setRadius self radiusX radiusY
   = liftDOM
       (void (self ^. jsf "setRadius" [toJSVal radiusX, toJSVal radiusY]))
@@ -37,84 +36,23 @@ pattern SVG_MORPHOLOGY_OPERATOR_DILATE = 2
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.in1 Mozilla SVGFEMorphologyElement.in1 documentation> 
 getIn1 ::
-       (MonadDOM m) =>
-         SVGFEMorphologyElement -> m (Maybe SVGAnimatedString)
-getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.in1 Mozilla SVGFEMorphologyElement.in1 documentation> 
-getIn1Unsafe ::
-             (MonadDOM m, HasCallStack) =>
-               SVGFEMorphologyElement -> m SVGAnimatedString
-getIn1Unsafe self
-  = liftDOM
-      (((self ^. js "in1") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.in1 Mozilla SVGFEMorphologyElement.in1 documentation> 
-getIn1Unchecked ::
-                (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedString
-getIn1Unchecked self
-  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
+       (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedString
+getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.operator Mozilla SVGFEMorphologyElement.operator documentation> 
 getOperator ::
-            (MonadDOM m) =>
-              SVGFEMorphologyElement -> m (Maybe SVGAnimatedEnumeration)
-getOperator self = liftDOM ((self ^. js "operator") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.operator Mozilla SVGFEMorphologyElement.operator documentation> 
-getOperatorUnsafe ::
-                  (MonadDOM m, HasCallStack) =>
-                    SVGFEMorphologyElement -> m SVGAnimatedEnumeration
-getOperatorUnsafe self
-  = liftDOM
-      (((self ^. js "operator") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.operator Mozilla SVGFEMorphologyElement.operator documentation> 
-getOperatorUnchecked ::
-                     (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedEnumeration
-getOperatorUnchecked self
+            (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedEnumeration
+getOperator self
   = liftDOM ((self ^. js "operator") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusX Mozilla SVGFEMorphologyElement.radiusX documentation> 
 getRadiusX ::
-           (MonadDOM m) =>
-             SVGFEMorphologyElement -> m (Maybe SVGAnimatedNumber)
-getRadiusX self = liftDOM ((self ^. js "radiusX") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusX Mozilla SVGFEMorphologyElement.radiusX documentation> 
-getRadiusXUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   SVGFEMorphologyElement -> m SVGAnimatedNumber
-getRadiusXUnsafe self
-  = liftDOM
-      (((self ^. js "radiusX") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusX Mozilla SVGFEMorphologyElement.radiusX documentation> 
-getRadiusXUnchecked ::
-                    (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedNumber
-getRadiusXUnchecked self
+           (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedNumber
+getRadiusX self
   = liftDOM ((self ^. js "radiusX") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusY Mozilla SVGFEMorphologyElement.radiusY documentation> 
 getRadiusY ::
-           (MonadDOM m) =>
-             SVGFEMorphologyElement -> m (Maybe SVGAnimatedNumber)
-getRadiusY self = liftDOM ((self ^. js "radiusY") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusY Mozilla SVGFEMorphologyElement.radiusY documentation> 
-getRadiusYUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   SVGFEMorphologyElement -> m SVGAnimatedNumber
-getRadiusYUnsafe self
-  = liftDOM
-      (((self ^. js "radiusY") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement.radiusY Mozilla SVGFEMorphologyElement.radiusY documentation> 
-getRadiusYUnchecked ::
-                    (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedNumber
-getRadiusYUnchecked self
+           (MonadDOM m) => SVGFEMorphologyElement -> m SVGAnimatedNumber
+getRadiusY self
   = liftDOM ((self ^. js "radiusY") >>= fromJSValUnchecked)

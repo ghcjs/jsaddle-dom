@@ -3,13 +3,12 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.TouchList
-       (item, item_, itemUnsafe, itemUnchecked, getLength, TouchList(..),
-        gTypeTouchList)
-       where
+       (item, item_, getLength, TouchList(..), gTypeTouchList) where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -20,28 +19,15 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchList.item Mozilla TouchList.item documentation> 
-item :: (MonadDOM m) => TouchList -> Word -> m (Maybe Touch)
+item :: (MonadDOM m) => TouchList -> Word -> m Touch
 item self index
-  = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchList.item Mozilla TouchList.item documentation> 
 item_ :: (MonadDOM m) => TouchList -> Word -> m ()
 item_ self index
   = liftDOM (void (self ^. jsf "item" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchList.item Mozilla TouchList.item documentation> 
-itemUnsafe ::
-           (MonadDOM m, HasCallStack) => TouchList -> Word -> m Touch
-itemUnsafe self index
-  = liftDOM
-      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchList.item Mozilla TouchList.item documentation> 
-itemUnchecked :: (MonadDOM m) => TouchList -> Word -> m Touch
-itemUnchecked self index
-  = liftDOM
-      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TouchList.length Mozilla TouchList.length documentation> 
 getLength :: (MonadDOM m) => TouchList -> m Word

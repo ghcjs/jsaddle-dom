@@ -3,19 +3,20 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NodeFilter
-       (acceptNode, acceptNode_, pattern FILTER_ACCEPT,
-        pattern FILTER_REJECT, pattern FILTER_SKIP, pattern SHOW_ALL,
-        pattern SHOW_ELEMENT, pattern SHOW_ATTRIBUTE, pattern SHOW_TEXT,
-        pattern SHOW_CDATA_SECTION, pattern SHOW_ENTITY_REFERENCE,
-        pattern SHOW_ENTITY, pattern SHOW_PROCESSING_INSTRUCTION,
-        pattern SHOW_COMMENT, pattern SHOW_DOCUMENT,
-        pattern SHOW_DOCUMENT_TYPE, pattern SHOW_DOCUMENT_FRAGMENT,
-        pattern SHOW_NOTATION, NodeFilter(..), gTypeNodeFilter)
+       (newNodeFilter, newNodeFilterSync, newNodeFilterAsync,
+        pattern FILTER_ACCEPT, pattern FILTER_REJECT, pattern FILTER_SKIP,
+        pattern SHOW_ALL, pattern SHOW_ELEMENT, pattern SHOW_ATTRIBUTE,
+        pattern SHOW_TEXT, pattern SHOW_CDATA_SECTION,
+        pattern SHOW_ENTITY_REFERENCE, pattern SHOW_ENTITY,
+        pattern SHOW_PROCESSING_INSTRUCTION, pattern SHOW_COMMENT,
+        pattern SHOW_DOCUMENT, pattern SHOW_DOCUMENT_TYPE,
+        pattern SHOW_DOCUMENT_FRAGMENT, pattern SHOW_NOTATION, NodeFilter)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,19 +26,34 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter.acceptNode Mozilla NodeFilter.acceptNode documentation> 
-acceptNode ::
-           (MonadDOM m, IsNode n) => NodeFilter -> Maybe n -> m Int
-acceptNode self n
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter Mozilla NodeFilter documentation> 
+newNodeFilter :: (MonadDOM m) => (Node -> JSM ()) -> m NodeFilter
+newNodeFilter callback
   = liftDOM
-      (round <$>
-         ((self ^. jsf "acceptNode" [toJSVal n]) >>= valToNumber))
+      (NodeFilter . Callback <$>
+         function
+           (\ _ _ [node] ->
+              fromJSValUnchecked node >>= \ node' -> callback node'))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter.acceptNode Mozilla NodeFilter.acceptNode documentation> 
-acceptNode_ ::
-            (MonadDOM m, IsNode n) => NodeFilter -> Maybe n -> m ()
-acceptNode_ self n
-  = liftDOM (void (self ^. jsf "acceptNode" [toJSVal n]))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter Mozilla NodeFilter documentation> 
+newNodeFilterSync ::
+                  (MonadDOM m) => (Node -> JSM ()) -> m NodeFilter
+newNodeFilterSync callback
+  = liftDOM
+      (NodeFilter . Callback <$>
+         function
+           (\ _ _ [node] ->
+              fromJSValUnchecked node >>= \ node' -> callback node'))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter Mozilla NodeFilter documentation> 
+newNodeFilterAsync ::
+                   (MonadDOM m) => (Node -> JSM ()) -> m NodeFilter
+newNodeFilterAsync callback
+  = liftDOM
+      (NodeFilter . Callback <$>
+         function
+           (\ _ _ [node] ->
+              fromJSValUnchecked node >>= \ node' -> callback node'))
 pattern FILTER_ACCEPT = 1
 pattern FILTER_REJECT = 2
 pattern FILTER_SKIP = 3

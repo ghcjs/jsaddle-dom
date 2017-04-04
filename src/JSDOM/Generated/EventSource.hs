@@ -10,7 +10,8 @@ module JSDOM.Generated.EventSource
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -22,12 +23,12 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/EventSource Mozilla EventSource documentation> 
 newEventSource ::
-               (MonadDOM m, ToJSString url, IsDictionary eventSourceInit) =>
-                 url -> Maybe eventSourceInit -> m EventSource
-newEventSource url eventSourceInit
+               (MonadDOM m, ToJSString url) =>
+                 url -> Maybe EventSourceInit -> m EventSource
+newEventSource url eventSourceInitDict
   = liftDOM
       (EventSource <$>
-         new (jsg "EventSource") [toJSVal url, toJSVal eventSourceInit])
+         new (jsg "EventSource") [toJSVal url, toJSVal eventSourceInitDict])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/EventSource.close Mozilla EventSource.close documentation> 
 close :: (MonadDOM m) => EventSource -> m ()

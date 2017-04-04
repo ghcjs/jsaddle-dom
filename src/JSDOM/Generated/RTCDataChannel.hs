@@ -12,7 +12,8 @@ module JSDOM.Generated.RTCDataChannel
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,20 +26,20 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.send Mozilla RTCDataChannel.send documentation> 
 send ::
      (MonadDOM m, IsArrayBuffer data') =>
-       RTCDataChannel -> Maybe data' -> m ()
+       RTCDataChannel -> data' -> m ()
 send self data'
   = liftDOM (void (self ^. jsf "send" [toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.send Mozilla RTCDataChannel.send documentation> 
 sendView ::
          (MonadDOM m, IsArrayBufferView data') =>
-           RTCDataChannel -> Maybe data' -> m ()
+           RTCDataChannel -> data' -> m ()
 sendView self data'
   = liftDOM (void (self ^. jsf "send" [toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.send Mozilla RTCDataChannel.send documentation> 
 sendBlob ::
-         (MonadDOM m, IsBlob data') => RTCDataChannel -> Maybe data' -> m ()
+         (MonadDOM m, IsBlob data') => RTCDataChannel -> data' -> m ()
 sendBlob self data'
   = liftDOM (void (self ^. jsf "send" [toJSVal data']))
 

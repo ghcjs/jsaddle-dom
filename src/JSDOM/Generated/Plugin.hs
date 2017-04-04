@@ -10,7 +10,8 @@ module JSDOM.Generated.Plugin
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -48,14 +49,12 @@ itemUnchecked self index
 namedItem ::
           (MonadDOM m, ToJSString name) =>
             Plugin -> name -> m (Maybe MimeType)
-namedItem self name
-  = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+namedItem self name = liftDOM ((self ! name) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.namedItem Mozilla Plugin.namedItem documentation> 
 namedItem_ ::
            (MonadDOM m, ToJSString name) => Plugin -> name -> m ()
-namedItem_ self name
-  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+namedItem_ self name = liftDOM (void (self ! name))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.namedItem Mozilla Plugin.namedItem documentation> 
 namedItemUnsafe ::
@@ -63,15 +62,14 @@ namedItemUnsafe ::
                   Plugin -> name -> m MimeType
 namedItemUnsafe self name
   = liftDOM
-      (((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal) >>=
+      (((self ! name) >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.namedItem Mozilla Plugin.namedItem documentation> 
 namedItemUnchecked ::
                    (MonadDOM m, ToJSString name) => Plugin -> name -> m MimeType
 namedItemUnchecked self name
-  = liftDOM
-      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
+  = liftDOM ((self ! name) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Plugin.name Mozilla Plugin.name documentation> 
 getName :: (MonadDOM m, FromJSString result) => Plugin -> m result

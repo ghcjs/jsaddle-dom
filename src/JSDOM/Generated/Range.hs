@@ -4,35 +4,26 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Range
        (newRange, setStart, setEnd, setStartBefore, setStartAfter,
-        setEndBefore, setEndAfter, collapse, selectNode,
+        setEndBefore, setEndAfter, collapse, expand, selectNode,
         selectNodeContents, compareBoundaryPoints, compareBoundaryPoints_,
-        deleteContents, extractContents, extractContents_,
-        extractContentsUnsafe, extractContentsUnchecked, cloneContents,
-        cloneContents_, cloneContentsUnsafe, cloneContentsUnchecked,
-        insertNode, surroundContents, cloneRange, cloneRange_,
-        cloneRangeUnsafe, cloneRangeUnchecked, toString, toString_, detach,
-        getClientRects, getClientRects_, getClientRectsUnsafe,
-        getClientRectsUnchecked, getBoundingClientRect,
-        getBoundingClientRect_, getBoundingClientRectUnsafe,
-        getBoundingClientRectUnchecked, createContextualFragment,
-        createContextualFragment_, createContextualFragmentUnsafe,
-        createContextualFragmentUnchecked, intersectsNode, intersectsNode_,
-        compareNode, compareNode_, comparePoint, comparePoint_,
-        isPointInRange, isPointInRange_, expand, pattern START_TO_START,
-        pattern START_TO_END, pattern END_TO_END, pattern END_TO_START,
-        pattern NODE_BEFORE, pattern NODE_AFTER,
+        deleteContents, extractContents, extractContents_, cloneContents,
+        cloneContents_, insertNode, surroundContents, cloneRange,
+        cloneRange_, toString, toString_, detach, getClientRects,
+        getClientRects_, getBoundingClientRect, getBoundingClientRect_,
+        createContextualFragment, createContextualFragment_, compareNode,
+        compareNode_, intersectsNode, intersectsNode_, comparePoint,
+        comparePoint_, isPointInRange, isPointInRange_,
+        pattern START_TO_START, pattern START_TO_END, pattern END_TO_END,
+        pattern END_TO_START, pattern NODE_BEFORE, pattern NODE_AFTER,
         pattern NODE_BEFORE_AND_AFTER, pattern NODE_INSIDE,
-        getStartContainer, getStartContainerUnsafe,
-        getStartContainerUnchecked, getStartOffset, getEndContainer,
-        getEndContainerUnsafe, getEndContainerUnchecked, getEndOffset,
-        getCollapsed, getCommonAncestorContainer,
-        getCommonAncestorContainerUnsafe,
-        getCommonAncestorContainerUnchecked, Range(..), gTypeRange)
+        getStartContainer, getStartOffset, getEndContainer, getEndOffset,
+        getCollapsed, getCommonAncestorContainer, Range(..), gTypeRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -48,41 +39,39 @@ newRange = liftDOM (Range <$> new (jsg "Range") ())
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.setStart Mozilla Range.setStart documentation> 
 setStart ::
-         (MonadDOM m, IsNode refNode) =>
-           Range -> Maybe refNode -> Int -> m ()
+         (MonadDOM m, IsNode refNode) => Range -> refNode -> Word -> m ()
 setStart self refNode offset
   = liftDOM
       (void (self ^. jsf "setStart" [toJSVal refNode, toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.setEnd Mozilla Range.setEnd documentation> 
 setEnd ::
-       (MonadDOM m, IsNode refNode) =>
-         Range -> Maybe refNode -> Int -> m ()
+       (MonadDOM m, IsNode refNode) => Range -> refNode -> Word -> m ()
 setEnd self refNode offset
   = liftDOM
       (void (self ^. jsf "setEnd" [toJSVal refNode, toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.setStartBefore Mozilla Range.setStartBefore documentation> 
 setStartBefore ::
-               (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+               (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 setStartBefore self refNode
   = liftDOM (void (self ^. jsf "setStartBefore" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.setStartAfter Mozilla Range.setStartAfter documentation> 
 setStartAfter ::
-              (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+              (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 setStartAfter self refNode
   = liftDOM (void (self ^. jsf "setStartAfter" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.setEndBefore Mozilla Range.setEndBefore documentation> 
 setEndBefore ::
-             (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+             (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 setEndBefore self refNode
   = liftDOM (void (self ^. jsf "setEndBefore" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.setEndAfter Mozilla Range.setEndAfter documentation> 
 setEndAfter ::
-            (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+            (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 setEndAfter self refNode
   = liftDOM (void (self ^. jsf "setEndAfter" [toJSVal refNode]))
 
@@ -91,22 +80,28 @@ collapse :: (MonadDOM m) => Range -> Bool -> m ()
 collapse self toStart
   = liftDOM (void (self ^. jsf "collapse" [toJSVal toStart]))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.expand Mozilla Range.expand documentation> 
+expand ::
+       (MonadDOM m, ToJSString unit) => Range -> Maybe unit -> m ()
+expand self unit
+  = liftDOM (void (self ^. jsf "expand" [toJSVal unit]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.selectNode Mozilla Range.selectNode documentation> 
 selectNode ::
-           (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+           (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 selectNode self refNode
   = liftDOM (void (self ^. jsf "selectNode" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.selectNodeContents Mozilla Range.selectNodeContents documentation> 
 selectNodeContents ::
-                   (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+                   (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 selectNodeContents self refNode
   = liftDOM
       (void (self ^. jsf "selectNodeContents" [toJSVal refNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareBoundaryPoints Mozilla Range.compareBoundaryPoints documentation> 
 compareBoundaryPoints ::
-                      (MonadDOM m) => Range -> Word -> Maybe Range -> m Int
+                      (MonadDOM m) => Range -> Word -> Range -> m Int
 compareBoundaryPoints self how sourceRange
   = liftDOM
       (round <$>
@@ -116,7 +111,7 @@ compareBoundaryPoints self how sourceRange
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareBoundaryPoints Mozilla Range.compareBoundaryPoints documentation> 
 compareBoundaryPoints_ ::
-                       (MonadDOM m) => Range -> Word -> Maybe Range -> m ()
+                       (MonadDOM m) => Range -> Word -> Range -> m ()
 compareBoundaryPoints_ self how sourceRange
   = liftDOM
       (void
@@ -129,89 +124,47 @@ deleteContents self
   = liftDOM (void (self ^. jsf "deleteContents" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
-extractContents ::
-                (MonadDOM m) => Range -> m (Maybe DocumentFragment)
+extractContents :: (MonadDOM m) => Range -> m DocumentFragment
 extractContents self
-  = liftDOM ((self ^. jsf "extractContents" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "extractContents" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
 extractContents_ :: (MonadDOM m) => Range -> m ()
 extractContents_ self
   = liftDOM (void (self ^. jsf "extractContents" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
-extractContentsUnsafe ::
-                      (MonadDOM m, HasCallStack) => Range -> m DocumentFragment
-extractContentsUnsafe self
-  = liftDOM
-      (((self ^. jsf "extractContents" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.extractContents Mozilla Range.extractContents documentation> 
-extractContentsUnchecked ::
-                         (MonadDOM m) => Range -> m DocumentFragment
-extractContentsUnchecked self
-  = liftDOM
-      ((self ^. jsf "extractContents" ()) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
-cloneContents ::
-              (MonadDOM m) => Range -> m (Maybe DocumentFragment)
+cloneContents :: (MonadDOM m) => Range -> m DocumentFragment
 cloneContents self
-  = liftDOM ((self ^. jsf "cloneContents" ()) >>= fromJSVal)
+  = liftDOM ((self ^. jsf "cloneContents" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
 cloneContents_ :: (MonadDOM m) => Range -> m ()
 cloneContents_ self
   = liftDOM (void (self ^. jsf "cloneContents" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
-cloneContentsUnsafe ::
-                    (MonadDOM m, HasCallStack) => Range -> m DocumentFragment
-cloneContentsUnsafe self
-  = liftDOM
-      (((self ^. jsf "cloneContents" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneContents Mozilla Range.cloneContents documentation> 
-cloneContentsUnchecked ::
-                       (MonadDOM m) => Range -> m DocumentFragment
-cloneContentsUnchecked self
-  = liftDOM ((self ^. jsf "cloneContents" ()) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.insertNode Mozilla Range.insertNode documentation> 
 insertNode ::
-           (MonadDOM m, IsNode newNode) => Range -> Maybe newNode -> m ()
+           (MonadDOM m, IsNode newNode) => Range -> newNode -> m ()
 insertNode self newNode
   = liftDOM (void (self ^. jsf "insertNode" [toJSVal newNode]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.surroundContents Mozilla Range.surroundContents documentation> 
 surroundContents ::
-                 (MonadDOM m, IsNode newParent) => Range -> Maybe newParent -> m ()
+                 (MonadDOM m, IsNode newParent) => Range -> newParent -> m ()
 surroundContents self newParent
   = liftDOM
       (void (self ^. jsf "surroundContents" [toJSVal newParent]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
-cloneRange :: (MonadDOM m) => Range -> m (Maybe Range)
+cloneRange :: (MonadDOM m) => Range -> m Range
 cloneRange self
-  = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSVal)
+  = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
 cloneRange_ :: (MonadDOM m) => Range -> m ()
 cloneRange_ self = liftDOM (void (self ^. jsf "cloneRange" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
-cloneRangeUnsafe :: (MonadDOM m, HasCallStack) => Range -> m Range
-cloneRangeUnsafe self
-  = liftDOM
-      (((self ^. jsf "cloneRange" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.cloneRange Mozilla Range.cloneRange documentation> 
-cloneRangeUnchecked :: (MonadDOM m) => Range -> m Range
-cloneRangeUnchecked self
-  = liftDOM ((self ^. jsf "cloneRange" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.toString Mozilla Range.toString documentation> 
 toString :: (MonadDOM m, FromJSString result) => Range -> m result
@@ -227,64 +180,35 @@ detach :: (MonadDOM m) => Range -> m ()
 detach self = liftDOM (void (self ^. jsf "detach" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
-getClientRects :: (MonadDOM m) => Range -> m (Maybe ClientRectList)
+getClientRects :: (MonadDOM m) => Range -> m ClientRectList
 getClientRects self
-  = liftDOM ((self ^. jsf "getClientRects" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "getClientRects" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
 getClientRects_ :: (MonadDOM m) => Range -> m ()
 getClientRects_ self
   = liftDOM (void (self ^. jsf "getClientRects" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
-getClientRectsUnsafe ::
-                     (MonadDOM m, HasCallStack) => Range -> m ClientRectList
-getClientRectsUnsafe self
-  = liftDOM
-      (((self ^. jsf "getClientRects" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getClientRects Mozilla Range.getClientRects documentation> 
-getClientRectsUnchecked ::
-                        (MonadDOM m) => Range -> m ClientRectList
-getClientRectsUnchecked self
-  = liftDOM
-      ((self ^. jsf "getClientRects" ()) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
-getBoundingClientRect ::
-                      (MonadDOM m) => Range -> m (Maybe ClientRect)
+getBoundingClientRect :: (MonadDOM m) => Range -> m ClientRect
 getBoundingClientRect self
-  = liftDOM ((self ^. jsf "getBoundingClientRect" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "getBoundingClientRect" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
 getBoundingClientRect_ :: (MonadDOM m) => Range -> m ()
 getBoundingClientRect_ self
   = liftDOM (void (self ^. jsf "getBoundingClientRect" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
-getBoundingClientRectUnsafe ::
-                            (MonadDOM m, HasCallStack) => Range -> m ClientRect
-getBoundingClientRectUnsafe self
-  = liftDOM
-      (((self ^. jsf "getBoundingClientRect" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.getBoundingClientRect Mozilla Range.getBoundingClientRect documentation> 
-getBoundingClientRectUnchecked ::
-                               (MonadDOM m) => Range -> m ClientRect
-getBoundingClientRectUnchecked self
-  = liftDOM
-      ((self ^. jsf "getBoundingClientRect" ()) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
 createContextualFragment ::
                          (MonadDOM m, ToJSString html) =>
-                           Range -> html -> m (Maybe DocumentFragment)
+                           Range -> html -> m DocumentFragment
 createContextualFragment self html
   = liftDOM
       ((self ^. jsf "createContextualFragment" [toJSVal html]) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
 createContextualFragment_ ::
@@ -293,41 +217,9 @@ createContextualFragment_ self html
   = liftDOM
       (void (self ^. jsf "createContextualFragment" [toJSVal html]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
-createContextualFragmentUnsafe ::
-                               (MonadDOM m, ToJSString html, HasCallStack) =>
-                                 Range -> html -> m DocumentFragment
-createContextualFragmentUnsafe self html
-  = liftDOM
-      (((self ^. jsf "createContextualFragment" [toJSVal html]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.createContextualFragment Mozilla Range.createContextualFragment documentation> 
-createContextualFragmentUnchecked ::
-                                  (MonadDOM m, ToJSString html) =>
-                                    Range -> html -> m DocumentFragment
-createContextualFragmentUnchecked self html
-  = liftDOM
-      ((self ^. jsf "createContextualFragment" [toJSVal html]) >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.intersectsNode Mozilla Range.intersectsNode documentation> 
-intersectsNode ::
-               (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m Bool
-intersectsNode self refNode
-  = liftDOM
-      ((self ^. jsf "intersectsNode" [toJSVal refNode]) >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.intersectsNode Mozilla Range.intersectsNode documentation> 
-intersectsNode_ ::
-                (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
-intersectsNode_ self refNode
-  = liftDOM (void (self ^. jsf "intersectsNode" [toJSVal refNode]))
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareNode Mozilla Range.compareNode documentation> 
 compareNode ::
-            (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m Int
+            (MonadDOM m, IsNode refNode) => Range -> refNode -> m Int
 compareNode self refNode
   = liftDOM
       (round <$>
@@ -335,14 +227,26 @@ compareNode self refNode
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.compareNode Mozilla Range.compareNode documentation> 
 compareNode_ ::
-             (MonadDOM m, IsNode refNode) => Range -> Maybe refNode -> m ()
+             (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
 compareNode_ self refNode
   = liftDOM (void (self ^. jsf "compareNode" [toJSVal refNode]))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.intersectsNode Mozilla Range.intersectsNode documentation> 
+intersectsNode ::
+               (MonadDOM m, IsNode refNode) => Range -> refNode -> m Bool
+intersectsNode self refNode
+  = liftDOM
+      ((self ^. jsf "intersectsNode" [toJSVal refNode]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.intersectsNode Mozilla Range.intersectsNode documentation> 
+intersectsNode_ ::
+                (MonadDOM m, IsNode refNode) => Range -> refNode -> m ()
+intersectsNode_ self refNode
+  = liftDOM (void (self ^. jsf "intersectsNode" [toJSVal refNode]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.comparePoint Mozilla Range.comparePoint documentation> 
 comparePoint ::
-             (MonadDOM m, IsNode refNode) =>
-               Range -> Maybe refNode -> Int -> m Int
+             (MonadDOM m, IsNode refNode) => Range -> refNode -> Word -> m Int
 comparePoint self refNode offset
   = liftDOM
       (round <$>
@@ -351,8 +255,7 @@ comparePoint self refNode offset
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.comparePoint Mozilla Range.comparePoint documentation> 
 comparePoint_ ::
-              (MonadDOM m, IsNode refNode) =>
-                Range -> Maybe refNode -> Int -> m ()
+              (MonadDOM m, IsNode refNode) => Range -> refNode -> Word -> m ()
 comparePoint_ self refNode offset
   = liftDOM
       (void
@@ -360,8 +263,7 @@ comparePoint_ self refNode offset
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.isPointInRange Mozilla Range.isPointInRange documentation> 
 isPointInRange ::
-               (MonadDOM m, IsNode refNode) =>
-                 Range -> Maybe refNode -> Int -> m Bool
+               (MonadDOM m, IsNode refNode) => Range -> refNode -> Word -> m Bool
 isPointInRange self refNode offset
   = liftDOM
       ((self ^. jsf "isPointInRange" [toJSVal refNode, toJSVal offset])
@@ -369,17 +271,11 @@ isPointInRange self refNode offset
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.isPointInRange Mozilla Range.isPointInRange documentation> 
 isPointInRange_ ::
-                (MonadDOM m, IsNode refNode) =>
-                  Range -> Maybe refNode -> Int -> m ()
+                (MonadDOM m, IsNode refNode) => Range -> refNode -> Word -> m ()
 isPointInRange_ self refNode offset
   = liftDOM
       (void
          (self ^. jsf "isPointInRange" [toJSVal refNode, toJSVal offset]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.expand Mozilla Range.expand documentation> 
-expand :: (MonadDOM m, ToJSString unit) => Range -> unit -> m ()
-expand self unit
-  = liftDOM (void (self ^. jsf "expand" [toJSVal unit]))
 pattern START_TO_START = 0
 pattern START_TO_END = 1
 pattern END_TO_END = 2
@@ -390,21 +286,8 @@ pattern NODE_BEFORE_AND_AFTER = 2
 pattern NODE_INSIDE = 3
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startContainer Mozilla Range.startContainer documentation> 
-getStartContainer :: (MonadDOM m) => Range -> m (Maybe Node)
+getStartContainer :: (MonadDOM m) => Range -> m Node
 getStartContainer self
-  = liftDOM ((self ^. js "startContainer") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startContainer Mozilla Range.startContainer documentation> 
-getStartContainerUnsafe ::
-                        (MonadDOM m, HasCallStack) => Range -> m Node
-getStartContainerUnsafe self
-  = liftDOM
-      (((self ^. js "startContainer") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startContainer Mozilla Range.startContainer documentation> 
-getStartContainerUnchecked :: (MonadDOM m) => Range -> m Node
-getStartContainerUnchecked self
   = liftDOM ((self ^. js "startContainer") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.startOffset Mozilla Range.startOffset documentation> 
@@ -413,21 +296,8 @@ getStartOffset self
   = liftDOM (round <$> ((self ^. js "startOffset") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endContainer Mozilla Range.endContainer documentation> 
-getEndContainer :: (MonadDOM m) => Range -> m (Maybe Node)
+getEndContainer :: (MonadDOM m) => Range -> m Node
 getEndContainer self
-  = liftDOM ((self ^. js "endContainer") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endContainer Mozilla Range.endContainer documentation> 
-getEndContainerUnsafe ::
-                      (MonadDOM m, HasCallStack) => Range -> m Node
-getEndContainerUnsafe self
-  = liftDOM
-      (((self ^. js "endContainer") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endContainer Mozilla Range.endContainer documentation> 
-getEndContainerUnchecked :: (MonadDOM m) => Range -> m Node
-getEndContainerUnchecked self
   = liftDOM ((self ^. js "endContainer") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.endOffset Mozilla Range.endOffset documentation> 
@@ -441,22 +311,7 @@ getCollapsed self
   = liftDOM ((self ^. js "collapsed") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.commonAncestorContainer Mozilla Range.commonAncestorContainer documentation> 
-getCommonAncestorContainer ::
-                           (MonadDOM m) => Range -> m (Maybe Node)
+getCommonAncestorContainer :: (MonadDOM m) => Range -> m Node
 getCommonAncestorContainer self
-  = liftDOM ((self ^. js "commonAncestorContainer") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.commonAncestorContainer Mozilla Range.commonAncestorContainer documentation> 
-getCommonAncestorContainerUnsafe ::
-                                 (MonadDOM m, HasCallStack) => Range -> m Node
-getCommonAncestorContainerUnsafe self
-  = liftDOM
-      (((self ^. js "commonAncestorContainer") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Range.commonAncestorContainer Mozilla Range.commonAncestorContainer documentation> 
-getCommonAncestorContainerUnchecked ::
-                                    (MonadDOM m) => Range -> m Node
-getCommonAncestorContainerUnchecked self
   = liftDOM
       ((self ^. js "commonAncestorContainer") >>= fromJSValUnchecked)

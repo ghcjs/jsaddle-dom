@@ -3,16 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLAreaElement
-       (setAlt, getAlt, setCoords, getCoords, setHref, getHref, setNoHref,
-        getNoHref, setPing, getPing, setRel, getRel, setShape, getShape,
-        setTarget, getTarget, getHash, getHost, getHostname, getPathname,
-        getPort, getProtocol, getSearch, getRelList, getRelListUnsafe,
-        getRelListUnchecked, HTMLAreaElement(..), gTypeHTMLAreaElement)
+       (setAlt, getAlt, setCoords, getCoords, setNoHref, getNoHref,
+        setPing, getPing, setRel, getRel, setShape, getShape, setTarget,
+        getTarget, setDownload, getDownload, getRelList,
+        HTMLAreaElement(..), gTypeHTMLAreaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -42,16 +42,6 @@ getCoords ::
           (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
 getCoords self
   = liftDOM ((self ^. js "coords") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.href Mozilla HTMLAreaElement.href documentation> 
-setHref ::
-        (MonadDOM m, ToJSString val) => HTMLAreaElement -> val -> m ()
-setHref self val = liftDOM (self ^. jss "href" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.href Mozilla HTMLAreaElement.href documentation> 
-getHref ::
-        (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getHref self = liftDOM ((self ^. js "href") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.noHref Mozilla HTMLAreaElement.noHref documentation> 
 setNoHref :: (MonadDOM m) => HTMLAreaElement -> Bool -> m ()
@@ -103,60 +93,19 @@ getTarget ::
 getTarget self
   = liftDOM ((self ^. js "target") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.hash Mozilla HTMLAreaElement.hash documentation> 
-getHash ::
-        (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getHash self = liftDOM ((self ^. js "hash") >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.download Mozilla HTMLAreaElement.download documentation> 
+setDownload ::
+            (MonadDOM m, ToJSString val) => HTMLAreaElement -> val -> m ()
+setDownload self val
+  = liftDOM (self ^. jss "download" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.host Mozilla HTMLAreaElement.host documentation> 
-getHost ::
-        (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getHost self = liftDOM ((self ^. js "host") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.hostname Mozilla HTMLAreaElement.hostname documentation> 
-getHostname ::
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.download Mozilla HTMLAreaElement.download documentation> 
+getDownload ::
             (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getHostname self
-  = liftDOM ((self ^. js "hostname") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.pathname Mozilla HTMLAreaElement.pathname documentation> 
-getPathname ::
-            (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getPathname self
-  = liftDOM ((self ^. js "pathname") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.port Mozilla HTMLAreaElement.port documentation> 
-getPort ::
-        (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getPort self = liftDOM ((self ^. js "port") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.protocol Mozilla HTMLAreaElement.protocol documentation> 
-getProtocol ::
-            (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getProtocol self
-  = liftDOM ((self ^. js "protocol") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.search Mozilla HTMLAreaElement.search documentation> 
-getSearch ::
-          (MonadDOM m, FromJSString result) => HTMLAreaElement -> m result
-getSearch self
-  = liftDOM ((self ^. js "search") >>= fromJSValUnchecked)
+getDownload self
+  = liftDOM ((self ^. js "download") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.relList Mozilla HTMLAreaElement.relList documentation> 
-getRelList ::
-           (MonadDOM m) => HTMLAreaElement -> m (Maybe DOMTokenList)
-getRelList self = liftDOM ((self ^. js "relList") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.relList Mozilla HTMLAreaElement.relList documentation> 
-getRelListUnsafe ::
-                 (MonadDOM m, HasCallStack) => HTMLAreaElement -> m DOMTokenList
-getRelListUnsafe self
-  = liftDOM
-      (((self ^. js "relList") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement.relList Mozilla HTMLAreaElement.relList documentation> 
-getRelListUnchecked ::
-                    (MonadDOM m) => HTMLAreaElement -> m DOMTokenList
-getRelListUnchecked self
+getRelList :: (MonadDOM m) => HTMLAreaElement -> m DOMTokenList
+getRelList self
   = liftDOM ((self ^. js "relList") >>= fromJSValUnchecked)

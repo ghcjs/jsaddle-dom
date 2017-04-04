@@ -5,14 +5,15 @@
 module JSDOM.Generated.FileReader
        (newFileReader, readAsArrayBuffer, readAsBinaryString, readAsText,
         readAsDataURL, abort, pattern EMPTY, pattern LOADING, pattern DONE,
-        getReadyState, getResult, getError, getErrorUnsafe,
-        getErrorUnchecked, loadStart, progress, load, abortEvent, error,
-        loadEnd, FileReader(..), gTypeFileReader)
+        getReadyState, getResult, getResultUnsafe, getResultUnchecked,
+        getError, loadStart, progress, load, abortEvent, error, loadEnd,
+        FileReader(..), gTypeFileReader)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -41,7 +42,7 @@ readAsBinaryString self blob
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.readAsText Mozilla FileReader.readAsText documentation> 
 readAsText ::
            (MonadDOM m, IsBlob blob, ToJSString encoding) =>
-             FileReader -> Maybe blob -> encoding -> m ()
+             FileReader -> Maybe blob -> Maybe encoding -> m ()
 readAsText self blob encoding
   = liftDOM
       (void (self ^. jsf "readAsText" [toJSVal blob, toJSVal encoding]))
@@ -65,24 +66,27 @@ getReadyState self
   = liftDOM (round <$> ((self ^. js "readyState") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.result Mozilla FileReader.result documentation> 
-getResult :: (MonadDOM m) => FileReader -> m JSVal
-getResult self = liftDOM ((self ^. js "result") >>= toJSVal)
+getResult ::
+          (MonadDOM m) => FileReader -> m (Maybe StringOrArrayBuffer)
+getResult self = liftDOM ((self ^. js "result") >>= fromJSVal)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
-getError :: (MonadDOM m) => FileReader -> m (Maybe FileError)
-getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
-getErrorUnsafe ::
-               (MonadDOM m, HasCallStack) => FileReader -> m FileError
-getErrorUnsafe self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.result Mozilla FileReader.result documentation> 
+getResultUnsafe ::
+                (MonadDOM m, HasCallStack) => FileReader -> m StringOrArrayBuffer
+getResultUnsafe self
   = liftDOM
-      (((self ^. js "error") >>= fromJSVal) >>=
+      (((self ^. js "result") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.result Mozilla FileReader.result documentation> 
+getResultUnchecked ::
+                   (MonadDOM m) => FileReader -> m StringOrArrayBuffer
+getResultUnchecked self
+  = liftDOM ((self ^. js "result") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.error Mozilla FileReader.error documentation> 
-getErrorUnchecked :: (MonadDOM m) => FileReader -> m FileError
-getErrorUnchecked self
+getError :: (MonadDOM m) => FileReader -> m FileError
+getError self
   = liftDOM ((self ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FileReader.onloadstart Mozilla FileReader.onloadstart documentation> 

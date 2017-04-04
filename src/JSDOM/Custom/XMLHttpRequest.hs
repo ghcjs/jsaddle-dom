@@ -26,6 +26,7 @@ import JSDOM.Types
 import JSDOM.EventM (on)
 
 import JSDOM.Generated.XMLHttpRequest as Generated hiding (send)
+import JSDOM.Generated.XMLHttpRequestEventTarget as Generated
 import Control.Monad (void)
 
 data XHRError = XHRError

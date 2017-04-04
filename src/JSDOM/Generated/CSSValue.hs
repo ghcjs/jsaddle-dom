@@ -11,7 +11,8 @@ module JSDOM.Generated.CSSValue
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -37,8 +38,7 @@ getCssText ::
            (MonadDOM m, IsCSSValue self, FromJSString result) =>
              self -> m (Maybe result)
 getCssText self
-  = liftDOM
-      (((toCSSValue self) ^. js "cssText") >>= fromMaybeJSString)
+  = liftDOM (((toCSSValue self) ^. js "cssText") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValue.cssText Mozilla CSSValue.cssText documentation> 
 getCssTextUnsafe ::
@@ -46,7 +46,7 @@ getCssTextUnsafe ::
                    self -> m result
 getCssTextUnsafe self
   = liftDOM
-      ((((toCSSValue self) ^. js "cssText") >>= fromMaybeJSString) >>=
+      ((((toCSSValue self) ^. js "cssText") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValue.cssText Mozilla CSSValue.cssText documentation> 

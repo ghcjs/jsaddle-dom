@@ -5,26 +5,24 @@
 module JSDOM.Generated.MediaControlsHost
        (sortedTrackListForMenu, sortedTrackListForMenu_,
         sortedTrackListForMenuAudio, sortedTrackListForMenuAudio_,
-        displayNameForTrack, displayNameForTrack_,
-        displayNameForTrackAudio, displayNameForTrackAudio_,
-        setSelectedTextTrack, updateTextTrackContainer, enteredFullscreen,
-        exitedFullscreen, enterFullscreenOptimized, mediaUIImageData,
-        mediaUIImageData_, getCaptionMenuOffItem,
-        getCaptionMenuOffItemUnsafe, getCaptionMenuOffItemUnchecked,
-        getCaptionMenuAutomaticItem, getCaptionMenuAutomaticItemUnsafe,
-        getCaptionMenuAutomaticItemUnchecked, getCaptionDisplayMode,
-        getTextTrackContainer, getTextTrackContainerUnsafe,
-        getTextTrackContainerUnchecked, getMediaPlaybackAllowsInline,
-        getSupportsFullscreen, getUserGestureRequired,
-        getExternalDeviceDisplayName, getExternalDeviceType,
-        setControlsDependOnPageScaleFactor,
-        getControlsDependOnPageScaleFactor, MediaControlsHost(..),
-        gTypeMediaControlsHost)
+        displayNameForTrack, displayNameForTrack_, setSelectedTextTrack,
+        setPreparedToReturnVideoLayerToInline, updateTextTrackContainer,
+        enteredFullscreen, exitedFullscreen, generateUUID, generateUUID_,
+        base64StringForIconAndPlatform, base64StringForIconAndPlatform_,
+        getCaptionMenuOffItem, getCaptionMenuAutomaticItem,
+        getCaptionDisplayMode, getTextTrackContainer,
+        getAllowsInlineMediaPlayback, getSupportsFullscreen,
+        getIsVideoLayerInline, getUserGestureRequired,
+        getIsInMediaDocument, getExternalDeviceDisplayName,
+        getExternalDeviceType, setControlsDependOnPageScaleFactor,
+        getControlsDependOnPageScaleFactor, getShadowRootCSSText,
+        MediaControlsHost(..), gTypeMediaControlsHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -36,16 +34,15 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
 sortedTrackListForMenu ::
-                       (MonadDOM m) =>
-                         MediaControlsHost -> Maybe TextTrackList -> m [Maybe TextTrack]
+                       (MonadDOM m) => MediaControlsHost -> TextTrackList -> m [TextTrack]
 sortedTrackListForMenu self trackList
   = liftDOM
       ((self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]) >>=
-         fromJSArray)
+         fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
 sortedTrackListForMenu_ ::
-                        (MonadDOM m) => MediaControlsHost -> Maybe TextTrackList -> m ()
+                        (MonadDOM m) => MediaControlsHost -> TextTrackList -> m ()
 sortedTrackListForMenu_ self trackList
   = liftDOM
       (void (self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]))
@@ -53,23 +50,23 @@ sortedTrackListForMenu_ self trackList
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
 sortedTrackListForMenuAudio ::
                             (MonadDOM m) =>
-                              MediaControlsHost -> Maybe AudioTrackList -> m [Maybe AudioTrack]
+                              MediaControlsHost -> AudioTrackList -> m [AudioTrack]
 sortedTrackListForMenuAudio self trackList
   = liftDOM
       ((self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]) >>=
-         fromJSArray)
+         fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.sortedTrackListForMenu Mozilla MediaControlsHost.sortedTrackListForMenu documentation> 
 sortedTrackListForMenuAudio_ ::
-                             (MonadDOM m) => MediaControlsHost -> Maybe AudioTrackList -> m ()
+                             (MonadDOM m) => MediaControlsHost -> AudioTrackList -> m ()
 sortedTrackListForMenuAudio_ self trackList
   = liftDOM
       (void (self ^. jsf "sortedTrackListForMenu" [toJSVal trackList]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
 displayNameForTrack ::
-                    (MonadDOM m, FromJSString result) =>
-                      MediaControlsHost -> Maybe TextTrack -> m result
+                    (MonadDOM m, IsTrack track, FromJSString result) =>
+                      MediaControlsHost -> Maybe track -> m result
 displayNameForTrack self track
   = liftDOM
       ((self ^. jsf "displayNameForTrack" [toJSVal track]) >>=
@@ -77,24 +74,9 @@ displayNameForTrack self track
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
 displayNameForTrack_ ::
-                     (MonadDOM m) => MediaControlsHost -> Maybe TextTrack -> m ()
+                     (MonadDOM m, IsTrack track) =>
+                       MediaControlsHost -> Maybe track -> m ()
 displayNameForTrack_ self track
-  = liftDOM
-      (void (self ^. jsf "displayNameForTrack" [toJSVal track]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
-displayNameForTrackAudio ::
-                         (MonadDOM m, FromJSString result) =>
-                           MediaControlsHost -> Maybe AudioTrack -> m result
-displayNameForTrackAudio self track
-  = liftDOM
-      ((self ^. jsf "displayNameForTrack" [toJSVal track]) >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.displayNameForTrack Mozilla MediaControlsHost.displayNameForTrack documentation> 
-displayNameForTrackAudio_ ::
-                          (MonadDOM m) => MediaControlsHost -> Maybe AudioTrack -> m ()
-displayNameForTrackAudio_ self track
   = liftDOM
       (void (self ^. jsf "displayNameForTrack" [toJSVal track]))
 
@@ -104,6 +86,15 @@ setSelectedTextTrack ::
 setSelectedTextTrack self track
   = liftDOM
       (void (self ^. jsf "setSelectedTextTrack" [toJSVal track]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.setPreparedToReturnVideoLayerToInline Mozilla MediaControlsHost.setPreparedToReturnVideoLayerToInline documentation> 
+setPreparedToReturnVideoLayerToInline ::
+                                      (MonadDOM m) => MediaControlsHost -> Bool -> m ()
+setPreparedToReturnVideoLayerToInline self prepared
+  = liftDOM
+      (void
+         (self ^. jsf "setPreparedToReturnVideoLayerToInline"
+            [toJSVal prepared]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.updateTextTrackContainer Mozilla MediaControlsHost.updateTextTrackContainer documentation> 
 updateTextTrackContainer ::
@@ -121,66 +112,48 @@ exitedFullscreen :: (MonadDOM m) => MediaControlsHost -> m ()
 exitedFullscreen self
   = liftDOM (void (self ^. jsf "exitedFullscreen" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.enterFullscreenOptimized Mozilla MediaControlsHost.enterFullscreenOptimized documentation> 
-enterFullscreenOptimized ::
-                         (MonadDOM m) => MediaControlsHost -> m ()
-enterFullscreenOptimized self
-  = liftDOM (void (self ^. jsf "enterFullscreenOptimized" ()))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.generateUUID Mozilla MediaControlsHost.generateUUID documentation> 
+generateUUID ::
+             (MonadDOM m, FromJSString result) => MediaControlsHost -> m result
+generateUUID self
+  = liftDOM ((self ^. jsf "generateUUID" ()) >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.mediaUIImageData Mozilla MediaControlsHost.mediaUIImageData documentation> 
-mediaUIImageData ::
-                 (MonadDOM m, FromJSString result) =>
-                   MediaControlsHost -> MediaUIPartID -> m result
-mediaUIImageData self partID
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.generateUUID Mozilla MediaControlsHost.generateUUID documentation> 
+generateUUID_ :: (MonadDOM m) => MediaControlsHost -> m ()
+generateUUID_ self = liftDOM (void (self ^. jsf "generateUUID" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.base64StringForIconAndPlatform Mozilla MediaControlsHost.base64StringForIconAndPlatform documentation> 
+base64StringForIconAndPlatform ::
+                               (MonadDOM m, ToJSString iconName, ToJSString platform,
+                                FromJSString result) =>
+                                 MediaControlsHost -> iconName -> platform -> m result
+base64StringForIconAndPlatform self iconName platform
   = liftDOM
-      ((self ^. jsf "mediaUIImageData" [toJSVal partID]) >>=
-         fromJSValUnchecked)
+      ((self ^. jsf "base64StringForIconAndPlatform"
+          [toJSVal iconName, toJSVal platform])
+         >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.mediaUIImageData Mozilla MediaControlsHost.mediaUIImageData documentation> 
-mediaUIImageData_ ::
-                  (MonadDOM m) => MediaControlsHost -> MediaUIPartID -> m ()
-mediaUIImageData_ self partID
-  = liftDOM (void (self ^. jsf "mediaUIImageData" [toJSVal partID]))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.base64StringForIconAndPlatform Mozilla MediaControlsHost.base64StringForIconAndPlatform documentation> 
+base64StringForIconAndPlatform_ ::
+                                (MonadDOM m, ToJSString iconName, ToJSString platform) =>
+                                  MediaControlsHost -> iconName -> platform -> m ()
+base64StringForIconAndPlatform_ self iconName platform
+  = liftDOM
+      (void
+         (self ^. jsf "base64StringForIconAndPlatform"
+            [toJSVal iconName, toJSVal platform]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
 getCaptionMenuOffItem ::
-                      (MonadDOM m) => MediaControlsHost -> m (Maybe TextTrack)
+                      (MonadDOM m) => MediaControlsHost -> m TextTrack
 getCaptionMenuOffItem self
-  = liftDOM ((self ^. js "captionMenuOffItem") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
-getCaptionMenuOffItemUnsafe ::
-                            (MonadDOM m, HasCallStack) => MediaControlsHost -> m TextTrack
-getCaptionMenuOffItemUnsafe self
-  = liftDOM
-      (((self ^. js "captionMenuOffItem") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
-getCaptionMenuOffItemUnchecked ::
-                               (MonadDOM m) => MediaControlsHost -> m TextTrack
-getCaptionMenuOffItemUnchecked self
   = liftDOM
       ((self ^. js "captionMenuOffItem") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
 getCaptionMenuAutomaticItem ::
-                            (MonadDOM m) => MediaControlsHost -> m (Maybe TextTrack)
+                            (MonadDOM m) => MediaControlsHost -> m TextTrack
 getCaptionMenuAutomaticItem self
-  = liftDOM ((self ^. js "captionMenuAutomaticItem") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
-getCaptionMenuAutomaticItemUnsafe ::
-                                  (MonadDOM m, HasCallStack) => MediaControlsHost -> m TextTrack
-getCaptionMenuAutomaticItemUnsafe self
-  = liftDOM
-      (((self ^. js "captionMenuAutomaticItem") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuAutomaticItem Mozilla MediaControlsHost.captionMenuAutomaticItem documentation> 
-getCaptionMenuAutomaticItemUnchecked ::
-                                     (MonadDOM m) => MediaControlsHost -> m TextTrack
-getCaptionMenuAutomaticItemUnchecked self
   = liftDOM
       ((self ^. js "captionMenuAutomaticItem") >>= fromJSValUnchecked)
 
@@ -193,30 +166,16 @@ getCaptionDisplayMode self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.textTrackContainer Mozilla MediaControlsHost.textTrackContainer documentation> 
 getTextTrackContainer ::
-                      (MonadDOM m) => MediaControlsHost -> m (Maybe HTMLElement)
+                      (MonadDOM m) => MediaControlsHost -> m HTMLElement
 getTextTrackContainer self
-  = liftDOM ((self ^. js "textTrackContainer") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.textTrackContainer Mozilla MediaControlsHost.textTrackContainer documentation> 
-getTextTrackContainerUnsafe ::
-                            (MonadDOM m, HasCallStack) => MediaControlsHost -> m HTMLElement
-getTextTrackContainerUnsafe self
-  = liftDOM
-      (((self ^. js "textTrackContainer") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.textTrackContainer Mozilla MediaControlsHost.textTrackContainer documentation> 
-getTextTrackContainerUnchecked ::
-                               (MonadDOM m) => MediaControlsHost -> m HTMLElement
-getTextTrackContainerUnchecked self
   = liftDOM
       ((self ^. js "textTrackContainer") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.mediaPlaybackAllowsInline Mozilla MediaControlsHost.mediaPlaybackAllowsInline documentation> 
-getMediaPlaybackAllowsInline ::
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.allowsInlineMediaPlayback Mozilla MediaControlsHost.allowsInlineMediaPlayback documentation> 
+getAllowsInlineMediaPlayback ::
                              (MonadDOM m) => MediaControlsHost -> m Bool
-getMediaPlaybackAllowsInline self
-  = liftDOM ((self ^. js "mediaPlaybackAllowsInline") >>= valToBool)
+getAllowsInlineMediaPlayback self
+  = liftDOM ((self ^. js "allowsInlineMediaPlayback") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.supportsFullscreen Mozilla MediaControlsHost.supportsFullscreen documentation> 
 getSupportsFullscreen ::
@@ -224,11 +183,22 @@ getSupportsFullscreen ::
 getSupportsFullscreen self
   = liftDOM ((self ^. js "supportsFullscreen") >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.isVideoLayerInline Mozilla MediaControlsHost.isVideoLayerInline documentation> 
+getIsVideoLayerInline ::
+                      (MonadDOM m) => MediaControlsHost -> m Bool
+getIsVideoLayerInline self
+  = liftDOM ((self ^. js "isVideoLayerInline") >>= valToBool)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.userGestureRequired Mozilla MediaControlsHost.userGestureRequired documentation> 
 getUserGestureRequired ::
                        (MonadDOM m) => MediaControlsHost -> m Bool
 getUserGestureRequired self
   = liftDOM ((self ^. js "userGestureRequired") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.isInMediaDocument Mozilla MediaControlsHost.isInMediaDocument documentation> 
+getIsInMediaDocument :: (MonadDOM m) => MediaControlsHost -> m Bool
+getIsInMediaDocument self
+  = liftDOM ((self ^. js "isInMediaDocument") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.externalDeviceDisplayName Mozilla MediaControlsHost.externalDeviceDisplayName documentation> 
 getExternalDeviceDisplayName ::
@@ -257,3 +227,9 @@ getControlsDependOnPageScaleFactor ::
 getControlsDependOnPageScaleFactor self
   = liftDOM
       ((self ^. js "controlsDependOnPageScaleFactor") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.shadowRootCSSText Mozilla MediaControlsHost.shadowRootCSSText documentation> 
+getShadowRootCSSText ::
+                     (MonadDOM m, FromJSString result) => MediaControlsHost -> m result
+getShadowRootCSSText self
+  = liftDOM ((self ^. js "shadowRootCSSText") >>= fromJSValUnchecked)

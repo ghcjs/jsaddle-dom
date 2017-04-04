@@ -3,14 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WorkerLocation
-       (toString, toString_, getHref, getProtocol, getHost, getHostname,
-        getPort, getPathname, getSearch, getHash, WorkerLocation(..),
+       (getHref, getProtocol, getHost, getHostname, getPort, getPathname,
+        getSearch, getHash, getOrigin, WorkerLocation(..),
         gTypeWorkerLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -19,16 +20,6 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.toString Mozilla WorkerLocation.toString documentation> 
-toString ::
-         (MonadDOM m, FromJSString result) => WorkerLocation -> m result
-toString self
-  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.toString Mozilla WorkerLocation.toString documentation> 
-toString_ :: (MonadDOM m) => WorkerLocation -> m ()
-toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.href Mozilla WorkerLocation.href documentation> 
 getHref ::
@@ -73,3 +64,9 @@ getSearch self
 getHash ::
         (MonadDOM m, FromJSString result) => WorkerLocation -> m result
 getHash self = liftDOM ((self ^. js "hash") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation.origin Mozilla WorkerLocation.origin documentation> 
+getOrigin ::
+          (MonadDOM m, FromJSString result) => WorkerLocation -> m result
+getOrigin self
+  = liftDOM ((self ^. js "origin") >>= fromJSValUnchecked)

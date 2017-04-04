@@ -3,24 +3,23 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleDeclaration
-       (getPropertyValue, getPropertyValue_, getPropertyValueUnsafe,
-        getPropertyValueUnchecked, getPropertyCSSValue,
+       (getPropertyValue, getPropertyValue_, getPropertyCSSValue,
         getPropertyCSSValue_, getPropertyCSSValueUnsafe,
         getPropertyCSSValueUnchecked, removeProperty, removeProperty_,
-        removePropertyUnsafe, removePropertyUnchecked, getPropertyPriority,
-        getPropertyPriority_, getPropertyPriorityUnsafe,
-        getPropertyPriorityUnchecked, setProperty, item, item_,
-        getPropertyShorthand, getPropertyShorthand_,
-        getPropertyShorthandUnsafe, getPropertyShorthandUnchecked,
-        isPropertyImplicit, isPropertyImplicit_, setCssText, getCssText,
-        getCssTextUnsafe, getCssTextUnchecked, getLength, getParentRule,
-        getParentRuleUnsafe, getParentRuleUnchecked,
+        getPropertyPriority, getPropertyPriority_,
+        getPropertyPriorityUnsafe, getPropertyPriorityUnchecked,
+        setProperty, item, item_, getPropertyShorthand,
+        getPropertyShorthand_, getPropertyShorthandUnsafe,
+        getPropertyShorthandUnchecked, isPropertyImplicit,
+        isPropertyImplicit_, setCssText, getCssText, getLength,
+        getParentRule, getParentRuleUnsafe, getParentRuleUnchecked,
         CSSStyleDeclaration(..), gTypeCSSStyleDeclaration)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -33,11 +32,11 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
 getPropertyValue ::
                  (MonadDOM m, ToJSString propertyName, FromJSString result) =>
-                   CSSStyleDeclaration -> propertyName -> m (Maybe result)
+                   CSSStyleDeclaration -> propertyName -> m result
 getPropertyValue self propertyName
   = liftDOM
       ((self ^. jsf "getPropertyValue" [toJSVal propertyName]) >>=
-         fromMaybeJSString)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
 getPropertyValue_ ::
@@ -46,26 +45,6 @@ getPropertyValue_ ::
 getPropertyValue_ self propertyName
   = liftDOM
       (void (self ^. jsf "getPropertyValue" [toJSVal propertyName]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
-getPropertyValueUnsafe ::
-                       (MonadDOM m, ToJSString propertyName, HasCallStack,
-                        FromJSString result) =>
-                         CSSStyleDeclaration -> propertyName -> m result
-getPropertyValueUnsafe self propertyName
-  = liftDOM
-      (((self ^. jsf "getPropertyValue" [toJSVal propertyName]) >>=
-          fromMaybeJSString)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyValue Mozilla CSSStyleDeclaration.getPropertyValue documentation> 
-getPropertyValueUnchecked ::
-                          (MonadDOM m, ToJSString propertyName, FromJSString result) =>
-                            CSSStyleDeclaration -> propertyName -> m result
-getPropertyValueUnchecked self propertyName
-  = liftDOM
-      ((self ^. jsf "getPropertyValue" [toJSVal propertyName]) >>=
-         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyCSSValue Mozilla CSSStyleDeclaration.getPropertyCSSValue documentation> 
 getPropertyCSSValue ::
@@ -106,11 +85,11 @@ getPropertyCSSValueUnchecked self propertyName
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.removeProperty Mozilla CSSStyleDeclaration.removeProperty documentation> 
 removeProperty ::
                (MonadDOM m, ToJSString propertyName, FromJSString result) =>
-                 CSSStyleDeclaration -> propertyName -> m (Maybe result)
+                 CSSStyleDeclaration -> propertyName -> m result
 removeProperty self propertyName
   = liftDOM
       ((self ^. jsf "removeProperty" [toJSVal propertyName]) >>=
-         fromMaybeJSString)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.removeProperty Mozilla CSSStyleDeclaration.removeProperty documentation> 
 removeProperty_ ::
@@ -120,26 +99,6 @@ removeProperty_ self propertyName
   = liftDOM
       (void (self ^. jsf "removeProperty" [toJSVal propertyName]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.removeProperty Mozilla CSSStyleDeclaration.removeProperty documentation> 
-removePropertyUnsafe ::
-                     (MonadDOM m, ToJSString propertyName, HasCallStack,
-                      FromJSString result) =>
-                       CSSStyleDeclaration -> propertyName -> m result
-removePropertyUnsafe self propertyName
-  = liftDOM
-      (((self ^. jsf "removeProperty" [toJSVal propertyName]) >>=
-          fromMaybeJSString)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.removeProperty Mozilla CSSStyleDeclaration.removeProperty documentation> 
-removePropertyUnchecked ::
-                        (MonadDOM m, ToJSString propertyName, FromJSString result) =>
-                          CSSStyleDeclaration -> propertyName -> m result
-removePropertyUnchecked self propertyName
-  = liftDOM
-      ((self ^. jsf "removeProperty" [toJSVal propertyName]) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
 getPropertyPriority ::
                     (MonadDOM m, ToJSString propertyName, FromJSString result) =>
@@ -147,7 +106,7 @@ getPropertyPriority ::
 getPropertyPriority self propertyName
   = liftDOM
       ((self ^. jsf "getPropertyPriority" [toJSVal propertyName]) >>=
-         fromMaybeJSString)
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
 getPropertyPriority_ ::
@@ -165,7 +124,7 @@ getPropertyPriorityUnsafe ::
 getPropertyPriorityUnsafe self propertyName
   = liftDOM
       (((self ^. jsf "getPropertyPriority" [toJSVal propertyName]) >>=
-          fromMaybeJSString)
+          fromJSVal)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
@@ -182,7 +141,7 @@ setProperty ::
             (MonadDOM m, ToJSString propertyName, ToJSString value,
              ToJSString priority) =>
               CSSStyleDeclaration ->
-                propertyName -> Maybe value -> priority -> m ()
+                propertyName -> Maybe value -> Maybe priority -> m ()
 setProperty self propertyName value priority
   = liftDOM
       (void
@@ -205,16 +164,16 @@ item_ self index
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 
 getPropertyShorthand ::
                      (MonadDOM m, ToJSString propertyName, FromJSString result) =>
-                       CSSStyleDeclaration -> propertyName -> m (Maybe result)
+                       CSSStyleDeclaration -> Maybe propertyName -> m (Maybe result)
 getPropertyShorthand self propertyName
   = liftDOM
       ((self ^. jsf "getPropertyShorthand" [toJSVal propertyName]) >>=
-         fromMaybeJSString)
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 
 getPropertyShorthand_ ::
                       (MonadDOM m, ToJSString propertyName) =>
-                        CSSStyleDeclaration -> propertyName -> m ()
+                        CSSStyleDeclaration -> Maybe propertyName -> m ()
 getPropertyShorthand_ self propertyName
   = liftDOM
       (void (self ^. jsf "getPropertyShorthand" [toJSVal propertyName]))
@@ -223,17 +182,17 @@ getPropertyShorthand_ self propertyName
 getPropertyShorthandUnsafe ::
                            (MonadDOM m, ToJSString propertyName, HasCallStack,
                             FromJSString result) =>
-                             CSSStyleDeclaration -> propertyName -> m result
+                             CSSStyleDeclaration -> Maybe propertyName -> m result
 getPropertyShorthandUnsafe self propertyName
   = liftDOM
       (((self ^. jsf "getPropertyShorthand" [toJSVal propertyName]) >>=
-          fromMaybeJSString)
+          fromJSVal)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 
 getPropertyShorthandUnchecked ::
                               (MonadDOM m, ToJSString propertyName, FromJSString result) =>
-                                CSSStyleDeclaration -> propertyName -> m result
+                                CSSStyleDeclaration -> Maybe propertyName -> m result
 getPropertyShorthandUnchecked self propertyName
   = liftDOM
       ((self ^. jsf "getPropertyShorthand" [toJSVal propertyName]) >>=
@@ -242,7 +201,7 @@ getPropertyShorthandUnchecked self propertyName
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.isPropertyImplicit Mozilla CSSStyleDeclaration.isPropertyImplicit documentation> 
 isPropertyImplicit ::
                    (MonadDOM m, ToJSString propertyName) =>
-                     CSSStyleDeclaration -> propertyName -> m Bool
+                     CSSStyleDeclaration -> Maybe propertyName -> m Bool
 isPropertyImplicit self propertyName
   = liftDOM
       ((self ^. jsf "isPropertyImplicit" [toJSVal propertyName]) >>=
@@ -251,38 +210,21 @@ isPropertyImplicit self propertyName
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.isPropertyImplicit Mozilla CSSStyleDeclaration.isPropertyImplicit documentation> 
 isPropertyImplicit_ ::
                     (MonadDOM m, ToJSString propertyName) =>
-                      CSSStyleDeclaration -> propertyName -> m ()
+                      CSSStyleDeclaration -> Maybe propertyName -> m ()
 isPropertyImplicit_ self propertyName
   = liftDOM
       (void (self ^. jsf "isPropertyImplicit" [toJSVal propertyName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.cssText Mozilla CSSStyleDeclaration.cssText documentation> 
 setCssText ::
-           (MonadDOM m, ToJSString val) =>
-             CSSStyleDeclaration -> Maybe val -> m ()
+           (MonadDOM m, ToJSString val) => CSSStyleDeclaration -> val -> m ()
 setCssText self val = liftDOM (self ^. jss "cssText" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.cssText Mozilla CSSStyleDeclaration.cssText documentation> 
 getCssText ::
            (MonadDOM m, FromJSString result) =>
-             CSSStyleDeclaration -> m (Maybe result)
+             CSSStyleDeclaration -> m result
 getCssText self
-  = liftDOM ((self ^. js "cssText") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.cssText Mozilla CSSStyleDeclaration.cssText documentation> 
-getCssTextUnsafe ::
-                 (MonadDOM m, HasCallStack, FromJSString result) =>
-                   CSSStyleDeclaration -> m result
-getCssTextUnsafe self
-  = liftDOM
-      (((self ^. js "cssText") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.cssText Mozilla CSSStyleDeclaration.cssText documentation> 
-getCssTextUnchecked ::
-                    (MonadDOM m, FromJSString result) =>
-                      CSSStyleDeclaration -> m result
-getCssTextUnchecked self
   = liftDOM ((self ^. js "cssText") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.length Mozilla CSSStyleDeclaration.length documentation> 

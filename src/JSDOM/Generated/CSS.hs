@@ -3,12 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSS
-       (supports2, supports2_, supports, supports_, CSS(..), gTypeCSS)
+       (supports2, supports2_, supports, supports_, escape, escape_,
+        CSS(..), gTypeCSS)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -49,3 +51,16 @@ supports_ ::
             CSS -> conditionText -> m ()
 supports_ self conditionText
   = liftDOM (void (self ^. jsf "supports" [toJSVal conditionText]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.escape Mozilla CSS.escape documentation> 
+escape ::
+       (MonadDOM m, ToJSString ident, FromJSString result) =>
+         CSS -> ident -> m result
+escape self ident
+  = liftDOM
+      ((self ^. jsf "escape" [toJSVal ident]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.escape Mozilla CSS.escape documentation> 
+escape_ :: (MonadDOM m, ToJSString ident) => CSS -> ident -> m ()
+escape_ self ident
+  = liftDOM (void (self ^. jsf "escape" [toJSVal ident]))

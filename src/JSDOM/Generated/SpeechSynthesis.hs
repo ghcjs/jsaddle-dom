@@ -9,7 +9,8 @@ module JSDOM.Generated.SpeechSynthesis
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -21,8 +22,7 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.speak Mozilla SpeechSynthesis.speak documentation> 
 speak ::
-      (MonadDOM m) =>
-        SpeechSynthesis -> Maybe SpeechSynthesisUtterance -> m ()
+      (MonadDOM m) => SpeechSynthesis -> SpeechSynthesisUtterance -> m ()
 speak self utterance
   = liftDOM (void (self ^. jsf "speak" [toJSVal utterance]))
 
@@ -40,9 +40,9 @@ resume self = liftDOM (void (self ^. jsf "resume" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.getVoices Mozilla SpeechSynthesis.getVoices documentation> 
 getVoices ::
-          (MonadDOM m) => SpeechSynthesis -> m [Maybe SpeechSynthesisVoice]
+          (MonadDOM m) => SpeechSynthesis -> m [SpeechSynthesisVoice]
 getVoices self
-  = liftDOM ((self ^. jsf "getVoices" ()) >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getVoices" ()) >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis.getVoices Mozilla SpeechSynthesis.getVoices documentation> 
 getVoices_ :: (MonadDOM m) => SpeechSynthesis -> m ()

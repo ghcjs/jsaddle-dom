@@ -4,13 +4,13 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSSupportsRule
        (insertRule, insertRule_, deleteRule, getCssRules,
-        getCssRulesUnsafe, getCssRulesUnchecked, getConditionText,
-        CSSSupportsRule(..), gTypeCSSSupportsRule)
+        getConditionText, CSSSupportsRule(..), gTypeCSSSupportsRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -44,22 +44,8 @@ deleteRule self index
   = liftDOM (void (self ^. jsf "deleteRule" [toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.cssRules Mozilla CSSSupportsRule.cssRules documentation> 
-getCssRules ::
-            (MonadDOM m) => CSSSupportsRule -> m (Maybe CSSRuleList)
-getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.cssRules Mozilla CSSSupportsRule.cssRules documentation> 
-getCssRulesUnsafe ::
-                  (MonadDOM m, HasCallStack) => CSSSupportsRule -> m CSSRuleList
-getCssRulesUnsafe self
-  = liftDOM
-      (((self ^. js "cssRules") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.cssRules Mozilla CSSSupportsRule.cssRules documentation> 
-getCssRulesUnchecked ::
-                     (MonadDOM m) => CSSSupportsRule -> m CSSRuleList
-getCssRulesUnchecked self
+getCssRules :: (MonadDOM m) => CSSSupportsRule -> m CSSRuleList
+getCssRules self
   = liftDOM ((self ^. js "cssRules") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSSupportsRule.conditionText Mozilla CSSSupportsRule.conditionText documentation> 

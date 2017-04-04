@@ -3,16 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBKeyRange
-       (only, only_, onlyUnsafe, onlyUnchecked, lowerBound, lowerBound_,
-        lowerBoundUnsafe, lowerBoundUnchecked, upperBound, upperBound_,
-        upperBoundUnsafe, upperBoundUnchecked, bound, bound_, boundUnsafe,
-        boundUnchecked, getLower, getUpper, getLowerOpen, getUpperOpen,
-        IDBKeyRange(..), gTypeIDBKeyRange)
+       (only, only_, lowerBound, lowerBound_, upperBound, upperBound_,
+        bound, bound_, includes, includes_, getLower, getUpper,
+        getLowerOpen, getUpperOpen, IDBKeyRange(..), gTypeIDBKeyRange)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,112 +23,65 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
 only ::
-     (MonadDOM m) => IDBKeyRange -> JSVal -> m (Maybe IDBKeyRange)
+     (MonadDOM m, ToJSVal value) =>
+       IDBKeyRange -> value -> m IDBKeyRange
 only self value
-  = liftDOM ((self ^. jsf "only" [toJSVal value]) >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
-only_ :: (MonadDOM m) => IDBKeyRange -> JSVal -> m ()
-only_ self value
-  = liftDOM (void (self ^. jsf "only" [toJSVal value]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
-onlyUnsafe ::
-           (MonadDOM m, HasCallStack) => IDBKeyRange -> JSVal -> m IDBKeyRange
-onlyUnsafe self value
-  = liftDOM
-      (((self ^. jsf "only" [toJSVal value]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
-onlyUnchecked ::
-              (MonadDOM m) => IDBKeyRange -> JSVal -> m IDBKeyRange
-onlyUnchecked self value
   = liftDOM
       ((self ^. jsf "only" [toJSVal value]) >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
+only_ ::
+      (MonadDOM m, ToJSVal value) => IDBKeyRange -> value -> m ()
+only_ self value
+  = liftDOM (void (self ^. jsf "only" [toJSVal value]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lowerBound Mozilla IDBKeyRange.lowerBound documentation> 
 lowerBound ::
-           (MonadDOM m) =>
-             IDBKeyRange -> JSVal -> Bool -> m (Maybe IDBKeyRange)
+           (MonadDOM m, ToJSVal lower) =>
+             IDBKeyRange -> lower -> Bool -> m IDBKeyRange
 lowerBound self lower open
   = liftDOM
       ((self ^. jsf "lowerBound" [toJSVal lower, toJSVal open]) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lowerBound Mozilla IDBKeyRange.lowerBound documentation> 
-lowerBound_ :: (MonadDOM m) => IDBKeyRange -> JSVal -> Bool -> m ()
+lowerBound_ ::
+            (MonadDOM m, ToJSVal lower) => IDBKeyRange -> lower -> Bool -> m ()
 lowerBound_ self lower open
   = liftDOM
       (void (self ^. jsf "lowerBound" [toJSVal lower, toJSVal open]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lowerBound Mozilla IDBKeyRange.lowerBound documentation> 
-lowerBoundUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   IDBKeyRange -> JSVal -> Bool -> m IDBKeyRange
-lowerBoundUnsafe self lower open
-  = liftDOM
-      (((self ^. jsf "lowerBound" [toJSVal lower, toJSVal open]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lowerBound Mozilla IDBKeyRange.lowerBound documentation> 
-lowerBoundUnchecked ::
-                    (MonadDOM m) => IDBKeyRange -> JSVal -> Bool -> m IDBKeyRange
-lowerBoundUnchecked self lower open
-  = liftDOM
-      ((self ^. jsf "lowerBound" [toJSVal lower, toJSVal open]) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.upperBound Mozilla IDBKeyRange.upperBound documentation> 
 upperBound ::
-           (MonadDOM m) =>
-             IDBKeyRange -> JSVal -> Bool -> m (Maybe IDBKeyRange)
+           (MonadDOM m, ToJSVal upper) =>
+             IDBKeyRange -> upper -> Bool -> m IDBKeyRange
 upperBound self upper open
   = liftDOM
       ((self ^. jsf "upperBound" [toJSVal upper, toJSVal open]) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.upperBound Mozilla IDBKeyRange.upperBound documentation> 
-upperBound_ :: (MonadDOM m) => IDBKeyRange -> JSVal -> Bool -> m ()
+upperBound_ ::
+            (MonadDOM m, ToJSVal upper) => IDBKeyRange -> upper -> Bool -> m ()
 upperBound_ self upper open
   = liftDOM
       (void (self ^. jsf "upperBound" [toJSVal upper, toJSVal open]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.upperBound Mozilla IDBKeyRange.upperBound documentation> 
-upperBoundUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   IDBKeyRange -> JSVal -> Bool -> m IDBKeyRange
-upperBoundUnsafe self upper open
-  = liftDOM
-      (((self ^. jsf "upperBound" [toJSVal upper, toJSVal open]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.upperBound Mozilla IDBKeyRange.upperBound documentation> 
-upperBoundUnchecked ::
-                    (MonadDOM m) => IDBKeyRange -> JSVal -> Bool -> m IDBKeyRange
-upperBoundUnchecked self upper open
-  = liftDOM
-      ((self ^. jsf "upperBound" [toJSVal upper, toJSVal open]) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.bound Mozilla IDBKeyRange.bound documentation> 
 bound ::
-      (MonadDOM m) =>
-        IDBKeyRange ->
-          JSVal -> JSVal -> Bool -> Bool -> m (Maybe IDBKeyRange)
+      (MonadDOM m, ToJSVal lower, ToJSVal upper) =>
+        IDBKeyRange -> lower -> upper -> Bool -> Bool -> m IDBKeyRange
 bound self lower upper lowerOpen upperOpen
   = liftDOM
       ((self ^. jsf "bound"
           [toJSVal lower, toJSVal upper, toJSVal lowerOpen,
            toJSVal upperOpen])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.bound Mozilla IDBKeyRange.bound documentation> 
 bound_ ::
-       (MonadDOM m) =>
-         IDBKeyRange -> JSVal -> JSVal -> Bool -> Bool -> m ()
+       (MonadDOM m, ToJSVal lower, ToJSVal upper) =>
+         IDBKeyRange -> lower -> upper -> Bool -> Bool -> m ()
 bound_ self lower upper lowerOpen upperOpen
   = liftDOM
       (void
@@ -137,28 +89,17 @@ bound_ self lower upper lowerOpen upperOpen
             [toJSVal lower, toJSVal upper, toJSVal lowerOpen,
              toJSVal upperOpen]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.bound Mozilla IDBKeyRange.bound documentation> 
-boundUnsafe ::
-            (MonadDOM m, HasCallStack) =>
-              IDBKeyRange -> JSVal -> JSVal -> Bool -> Bool -> m IDBKeyRange
-boundUnsafe self lower upper lowerOpen upperOpen
-  = liftDOM
-      (((self ^. jsf "bound"
-           [toJSVal lower, toJSVal upper, toJSVal lowerOpen,
-            toJSVal upperOpen])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.includes Mozilla IDBKeyRange.includes documentation> 
+includes ::
+         (MonadDOM m, ToJSVal key) => IDBKeyRange -> key -> m Bool
+includes self key
+  = liftDOM ((self ^. jsf "includes" [toJSVal key]) >>= valToBool)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.bound Mozilla IDBKeyRange.bound documentation> 
-boundUnchecked ::
-               (MonadDOM m) =>
-                 IDBKeyRange -> JSVal -> JSVal -> Bool -> Bool -> m IDBKeyRange
-boundUnchecked self lower upper lowerOpen upperOpen
-  = liftDOM
-      ((self ^. jsf "bound"
-          [toJSVal lower, toJSVal upper, toJSVal lowerOpen,
-           toJSVal upperOpen])
-         >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.includes Mozilla IDBKeyRange.includes documentation> 
+includes_ ::
+          (MonadDOM m, ToJSVal key) => IDBKeyRange -> key -> m ()
+includes_ self key
+  = liftDOM (void (self ^. jsf "includes" [toJSVal key]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lower Mozilla IDBKeyRange.lower documentation> 
 getLower :: (MonadDOM m) => IDBKeyRange -> m JSVal

@@ -4,12 +4,13 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.History
        (back, forward, go, pushState, replaceState, getLength, getState,
-        getStateUnsafe, getStateUnchecked, History(..), gTypeHistory)
+        History(..), gTypeHistory)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -28,14 +29,14 @@ forward :: (MonadDOM m) => History -> m ()
 forward self = liftDOM (void (self ^. jsf "forward" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.go Mozilla History.go documentation> 
-go :: (MonadDOM m) => History -> Int -> m ()
+go :: (MonadDOM m) => History -> Maybe Int -> m ()
 go self distance
   = liftDOM (void (self ^. jsf "go" [toJSVal distance]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.pushState Mozilla History.pushState documentation> 
 pushState ::
-          (MonadDOM m, ToJSString title, ToJSString url) =>
-            History -> JSVal -> title -> url -> m ()
+          (MonadDOM m, ToJSVal data', ToJSString title, ToJSString url) =>
+            History -> data' -> title -> Maybe url -> m ()
 pushState self data' title url
   = liftDOM
       (void
@@ -44,8 +45,8 @@ pushState self data' title url
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.replaceState Mozilla History.replaceState documentation> 
 replaceState ::
-             (MonadDOM m, ToJSString title, ToJSString url) =>
-               History -> JSVal -> title -> url -> m ()
+             (MonadDOM m, ToJSVal data', ToJSString title, ToJSString url) =>
+               History -> data' -> title -> Maybe url -> m ()
 replaceState self data' title url
   = liftDOM
       (void
@@ -58,20 +59,6 @@ getLength self
   = liftDOM (round <$> ((self ^. js "length") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
-getState ::
-         (MonadDOM m) => History -> m (Maybe SerializedScriptValue)
-getState self = liftDOM ((self ^. js "state") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
-getStateUnsafe ::
-               (MonadDOM m, HasCallStack) => History -> m SerializedScriptValue
-getStateUnsafe self
-  = liftDOM
-      (((self ^. js "state") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
-getStateUnchecked ::
-                  (MonadDOM m) => History -> m SerializedScriptValue
-getStateUnchecked self
+getState :: (MonadDOM m) => History -> m SerializedScriptValue
+getState self
   = liftDOM ((self ^. js "state") >>= fromJSValUnchecked)

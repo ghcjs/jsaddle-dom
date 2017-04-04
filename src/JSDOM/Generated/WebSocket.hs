@@ -14,7 +14,8 @@ module JSDOM.Generated.WebSocket
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -27,12 +28,11 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket Mozilla WebSocket documentation> 
 newWebSocket ::
              (MonadDOM m, ToJSString url, ToJSString protocols) =>
-               url -> Maybe [protocols] -> m WebSocket
+               url -> [protocols] -> m WebSocket
 newWebSocket url protocols
   = liftDOM
       (WebSocket <$>
-         new (jsg "WebSocket")
-           [toJSVal url, toJSVal (fmap array protocols)])
+         new (jsg "WebSocket") [toJSVal url, toJSVal (array protocols)])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket Mozilla WebSocket documentation> 
 newWebSocket' ::
@@ -45,21 +45,19 @@ newWebSocket' url protocol
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.send Mozilla WebSocket.send documentation> 
 send ::
-     (MonadDOM m, IsArrayBuffer data') =>
-       WebSocket -> Maybe data' -> m ()
+     (MonadDOM m, IsArrayBuffer data') => WebSocket -> data' -> m ()
 send self data'
   = liftDOM (void (self ^. jsf "send" [toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.send Mozilla WebSocket.send documentation> 
 sendView ::
-         (MonadDOM m, IsArrayBufferView data') =>
-           WebSocket -> Maybe data' -> m ()
+         (MonadDOM m, IsArrayBufferView data') => WebSocket -> data' -> m ()
 sendView self data'
   = liftDOM (void (self ^. jsf "send" [toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.send Mozilla WebSocket.send documentation> 
 sendBlob ::
-         (MonadDOM m, IsBlob data') => WebSocket -> Maybe data' -> m ()
+         (MonadDOM m, IsBlob data') => WebSocket -> data' -> m ()
 sendBlob self data'
   = liftDOM (void (self ^. jsf "send" [toJSVal data']))
 
@@ -72,7 +70,7 @@ sendString self data'
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.close Mozilla WebSocket.close documentation> 
 close ::
       (MonadDOM m, ToJSString reason) =>
-        WebSocket -> Word -> reason -> m ()
+        WebSocket -> Maybe Word -> Maybe reason -> m ()
 close self code reason
   = liftDOM
       (void (self ^. jsf "close" [toJSVal code, toJSVal reason]))
@@ -116,8 +114,7 @@ closeEvent = unsafeEventName (toJSString "close")
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
 getProtocol ::
             (MonadDOM m, FromJSString result) => WebSocket -> m (Maybe result)
-getProtocol self
-  = liftDOM ((self ^. js "protocol") >>= fromMaybeJSString)
+getProtocol self = liftDOM ((self ^. js "protocol") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
 getProtocolUnsafe ::
@@ -125,7 +122,7 @@ getProtocolUnsafe ::
                     WebSocket -> m result
 getProtocolUnsafe self
   = liftDOM
-      (((self ^. js "protocol") >>= fromMaybeJSString) >>=
+      (((self ^. js "protocol") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
@@ -138,7 +135,7 @@ getProtocolUnchecked self
 getExtensions ::
               (MonadDOM m, FromJSString result) => WebSocket -> m (Maybe result)
 getExtensions self
-  = liftDOM ((self ^. js "extensions") >>= fromMaybeJSString)
+  = liftDOM ((self ^. js "extensions") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.extensions Mozilla WebSocket.extensions documentation> 
 getExtensionsUnsafe ::
@@ -146,7 +143,7 @@ getExtensionsUnsafe ::
                       WebSocket -> m result
 getExtensionsUnsafe self
   = liftDOM
-      (((self ^. js "extensions") >>= fromMaybeJSString) >>=
+      (((self ^. js "extensions") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.extensions Mozilla WebSocket.extensions documentation> 

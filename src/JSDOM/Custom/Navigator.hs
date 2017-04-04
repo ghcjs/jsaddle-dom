@@ -10,7 +10,7 @@ import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 
 import JSDOM.Types
        (withCallback, Callback(..), MediaStream(..), NavigatorUserMediaError(..),
-        Dictionary(..), MonadDOM, NavigatorUserMediaSuccessCallback(..),
+        MediaStreamConstraints(..), MonadDOM, NavigatorUserMediaSuccessCallback(..),
         NavigatorUserMediaErrorCallback(..))
 
 import JSDOM.Custom.NavigatorUserMediaError (throwUserMediaException)
@@ -22,16 +22,16 @@ import JSDOM.Generated.NavigatorUserMediaErrorCallback
 
 import JSDOM.Generated.Navigator as Generated hiding (getUserMedia)
 import qualified JSDOM.Generated.Navigator
-       as Generated (webkitGetUserMedia)
+       as Generated (getUserMedia)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitGetUserMedia Mozilla Navigator.webkitGetUserMedia documentation>
-getUserMedia' :: MonadDOM m => Navigator -> Maybe Dictionary -> m (Either NavigatorUserMediaError MediaStream)
-getUserMedia' self options = do
+getUserMedia' :: MonadDOM m => Navigator -> MediaStreamConstraints -> m (Either NavigatorUserMediaError MediaStream)
+getUserMedia' self constraints = do
     result <- liftIO newEmptyMVar
-    withCallback (newNavigatorUserMediaSuccessCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
-        withCallback (newNavigatorUserMediaErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            Generated.webkitGetUserMedia self options (Just success) (Just error)
+    withCallback (newNavigatorUserMediaSuccessCallback (liftIO . putMVar result . Right)) $ \success ->
+        withCallback (newNavigatorUserMediaErrorCallback (liftIO . putMVar result . Left)) $ \error -> do
+            Generated.getUserMedia self constraints success error
             liftIO $ takeMVar result
 
-getUserMedia :: MonadDOM m => Navigator -> Maybe Dictionary -> m MediaStream
-getUserMedia self options = getUserMedia' self options >>= either throwUserMediaException return
+getUserMedia :: MonadDOM m => Navigator -> MediaStreamConstraints -> m MediaStream
+getUserMedia self constraints = getUserMedia' self constraints >>= either throwUserMediaException return

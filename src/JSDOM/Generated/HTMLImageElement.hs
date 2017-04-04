@@ -4,18 +4,20 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLImageElement
        (setName, getName, setAlign, getAlign, setAlt, getAlt, setBorder,
-        getBorder, setCrossOrigin, getCrossOrigin, setHeight, getHeight,
-        setHspace, getHspace, setIsMap, getIsMap, setLongDesc, getLongDesc,
-        setSrc, getSrc, setSrcset, getSrcset, setSizes, getSizes,
-        getCurrentSrc, setUseMap, getUseMap, setVspace, getVspace,
-        setWidth, getWidth, getComplete, setLowsrc, getLowsrc,
+        getBorder, getBorderUnsafe, getBorderUnchecked, setCrossOrigin,
+        getCrossOrigin, getCrossOriginUnsafe, getCrossOriginUnchecked,
+        setHeight, getHeight, setHspace, getHspace, setIsMap, getIsMap,
+        setLongDesc, getLongDesc, setSrc, getSrc, setSrcset, getSrcset,
+        setSizes, getSizes, getCurrentSrc, setUseMap, getUseMap, setVspace,
+        getVspace, setWidth, getWidth, getComplete, setLowsrc, getLowsrc,
         getNaturalHeight, getNaturalWidth, getX, getY,
         HTMLImageElement(..), gTypeHTMLImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -58,42 +60,76 @@ getAlt self = liftDOM ((self ^. js "alt") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
 setBorder ::
-          (MonadDOM m, ToJSString val) => HTMLImageElement -> val -> m ()
+          (MonadDOM m, ToJSString val) =>
+            HTMLImageElement -> Maybe val -> m ()
 setBorder self val = liftDOM (self ^. jss "border" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
 getBorder ::
-          (MonadDOM m, FromJSString result) => HTMLImageElement -> m result
+          (MonadDOM m, FromJSString result) =>
+            HTMLImageElement -> m (Maybe result)
 getBorder self
+  = liftDOM ((self ^. js "border") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
+getBorderUnsafe ::
+                (MonadDOM m, HasCallStack, FromJSString result) =>
+                  HTMLImageElement -> m result
+getBorderUnsafe self
+  = liftDOM
+      (((self ^. js "border") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
+getBorderUnchecked ::
+                   (MonadDOM m, FromJSString result) => HTMLImageElement -> m result
+getBorderUnchecked self
   = liftDOM ((self ^. js "border") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 
 setCrossOrigin ::
-               (MonadDOM m, ToJSString val) => HTMLImageElement -> val -> m ()
+               (MonadDOM m, ToJSString val) =>
+                 HTMLImageElement -> Maybe val -> m ()
 setCrossOrigin self val
   = liftDOM (self ^. jss "crossOrigin" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 
 getCrossOrigin ::
-               (MonadDOM m, FromJSString result) => HTMLImageElement -> m result
+               (MonadDOM m, FromJSString result) =>
+                 HTMLImageElement -> m (Maybe result)
 getCrossOrigin self
+  = liftDOM ((self ^. js "crossOrigin") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 
+getCrossOriginUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLImageElement -> m result
+getCrossOriginUnsafe self
+  = liftDOM
+      (((self ^. js "crossOrigin") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 
+getCrossOriginUnchecked ::
+                        (MonadDOM m, FromJSString result) => HTMLImageElement -> m result
+getCrossOriginUnchecked self
   = liftDOM ((self ^. js "crossOrigin") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.height Mozilla HTMLImageElement.height documentation> 
-setHeight :: (MonadDOM m) => HTMLImageElement -> Int -> m ()
+setHeight :: (MonadDOM m) => HTMLImageElement -> Word -> m ()
 setHeight self val = liftDOM (self ^. jss "height" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.height Mozilla HTMLImageElement.height documentation> 
-getHeight :: (MonadDOM m) => HTMLImageElement -> m Int
+getHeight :: (MonadDOM m) => HTMLImageElement -> m Word
 getHeight self
   = liftDOM (round <$> ((self ^. js "height") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.hspace Mozilla HTMLImageElement.hspace documentation> 
-setHspace :: (MonadDOM m) => HTMLImageElement -> Int -> m ()
+setHspace :: (MonadDOM m) => HTMLImageElement -> Word -> m ()
 setHspace self val = liftDOM (self ^. jss "hspace" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.hspace Mozilla HTMLImageElement.hspace documentation> 
-getHspace :: (MonadDOM m) => HTMLImageElement -> m Int
+getHspace :: (MonadDOM m) => HTMLImageElement -> m Word
 getHspace self
   = liftDOM (round <$> ((self ^. js "hspace") >>= valToNumber))
 
@@ -167,20 +203,20 @@ getUseMap self
   = liftDOM ((self ^. js "useMap") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.vspace Mozilla HTMLImageElement.vspace documentation> 
-setVspace :: (MonadDOM m) => HTMLImageElement -> Int -> m ()
+setVspace :: (MonadDOM m) => HTMLImageElement -> Word -> m ()
 setVspace self val = liftDOM (self ^. jss "vspace" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.vspace Mozilla HTMLImageElement.vspace documentation> 
-getVspace :: (MonadDOM m) => HTMLImageElement -> m Int
+getVspace :: (MonadDOM m) => HTMLImageElement -> m Word
 getVspace self
   = liftDOM (round <$> ((self ^. js "vspace") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.width Mozilla HTMLImageElement.width documentation> 
-setWidth :: (MonadDOM m) => HTMLImageElement -> Int -> m ()
+setWidth :: (MonadDOM m) => HTMLImageElement -> Word -> m ()
 setWidth self val = liftDOM (self ^. jss "width" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.width Mozilla HTMLImageElement.width documentation> 
-getWidth :: (MonadDOM m) => HTMLImageElement -> m Int
+getWidth :: (MonadDOM m) => HTMLImageElement -> m Word
 getWidth self
   = liftDOM (round <$> ((self ^. js "width") >>= valToNumber))
 

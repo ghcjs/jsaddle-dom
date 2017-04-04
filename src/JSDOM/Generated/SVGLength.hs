@@ -11,13 +11,13 @@ module JSDOM.Generated.SVGLength
         pattern SVG_LENGTHTYPE_IN, pattern SVG_LENGTHTYPE_PT,
         pattern SVG_LENGTHTYPE_PC, getUnitType, setValue, getValue,
         setValueInSpecifiedUnits, getValueInSpecifiedUnits,
-        setValueAsString, getValueAsString, getValueAsStringUnsafe,
-        getValueAsStringUnchecked, SVGLength(..), gTypeSVGLength)
+        setValueAsString, getValueAsString, SVGLength(..), gTypeSVGLength)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -83,27 +83,12 @@ getValueInSpecifiedUnits self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLength.valueAsString Mozilla SVGLength.valueAsString documentation> 
 setValueAsString ::
-                 (MonadDOM m, ToJSString val) => SVGLength -> Maybe val -> m ()
+                 (MonadDOM m, ToJSString val) => SVGLength -> val -> m ()
 setValueAsString self val
   = liftDOM (self ^. jss "valueAsString" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLength.valueAsString Mozilla SVGLength.valueAsString documentation> 
 getValueAsString ::
-                 (MonadDOM m, FromJSString result) => SVGLength -> m (Maybe result)
+                 (MonadDOM m, FromJSString result) => SVGLength -> m result
 getValueAsString self
-  = liftDOM ((self ^. js "valueAsString") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLength.valueAsString Mozilla SVGLength.valueAsString documentation> 
-getValueAsStringUnsafe ::
-                       (MonadDOM m, HasCallStack, FromJSString result) =>
-                         SVGLength -> m result
-getValueAsStringUnsafe self
-  = liftDOM
-      (((self ^. js "valueAsString") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGLength.valueAsString Mozilla SVGLength.valueAsString documentation> 
-getValueAsStringUnchecked ::
-                          (MonadDOM m, FromJSString result) => SVGLength -> m result
-getValueAsStringUnchecked self
   = liftDOM ((self ^. js "valueAsString") >>= fromJSValUnchecked)

@@ -3,21 +3,21 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLIFrameElement
-       (getSVGDocument, getSVGDocument_, getSVGDocumentUnsafe,
-        getSVGDocumentUnchecked, setAlign, getAlign, setFrameBorder,
-        getFrameBorder, setHeight, getHeight, setLongDesc, getLongDesc,
-        setMarginHeight, getMarginHeight, setMarginWidth, getMarginWidth,
-        setName, getName, setSandbox, getSandbox, setScrolling,
-        getScrolling, setSrc, getSrc, setSrcdoc, getSrcdoc, setWidth,
-        getWidth, getContentDocument, getContentDocumentUnsafe,
-        getContentDocumentUnchecked, getContentWindow,
-        getContentWindowUnsafe, getContentWindowUnchecked,
-        HTMLIFrameElement(..), gTypeHTMLIFrameElement)
+       (getSVGDocument, getSVGDocument_, setAlign, getAlign,
+        setFrameBorder, getFrameBorder, setHeight, getHeight, setLongDesc,
+        getLongDesc, setMarginHeight, getMarginHeight,
+        getMarginHeightUnsafe, getMarginHeightUnchecked, setMarginWidth,
+        getMarginWidth, getMarginWidthUnsafe, getMarginWidthUnchecked,
+        setName, getName, getSandbox, setAllowFullscreen,
+        getAllowFullscreen, setScrolling, getScrolling, setSrc, getSrc,
+        setSrcdoc, getSrcdoc, setWidth, getWidth, getContentDocument,
+        getContentWindow, HTMLIFrameElement(..), gTypeHTMLIFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -28,30 +28,15 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.getSVGDocument Mozilla HTMLIFrameElement.getSVGDocument documentation> 
-getSVGDocument ::
-               (MonadDOM m) => HTMLIFrameElement -> m (Maybe SVGDocument)
+getSVGDocument :: (MonadDOM m) => HTMLIFrameElement -> m Document
 getSVGDocument self
-  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.getSVGDocument Mozilla HTMLIFrameElement.getSVGDocument documentation> 
 getSVGDocument_ :: (MonadDOM m) => HTMLIFrameElement -> m ()
 getSVGDocument_ self
   = liftDOM (void (self ^. jsf "getSVGDocument" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.getSVGDocument Mozilla HTMLIFrameElement.getSVGDocument documentation> 
-getSVGDocumentUnsafe ::
-                     (MonadDOM m, HasCallStack) => HTMLIFrameElement -> m SVGDocument
-getSVGDocumentUnsafe self
-  = liftDOM
-      (((self ^. jsf "getSVGDocument" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.getSVGDocument Mozilla HTMLIFrameElement.getSVGDocument documentation> 
-getSVGDocumentUnchecked ::
-                        (MonadDOM m) => HTMLIFrameElement -> m SVGDocument
-getSVGDocumentUnchecked self
-  = liftDOM
-      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.align Mozilla HTMLIFrameElement.align documentation> 
 setAlign ::
@@ -101,26 +86,60 @@ getLongDesc self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
 setMarginHeight ::
-                (MonadDOM m, ToJSString val) => HTMLIFrameElement -> val -> m ()
+                (MonadDOM m, ToJSString val) =>
+                  HTMLIFrameElement -> Maybe val -> m ()
 setMarginHeight self val
   = liftDOM (self ^. jss "marginHeight" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
 getMarginHeight ::
-                (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
+                (MonadDOM m, FromJSString result) =>
+                  HTMLIFrameElement -> m (Maybe result)
 getMarginHeight self
+  = liftDOM ((self ^. js "marginHeight") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
+getMarginHeightUnsafe ::
+                      (MonadDOM m, HasCallStack, FromJSString result) =>
+                        HTMLIFrameElement -> m result
+getMarginHeightUnsafe self
+  = liftDOM
+      (((self ^. js "marginHeight") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
+getMarginHeightUnchecked ::
+                         (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
+getMarginHeightUnchecked self
   = liftDOM ((self ^. js "marginHeight") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
 setMarginWidth ::
-               (MonadDOM m, ToJSString val) => HTMLIFrameElement -> val -> m ()
+               (MonadDOM m, ToJSString val) =>
+                 HTMLIFrameElement -> Maybe val -> m ()
 setMarginWidth self val
   = liftDOM (self ^. jss "marginWidth" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
 getMarginWidth ::
-               (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
+               (MonadDOM m, FromJSString result) =>
+                 HTMLIFrameElement -> m (Maybe result)
 getMarginWidth self
+  = liftDOM ((self ^. js "marginWidth") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
+getMarginWidthUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLIFrameElement -> m result
+getMarginWidthUnsafe self
+  = liftDOM
+      (((self ^. js "marginWidth") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
+getMarginWidthUnchecked ::
+                        (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
+getMarginWidthUnchecked self
   = liftDOM ((self ^. js "marginWidth") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.name Mozilla HTMLIFrameElement.name documentation> 
@@ -134,15 +153,20 @@ getName ::
 getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.sandbox Mozilla HTMLIFrameElement.sandbox documentation> 
-setSandbox ::
-           (MonadDOM m, ToJSString val) => HTMLIFrameElement -> val -> m ()
-setSandbox self val = liftDOM (self ^. jss "sandbox" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.sandbox Mozilla HTMLIFrameElement.sandbox documentation> 
-getSandbox ::
-           (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
+getSandbox :: (MonadDOM m) => HTMLIFrameElement -> m DOMTokenList
 getSandbox self
   = liftDOM ((self ^. js "sandbox") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.allowFullscreen Mozilla HTMLIFrameElement.allowFullscreen documentation> 
+setAllowFullscreen ::
+                   (MonadDOM m) => HTMLIFrameElement -> Bool -> m ()
+setAllowFullscreen self val
+  = liftDOM (self ^. jss "allowFullscreen" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.allowFullscreen Mozilla HTMLIFrameElement.allowFullscreen documentation> 
+getAllowFullscreen :: (MonadDOM m) => HTMLIFrameElement -> m Bool
+getAllowFullscreen self
+  = liftDOM ((self ^. js "allowFullscreen") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.scrolling Mozilla HTMLIFrameElement.scrolling documentation> 
 setScrolling ::
@@ -190,40 +214,11 @@ getWidth self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentDocument Mozilla HTMLIFrameElement.contentDocument documentation> 
 getContentDocument ::
-                   (MonadDOM m) => HTMLIFrameElement -> m (Maybe Document)
+                   (MonadDOM m) => HTMLIFrameElement -> m Document
 getContentDocument self
-  = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentDocument Mozilla HTMLIFrameElement.contentDocument documentation> 
-getContentDocumentUnsafe ::
-                         (MonadDOM m, HasCallStack) => HTMLIFrameElement -> m Document
-getContentDocumentUnsafe self
-  = liftDOM
-      (((self ^. js "contentDocument") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentDocument Mozilla HTMLIFrameElement.contentDocument documentation> 
-getContentDocumentUnchecked ::
-                            (MonadDOM m) => HTMLIFrameElement -> m Document
-getContentDocumentUnchecked self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
-getContentWindow ::
-                 (MonadDOM m) => HTMLIFrameElement -> m (Maybe Window)
+getContentWindow :: (MonadDOM m) => HTMLIFrameElement -> m Window
 getContentWindow self
-  = liftDOM ((self ^. js "contentWindow") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
-getContentWindowUnsafe ::
-                       (MonadDOM m, HasCallStack) => HTMLIFrameElement -> m Window
-getContentWindowUnsafe self
-  = liftDOM
-      (((self ^. js "contentWindow") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.contentWindow Mozilla HTMLIFrameElement.contentWindow documentation> 
-getContentWindowUnchecked ::
-                          (MonadDOM m) => HTMLIFrameElement -> m Window
-getContentWindowUnchecked self
   = liftDOM ((self ^. js "contentWindow") >>= fromJSValUnchecked)

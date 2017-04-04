@@ -3,7 +3,7 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WheelEvent
-       (initWebKitWheelEvent, pattern DOM_DELTA_PIXEL,
+       (newWheelEvent, initWebKitWheelEvent, pattern DOM_DELTA_PIXEL,
         pattern DOM_DELTA_LINE, pattern DOM_DELTA_PAGE, getDeltaX,
         getDeltaY, getDeltaZ, getDeltaMode, getWheelDeltaX, getWheelDeltaY,
         getWheelDelta, getWebkitDirectionInvertedFromDevice,
@@ -12,7 +12,8 @@ module JSDOM.Generated.WheelEvent
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -22,14 +23,25 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent Mozilla WheelEvent documentation> 
+newWheelEvent ::
+              (MonadDOM m, ToJSString type') =>
+                type' -> Maybe WheelEventInit -> m WheelEvent
+newWheelEvent type' eventInitDict
+  = liftDOM
+      (WheelEvent <$>
+         new (jsg "WheelEvent") [toJSVal type', toJSVal eventInitDict])
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent.initWebKitWheelEvent Mozilla WheelEvent.initWebKitWheelEvent documentation> 
 initWebKitWheelEvent ::
                      (MonadDOM m) =>
                        WheelEvent ->
-                         Int ->
-                           Int ->
+                         Maybe Int ->
+                           Maybe Int ->
                              Maybe Window ->
-                               Int -> Int -> Int -> Int -> Bool -> Bool -> Bool -> Bool -> m ()
+                               Maybe Int ->
+                                 Maybe Int ->
+                                   Maybe Int -> Maybe Int -> Bool -> Bool -> Bool -> Bool -> m ()
 initWebKitWheelEvent self wheelDeltaX wheelDeltaY view screenX
   screenY clientX clientY ctrlKey altKey shiftKey metaKey
   = liftDOM

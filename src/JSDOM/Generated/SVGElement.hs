@@ -3,21 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGElement
-       (getPresentationAttribute, getPresentationAttribute_,
-        getPresentationAttributeUnsafe, getPresentationAttributeUnchecked,
-        setXmlbase, getXmlbase, getXmlbaseUnsafe, getXmlbaseUnchecked,
-        getOwnerSVGElement, getOwnerSVGElementUnsafe,
-        getOwnerSVGElementUnchecked, getViewportElement,
-        getViewportElementUnsafe, getViewportElementUnchecked, setXmllang,
-        getXmllang, setXmlspace, getXmlspace, getClassName,
-        getClassNameUnsafe, getClassNameUnchecked, getStyle,
-        getStyleUnsafe, getStyleUnchecked, setTabIndex, getTabIndex,
-        SVGElement(..), gTypeSVGElement, IsSVGElement, toSVGElement)
+       (getPresentationAttribute, getPresentationAttribute_, focus, blur,
+        getOwnerSVGElement, getViewportElement, setXmllang, getXmllang,
+        setXmlspace, getXmlspace, getClassName, getStyle, setTabIndex,
+        getTabIndex, getDataset, SVGElement(..), gTypeSVGElement,
+        IsSVGElement, toSVGElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -30,121 +26,43 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.getPresentationAttribute Mozilla SVGElement.getPresentationAttribute documentation> 
 getPresentationAttribute ::
                          (MonadDOM m, IsSVGElement self, ToJSString name) =>
-                           self -> name -> m (Maybe CSSValue)
+                           self -> Maybe name -> m CSSValue
 getPresentationAttribute self name
   = liftDOM
       (((toSVGElement self) ^. jsf "getPresentationAttribute"
           [toJSVal name])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.getPresentationAttribute Mozilla SVGElement.getPresentationAttribute documentation> 
 getPresentationAttribute_ ::
                           (MonadDOM m, IsSVGElement self, ToJSString name) =>
-                            self -> name -> m ()
+                            self -> Maybe name -> m ()
 getPresentationAttribute_ self name
   = liftDOM
       (void
          ((toSVGElement self) ^. jsf "getPresentationAttribute"
             [toJSVal name]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.getPresentationAttribute Mozilla SVGElement.getPresentationAttribute documentation> 
-getPresentationAttributeUnsafe ::
-                               (MonadDOM m, IsSVGElement self, ToJSString name, HasCallStack) =>
-                                 self -> name -> m CSSValue
-getPresentationAttributeUnsafe self name
-  = liftDOM
-      ((((toSVGElement self) ^. jsf "getPresentationAttribute"
-           [toJSVal name])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.focus Mozilla SVGElement.focus documentation> 
+focus :: (MonadDOM m, IsSVGElement self) => self -> m ()
+focus self = liftDOM (void ((toSVGElement self) ^. jsf "focus" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.getPresentationAttribute Mozilla SVGElement.getPresentationAttribute documentation> 
-getPresentationAttributeUnchecked ::
-                                  (MonadDOM m, IsSVGElement self, ToJSString name) =>
-                                    self -> name -> m CSSValue
-getPresentationAttributeUnchecked self name
-  = liftDOM
-      (((toSVGElement self) ^. jsf "getPresentationAttribute"
-          [toJSVal name])
-         >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.xmlbase Mozilla SVGElement.xmlbase documentation> 
-setXmlbase ::
-           (MonadDOM m, IsSVGElement self, ToJSString val) =>
-             self -> Maybe val -> m ()
-setXmlbase self val
-  = liftDOM ((toSVGElement self) ^. jss "xmlbase" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.xmlbase Mozilla SVGElement.xmlbase documentation> 
-getXmlbase ::
-           (MonadDOM m, IsSVGElement self, FromJSString result) =>
-             self -> m (Maybe result)
-getXmlbase self
-  = liftDOM
-      (((toSVGElement self) ^. js "xmlbase") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.xmlbase Mozilla SVGElement.xmlbase documentation> 
-getXmlbaseUnsafe ::
-                 (MonadDOM m, IsSVGElement self, HasCallStack,
-                  FromJSString result) =>
-                   self -> m result
-getXmlbaseUnsafe self
-  = liftDOM
-      ((((toSVGElement self) ^. js "xmlbase") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.xmlbase Mozilla SVGElement.xmlbase documentation> 
-getXmlbaseUnchecked ::
-                    (MonadDOM m, IsSVGElement self, FromJSString result) =>
-                      self -> m result
-getXmlbaseUnchecked self
-  = liftDOM
-      (((toSVGElement self) ^. js "xmlbase") >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.blur Mozilla SVGElement.blur documentation> 
+blur :: (MonadDOM m, IsSVGElement self) => self -> m ()
+blur self = liftDOM (void ((toSVGElement self) ^. jsf "blur" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.ownerSVGElement Mozilla SVGElement.ownerSVGElement documentation> 
 getOwnerSVGElement ::
-                   (MonadDOM m, IsSVGElement self) => self -> m (Maybe SVGSVGElement)
+                   (MonadDOM m, IsSVGElement self) => self -> m SVGSVGElement
 getOwnerSVGElement self
-  = liftDOM
-      (((toSVGElement self) ^. js "ownerSVGElement") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.ownerSVGElement Mozilla SVGElement.ownerSVGElement documentation> 
-getOwnerSVGElementUnsafe ::
-                         (MonadDOM m, IsSVGElement self, HasCallStack) =>
-                           self -> m SVGSVGElement
-getOwnerSVGElementUnsafe self
-  = liftDOM
-      ((((toSVGElement self) ^. js "ownerSVGElement") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.ownerSVGElement Mozilla SVGElement.ownerSVGElement documentation> 
-getOwnerSVGElementUnchecked ::
-                            (MonadDOM m, IsSVGElement self) => self -> m SVGSVGElement
-getOwnerSVGElementUnchecked self
   = liftDOM
       (((toSVGElement self) ^. js "ownerSVGElement") >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.viewportElement Mozilla SVGElement.viewportElement documentation> 
 getViewportElement ::
-                   (MonadDOM m, IsSVGElement self) => self -> m (Maybe SVGElement)
+                   (MonadDOM m, IsSVGElement self) => self -> m SVGElement
 getViewportElement self
-  = liftDOM
-      (((toSVGElement self) ^. js "viewportElement") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.viewportElement Mozilla SVGElement.viewportElement documentation> 
-getViewportElementUnsafe ::
-                         (MonadDOM m, IsSVGElement self, HasCallStack) =>
-                           self -> m SVGElement
-getViewportElementUnsafe self
-  = liftDOM
-      ((((toSVGElement self) ^. js "viewportElement") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.viewportElement Mozilla SVGElement.viewportElement documentation> 
-getViewportElementUnchecked ::
-                            (MonadDOM m, IsSVGElement self) => self -> m SVGElement
-getViewportElementUnchecked self
   = liftDOM
       (((toSVGElement self) ^. js "viewportElement") >>=
          fromJSValUnchecked)
@@ -181,47 +99,15 @@ getXmlspace self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.className Mozilla SVGElement.className documentation> 
 getClassName ::
-             (MonadDOM m, IsSVGElement self) =>
-               self -> m (Maybe SVGAnimatedString)
+             (MonadDOM m, IsSVGElement self) => self -> m SVGAnimatedString
 getClassName self
-  = liftDOM (((toSVGElement self) ^. js "className") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.className Mozilla SVGElement.className documentation> 
-getClassNameUnsafe ::
-                   (MonadDOM m, IsSVGElement self, HasCallStack) =>
-                     self -> m SVGAnimatedString
-getClassNameUnsafe self
-  = liftDOM
-      ((((toSVGElement self) ^. js "className") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.className Mozilla SVGElement.className documentation> 
-getClassNameUnchecked ::
-                      (MonadDOM m, IsSVGElement self) => self -> m SVGAnimatedString
-getClassNameUnchecked self
   = liftDOM
       (((toSVGElement self) ^. js "className") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.style Mozilla SVGElement.style documentation> 
 getStyle ::
-         (MonadDOM m, IsSVGElement self) =>
-           self -> m (Maybe CSSStyleDeclaration)
+         (MonadDOM m, IsSVGElement self) => self -> m CSSStyleDeclaration
 getStyle self
-  = liftDOM (((toSVGElement self) ^. js "style") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.style Mozilla SVGElement.style documentation> 
-getStyleUnsafe ::
-               (MonadDOM m, IsSVGElement self, HasCallStack) =>
-                 self -> m CSSStyleDeclaration
-getStyleUnsafe self
-  = liftDOM
-      ((((toSVGElement self) ^. js "style") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.style Mozilla SVGElement.style documentation> 
-getStyleUnchecked ::
-                  (MonadDOM m, IsSVGElement self) => self -> m CSSStyleDeclaration
-getStyleUnchecked self
   = liftDOM
       (((toSVGElement self) ^. js "style") >>= fromJSValUnchecked)
 
@@ -237,3 +123,10 @@ getTabIndex self
   = liftDOM
       (round <$>
          (((toSVGElement self) ^. js "tabIndex") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.dataset Mozilla SVGElement.dataset documentation> 
+getDataset ::
+           (MonadDOM m, IsSVGElement self) => self -> m DOMStringMap
+getDataset self
+  = liftDOM
+      (((toSVGElement self) ^. js "dataset") >>= fromJSValUnchecked)

@@ -4,15 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.XPathEvaluator
        (newXPathEvaluator, createExpression, createExpression_,
-        createExpressionUnsafe, createExpressionUnchecked,
-        createNSResolver, createNSResolver_, createNSResolverUnsafe,
-        createNSResolverUnchecked, evaluate, evaluate_, evaluateUnsafe,
-        evaluateUnchecked, XPathEvaluator(..), gTypeXPathEvaluator)
+        createNSResolver, createNSResolver_, evaluate, evaluate_,
+        XPathEvaluator(..), gTypeXPathEvaluator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -31,54 +30,31 @@ newXPathEvaluator
 createExpression ::
                  (MonadDOM m, ToJSString expression) =>
                    XPathEvaluator ->
-                     expression -> Maybe XPathNSResolver -> m (Maybe XPathExpression)
+                     Maybe expression -> Maybe XPathNSResolver -> m XPathExpression
 createExpression self expression resolver
   = liftDOM
       ((self ^. jsf "createExpression"
           [toJSVal expression, toJSVal resolver])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createExpression Mozilla XPathEvaluator.createExpression documentation> 
 createExpression_ ::
                   (MonadDOM m, ToJSString expression) =>
-                    XPathEvaluator -> expression -> Maybe XPathNSResolver -> m ()
+                    XPathEvaluator -> Maybe expression -> Maybe XPathNSResolver -> m ()
 createExpression_ self expression resolver
   = liftDOM
       (void
          (self ^. jsf "createExpression"
             [toJSVal expression, toJSVal resolver]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createExpression Mozilla XPathEvaluator.createExpression documentation> 
-createExpressionUnsafe ::
-                       (MonadDOM m, ToJSString expression, HasCallStack) =>
-                         XPathEvaluator ->
-                           expression -> Maybe XPathNSResolver -> m XPathExpression
-createExpressionUnsafe self expression resolver
-  = liftDOM
-      (((self ^. jsf "createExpression"
-           [toJSVal expression, toJSVal resolver])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createExpression Mozilla XPathEvaluator.createExpression documentation> 
-createExpressionUnchecked ::
-                          (MonadDOM m, ToJSString expression) =>
-                            XPathEvaluator ->
-                              expression -> Maybe XPathNSResolver -> m XPathExpression
-createExpressionUnchecked self expression resolver
-  = liftDOM
-      ((self ^. jsf "createExpression"
-          [toJSVal expression, toJSVal resolver])
-         >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createNSResolver Mozilla XPathEvaluator.createNSResolver documentation> 
 createNSResolver ::
                  (MonadDOM m, IsNode nodeResolver) =>
-                   XPathEvaluator -> Maybe nodeResolver -> m (Maybe XPathNSResolver)
+                   XPathEvaluator -> Maybe nodeResolver -> m XPathNSResolver
 createNSResolver self nodeResolver
   = liftDOM
       ((self ^. jsf "createNSResolver" [toJSVal nodeResolver]) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createNSResolver Mozilla XPathEvaluator.createNSResolver documentation> 
 createNSResolver_ ::
@@ -88,81 +64,31 @@ createNSResolver_ self nodeResolver
   = liftDOM
       (void (self ^. jsf "createNSResolver" [toJSVal nodeResolver]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createNSResolver Mozilla XPathEvaluator.createNSResolver documentation> 
-createNSResolverUnsafe ::
-                       (MonadDOM m, IsNode nodeResolver, HasCallStack) =>
-                         XPathEvaluator -> Maybe nodeResolver -> m XPathNSResolver
-createNSResolverUnsafe self nodeResolver
-  = liftDOM
-      (((self ^. jsf "createNSResolver" [toJSVal nodeResolver]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.createNSResolver Mozilla XPathEvaluator.createNSResolver documentation> 
-createNSResolverUnchecked ::
-                          (MonadDOM m, IsNode nodeResolver) =>
-                            XPathEvaluator -> Maybe nodeResolver -> m XPathNSResolver
-createNSResolverUnchecked self nodeResolver
-  = liftDOM
-      ((self ^. jsf "createNSResolver" [toJSVal nodeResolver]) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.evaluate Mozilla XPathEvaluator.evaluate documentation> 
 evaluate ::
          (MonadDOM m, ToJSString expression, IsNode contextNode) =>
            XPathEvaluator ->
-             expression ->
+             Maybe expression ->
                Maybe contextNode ->
                  Maybe XPathNSResolver ->
-                   Word -> Maybe XPathResult -> m (Maybe XPathResult)
+                   Maybe Word -> Maybe XPathResult -> m XPathResult
 evaluate self expression contextNode resolver type' inResult
   = liftDOM
       ((self ^. jsf "evaluate"
           [toJSVal expression, toJSVal contextNode, toJSVal resolver,
            toJSVal type', toJSVal inResult])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.evaluate Mozilla XPathEvaluator.evaluate documentation> 
 evaluate_ ::
           (MonadDOM m, ToJSString expression, IsNode contextNode) =>
             XPathEvaluator ->
-              expression ->
+              Maybe expression ->
                 Maybe contextNode ->
-                  Maybe XPathNSResolver -> Word -> Maybe XPathResult -> m ()
+                  Maybe XPathNSResolver -> Maybe Word -> Maybe XPathResult -> m ()
 evaluate_ self expression contextNode resolver type' inResult
   = liftDOM
       (void
          (self ^. jsf "evaluate"
             [toJSVal expression, toJSVal contextNode, toJSVal resolver,
              toJSVal type', toJSVal inResult]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.evaluate Mozilla XPathEvaluator.evaluate documentation> 
-evaluateUnsafe ::
-               (MonadDOM m, ToJSString expression, IsNode contextNode,
-                HasCallStack) =>
-                 XPathEvaluator ->
-                   expression ->
-                     Maybe contextNode ->
-                       Maybe XPathNSResolver -> Word -> Maybe XPathResult -> m XPathResult
-evaluateUnsafe self expression contextNode resolver type' inResult
-  = liftDOM
-      (((self ^. jsf "evaluate"
-           [toJSVal expression, toJSVal contextNode, toJSVal resolver,
-            toJSVal type', toJSVal inResult])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathEvaluator.evaluate Mozilla XPathEvaluator.evaluate documentation> 
-evaluateUnchecked ::
-                  (MonadDOM m, ToJSString expression, IsNode contextNode) =>
-                    XPathEvaluator ->
-                      expression ->
-                        Maybe contextNode ->
-                          Maybe XPathNSResolver -> Word -> Maybe XPathResult -> m XPathResult
-evaluateUnchecked self expression contextNode resolver type'
-  inResult
-  = liftDOM
-      ((self ^. jsf "evaluate"
-          [toJSVal expression, toJSVal contextNode, toJSVal resolver,
-           toJSVal type', toJSVal inResult])
-         >>= fromJSValUnchecked)

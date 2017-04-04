@@ -10,7 +10,8 @@ module JSDOM.Generated.HTMLTableColElement
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -56,11 +57,11 @@ getChOff self
   = liftDOM ((self ^. js "chOff") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableColElement.span Mozilla HTMLTableColElement.span documentation> 
-setSpan :: (MonadDOM m) => HTMLTableColElement -> Int -> m ()
+setSpan :: (MonadDOM m) => HTMLTableColElement -> Word -> m ()
 setSpan self val = liftDOM (self ^. jss "span" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableColElement.span Mozilla HTMLTableColElement.span documentation> 
-getSpan :: (MonadDOM m) => HTMLTableColElement -> m Int
+getSpan :: (MonadDOM m) => HTMLTableColElement -> m Word
 getSpan self
   = liftDOM (round <$> ((self ^. js "span") >>= valToNumber))
 

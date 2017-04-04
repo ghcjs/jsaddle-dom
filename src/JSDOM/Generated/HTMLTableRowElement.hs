@@ -3,16 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableRowElement
-       (insertCell, insertCell_, insertCellUnsafe, insertCellUnchecked,
-        deleteCell, getRowIndex, getSectionRowIndex, getCells,
-        getCellsUnsafe, getCellsUnchecked, setAlign, getAlign, setBgColor,
-        getBgColor, setCh, getCh, setChOff, getChOff, setVAlign, getVAlign,
-        HTMLTableRowElement(..), gTypeHTMLTableRowElement)
+       (insertCell, insertCell_, deleteCell, getRowIndex,
+        getSectionRowIndex, getCells, setAlign, getAlign, setBgColor,
+        getBgColor, getBgColorUnsafe, getBgColorUnchecked, setCh, getCh,
+        setChOff, getChOff, setVAlign, getVAlign, HTMLTableRowElement(..),
+        gTypeHTMLTableRowElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,31 +25,16 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.insertCell Mozilla HTMLTableRowElement.insertCell documentation> 
 insertCell ::
-           (MonadDOM m) => HTMLTableRowElement -> Int -> m (Maybe HTMLElement)
+           (MonadDOM m) => HTMLTableRowElement -> Maybe Int -> m HTMLElement
 insertCell self index
   = liftDOM
-      ((self ^. jsf "insertCell" [toJSVal index]) >>= fromJSVal)
+      ((self ^. jsf "insertCell" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.insertCell Mozilla HTMLTableRowElement.insertCell documentation> 
-insertCell_ :: (MonadDOM m) => HTMLTableRowElement -> Int -> m ()
+insertCell_ ::
+            (MonadDOM m) => HTMLTableRowElement -> Maybe Int -> m ()
 insertCell_ self index
   = liftDOM (void (self ^. jsf "insertCell" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.insertCell Mozilla HTMLTableRowElement.insertCell documentation> 
-insertCellUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   HTMLTableRowElement -> Int -> m HTMLElement
-insertCellUnsafe self index
-  = liftDOM
-      (((self ^. jsf "insertCell" [toJSVal index]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.insertCell Mozilla HTMLTableRowElement.insertCell documentation> 
-insertCellUnchecked ::
-                    (MonadDOM m) => HTMLTableRowElement -> Int -> m HTMLElement
-insertCellUnchecked self index
-  = liftDOM
-      ((self ^. jsf "insertCell" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.deleteCell Mozilla HTMLTableRowElement.deleteCell documentation> 
 deleteCell :: (MonadDOM m) => HTMLTableRowElement -> Int -> m ()
@@ -67,23 +53,8 @@ getSectionRowIndex self
       (round <$> ((self ^. js "sectionRowIndex") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.cells Mozilla HTMLTableRowElement.cells documentation> 
-getCells ::
-         (MonadDOM m) => HTMLTableRowElement -> m (Maybe HTMLCollection)
-getCells self = liftDOM ((self ^. js "cells") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.cells Mozilla HTMLTableRowElement.cells documentation> 
-getCellsUnsafe ::
-               (MonadDOM m, HasCallStack) =>
-                 HTMLTableRowElement -> m HTMLCollection
-getCellsUnsafe self
-  = liftDOM
-      (((self ^. js "cells") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.cells Mozilla HTMLTableRowElement.cells documentation> 
-getCellsUnchecked ::
-                  (MonadDOM m) => HTMLTableRowElement -> m HTMLCollection
-getCellsUnchecked self
+getCells :: (MonadDOM m) => HTMLTableRowElement -> m HTMLCollection
+getCells self
   = liftDOM ((self ^. js "cells") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.align Mozilla HTMLTableRowElement.align documentation> 
@@ -100,14 +71,31 @@ getAlign self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
 setBgColor ::
-           (MonadDOM m, ToJSString val) => HTMLTableRowElement -> val -> m ()
+           (MonadDOM m, ToJSString val) =>
+             HTMLTableRowElement -> Maybe val -> m ()
 setBgColor self val = liftDOM (self ^. jss "bgColor" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
 getBgColor ::
            (MonadDOM m, FromJSString result) =>
-             HTMLTableRowElement -> m result
+             HTMLTableRowElement -> m (Maybe result)
 getBgColor self
+  = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
+getBgColorUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   HTMLTableRowElement -> m result
+getBgColorUnsafe self
+  = liftDOM
+      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
+getBgColorUnchecked ::
+                    (MonadDOM m, FromJSString result) =>
+                      HTMLTableRowElement -> m result
+getBgColorUnchecked self
   = liftDOM ((self ^. js "bgColor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.ch Mozilla HTMLTableRowElement.ch documentation> 

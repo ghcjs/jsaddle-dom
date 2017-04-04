@@ -3,10 +3,10 @@ module JSDOM.EventTargetClosures
 
 import Control.Applicative ((<$>))
 import JSDOM.Types
-import Language.Javascript.JSaddle (function, JSM, Function(..), freeFunction)
+import Language.Javascript.JSaddle as JSaddle (function, JSM, Function(..), freeFunction)
 
 newtype EventName t e = EventName DOMString
-newtype SaferEventListener t e = SaferEventListener Function
+newtype SaferEventListener t e = SaferEventListener JSaddle.Function
 
 instance ToJSVal (SaferEventListener t e) where
     toJSVal (SaferEventListener l) = toJSVal l

@@ -3,16 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.IDBTransaction
-       (objectStore, objectStore_, objectStoreUnsafe,
-        objectStoreUnchecked, abort, getMode, getDb, getDbUnsafe,
-        getDbUnchecked, getError, getErrorUnsafe, getErrorUnchecked,
-        abortEvent, complete, error, IDBTransaction(..),
+       (objectStore, objectStore_, abort, getObjectStoreNames, getMode,
+        getDb, getError, abortEvent, complete, error, IDBTransaction(..),
         gTypeIDBTransaction)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,10 +24,10 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStore Mozilla IDBTransaction.objectStore documentation> 
 objectStore ::
             (MonadDOM m, ToJSString name) =>
-              IDBTransaction -> name -> m (Maybe IDBObjectStore)
+              IDBTransaction -> name -> m IDBObjectStore
 objectStore self name
   = liftDOM
-      ((self ^. jsf "objectStore" [toJSVal name]) >>= fromJSVal)
+      ((self ^. jsf "objectStore" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStore Mozilla IDBTransaction.objectStore documentation> 
 objectStore_ ::
@@ -36,64 +35,27 @@ objectStore_ ::
 objectStore_ self name
   = liftDOM (void (self ^. jsf "objectStore" [toJSVal name]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStore Mozilla IDBTransaction.objectStore documentation> 
-objectStoreUnsafe ::
-                  (MonadDOM m, ToJSString name, HasCallStack) =>
-                    IDBTransaction -> name -> m IDBObjectStore
-objectStoreUnsafe self name
-  = liftDOM
-      (((self ^. jsf "objectStore" [toJSVal name]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStore Mozilla IDBTransaction.objectStore documentation> 
-objectStoreUnchecked ::
-                     (MonadDOM m, ToJSString name) =>
-                       IDBTransaction -> name -> m IDBObjectStore
-objectStoreUnchecked self name
-  = liftDOM
-      ((self ^. jsf "objectStore" [toJSVal name]) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.abort Mozilla IDBTransaction.abort documentation> 
 abort :: (MonadDOM m) => IDBTransaction -> m ()
 abort self = liftDOM (void (self ^. jsf "abort" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.objectStoreNames Mozilla IDBTransaction.objectStoreNames documentation> 
+getObjectStoreNames ::
+                    (MonadDOM m) => IDBTransaction -> m DOMStringList
+getObjectStoreNames self
+  = liftDOM ((self ^. js "objectStoreNames") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.mode Mozilla IDBTransaction.mode documentation> 
-getMode ::
-        (MonadDOM m, FromJSString result) => IDBTransaction -> m result
+getMode :: (MonadDOM m) => IDBTransaction -> m IDBTransactionMode
 getMode self = liftDOM ((self ^. js "mode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.db Mozilla IDBTransaction.db documentation> 
-getDb :: (MonadDOM m) => IDBTransaction -> m (Maybe IDBDatabase)
-getDb self = liftDOM ((self ^. js "db") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.db Mozilla IDBTransaction.db documentation> 
-getDbUnsafe ::
-            (MonadDOM m, HasCallStack) => IDBTransaction -> m IDBDatabase
-getDbUnsafe self
-  = liftDOM
-      (((self ^. js "db") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.db Mozilla IDBTransaction.db documentation> 
-getDbUnchecked :: (MonadDOM m) => IDBTransaction -> m IDBDatabase
-getDbUnchecked self
-  = liftDOM ((self ^. js "db") >>= fromJSValUnchecked)
+getDb :: (MonadDOM m) => IDBTransaction -> m IDBDatabase
+getDb self = liftDOM ((self ^. js "db") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
-getError :: (MonadDOM m) => IDBTransaction -> m (Maybe DOMError)
-getError self = liftDOM ((self ^. js "error") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
-getErrorUnsafe ::
-               (MonadDOM m, HasCallStack) => IDBTransaction -> m DOMError
-getErrorUnsafe self
-  = liftDOM
-      (((self ^. js "error") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.error Mozilla IDBTransaction.error documentation> 
-getErrorUnchecked :: (MonadDOM m) => IDBTransaction -> m DOMError
-getErrorUnchecked self
+getError :: (MonadDOM m) => IDBTransaction -> m DOMError
+getError self
   = liftDOM ((self ^. js "error") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction.onabort Mozilla IDBTransaction.onabort documentation> 

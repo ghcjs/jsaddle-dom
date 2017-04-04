@@ -4,18 +4,17 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaController
        (newMediaController, play, pause, unpause, getBuffered,
-        getBufferedUnsafe, getBufferedUnchecked, getSeekable,
-        getSeekableUnsafe, getSeekableUnchecked, getDuration,
-        setCurrentTime, getCurrentTime, getPaused, getPlayed,
-        getPlayedUnsafe, getPlayedUnchecked, getPlaybackState,
-        setDefaultPlaybackRate, getDefaultPlaybackRate, setPlaybackRate,
-        getPlaybackRate, setVolume, getVolume, setMuted, getMuted,
-        MediaController(..), gTypeMediaController)
+        getSeekable, getDuration, setCurrentTime, getCurrentTime,
+        getPaused, getPlayed, getPlaybackState, setDefaultPlaybackRate,
+        getDefaultPlaybackRate, setPlaybackRate, getPlaybackRate,
+        setVolume, getVolume, setMuted, getMuted, MediaController(..),
+        gTypeMediaController)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -43,41 +42,13 @@ unpause :: (MonadDOM m) => MediaController -> m ()
 unpause self = liftDOM (void (self ^. jsf "unpause" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.buffered Mozilla MediaController.buffered documentation> 
-getBuffered ::
-            (MonadDOM m) => MediaController -> m (Maybe TimeRanges)
-getBuffered self = liftDOM ((self ^. js "buffered") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.buffered Mozilla MediaController.buffered documentation> 
-getBufferedUnsafe ::
-                  (MonadDOM m, HasCallStack) => MediaController -> m TimeRanges
-getBufferedUnsafe self
-  = liftDOM
-      (((self ^. js "buffered") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.buffered Mozilla MediaController.buffered documentation> 
-getBufferedUnchecked ::
-                     (MonadDOM m) => MediaController -> m TimeRanges
-getBufferedUnchecked self
+getBuffered :: (MonadDOM m) => MediaController -> m TimeRanges
+getBuffered self
   = liftDOM ((self ^. js "buffered") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.seekable Mozilla MediaController.seekable documentation> 
-getSeekable ::
-            (MonadDOM m) => MediaController -> m (Maybe TimeRanges)
-getSeekable self = liftDOM ((self ^. js "seekable") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.seekable Mozilla MediaController.seekable documentation> 
-getSeekableUnsafe ::
-                  (MonadDOM m, HasCallStack) => MediaController -> m TimeRanges
-getSeekableUnsafe self
-  = liftDOM
-      (((self ^. js "seekable") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.seekable Mozilla MediaController.seekable documentation> 
-getSeekableUnchecked ::
-                     (MonadDOM m) => MediaController -> m TimeRanges
-getSeekableUnchecked self
+getSeekable :: (MonadDOM m) => MediaController -> m TimeRanges
+getSeekable self
   = liftDOM ((self ^. js "seekable") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.duration Mozilla MediaController.duration documentation> 
@@ -100,22 +71,8 @@ getPaused :: (MonadDOM m) => MediaController -> m Bool
 getPaused self = liftDOM ((self ^. js "paused") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.played Mozilla MediaController.played documentation> 
-getPlayed ::
-          (MonadDOM m) => MediaController -> m (Maybe TimeRanges)
-getPlayed self = liftDOM ((self ^. js "played") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.played Mozilla MediaController.played documentation> 
-getPlayedUnsafe ::
-                (MonadDOM m, HasCallStack) => MediaController -> m TimeRanges
-getPlayedUnsafe self
-  = liftDOM
-      (((self ^. js "played") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.played Mozilla MediaController.played documentation> 
-getPlayedUnchecked ::
-                   (MonadDOM m) => MediaController -> m TimeRanges
-getPlayedUnchecked self
+getPlayed :: (MonadDOM m) => MediaController -> m TimeRanges
+getPlayed self
   = liftDOM ((self ^. js "played") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaController.playbackState Mozilla MediaController.playbackState documentation> 

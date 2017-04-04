@@ -3,13 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBaseElement
-       (setHref, getHref, getHrefUnsafe, getHrefUnchecked, setTarget,
-        getTarget, HTMLBaseElement(..), gTypeHTMLBaseElement)
+       (setHref, getHref, setTarget, getTarget, HTMLBaseElement(..),
+        gTypeHTMLBaseElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -21,30 +22,13 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
 setHref ::
-        (MonadDOM m, ToJSString val) =>
-          HTMLBaseElement -> Maybe val -> m ()
+        (MonadDOM m, ToJSString val) => HTMLBaseElement -> val -> m ()
 setHref self val = liftDOM (self ^. jss "href" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
 getHref ::
-        (MonadDOM m, FromJSString result) =>
-          HTMLBaseElement -> m (Maybe result)
-getHref self = liftDOM ((self ^. js "href") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
-getHrefUnsafe ::
-              (MonadDOM m, HasCallStack, FromJSString result) =>
-                HTMLBaseElement -> m result
-getHrefUnsafe self
-  = liftDOM
-      (((self ^. js "href") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.href Mozilla HTMLBaseElement.href documentation> 
-getHrefUnchecked ::
-                 (MonadDOM m, FromJSString result) => HTMLBaseElement -> m result
-getHrefUnchecked self
-  = liftDOM ((self ^. js "href") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) => HTMLBaseElement -> m result
+getHref self = liftDOM ((self ^. js "href") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement.target Mozilla HTMLBaseElement.target documentation> 
 setTarget ::

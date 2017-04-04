@@ -3,23 +3,22 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLObjectElement
-       (checkValidity, checkValidity_, setCustomValidity, getSVGDocument,
-        getSVGDocument_, getSVGDocumentUnsafe, getSVGDocumentUnchecked,
-        getForm, getFormUnsafe, getFormUnchecked, setCode, getCode,
-        setAlign, getAlign, setArchive, getArchive, setBorder, getBorder,
+       (checkValidity, checkValidity_, reportValidity, reportValidity_,
+        setCustomValidity, getSVGDocument, getSVGDocument_, getForm,
+        setCode, getCode, setAlign, getAlign, setArchive, getArchive,
+        setBorder, getBorder, getBorderUnsafe, getBorderUnchecked,
         setCodeBase, getCodeBase, setCodeType, getCodeType, setData,
         getData, setDeclare, getDeclare, setHeight, getHeight, setHspace,
         getHspace, setName, getName, setStandby, getStandby, setType,
         getType, setUseMap, getUseMap, setVspace, getVspace, setWidth,
-        getWidth, getWillValidate, getValidity, getValidityUnsafe,
-        getValidityUnchecked, getValidationMessage, getContentDocument,
-        getContentDocumentUnsafe, getContentDocumentUnchecked,
-        HTMLObjectElement(..), gTypeHTMLObjectElement)
+        getWidth, getWillValidate, getValidity, getValidationMessage,
+        getContentDocument, HTMLObjectElement(..), gTypeHTMLObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -39,58 +38,37 @@ checkValidity_ :: (MonadDOM m) => HTMLObjectElement -> m ()
 checkValidity_ self
   = liftDOM (void (self ^. jsf "checkValidity" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.reportValidity Mozilla HTMLObjectElement.reportValidity documentation> 
+reportValidity :: (MonadDOM m) => HTMLObjectElement -> m Bool
+reportValidity self
+  = liftDOM ((self ^. jsf "reportValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.reportValidity Mozilla HTMLObjectElement.reportValidity documentation> 
+reportValidity_ :: (MonadDOM m) => HTMLObjectElement -> m ()
+reportValidity_ self
+  = liftDOM (void (self ^. jsf "reportValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.setCustomValidity Mozilla HTMLObjectElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
-                    HTMLObjectElement -> Maybe error -> m ()
+                    HTMLObjectElement -> error -> m ()
 setCustomValidity self error
   = liftDOM (void (self ^. jsf "setCustomValidity" [toJSVal error]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
-getSVGDocument ::
-               (MonadDOM m) => HTMLObjectElement -> m (Maybe SVGDocument)
+getSVGDocument :: (MonadDOM m) => HTMLObjectElement -> m Document
 getSVGDocument self
-  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
 getSVGDocument_ :: (MonadDOM m) => HTMLObjectElement -> m ()
 getSVGDocument_ self
   = liftDOM (void (self ^. jsf "getSVGDocument" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
-getSVGDocumentUnsafe ::
-                     (MonadDOM m, HasCallStack) => HTMLObjectElement -> m SVGDocument
-getSVGDocumentUnsafe self
-  = liftDOM
-      (((self ^. jsf "getSVGDocument" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.getSVGDocument Mozilla HTMLObjectElement.getSVGDocument documentation> 
-getSVGDocumentUnchecked ::
-                        (MonadDOM m) => HTMLObjectElement -> m SVGDocument
-getSVGDocumentUnchecked self
-  = liftDOM
-      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.form Mozilla HTMLObjectElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLObjectElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.form Mozilla HTMLObjectElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLObjectElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.form Mozilla HTMLObjectElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLObjectElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+getForm :: (MonadDOM m) => HTMLObjectElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.code Mozilla HTMLObjectElement.code documentation> 
 setCode ::
@@ -126,13 +104,30 @@ getArchive self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
 setBorder ::
-          (MonadDOM m, ToJSString val) => HTMLObjectElement -> val -> m ()
+          (MonadDOM m, ToJSString val) =>
+            HTMLObjectElement -> Maybe val -> m ()
 setBorder self val = liftDOM (self ^. jss "border" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
 getBorder ::
-          (MonadDOM m, FromJSString result) => HTMLObjectElement -> m result
+          (MonadDOM m, FromJSString result) =>
+            HTMLObjectElement -> m (Maybe result)
 getBorder self
+  = liftDOM ((self ^. js "border") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
+getBorderUnsafe ::
+                (MonadDOM m, HasCallStack, FromJSString result) =>
+                  HTMLObjectElement -> m result
+getBorderUnsafe self
+  = liftDOM
+      (((self ^. js "border") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
+getBorderUnchecked ::
+                   (MonadDOM m, FromJSString result) => HTMLObjectElement -> m result
+getBorderUnchecked self
   = liftDOM ((self ^. js "border") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.codeBase Mozilla HTMLObjectElement.codeBase documentation> 
@@ -189,11 +184,11 @@ getHeight self
   = liftDOM ((self ^. js "height") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.hspace Mozilla HTMLObjectElement.hspace documentation> 
-setHspace :: (MonadDOM m) => HTMLObjectElement -> Int -> m ()
+setHspace :: (MonadDOM m) => HTMLObjectElement -> Word -> m ()
 setHspace self val = liftDOM (self ^. jss "hspace" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.hspace Mozilla HTMLObjectElement.hspace documentation> 
-getHspace :: (MonadDOM m) => HTMLObjectElement -> m Int
+getHspace :: (MonadDOM m) => HTMLObjectElement -> m Word
 getHspace self
   = liftDOM (round <$> ((self ^. js "hspace") >>= valToNumber))
 
@@ -240,11 +235,11 @@ getUseMap self
   = liftDOM ((self ^. js "useMap") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.vspace Mozilla HTMLObjectElement.vspace documentation> 
-setVspace :: (MonadDOM m) => HTMLObjectElement -> Int -> m ()
+setVspace :: (MonadDOM m) => HTMLObjectElement -> Word -> m ()
 setVspace self val = liftDOM (self ^. jss "vspace" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.vspace Mozilla HTMLObjectElement.vspace documentation> 
-getVspace :: (MonadDOM m) => HTMLObjectElement -> m Int
+getVspace :: (MonadDOM m) => HTMLObjectElement -> m Word
 getVspace self
   = liftDOM (round <$> ((self ^. js "vspace") >>= valToNumber))
 
@@ -265,22 +260,8 @@ getWillValidate self
   = liftDOM ((self ^. js "willValidate") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.validity Mozilla HTMLObjectElement.validity documentation> 
-getValidity ::
-            (MonadDOM m) => HTMLObjectElement -> m (Maybe ValidityState)
-getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.validity Mozilla HTMLObjectElement.validity documentation> 
-getValidityUnsafe ::
-                  (MonadDOM m, HasCallStack) => HTMLObjectElement -> m ValidityState
-getValidityUnsafe self
-  = liftDOM
-      (((self ^. js "validity") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.validity Mozilla HTMLObjectElement.validity documentation> 
-getValidityUnchecked ::
-                     (MonadDOM m) => HTMLObjectElement -> m ValidityState
-getValidityUnchecked self
+getValidity :: (MonadDOM m) => HTMLObjectElement -> m ValidityState
+getValidity self
   = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.validationMessage Mozilla HTMLObjectElement.validationMessage documentation> 
@@ -291,20 +272,6 @@ getValidationMessage self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.contentDocument Mozilla HTMLObjectElement.contentDocument documentation> 
 getContentDocument ::
-                   (MonadDOM m) => HTMLObjectElement -> m (Maybe Document)
+                   (MonadDOM m) => HTMLObjectElement -> m Document
 getContentDocument self
-  = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.contentDocument Mozilla HTMLObjectElement.contentDocument documentation> 
-getContentDocumentUnsafe ::
-                         (MonadDOM m, HasCallStack) => HTMLObjectElement -> m Document
-getContentDocumentUnsafe self
-  = liftDOM
-      (((self ^. js "contentDocument") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.contentDocument Mozilla HTMLObjectElement.contentDocument documentation> 
-getContentDocumentUnchecked ::
-                            (MonadDOM m) => HTMLObjectElement -> m Document
-getContentDocumentUnchecked self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSValUnchecked)

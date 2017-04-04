@@ -3,15 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLEmbedElement
-       (getSVGDocument, getSVGDocument_, getSVGDocumentUnsafe,
-        getSVGDocumentUnchecked, setAlign, getAlign, setHeight, getHeight,
-        setName, getName, setSrc, getSrc, setType, getType, setWidth,
-        getWidth, HTMLEmbedElement(..), gTypeHTMLEmbedElement)
+       (getSVGDocument, getSVGDocument_, setAlign, getAlign, setHeight,
+        getHeight, setName, getName, setSrc, getSrc, setType, getType,
+        setWidth, getWidth, HTMLEmbedElement(..), gTypeHTMLEmbedElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -22,30 +22,15 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.getSVGDocument Mozilla HTMLEmbedElement.getSVGDocument documentation> 
-getSVGDocument ::
-               (MonadDOM m) => HTMLEmbedElement -> m (Maybe SVGDocument)
+getSVGDocument :: (MonadDOM m) => HTMLEmbedElement -> m Document
 getSVGDocument self
-  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.getSVGDocument Mozilla HTMLEmbedElement.getSVGDocument documentation> 
 getSVGDocument_ :: (MonadDOM m) => HTMLEmbedElement -> m ()
 getSVGDocument_ self
   = liftDOM (void (self ^. jsf "getSVGDocument" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.getSVGDocument Mozilla HTMLEmbedElement.getSVGDocument documentation> 
-getSVGDocumentUnsafe ::
-                     (MonadDOM m, HasCallStack) => HTMLEmbedElement -> m SVGDocument
-getSVGDocumentUnsafe self
-  = liftDOM
-      (((self ^. jsf "getSVGDocument" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.getSVGDocument Mozilla HTMLEmbedElement.getSVGDocument documentation> 
-getSVGDocumentUnchecked ::
-                        (MonadDOM m) => HTMLEmbedElement -> m SVGDocument
-getSVGDocumentUnchecked self
-  = liftDOM
-      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement.align Mozilla HTMLEmbedElement.align documentation> 
 setAlign ::

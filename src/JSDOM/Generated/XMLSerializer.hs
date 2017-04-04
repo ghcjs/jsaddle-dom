@@ -9,7 +9,8 @@ module JSDOM.Generated.XMLSerializer
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -27,7 +28,7 @@ newXMLSerializer
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLSerializer.serializeToString Mozilla XMLSerializer.serializeToString documentation> 
 serializeToString ::
                   (MonadDOM m, IsNode node, FromJSString result) =>
-                    XMLSerializer -> Maybe node -> m result
+                    XMLSerializer -> node -> m result
 serializeToString self node
   = liftDOM
       ((self ^. jsf "serializeToString" [toJSVal node]) >>=
@@ -35,6 +36,6 @@ serializeToString self node
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLSerializer.serializeToString Mozilla XMLSerializer.serializeToString documentation> 
 serializeToString_ ::
-                   (MonadDOM m, IsNode node) => XMLSerializer -> Maybe node -> m ()
+                   (MonadDOM m, IsNode node) => XMLSerializer -> node -> m ()
 serializeToString_ self node
   = liftDOM (void (self ^. jsf "serializeToString" [toJSVal node]))

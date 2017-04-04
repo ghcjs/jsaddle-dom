@@ -3,14 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCDTMFSender
-       (insertDTMF, getCanInsertDTMF, getTrack, getTrackUnsafe,
-        getTrackUnchecked, getToneBuffer, getDuration, getInterToneGap,
-        toneChange, RTCDTMFSender(..), gTypeRTCDTMFSender)
+       (insertDTMF, getCanInsertDTMF, getTrack, getToneBuffer,
+        getDuration, getInterToneGap, toneChange, RTCDTMFSender(..),
+        gTypeRTCDTMFSender)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -23,7 +24,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.insertDTMF Mozilla RTCDTMFSender.insertDTMF documentation> 
 insertDTMF ::
            (MonadDOM m, ToJSString tones) =>
-             RTCDTMFSender -> tones -> Int -> Int -> m ()
+             RTCDTMFSender -> tones -> Maybe Int -> Maybe Int -> m ()
 insertDTMF self tones duration interToneGap
   = liftDOM
       (void
@@ -36,22 +37,8 @@ getCanInsertDTMF self
   = liftDOM ((self ^. js "canInsertDTMF") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.track Mozilla RTCDTMFSender.track documentation> 
-getTrack ::
-         (MonadDOM m) => RTCDTMFSender -> m (Maybe MediaStreamTrack)
-getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.track Mozilla RTCDTMFSender.track documentation> 
-getTrackUnsafe ::
-               (MonadDOM m, HasCallStack) => RTCDTMFSender -> m MediaStreamTrack
-getTrackUnsafe self
-  = liftDOM
-      (((self ^. js "track") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.track Mozilla RTCDTMFSender.track documentation> 
-getTrackUnchecked ::
-                  (MonadDOM m) => RTCDTMFSender -> m MediaStreamTrack
-getTrackUnchecked self
+getTrack :: (MonadDOM m) => RTCDTMFSender -> m MediaStreamTrack
+getTrack self
   = liftDOM ((self ^. js "track") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDTMFSender.toneBuffer Mozilla RTCDTMFSender.toneBuffer documentation> 

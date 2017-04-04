@@ -3,14 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataCue
-       (newDataCue, newDataCue', setData, getData, getDataUnsafe,
-        getDataUnchecked, setValue, getValue, getType, DataCue(..),
-        gTypeDataCue)
+       (newDataCue, newDataCue', setData, getData, setValue, getValue,
+        getType, DataCue(..), gTypeDataCue)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -21,13 +21,19 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue Mozilla WebKitDataCue documentation> 
-newDataCue :: (MonadDOM m) => m DataCue
-newDataCue = liftDOM (DataCue <$> new (jsg "DataCue") ())
+newDataCue ::
+           (MonadDOM m, IsArrayBuffer data') =>
+             Double -> Double -> data' -> m DataCue
+newDataCue startTime endTime data'
+  = liftDOM
+      (DataCue <$>
+         new (jsg "DataCue")
+           [toJSVal startTime, toJSVal endTime, toJSVal data'])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue Mozilla WebKitDataCue documentation> 
 newDataCue' ::
-            (MonadDOM m, ToJSString type') =>
-              Double -> Double -> JSVal -> type' -> m DataCue
+            (MonadDOM m, ToJSVal value, ToJSString type') =>
+              Double -> Double -> value -> Maybe type' -> m DataCue
 newDataCue' startTime endTime value type'
   = liftDOM
       (DataCue <$>
@@ -36,28 +42,15 @@ newDataCue' startTime endTime value type'
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.data Mozilla WebKitDataCue.data documentation> 
 setData ::
-        (MonadDOM m, IsArrayBuffer val) => DataCue -> Maybe val -> m ()
+        (MonadDOM m, IsArrayBuffer val) => DataCue -> val -> m ()
 setData self val = liftDOM (self ^. jss "data" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.data Mozilla WebKitDataCue.data documentation> 
-getData :: (MonadDOM m) => DataCue -> m (Maybe ArrayBuffer)
-getData self = liftDOM ((self ^. js "data") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.data Mozilla WebKitDataCue.data documentation> 
-getDataUnsafe ::
-              (MonadDOM m, HasCallStack) => DataCue -> m ArrayBuffer
-getDataUnsafe self
-  = liftDOM
-      (((self ^. js "data") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.data Mozilla WebKitDataCue.data documentation> 
-getDataUnchecked :: (MonadDOM m) => DataCue -> m ArrayBuffer
-getDataUnchecked self
-  = liftDOM ((self ^. js "data") >>= fromJSValUnchecked)
+getData :: (MonadDOM m) => DataCue -> m ArrayBuffer
+getData self = liftDOM ((self ^. js "data") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.value Mozilla WebKitDataCue.value documentation> 
-setValue :: (MonadDOM m) => DataCue -> JSVal -> m ()
+setValue :: (MonadDOM m, ToJSVal val) => DataCue -> val -> m ()
 setValue self val = liftDOM (self ^. jss "value" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitDataCue.value Mozilla WebKitDataCue.value documentation> 

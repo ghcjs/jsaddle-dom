@@ -5,13 +5,13 @@
 module JSDOM.Generated.HTMLMeterElement
        (setValue, getValue, setMin, getMin, setMax, getMax, setLow,
         getLow, setHigh, getHigh, setOptimum, getOptimum, getLabels,
-        getLabelsUnsafe, getLabelsUnchecked, HTMLMeterElement(..),
-        gTypeHTMLMeterElement)
+        HTMLMeterElement(..), gTypeHTMLMeterElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -70,19 +70,6 @@ getOptimum :: (MonadDOM m) => HTMLMeterElement -> m Double
 getOptimum self = liftDOM ((self ^. js "optimum") >>= valToNumber)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
-getLabels :: (MonadDOM m) => HTMLMeterElement -> m (Maybe NodeList)
-getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
-getLabelsUnsafe ::
-                (MonadDOM m, HasCallStack) => HTMLMeterElement -> m NodeList
-getLabelsUnsafe self
-  = liftDOM
-      (((self ^. js "labels") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement.labels Mozilla HTMLMeterElement.labels documentation> 
-getLabelsUnchecked ::
-                   (MonadDOM m) => HTMLMeterElement -> m NodeList
-getLabelsUnchecked self
+getLabels :: (MonadDOM m) => HTMLMeterElement -> m NodeList
+getLabels self
   = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

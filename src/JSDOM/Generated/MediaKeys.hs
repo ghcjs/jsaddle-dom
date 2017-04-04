@@ -3,14 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaKeys
-       (newMediaKeys, createSession, createSession_, createSessionUnsafe,
-        createSessionUnchecked, isTypeSupported, isTypeSupported_,
-        getKeySystem, MediaKeys(..), gTypeMediaKeys)
+       (createSession, createSession_, setServerCertificate,
+        setServerCertificate_, MediaKeys(..), gTypeMediaKeys)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -20,70 +20,37 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys Mozilla WebKitMediaKeys documentation> 
-newMediaKeys ::
-             (MonadDOM m, ToJSString keySystem) => keySystem -> m MediaKeys
-newMediaKeys keySystem
-  = liftDOM (MediaKeys <$> new (jsg "MediaKeys") [toJSVal keySystem])
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.createSession Mozilla WebKitMediaKeys.createSession documentation> 
 createSession ::
-              (MonadDOM m, ToJSString type', IsUint8Array initData) =>
-                MediaKeys -> type' -> Maybe initData -> m (Maybe MediaKeySession)
-createSession self type' initData
+              (MonadDOM m) =>
+                MediaKeys -> Maybe MediaKeySessionType -> m MediaKeySession
+createSession self sessionType
   = liftDOM
-      ((self ^. jsf "createSession" [toJSVal type', toJSVal initData])
-         >>= fromJSVal)
+      ((self ^. jsf "createSession" [toJSVal sessionType]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.createSession Mozilla WebKitMediaKeys.createSession documentation> 
 createSession_ ::
-               (MonadDOM m, ToJSString type', IsUint8Array initData) =>
-                 MediaKeys -> type' -> Maybe initData -> m ()
-createSession_ self type' initData
+               (MonadDOM m) => MediaKeys -> Maybe MediaKeySessionType -> m ()
+createSession_ self sessionType
   = liftDOM
-      (void
-         (self ^. jsf "createSession" [toJSVal type', toJSVal initData]))
+      (void (self ^. jsf "createSession" [toJSVal sessionType]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.createSession Mozilla WebKitMediaKeys.createSession documentation> 
-createSessionUnsafe ::
-                    (MonadDOM m, ToJSString type', IsUint8Array initData,
-                     HasCallStack) =>
-                      MediaKeys -> type' -> Maybe initData -> m MediaKeySession
-createSessionUnsafe self type' initData
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.setServerCertificate Mozilla WebKitMediaKeys.setServerCertificate documentation> 
+setServerCertificate ::
+                     (MonadDOM m, IsBufferSource serverCertificate) =>
+                       MediaKeys -> serverCertificate -> m Bool
+setServerCertificate self serverCertificate
   = liftDOM
-      (((self ^. jsf "createSession" [toJSVal type', toJSVal initData])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.createSession Mozilla WebKitMediaKeys.createSession documentation> 
-createSessionUnchecked ::
-                       (MonadDOM m, ToJSString type', IsUint8Array initData) =>
-                         MediaKeys -> type' -> Maybe initData -> m MediaKeySession
-createSessionUnchecked self type' initData
-  = liftDOM
-      ((self ^. jsf "createSession" [toJSVal type', toJSVal initData])
+      (((self ^. jsf "setServerCertificate" [toJSVal serverCertificate])
+          >>= readPromise)
          >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.isTypeSupported Mozilla WebKitMediaKeys.isTypeSupported documentation> 
-isTypeSupported ::
-                (MonadDOM m, ToJSString keySystem, ToJSString type') =>
-                  MediaKeys -> keySystem -> type' -> m Bool
-isTypeSupported self keySystem type'
-  = liftDOM
-      ((self ^. jsf "isTypeSupported" [toJSVal keySystem, toJSVal type'])
-         >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.isTypeSupported Mozilla WebKitMediaKeys.isTypeSupported documentation> 
-isTypeSupported_ ::
-                 (MonadDOM m, ToJSString keySystem, ToJSString type') =>
-                   MediaKeys -> keySystem -> type' -> m ()
-isTypeSupported_ self keySystem type'
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.setServerCertificate Mozilla WebKitMediaKeys.setServerCertificate documentation> 
+setServerCertificate_ ::
+                      (MonadDOM m, IsBufferSource serverCertificate) =>
+                        MediaKeys -> serverCertificate -> m ()
+setServerCertificate_ self serverCertificate
   = liftDOM
       (void
-         (self ^. jsf "isTypeSupported" [toJSVal keySystem, toJSVal type']))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.keySystem Mozilla WebKitMediaKeys.keySystem documentation> 
-getKeySystem ::
-             (MonadDOM m, FromJSString result) => MediaKeys -> m result
-getKeySystem self
-  = liftDOM ((self ^. js "keySystem") >>= fromJSValUnchecked)
+         (self ^. jsf "setServerCertificate" [toJSVal serverCertificate]))

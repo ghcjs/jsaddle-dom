@@ -3,16 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGViewSpec
-       (getTransform, getTransformUnsafe, getTransformUnchecked,
-        getViewTarget, getViewTargetUnsafe, getViewTargetUnchecked,
-        getViewBoxString, getPreserveAspectRatioString, getTransformString,
+       (getTransform, getViewTarget, getViewBoxString,
+        getPreserveAspectRatioString, getTransformString,
         getViewTargetString, setZoomAndPan, getZoomAndPan, SVGViewSpec(..),
         gTypeSVGViewSpec)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -23,43 +23,13 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.transform Mozilla SVGViewSpec.transform documentation> 
-getTransform ::
-             (MonadDOM m) => SVGViewSpec -> m (Maybe SVGTransformList)
+getTransform :: (MonadDOM m) => SVGViewSpec -> m SVGTransformList
 getTransform self
-  = liftDOM ((self ^. js "transform") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.transform Mozilla SVGViewSpec.transform documentation> 
-getTransformUnsafe ::
-                   (MonadDOM m, HasCallStack) => SVGViewSpec -> m SVGTransformList
-getTransformUnsafe self
-  = liftDOM
-      (((self ^. js "transform") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.transform Mozilla SVGViewSpec.transform documentation> 
-getTransformUnchecked ::
-                      (MonadDOM m) => SVGViewSpec -> m SVGTransformList
-getTransformUnchecked self
   = liftDOM ((self ^. js "transform") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
-getViewTarget ::
-              (MonadDOM m) => SVGViewSpec -> m (Maybe SVGElement)
+getViewTarget :: (MonadDOM m) => SVGViewSpec -> m SVGElement
 getViewTarget self
-  = liftDOM ((self ^. js "viewTarget") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
-getViewTargetUnsafe ::
-                    (MonadDOM m, HasCallStack) => SVGViewSpec -> m SVGElement
-getViewTargetUnsafe self
-  = liftDOM
-      (((self ^. js "viewTarget") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewTarget Mozilla SVGViewSpec.viewTarget documentation> 
-getViewTargetUnchecked ::
-                       (MonadDOM m) => SVGViewSpec -> m SVGElement
-getViewTargetUnchecked self
   = liftDOM ((self ^. js "viewTarget") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGViewSpec.viewBoxString Mozilla SVGViewSpec.viewBoxString documentation> 

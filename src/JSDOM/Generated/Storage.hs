@@ -10,7 +10,8 @@ module JSDOM.Generated.Storage
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,8 +26,7 @@ key ::
     (MonadDOM m, FromJSString result) =>
       Storage -> Word -> m (Maybe result)
 key self index
-  = liftDOM
-      ((self ^. jsf "key" [toJSVal index]) >>= fromMaybeJSString)
+  = liftDOM ((self ^. jsf "key" [toJSVal index]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.key Mozilla Storage.key documentation> 
 key_ :: (MonadDOM m) => Storage -> Word -> m ()
@@ -39,7 +39,7 @@ keyUnsafe ::
             Storage -> Word -> m result
 keyUnsafe self index
   = liftDOM
-      (((self ^. jsf "key" [toJSVal index]) >>= fromMaybeJSString) >>=
+      (((self ^. jsf "key" [toJSVal index]) >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.key Mozilla Storage.key documentation> 
@@ -53,14 +53,11 @@ keyUnchecked self index
 getItem ::
         (MonadDOM m, ToJSString key, FromJSString result) =>
           Storage -> key -> m (Maybe result)
-getItem self key
-  = liftDOM
-      ((self ^. jsf "getItem" [toJSVal key]) >>= fromMaybeJSString)
+getItem self key = liftDOM ((self ! key) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
 getItem_ :: (MonadDOM m, ToJSString key) => Storage -> key -> m ()
-getItem_ self key
-  = liftDOM (void (self ^. jsf "getItem" [toJSVal key]))
+getItem_ self key = liftDOM (void (self ! key))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
 getItemUnsafe ::
@@ -68,7 +65,7 @@ getItemUnsafe ::
                 Storage -> key -> m result
 getItemUnsafe self key
   = liftDOM
-      (((self ^. jsf "getItem" [toJSVal key]) >>= fromMaybeJSString) >>=
+      (((self ! key) >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
@@ -76,8 +73,7 @@ getItemUnchecked ::
                  (MonadDOM m, ToJSString key, FromJSString result) =>
                    Storage -> key -> m result
 getItemUnchecked self key
-  = liftDOM
-      ((self ^. jsf "getItem" [toJSVal key]) >>= fromJSValUnchecked)
+  = liftDOM ((self ! key) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.setItem Mozilla Storage.setItem documentation> 
 setItem ::

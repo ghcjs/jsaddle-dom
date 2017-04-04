@@ -3,19 +3,18 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SourceBuffer
-       (appendBuffer, appendBufferView, abort, remove, setMode, getMode,
-        getUpdating, getBuffered, getBufferedUnsafe, getBufferedUnchecked,
-        setTimestampOffset, getTimestampOffset, getAudioTracks,
-        getAudioTracksUnsafe, getAudioTracksUnchecked, getVideoTracks,
-        getVideoTracksUnsafe, getVideoTracksUnchecked, getTextTracks,
-        getTextTracksUnsafe, getTextTracksUnchecked, setAppendWindowStart,
-        getAppendWindowStart, setAppendWindowEnd, getAppendWindowEnd,
-        SourceBuffer(..), gTypeSourceBuffer)
+       (appendBuffer, abort, remove, setMode, getMode, getUpdating,
+        getBuffered, setTimestampOffset, getTimestampOffset,
+        getAudioTracks, getVideoTracks, getTextTracks,
+        setAppendWindowStart, getAppendWindowStart, setAppendWindowEnd,
+        getAppendWindowEnd, updatestart, update, updateend, error,
+        abortEvent, SourceBuffer(..), gTypeSourceBuffer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -27,16 +26,8 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.appendBuffer Mozilla SourceBuffer.appendBuffer documentation> 
 appendBuffer ::
-             (MonadDOM m, IsArrayBuffer data') =>
-               SourceBuffer -> Maybe data' -> m ()
+             (MonadDOM m, IsBufferSource data') => SourceBuffer -> data' -> m ()
 appendBuffer self data'
-  = liftDOM (void (self ^. jsf "appendBuffer" [toJSVal data']))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.appendBuffer Mozilla SourceBuffer.appendBuffer documentation> 
-appendBufferView ::
-                 (MonadDOM m, IsArrayBufferView data') =>
-                   SourceBuffer -> Maybe data' -> m ()
-appendBufferView self data'
   = liftDOM (void (self ^. jsf "appendBuffer" [toJSVal data']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.abort Mozilla SourceBuffer.abort documentation> 
@@ -62,21 +53,8 @@ getUpdating :: (MonadDOM m) => SourceBuffer -> m Bool
 getUpdating self = liftDOM ((self ^. js "updating") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.buffered Mozilla SourceBuffer.buffered documentation> 
-getBuffered :: (MonadDOM m) => SourceBuffer -> m (Maybe TimeRanges)
-getBuffered self = liftDOM ((self ^. js "buffered") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.buffered Mozilla SourceBuffer.buffered documentation> 
-getBufferedUnsafe ::
-                  (MonadDOM m, HasCallStack) => SourceBuffer -> m TimeRanges
-getBufferedUnsafe self
-  = liftDOM
-      (((self ^. js "buffered") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.buffered Mozilla SourceBuffer.buffered documentation> 
-getBufferedUnchecked ::
-                     (MonadDOM m) => SourceBuffer -> m TimeRanges
-getBufferedUnchecked self
+getBuffered :: (MonadDOM m) => SourceBuffer -> m TimeRanges
+getBuffered self
   = liftDOM ((self ^. js "buffered") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.timestampOffset Mozilla SourceBuffer.timestampOffset documentation> 
@@ -91,63 +69,18 @@ getTimestampOffset self
   = liftDOM ((self ^. js "timestampOffset") >>= valToNumber)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.audioTracks Mozilla SourceBuffer.audioTracks documentation> 
-getAudioTracks ::
-               (MonadDOM m) => SourceBuffer -> m (Maybe AudioTrackList)
+getAudioTracks :: (MonadDOM m) => SourceBuffer -> m AudioTrackList
 getAudioTracks self
-  = liftDOM ((self ^. js "audioTracks") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.audioTracks Mozilla SourceBuffer.audioTracks documentation> 
-getAudioTracksUnsafe ::
-                     (MonadDOM m, HasCallStack) => SourceBuffer -> m AudioTrackList
-getAudioTracksUnsafe self
-  = liftDOM
-      (((self ^. js "audioTracks") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.audioTracks Mozilla SourceBuffer.audioTracks documentation> 
-getAudioTracksUnchecked ::
-                        (MonadDOM m) => SourceBuffer -> m AudioTrackList
-getAudioTracksUnchecked self
   = liftDOM ((self ^. js "audioTracks") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.videoTracks Mozilla SourceBuffer.videoTracks documentation> 
-getVideoTracks ::
-               (MonadDOM m) => SourceBuffer -> m (Maybe VideoTrackList)
+getVideoTracks :: (MonadDOM m) => SourceBuffer -> m VideoTrackList
 getVideoTracks self
-  = liftDOM ((self ^. js "videoTracks") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.videoTracks Mozilla SourceBuffer.videoTracks documentation> 
-getVideoTracksUnsafe ::
-                     (MonadDOM m, HasCallStack) => SourceBuffer -> m VideoTrackList
-getVideoTracksUnsafe self
-  = liftDOM
-      (((self ^. js "videoTracks") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.videoTracks Mozilla SourceBuffer.videoTracks documentation> 
-getVideoTracksUnchecked ::
-                        (MonadDOM m) => SourceBuffer -> m VideoTrackList
-getVideoTracksUnchecked self
   = liftDOM ((self ^. js "videoTracks") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.textTracks Mozilla SourceBuffer.textTracks documentation> 
-getTextTracks ::
-              (MonadDOM m) => SourceBuffer -> m (Maybe TextTrackList)
+getTextTracks :: (MonadDOM m) => SourceBuffer -> m TextTrackList
 getTextTracks self
-  = liftDOM ((self ^. js "textTracks") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.textTracks Mozilla SourceBuffer.textTracks documentation> 
-getTextTracksUnsafe ::
-                    (MonadDOM m, HasCallStack) => SourceBuffer -> m TextTrackList
-getTextTracksUnsafe self
-  = liftDOM
-      (((self ^. js "textTracks") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.textTracks Mozilla SourceBuffer.textTracks documentation> 
-getTextTracksUnchecked ::
-                       (MonadDOM m) => SourceBuffer -> m TextTrackList
-getTextTracksUnchecked self
   = liftDOM ((self ^. js "textTracks") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.appendWindowStart Mozilla SourceBuffer.appendWindowStart documentation> 
@@ -171,3 +104,23 @@ setAppendWindowEnd self val
 getAppendWindowEnd :: (MonadDOM m) => SourceBuffer -> m Double
 getAppendWindowEnd self
   = liftDOM ((self ^. js "appendWindowEnd") >>= valToNumber)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onupdatestart Mozilla SourceBuffer.onupdatestart documentation> 
+updatestart :: EventName SourceBuffer onupdatestart
+updatestart = unsafeEventName (toJSString "updatestart")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onupdate Mozilla SourceBuffer.onupdate documentation> 
+update :: EventName SourceBuffer onupdate
+update = unsafeEventName (toJSString "update")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onupdateend Mozilla SourceBuffer.onupdateend documentation> 
+updateend :: EventName SourceBuffer onupdateend
+updateend = unsafeEventName (toJSString "updateend")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onerror Mozilla SourceBuffer.onerror documentation> 
+error :: EventName SourceBuffer UIEvent
+error = unsafeEventName (toJSString "error")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onabort Mozilla SourceBuffer.onabort documentation> 
+abortEvent :: EventName SourceBuffer UIEvent
+abortEvent = unsafeEventName (toJSString "abort")

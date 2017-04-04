@@ -5,16 +5,17 @@
 module JSDOM.Generated.HTMLLinkElement
        (setDisabled, getDisabled, setCharset, getCharset, setHref,
         getHref, setHreflang, getHreflang, setMedia, getMedia, setRel,
-        getRel, setRev, getRev, setSizes, getSizes, getSizesUnsafe,
-        getSizesUnchecked, setTarget, getTarget, setType, getType,
-        getSheet, getSheetUnsafe, getSheetUnchecked, getRelList,
-        getRelListUnsafe, getRelListUnchecked, HTMLLinkElement(..),
+        getRel, setRev, getRev, getSizes, setTarget, getTarget, setType,
+        getType, setAs, getAs, setCrossOrigin, getCrossOrigin,
+        getCrossOriginUnsafe, getCrossOriginUnchecked, getSheet,
+        getRelList, setNonce, getNonce, HTMLLinkElement(..),
         gTypeHTMLLinkElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -98,29 +99,8 @@ getRev ::
 getRev self = liftDOM ((self ^. js "rev") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
-setSizes ::
-         (MonadDOM m) =>
-           HTMLLinkElement -> Maybe DOMSettableTokenList -> m ()
-setSizes self val = liftDOM (self ^. jss "sizes" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
-getSizes ::
-         (MonadDOM m) => HTMLLinkElement -> m (Maybe DOMSettableTokenList)
-getSizes self = liftDOM ((self ^. js "sizes") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
-getSizesUnsafe ::
-               (MonadDOM m, HasCallStack) =>
-                 HTMLLinkElement -> m DOMSettableTokenList
-getSizesUnsafe self
-  = liftDOM
-      (((self ^. js "sizes") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sizes Mozilla HTMLLinkElement.sizes documentation> 
-getSizesUnchecked ::
-                  (MonadDOM m) => HTMLLinkElement -> m DOMSettableTokenList
-getSizesUnchecked self
+getSizes :: (MonadDOM m) => HTMLLinkElement -> m DOMTokenList
+getSizes self
   = liftDOM ((self ^. js "sizes") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.target Mozilla HTMLLinkElement.target documentation> 
@@ -144,39 +124,62 @@ getType ::
         (MonadDOM m, FromJSString result) => HTMLLinkElement -> m result
 getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sheet Mozilla HTMLLinkElement.sheet documentation> 
-getSheet :: (MonadDOM m) => HTMLLinkElement -> m (Maybe StyleSheet)
-getSheet self = liftDOM ((self ^. js "sheet") >>= fromJSVal)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.as Mozilla HTMLLinkElement.as documentation> 
+setAs ::
+      (MonadDOM m, ToJSString val) => HTMLLinkElement -> val -> m ()
+setAs self val = liftDOM (self ^. jss "as" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sheet Mozilla HTMLLinkElement.sheet documentation> 
-getSheetUnsafe ::
-               (MonadDOM m, HasCallStack) => HTMLLinkElement -> m StyleSheet
-getSheetUnsafe self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.as Mozilla HTMLLinkElement.as documentation> 
+getAs ::
+      (MonadDOM m, FromJSString result) => HTMLLinkElement -> m result
+getAs self = liftDOM ((self ^. js "as") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.crossOrigin Mozilla HTMLLinkElement.crossOrigin documentation> 
+setCrossOrigin ::
+               (MonadDOM m, ToJSString val) =>
+                 HTMLLinkElement -> Maybe val -> m ()
+setCrossOrigin self val
+  = liftDOM (self ^. jss "crossOrigin" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.crossOrigin Mozilla HTMLLinkElement.crossOrigin documentation> 
+getCrossOrigin ::
+               (MonadDOM m, FromJSString result) =>
+                 HTMLLinkElement -> m (Maybe result)
+getCrossOrigin self
+  = liftDOM ((self ^. js "crossOrigin") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.crossOrigin Mozilla HTMLLinkElement.crossOrigin documentation> 
+getCrossOriginUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLLinkElement -> m result
+getCrossOriginUnsafe self
   = liftDOM
-      (((self ^. js "sheet") >>= fromJSVal) >>=
+      (((self ^. js "crossOrigin") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.crossOrigin Mozilla HTMLLinkElement.crossOrigin documentation> 
+getCrossOriginUnchecked ::
+                        (MonadDOM m, FromJSString result) => HTMLLinkElement -> m result
+getCrossOriginUnchecked self
+  = liftDOM ((self ^. js "crossOrigin") >>= fromJSValUnchecked)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.sheet Mozilla HTMLLinkElement.sheet documentation> 
-getSheetUnchecked ::
-                  (MonadDOM m) => HTMLLinkElement -> m StyleSheet
-getSheetUnchecked self
+getSheet :: (MonadDOM m) => HTMLLinkElement -> m StyleSheet
+getSheet self
   = liftDOM ((self ^. js "sheet") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
-getRelList ::
-           (MonadDOM m) => HTMLLinkElement -> m (Maybe DOMTokenList)
-getRelList self = liftDOM ((self ^. js "relList") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
-getRelListUnsafe ::
-                 (MonadDOM m, HasCallStack) => HTMLLinkElement -> m DOMTokenList
-getRelListUnsafe self
-  = liftDOM
-      (((self ^. js "relList") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.relList Mozilla HTMLLinkElement.relList documentation> 
-getRelListUnchecked ::
-                    (MonadDOM m) => HTMLLinkElement -> m DOMTokenList
-getRelListUnchecked self
+getRelList :: (MonadDOM m) => HTMLLinkElement -> m DOMTokenList
+getRelList self
   = liftDOM ((self ^. js "relList") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.nonce Mozilla HTMLLinkElement.nonce documentation> 
+setNonce ::
+         (MonadDOM m, ToJSString val) => HTMLLinkElement -> val -> m ()
+setNonce self val = liftDOM (self ^. jss "nonce" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.nonce Mozilla HTMLLinkElement.nonce documentation> 
+getNonce ::
+         (MonadDOM m, FromJSString result) => HTMLLinkElement -> m result
+getNonce self
+  = liftDOM ((self ^. js "nonce") >>= fromJSValUnchecked)

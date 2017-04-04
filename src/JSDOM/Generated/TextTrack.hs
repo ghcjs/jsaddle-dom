@@ -8,14 +8,13 @@ module JSDOM.Generated.TextTrack
         getInBandMetadataTrackDispatchType, setMode, getMode, getCues,
         getCuesUnsafe, getCuesUnchecked, getActiveCues,
         getActiveCuesUnsafe, getActiveCuesUnchecked, cueChange, getRegions,
-        getRegionsUnsafe, getRegionsUnchecked, getSourceBuffer,
-        getSourceBufferUnsafe, getSourceBufferUnchecked, TextTrack(..),
-        gTypeTextTrack)
+        getSourceBuffer, TextTrack(..), gTypeTextTrack)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -27,13 +26,13 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.addCue Mozilla TextTrack.addCue documentation> 
 addCue ::
-       (MonadDOM m, IsTextTrackCue cue) => TextTrack -> Maybe cue -> m ()
+       (MonadDOM m, IsTextTrackCue cue) => TextTrack -> cue -> m ()
 addCue self cue
   = liftDOM (void (self ^. jsf "addCue" [toJSVal cue]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.removeCue Mozilla TextTrack.removeCue documentation> 
 removeCue ::
-          (MonadDOM m, IsTextTrackCue cue) => TextTrack -> Maybe cue -> m ()
+          (MonadDOM m, IsTextTrackCue cue) => TextTrack -> cue -> m ()
 removeCue self cue
   = liftDOM (void (self ^. jsf "removeCue" [toJSVal cue]))
 
@@ -136,38 +135,11 @@ cueChange :: EventName TextTrack Event
 cueChange = unsafeEventName (toJSString "cuechange")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.regions Mozilla TextTrack.regions documentation> 
-getRegions :: (MonadDOM m) => TextTrack -> m (Maybe VTTRegionList)
-getRegions self = liftDOM ((self ^. js "regions") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.regions Mozilla TextTrack.regions documentation> 
-getRegionsUnsafe ::
-                 (MonadDOM m, HasCallStack) => TextTrack -> m VTTRegionList
-getRegionsUnsafe self
-  = liftDOM
-      (((self ^. js "regions") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.regions Mozilla TextTrack.regions documentation> 
-getRegionsUnchecked :: (MonadDOM m) => TextTrack -> m VTTRegionList
-getRegionsUnchecked self
+getRegions :: (MonadDOM m) => TextTrack -> m VTTRegionList
+getRegions self
   = liftDOM ((self ^. js "regions") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
-getSourceBuffer ::
-                (MonadDOM m) => TextTrack -> m (Maybe SourceBuffer)
+getSourceBuffer :: (MonadDOM m) => TextTrack -> m SourceBuffer
 getSourceBuffer self
-  = liftDOM ((self ^. js "sourceBuffer") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
-getSourceBufferUnsafe ::
-                      (MonadDOM m, HasCallStack) => TextTrack -> m SourceBuffer
-getSourceBufferUnsafe self
-  = liftDOM
-      (((self ^. js "sourceBuffer") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/TextTrack.sourceBuffer Mozilla TextTrack.sourceBuffer documentation> 
-getSourceBufferUnchecked ::
-                         (MonadDOM m) => TextTrack -> m SourceBuffer
-getSourceBufferUnchecked self
   = liftDOM ((self ^. js "sourceBuffer") >>= fromJSValUnchecked)

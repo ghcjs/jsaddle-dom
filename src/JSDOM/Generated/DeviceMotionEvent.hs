@@ -8,12 +8,14 @@ module JSDOM.Generated.DeviceMotionEvent
         getAccelerationIncludingGravityUnsafe,
         getAccelerationIncludingGravityUnchecked, getRotationRate,
         getRotationRateUnsafe, getRotationRateUnchecked, getInterval,
-        DeviceMotionEvent(..), gTypeDeviceMotionEvent)
+        getIntervalUnsafe, getIntervalUnchecked, DeviceMotionEvent(..),
+        gTypeDeviceMotionEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,16 +27,13 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.initDeviceMotionEvent Mozilla DeviceMotionEvent.initDeviceMotionEvent documentation> 
 initDeviceMotionEvent ::
-                      (MonadDOM m, ToJSString type', IsAcceleration acceleration,
-                       IsAcceleration accelerationIncludingGravity,
-                       IsRotationRate rotationRate) =>
+                      (MonadDOM m, ToJSString type') =>
                         DeviceMotionEvent ->
-                          type' ->
+                          Maybe type' ->
                             Bool ->
                               Bool ->
-                                Maybe acceleration ->
-                                  Maybe accelerationIncludingGravity ->
-                                    Maybe rotationRate -> Double -> m ()
+                                Maybe Acceleration ->
+                                  Maybe Acceleration -> Maybe RotationRate -> Maybe Double -> m ()
 initDeviceMotionEvent self type' bubbles cancelable acceleration
   accelerationIncludingGravity rotationRate interval
   = liftDOM
@@ -109,6 +108,20 @@ getRotationRateUnchecked self
   = liftDOM ((self ^. js "rotationRate") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.interval Mozilla DeviceMotionEvent.interval documentation> 
-getInterval :: (MonadDOM m) => DeviceMotionEvent -> m Double
-getInterval self
-  = liftDOM ((self ^. js "interval") >>= valToNumber)
+getInterval ::
+            (MonadDOM m) => DeviceMotionEvent -> m (Maybe Double)
+getInterval self = liftDOM ((self ^. js "interval") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.interval Mozilla DeviceMotionEvent.interval documentation> 
+getIntervalUnsafe ::
+                  (MonadDOM m, HasCallStack) => DeviceMotionEvent -> m Double
+getIntervalUnsafe self
+  = liftDOM
+      (((self ^. js "interval") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent.interval Mozilla DeviceMotionEvent.interval documentation> 
+getIntervalUnchecked ::
+                     (MonadDOM m) => DeviceMotionEvent -> m Double
+getIntervalUnchecked self
+  = liftDOM ((self ^. js "interval") >>= fromJSValUnchecked)

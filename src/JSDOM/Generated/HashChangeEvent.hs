@@ -3,13 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HashChangeEvent
-       (initHashChangeEvent, getOldURL, getNewURL, HashChangeEvent(..),
-        gTypeHashChangeEvent)
+       (newHashChangeEvent, initHashChangeEvent, getOldURL, getNewURL,
+        HashChangeEvent(..), gTypeHashChangeEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -19,12 +20,21 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent Mozilla HashChangeEvent documentation> 
+newHashChangeEvent ::
+                   (MonadDOM m, ToJSString type') =>
+                     type' -> Maybe HashChangeEventInit -> m HashChangeEvent
+newHashChangeEvent type' eventInitDict
+  = liftDOM
+      (HashChangeEvent <$>
+         new (jsg "HashChangeEvent") [toJSVal type', toJSVal eventInitDict])
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent.initHashChangeEvent Mozilla HashChangeEvent.initHashChangeEvent documentation> 
 initHashChangeEvent ::
                     (MonadDOM m, ToJSString type', ToJSString oldURL,
                      ToJSString newURL) =>
                       HashChangeEvent ->
-                        type' -> Bool -> Bool -> oldURL -> newURL -> m ()
+                        Maybe type' -> Bool -> Bool -> Maybe oldURL -> Maybe newURL -> m ()
 initHashChangeEvent self type' canBubble cancelable oldURL newURL
   = liftDOM
       (void

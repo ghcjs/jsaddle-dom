@@ -9,7 +9,8 @@ module JSDOM.Generated.Geolocation
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -21,10 +22,10 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition Mozilla Geolocation.getCurrentPosition documentation> 
 getCurrentPosition ::
-                   (MonadDOM m, IsPositionOptions options) =>
+                   (MonadDOM m) =>
                      Geolocation ->
-                       Maybe PositionCallback ->
-                         Maybe PositionErrorCallback -> Maybe options -> m ()
+                       PositionCallback ->
+                         Maybe PositionErrorCallback -> Maybe PositionOptions -> m ()
 getCurrentPosition self successCallback errorCallback options
   = liftDOM
       (void
@@ -33,10 +34,10 @@ getCurrentPosition self successCallback errorCallback options
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.watchPosition Mozilla Geolocation.watchPosition documentation> 
 watchPosition ::
-              (MonadDOM m, IsPositionOptions options) =>
+              (MonadDOM m) =>
                 Geolocation ->
-                  Maybe PositionCallback ->
-                    Maybe PositionErrorCallback -> Maybe options -> m Int
+                  PositionCallback ->
+                    Maybe PositionErrorCallback -> Maybe PositionOptions -> m Int
 watchPosition self successCallback errorCallback options
   = liftDOM
       (round <$>
@@ -46,10 +47,10 @@ watchPosition self successCallback errorCallback options
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.watchPosition Mozilla Geolocation.watchPosition documentation> 
 watchPosition_ ::
-               (MonadDOM m, IsPositionOptions options) =>
+               (MonadDOM m) =>
                  Geolocation ->
-                   Maybe PositionCallback ->
-                     Maybe PositionErrorCallback -> Maybe options -> m ()
+                   PositionCallback ->
+                     Maybe PositionErrorCallback -> Maybe PositionOptions -> m ()
 watchPosition_ self successCallback errorCallback options
   = liftDOM
       (void
@@ -58,5 +59,5 @@ watchPosition_ self successCallback errorCallback options
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.clearWatch Mozilla Geolocation.clearWatch documentation> 
 clearWatch :: (MonadDOM m) => Geolocation -> Int -> m ()
-clearWatch self watchID
-  = liftDOM (void (self ^. jsf "clearWatch" [toJSVal watchID]))
+clearWatch self watchId
+  = liftDOM (void (self ^. jsf "clearWatch" [toJSVal watchId]))

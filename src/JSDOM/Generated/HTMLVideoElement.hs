@@ -8,17 +8,18 @@ module JSDOM.Generated.HTMLVideoElement
         webkitSupportsPresentationMode, webkitSupportsPresentationMode_,
         webkitSetPresentationMode, setWidth, getWidth, setHeight,
         getHeight, getVideoWidth, getVideoHeight, setPoster, getPoster,
-        getWebkitSupportsFullscreen, getWebkitDisplayingFullscreen,
+        setPlaysInline, getPlaysInline, getWebkitSupportsFullscreen,
+        getWebkitDisplayingFullscreen,
         setWebkitWirelessVideoPlaybackDisabled,
         getWebkitWirelessVideoPlaybackDisabled, getWebkitDecodedFrameCount,
         getWebkitDroppedFrameCount, getWebkitPresentationMode,
-        webKitPresentationModeChanged, HTMLVideoElement(..),
-        gTypeHTMLVideoElement)
+        HTMLVideoElement(..), gTypeHTMLVideoElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -110,6 +111,16 @@ getPoster ::
 getPoster self
   = liftDOM ((self ^. js "poster") >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.playsInline Mozilla HTMLVideoElement.playsInline documentation> 
+setPlaysInline :: (MonadDOM m) => HTMLVideoElement -> Bool -> m ()
+setPlaysInline self val
+  = liftDOM (self ^. jss "playsInline" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.playsInline Mozilla HTMLVideoElement.playsInline documentation> 
+getPlaysInline :: (MonadDOM m) => HTMLVideoElement -> m Bool
+getPlaysInline self
+  = liftDOM ((self ^. js "playsInline") >>= valToBool)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.webkitSupportsFullscreen Mozilla HTMLVideoElement.webkitSupportsFullscreen documentation> 
 getWebkitSupportsFullscreen ::
                             (MonadDOM m) => HTMLVideoElement -> m Bool
@@ -158,8 +169,3 @@ getWebkitPresentationMode ::
 getWebkitPresentationMode self
   = liftDOM
       ((self ^. js "webkitPresentationMode") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement.onwebkitpresentationmodechanged Mozilla HTMLVideoElement.onwebkitpresentationmodechanged documentation> 
-webKitPresentationModeChanged :: EventName HTMLVideoElement Event
-webKitPresentationModeChanged
-  = unsafeEventName (toJSString "webkitpresentationmodechanged")

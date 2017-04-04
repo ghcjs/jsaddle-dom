@@ -3,17 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.VTTRegion
-       (newVTTRegion, getTrack, getTrackUnsafe, getTrackUnchecked, setId,
-        getId, setWidth, getWidth, setHeight, getHeight, setRegionAnchorX,
-        getRegionAnchorX, setRegionAnchorY, getRegionAnchorY,
-        setViewportAnchorX, getViewportAnchorX, setViewportAnchorY,
-        getViewportAnchorY, setScroll, getScroll, VTTRegion(..),
-        gTypeVTTRegion)
+       (newVTTRegion, getTrack, setId, getId, setWidth, getWidth,
+        setHeight, getHeight, setRegionAnchorX, getRegionAnchorX,
+        setRegionAnchorY, getRegionAnchorY, setViewportAnchorX,
+        getViewportAnchorX, setViewportAnchorY, getViewportAnchorY,
+        setScroll, getScroll, VTTRegion(..), gTypeVTTRegion)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -28,20 +28,8 @@ newVTTRegion :: (MonadDOM m) => m VTTRegion
 newVTTRegion = liftDOM (VTTRegion <$> new (jsg "VTTRegion") ())
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.track Mozilla VTTRegion.track documentation> 
-getTrack :: (MonadDOM m) => VTTRegion -> m (Maybe TextTrack)
-getTrack self = liftDOM ((self ^. js "track") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.track Mozilla VTTRegion.track documentation> 
-getTrackUnsafe ::
-               (MonadDOM m, HasCallStack) => VTTRegion -> m TextTrack
-getTrackUnsafe self
-  = liftDOM
-      (((self ^. js "track") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.track Mozilla VTTRegion.track documentation> 
-getTrackUnchecked :: (MonadDOM m) => VTTRegion -> m TextTrack
-getTrackUnchecked self
+getTrack :: (MonadDOM m) => VTTRegion -> m TextTrack
+getTrack self
   = liftDOM ((self ^. js "track") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/VTTRegion.id Mozilla VTTRegion.id documentation> 

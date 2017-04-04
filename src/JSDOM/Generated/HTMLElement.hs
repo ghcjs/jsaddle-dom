@@ -3,25 +3,24 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLElement
-       (insertAdjacentElement, insertAdjacentElement_,
-        insertAdjacentElementUnsafe, insertAdjacentElementUnchecked,
-        insertAdjacentHTML, insertAdjacentText, click, setTitle, getTitle,
-        setLang, getLang, setTranslate, getTranslate, setDir, getDir,
-        setTabIndex, getTabIndex, setDraggable, getDraggable,
-        setWebkitdropzone, getWebkitdropzone, setHidden, getHidden,
-        setAccessKey, getAccessKey, setInnerText, getInnerText,
-        getInnerTextUnsafe, getInnerTextUnchecked, setOuterText,
-        getOuterText, getOuterTextUnsafe, getOuterTextUnchecked,
-        getChildren, getChildrenUnsafe, getChildrenUnchecked,
-        setContentEditable, getContentEditable, getContentEditableUnsafe,
-        getContentEditableUnchecked, getIsContentEditable, setSpellcheck,
-        getSpellcheck, HTMLElement(..), gTypeHTMLElement, IsHTMLElement,
-        toHTMLElement)
+       (newHTMLElement, click, focus, blur, setTitle, getTitle, setLang,
+        getLang, setTranslate, getTranslate, setDir, getDir, setTabIndex,
+        getTabIndex, setDraggable, getDraggable, setWebkitdropzone,
+        getWebkitdropzone, setHidden, getHidden, setAccessKey,
+        getAccessKey, setInnerText, getInnerText, getInnerTextUnsafe,
+        getInnerTextUnchecked, setOuterText, getOuterText,
+        getOuterTextUnsafe, getOuterTextUnchecked, setContentEditable,
+        getContentEditable, getIsContentEditable, setSpellcheck,
+        getSpellcheck, setAutocorrect, getAutocorrect, setAutocapitalize,
+        getAutocapitalize, getAutocapitalizeUnsafe,
+        getAutocapitalizeUnchecked, getDataset, HTMLElement(..),
+        gTypeHTMLElement, IsHTMLElement, toHTMLElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -31,77 +30,24 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
-insertAdjacentElement ::
-                      (MonadDOM m, IsHTMLElement self, ToJSString where',
-                       IsElement element) =>
-                        self -> where' -> Maybe element -> m (Maybe Element)
-insertAdjacentElement self where' element
-  = liftDOM
-      (((toHTMLElement self) ^. jsf "insertAdjacentElement"
-          [toJSVal where', toJSVal element])
-         >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
-insertAdjacentElement_ ::
-                       (MonadDOM m, IsHTMLElement self, ToJSString where',
-                        IsElement element) =>
-                         self -> where' -> Maybe element -> m ()
-insertAdjacentElement_ self where' element
-  = liftDOM
-      (void
-         ((toHTMLElement self) ^. jsf "insertAdjacentElement"
-            [toJSVal where', toJSVal element]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
-insertAdjacentElementUnsafe ::
-                            (MonadDOM m, IsHTMLElement self, ToJSString where',
-                             IsElement element, HasCallStack) =>
-                              self -> where' -> Maybe element -> m Element
-insertAdjacentElementUnsafe self where' element
-  = liftDOM
-      ((((toHTMLElement self) ^. jsf "insertAdjacentElement"
-           [toJSVal where', toJSVal element])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentElement Mozilla HTMLElement.insertAdjacentElement documentation> 
-insertAdjacentElementUnchecked ::
-                               (MonadDOM m, IsHTMLElement self, ToJSString where',
-                                IsElement element) =>
-                                 self -> where' -> Maybe element -> m Element
-insertAdjacentElementUnchecked self where' element
-  = liftDOM
-      (((toHTMLElement self) ^. jsf "insertAdjacentElement"
-          [toJSVal where', toJSVal element])
-         >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentHTML Mozilla HTMLElement.insertAdjacentHTML documentation> 
-insertAdjacentHTML ::
-                   (MonadDOM m, IsHTMLElement self, ToJSString where',
-                    ToJSString html) =>
-                     self -> where' -> html -> m ()
-insertAdjacentHTML self where' html
-  = liftDOM
-      (void
-         ((toHTMLElement self) ^. jsf "insertAdjacentHTML"
-            [toJSVal where', toJSVal html]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.insertAdjacentText Mozilla HTMLElement.insertAdjacentText documentation> 
-insertAdjacentText ::
-                   (MonadDOM m, IsHTMLElement self, ToJSString where',
-                    ToJSString text) =>
-                     self -> where' -> text -> m ()
-insertAdjacentText self where' text
-  = liftDOM
-      (void
-         ((toHTMLElement self) ^. jsf "insertAdjacentText"
-            [toJSVal where', toJSVal text]))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement Mozilla HTMLElement documentation> 
+newHTMLElement :: (MonadDOM m) => m HTMLElement
+newHTMLElement
+  = liftDOM (HTMLElement <$> new (jsg "HTMLElement") ())
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.click Mozilla HTMLElement.click documentation> 
 click :: (MonadDOM m, IsHTMLElement self) => self -> m ()
 click self
   = liftDOM (void ((toHTMLElement self) ^. jsf "click" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.focus Mozilla HTMLElement.focus documentation> 
+focus :: (MonadDOM m, IsHTMLElement self) => self -> m ()
+focus self
+  = liftDOM (void ((toHTMLElement self) ^. jsf "focus" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.blur Mozilla HTMLElement.blur documentation> 
+blur :: (MonadDOM m, IsHTMLElement self) => self -> m ()
+blur self = liftDOM (void ((toHTMLElement self) ^. jsf "blur" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.title Mozilla HTMLElement.title documentation> 
 setTitle ::
@@ -292,33 +238,10 @@ getOuterTextUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "outerText") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
-getChildren ::
-            (MonadDOM m, IsHTMLElement self) =>
-              self -> m (Maybe HTMLCollection)
-getChildren self
-  = liftDOM (((toHTMLElement self) ^. js "children") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
-getChildrenUnsafe ::
-                  (MonadDOM m, IsHTMLElement self, HasCallStack) =>
-                    self -> m HTMLCollection
-getChildrenUnsafe self
-  = liftDOM
-      ((((toHTMLElement self) ^. js "children") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.children Mozilla HTMLElement.children documentation> 
-getChildrenUnchecked ::
-                     (MonadDOM m, IsHTMLElement self) => self -> m HTMLCollection
-getChildrenUnchecked self
-  = liftDOM
-      (((toHTMLElement self) ^. js "children") >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
 setContentEditable ::
                    (MonadDOM m, IsHTMLElement self, ToJSString val) =>
-                     self -> Maybe val -> m ()
+                     self -> val -> m ()
 setContentEditable self val
   = liftDOM
       ((toHTMLElement self) ^. jss "contentEditable" (toJSVal val))
@@ -326,28 +249,8 @@ setContentEditable self val
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
 getContentEditable ::
                    (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                     self -> m (Maybe result)
+                     self -> m result
 getContentEditable self
-  = liftDOM
-      (((toHTMLElement self) ^. js "contentEditable") >>=
-         fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
-getContentEditableUnsafe ::
-                         (MonadDOM m, IsHTMLElement self, HasCallStack,
-                          FromJSString result) =>
-                           self -> m result
-getContentEditableUnsafe self
-  = liftDOM
-      ((((toHTMLElement self) ^. js "contentEditable") >>=
-          fromMaybeJSString)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
-getContentEditableUnchecked ::
-                            (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                              self -> m result
-getContentEditableUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "contentEditable") >>=
          fromJSValUnchecked)
@@ -369,3 +272,60 @@ setSpellcheck self val
 getSpellcheck :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
 getSpellcheck self
   = liftDOM (((toHTMLElement self) ^. js "spellcheck") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocorrect Mozilla HTMLElement.autocorrect documentation> 
+setAutocorrect ::
+               (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
+setAutocorrect self val
+  = liftDOM ((toHTMLElement self) ^. jss "autocorrect" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocorrect Mozilla HTMLElement.autocorrect documentation> 
+getAutocorrect ::
+               (MonadDOM m, IsHTMLElement self) => self -> m Bool
+getAutocorrect self
+  = liftDOM
+      (((toHTMLElement self) ^. js "autocorrect") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
+setAutocapitalize ::
+                  (MonadDOM m, IsHTMLElement self, ToJSString val) =>
+                    self -> Maybe val -> m ()
+setAutocapitalize self val
+  = liftDOM
+      ((toHTMLElement self) ^. jss "autocapitalize" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
+getAutocapitalize ::
+                  (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                    self -> m (Maybe result)
+getAutocapitalize self
+  = liftDOM
+      (((toHTMLElement self) ^. js "autocapitalize") >>=
+         fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
+getAutocapitalizeUnsafe ::
+                        (MonadDOM m, IsHTMLElement self, HasCallStack,
+                         FromJSString result) =>
+                          self -> m result
+getAutocapitalizeUnsafe self
+  = liftDOM
+      ((((toHTMLElement self) ^. js "autocapitalize") >>=
+          fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
+getAutocapitalizeUnchecked ::
+                           (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                             self -> m result
+getAutocapitalizeUnchecked self
+  = liftDOM
+      (((toHTMLElement self) ^. js "autocapitalize") >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.dataset Mozilla HTMLElement.dataset documentation> 
+getDataset ::
+           (MonadDOM m, IsHTMLElement self) => self -> m DOMStringMap
+getDataset self
+  = liftDOM
+      (((toHTMLElement self) ^. js "dataset") >>= fromJSValUnchecked)

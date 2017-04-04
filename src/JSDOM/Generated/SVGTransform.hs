@@ -7,13 +7,14 @@ module JSDOM.Generated.SVGTransform
         pattern SVG_TRANSFORM_UNKNOWN, pattern SVG_TRANSFORM_MATRIX,
         pattern SVG_TRANSFORM_TRANSLATE, pattern SVG_TRANSFORM_SCALE,
         pattern SVG_TRANSFORM_ROTATE, pattern SVG_TRANSFORM_SKEWX,
-        pattern SVG_TRANSFORM_SKEWY, getType, getMatrix, getMatrixUnsafe,
-        getMatrixUnchecked, getAngle, SVGTransform(..), gTypeSVGTransform)
+        pattern SVG_TRANSFORM_SKEWY, getType, getMatrix, getAngle,
+        SVGTransform(..), gTypeSVGTransform)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,8 +25,7 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.setMatrix Mozilla SVGTransform.setMatrix documentation> 
-setMatrix ::
-          (MonadDOM m) => SVGTransform -> Maybe SVGMatrix -> m ()
+setMatrix :: (MonadDOM m) => SVGTransform -> SVGMatrix -> m ()
 setMatrix self matrix
   = liftDOM (void (self ^. jsf "setMatrix" [toJSVal matrix]))
 
@@ -72,20 +72,8 @@ getType self
   = liftDOM (round <$> ((self ^. js "type") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
-getMatrix :: (MonadDOM m) => SVGTransform -> m (Maybe SVGMatrix)
-getMatrix self = liftDOM ((self ^. js "matrix") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
-getMatrixUnsafe ::
-                (MonadDOM m, HasCallStack) => SVGTransform -> m SVGMatrix
-getMatrixUnsafe self
-  = liftDOM
-      (((self ^. js "matrix") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.matrix Mozilla SVGTransform.matrix documentation> 
-getMatrixUnchecked :: (MonadDOM m) => SVGTransform -> m SVGMatrix
-getMatrixUnchecked self
+getMatrix :: (MonadDOM m) => SVGTransform -> m SVGMatrix
+getMatrix self
   = liftDOM ((self ^. js "matrix") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform.angle Mozilla SVGTransform.angle documentation> 

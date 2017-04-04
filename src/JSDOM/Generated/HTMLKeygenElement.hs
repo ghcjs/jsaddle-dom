@@ -3,18 +3,18 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLKeygenElement
-       (checkValidity, checkValidity_, setCustomValidity, setAutofocus,
-        getAutofocus, setChallenge, getChallenge, setDisabled, getDisabled,
-        getForm, getFormUnsafe, getFormUnchecked, setKeytype, getKeytype,
-        setName, getName, getType, getWillValidate, getValidity,
-        getValidityUnsafe, getValidityUnchecked, getValidationMessage,
-        getLabels, getLabelsUnsafe, getLabelsUnchecked,
+       (checkValidity, checkValidity_, reportValidity, reportValidity_,
+        setCustomValidity, setAutofocus, getAutofocus, setChallenge,
+        getChallenge, setDisabled, getDisabled, getForm, setKeytype,
+        getKeytype, setName, getName, getType, getWillValidate,
+        getValidity, getValidationMessage, getLabels,
         HTMLKeygenElement(..), gTypeHTMLKeygenElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -34,10 +34,20 @@ checkValidity_ :: (MonadDOM m) => HTMLKeygenElement -> m ()
 checkValidity_ self
   = liftDOM (void (self ^. jsf "checkValidity" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.reportValidity Mozilla HTMLKeygenElement.reportValidity documentation> 
+reportValidity :: (MonadDOM m) => HTMLKeygenElement -> m Bool
+reportValidity self
+  = liftDOM ((self ^. jsf "reportValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.reportValidity Mozilla HTMLKeygenElement.reportValidity documentation> 
+reportValidity_ :: (MonadDOM m) => HTMLKeygenElement -> m ()
+reportValidity_ self
+  = liftDOM (void (self ^. jsf "reportValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.setCustomValidity Mozilla HTMLKeygenElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
-                    HTMLKeygenElement -> Maybe error -> m ()
+                    HTMLKeygenElement -> error -> m ()
 setCustomValidity self error
   = liftDOM (void (self ^. jsf "setCustomValidity" [toJSVal error]))
 
@@ -73,24 +83,8 @@ getDisabled :: (MonadDOM m) => HTMLKeygenElement -> m Bool
 getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.form Mozilla HTMLKeygenElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLKeygenElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.form Mozilla HTMLKeygenElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLKeygenElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.form Mozilla HTMLKeygenElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLKeygenElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+getForm :: (MonadDOM m) => HTMLKeygenElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.keytype Mozilla HTMLKeygenElement.keytype documentation> 
 setKeytype ::
@@ -124,22 +118,8 @@ getWillValidate self
   = liftDOM ((self ^. js "willValidate") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.validity Mozilla HTMLKeygenElement.validity documentation> 
-getValidity ::
-            (MonadDOM m) => HTMLKeygenElement -> m (Maybe ValidityState)
-getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.validity Mozilla HTMLKeygenElement.validity documentation> 
-getValidityUnsafe ::
-                  (MonadDOM m, HasCallStack) => HTMLKeygenElement -> m ValidityState
-getValidityUnsafe self
-  = liftDOM
-      (((self ^. js "validity") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.validity Mozilla HTMLKeygenElement.validity documentation> 
-getValidityUnchecked ::
-                     (MonadDOM m) => HTMLKeygenElement -> m ValidityState
-getValidityUnchecked self
+getValidity :: (MonadDOM m) => HTMLKeygenElement -> m ValidityState
+getValidity self
   = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.validationMessage Mozilla HTMLKeygenElement.validationMessage documentation> 
@@ -149,20 +129,6 @@ getValidationMessage self
   = liftDOM ((self ^. js "validationMessage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.labels Mozilla HTMLKeygenElement.labels documentation> 
-getLabels ::
-          (MonadDOM m) => HTMLKeygenElement -> m (Maybe NodeList)
-getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.labels Mozilla HTMLKeygenElement.labels documentation> 
-getLabelsUnsafe ::
-                (MonadDOM m, HasCallStack) => HTMLKeygenElement -> m NodeList
-getLabelsUnsafe self
-  = liftDOM
-      (((self ^. js "labels") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement.labels Mozilla HTMLKeygenElement.labels documentation> 
-getLabelsUnchecked ::
-                   (MonadDOM m) => HTMLKeygenElement -> m NodeList
-getLabelsUnchecked self
+getLabels :: (MonadDOM m) => HTMLKeygenElement -> m NodeList
+getLabels self
   = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

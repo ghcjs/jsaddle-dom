@@ -4,14 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLAllCollection
        (item, item_, itemUnsafe, itemUnchecked, namedItem, namedItem_,
-        namedItemUnsafe, namedItemUnchecked, tags, tags_, tagsUnsafe,
-        tagsUnchecked, getLength, HTMLAllCollection(..),
-        gTypeHTMLAllCollection)
+        namedItemUnsafe, namedItemUnchecked, tags, tags_, getLength,
+        HTMLAllCollection(..), gTypeHTMLAllCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -22,7 +22,8 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.item Mozilla HTMLAllCollection.item documentation> 
-item :: (MonadDOM m) => HTMLAllCollection -> Word -> m (Maybe Node)
+item ::
+     (MonadDOM m) => HTMLAllCollection -> Word -> m (Maybe Element)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
@@ -33,7 +34,8 @@ item_ self index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.item Mozilla HTMLAllCollection.item documentation> 
 itemUnsafe ::
-           (MonadDOM m, HasCallStack) => HTMLAllCollection -> Word -> m Node
+           (MonadDOM m, HasCallStack) =>
+             HTMLAllCollection -> Word -> m Element
 itemUnsafe self index
   = liftDOM
       (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
@@ -41,7 +43,7 @@ itemUnsafe self index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.item Mozilla HTMLAllCollection.item documentation> 
 itemUnchecked ::
-              (MonadDOM m) => HTMLAllCollection -> Word -> m Node
+              (MonadDOM m) => HTMLAllCollection -> Word -> m Element
 itemUnchecked self index
   = liftDOM
       ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
@@ -49,62 +51,43 @@ itemUnchecked self index
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.namedItem Mozilla HTMLAllCollection.namedItem documentation> 
 namedItem ::
           (MonadDOM m, ToJSString name) =>
-            HTMLAllCollection -> name -> m (Maybe Node)
-namedItem self name
-  = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
+            HTMLAllCollection -> name -> m (Maybe HTMLCollectionOrElement)
+namedItem self name = liftDOM ((self ! name) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.namedItem Mozilla HTMLAllCollection.namedItem documentation> 
 namedItem_ ::
            (MonadDOM m, ToJSString name) => HTMLAllCollection -> name -> m ()
-namedItem_ self name
-  = liftDOM (void (self ^. jsf "namedItem" [toJSVal name]))
+namedItem_ self name = liftDOM (void (self ! name))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.namedItem Mozilla HTMLAllCollection.namedItem documentation> 
 namedItemUnsafe ::
                 (MonadDOM m, ToJSString name, HasCallStack) =>
-                  HTMLAllCollection -> name -> m Node
+                  HTMLAllCollection -> name -> m HTMLCollectionOrElement
 namedItemUnsafe self name
   = liftDOM
-      (((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal) >>=
+      (((self ! name) >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.namedItem Mozilla HTMLAllCollection.namedItem documentation> 
 namedItemUnchecked ::
                    (MonadDOM m, ToJSString name) =>
-                     HTMLAllCollection -> name -> m Node
+                     HTMLAllCollection -> name -> m HTMLCollectionOrElement
 namedItemUnchecked self name
-  = liftDOM
-      ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
+  = liftDOM ((self ! name) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.tags Mozilla HTMLAllCollection.tags documentation> 
 tags ::
      (MonadDOM m, ToJSString name) =>
-       HTMLAllCollection -> name -> m (Maybe NodeList)
+       HTMLAllCollection -> name -> m NodeList
 tags self name
-  = liftDOM ((self ^. jsf "tags" [toJSVal name]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "tags" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.tags Mozilla HTMLAllCollection.tags documentation> 
 tags_ ::
       (MonadDOM m, ToJSString name) => HTMLAllCollection -> name -> m ()
 tags_ self name
   = liftDOM (void (self ^. jsf "tags" [toJSVal name]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.tags Mozilla HTMLAllCollection.tags documentation> 
-tagsUnsafe ::
-           (MonadDOM m, ToJSString name, HasCallStack) =>
-             HTMLAllCollection -> name -> m NodeList
-tagsUnsafe self name
-  = liftDOM
-      (((self ^. jsf "tags" [toJSVal name]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.tags Mozilla HTMLAllCollection.tags documentation> 
-tagsUnchecked ::
-              (MonadDOM m, ToJSString name) =>
-                HTMLAllCollection -> name -> m NodeList
-tagsUnchecked self name
-  = liftDOM
-      ((self ^. jsf "tags" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAllCollection.length Mozilla HTMLAllCollection.length documentation> 
 getLength :: (MonadDOM m) => HTMLAllCollection -> m Word

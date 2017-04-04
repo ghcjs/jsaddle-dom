@@ -3,21 +3,25 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.InspectorFrontendHost
-       (loaded, closeWindow, bringToFront, setZoomFactor,
-        inspectedURLChanged, requestSetDockSide, setAttachedWindowHeight,
-        setAttachedWindowWidth, setToolbarHeight, moveWindowBy,
-        localizedStringsURL, localizedStringsURL_, debuggableType,
-        debuggableType_, copyText, openInNewTab, canSave, canSave_, save,
-        append, close, platform, platform_, port, port_, showContextMenu,
+       (loaded, closeWindow, bringToFront, inspectedURLChanged,
+        setZoomFactor, zoomFactor, zoomFactor_,
+        userInterfaceLayoutDirection, userInterfaceLayoutDirection_,
+        requestSetDockSide, setAttachedWindowHeight,
+        setAttachedWindowWidth, startWindowDrag, moveWindowBy,
+        localizedStringsURL, localizedStringsURL_, backendCommandsURL,
+        backendCommandsURL_, debuggableType, debuggableType_,
+        inspectionLevel, inspectionLevel_, copyText, killText,
+        openInNewTab, canSave, canSave_, save, append, close, platform,
+        platform_, port, port_, showContextMenu,
         dispatchEventAsContextMenuEvent, sendMessageToBackend,
-        unbufferedLog, isUnderTest, isUnderTest_, beep, canInspectWorkers,
-        canInspectWorkers_, canSaveAs, canSaveAs_,
+        unbufferedLog, isUnderTest, isUnderTest_, beep,
         InspectorFrontendHost(..), gTypeInspectorFrontendHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -39,12 +43,6 @@ closeWindow self = liftDOM (void (self ^. jsf "closeWindow" ()))
 bringToFront :: (MonadDOM m) => InspectorFrontendHost -> m ()
 bringToFront self = liftDOM (void (self ^. jsf "bringToFront" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.setZoomFactor Mozilla InspectorFrontendHost.setZoomFactor documentation> 
-setZoomFactor ::
-              (MonadDOM m) => InspectorFrontendHost -> Float -> m ()
-setZoomFactor self zoom
-  = liftDOM (void (self ^. jsf "setZoomFactor" [toJSVal zoom]))
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.inspectedURLChanged Mozilla InspectorFrontendHost.inspectedURLChanged documentation> 
 inspectedURLChanged ::
                     (MonadDOM m, ToJSString newURL) =>
@@ -52,6 +50,37 @@ inspectedURLChanged ::
 inspectedURLChanged self newURL
   = liftDOM
       (void (self ^. jsf "inspectedURLChanged" [toJSVal newURL]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.setZoomFactor Mozilla InspectorFrontendHost.setZoomFactor documentation> 
+setZoomFactor ::
+              (MonadDOM m) => InspectorFrontendHost -> Float -> m ()
+setZoomFactor self zoom
+  = liftDOM (void (self ^. jsf "setZoomFactor" [toJSVal zoom]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.zoomFactor Mozilla InspectorFrontendHost.zoomFactor documentation> 
+zoomFactor :: (MonadDOM m) => InspectorFrontendHost -> m Float
+zoomFactor self
+  = liftDOM
+      (realToFrac <$> ((self ^. jsf "zoomFactor" ()) >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.zoomFactor Mozilla InspectorFrontendHost.zoomFactor documentation> 
+zoomFactor_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+zoomFactor_ self = liftDOM (void (self ^. jsf "zoomFactor" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.userInterfaceLayoutDirection Mozilla InspectorFrontendHost.userInterfaceLayoutDirection documentation> 
+userInterfaceLayoutDirection ::
+                             (MonadDOM m, FromJSString result) =>
+                               InspectorFrontendHost -> m result
+userInterfaceLayoutDirection self
+  = liftDOM
+      ((self ^. jsf "userInterfaceLayoutDirection" ()) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.userInterfaceLayoutDirection Mozilla InspectorFrontendHost.userInterfaceLayoutDirection documentation> 
+userInterfaceLayoutDirection_ ::
+                              (MonadDOM m) => InspectorFrontendHost -> m ()
+userInterfaceLayoutDirection_ self
+  = liftDOM (void (self ^. jsf "userInterfaceLayoutDirection" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.requestSetDockSide Mozilla InspectorFrontendHost.requestSetDockSide documentation> 
 requestSetDockSide ::
@@ -74,11 +103,10 @@ setAttachedWindowWidth self width
   = liftDOM
       (void (self ^. jsf "setAttachedWindowWidth" [toJSVal width]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.setToolbarHeight Mozilla InspectorFrontendHost.setToolbarHeight documentation> 
-setToolbarHeight ::
-                 (MonadDOM m) => InspectorFrontendHost -> Float -> m ()
-setToolbarHeight self height
-  = liftDOM (void (self ^. jsf "setToolbarHeight" [toJSVal height]))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.startWindowDrag Mozilla InspectorFrontendHost.startWindowDrag documentation> 
+startWindowDrag :: (MonadDOM m) => InspectorFrontendHost -> m ()
+startWindowDrag self
+  = liftDOM (void (self ^. jsf "startWindowDrag" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.moveWindowBy Mozilla InspectorFrontendHost.moveWindowBy documentation> 
 moveWindowBy ::
@@ -101,6 +129,20 @@ localizedStringsURL_ ::
 localizedStringsURL_ self
   = liftDOM (void (self ^. jsf "localizedStringsURL" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.backendCommandsURL Mozilla InspectorFrontendHost.backendCommandsURL documentation> 
+backendCommandsURL ::
+                   (MonadDOM m, FromJSString result) =>
+                     InspectorFrontendHost -> m result
+backendCommandsURL self
+  = liftDOM
+      ((self ^. jsf "backendCommandsURL" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.backendCommandsURL Mozilla InspectorFrontendHost.backendCommandsURL documentation> 
+backendCommandsURL_ ::
+                    (MonadDOM m) => InspectorFrontendHost -> m ()
+backendCommandsURL_ self
+  = liftDOM (void (self ^. jsf "backendCommandsURL" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.debuggableType Mozilla InspectorFrontendHost.debuggableType documentation> 
 debuggableType ::
                (MonadDOM m, FromJSString result) =>
@@ -114,12 +156,34 @@ debuggableType_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
 debuggableType_ self
   = liftDOM (void (self ^. jsf "debuggableType" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.inspectionLevel Mozilla InspectorFrontendHost.inspectionLevel documentation> 
+inspectionLevel :: (MonadDOM m) => InspectorFrontendHost -> m Word
+inspectionLevel self
+  = liftDOM
+      (round <$> ((self ^. jsf "inspectionLevel" ()) >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.inspectionLevel Mozilla InspectorFrontendHost.inspectionLevel documentation> 
+inspectionLevel_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
+inspectionLevel_ self
+  = liftDOM (void (self ^. jsf "inspectionLevel" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.copyText Mozilla InspectorFrontendHost.copyText documentation> 
 copyText ::
          (MonadDOM m, ToJSString text) =>
            InspectorFrontendHost -> text -> m ()
 copyText self text
   = liftDOM (void (self ^. jsf "copyText" [toJSVal text]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.killText Mozilla InspectorFrontendHost.killText documentation> 
+killText ::
+         (MonadDOM m, ToJSString text) =>
+           InspectorFrontendHost -> text -> Bool -> Bool -> m ()
+killText self text shouldPrependToKillRing shouldStartNewSequence
+  = liftDOM
+      (void
+         (self ^. jsf "killText"
+            [toJSVal text, toJSVal shouldPrependToKillRing,
+             toJSVal shouldStartNewSequence]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.openInNewTab Mozilla InspectorFrontendHost.openInNewTab documentation> 
 openInNewTab ::
@@ -185,8 +249,8 @@ port_ self = liftDOM (void (self ^. jsf "port" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.showContextMenu Mozilla InspectorFrontendHost.showContextMenu documentation> 
 showContextMenu ::
-                (MonadDOM m, IsMouseEvent event) =>
-                  InspectorFrontendHost -> Maybe event -> JSVal -> m ()
+                (MonadDOM m, IsMouseEvent event, ToJSVal items) =>
+                  InspectorFrontendHost -> event -> items -> m ()
 showContextMenu self event items
   = liftDOM
       (void
@@ -228,23 +292,3 @@ isUnderTest_ self = liftDOM (void (self ^. jsf "isUnderTest" ()))
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.beep Mozilla InspectorFrontendHost.beep documentation> 
 beep :: (MonadDOM m) => InspectorFrontendHost -> m ()
 beep self = liftDOM (void (self ^. jsf "beep" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canInspectWorkers Mozilla InspectorFrontendHost.canInspectWorkers documentation> 
-canInspectWorkers ::
-                  (MonadDOM m) => InspectorFrontendHost -> m Bool
-canInspectWorkers self
-  = liftDOM ((self ^. jsf "canInspectWorkers" ()) >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canInspectWorkers Mozilla InspectorFrontendHost.canInspectWorkers documentation> 
-canInspectWorkers_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
-canInspectWorkers_ self
-  = liftDOM (void (self ^. jsf "canInspectWorkers" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canSaveAs Mozilla InspectorFrontendHost.canSaveAs documentation> 
-canSaveAs :: (MonadDOM m) => InspectorFrontendHost -> m Bool
-canSaveAs self
-  = liftDOM ((self ^. jsf "canSaveAs" ()) >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/InspectorFrontendHost.canSaveAs Mozilla InspectorFrontendHost.canSaveAs documentation> 
-canSaveAs_ :: (MonadDOM m) => InspectorFrontendHost -> m ()
-canSaveAs_ self = liftDOM (void (self ^. jsf "canSaveAs" ()))

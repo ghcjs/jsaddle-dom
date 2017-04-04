@@ -3,13 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLLegendElement
-       (getForm, getFormUnsafe, getFormUnchecked, setAlign, getAlign,
-        HTMLLegendElement(..), gTypeHTMLLegendElement)
+       (getForm, setAlign, getAlign, HTMLLegendElement(..),
+        gTypeHTMLLegendElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -20,24 +21,8 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.form Mozilla HTMLLegendElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLLegendElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.form Mozilla HTMLLegendElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLLegendElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.form Mozilla HTMLLegendElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLLegendElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+getForm :: (MonadDOM m) => HTMLLegendElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement.align Mozilla HTMLLegendElement.align documentation> 
 setAlign ::

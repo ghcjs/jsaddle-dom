@@ -8,69 +8,56 @@ module JSDOM.Generated.Element
         getAttributeNode, getAttributeNode_, getAttributeNodeUnsafe,
         getAttributeNodeUnchecked, setAttributeNode, setAttributeNode_,
         setAttributeNodeUnsafe, setAttributeNodeUnchecked,
-        removeAttributeNode, removeAttributeNode_,
-        removeAttributeNodeUnsafe, removeAttributeNodeUnchecked,
-        getElementsByTagName, getElementsByTagName_,
-        getElementsByTagNameUnsafe, getElementsByTagNameUnchecked,
-        hasAttributes, hasAttributes_, getAttributeNS, getAttributeNS_,
-        setAttributeNS, removeAttributeNS, getElementsByTagNameNS,
-        getElementsByTagNameNS_, getElementsByTagNameNSUnsafe,
-        getElementsByTagNameNSUnchecked, getAttributeNodeNS,
-        getAttributeNodeNS_, getAttributeNodeNSUnsafe,
+        removeAttributeNode, removeAttributeNode_, getElementsByTagName,
+        getElementsByTagName_, hasAttributes, hasAttributes_,
+        getAttributeNS, getAttributeNS_, getAttributeNSUnsafe,
+        getAttributeNSUnchecked, setAttributeNS, removeAttributeNS,
+        getElementsByTagNameNS, getElementsByTagNameNS_,
+        getAttributeNodeNS, getAttributeNodeNS_, getAttributeNodeNSUnsafe,
         getAttributeNodeNSUnchecked, setAttributeNodeNS,
         setAttributeNodeNS_, setAttributeNodeNSUnsafe,
         setAttributeNodeNSUnchecked, hasAttribute, hasAttribute_,
-        hasAttributeNS, hasAttributeNS_, focus, blur, scrollIntoView,
-        scrollIntoViewIfNeeded, scrollByLines, scrollByPages,
-        getElementsByClassName, getElementsByClassName_,
-        getElementsByClassNameUnsafe, getElementsByClassNameUnchecked,
-        querySelector, querySelector_, querySelectorUnsafe,
-        querySelectorUnchecked, querySelectorAll, querySelectorAll_,
-        querySelectorAllUnsafe, querySelectorAllUnchecked, matches,
-        matches_, closest, closest_, closestUnsafe, closestUnchecked,
-        webkitMatchesSelector, webkitMatchesSelector_, getClientRects,
-        getClientRects_, getClientRectsUnsafe, getClientRectsUnchecked,
+        hasAttributeNS, hasAttributeNS_, scrollIntoView,
+        scrollIntoViewIfNeeded, scrollOpt, scroll, scrollToOpt, scrollTo,
+        scrollByOpt, scrollBy, scrollByLines, scrollByPages,
+        getAttributeNames, getAttributeNames_, getElementsByClassName,
+        getElementsByClassName_, matches, matches_, closest, closest_,
+        closestUnsafe, closestUnchecked, webkitMatchesSelector,
+        webkitMatchesSelector_, getClientRects, getClientRects_,
         getBoundingClientRect, getBoundingClientRect_,
-        getBoundingClientRectUnsafe, getBoundingClientRectUnchecked,
         webkitRequestFullScreen, webkitRequestFullscreen,
-        requestPointerLock, webkitGetRegionFlowRanges,
-        webkitGetRegionFlowRanges_, pattern ALLOW_KEYBOARD_INPUT,
-        getTagName, getTagNameUnsafe, getTagNameUnchecked, getAttributes,
-        getAttributesUnsafe, getAttributesUnchecked, getStyle,
-        getStyleUnsafe, getStyleUnchecked, setId, getId, getOffsetLeft,
-        getOffsetTop, getOffsetWidth, getOffsetHeight, getClientLeft,
-        getClientTop, getClientWidth, getClientHeight, setScrollLeft,
-        getScrollLeft, setScrollTop, getScrollTop, getScrollWidth,
-        getScrollHeight, getOffsetParent, getOffsetParentUnsafe,
-        getOffsetParentUnchecked, setInnerHTML, getInnerHTML,
-        getInnerHTMLUnsafe, getInnerHTMLUnchecked, setOuterHTML,
-        getOuterHTML, getOuterHTMLUnsafe, getOuterHTMLUnchecked,
-        setClassName, getClassName, getClassList, getClassListUnsafe,
-        getClassListUnchecked, getDataset, getDatasetUnsafe,
-        getDatasetUnchecked, getFirstElementChild,
-        getFirstElementChildUnsafe, getFirstElementChildUnchecked,
-        getLastElementChild, getLastElementChildUnsafe,
-        getLastElementChildUnchecked, getPreviousElementSibling,
-        getPreviousElementSiblingUnsafe,
-        getPreviousElementSiblingUnchecked, getNextElementSibling,
-        getNextElementSiblingUnsafe, getNextElementSiblingUnchecked,
-        getChildElementCount, setUiactions, getUiactions,
-        getWebkitRegionOverset, abort, blurEvent, change, click,
-        contextMenu, dblClick, drag, dragEnd, dragEnter, dragLeave,
-        dragOver, dragStart, drop, error, focusEvent, input, invalid,
-        keyDown, keyPress, keyUp, load, mouseDown, mouseEnter, mouseLeave,
-        mouseMove, mouseOut, mouseOver, mouseUp, mouseWheel, scroll,
-        select, submit, wheel, beforeCut, cut, beforeCopy, copy,
-        beforePaste, paste, reset, search, selectStart, touchStart,
-        touchMove, touchEnd, touchCancel, webKitFullscreenChange,
-        webKitFullscreenError, webKitWillRevealBottom,
-        webKitWillRevealLeft, webKitWillRevealRight, webKitWillRevealTop,
-        Element(..), gTypeElement, IsElement, toElement)
+        insertAdjacentElement, insertAdjacentElement_,
+        insertAdjacentElementUnsafe, insertAdjacentElementUnchecked,
+        insertAdjacentHTML, insertAdjacentText, requestPointerLock,
+        webkitGetRegionFlowRanges, webkitGetRegionFlowRanges_,
+        attachShadow, attachShadow_, getTagName, getTagNameUnsafe,
+        getTagNameUnchecked, getAttributes, getStyle, setId, getId,
+        getNamespaceURI, getNamespaceURIUnsafe, getNamespaceURIUnchecked,
+        getPrefix, getPrefixUnsafe, getPrefixUnchecked, getLocalName,
+        getOffsetLeft, getOffsetTop, getOffsetWidth, getOffsetHeight,
+        getClientLeft, getClientTop, getClientWidth, getClientHeight,
+        setScrollLeft, getScrollLeft, setScrollTop, getScrollTop,
+        getScrollWidth, getScrollHeight, getOffsetParent, setInnerHTML,
+        getInnerHTML, getInnerHTMLUnsafe, getInnerHTMLUnchecked,
+        setOuterHTML, getOuterHTML, getOuterHTMLUnsafe,
+        getOuterHTMLUnchecked, setClassName, getClassName, getClassList,
+        getWebkitRegionOverset, getShadowRoot, setSlot, getSlot,
+        beforeCopy, beforeCut, beforeinput, beforePaste, copy, cut, paste,
+        selectStart, webKitFullscreenChange, webKitFullscreenError,
+        animationEnd, animationIteration, animationStart, transitionEnd,
+        webKitAnimationEnd, webKitAnimationIteration, webKitAnimationStart,
+        webKitTransitionEnd, gestureChange, gestureEnd, gestureStart,
+        focusin, focusout, beforeload, webKitNeedKey,
+        webKitPresentationModeChanged,
+        webKitCurrentPlaybackTargetIsWirelessChanged,
+        webKitPlaybackTargetAvailabilityChanged, Element(..), gTypeElement,
+        IsElement, toElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -88,7 +75,7 @@ getAttribute ::
 getAttribute self name
   = liftDOM
       (((toElement self) ^. jsf "getAttribute" [toJSVal name]) >>=
-         fromMaybeJSString)
+         fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
 getAttribute_ ::
@@ -106,7 +93,7 @@ getAttributeUnsafe ::
 getAttributeUnsafe self name
   = liftDOM
       ((((toElement self) ^. jsf "getAttribute" [toJSVal name]) >>=
-          fromMaybeJSString)
+          fromJSVal)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
@@ -175,8 +162,7 @@ getAttributeNodeUnchecked self name
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
 setAttributeNode ::
-                 (MonadDOM m, IsElement self) =>
-                   self -> Maybe Attr -> m (Maybe Attr)
+                 (MonadDOM m, IsElement self) => self -> Attr -> m (Maybe Attr)
 setAttributeNode self newAttr
   = liftDOM
       (((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr]) >>=
@@ -184,7 +170,7 @@ setAttributeNode self newAttr
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
 setAttributeNode_ ::
-                  (MonadDOM m, IsElement self) => self -> Maybe Attr -> m ()
+                  (MonadDOM m, IsElement self) => self -> Attr -> m ()
 setAttributeNode_ self newAttr
   = liftDOM
       (void
@@ -193,7 +179,7 @@ setAttributeNode_ self newAttr
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
 setAttributeNodeUnsafe ::
                        (MonadDOM m, IsElement self, HasCallStack) =>
-                         self -> Maybe Attr -> m Attr
+                         self -> Attr -> m Attr
 setAttributeNodeUnsafe self newAttr
   = liftDOM
       ((((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr])
@@ -202,7 +188,7 @@ setAttributeNodeUnsafe self newAttr
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNode Mozilla Element.setAttributeNode documentation> 
 setAttributeNodeUnchecked ::
-                          (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
+                          (MonadDOM m, IsElement self) => self -> Attr -> m Attr
 setAttributeNodeUnchecked self newAttr
   = liftDOM
       (((toElement self) ^. jsf "setAttributeNode" [toJSVal newAttr]) >>=
@@ -210,47 +196,28 @@ setAttributeNodeUnchecked self newAttr
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
 removeAttributeNode ::
-                    (MonadDOM m, IsElement self) =>
-                      self -> Maybe Attr -> m (Maybe Attr)
+                    (MonadDOM m, IsElement self) => self -> Attr -> m Attr
 removeAttributeNode self oldAttr
   = liftDOM
       (((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
 removeAttributeNode_ ::
-                     (MonadDOM m, IsElement self) => self -> Maybe Attr -> m ()
+                     (MonadDOM m, IsElement self) => self -> Attr -> m ()
 removeAttributeNode_ self oldAttr
   = liftDOM
       (void
          ((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
-removeAttributeNodeUnsafe ::
-                          (MonadDOM m, IsElement self, HasCallStack) =>
-                            self -> Maybe Attr -> m Attr
-removeAttributeNodeUnsafe self oldAttr
-  = liftDOM
-      ((((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttributeNode Mozilla Element.removeAttributeNode documentation> 
-removeAttributeNodeUnchecked ::
-                             (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
-removeAttributeNodeUnchecked self oldAttr
-  = liftDOM
-      (((toElement self) ^. jsf "removeAttributeNode" [toJSVal oldAttr])
-         >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
 getElementsByTagName ::
                      (MonadDOM m, IsElement self, ToJSString name) =>
-                       self -> name -> m (Maybe NodeList)
+                       self -> name -> m HTMLCollection
 getElementsByTagName self name
   = liftDOM
       (((toElement self) ^. jsf "getElementsByTagName" [toJSVal name])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
 getElementsByTagName_ ::
@@ -260,25 +227,6 @@ getElementsByTagName_ self name
   = liftDOM
       (void
          ((toElement self) ^. jsf "getElementsByTagName" [toJSVal name]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
-getElementsByTagNameUnsafe ::
-                           (MonadDOM m, IsElement self, ToJSString name, HasCallStack) =>
-                             self -> name -> m NodeList
-getElementsByTagNameUnsafe self name
-  = liftDOM
-      ((((toElement self) ^. jsf "getElementsByTagName" [toJSVal name])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName Mozilla Element.getElementsByTagName documentation> 
-getElementsByTagNameUnchecked ::
-                              (MonadDOM m, IsElement self, ToJSString name) =>
-                                self -> name -> m NodeList
-getElementsByTagNameUnchecked self name
-  = liftDOM
-      (((toElement self) ^. jsf "getElementsByTagName" [toJSVal name])
-         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributes Mozilla Element.hasAttributes documentation> 
 hasAttributes :: (MonadDOM m, IsElement self) => self -> m Bool
@@ -295,12 +243,12 @@ hasAttributes_ self
 getAttributeNS ::
                (MonadDOM m, IsElement self, ToJSString namespaceURI,
                 ToJSString localName, FromJSString result) =>
-                 self -> Maybe namespaceURI -> localName -> m result
+                 self -> Maybe namespaceURI -> localName -> m (Maybe result)
 getAttributeNS self namespaceURI localName
   = liftDOM
       (((toElement self) ^. jsf "getAttributeNS"
           [toJSVal namespaceURI, toJSVal localName])
-         >>= fromJSValUnchecked)
+         >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
 getAttributeNS_ ::
@@ -312,6 +260,29 @@ getAttributeNS_ self namespaceURI localName
       (void
          ((toElement self) ^. jsf "getAttributeNS"
             [toJSVal namespaceURI, toJSVal localName]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
+getAttributeNSUnsafe ::
+                     (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                      ToJSString localName, HasCallStack, FromJSString result) =>
+                       self -> Maybe namespaceURI -> localName -> m result
+getAttributeNSUnsafe self namespaceURI localName
+  = liftDOM
+      ((((toElement self) ^. jsf "getAttributeNS"
+           [toJSVal namespaceURI, toJSVal localName])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
+getAttributeNSUnchecked ::
+                        (MonadDOM m, IsElement self, ToJSString namespaceURI,
+                         ToJSString localName, FromJSString result) =>
+                          self -> Maybe namespaceURI -> localName -> m result
+getAttributeNSUnchecked self namespaceURI localName
+  = liftDOM
+      (((toElement self) ^. jsf "getAttributeNS"
+          [toJSVal namespaceURI, toJSVal localName])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNS Mozilla Element.setAttributeNS documentation> 
 setAttributeNS ::
@@ -339,12 +310,12 @@ removeAttributeNS self namespaceURI localName
 getElementsByTagNameNS ::
                        (MonadDOM m, IsElement self, ToJSString namespaceURI,
                         ToJSString localName) =>
-                         self -> Maybe namespaceURI -> localName -> m (Maybe NodeList)
+                         self -> Maybe namespaceURI -> localName -> m HTMLCollection
 getElementsByTagNameNS self namespaceURI localName
   = liftDOM
       (((toElement self) ^. jsf "getElementsByTagNameNS"
           [toJSVal namespaceURI, toJSVal localName])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
 getElementsByTagNameNS_ ::
@@ -356,29 +327,6 @@ getElementsByTagNameNS_ self namespaceURI localName
       (void
          ((toElement self) ^. jsf "getElementsByTagNameNS"
             [toJSVal namespaceURI, toJSVal localName]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
-getElementsByTagNameNSUnsafe ::
-                             (MonadDOM m, IsElement self, ToJSString namespaceURI,
-                              ToJSString localName, HasCallStack) =>
-                               self -> Maybe namespaceURI -> localName -> m NodeList
-getElementsByTagNameNSUnsafe self namespaceURI localName
-  = liftDOM
-      ((((toElement self) ^. jsf "getElementsByTagNameNS"
-           [toJSVal namespaceURI, toJSVal localName])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagNameNS Mozilla Element.getElementsByTagNameNS documentation> 
-getElementsByTagNameNSUnchecked ::
-                                (MonadDOM m, IsElement self, ToJSString namespaceURI,
-                                 ToJSString localName) =>
-                                  self -> Maybe namespaceURI -> localName -> m NodeList
-getElementsByTagNameNSUnchecked self namespaceURI localName
-  = liftDOM
-      (((toElement self) ^. jsf "getElementsByTagNameNS"
-          [toJSVal namespaceURI, toJSVal localName])
-         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNodeNS Mozilla Element.getAttributeNodeNS documentation> 
 getAttributeNodeNS ::
@@ -427,8 +375,7 @@ getAttributeNodeNSUnchecked self namespaceURI localName
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
 setAttributeNodeNS ::
-                   (MonadDOM m, IsElement self) =>
-                     self -> Maybe Attr -> m (Maybe Attr)
+                   (MonadDOM m, IsElement self) => self -> Attr -> m (Maybe Attr)
 setAttributeNodeNS self newAttr
   = liftDOM
       (((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr])
@@ -436,7 +383,7 @@ setAttributeNodeNS self newAttr
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
 setAttributeNodeNS_ ::
-                    (MonadDOM m, IsElement self) => self -> Maybe Attr -> m ()
+                    (MonadDOM m, IsElement self) => self -> Attr -> m ()
 setAttributeNodeNS_ self newAttr
   = liftDOM
       (void
@@ -445,7 +392,7 @@ setAttributeNodeNS_ self newAttr
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
 setAttributeNodeNSUnsafe ::
                          (MonadDOM m, IsElement self, HasCallStack) =>
-                           self -> Maybe Attr -> m Attr
+                           self -> Attr -> m Attr
 setAttributeNodeNSUnsafe self newAttr
   = liftDOM
       ((((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr])
@@ -454,7 +401,7 @@ setAttributeNodeNSUnsafe self newAttr
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttributeNodeNS Mozilla Element.setAttributeNodeNS documentation> 
 setAttributeNodeNSUnchecked ::
-                            (MonadDOM m, IsElement self) => self -> Maybe Attr -> m Attr
+                            (MonadDOM m, IsElement self) => self -> Attr -> m Attr
 setAttributeNodeNSUnchecked self newAttr
   = liftDOM
       (((toElement self) ^. jsf "setAttributeNodeNS" [toJSVal newAttr])
@@ -499,14 +446,6 @@ hasAttributeNS_ self namespaceURI localName
          ((toElement self) ^. jsf "hasAttributeNS"
             [toJSVal namespaceURI, toJSVal localName]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.focus Mozilla Element.focus documentation> 
-focus :: (MonadDOM m, IsElement self) => self -> m ()
-focus self = liftDOM (void ((toElement self) ^. jsf "focus" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.blur Mozilla Element.blur documentation> 
-blur :: (MonadDOM m, IsElement self) => self -> m ()
-blur self = liftDOM (void ((toElement self) ^. jsf "blur" ()))
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollIntoView Mozilla Element.scrollIntoView documentation> 
 scrollIntoView ::
                (MonadDOM m, IsElement self) => self -> Bool -> m ()
@@ -524,28 +463,87 @@ scrollIntoViewIfNeeded self centerIfNeeded
          ((toElement self) ^. jsf "scrollIntoViewIfNeeded"
             [toJSVal centerIfNeeded]))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scroll Mozilla Element.scroll documentation> 
+scrollOpt ::
+          (MonadDOM m, IsElement self) =>
+            self -> Maybe ScrollToOptions -> m ()
+scrollOpt self options
+  = liftDOM
+      (void ((toElement self) ^. jsf "scroll" [toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scroll Mozilla Element.scroll documentation> 
+scroll ::
+       (MonadDOM m, IsElement self) => self -> Double -> Double -> m ()
+scroll self x y
+  = liftDOM
+      (void ((toElement self) ^. jsf "scroll" [toJSVal x, toJSVal y]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollTo Mozilla Element.scrollTo documentation> 
+scrollToOpt ::
+            (MonadDOM m, IsElement self) =>
+              self -> Maybe ScrollToOptions -> m ()
+scrollToOpt self options
+  = liftDOM
+      (void ((toElement self) ^. jsf "scrollTo" [toJSVal options]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollTo Mozilla Element.scrollTo documentation> 
+scrollTo ::
+         (MonadDOM m, IsElement self) => self -> Double -> Double -> m ()
+scrollTo self x y
+  = liftDOM
+      (void ((toElement self) ^. jsf "scrollTo" [toJSVal x, toJSVal y]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollBy Mozilla Element.scrollBy documentation> 
+scrollByOpt ::
+            (MonadDOM m, IsElement self) =>
+              self -> Maybe ScrollToOptions -> m ()
+scrollByOpt self option
+  = liftDOM
+      (void ((toElement self) ^. jsf "scrollBy" [toJSVal option]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollBy Mozilla Element.scrollBy documentation> 
+scrollBy ::
+         (MonadDOM m, IsElement self) => self -> Double -> Double -> m ()
+scrollBy self x y
+  = liftDOM
+      (void ((toElement self) ^. jsf "scrollBy" [toJSVal x, toJSVal y]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollByLines Mozilla Element.scrollByLines documentation> 
 scrollByLines ::
-              (MonadDOM m, IsElement self) => self -> Int -> m ()
+              (MonadDOM m, IsElement self) => self -> Maybe Int -> m ()
 scrollByLines self lines
   = liftDOM
       (void ((toElement self) ^. jsf "scrollByLines" [toJSVal lines]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollByPages Mozilla Element.scrollByPages documentation> 
 scrollByPages ::
-              (MonadDOM m, IsElement self) => self -> Int -> m ()
+              (MonadDOM m, IsElement self) => self -> Maybe Int -> m ()
 scrollByPages self pages
   = liftDOM
       (void ((toElement self) ^. jsf "scrollByPages" [toJSVal pages]))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNames Mozilla Element.getAttributeNames documentation> 
+getAttributeNames ::
+                  (MonadDOM m, IsElement self, FromJSString result) =>
+                    self -> m [result]
+getAttributeNames self
+  = liftDOM
+      (((toElement self) ^. jsf "getAttributeNames" ()) >>=
+         fromJSArrayUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNames Mozilla Element.getAttributeNames documentation> 
+getAttributeNames_ :: (MonadDOM m, IsElement self) => self -> m ()
+getAttributeNames_ self
+  = liftDOM (void ((toElement self) ^. jsf "getAttributeNames" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
 getElementsByClassName ::
                        (MonadDOM m, IsElement self, ToJSString name) =>
-                         self -> name -> m (Maybe NodeList)
+                         self -> name -> m HTMLCollection
 getElementsByClassName self name
   = liftDOM
       (((toElement self) ^. jsf "getElementsByClassName" [toJSVal name])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
 getElementsByClassName_ ::
@@ -555,99 +553,6 @@ getElementsByClassName_ self name
   = liftDOM
       (void
          ((toElement self) ^. jsf "getElementsByClassName" [toJSVal name]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
-getElementsByClassNameUnsafe ::
-                             (MonadDOM m, IsElement self, ToJSString name, HasCallStack) =>
-                               self -> name -> m NodeList
-getElementsByClassNameUnsafe self name
-  = liftDOM
-      ((((toElement self) ^. jsf "getElementsByClassName" [toJSVal name])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName Mozilla Element.getElementsByClassName documentation> 
-getElementsByClassNameUnchecked ::
-                                (MonadDOM m, IsElement self, ToJSString name) =>
-                                  self -> name -> m NodeList
-getElementsByClassNameUnchecked self name
-  = liftDOM
-      (((toElement self) ^. jsf "getElementsByClassName" [toJSVal name])
-         >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
-querySelector ::
-              (MonadDOM m, IsElement self, ToJSString selectors) =>
-                self -> selectors -> m (Maybe Element)
-querySelector self selectors
-  = liftDOM
-      (((toElement self) ^. jsf "querySelector" [toJSVal selectors]) >>=
-         fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
-querySelector_ ::
-               (MonadDOM m, IsElement self, ToJSString selectors) =>
-                 self -> selectors -> m ()
-querySelector_ self selectors
-  = liftDOM
-      (void
-         ((toElement self) ^. jsf "querySelector" [toJSVal selectors]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
-querySelectorUnsafe ::
-                    (MonadDOM m, IsElement self, ToJSString selectors, HasCallStack) =>
-                      self -> selectors -> m Element
-querySelectorUnsafe self selectors
-  = liftDOM
-      ((((toElement self) ^. jsf "querySelector" [toJSVal selectors]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelector Mozilla Element.querySelector documentation> 
-querySelectorUnchecked ::
-                       (MonadDOM m, IsElement self, ToJSString selectors) =>
-                         self -> selectors -> m Element
-querySelectorUnchecked self selectors
-  = liftDOM
-      (((toElement self) ^. jsf "querySelector" [toJSVal selectors]) >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
-querySelectorAll ::
-                 (MonadDOM m, IsElement self, ToJSString selectors) =>
-                   self -> selectors -> m (Maybe NodeList)
-querySelectorAll self selectors
-  = liftDOM
-      (((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors])
-         >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
-querySelectorAll_ ::
-                  (MonadDOM m, IsElement self, ToJSString selectors) =>
-                    self -> selectors -> m ()
-querySelectorAll_ self selectors
-  = liftDOM
-      (void
-         ((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
-querySelectorAllUnsafe ::
-                       (MonadDOM m, IsElement self, ToJSString selectors, HasCallStack) =>
-                         self -> selectors -> m NodeList
-querySelectorAllUnsafe self selectors
-  = liftDOM
-      ((((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.querySelectorAll Mozilla Element.querySelectorAll documentation> 
-querySelectorAllUnchecked ::
-                          (MonadDOM m, IsElement self, ToJSString selectors) =>
-                            self -> selectors -> m NodeList
-querySelectorAllUnchecked self selectors
-  = liftDOM
-      (((toElement self) ^. jsf "querySelectorAll" [toJSVal selectors])
-         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.matches Mozilla Element.matches documentation> 
 matches ::
@@ -724,40 +629,24 @@ webkitMatchesSelector_ self selectors
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
 getClientRects ::
-               (MonadDOM m, IsElement self) => self -> m (Maybe ClientRectList)
+               (MonadDOM m, IsElement self) => self -> m ClientRectList
 getClientRects self
   = liftDOM
-      (((toElement self) ^. jsf "getClientRects" ()) >>= fromJSVal)
+      (((toElement self) ^. jsf "getClientRects" ()) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
 getClientRects_ :: (MonadDOM m, IsElement self) => self -> m ()
 getClientRects_ self
   = liftDOM (void ((toElement self) ^. jsf "getClientRects" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
-getClientRectsUnsafe ::
-                     (MonadDOM m, IsElement self, HasCallStack) =>
-                       self -> m ClientRectList
-getClientRectsUnsafe self
-  = liftDOM
-      ((((toElement self) ^. jsf "getClientRects" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects Mozilla Element.getClientRects documentation> 
-getClientRectsUnchecked ::
-                        (MonadDOM m, IsElement self) => self -> m ClientRectList
-getClientRectsUnchecked self
-  = liftDOM
-      (((toElement self) ^. jsf "getClientRects" ()) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
 getBoundingClientRect ::
-                      (MonadDOM m, IsElement self) => self -> m (Maybe ClientRect)
+                      (MonadDOM m, IsElement self) => self -> m ClientRect
 getBoundingClientRect self
   = liftDOM
       (((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
 getBoundingClientRect_ ::
@@ -766,31 +655,12 @@ getBoundingClientRect_ self
   = liftDOM
       (void ((toElement self) ^. jsf "getBoundingClientRect" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
-getBoundingClientRectUnsafe ::
-                            (MonadDOM m, IsElement self, HasCallStack) => self -> m ClientRect
-getBoundingClientRectUnsafe self
-  = liftDOM
-      ((((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect Mozilla Element.getBoundingClientRect documentation> 
-getBoundingClientRectUnchecked ::
-                               (MonadDOM m, IsElement self) => self -> m ClientRect
-getBoundingClientRectUnchecked self
-  = liftDOM
-      (((toElement self) ^. jsf "getBoundingClientRect" ()) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitRequestFullScreen Mozilla Element.webkitRequestFullScreen documentation> 
 webkitRequestFullScreen ::
-                        (MonadDOM m, IsElement self) => self -> Word -> m ()
-webkitRequestFullScreen self flags
+                        (MonadDOM m, IsElement self) => self -> m ()
+webkitRequestFullScreen self
   = liftDOM
-      (void
-         ((toElement self) ^. jsf "webkitRequestFullScreen"
-            [toJSVal flags]))
+      (void ((toElement self) ^. jsf "webkitRequestFullScreen" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitRequestFullscreen Mozilla Element.webkitRequestFullscreen documentation> 
 webkitRequestFullscreen ::
@@ -799,6 +669,71 @@ webkitRequestFullscreen self
   = liftDOM
       (void ((toElement self) ^. jsf "webkitRequestFullscreen" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentElement Mozilla Element.insertAdjacentElement documentation> 
+insertAdjacentElement ::
+                      (MonadDOM m, IsElement self, ToJSString where',
+                       IsElement element) =>
+                        self -> where' -> element -> m (Maybe Element)
+insertAdjacentElement self where' element
+  = liftDOM
+      (((toElement self) ^. jsf "insertAdjacentElement"
+          [toJSVal where', toJSVal element])
+         >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentElement Mozilla Element.insertAdjacentElement documentation> 
+insertAdjacentElement_ ::
+                       (MonadDOM m, IsElement self, ToJSString where',
+                        IsElement element) =>
+                         self -> where' -> element -> m ()
+insertAdjacentElement_ self where' element
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "insertAdjacentElement"
+            [toJSVal where', toJSVal element]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentElement Mozilla Element.insertAdjacentElement documentation> 
+insertAdjacentElementUnsafe ::
+                            (MonadDOM m, IsElement self, ToJSString where', IsElement element,
+                             HasCallStack) =>
+                              self -> where' -> element -> m Element
+insertAdjacentElementUnsafe self where' element
+  = liftDOM
+      ((((toElement self) ^. jsf "insertAdjacentElement"
+           [toJSVal where', toJSVal element])
+          >>= fromJSVal)
+         >>= maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentElement Mozilla Element.insertAdjacentElement documentation> 
+insertAdjacentElementUnchecked ::
+                               (MonadDOM m, IsElement self, ToJSString where',
+                                IsElement element) =>
+                                 self -> where' -> element -> m Element
+insertAdjacentElementUnchecked self where' element
+  = liftDOM
+      (((toElement self) ^. jsf "insertAdjacentElement"
+          [toJSVal where', toJSVal element])
+         >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML Mozilla Element.insertAdjacentHTML documentation> 
+insertAdjacentHTML ::
+                   (MonadDOM m, IsElement self, ToJSString where', ToJSString html) =>
+                     self -> where' -> html -> m ()
+insertAdjacentHTML self where' html
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "insertAdjacentHTML"
+            [toJSVal where', toJSVal html]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentText Mozilla Element.insertAdjacentText documentation> 
+insertAdjacentText ::
+                   (MonadDOM m, IsElement self, ToJSString where', ToJSString text) =>
+                     self -> where' -> text -> m ()
+insertAdjacentText self where' text
+  = liftDOM
+      (void
+         ((toElement self) ^. jsf "insertAdjacentText"
+            [toJSVal where', toJSVal text]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.requestPointerLock Mozilla Element.requestPointerLock documentation> 
 requestPointerLock :: (MonadDOM m, IsElement self) => self -> m ()
 requestPointerLock self
@@ -806,11 +741,11 @@ requestPointerLock self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitGetRegionFlowRanges Mozilla Element.webkitGetRegionFlowRanges documentation> 
 webkitGetRegionFlowRanges ::
-                          (MonadDOM m, IsElement self) => self -> m [Maybe Range]
+                          (MonadDOM m, IsElement self) => self -> m [Range]
 webkitGetRegionFlowRanges self
   = liftDOM
       (((toElement self) ^. jsf "webkitGetRegionFlowRanges" ()) >>=
-         fromJSArray)
+         fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitGetRegionFlowRanges Mozilla Element.webkitGetRegionFlowRanges documentation> 
 webkitGetRegionFlowRanges_ ::
@@ -818,15 +753,29 @@ webkitGetRegionFlowRanges_ ::
 webkitGetRegionFlowRanges_ self
   = liftDOM
       (void ((toElement self) ^. jsf "webkitGetRegionFlowRanges" ()))
-pattern ALLOW_KEYBOARD_INPUT = 1
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attachShadow Mozilla Element.attachShadow documentation> 
+attachShadow ::
+             (MonadDOM m, IsElement self) =>
+               self -> ShadowRootInit -> m ShadowRoot
+attachShadow self init
+  = liftDOM
+      (((toElement self) ^. jsf "attachShadow" [toJSVal init]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attachShadow Mozilla Element.attachShadow documentation> 
+attachShadow_ ::
+              (MonadDOM m, IsElement self) => self -> ShadowRootInit -> m ()
+attachShadow_ self init
+  = liftDOM
+      (void ((toElement self) ^. jsf "attachShadow" [toJSVal init]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
 getTagName ::
            (MonadDOM m, IsElement self, FromJSString result) =>
              self -> m (Maybe result)
 getTagName self
-  = liftDOM
-      (((toElement self) ^. js "tagName") >>= fromMaybeJSString)
+  = liftDOM (((toElement self) ^. js "tagName") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
 getTagNameUnsafe ::
@@ -834,7 +783,7 @@ getTagNameUnsafe ::
                    self -> m result
 getTagNameUnsafe self
   = liftDOM
-      ((((toElement self) ^. js "tagName") >>= fromMaybeJSString) >>=
+      ((((toElement self) ^. js "tagName") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName Mozilla Element.tagName documentation> 
@@ -847,46 +796,15 @@ getTagNameUnchecked self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
 getAttributes ::
-              (MonadDOM m, IsElement self) => self -> m (Maybe NamedNodeMap)
+              (MonadDOM m, IsElement self) => self -> m NamedNodeMap
 getAttributes self
-  = liftDOM (((toElement self) ^. js "attributes") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
-getAttributesUnsafe ::
-                    (MonadDOM m, IsElement self, HasCallStack) =>
-                      self -> m NamedNodeMap
-getAttributesUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "attributes") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes Mozilla Element.attributes documentation> 
-getAttributesUnchecked ::
-                       (MonadDOM m, IsElement self) => self -> m NamedNodeMap
-getAttributesUnchecked self
   = liftDOM
       (((toElement self) ^. js "attributes") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
 getStyle ::
-         (MonadDOM m, IsElement self) =>
-           self -> m (Maybe CSSStyleDeclaration)
+         (MonadDOM m, IsElement self) => self -> m CSSStyleDeclaration
 getStyle self
-  = liftDOM (((toElement self) ^. js "style") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
-getStyleUnsafe ::
-               (MonadDOM m, IsElement self, HasCallStack) =>
-                 self -> m CSSStyleDeclaration
-getStyleUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "style") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.style Mozilla Element.style documentation> 
-getStyleUnchecked ::
-                  (MonadDOM m, IsElement self) => self -> m CSSStyleDeclaration
-getStyleUnchecked self
   = liftDOM (((toElement self) ^. js "style") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.id Mozilla Element.id documentation> 
@@ -901,6 +819,62 @@ getId ::
         self -> m result
 getId self
   = liftDOM (((toElement self) ^. js "id") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.namespaceURI Mozilla Element.namespaceURI documentation> 
+getNamespaceURI ::
+                (MonadDOM m, IsElement self, FromJSString result) =>
+                  self -> m (Maybe result)
+getNamespaceURI self
+  = liftDOM (((toElement self) ^. js "namespaceURI") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.namespaceURI Mozilla Element.namespaceURI documentation> 
+getNamespaceURIUnsafe ::
+                      (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
+                        self -> m result
+getNamespaceURIUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "namespaceURI") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.namespaceURI Mozilla Element.namespaceURI documentation> 
+getNamespaceURIUnchecked ::
+                         (MonadDOM m, IsElement self, FromJSString result) =>
+                           self -> m result
+getNamespaceURIUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "namespaceURI") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.prefix Mozilla Element.prefix documentation> 
+getPrefix ::
+          (MonadDOM m, IsElement self, FromJSString result) =>
+            self -> m (Maybe result)
+getPrefix self
+  = liftDOM (((toElement self) ^. js "prefix") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.prefix Mozilla Element.prefix documentation> 
+getPrefixUnsafe ::
+                (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
+                  self -> m result
+getPrefixUnsafe self
+  = liftDOM
+      ((((toElement self) ^. js "prefix") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.prefix Mozilla Element.prefix documentation> 
+getPrefixUnchecked ::
+                   (MonadDOM m, IsElement self, FromJSString result) =>
+                     self -> m result
+getPrefixUnchecked self
+  = liftDOM
+      (((toElement self) ^. js "prefix") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.localName Mozilla Element.localName documentation> 
+getLocalName ::
+             (MonadDOM m, IsElement self, FromJSString result) =>
+               self -> m result
+getLocalName self
+  = liftDOM
+      (((toElement self) ^. js "localName") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetLeft Mozilla Element.offsetLeft documentation> 
 getOffsetLeft :: (MonadDOM m, IsElement self) => self -> m Double
@@ -981,22 +955,8 @@ getScrollHeight self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetParent Mozilla Element.offsetParent documentation> 
 getOffsetParent ::
-                (MonadDOM m, IsElement self) => self -> m (Maybe Element)
+                (MonadDOM m, IsElement self) => self -> m Element
 getOffsetParent self
-  = liftDOM (((toElement self) ^. js "offsetParent") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetParent Mozilla Element.offsetParent documentation> 
-getOffsetParentUnsafe ::
-                      (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
-getOffsetParentUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "offsetParent") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.offsetParent Mozilla Element.offsetParent documentation> 
-getOffsetParentUnchecked ::
-                         (MonadDOM m, IsElement self) => self -> m Element
-getOffsetParentUnchecked self
   = liftDOM
       (((toElement self) ^. js "offsetParent") >>= fromJSValUnchecked)
 
@@ -1080,161 +1040,10 @@ getClassName self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.classList Mozilla Element.classList documentation> 
 getClassList ::
-             (MonadDOM m, IsElement self) => self -> m (Maybe DOMTokenList)
+             (MonadDOM m, IsElement self) => self -> m DOMTokenList
 getClassList self
-  = liftDOM (((toElement self) ^. js "classList") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.classList Mozilla Element.classList documentation> 
-getClassListUnsafe ::
-                   (MonadDOM m, IsElement self, HasCallStack) =>
-                     self -> m DOMTokenList
-getClassListUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "classList") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.classList Mozilla Element.classList documentation> 
-getClassListUnchecked ::
-                      (MonadDOM m, IsElement self) => self -> m DOMTokenList
-getClassListUnchecked self
   = liftDOM
       (((toElement self) ^. js "classList") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
-getDataset ::
-           (MonadDOM m, IsElement self) => self -> m (Maybe DOMStringMap)
-getDataset self
-  = liftDOM (((toElement self) ^. js "dataset") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
-getDatasetUnsafe ::
-                 (MonadDOM m, IsElement self, HasCallStack) =>
-                   self -> m DOMStringMap
-getDatasetUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "dataset") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.dataset Mozilla Element.dataset documentation> 
-getDatasetUnchecked ::
-                    (MonadDOM m, IsElement self) => self -> m DOMStringMap
-getDatasetUnchecked self
-  = liftDOM
-      (((toElement self) ^. js "dataset") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
-getFirstElementChild ::
-                     (MonadDOM m, IsElement self) => self -> m (Maybe Element)
-getFirstElementChild self
-  = liftDOM
-      (((toElement self) ^. js "firstElementChild") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
-getFirstElementChildUnsafe ::
-                           (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
-getFirstElementChildUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "firstElementChild") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.firstElementChild Mozilla Element.firstElementChild documentation> 
-getFirstElementChildUnchecked ::
-                              (MonadDOM m, IsElement self) => self -> m Element
-getFirstElementChildUnchecked self
-  = liftDOM
-      (((toElement self) ^. js "firstElementChild") >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
-getLastElementChild ::
-                    (MonadDOM m, IsElement self) => self -> m (Maybe Element)
-getLastElementChild self
-  = liftDOM
-      (((toElement self) ^. js "lastElementChild") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
-getLastElementChildUnsafe ::
-                          (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
-getLastElementChildUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "lastElementChild") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.lastElementChild Mozilla Element.lastElementChild documentation> 
-getLastElementChildUnchecked ::
-                             (MonadDOM m, IsElement self) => self -> m Element
-getLastElementChildUnchecked self
-  = liftDOM
-      (((toElement self) ^. js "lastElementChild") >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
-getPreviousElementSibling ::
-                          (MonadDOM m, IsElement self) => self -> m (Maybe Element)
-getPreviousElementSibling self
-  = liftDOM
-      (((toElement self) ^. js "previousElementSibling") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
-getPreviousElementSiblingUnsafe ::
-                                (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
-getPreviousElementSiblingUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "previousElementSibling") >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.previousElementSibling Mozilla Element.previousElementSibling documentation> 
-getPreviousElementSiblingUnchecked ::
-                                   (MonadDOM m, IsElement self) => self -> m Element
-getPreviousElementSiblingUnchecked self
-  = liftDOM
-      (((toElement self) ^. js "previousElementSibling") >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
-getNextElementSibling ::
-                      (MonadDOM m, IsElement self) => self -> m (Maybe Element)
-getNextElementSibling self
-  = liftDOM
-      (((toElement self) ^. js "nextElementSibling") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
-getNextElementSiblingUnsafe ::
-                            (MonadDOM m, IsElement self, HasCallStack) => self -> m Element
-getNextElementSiblingUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "nextElementSibling") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.nextElementSibling Mozilla Element.nextElementSibling documentation> 
-getNextElementSiblingUnchecked ::
-                               (MonadDOM m, IsElement self) => self -> m Element
-getNextElementSiblingUnchecked self
-  = liftDOM
-      (((toElement self) ^. js "nextElementSibling") >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.childElementCount Mozilla Element.childElementCount documentation> 
-getChildElementCount ::
-                     (MonadDOM m, IsElement self) => self -> m Word
-getChildElementCount self
-  = liftDOM
-      (round <$>
-         (((toElement self) ^. js "childElementCount") >>= valToNumber))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.uiactions Mozilla Element.uiactions documentation> 
-setUiactions ::
-             (MonadDOM m, IsElement self, ToJSString val) => self -> val -> m ()
-setUiactions self val
-  = liftDOM ((toElement self) ^. jss "uiactions" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.uiactions Mozilla Element.uiactions documentation> 
-getUiactions ::
-             (MonadDOM m, IsElement self, FromJSString result) =>
-               self -> m result
-getUiactions self
-  = liftDOM
-      (((toElement self) ^. js "uiactions") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.webkitRegionOverset Mozilla Element.webkitRegionOverset documentation> 
 getWebkitRegionOverset ::
@@ -1245,237 +1054,72 @@ getWebkitRegionOverset self
       (((toElement self) ^. js "webkitRegionOverset") >>=
          fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onabort Mozilla Element.onabort documentation> 
-abort ::
-      (IsElement self, IsEventTarget self) => EventName self UIEvent
-abort = unsafeEventName (toJSString "abort")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.shadowRoot Mozilla Element.shadowRoot documentation> 
+getShadowRoot ::
+              (MonadDOM m, IsElement self) => self -> m ShadowRoot
+getShadowRoot self
+  = liftDOM
+      (((toElement self) ^. js "shadowRoot") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onblur Mozilla Element.onblur documentation> 
-blurEvent ::
-          (IsElement self, IsEventTarget self) => EventName self FocusEvent
-blurEvent = unsafeEventName (toJSString "blur")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.slot Mozilla Element.slot documentation> 
+setSlot ::
+        (MonadDOM m, IsElement self, ToJSString val) => self -> val -> m ()
+setSlot self val
+  = liftDOM ((toElement self) ^. jss "slot" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onchange Mozilla Element.onchange documentation> 
-change ::
-       (IsElement self, IsEventTarget self) => EventName self Event
-change = unsafeEventName (toJSString "change")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onclick Mozilla Element.onclick documentation> 
-click ::
-      (IsElement self, IsEventTarget self) => EventName self MouseEvent
-click = unsafeEventName (toJSString "click")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oncontextmenu Mozilla Element.oncontextmenu documentation> 
-contextMenu ::
-            (IsElement self, IsEventTarget self) => EventName self MouseEvent
-contextMenu = unsafeEventName (toJSString "contextmenu")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondblclick Mozilla Element.ondblclick documentation> 
-dblClick ::
-         (IsElement self, IsEventTarget self) => EventName self MouseEvent
-dblClick = unsafeEventName (toJSString "dblclick")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondrag Mozilla Element.ondrag documentation> 
-drag ::
-     (IsElement self, IsEventTarget self) => EventName self MouseEvent
-drag = unsafeEventName (toJSString "drag")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondragend Mozilla Element.ondragend documentation> 
-dragEnd ::
-        (IsElement self, IsEventTarget self) => EventName self MouseEvent
-dragEnd = unsafeEventName (toJSString "dragend")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondragenter Mozilla Element.ondragenter documentation> 
-dragEnter ::
-          (IsElement self, IsEventTarget self) => EventName self MouseEvent
-dragEnter = unsafeEventName (toJSString "dragenter")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondragleave Mozilla Element.ondragleave documentation> 
-dragLeave ::
-          (IsElement self, IsEventTarget self) => EventName self MouseEvent
-dragLeave = unsafeEventName (toJSString "dragleave")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondragover Mozilla Element.ondragover documentation> 
-dragOver ::
-         (IsElement self, IsEventTarget self) => EventName self MouseEvent
-dragOver = unsafeEventName (toJSString "dragover")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondragstart Mozilla Element.ondragstart documentation> 
-dragStart ::
-          (IsElement self, IsEventTarget self) => EventName self MouseEvent
-dragStart = unsafeEventName (toJSString "dragstart")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ondrop Mozilla Element.ondrop documentation> 
-drop ::
-     (IsElement self, IsEventTarget self) => EventName self MouseEvent
-drop = unsafeEventName (toJSString "drop")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onerror Mozilla Element.onerror documentation> 
-error ::
-      (IsElement self, IsEventTarget self) => EventName self UIEvent
-error = unsafeEventName (toJSString "error")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onfocus Mozilla Element.onfocus documentation> 
-focusEvent ::
-           (IsElement self, IsEventTarget self) => EventName self FocusEvent
-focusEvent = unsafeEventName (toJSString "focus")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oninput Mozilla Element.oninput documentation> 
-input ::
-      (IsElement self, IsEventTarget self) => EventName self Event
-input = unsafeEventName (toJSString "input")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oninvalid Mozilla Element.oninvalid documentation> 
-invalid ::
-        (IsElement self, IsEventTarget self) => EventName self Event
-invalid = unsafeEventName (toJSString "invalid")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onkeydown Mozilla Element.onkeydown documentation> 
-keyDown ::
-        (IsElement self, IsEventTarget self) =>
-          EventName self KeyboardEvent
-keyDown = unsafeEventName (toJSString "keydown")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onkeypress Mozilla Element.onkeypress documentation> 
-keyPress ::
-         (IsElement self, IsEventTarget self) =>
-           EventName self KeyboardEvent
-keyPress = unsafeEventName (toJSString "keypress")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onkeyup Mozilla Element.onkeyup documentation> 
-keyUp ::
-      (IsElement self, IsEventTarget self) =>
-        EventName self KeyboardEvent
-keyUp = unsafeEventName (toJSString "keyup")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onload Mozilla Element.onload documentation> 
-load ::
-     (IsElement self, IsEventTarget self) => EventName self UIEvent
-load = unsafeEventName (toJSString "load")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmousedown Mozilla Element.onmousedown documentation> 
-mouseDown ::
-          (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseDown = unsafeEventName (toJSString "mousedown")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmouseenter Mozilla Element.onmouseenter documentation> 
-mouseEnter ::
-           (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseEnter = unsafeEventName (toJSString "mouseenter")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmouseleave Mozilla Element.onmouseleave documentation> 
-mouseLeave ::
-           (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseLeave = unsafeEventName (toJSString "mouseleave")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmousemove Mozilla Element.onmousemove documentation> 
-mouseMove ::
-          (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseMove = unsafeEventName (toJSString "mousemove")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmouseout Mozilla Element.onmouseout documentation> 
-mouseOut ::
-         (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseOut = unsafeEventName (toJSString "mouseout")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmouseover Mozilla Element.onmouseover documentation> 
-mouseOver ::
-          (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseOver = unsafeEventName (toJSString "mouseover")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmouseup Mozilla Element.onmouseup documentation> 
-mouseUp ::
-        (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseUp = unsafeEventName (toJSString "mouseup")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onmousewheel Mozilla Element.onmousewheel documentation> 
-mouseWheel ::
-           (IsElement self, IsEventTarget self) => EventName self MouseEvent
-mouseWheel = unsafeEventName (toJSString "mousewheel")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onscroll Mozilla Element.onscroll documentation> 
-scroll ::
-       (IsElement self, IsEventTarget self) => EventName self UIEvent
-scroll = unsafeEventName (toJSString "scroll")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onselect Mozilla Element.onselect documentation> 
-select ::
-       (IsElement self, IsEventTarget self) => EventName self UIEvent
-select = unsafeEventName (toJSString "select")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onsubmit Mozilla Element.onsubmit documentation> 
-submit ::
-       (IsElement self, IsEventTarget self) => EventName self Event
-submit = unsafeEventName (toJSString "submit")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwheel Mozilla Element.onwheel documentation> 
-wheel ::
-      (IsElement self, IsEventTarget self) => EventName self WheelEvent
-wheel = unsafeEventName (toJSString "wheel")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onbeforecut Mozilla Element.onbeforecut documentation> 
-beforeCut ::
-          (IsElement self, IsEventTarget self) => EventName self Event
-beforeCut = unsafeEventName (toJSString "beforecut")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oncut Mozilla Element.oncut documentation> 
-cut :: (IsElement self, IsEventTarget self) => EventName self Event
-cut = unsafeEventName (toJSString "cut")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.slot Mozilla Element.slot documentation> 
+getSlot ::
+        (MonadDOM m, IsElement self, FromJSString result) =>
+          self -> m result
+getSlot self
+  = liftDOM (((toElement self) ^. js "slot") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onbeforecopy Mozilla Element.onbeforecopy documentation> 
 beforeCopy ::
-           (IsElement self, IsEventTarget self) => EventName self Event
+           (IsElement self, IsEventTarget self) =>
+             EventName self ClipboardEvent
 beforeCopy = unsafeEventName (toJSString "beforecopy")
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oncopy Mozilla Element.oncopy documentation> 
-copy ::
-     (IsElement self, IsEventTarget self) => EventName self Event
-copy = unsafeEventName (toJSString "copy")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onbeforecut Mozilla Element.onbeforecut documentation> 
+beforeCut ::
+          (IsElement self, IsEventTarget self) =>
+            EventName self ClipboardEvent
+beforeCut = unsafeEventName (toJSString "beforecut")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onbeforeinput Mozilla Element.onbeforeinput documentation> 
+beforeinput ::
+            (IsElement self, IsEventTarget self) =>
+              EventName self onbeforeinput
+beforeinput = unsafeEventName (toJSString "beforeinput")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onbeforepaste Mozilla Element.onbeforepaste documentation> 
 beforePaste ::
-            (IsElement self, IsEventTarget self) => EventName self Event
+            (IsElement self, IsEventTarget self) =>
+              EventName self ClipboardEvent
 beforePaste = unsafeEventName (toJSString "beforepaste")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oncopy Mozilla Element.oncopy documentation> 
+copy ::
+     (IsElement self, IsEventTarget self) =>
+       EventName self ClipboardEvent
+copy = unsafeEventName (toJSString "copy")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.oncut Mozilla Element.oncut documentation> 
+cut ::
+    (IsElement self, IsEventTarget self) =>
+      EventName self ClipboardEvent
+cut = unsafeEventName (toJSString "cut")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onpaste Mozilla Element.onpaste documentation> 
 paste ::
-      (IsElement self, IsEventTarget self) => EventName self Event
+      (IsElement self, IsEventTarget self) =>
+        EventName self ClipboardEvent
 paste = unsafeEventName (toJSString "paste")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onreset Mozilla Element.onreset documentation> 
-reset ::
-      (IsElement self, IsEventTarget self) => EventName self Event
-reset = unsafeEventName (toJSString "reset")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onsearch Mozilla Element.onsearch documentation> 
-search ::
-       (IsElement self, IsEventTarget self) => EventName self Event
-search = unsafeEventName (toJSString "search")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onselectstart Mozilla Element.onselectstart documentation> 
 selectStart ::
             (IsElement self, IsEventTarget self) => EventName self Event
 selectStart = unsafeEventName (toJSString "selectstart")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ontouchstart Mozilla Element.ontouchstart documentation> 
-touchStart ::
-           (IsElement self, IsEventTarget self) => EventName self TouchEvent
-touchStart = unsafeEventName (toJSString "touchstart")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ontouchmove Mozilla Element.ontouchmove documentation> 
-touchMove ::
-          (IsElement self, IsEventTarget self) => EventName self TouchEvent
-touchMove = unsafeEventName (toJSString "touchmove")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ontouchend Mozilla Element.ontouchend documentation> 
-touchEnd ::
-         (IsElement self, IsEventTarget self) => EventName self TouchEvent
-touchEnd = unsafeEventName (toJSString "touchend")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ontouchcancel Mozilla Element.ontouchcancel documentation> 
-touchCancel ::
-            (IsElement self, IsEventTarget self) => EventName self TouchEvent
-touchCancel = unsafeEventName (toJSString "touchcancel")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitfullscreenchange Mozilla Element.onwebkitfullscreenchange documentation> 
 webKitFullscreenChange ::
@@ -1489,26 +1133,111 @@ webKitFullscreenError ::
 webKitFullscreenError
   = unsafeEventName (toJSString "webkitfullscreenerror")
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitwillrevealbottom Mozilla Element.onwebkitwillrevealbottom documentation> 
-webKitWillRevealBottom ::
-                       (IsElement self, IsEventTarget self) => EventName self Event
-webKitWillRevealBottom
-  = unsafeEventName (toJSString "webkitwillrevealbottom")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onanimationend Mozilla Element.onanimationend documentation> 
+animationEnd ::
+             (IsElement self, IsEventTarget self) =>
+               EventName self AnimationEvent
+animationEnd = unsafeEventName (toJSString "animationend")
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitwillrevealleft Mozilla Element.onwebkitwillrevealleft documentation> 
-webKitWillRevealLeft ::
-                     (IsElement self, IsEventTarget self) => EventName self Event
-webKitWillRevealLeft
-  = unsafeEventName (toJSString "webkitwillrevealleft")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onanimationiteration Mozilla Element.onanimationiteration documentation> 
+animationIteration ::
+                   (IsElement self, IsEventTarget self) =>
+                     EventName self AnimationEvent
+animationIteration
+  = unsafeEventName (toJSString "animationiteration")
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitwillrevealright Mozilla Element.onwebkitwillrevealright documentation> 
-webKitWillRevealRight ::
-                      (IsElement self, IsEventTarget self) => EventName self Event
-webKitWillRevealRight
-  = unsafeEventName (toJSString "webkitwillrevealright")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onanimationstart Mozilla Element.onanimationstart documentation> 
+animationStart ::
+               (IsElement self, IsEventTarget self) =>
+                 EventName self AnimationEvent
+animationStart = unsafeEventName (toJSString "animationstart")
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitwillrevealtop Mozilla Element.onwebkitwillrevealtop documentation> 
-webKitWillRevealTop ::
-                    (IsElement self, IsEventTarget self) => EventName self Event
-webKitWillRevealTop
-  = unsafeEventName (toJSString "webkitwillrevealtop")
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ontransitionend Mozilla Element.ontransitionend documentation> 
+transitionEnd ::
+              (IsElement self, IsEventTarget self) =>
+                EventName self TransitionEvent
+transitionEnd = unsafeEventName (toJSString "transitionend")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitanimationend Mozilla Element.onwebkitanimationend documentation> 
+webKitAnimationEnd ::
+                   (IsElement self, IsEventTarget self) =>
+                     EventName self AnimationEvent
+webKitAnimationEnd
+  = unsafeEventName (toJSString "webkitanimationend")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitanimationiteration Mozilla Element.onwebkitanimationiteration documentation> 
+webKitAnimationIteration ::
+                         (IsElement self, IsEventTarget self) =>
+                           EventName self AnimationEvent
+webKitAnimationIteration
+  = unsafeEventName (toJSString "webkitanimationiteration")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitanimationstart Mozilla Element.onwebkitanimationstart documentation> 
+webKitAnimationStart ::
+                     (IsElement self, IsEventTarget self) =>
+                       EventName self AnimationEvent
+webKitAnimationStart
+  = unsafeEventName (toJSString "webkitanimationstart")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkittransitionend Mozilla Element.onwebkittransitionend documentation> 
+webKitTransitionEnd ::
+                    (IsElement self, IsEventTarget self) =>
+                      EventName self TransitionEvent
+webKitTransitionEnd
+  = unsafeEventName (toJSString "webkittransitionend")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ongesturechange Mozilla Element.ongesturechange documentation> 
+gestureChange ::
+              (IsElement self, IsEventTarget self) => EventName self UIEvent
+gestureChange = unsafeEventName (toJSString "gesturechange")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ongestureend Mozilla Element.ongestureend documentation> 
+gestureEnd ::
+           (IsElement self, IsEventTarget self) => EventName self UIEvent
+gestureEnd = unsafeEventName (toJSString "gestureend")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.ongesturestart Mozilla Element.ongesturestart documentation> 
+gestureStart ::
+             (IsElement self, IsEventTarget self) => EventName self UIEvent
+gestureStart = unsafeEventName (toJSString "gesturestart")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onfocusin Mozilla Element.onfocusin documentation> 
+focusin ::
+        (IsElement self, IsEventTarget self) => EventName self onfocusin
+focusin = unsafeEventName (toJSString "focusin")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onfocusout Mozilla Element.onfocusout documentation> 
+focusout ::
+         (IsElement self, IsEventTarget self) => EventName self onfocusout
+focusout = unsafeEventName (toJSString "focusout")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onbeforeload Mozilla Element.onbeforeload documentation> 
+beforeload ::
+           (IsElement self, IsEventTarget self) => EventName self onbeforeload
+beforeload = unsafeEventName (toJSString "beforeload")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitneedkey Mozilla Element.onwebkitneedkey documentation> 
+webKitNeedKey ::
+              (IsElement self, IsEventTarget self) => EventName self Event
+webKitNeedKey = unsafeEventName (toJSString "webkitneedkey")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitpresentationmodechanged Mozilla Element.onwebkitpresentationmodechanged documentation> 
+webKitPresentationModeChanged ::
+                              (IsElement self, IsEventTarget self) => EventName self Event
+webKitPresentationModeChanged
+  = unsafeEventName (toJSString "webkitpresentationmodechanged")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitcurrentplaybacktargetiswirelesschanged Mozilla Element.onwebkitcurrentplaybacktargetiswirelesschanged documentation> 
+webKitCurrentPlaybackTargetIsWirelessChanged ::
+                                             (IsElement self, IsEventTarget self) =>
+                                               EventName self Event
+webKitCurrentPlaybackTargetIsWirelessChanged
+  = unsafeEventName
+      (toJSString "webkitcurrentplaybacktargetiswirelesschanged")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.onwebkitplaybacktargetavailabilitychanged Mozilla Element.onwebkitplaybacktargetavailabilitychanged documentation> 
+webKitPlaybackTargetAvailabilityChanged ::
+                                        (IsElement self, IsEventTarget self) => EventName self Event
+webKitPlaybackTargetAvailabilityChanged
+  = unsafeEventName
+      (toJSString "webkitplaybacktargetavailabilitychanged")

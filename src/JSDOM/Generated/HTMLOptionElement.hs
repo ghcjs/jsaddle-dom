@@ -3,16 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionElement
-       (setDisabled, getDisabled, getForm, getFormUnsafe,
-        getFormUnchecked, setLabel, getLabel, setDefaultSelected,
-        getDefaultSelected, setSelected, getSelected, setValue, getValue,
-        setText, getText, getIndex, HTMLOptionElement(..),
-        gTypeHTMLOptionElement)
+       (setDisabled, getDisabled, getForm, setLabel, getLabel,
+        setDefaultSelected, getDefaultSelected, setSelected, getSelected,
+        setValue, getValue, setText, getText, getIndex,
+        HTMLOptionElement(..), gTypeHTMLOptionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -32,24 +32,8 @@ getDisabled :: (MonadDOM m) => HTMLOptionElement -> m Bool
 getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.form Mozilla HTMLOptionElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLOptionElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.form Mozilla HTMLOptionElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLOptionElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.form Mozilla HTMLOptionElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLOptionElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+getForm :: (MonadDOM m) => HTMLOptionElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement.label Mozilla HTMLOptionElement.label documentation> 
 setLabel ::

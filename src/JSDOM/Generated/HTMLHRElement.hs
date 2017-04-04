@@ -3,13 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLHRElement
-       (setAlign, getAlign, setNoShade, getNoShade, setSize, getSize,
-        setWidth, getWidth, HTMLHRElement(..), gTypeHTMLHRElement)
+       (setAlign, getAlign, setColor, getColor, setNoShade, getNoShade,
+        setSize, getSize, setWidth, getWidth, HTMLHRElement(..),
+        gTypeHTMLHRElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -29,6 +31,17 @@ getAlign ::
          (MonadDOM m, FromJSString result) => HTMLHRElement -> m result
 getAlign self
   = liftDOM ((self ^. js "align") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHRElement.color Mozilla HTMLHRElement.color documentation> 
+setColor ::
+         (MonadDOM m, ToJSString val) => HTMLHRElement -> val -> m ()
+setColor self val = liftDOM (self ^. jss "color" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHRElement.color Mozilla HTMLHRElement.color documentation> 
+getColor ::
+         (MonadDOM m, FromJSString result) => HTMLHRElement -> m result
+getColor self
+  = liftDOM ((self ^. js "color") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHRElement.noShade Mozilla HTMLHRElement.noShade documentation> 
 setNoShade :: (MonadDOM m) => HTMLHRElement -> Bool -> m ()

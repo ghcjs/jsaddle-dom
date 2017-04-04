@@ -3,20 +3,19 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOutputElement
-       (checkValidity, checkValidity_, setCustomValidity, getHtmlFor,
-        getHtmlForUnsafe, getHtmlForUnchecked, getForm, getFormUnsafe,
-        getFormUnchecked, setName, getName, getType, setDefaultValue,
-        getDefaultValue, getDefaultValueUnsafe, getDefaultValueUnchecked,
-        setValue, getValue, getValueUnsafe, getValueUnchecked,
-        getWillValidate, getValidity, getValidityUnsafe,
-        getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnsafe, getLabelsUnchecked, HTMLOutputElement(..),
+       (checkValidity, checkValidity_, reportValidity, reportValidity_,
+        setCustomValidity, getHtmlFor, getForm, setName, getName, getType,
+        setDefaultValue, getDefaultValue, getDefaultValueUnsafe,
+        getDefaultValueUnchecked, setValue, getValue, getValueUnsafe,
+        getValueUnchecked, getWillValidate, getValidity,
+        getValidationMessage, getLabels, HTMLOutputElement(..),
         gTypeHTMLOutputElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -36,52 +35,31 @@ checkValidity_ :: (MonadDOM m) => HTMLOutputElement -> m ()
 checkValidity_ self
   = liftDOM (void (self ^. jsf "checkValidity" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.reportValidity Mozilla HTMLOutputElement.reportValidity documentation> 
+reportValidity :: (MonadDOM m) => HTMLOutputElement -> m Bool
+reportValidity self
+  = liftDOM ((self ^. jsf "reportValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.reportValidity Mozilla HTMLOutputElement.reportValidity documentation> 
+reportValidity_ :: (MonadDOM m) => HTMLOutputElement -> m ()
+reportValidity_ self
+  = liftDOM (void (self ^. jsf "reportValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.setCustomValidity Mozilla HTMLOutputElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
-                    HTMLOutputElement -> Maybe error -> m ()
+                    HTMLOutputElement -> error -> m ()
 setCustomValidity self error
   = liftDOM (void (self ^. jsf "setCustomValidity" [toJSVal error]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.htmlFor Mozilla HTMLOutputElement.htmlFor documentation> 
-getHtmlFor ::
-           (MonadDOM m) => HTMLOutputElement -> m (Maybe DOMSettableTokenList)
-getHtmlFor self = liftDOM ((self ^. js "htmlFor") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.htmlFor Mozilla HTMLOutputElement.htmlFor documentation> 
-getHtmlForUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   HTMLOutputElement -> m DOMSettableTokenList
-getHtmlForUnsafe self
-  = liftDOM
-      (((self ^. js "htmlFor") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.htmlFor Mozilla HTMLOutputElement.htmlFor documentation> 
-getHtmlForUnchecked ::
-                    (MonadDOM m) => HTMLOutputElement -> m DOMSettableTokenList
-getHtmlForUnchecked self
+getHtmlFor :: (MonadDOM m) => HTMLOutputElement -> m DOMTokenList
+getHtmlFor self
   = liftDOM ((self ^. js "htmlFor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.form Mozilla HTMLOutputElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLOutputElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.form Mozilla HTMLOutputElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLOutputElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.form Mozilla HTMLOutputElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLOutputElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+getForm :: (MonadDOM m) => HTMLOutputElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.name Mozilla HTMLOutputElement.name documentation> 
 setName ::
@@ -161,22 +139,8 @@ getWillValidate self
   = liftDOM ((self ^. js "willValidate") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.validity Mozilla HTMLOutputElement.validity documentation> 
-getValidity ::
-            (MonadDOM m) => HTMLOutputElement -> m (Maybe ValidityState)
-getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.validity Mozilla HTMLOutputElement.validity documentation> 
-getValidityUnsafe ::
-                  (MonadDOM m, HasCallStack) => HTMLOutputElement -> m ValidityState
-getValidityUnsafe self
-  = liftDOM
-      (((self ^. js "validity") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.validity Mozilla HTMLOutputElement.validity documentation> 
-getValidityUnchecked ::
-                     (MonadDOM m) => HTMLOutputElement -> m ValidityState
-getValidityUnchecked self
+getValidity :: (MonadDOM m) => HTMLOutputElement -> m ValidityState
+getValidity self
   = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.validationMessage Mozilla HTMLOutputElement.validationMessage documentation> 
@@ -186,20 +150,6 @@ getValidationMessage self
   = liftDOM ((self ^. js "validationMessage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.labels Mozilla HTMLOutputElement.labels documentation> 
-getLabels ::
-          (MonadDOM m) => HTMLOutputElement -> m (Maybe NodeList)
-getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.labels Mozilla HTMLOutputElement.labels documentation> 
-getLabelsUnsafe ::
-                (MonadDOM m, HasCallStack) => HTMLOutputElement -> m NodeList
-getLabelsUnsafe self
-  = liftDOM
-      (((self ^. js "labels") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.labels Mozilla HTMLOutputElement.labels documentation> 
-getLabelsUnchecked ::
-                   (MonadDOM m) => HTMLOutputElement -> m NodeList
-getLabelsUnchecked self
+getLabels :: (MonadDOM m) => HTMLOutputElement -> m NodeList
+getLabels self
   = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)

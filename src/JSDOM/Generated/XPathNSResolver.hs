@@ -10,7 +10,8 @@ module JSDOM.Generated.XPathNSResolver
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -23,16 +24,15 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 
 lookupNamespaceURI ::
                    (MonadDOM m, ToJSString prefix, FromJSString result) =>
-                     XPathNSResolver -> prefix -> m (Maybe result)
+                     XPathNSResolver -> Maybe prefix -> m (Maybe result)
 lookupNamespaceURI self prefix
   = liftDOM
-      ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
-         fromMaybeJSString)
+      ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 
 lookupNamespaceURI_ ::
                     (MonadDOM m, ToJSString prefix) =>
-                      XPathNSResolver -> prefix -> m ()
+                      XPathNSResolver -> Maybe prefix -> m ()
 lookupNamespaceURI_ self prefix
   = liftDOM
       (void (self ^. jsf "lookupNamespaceURI" [toJSVal prefix]))
@@ -41,17 +41,17 @@ lookupNamespaceURI_ self prefix
 lookupNamespaceURIUnsafe ::
                          (MonadDOM m, ToJSString prefix, HasCallStack,
                           FromJSString result) =>
-                           XPathNSResolver -> prefix -> m result
+                           XPathNSResolver -> Maybe prefix -> m result
 lookupNamespaceURIUnsafe self prefix
   = liftDOM
       (((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
-          fromMaybeJSString)
+          fromJSVal)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 
 lookupNamespaceURIUnchecked ::
                             (MonadDOM m, ToJSString prefix, FromJSString result) =>
-                              XPathNSResolver -> prefix -> m result
+                              XPathNSResolver -> Maybe prefix -> m result
 lookupNamespaceURIUnchecked self prefix
   = liftDOM
       ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=

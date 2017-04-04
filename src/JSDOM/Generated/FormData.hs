@@ -3,11 +3,13 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.FormData
-       (newFormData, append, FormData(..), gTypeFormData) where
+       (newFormData, append, appendBlob, FormData(..), gTypeFormData)
+       where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,10 +26,17 @@ newFormData form
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/FormData.append Mozilla FormData.append documentation> 
 append ::
-       (MonadDOM m, ToJSString name, ToJSString value,
-        ToJSString filename) =>
-         FormData -> name -> value -> filename -> m ()
-append self name value filename
+       (MonadDOM m, ToJSString name, ToJSString value) =>
+         FormData -> name -> value -> m ()
+append self name value
+  = liftDOM
+      (void (self ^. jsf "append" [toJSVal name, toJSVal value]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/FormData.append Mozilla FormData.append documentation> 
+appendBlob ::
+           (MonadDOM m, ToJSString name, IsBlob value, ToJSString filename) =>
+             FormData -> name -> value -> Maybe filename -> m ()
+appendBlob self name value filename
   = liftDOM
       (void
          (self ^. jsf "append"

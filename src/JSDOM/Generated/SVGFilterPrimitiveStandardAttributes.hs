@@ -3,16 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGFilterPrimitiveStandardAttributes
-       (getX, getXUnsafe, getXUnchecked, getY, getYUnsafe, getYUnchecked,
-        getWidth, getWidthUnsafe, getWidthUnchecked, getHeight,
-        getHeightUnsafe, getHeightUnchecked, getResult, getResultUnsafe,
-        getResultUnchecked, SVGFilterPrimitiveStandardAttributes(..),
-        gTypeSVGFilterPrimitiveStandardAttributes)
+       (getX, getY, getWidth, getHeight, getResult,
+        SVGFilterPrimitiveStandardAttributes(..),
+        gTypeSVGFilterPrimitiveStandardAttributes,
+        IsSVGFilterPrimitiveStandardAttributes,
+        toSVGFilterPrimitiveStandardAttributes)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,110 +25,45 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.x Mozilla SVGFilterPrimitiveStandardAttributes.x documentation> 
 getX ::
-     (MonadDOM m) =>
-       SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
-getX self = liftDOM ((self ^. js "x") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.x Mozilla SVGFilterPrimitiveStandardAttributes.x documentation> 
-getXUnsafe ::
-           (MonadDOM m, HasCallStack) =>
-             SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getXUnsafe self
+     (MonadDOM m, IsSVGFilterPrimitiveStandardAttributes self) =>
+       self -> m SVGAnimatedLength
+getX self
   = liftDOM
-      (((self ^. js "x") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.x Mozilla SVGFilterPrimitiveStandardAttributes.x documentation> 
-getXUnchecked ::
-              (MonadDOM m) =>
-                SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getXUnchecked self
-  = liftDOM ((self ^. js "x") >>= fromJSValUnchecked)
+      (((toSVGFilterPrimitiveStandardAttributes self) ^. js "x") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.y Mozilla SVGFilterPrimitiveStandardAttributes.y documentation> 
 getY ::
-     (MonadDOM m) =>
-       SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
-getY self = liftDOM ((self ^. js "y") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.y Mozilla SVGFilterPrimitiveStandardAttributes.y documentation> 
-getYUnsafe ::
-           (MonadDOM m, HasCallStack) =>
-             SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getYUnsafe self
+     (MonadDOM m, IsSVGFilterPrimitiveStandardAttributes self) =>
+       self -> m SVGAnimatedLength
+getY self
   = liftDOM
-      (((self ^. js "y") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.y Mozilla SVGFilterPrimitiveStandardAttributes.y documentation> 
-getYUnchecked ::
-              (MonadDOM m) =>
-                SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getYUnchecked self
-  = liftDOM ((self ^. js "y") >>= fromJSValUnchecked)
+      (((toSVGFilterPrimitiveStandardAttributes self) ^. js "y") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.width Mozilla SVGFilterPrimitiveStandardAttributes.width documentation> 
 getWidth ::
-         (MonadDOM m) =>
-           SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
-getWidth self = liftDOM ((self ^. js "width") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.width Mozilla SVGFilterPrimitiveStandardAttributes.width documentation> 
-getWidthUnsafe ::
-               (MonadDOM m, HasCallStack) =>
-                 SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getWidthUnsafe self
+         (MonadDOM m, IsSVGFilterPrimitiveStandardAttributes self) =>
+           self -> m SVGAnimatedLength
+getWidth self
   = liftDOM
-      (((self ^. js "width") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.width Mozilla SVGFilterPrimitiveStandardAttributes.width documentation> 
-getWidthUnchecked ::
-                  (MonadDOM m) =>
-                    SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getWidthUnchecked self
-  = liftDOM ((self ^. js "width") >>= fromJSValUnchecked)
+      (((toSVGFilterPrimitiveStandardAttributes self) ^. js "width") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.height Mozilla SVGFilterPrimitiveStandardAttributes.height documentation> 
 getHeight ::
-          (MonadDOM m) =>
-            SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedLength)
-getHeight self = liftDOM ((self ^. js "height") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.height Mozilla SVGFilterPrimitiveStandardAttributes.height documentation> 
-getHeightUnsafe ::
-                (MonadDOM m, HasCallStack) =>
-                  SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getHeightUnsafe self
+          (MonadDOM m, IsSVGFilterPrimitiveStandardAttributes self) =>
+            self -> m SVGAnimatedLength
+getHeight self
   = liftDOM
-      (((self ^. js "height") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.height Mozilla SVGFilterPrimitiveStandardAttributes.height documentation> 
-getHeightUnchecked ::
-                   (MonadDOM m) =>
-                     SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedLength
-getHeightUnchecked self
-  = liftDOM ((self ^. js "height") >>= fromJSValUnchecked)
+      (((toSVGFilterPrimitiveStandardAttributes self) ^. js "height") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.result Mozilla SVGFilterPrimitiveStandardAttributes.result documentation> 
 getResult ::
-          (MonadDOM m) =>
-            SVGFilterPrimitiveStandardAttributes -> m (Maybe SVGAnimatedString)
-getResult self = liftDOM ((self ^. js "result") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.result Mozilla SVGFilterPrimitiveStandardAttributes.result documentation> 
-getResultUnsafe ::
-                (MonadDOM m, HasCallStack) =>
-                  SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedString
-getResultUnsafe self
+          (MonadDOM m, IsSVGFilterPrimitiveStandardAttributes self) =>
+            self -> m SVGAnimatedString
+getResult self
   = liftDOM
-      (((self ^. js "result") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFilterPrimitiveStandardAttributes.result Mozilla SVGFilterPrimitiveStandardAttributes.result documentation> 
-getResultUnchecked ::
-                   (MonadDOM m) =>
-                     SVGFilterPrimitiveStandardAttributes -> m SVGAnimatedString
-getResultUnchecked self
-  = liftDOM ((self ^. js "result") >>= fromJSValUnchecked)
+      (((toSVGFilterPrimitiveStandardAttributes self) ^. js "result") >>=
+         fromJSValUnchecked)

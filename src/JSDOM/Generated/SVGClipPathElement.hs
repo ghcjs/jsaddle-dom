@@ -3,14 +3,13 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.SVGClipPathElement
-       (getClipPathUnits, getClipPathUnitsUnsafe,
-        getClipPathUnitsUnchecked, SVGClipPathElement(..),
-        gTypeSVGClipPathElement)
+       (getClipPathUnits, SVGClipPathElement(..), gTypeSVGClipPathElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -22,22 +21,6 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGClipPathElement.clipPathUnits Mozilla SVGClipPathElement.clipPathUnits documentation> 
 getClipPathUnits ::
-                 (MonadDOM m) =>
-                   SVGClipPathElement -> m (Maybe SVGAnimatedEnumeration)
+                 (MonadDOM m) => SVGClipPathElement -> m SVGAnimatedEnumeration
 getClipPathUnits self
-  = liftDOM ((self ^. js "clipPathUnits") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGClipPathElement.clipPathUnits Mozilla SVGClipPathElement.clipPathUnits documentation> 
-getClipPathUnitsUnsafe ::
-                       (MonadDOM m, HasCallStack) =>
-                         SVGClipPathElement -> m SVGAnimatedEnumeration
-getClipPathUnitsUnsafe self
-  = liftDOM
-      (((self ^. js "clipPathUnits") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGClipPathElement.clipPathUnits Mozilla SVGClipPathElement.clipPathUnits documentation> 
-getClipPathUnitsUnchecked ::
-                          (MonadDOM m) => SVGClipPathElement -> m SVGAnimatedEnumeration
-getClipPathUnitsUnchecked self
   = liftDOM ((self ^. js "clipPathUnits") >>= fromJSValUnchecked)

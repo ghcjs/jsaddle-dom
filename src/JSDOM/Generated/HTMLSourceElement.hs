@@ -3,13 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSourceElement
-       (setSrc, getSrc, setType, getType, setMedia, getMedia,
-        HTMLSourceElement(..), gTypeHTMLSourceElement)
+       (setSrc, getSrc, setType, getType, setSrcset, getSrcset, setSizes,
+        getSizes, setMedia, getMedia, HTMLSourceElement(..),
+        gTypeHTMLSourceElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -38,6 +40,28 @@ setType self val = liftDOM (self ^. jss "type" (toJSVal val))
 getType ::
         (MonadDOM m, FromJSString result) => HTMLSourceElement -> m result
 getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement.srcset Mozilla HTMLSourceElement.srcset documentation> 
+setSrcset ::
+          (MonadDOM m, ToJSString val) => HTMLSourceElement -> val -> m ()
+setSrcset self val = liftDOM (self ^. jss "srcset" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement.srcset Mozilla HTMLSourceElement.srcset documentation> 
+getSrcset ::
+          (MonadDOM m, FromJSString result) => HTMLSourceElement -> m result
+getSrcset self
+  = liftDOM ((self ^. js "srcset") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement.sizes Mozilla HTMLSourceElement.sizes documentation> 
+setSizes ::
+         (MonadDOM m, ToJSString val) => HTMLSourceElement -> val -> m ()
+setSizes self val = liftDOM (self ^. jss "sizes" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement.sizes Mozilla HTMLSourceElement.sizes documentation> 
+getSizes ::
+         (MonadDOM m, FromJSString result) => HTMLSourceElement -> m result
+getSizes self
+  = liftDOM ((self ^. js "sizes") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement.media Mozilla HTMLSourceElement.media documentation> 
 setMedia ::

@@ -4,24 +4,22 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSelectElement
        (item, item_, itemUnsafe, itemUnchecked, namedItem, namedItem_,
-        namedItemUnsafe, namedItemUnchecked, addBefore, add, remove,
-        checkValidity, checkValidity_, setCustomValidity, setAutofocus,
+        namedItemUnsafe, namedItemUnchecked, addBefore, removeThis,
+        removeElement, remove, checkValidity, checkValidity_,
+        reportValidity, reportValidity_, setCustomValidity, setAutofocus,
         getAutofocus, setDisabled, getDisabled, getForm, getFormUnsafe,
         getFormUnchecked, setMultiple, getMultiple, setName, getName,
         setRequired, getRequired, setSize, getSize, getType, getOptions,
-        getOptionsUnsafe, getOptionsUnchecked, setLength, getLength,
-        getSelectedOptions, getSelectedOptionsUnsafe,
-        getSelectedOptionsUnchecked, setSelectedIndex, getSelectedIndex,
-        setValue, getValue, getValueUnsafe, getValueUnchecked,
-        getWillValidate, getValidity, getValidityUnsafe,
-        getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnsafe, getLabelsUnchecked, HTMLSelectElement(..),
-        gTypeHTMLSelectElement)
+        setLength, getLength, getSelectedOptions, setSelectedIndex,
+        getSelectedIndex, setValue, getValue, getWillValidate, getValidity,
+        getValidationMessage, getLabels, setAutocomplete, getAutocomplete,
+        HTMLSelectElement(..), gTypeHTMLSelectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -32,7 +30,9 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
-item :: (MonadDOM m) => HTMLSelectElement -> Word -> m (Maybe Node)
+item ::
+     (MonadDOM m) =>
+       HTMLSelectElement -> Word -> m (Maybe HTMLOptionElement)
 item self index
   = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
@@ -43,7 +43,8 @@ item_ self index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
 itemUnsafe ::
-           (MonadDOM m, HasCallStack) => HTMLSelectElement -> Word -> m Node
+           (MonadDOM m, HasCallStack) =>
+             HTMLSelectElement -> Word -> m HTMLOptionElement
 itemUnsafe self index
   = liftDOM
       (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
@@ -51,7 +52,7 @@ itemUnsafe self index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.item Mozilla HTMLSelectElement.item documentation> 
 itemUnchecked ::
-              (MonadDOM m) => HTMLSelectElement -> Word -> m Node
+              (MonadDOM m) => HTMLSelectElement -> Word -> m HTMLOptionElement
 itemUnchecked self index
   = liftDOM
       ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
@@ -59,7 +60,7 @@ itemUnchecked self index
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
 namedItem ::
           (MonadDOM m, ToJSString name) =>
-            HTMLSelectElement -> name -> m (Maybe Node)
+            HTMLSelectElement -> name -> m (Maybe HTMLOptionElement)
 namedItem self name
   = liftDOM ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal)
 
@@ -72,7 +73,7 @@ namedItem_ self name
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
 namedItemUnsafe ::
                 (MonadDOM m, ToJSString name, HasCallStack) =>
-                  HTMLSelectElement -> name -> m Node
+                  HTMLSelectElement -> name -> m HTMLOptionElement
 namedItemUnsafe self name
   = liftDOM
       (((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSVal) >>=
@@ -81,30 +82,34 @@ namedItemUnsafe self name
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.namedItem Mozilla HTMLSelectElement.namedItem documentation> 
 namedItemUnchecked ::
                    (MonadDOM m, ToJSString name) =>
-                     HTMLSelectElement -> name -> m Node
+                     HTMLSelectElement -> name -> m HTMLOptionElement
 namedItemUnchecked self name
   = liftDOM
       ((self ^. jsf "namedItem" [toJSVal name]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.add Mozilla HTMLSelectElement.add documentation> 
 addBefore ::
-          (MonadDOM m, IsHTMLElement element, IsHTMLElement before) =>
-            HTMLSelectElement -> Maybe element -> Maybe before -> m ()
+          (MonadDOM m, IsHTMLOptionElementOrGroup element,
+           IsHTMLElementOrLong before) =>
+            HTMLSelectElement -> element -> Maybe before -> m ()
 addBefore self element before
   = liftDOM
       (void (self ^. jsf "add" [toJSVal element, toJSVal before]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.add Mozilla HTMLSelectElement.add documentation> 
-add ::
-    (MonadDOM m, IsHTMLElement element) =>
-      HTMLSelectElement -> Maybe element -> Int -> m ()
-add self element index
-  = liftDOM
-      (void (self ^. jsf "add" [toJSVal element, toJSVal index]))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
+removeThis :: (MonadDOM m) => HTMLSelectElement -> m ()
+removeThis self = liftDOM (void (self ^. jsf "remove" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
-remove :: (MonadDOM m) => HTMLSelectElement -> m ()
-remove self = liftDOM (void (self ^. jsf "remove" ()))
+removeElement ::
+              (MonadDOM m) => HTMLSelectElement -> HTMLOptionElement -> m ()
+removeElement self option
+  = liftDOM (void (self ^. jsf "remove" [toJSVal option]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
+remove :: (MonadDOM m) => HTMLSelectElement -> Int -> m ()
+remove self index
+  = liftDOM (void (self ^. jsf "remove" [toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.checkValidity Mozilla HTMLSelectElement.checkValidity documentation> 
 checkValidity :: (MonadDOM m) => HTMLSelectElement -> m Bool
@@ -116,10 +121,20 @@ checkValidity_ :: (MonadDOM m) => HTMLSelectElement -> m ()
 checkValidity_ self
   = liftDOM (void (self ^. jsf "checkValidity" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.reportValidity Mozilla HTMLSelectElement.reportValidity documentation> 
+reportValidity :: (MonadDOM m) => HTMLSelectElement -> m Bool
+reportValidity self
+  = liftDOM ((self ^. jsf "reportValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.reportValidity Mozilla HTMLSelectElement.reportValidity documentation> 
+reportValidity_ :: (MonadDOM m) => HTMLSelectElement -> m ()
+reportValidity_ self
+  = liftDOM (void (self ^. jsf "reportValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.setCustomValidity Mozilla HTMLSelectElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
-                    HTMLSelectElement -> Maybe error -> m ()
+                    HTMLSelectElement -> error -> m ()
 setCustomValidity self error
   = liftDOM (void (self ^. jsf "setCustomValidity" [toJSVal error]))
 
@@ -191,11 +206,11 @@ getRequired :: (MonadDOM m) => HTMLSelectElement -> m Bool
 getRequired self = liftDOM ((self ^. js "required") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.size Mozilla HTMLSelectElement.size documentation> 
-setSize :: (MonadDOM m) => HTMLSelectElement -> Int -> m ()
+setSize :: (MonadDOM m) => HTMLSelectElement -> Word -> m ()
 setSize self val = liftDOM (self ^. jss "size" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.size Mozilla HTMLSelectElement.size documentation> 
-getSize :: (MonadDOM m) => HTMLSelectElement -> m Int
+getSize :: (MonadDOM m) => HTMLSelectElement -> m Word
 getSize self
   = liftDOM (round <$> ((self ^. js "size") >>= valToNumber))
 
@@ -206,23 +221,8 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.options Mozilla HTMLSelectElement.options documentation> 
 getOptions ::
-           (MonadDOM m) =>
-             HTMLSelectElement -> m (Maybe HTMLOptionsCollection)
-getOptions self = liftDOM ((self ^. js "options") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.options Mozilla HTMLSelectElement.options documentation> 
-getOptionsUnsafe ::
-                 (MonadDOM m, HasCallStack) =>
-                   HTMLSelectElement -> m HTMLOptionsCollection
-getOptionsUnsafe self
-  = liftDOM
-      (((self ^. js "options") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.options Mozilla HTMLSelectElement.options documentation> 
-getOptionsUnchecked ::
-                    (MonadDOM m) => HTMLSelectElement -> m HTMLOptionsCollection
-getOptionsUnchecked self
+           (MonadDOM m) => HTMLSelectElement -> m HTMLOptionsCollection
+getOptions self
   = liftDOM ((self ^. js "options") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.length Mozilla HTMLSelectElement.length documentation> 
@@ -236,22 +236,8 @@ getLength self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedOptions Mozilla HTMLSelectElement.selectedOptions documentation> 
 getSelectedOptions ::
-                   (MonadDOM m) => HTMLSelectElement -> m (Maybe HTMLCollection)
+                   (MonadDOM m) => HTMLSelectElement -> m HTMLCollection
 getSelectedOptions self
-  = liftDOM ((self ^. js "selectedOptions") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedOptions Mozilla HTMLSelectElement.selectedOptions documentation> 
-getSelectedOptionsUnsafe ::
-                         (MonadDOM m, HasCallStack) => HTMLSelectElement -> m HTMLCollection
-getSelectedOptionsUnsafe self
-  = liftDOM
-      (((self ^. js "selectedOptions") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedOptions Mozilla HTMLSelectElement.selectedOptions documentation> 
-getSelectedOptionsUnchecked ::
-                            (MonadDOM m) => HTMLSelectElement -> m HTMLCollection
-getSelectedOptionsUnchecked self
   = liftDOM ((self ^. js "selectedOptions") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.selectedIndex Mozilla HTMLSelectElement.selectedIndex documentation> 
@@ -268,30 +254,13 @@ getSelectedIndex self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
 setValue ::
-         (MonadDOM m, ToJSString val) =>
-           HTMLSelectElement -> Maybe val -> m ()
+         (MonadDOM m, ToJSString val) => HTMLSelectElement -> val -> m ()
 setValue self val = liftDOM (self ^. jss "value" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
 getValue ::
-         (MonadDOM m, FromJSString result) =>
-           HTMLSelectElement -> m (Maybe result)
+         (MonadDOM m, FromJSString result) => HTMLSelectElement -> m result
 getValue self
-  = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
-getValueUnsafe ::
-               (MonadDOM m, HasCallStack, FromJSString result) =>
-                 HTMLSelectElement -> m result
-getValueUnsafe self
-  = liftDOM
-      (((self ^. js "value") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.value Mozilla HTMLSelectElement.value documentation> 
-getValueUnchecked ::
-                  (MonadDOM m, FromJSString result) => HTMLSelectElement -> m result
-getValueUnchecked self
   = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.willValidate Mozilla HTMLSelectElement.willValidate documentation> 
@@ -300,22 +269,8 @@ getWillValidate self
   = liftDOM ((self ^. js "willValidate") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validity Mozilla HTMLSelectElement.validity documentation> 
-getValidity ::
-            (MonadDOM m) => HTMLSelectElement -> m (Maybe ValidityState)
-getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validity Mozilla HTMLSelectElement.validity documentation> 
-getValidityUnsafe ::
-                  (MonadDOM m, HasCallStack) => HTMLSelectElement -> m ValidityState
-getValidityUnsafe self
-  = liftDOM
-      (((self ^. js "validity") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validity Mozilla HTMLSelectElement.validity documentation> 
-getValidityUnchecked ::
-                     (MonadDOM m) => HTMLSelectElement -> m ValidityState
-getValidityUnchecked self
+getValidity :: (MonadDOM m) => HTMLSelectElement -> m ValidityState
+getValidity self
   = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.validationMessage Mozilla HTMLSelectElement.validationMessage documentation> 
@@ -325,20 +280,18 @@ getValidationMessage self
   = liftDOM ((self ^. js "validationMessage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.labels Mozilla HTMLSelectElement.labels documentation> 
-getLabels ::
-          (MonadDOM m) => HTMLSelectElement -> m (Maybe NodeList)
-getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.labels Mozilla HTMLSelectElement.labels documentation> 
-getLabelsUnsafe ::
-                (MonadDOM m, HasCallStack) => HTMLSelectElement -> m NodeList
-getLabelsUnsafe self
-  = liftDOM
-      (((self ^. js "labels") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.labels Mozilla HTMLSelectElement.labels documentation> 
-getLabelsUnchecked ::
-                   (MonadDOM m) => HTMLSelectElement -> m NodeList
-getLabelsUnchecked self
+getLabels :: (MonadDOM m) => HTMLSelectElement -> m NodeList
+getLabels self
   = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.autocomplete Mozilla HTMLSelectElement.autocomplete documentation> 
+setAutocomplete ::
+                (MonadDOM m, ToJSString val) => HTMLSelectElement -> val -> m ()
+setAutocomplete self val
+  = liftDOM (self ^. jss "autocomplete" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.autocomplete Mozilla HTMLSelectElement.autocomplete documentation> 
+getAutocomplete ::
+                (MonadDOM m, FromJSString result) => HTMLSelectElement -> m result
+getAutocomplete self
+  = liftDOM ((self ^. js "autocomplete") >>= fromJSValUnchecked)

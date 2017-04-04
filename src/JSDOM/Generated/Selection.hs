@@ -5,20 +5,21 @@
 module JSDOM.Generated.Selection
        (collapse, collapseToEnd, collapseToStart, deleteFromDocument,
         containsNode, containsNode_, selectAllChildren, extend, getRangeAt,
-        getRangeAt_, getRangeAtUnsafe, getRangeAtUnchecked,
-        removeAllRanges, addRange, toString, toString_, modify,
-        setBaseAndExtent, setPosition, empty, getAnchorNode,
+        getRangeAt_, removeAllRanges, addRange, toString, toString_,
+        setBaseAndExtent, setPosition, empty, modify, getAnchorNode,
         getAnchorNodeUnsafe, getAnchorNodeUnchecked, getAnchorOffset,
         getFocusNode, getFocusNodeUnsafe, getFocusNodeUnchecked,
-        getFocusOffset, getIsCollapsed, getRangeCount, getBaseNode,
-        getBaseNodeUnsafe, getBaseNodeUnchecked, getBaseOffset,
-        getExtentNode, getExtentNodeUnsafe, getExtentNodeUnchecked,
-        getExtentOffset, getType, Selection(..), gTypeSelection)
+        getFocusOffset, getIsCollapsed, getRangeCount, getType,
+        getBaseNode, getBaseNodeUnsafe, getBaseNodeUnchecked,
+        getBaseOffset, getExtentNode, getExtentNodeUnsafe,
+        getExtentNodeUnchecked, getExtentOffset, Selection(..),
+        gTypeSelection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -30,10 +31,11 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.collapse Mozilla Selection.collapse documentation> 
 collapse ::
-         (MonadDOM m, IsNode node) => Selection -> Maybe node -> Int -> m ()
-collapse self node index
+         (MonadDOM m, IsNode node) =>
+           Selection -> Maybe node -> Maybe Word -> m ()
+collapse self node offset
   = liftDOM
-      (void (self ^. jsf "collapse" [toJSVal node, toJSVal index]))
+      (void (self ^. jsf "collapse" [toJSVal node, toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.collapseToEnd Mozilla Selection.collapseToEnd documentation> 
 collapseToEnd :: (MonadDOM m) => Selection -> m ()
@@ -52,8 +54,7 @@ deleteFromDocument self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.containsNode Mozilla Selection.containsNode documentation> 
 containsNode ::
-             (MonadDOM m, IsNode node) =>
-               Selection -> Maybe node -> Bool -> m Bool
+             (MonadDOM m, IsNode node) => Selection -> node -> Bool -> m Bool
 containsNode self node allowPartial
   = liftDOM
       ((self ^. jsf "containsNode" [toJSVal node, toJSVal allowPartial])
@@ -61,8 +62,7 @@ containsNode self node allowPartial
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.containsNode Mozilla Selection.containsNode documentation> 
 containsNode_ ::
-              (MonadDOM m, IsNode node) =>
-                Selection -> Maybe node -> Bool -> m ()
+              (MonadDOM m, IsNode node) => Selection -> node -> Bool -> m ()
 containsNode_ self node allowPartial
   = liftDOM
       (void
@@ -70,41 +70,28 @@ containsNode_ self node allowPartial
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.selectAllChildren Mozilla Selection.selectAllChildren documentation> 
 selectAllChildren ::
-                  (MonadDOM m, IsNode node) => Selection -> Maybe node -> m ()
+                  (MonadDOM m, IsNode node) => Selection -> node -> m ()
 selectAllChildren self node
   = liftDOM (void (self ^. jsf "selectAllChildren" [toJSVal node]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.extend Mozilla Selection.extend documentation> 
 extend ::
-       (MonadDOM m, IsNode node) => Selection -> Maybe node -> Int -> m ()
+       (MonadDOM m, IsNode node) =>
+         Selection -> node -> Maybe Word -> m ()
 extend self node offset
   = liftDOM
       (void (self ^. jsf "extend" [toJSVal node, toJSVal offset]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.getRangeAt Mozilla Selection.getRangeAt documentation> 
-getRangeAt :: (MonadDOM m) => Selection -> Int -> m (Maybe Range)
+getRangeAt :: (MonadDOM m) => Selection -> Word -> m Range
 getRangeAt self index
   = liftDOM
-      ((self ^. jsf "getRangeAt" [toJSVal index]) >>= fromJSVal)
+      ((self ^. jsf "getRangeAt" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.getRangeAt Mozilla Selection.getRangeAt documentation> 
-getRangeAt_ :: (MonadDOM m) => Selection -> Int -> m ()
+getRangeAt_ :: (MonadDOM m) => Selection -> Word -> m ()
 getRangeAt_ self index
   = liftDOM (void (self ^. jsf "getRangeAt" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.getRangeAt Mozilla Selection.getRangeAt documentation> 
-getRangeAtUnsafe ::
-                 (MonadDOM m, HasCallStack) => Selection -> Int -> m Range
-getRangeAtUnsafe self index
-  = liftDOM
-      (((self ^. jsf "getRangeAt" [toJSVal index]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.getRangeAt Mozilla Selection.getRangeAt documentation> 
-getRangeAtUnchecked :: (MonadDOM m) => Selection -> Int -> m Range
-getRangeAtUnchecked self index
-  = liftDOM
-      ((self ^. jsf "getRangeAt" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.removeAllRanges Mozilla Selection.removeAllRanges documentation> 
 removeAllRanges :: (MonadDOM m) => Selection -> m ()
@@ -112,7 +99,7 @@ removeAllRanges self
   = liftDOM (void (self ^. jsf "removeAllRanges" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.addRange Mozilla Selection.addRange documentation> 
-addRange :: (MonadDOM m) => Selection -> Maybe Range -> m ()
+addRange :: (MonadDOM m) => Selection -> Range -> m ()
 addRange self range
   = liftDOM (void (self ^. jsf "addRange" [toJSVal range]))
 
@@ -126,22 +113,11 @@ toString self
 toString_ :: (MonadDOM m) => Selection -> m ()
 toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.modify Mozilla Selection.modify documentation> 
-modify ::
-       (MonadDOM m, ToJSString alter, ToJSString direction,
-        ToJSString granularity) =>
-         Selection -> alter -> direction -> granularity -> m ()
-modify self alter direction granularity
-  = liftDOM
-      (void
-         (self ^. jsf "modify"
-            [toJSVal alter, toJSVal direction, toJSVal granularity]))
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.setBaseAndExtent Mozilla Selection.setBaseAndExtent documentation> 
 setBaseAndExtent ::
                  (MonadDOM m, IsNode baseNode, IsNode extentNode) =>
                    Selection ->
-                     Maybe baseNode -> Int -> Maybe extentNode -> Int -> m ()
+                     Maybe baseNode -> Word -> Maybe extentNode -> Word -> m ()
 setBaseAndExtent self baseNode baseOffset extentNode extentOffset
   = liftDOM
       (void
@@ -151,7 +127,8 @@ setBaseAndExtent self baseNode baseOffset extentNode extentOffset
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.setPosition Mozilla Selection.setPosition documentation> 
 setPosition ::
-            (MonadDOM m, IsNode node) => Selection -> Maybe node -> Int -> m ()
+            (MonadDOM m, IsNode node) =>
+              Selection -> Maybe node -> Maybe Word -> m ()
 setPosition self node offset
   = liftDOM
       (void (self ^. jsf "setPosition" [toJSVal node, toJSVal offset]))
@@ -159,6 +136,18 @@ setPosition self node offset
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.empty Mozilla Selection.empty documentation> 
 empty :: (MonadDOM m) => Selection -> m ()
 empty self = liftDOM (void (self ^. jsf "empty" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.modify Mozilla Selection.modify documentation> 
+modify ::
+       (MonadDOM m, ToJSString alter, ToJSString direction,
+        ToJSString granularity) =>
+         Selection ->
+           Maybe alter -> Maybe direction -> Maybe granularity -> m ()
+modify self alter direction granularity
+  = liftDOM
+      (void
+         (self ^. jsf "modify"
+            [toJSVal alter, toJSVal direction, toJSVal granularity]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorNode Mozilla Selection.anchorNode documentation> 
 getAnchorNode :: (MonadDOM m) => Selection -> m (Maybe Node)
@@ -179,7 +168,7 @@ getAnchorNodeUnchecked self
   = liftDOM ((self ^. js "anchorNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.anchorOffset Mozilla Selection.anchorOffset documentation> 
-getAnchorOffset :: (MonadDOM m) => Selection -> m Int
+getAnchorOffset :: (MonadDOM m) => Selection -> m Word
 getAnchorOffset self
   = liftDOM (round <$> ((self ^. js "anchorOffset") >>= valToNumber))
 
@@ -202,7 +191,7 @@ getFocusNodeUnchecked self
   = liftDOM ((self ^. js "focusNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.focusOffset Mozilla Selection.focusOffset documentation> 
-getFocusOffset :: (MonadDOM m) => Selection -> m Int
+getFocusOffset :: (MonadDOM m) => Selection -> m Word
 getFocusOffset self
   = liftDOM (round <$> ((self ^. js "focusOffset") >>= valToNumber))
 
@@ -212,9 +201,14 @@ getIsCollapsed self
   = liftDOM ((self ^. js "isCollapsed") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.rangeCount Mozilla Selection.rangeCount documentation> 
-getRangeCount :: (MonadDOM m) => Selection -> m Int
+getRangeCount :: (MonadDOM m) => Selection -> m Word
 getRangeCount self
   = liftDOM (round <$> ((self ^. js "rangeCount") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.type Mozilla Selection.type documentation> 
+getType ::
+        (MonadDOM m, FromJSString result) => Selection -> m result
+getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.baseNode Mozilla Selection.baseNode documentation> 
 getBaseNode :: (MonadDOM m) => Selection -> m (Maybe Node)
@@ -234,7 +228,7 @@ getBaseNodeUnchecked self
   = liftDOM ((self ^. js "baseNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.baseOffset Mozilla Selection.baseOffset documentation> 
-getBaseOffset :: (MonadDOM m) => Selection -> m Int
+getBaseOffset :: (MonadDOM m) => Selection -> m Word
 getBaseOffset self
   = liftDOM (round <$> ((self ^. js "baseOffset") >>= valToNumber))
 
@@ -257,11 +251,6 @@ getExtentNodeUnchecked self
   = liftDOM ((self ^. js "extentNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.extentOffset Mozilla Selection.extentOffset documentation> 
-getExtentOffset :: (MonadDOM m) => Selection -> m Int
+getExtentOffset :: (MonadDOM m) => Selection -> m Word
 getExtentOffset self
   = liftDOM (round <$> ((self ^. js "extentOffset") >>= valToNumber))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Selection.type Mozilla Selection.type documentation> 
-getType ::
-        (MonadDOM m, FromJSString result) => Selection -> m result
-getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)

@@ -3,20 +3,22 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MouseEvent
-       (initMouseEvent, getScreenX, getScreenY, getClientX, getClientY,
-        getCtrlKey, getShiftKey, getAltKey, getMetaKey, getButton,
-        getRelatedTarget, getRelatedTargetUnsafe,
-        getRelatedTargetUnchecked, getMovementX, getMovementY, getOffsetX,
-        getOffsetY, getX, getY, getFromElement, getFromElementUnsafe,
-        getFromElementUnchecked, getToElement, getToElementUnsafe,
-        getToElementUnchecked, getDataTransfer, getDataTransferUnsafe,
-        getDataTransferUnchecked, MouseEvent(..), gTypeMouseEvent,
-        IsMouseEvent, toMouseEvent)
+       (newMouseEvent, initMouseEvent, pattern WEBKIT_FORCE_AT_MOUSE_DOWN,
+        pattern WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN, getScreenX, getScreenY,
+        getClientX, getClientY, getCtrlKey, getShiftKey, getAltKey,
+        getMetaKey, getButton, getRelatedTarget, getRelatedTargetUnsafe,
+        getRelatedTargetUnchecked, getMovementX, getMovementY,
+        getWebkitForce, getOffsetX, getOffsetY, getX, getY, getFromElement,
+        getFromElementUnsafe, getFromElementUnchecked, getToElement,
+        getToElementUnsafe, getToElementUnchecked, getDataTransfer,
+        getDataTransferUnsafe, getDataTransferUnchecked, MouseEvent(..),
+        gTypeMouseEvent, IsMouseEvent, toMouseEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -25,22 +27,32 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.Enums
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent Mozilla MouseEvent documentation> 
+newMouseEvent ::
+              (MonadDOM m, ToJSString type', IsMouseEventInit eventInitDict) =>
+                type' -> Maybe eventInitDict -> m MouseEvent
+newMouseEvent type' eventInitDict
+  = liftDOM
+      (MouseEvent <$>
+         new (jsg "MouseEvent") [toJSVal type', toJSVal eventInitDict])
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.initMouseEvent Mozilla MouseEvent.initMouseEvent documentation> 
 initMouseEvent ::
                (MonadDOM m, IsMouseEvent self, ToJSString type',
                 IsEventTarget relatedTarget) =>
                  self ->
-                   type' ->
+                   Maybe type' ->
                      Bool ->
                        Bool ->
                          Maybe Window ->
-                           Int ->
-                             Int ->
-                               Int ->
-                                 Int ->
-                                   Int ->
+                           Maybe Int ->
+                             Maybe Int ->
+                               Maybe Int ->
+                                 Maybe Int ->
+                                   Maybe Int ->
                                      Bool ->
-                                       Bool -> Bool -> Bool -> Word -> Maybe relatedTarget -> m ()
+                                       Bool ->
+                                         Bool -> Bool -> Maybe Word -> Maybe relatedTarget -> m ()
 initMouseEvent self type' canBubble cancelable view detail screenX
   screenY clientX clientY ctrlKey altKey shiftKey metaKey button
   relatedTarget
@@ -52,6 +64,8 @@ initMouseEvent self type' canBubble cancelable view detail screenX
              toJSVal clientX, toJSVal clientY, toJSVal ctrlKey, toJSVal altKey,
              toJSVal shiftKey, toJSVal metaKey, toJSVal button,
              toJSVal relatedTarget]))
+pattern WEBKIT_FORCE_AT_MOUSE_DOWN = 1
+pattern WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN = 2
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.screenX Mozilla MouseEvent.screenX documentation> 
 getScreenX :: (MonadDOM m, IsMouseEvent self) => self -> m Int
@@ -140,6 +154,13 @@ getMovementY self
   = liftDOM
       (round <$>
          (((toMouseEvent self) ^. js "movementY") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.webkitForce Mozilla MouseEvent.webkitForce documentation> 
+getWebkitForce ::
+               (MonadDOM m, IsMouseEvent self) => self -> m Double
+getWebkitForce self
+  = liftDOM
+      (((toMouseEvent self) ^. js "webkitForce") >>= valToNumber)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.offsetX Mozilla MouseEvent.offsetX documentation> 
 getOffsetX :: (MonadDOM m, IsMouseEvent self) => self -> m Int

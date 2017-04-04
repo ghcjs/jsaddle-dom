@@ -3,14 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.NotificationCenter
-       (createNotification, createNotification_, createNotificationUnsafe,
-        createNotificationUnchecked, checkPermission, checkPermission_,
-        requestPermission, NotificationCenter(..), gTypeNotificationCenter)
+       (createNotification, createNotification_, checkPermission,
+        checkPermission_, requestPermission, NotificationCenter(..),
+        gTypeNotificationCenter)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,13 +25,12 @@ import JSDOM.Enums
 createNotification ::
                    (MonadDOM m, ToJSString iconUrl, ToJSString title,
                     ToJSString body) =>
-                     NotificationCenter ->
-                       iconUrl -> title -> body -> m (Maybe Notification)
+                     NotificationCenter -> iconUrl -> title -> body -> m Notification
 createNotification self iconUrl title body
   = liftDOM
       ((self ^. jsf "createNotification"
           [toJSVal iconUrl, toJSVal title, toJSVal body])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NotificationCenter.createNotification Mozilla NotificationCenter.createNotification documentation> 
 createNotification_ ::
@@ -42,29 +42,6 @@ createNotification_ self iconUrl title body
       (void
          (self ^. jsf "createNotification"
             [toJSVal iconUrl, toJSVal title, toJSVal body]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/NotificationCenter.createNotification Mozilla NotificationCenter.createNotification documentation> 
-createNotificationUnsafe ::
-                         (MonadDOM m, ToJSString iconUrl, ToJSString title, ToJSString body,
-                          HasCallStack) =>
-                           NotificationCenter -> iconUrl -> title -> body -> m Notification
-createNotificationUnsafe self iconUrl title body
-  = liftDOM
-      (((self ^. jsf "createNotification"
-           [toJSVal iconUrl, toJSVal title, toJSVal body])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/NotificationCenter.createNotification Mozilla NotificationCenter.createNotification documentation> 
-createNotificationUnchecked ::
-                            (MonadDOM m, ToJSString iconUrl, ToJSString title,
-                             ToJSString body) =>
-                              NotificationCenter -> iconUrl -> title -> body -> m Notification
-createNotificationUnchecked self iconUrl title body
-  = liftDOM
-      ((self ^. jsf "createNotification"
-          [toJSVal iconUrl, toJSVal title, toJSVal body])
-         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NotificationCenter.checkPermission Mozilla NotificationCenter.checkPermission documentation> 
 checkPermission :: (MonadDOM m) => NotificationCenter -> m Int

@@ -3,14 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ValidityState
-       (getValueMissing, getTypeMismatch, getPatternMismatch, getTooLong,
-        getRangeUnderflow, getRangeOverflow, getStepMismatch, getBadInput,
-        getCustomError, getValid, ValidityState(..), gTypeValidityState)
+       (getValueMissing, getTypeMismatch, getPatternMismatch, getTooShort,
+        getTooLong, getRangeUnderflow, getRangeOverflow, getStepMismatch,
+        getBadInput, getCustomError, getValid, ValidityState(..),
+        gTypeValidityState)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -34,6 +36,10 @@ getTypeMismatch self
 getPatternMismatch :: (MonadDOM m) => ValidityState -> m Bool
 getPatternMismatch self
   = liftDOM ((self ^. js "patternMismatch") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ValidityState.tooShort Mozilla ValidityState.tooShort documentation> 
+getTooShort :: (MonadDOM m) => ValidityState -> m Bool
+getTooShort self = liftDOM ((self ^. js "tooShort") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ValidityState.tooLong Mozilla ValidityState.tooLong documentation> 
 getTooLong :: (MonadDOM m) => ValidityState -> m Bool

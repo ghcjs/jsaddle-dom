@@ -5,14 +5,15 @@
 module JSDOM.Generated.AudioParam
        (setValueAtTime, linearRampToValueAtTime,
         exponentialRampToValueAtTime, setTargetAtTime, setValueCurveAtTime,
-        cancelScheduledValues, setTargetValueAtTime, setValue, getValue,
-        getMinValue, getMaxValue, getDefaultValue, getName, getUnits,
-        AudioParam(..), gTypeAudioParam)
+        cancelScheduledValues, setValue, getValue, getMinValue,
+        getMaxValue, getDefaultValue, getName, getUnits, AudioParam(..),
+        gTypeAudioParam)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -72,15 +73,6 @@ cancelScheduledValues ::
 cancelScheduledValues self startTime
   = liftDOM
       (void (self ^. jsf "cancelScheduledValues" [toJSVal startTime]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioParam.setTargetValueAtTime Mozilla AudioParam.setTargetValueAtTime documentation> 
-setTargetValueAtTime ::
-                     (MonadDOM m) => AudioParam -> Float -> Float -> Float -> m ()
-setTargetValueAtTime self targetValue time timeConstant
-  = liftDOM
-      (void
-         (self ^. jsf "setTargetValueAtTime"
-            [toJSVal targetValue, toJSVal time, toJSVal timeConstant]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioParam.value Mozilla AudioParam.value documentation> 
 setValue :: (MonadDOM m) => AudioParam -> Float -> m ()

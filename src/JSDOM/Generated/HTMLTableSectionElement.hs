@@ -3,15 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableSectionElement
-       (insertRow, insertRow_, insertRowUnsafe, insertRowUnchecked,
-        deleteRow, setAlign, getAlign, setCh, getCh, setChOff, getChOff,
-        setVAlign, getVAlign, getRows, getRowsUnsafe, getRowsUnchecked,
+       (insertRow, insertRow_, deleteRow, setAlign, getAlign, setCh,
+        getCh, setChOff, getChOff, setVAlign, getVAlign, getRows,
         HTMLTableSectionElement(..), gTypeHTMLTableSectionElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,31 +24,16 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
 insertRow ::
           (MonadDOM m) =>
-            HTMLTableSectionElement -> Int -> m (Maybe HTMLElement)
+            HTMLTableSectionElement -> Maybe Int -> m HTMLElement
 insertRow self index
-  = liftDOM ((self ^. jsf "insertRow" [toJSVal index]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "insertRow" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
 insertRow_ ::
-           (MonadDOM m) => HTMLTableSectionElement -> Int -> m ()
+           (MonadDOM m) => HTMLTableSectionElement -> Maybe Int -> m ()
 insertRow_ self index
   = liftDOM (void (self ^. jsf "insertRow" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
-insertRowUnsafe ::
-                (MonadDOM m, HasCallStack) =>
-                  HTMLTableSectionElement -> Int -> m HTMLElement
-insertRowUnsafe self index
-  = liftDOM
-      (((self ^. jsf "insertRow" [toJSVal index]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.insertRow Mozilla HTMLTableSectionElement.insertRow documentation> 
-insertRowUnchecked ::
-                   (MonadDOM m) => HTMLTableSectionElement -> Int -> m HTMLElement
-insertRowUnchecked self index
-  = liftDOM
-      ((self ^. jsf "insertRow" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.deleteRow Mozilla HTMLTableSectionElement.deleteRow documentation> 
 deleteRow :: (MonadDOM m) => HTMLTableSectionElement -> Int -> m ()
@@ -108,20 +93,5 @@ getVAlign self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.rows Mozilla HTMLTableSectionElement.rows documentation> 
 getRows ::
-        (MonadDOM m) => HTMLTableSectionElement -> m (Maybe HTMLCollection)
-getRows self = liftDOM ((self ^. js "rows") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.rows Mozilla HTMLTableSectionElement.rows documentation> 
-getRowsUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLTableSectionElement -> m HTMLCollection
-getRowsUnsafe self
-  = liftDOM
-      (((self ^. js "rows") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement.rows Mozilla HTMLTableSectionElement.rows documentation> 
-getRowsUnchecked ::
-                 (MonadDOM m) => HTMLTableSectionElement -> m HTMLCollection
-getRowsUnchecked self
-  = liftDOM ((self ^. js "rows") >>= fromJSValUnchecked)
+        (MonadDOM m) => HTMLTableSectionElement -> m HTMLCollection
+getRows self = liftDOM ((self ^. js "rows") >>= fromJSValUnchecked)

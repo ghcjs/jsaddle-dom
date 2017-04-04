@@ -29,7 +29,7 @@ decodeAudioData :: (MonadDOM m, IsAudioContext self, IsArrayBuffer audioData) =>
                    self -> audioData -> m AudioBuffer
 decodeAudioData self audioData = do
     result <- liftIO newEmptyMVar
-    success <- newAudioBufferCallback $ \buffer -> liftIO $ putMVar result buffer
+    success <- newAudioBufferCallback $ \buffer -> liftIO $ putMVar result (Just buffer)
     error <- newAudioBufferCallback . const . liftIO $ putMVar result Nothing
-    Generated.decodeAudioData self (Just audioData) (Just success) (Just error)
+    Generated.decodeAudioData self audioData (Just success) (Just error)
     liftIO $ takeMVar result >>= maybe (throwIO DecodeAudioError) return

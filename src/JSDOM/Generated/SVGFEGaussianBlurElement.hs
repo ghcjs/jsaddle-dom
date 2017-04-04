@@ -5,17 +5,15 @@
 module JSDOM.Generated.SVGFEGaussianBlurElement
        (setStdDeviation, pattern SVG_EDGEMODE_UNKNOWN,
         pattern SVG_EDGEMODE_DUPLICATE, pattern SVG_EDGEMODE_WRAP,
-        pattern SVG_EDGEMODE_NONE, getIn1, getIn1Unsafe, getIn1Unchecked,
-        getStdDeviationX, getStdDeviationXUnsafe,
-        getStdDeviationXUnchecked, getStdDeviationY,
-        getStdDeviationYUnsafe, getStdDeviationYUnchecked, getEdgeMode,
-        getEdgeModeUnsafe, getEdgeModeUnchecked,
-        SVGFEGaussianBlurElement(..), gTypeSVGFEGaussianBlurElement)
+        pattern SVG_EDGEMODE_NONE, getIn1, getStdDeviationX,
+        getStdDeviationY, getEdgeMode, SVGFEGaussianBlurElement(..),
+        gTypeSVGFEGaussianBlurElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -27,7 +25,8 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.setStdDeviation Mozilla SVGFEGaussianBlurElement.setStdDeviation documentation> 
 setStdDeviation ::
-                (MonadDOM m) => SVGFEGaussianBlurElement -> Float -> Float -> m ()
+                (MonadDOM m) =>
+                  SVGFEGaussianBlurElement -> Maybe Float -> Maybe Float -> m ()
 setStdDeviation self stdDeviationX stdDeviationY
   = liftDOM
       (void
@@ -40,87 +39,24 @@ pattern SVG_EDGEMODE_NONE = 3
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.in1 Mozilla SVGFEGaussianBlurElement.in1 documentation> 
 getIn1 ::
-       (MonadDOM m) =>
-         SVGFEGaussianBlurElement -> m (Maybe SVGAnimatedString)
-getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.in1 Mozilla SVGFEGaussianBlurElement.in1 documentation> 
-getIn1Unsafe ::
-             (MonadDOM m, HasCallStack) =>
-               SVGFEGaussianBlurElement -> m SVGAnimatedString
-getIn1Unsafe self
-  = liftDOM
-      (((self ^. js "in1") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.in1 Mozilla SVGFEGaussianBlurElement.in1 documentation> 
-getIn1Unchecked ::
-                (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedString
-getIn1Unchecked self
-  = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
+       (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedString
+getIn1 self = liftDOM ((self ^. js "in1") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationX Mozilla SVGFEGaussianBlurElement.stdDeviationX documentation> 
 getStdDeviationX ::
-                 (MonadDOM m) =>
-                   SVGFEGaussianBlurElement -> m (Maybe SVGAnimatedNumber)
+                 (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedNumber
 getStdDeviationX self
-  = liftDOM ((self ^. js "stdDeviationX") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationX Mozilla SVGFEGaussianBlurElement.stdDeviationX documentation> 
-getStdDeviationXUnsafe ::
-                       (MonadDOM m, HasCallStack) =>
-                         SVGFEGaussianBlurElement -> m SVGAnimatedNumber
-getStdDeviationXUnsafe self
-  = liftDOM
-      (((self ^. js "stdDeviationX") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationX Mozilla SVGFEGaussianBlurElement.stdDeviationX documentation> 
-getStdDeviationXUnchecked ::
-                          (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedNumber
-getStdDeviationXUnchecked self
   = liftDOM ((self ^. js "stdDeviationX") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationY Mozilla SVGFEGaussianBlurElement.stdDeviationY documentation> 
 getStdDeviationY ::
-                 (MonadDOM m) =>
-                   SVGFEGaussianBlurElement -> m (Maybe SVGAnimatedNumber)
+                 (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedNumber
 getStdDeviationY self
-  = liftDOM ((self ^. js "stdDeviationY") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationY Mozilla SVGFEGaussianBlurElement.stdDeviationY documentation> 
-getStdDeviationYUnsafe ::
-                       (MonadDOM m, HasCallStack) =>
-                         SVGFEGaussianBlurElement -> m SVGAnimatedNumber
-getStdDeviationYUnsafe self
-  = liftDOM
-      (((self ^. js "stdDeviationY") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.stdDeviationY Mozilla SVGFEGaussianBlurElement.stdDeviationY documentation> 
-getStdDeviationYUnchecked ::
-                          (MonadDOM m) => SVGFEGaussianBlurElement -> m SVGAnimatedNumber
-getStdDeviationYUnchecked self
   = liftDOM ((self ^. js "stdDeviationY") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.edgeMode Mozilla SVGFEGaussianBlurElement.edgeMode documentation> 
 getEdgeMode ::
             (MonadDOM m) =>
-              SVGFEGaussianBlurElement -> m (Maybe SVGAnimatedEnumeration)
-getEdgeMode self = liftDOM ((self ^. js "edgeMode") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.edgeMode Mozilla SVGFEGaussianBlurElement.edgeMode documentation> 
-getEdgeModeUnsafe ::
-                  (MonadDOM m, HasCallStack) =>
-                    SVGFEGaussianBlurElement -> m SVGAnimatedEnumeration
-getEdgeModeUnsafe self
-  = liftDOM
-      (((self ^. js "edgeMode") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement.edgeMode Mozilla SVGFEGaussianBlurElement.edgeMode documentation> 
-getEdgeModeUnchecked ::
-                     (MonadDOM m) =>
-                       SVGFEGaussianBlurElement -> m SVGAnimatedEnumeration
-getEdgeModeUnchecked self
+              SVGFEGaussianBlurElement -> m SVGAnimatedEnumeration
+getEdgeMode self
   = liftDOM ((self ^. js "edgeMode") >>= fromJSValUnchecked)

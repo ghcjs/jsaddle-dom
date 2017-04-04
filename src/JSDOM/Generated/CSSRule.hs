@@ -6,10 +6,11 @@ module JSDOM.Generated.CSSRule
        (pattern UNKNOWN_RULE, pattern STYLE_RULE, pattern CHARSET_RULE,
         pattern IMPORT_RULE, pattern MEDIA_RULE, pattern FONT_FACE_RULE,
         pattern PAGE_RULE, pattern KEYFRAMES_RULE, pattern KEYFRAME_RULE,
-        pattern SUPPORTS_RULE, pattern WEBKIT_VIEWPORT_RULE,
-        pattern WEBKIT_REGION_RULE, pattern WEBKIT_KEYFRAMES_RULE,
-        pattern WEBKIT_KEYFRAME_RULE, getType, setCssText, getCssText,
-        getCssTextUnsafe, getCssTextUnchecked, getParentStyleSheet,
+        pattern NAMESPACE_RULE, pattern SUPPORTS_RULE,
+        pattern WEBKIT_VIEWPORT_RULE, pattern WEBKIT_REGION_RULE,
+        pattern WEBKIT_KEYFRAMES_RULE, pattern WEBKIT_KEYFRAME_RULE,
+        getType, setCssText, getCssText, getCssTextUnsafe,
+        getCssTextUnchecked, getParentStyleSheet,
         getParentStyleSheetUnsafe, getParentStyleSheetUnchecked,
         getParentRule, getParentRuleUnsafe, getParentRuleUnchecked,
         CSSRule(..), gTypeCSSRule, IsCSSRule, toCSSRule)
@@ -17,7 +18,8 @@ module JSDOM.Generated.CSSRule
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -35,6 +37,7 @@ pattern FONT_FACE_RULE = 5
 pattern PAGE_RULE = 6
 pattern KEYFRAMES_RULE = 7
 pattern KEYFRAME_RULE = 8
+pattern NAMESPACE_RULE = 10
 pattern SUPPORTS_RULE = 12
 pattern WEBKIT_VIEWPORT_RULE = 15
 pattern WEBKIT_REGION_RULE = 16
@@ -59,8 +62,7 @@ getCssText ::
            (MonadDOM m, IsCSSRule self, FromJSString result) =>
              self -> m (Maybe result)
 getCssText self
-  = liftDOM
-      (((toCSSRule self) ^. js "cssText") >>= fromMaybeJSString)
+  = liftDOM (((toCSSRule self) ^. js "cssText") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.cssText Mozilla CSSRule.cssText documentation> 
 getCssTextUnsafe ::
@@ -68,7 +70,7 @@ getCssTextUnsafe ::
                    self -> m result
 getCssTextUnsafe self
   = liftDOM
-      ((((toCSSRule self) ^. js "cssText") >>= fromMaybeJSString) >>=
+      ((((toCSSRule self) ^. js "cssText") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSRule.cssText Mozilla CSSRule.cssText documentation> 

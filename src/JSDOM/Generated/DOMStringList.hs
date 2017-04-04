@@ -9,7 +9,8 @@ module JSDOM.Generated.DOMStringList
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,8 +25,7 @@ item ::
      (MonadDOM m, FromJSString result) =>
        DOMStringList -> Word -> m (Maybe result)
 item self index
-  = liftDOM
-      ((self ^. jsf "item" [toJSVal index]) >>= fromMaybeJSString)
+  = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMStringList.item Mozilla DOMStringList.item documentation> 
 item_ :: (MonadDOM m) => DOMStringList -> Word -> m ()
@@ -38,7 +38,7 @@ itemUnsafe ::
              DOMStringList -> Word -> m result
 itemUnsafe self index
   = liftDOM
-      (((self ^. jsf "item" [toJSVal index]) >>= fromMaybeJSString) >>=
+      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMStringList.item Mozilla DOMStringList.item documentation> 

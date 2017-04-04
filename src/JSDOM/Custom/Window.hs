@@ -25,4 +25,4 @@ openDatabase self name version displayName estimatedSize = do
     result <- liftIO newEmptyMVar
     withCallback (newDatabaseCallback (liftIO . putMVar result)) $ \creationCallback ->
         Generated.openDatabase self name version displayName estimatedSize (Just creationCallback)
-            >>= maybe (fromJust <$> liftIO (takeMVar result)) return
+            >>= maybe (liftIO (takeMVar result)) return

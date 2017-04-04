@@ -6,14 +6,14 @@ module JSDOM.Generated.SVGAnimationElement
        (getStartTime, getStartTime_, getCurrentTime, getCurrentTime_,
         getSimpleDuration, getSimpleDuration_, beginElement,
         beginElementAt, endElement, endElementAt, getTargetElement,
-        getTargetElementUnsafe, getTargetElementUnchecked,
         SVGAnimationElement(..), gTypeSVGAnimationElement,
         IsSVGAnimationElement, toSVGAnimationElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -80,7 +80,8 @@ beginElement self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.beginElementAt Mozilla SVGAnimationElement.beginElementAt documentation> 
 beginElementAt ::
-               (MonadDOM m, IsSVGAnimationElement self) => self -> Float -> m ()
+               (MonadDOM m, IsSVGAnimationElement self) =>
+                 self -> Maybe Float -> m ()
 beginElementAt self offset
   = liftDOM
       (void
@@ -96,7 +97,8 @@ endElement self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.endElementAt Mozilla SVGAnimationElement.endElementAt documentation> 
 endElementAt ::
-             (MonadDOM m, IsSVGAnimationElement self) => self -> Float -> m ()
+             (MonadDOM m, IsSVGAnimationElement self) =>
+               self -> Maybe Float -> m ()
 endElementAt self offset
   = liftDOM
       (void
@@ -105,27 +107,8 @@ endElementAt self offset
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.targetElement Mozilla SVGAnimationElement.targetElement documentation> 
 getTargetElement ::
-                 (MonadDOM m, IsSVGAnimationElement self) =>
-                   self -> m (Maybe SVGElement)
+                 (MonadDOM m, IsSVGAnimationElement self) => self -> m SVGElement
 getTargetElement self
-  = liftDOM
-      (((toSVGAnimationElement self) ^. js "targetElement") >>=
-         fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.targetElement Mozilla SVGAnimationElement.targetElement documentation> 
-getTargetElementUnsafe ::
-                       (MonadDOM m, IsSVGAnimationElement self, HasCallStack) =>
-                         self -> m SVGElement
-getTargetElementUnsafe self
-  = liftDOM
-      ((((toSVGAnimationElement self) ^. js "targetElement") >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGAnimationElement.targetElement Mozilla SVGAnimationElement.targetElement documentation> 
-getTargetElementUnchecked ::
-                          (MonadDOM m, IsSVGAnimationElement self) => self -> m SVGElement
-getTargetElementUnchecked self
   = liftDOM
       (((toSVGAnimationElement self) ^. js "targetElement") >>=
          fromJSValUnchecked)

@@ -3,16 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.OESVertexArrayObject
-       (createVertexArrayOES, createVertexArrayOES_,
-        createVertexArrayOESUnsafe, createVertexArrayOESUnchecked,
-        deleteVertexArrayOES, isVertexArrayOES, isVertexArrayOES_,
-        bindVertexArrayOES, pattern VERTEX_ARRAY_BINDING_OES,
-        OESVertexArrayObject(..), gTypeOESVertexArrayObject)
+       (createVertexArrayOES, createVertexArrayOES_, deleteVertexArrayOES,
+        isVertexArrayOES, isVertexArrayOES_, bindVertexArrayOES,
+        pattern VERTEX_ARRAY_BINDING_OES, OESVertexArrayObject(..),
+        gTypeOESVertexArrayObject)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,32 +24,16 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.createVertexArrayOES Mozilla OESVertexArrayObject.createVertexArrayOES documentation> 
 createVertexArrayOES ::
-                     (MonadDOM m) =>
-                       OESVertexArrayObject -> m (Maybe WebGLVertexArrayObjectOES)
+                     (MonadDOM m) => OESVertexArrayObject -> m WebGLVertexArrayObjectOES
 createVertexArrayOES self
-  = liftDOM ((self ^. jsf "createVertexArrayOES" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "createVertexArrayOES" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.createVertexArrayOES Mozilla OESVertexArrayObject.createVertexArrayOES documentation> 
 createVertexArrayOES_ ::
                       (MonadDOM m) => OESVertexArrayObject -> m ()
 createVertexArrayOES_ self
   = liftDOM (void (self ^. jsf "createVertexArrayOES" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.createVertexArrayOES Mozilla OESVertexArrayObject.createVertexArrayOES documentation> 
-createVertexArrayOESUnsafe ::
-                           (MonadDOM m, HasCallStack) =>
-                             OESVertexArrayObject -> m WebGLVertexArrayObjectOES
-createVertexArrayOESUnsafe self
-  = liftDOM
-      (((self ^. jsf "createVertexArrayOES" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.createVertexArrayOES Mozilla OESVertexArrayObject.createVertexArrayOES documentation> 
-createVertexArrayOESUnchecked ::
-                              (MonadDOM m) => OESVertexArrayObject -> m WebGLVertexArrayObjectOES
-createVertexArrayOESUnchecked self
-  = liftDOM
-      ((self ^. jsf "createVertexArrayOES" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/OESVertexArrayObject.deleteVertexArrayOES Mozilla OESVertexArrayObject.deleteVertexArrayOES documentation> 
 deleteVertexArrayOES ::

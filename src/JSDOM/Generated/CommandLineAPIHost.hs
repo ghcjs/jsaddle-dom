@@ -5,14 +5,14 @@
 module JSDOM.Generated.CommandLineAPIHost
        (clearConsoleMessages, copyText, inspect, inspectedObject,
         inspectedObject_, getEventListeners, getEventListeners_,
-        getEventListenersUnsafe, getEventListenersUnchecked, databaseId,
-        databaseId_, storageId, storageId_, CommandLineAPIHost(..),
-        gTypeCommandLineAPIHost)
+        databaseId, databaseId_, storageId, storageId_,
+        CommandLineAPIHost(..), gTypeCommandLineAPIHost)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -35,81 +35,64 @@ copyText self text
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.inspect Mozilla CommandLineAPIHost.inspect documentation> 
 inspect ::
-        (MonadDOM m) => CommandLineAPIHost -> JSVal -> JSVal -> m ()
+        (MonadDOM m, ToJSVal objectId, ToJSVal hints) =>
+          CommandLineAPIHost -> objectId -> hints -> m ()
 inspect self objectId hints
   = liftDOM
       (void (self ^. jsf "inspect" [toJSVal objectId, toJSVal hints]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.inspectedObject Mozilla CommandLineAPIHost.inspectedObject documentation> 
-inspectedObject ::
-                (MonadDOM m) => CommandLineAPIHost -> Int -> m JSVal
-inspectedObject self num
-  = liftDOM
-      ((self ^. jsf "inspectedObject" [toJSVal num]) >>= toJSVal)
+inspectedObject :: (MonadDOM m) => CommandLineAPIHost -> m JSVal
+inspectedObject self
+  = liftDOM ((self ^. jsf "inspectedObject" ()) >>= toJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.inspectedObject Mozilla CommandLineAPIHost.inspectedObject documentation> 
-inspectedObject_ ::
-                 (MonadDOM m) => CommandLineAPIHost -> Int -> m ()
-inspectedObject_ self num
-  = liftDOM (void (self ^. jsf "inspectedObject" [toJSVal num]))
+inspectedObject_ :: (MonadDOM m) => CommandLineAPIHost -> m ()
+inspectedObject_ self
+  = liftDOM (void (self ^. jsf "inspectedObject" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.getEventListeners Mozilla CommandLineAPIHost.getEventListeners documentation> 
 getEventListeners ::
-                  (MonadDOM m, IsNode node) =>
-                    CommandLineAPIHost -> Maybe node -> m (Maybe Array)
+                  (MonadDOM m, IsNode node) => CommandLineAPIHost -> node -> m Array
 getEventListeners self node
-  = liftDOM
-      ((self ^. jsf "getEventListeners" [toJSVal node]) >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.getEventListeners Mozilla CommandLineAPIHost.getEventListeners documentation> 
-getEventListeners_ ::
-                   (MonadDOM m, IsNode node) =>
-                     CommandLineAPIHost -> Maybe node -> m ()
-getEventListeners_ self node
-  = liftDOM (void (self ^. jsf "getEventListeners" [toJSVal node]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.getEventListeners Mozilla CommandLineAPIHost.getEventListeners documentation> 
-getEventListenersUnsafe ::
-                        (MonadDOM m, IsNode node, HasCallStack) =>
-                          CommandLineAPIHost -> Maybe node -> m Array
-getEventListenersUnsafe self node
-  = liftDOM
-      (((self ^. jsf "getEventListeners" [toJSVal node]) >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.getEventListeners Mozilla CommandLineAPIHost.getEventListeners documentation> 
-getEventListenersUnchecked ::
-                           (MonadDOM m, IsNode node) =>
-                             CommandLineAPIHost -> Maybe node -> m Array
-getEventListenersUnchecked self node
   = liftDOM
       ((self ^. jsf "getEventListeners" [toJSVal node]) >>=
          fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.getEventListeners Mozilla CommandLineAPIHost.getEventListeners documentation> 
+getEventListeners_ ::
+                   (MonadDOM m, IsNode node) => CommandLineAPIHost -> node -> m ()
+getEventListeners_ self node
+  = liftDOM (void (self ^. jsf "getEventListeners" [toJSVal node]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.databaseId Mozilla CommandLineAPIHost.databaseId documentation> 
 databaseId ::
-           (MonadDOM m, FromJSString result) =>
-             CommandLineAPIHost -> JSVal -> m result
+           (MonadDOM m, ToJSVal database, FromJSString result) =>
+             CommandLineAPIHost -> database -> m result
 databaseId self database
   = liftDOM
       ((self ^. jsf "databaseId" [toJSVal database]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.databaseId Mozilla CommandLineAPIHost.databaseId documentation> 
-databaseId_ :: (MonadDOM m) => CommandLineAPIHost -> JSVal -> m ()
+databaseId_ ::
+            (MonadDOM m, ToJSVal database) =>
+              CommandLineAPIHost -> database -> m ()
 databaseId_ self database
   = liftDOM (void (self ^. jsf "databaseId" [toJSVal database]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.storageId Mozilla CommandLineAPIHost.storageId documentation> 
 storageId ::
-          (MonadDOM m, FromJSString result) =>
-            CommandLineAPIHost -> JSVal -> m result
+          (MonadDOM m, ToJSVal storage, FromJSString result) =>
+            CommandLineAPIHost -> storage -> m result
 storageId self storage
   = liftDOM
       ((self ^. jsf "storageId" [toJSVal storage]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CommandLineAPIHost.storageId Mozilla CommandLineAPIHost.storageId documentation> 
-storageId_ :: (MonadDOM m) => CommandLineAPIHost -> JSVal -> m ()
+storageId_ ::
+           (MonadDOM m, ToJSVal storage) =>
+             CommandLineAPIHost -> storage -> m ()
 storageId_ self storage
   = liftDOM (void (self ^. jsf "storageId" [toJSVal storage]))

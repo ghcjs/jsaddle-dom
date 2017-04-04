@@ -4,15 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSKeyframesRule
        (insertRule, appendRule, deleteRule, findRule, findRule_,
-        findRuleUnsafe, findRuleUnchecked, _get, _get_, _getUnsafe,
-        _getUnchecked, setName, getName, getNameUnsafe, getNameUnchecked,
-        getCssRules, getCssRulesUnsafe, getCssRulesUnchecked,
-        CSSKeyframesRule(..), gTypeCSSKeyframesRule)
+        findRuleUnsafe, findRuleUnchecked, get, get_, setName, getName,
+        getCssRules, CSSKeyframesRule(..), gTypeCSSKeyframesRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -70,76 +69,29 @@ findRuleUnchecked self key
   = liftDOM
       ((self ^. jsf "findRule" [toJSVal key]) >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule._get Mozilla CSSKeyframesRule._get documentation> 
-_get ::
-     (MonadDOM m) =>
-       CSSKeyframesRule -> Word -> m (Maybe CSSKeyframeRule)
-_get self index
-  = liftDOM ((self ^. jsf "_get" [toJSVal index]) >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule._get Mozilla CSSKeyframesRule._get documentation> 
-_get_ :: (MonadDOM m) => CSSKeyframesRule -> Word -> m ()
-_get_ self index
-  = liftDOM (void (self ^. jsf "_get" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule._get Mozilla CSSKeyframesRule._get documentation> 
-_getUnsafe ::
-           (MonadDOM m, HasCallStack) =>
-             CSSKeyframesRule -> Word -> m CSSKeyframeRule
-_getUnsafe self index
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.get Mozilla CSSKeyframesRule.get documentation> 
+get ::
+    (MonadDOM m) => CSSKeyframesRule -> Word -> m CSSKeyframeRule
+get self index
   = liftDOM
-      (((self ^. jsf "_get" [toJSVal index]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
+      ((self ^. jsf "get" [toJSVal index]) >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule._get Mozilla CSSKeyframesRule._get documentation> 
-_getUnchecked ::
-              (MonadDOM m) => CSSKeyframesRule -> Word -> m CSSKeyframeRule
-_getUnchecked self index
-  = liftDOM
-      ((self ^. jsf "_get" [toJSVal index]) >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.get Mozilla CSSKeyframesRule.get documentation> 
+get_ :: (MonadDOM m) => CSSKeyframesRule -> Word -> m ()
+get_ self index
+  = liftDOM (void (self ^. jsf "get" [toJSVal index]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.name Mozilla CSSKeyframesRule.name documentation> 
 setName ::
-        (MonadDOM m, ToJSString val) =>
-          CSSKeyframesRule -> Maybe val -> m ()
+        (MonadDOM m, ToJSString val) => CSSKeyframesRule -> val -> m ()
 setName self val = liftDOM (self ^. jss "name" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.name Mozilla CSSKeyframesRule.name documentation> 
 getName ::
-        (MonadDOM m, FromJSString result) =>
-          CSSKeyframesRule -> m (Maybe result)
-getName self = liftDOM ((self ^. js "name") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.name Mozilla CSSKeyframesRule.name documentation> 
-getNameUnsafe ::
-              (MonadDOM m, HasCallStack, FromJSString result) =>
-                CSSKeyframesRule -> m result
-getNameUnsafe self
-  = liftDOM
-      (((self ^. js "name") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.name Mozilla CSSKeyframesRule.name documentation> 
-getNameUnchecked ::
-                 (MonadDOM m, FromJSString result) => CSSKeyframesRule -> m result
-getNameUnchecked self
-  = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) => CSSKeyframesRule -> m result
+getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.cssRules Mozilla CSSKeyframesRule.cssRules documentation> 
-getCssRules ::
-            (MonadDOM m) => CSSKeyframesRule -> m (Maybe CSSRuleList)
-getCssRules self = liftDOM ((self ^. js "cssRules") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.cssRules Mozilla CSSKeyframesRule.cssRules documentation> 
-getCssRulesUnsafe ::
-                  (MonadDOM m, HasCallStack) => CSSKeyframesRule -> m CSSRuleList
-getCssRulesUnsafe self
-  = liftDOM
-      (((self ^. js "cssRules") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSKeyframesRule.cssRules Mozilla CSSKeyframesRule.cssRules documentation> 
-getCssRulesUnchecked ::
-                     (MonadDOM m) => CSSKeyframesRule -> m CSSRuleList
-getCssRulesUnchecked self
+getCssRules :: (MonadDOM m) => CSSKeyframesRule -> m CSSRuleList
+getCssRules self
   = liftDOM ((self ^. js "cssRules") >>= fromJSValUnchecked)

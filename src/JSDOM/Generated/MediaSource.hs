@@ -4,18 +4,17 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaSource
        (newMediaSource, addSourceBuffer, addSourceBuffer_,
-        addSourceBufferUnsafe, addSourceBufferUnchecked,
         removeSourceBuffer, endOfStream, isTypeSupported, isTypeSupported_,
-        getSourceBuffers, getSourceBuffersUnsafe,
-        getSourceBuffersUnchecked, getActiveSourceBuffers,
-        getActiveSourceBuffersUnsafe, getActiveSourceBuffersUnchecked,
-        setDuration, getDuration, getReadyState, MediaSource(..),
+        setLiveSeekableRange, clearLiveSeekableRange, getSourceBuffers,
+        getActiveSourceBuffers, setDuration, getDuration, getReadyState,
+        sourceopen, sourceended, sourceclose, MediaSource(..),
         gTypeMediaSource)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -33,10 +32,11 @@ newMediaSource
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.addSourceBuffer Mozilla MediaSource.addSourceBuffer documentation> 
 addSourceBuffer ::
                 (MonadDOM m, ToJSString type') =>
-                  MediaSource -> type' -> m (Maybe SourceBuffer)
+                  MediaSource -> type' -> m SourceBuffer
 addSourceBuffer self type'
   = liftDOM
-      ((self ^. jsf "addSourceBuffer" [toJSVal type']) >>= fromJSVal)
+      ((self ^. jsf "addSourceBuffer" [toJSVal type']) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.addSourceBuffer Mozilla MediaSource.addSourceBuffer documentation> 
 addSourceBuffer_ ::
@@ -44,34 +44,16 @@ addSourceBuffer_ ::
 addSourceBuffer_ self type'
   = liftDOM (void (self ^. jsf "addSourceBuffer" [toJSVal type']))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.addSourceBuffer Mozilla MediaSource.addSourceBuffer documentation> 
-addSourceBufferUnsafe ::
-                      (MonadDOM m, ToJSString type', HasCallStack) =>
-                        MediaSource -> type' -> m SourceBuffer
-addSourceBufferUnsafe self type'
-  = liftDOM
-      (((self ^. jsf "addSourceBuffer" [toJSVal type']) >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.addSourceBuffer Mozilla MediaSource.addSourceBuffer documentation> 
-addSourceBufferUnchecked ::
-                         (MonadDOM m, ToJSString type') =>
-                           MediaSource -> type' -> m SourceBuffer
-addSourceBufferUnchecked self type'
-  = liftDOM
-      ((self ^. jsf "addSourceBuffer" [toJSVal type']) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.removeSourceBuffer Mozilla MediaSource.removeSourceBuffer documentation> 
 removeSourceBuffer ::
-                   (MonadDOM m) => MediaSource -> Maybe SourceBuffer -> m ()
+                   (MonadDOM m) => MediaSource -> SourceBuffer -> m ()
 removeSourceBuffer self buffer
   = liftDOM
       (void (self ^. jsf "removeSourceBuffer" [toJSVal buffer]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.endOfStream Mozilla MediaSource.endOfStream documentation> 
 endOfStream ::
-            (MonadDOM m) => MediaSource -> EndOfStreamError -> m ()
+            (MonadDOM m) => MediaSource -> Maybe EndOfStreamError -> m ()
 endOfStream self error
   = liftDOM (void (self ^. jsf "endOfStream" [toJSVal error]))
 
@@ -88,44 +70,29 @@ isTypeSupported_ ::
 isTypeSupported_ self type'
   = liftDOM (void (self ^. jsf "isTypeSupported" [toJSVal type']))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.setLiveSeekableRange Mozilla MediaSource.setLiveSeekableRange documentation> 
+setLiveSeekableRange ::
+                     (MonadDOM m) => MediaSource -> Double -> Double -> m ()
+setLiveSeekableRange self start end
+  = liftDOM
+      (void
+         (self ^. jsf "setLiveSeekableRange" [toJSVal start, toJSVal end]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.clearLiveSeekableRange Mozilla MediaSource.clearLiveSeekableRange documentation> 
+clearLiveSeekableRange :: (MonadDOM m) => MediaSource -> m ()
+clearLiveSeekableRange self
+  = liftDOM (void (self ^. jsf "clearLiveSeekableRange" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
 getSourceBuffers ::
-                 (MonadDOM m) => MediaSource -> m (Maybe SourceBufferList)
+                 (MonadDOM m) => MediaSource -> m SourceBufferList
 getSourceBuffers self
-  = liftDOM ((self ^. js "sourceBuffers") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
-getSourceBuffersUnsafe ::
-                       (MonadDOM m, HasCallStack) => MediaSource -> m SourceBufferList
-getSourceBuffersUnsafe self
-  = liftDOM
-      (((self ^. js "sourceBuffers") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.sourceBuffers Mozilla MediaSource.sourceBuffers documentation> 
-getSourceBuffersUnchecked ::
-                          (MonadDOM m) => MediaSource -> m SourceBufferList
-getSourceBuffersUnchecked self
   = liftDOM ((self ^. js "sourceBuffers") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
 getActiveSourceBuffers ::
-                       (MonadDOM m) => MediaSource -> m (Maybe SourceBufferList)
+                       (MonadDOM m) => MediaSource -> m SourceBufferList
 getActiveSourceBuffers self
-  = liftDOM ((self ^. js "activeSourceBuffers") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
-getActiveSourceBuffersUnsafe ::
-                             (MonadDOM m, HasCallStack) => MediaSource -> m SourceBufferList
-getActiveSourceBuffersUnsafe self
-  = liftDOM
-      (((self ^. js "activeSourceBuffers") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.activeSourceBuffers Mozilla MediaSource.activeSourceBuffers documentation> 
-getActiveSourceBuffersUnchecked ::
-                                (MonadDOM m) => MediaSource -> m SourceBufferList
-getActiveSourceBuffersUnchecked self
   = liftDOM
       ((self ^. js "activeSourceBuffers") >>= fromJSValUnchecked)
 
@@ -144,3 +111,15 @@ getReadyState ::
               (MonadDOM m, FromJSString result) => MediaSource -> m result
 getReadyState self
   = liftDOM ((self ^. js "readyState") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.onsourceopen Mozilla MediaSource.onsourceopen documentation> 
+sourceopen :: EventName MediaSource onsourceopen
+sourceopen = unsafeEventName (toJSString "sourceopen")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.onsourceended Mozilla MediaSource.onsourceended documentation> 
+sourceended :: EventName MediaSource onsourceended
+sourceended = unsafeEventName (toJSString "sourceended")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.onsourceclose Mozilla MediaSource.onsourceclose documentation> 
+sourceclose :: EventName MediaSource onsourceclose
+sourceclose = unsafeEventName (toJSString "sourceclose")

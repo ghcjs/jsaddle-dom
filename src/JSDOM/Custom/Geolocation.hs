@@ -27,9 +27,9 @@ import qualified
 getCurrentPosition' :: MonadDOM m => Geolocation -> Maybe PositionOptions -> m (Either PositionError Geoposition)
 getCurrentPosition' self options = do
     result <- liftIO newEmptyMVar
-    withCallback (newPositionCallback (liftIO . putMVar result . Right . fromJust)) $ \success ->
-        withCallback (newPositionErrorCallback (liftIO . putMVar result . Left . fromJust)) $ \error -> do
-            Generated.getCurrentPosition self (Just success) (Just error) options
+    withCallback (newPositionCallback (liftIO . putMVar result . Right)) $ \success ->
+        withCallback (newPositionErrorCallback (liftIO . putMVar result . Left)) $ \error -> do
+            Generated.getCurrentPosition self success (Just error) options
             liftIO $ takeMVar result
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition Mozilla Geolocation.getCurrentPosition documentation>

@@ -13,7 +13,8 @@ module JSDOM.Generated.HTMLMarqueeElement
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -97,22 +98,23 @@ getLoop self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.scrollAmount Mozilla HTMLMarqueeElement.scrollAmount documentation> 
 setScrollAmount ::
-                (MonadDOM m) => HTMLMarqueeElement -> Int -> m ()
+                (MonadDOM m) => HTMLMarqueeElement -> Word -> m ()
 setScrollAmount self val
   = liftDOM (self ^. jss "scrollAmount" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.scrollAmount Mozilla HTMLMarqueeElement.scrollAmount documentation> 
-getScrollAmount :: (MonadDOM m) => HTMLMarqueeElement -> m Int
+getScrollAmount :: (MonadDOM m) => HTMLMarqueeElement -> m Word
 getScrollAmount self
   = liftDOM (round <$> ((self ^. js "scrollAmount") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.scrollDelay Mozilla HTMLMarqueeElement.scrollDelay documentation> 
-setScrollDelay :: (MonadDOM m) => HTMLMarqueeElement -> Int -> m ()
+setScrollDelay ::
+               (MonadDOM m) => HTMLMarqueeElement -> Word -> m ()
 setScrollDelay self val
   = liftDOM (self ^. jss "scrollDelay" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement.scrollDelay Mozilla HTMLMarqueeElement.scrollDelay documentation> 
-getScrollDelay :: (MonadDOM m) => HTMLMarqueeElement -> m Int
+getScrollDelay :: (MonadDOM m) => HTMLMarqueeElement -> m Word
 getScrollDelay self
   = liftDOM (round <$> ((self ^. js "scrollDelay") >>= valToNumber))
 

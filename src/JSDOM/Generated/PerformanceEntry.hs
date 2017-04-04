@@ -10,7 +10,8 @@ module JSDOM.Generated.PerformanceEntry
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -39,14 +40,18 @@ getEntryType self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/PerformanceEntry.startTime Mozilla PerformanceEntry.startTime documentation> 
 getStartTime ::
-             (MonadDOM m, IsPerformanceEntry self) => self -> m Double
+             (MonadDOM m, IsPerformanceEntry self) =>
+               self -> m DOMHighResTimeStamp
 getStartTime self
   = liftDOM
-      (((toPerformanceEntry self) ^. js "startTime") >>= valToNumber)
+      (((toPerformanceEntry self) ^. js "startTime") >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/PerformanceEntry.duration Mozilla PerformanceEntry.duration documentation> 
 getDuration ::
-            (MonadDOM m, IsPerformanceEntry self) => self -> m Double
+            (MonadDOM m, IsPerformanceEntry self) =>
+              self -> m DOMHighResTimeStamp
 getDuration self
   = liftDOM
-      (((toPerformanceEntry self) ^. js "duration") >>= valToNumber)
+      (((toPerformanceEntry self) ^. js "duration") >>=
+         fromJSValUnchecked)

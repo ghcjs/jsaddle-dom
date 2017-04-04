@@ -3,14 +3,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WebKitCSSMatrix
-       (newWebKitCSSMatrix, setMatrixValue, multiply, multiply_,
-        multiplyUnsafe, multiplyUnchecked, inverse, inverse_,
-        inverseUnsafe, inverseUnchecked, translate, translate_,
-        translateUnsafe, translateUnchecked, scale, scale_, scaleUnsafe,
-        scaleUnchecked, rotate, rotate_, rotateUnsafe, rotateUnchecked,
-        rotateAxisAngle, rotateAxisAngle_, rotateAxisAngleUnsafe,
-        rotateAxisAngleUnchecked, skewX, skewX_, skewXUnsafe,
-        skewXUnchecked, skewY, skewY_, skewYUnsafe, skewYUnchecked,
+       (newWebKitCSSMatrix, setMatrixValue, multiply, multiply_, inverse,
+        inverse_, translate, translate_, scale, scale_, rotate, rotate_,
+        rotateAxisAngle, rotateAxisAngle_, skewX, skewX_, skewY, skewY_,
         toString, toString_, setA, getA, setB, getB, setC, getC, setD,
         getD, setE, getE, setF, getF, setM11, getM11, setM12, getM12,
         setM13, getM13, setM14, getM14, setM21, getM21, setM22, getM22,
@@ -22,7 +17,8 @@ module JSDOM.Generated.WebKitCSSMatrix
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -34,7 +30,8 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix Mozilla WebKitCSSMatrix documentation> 
 newWebKitCSSMatrix ::
-                   (MonadDOM m, ToJSString cssValue) => cssValue -> m WebKitCSSMatrix
+                   (MonadDOM m, ToJSString cssValue) =>
+                     Maybe cssValue -> m WebKitCSSMatrix
 newWebKitCSSMatrix cssValue
   = liftDOM
       (WebKitCSSMatrix <$>
@@ -43,18 +40,18 @@ newWebKitCSSMatrix cssValue
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.setMatrixValue Mozilla WebKitCSSMatrix.setMatrixValue documentation> 
 setMatrixValue ::
                (MonadDOM m, ToJSString string) =>
-                 WebKitCSSMatrix -> string -> m ()
+                 WebKitCSSMatrix -> Maybe string -> m ()
 setMatrixValue self string
   = liftDOM (void (self ^. jsf "setMatrixValue" [toJSVal string]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.multiply Mozilla WebKitCSSMatrix.multiply documentation> 
 multiply ::
          (MonadDOM m) =>
-           WebKitCSSMatrix ->
-             Maybe WebKitCSSMatrix -> m (Maybe WebKitCSSMatrix)
+           WebKitCSSMatrix -> Maybe WebKitCSSMatrix -> m WebKitCSSMatrix
 multiply self secondMatrix
   = liftDOM
-      ((self ^. jsf "multiply" [toJSVal secondMatrix]) >>= fromJSVal)
+      ((self ^. jsf "multiply" [toJSVal secondMatrix]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.multiply Mozilla WebKitCSSMatrix.multiply documentation> 
 multiply_ ::
@@ -62,263 +59,125 @@ multiply_ ::
 multiply_ self secondMatrix
   = liftDOM (void (self ^. jsf "multiply" [toJSVal secondMatrix]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.multiply Mozilla WebKitCSSMatrix.multiply documentation> 
-multiplyUnsafe ::
-               (MonadDOM m, HasCallStack) =>
-                 WebKitCSSMatrix -> Maybe WebKitCSSMatrix -> m WebKitCSSMatrix
-multiplyUnsafe self secondMatrix
-  = liftDOM
-      (((self ^. jsf "multiply" [toJSVal secondMatrix]) >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.multiply Mozilla WebKitCSSMatrix.multiply documentation> 
-multiplyUnchecked ::
-                  (MonadDOM m) =>
-                    WebKitCSSMatrix -> Maybe WebKitCSSMatrix -> m WebKitCSSMatrix
-multiplyUnchecked self secondMatrix
-  = liftDOM
-      ((self ^. jsf "multiply" [toJSVal secondMatrix]) >>=
-         fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.inverse Mozilla WebKitCSSMatrix.inverse documentation> 
-inverse ::
-        (MonadDOM m) => WebKitCSSMatrix -> m (Maybe WebKitCSSMatrix)
-inverse self = liftDOM ((self ^. jsf "inverse" ()) >>= fromJSVal)
+inverse :: (MonadDOM m) => WebKitCSSMatrix -> m WebKitCSSMatrix
+inverse self
+  = liftDOM ((self ^. jsf "inverse" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.inverse Mozilla WebKitCSSMatrix.inverse documentation> 
 inverse_ :: (MonadDOM m) => WebKitCSSMatrix -> m ()
 inverse_ self = liftDOM (void (self ^. jsf "inverse" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.inverse Mozilla WebKitCSSMatrix.inverse documentation> 
-inverseUnsafe ::
-              (MonadDOM m, HasCallStack) => WebKitCSSMatrix -> m WebKitCSSMatrix
-inverseUnsafe self
-  = liftDOM
-      (((self ^. jsf "inverse" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.inverse Mozilla WebKitCSSMatrix.inverse documentation> 
-inverseUnchecked ::
-                 (MonadDOM m) => WebKitCSSMatrix -> m WebKitCSSMatrix
-inverseUnchecked self
-  = liftDOM ((self ^. jsf "inverse" ()) >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.translate Mozilla WebKitCSSMatrix.translate documentation> 
 translate ::
           (MonadDOM m) =>
             WebKitCSSMatrix ->
-              Double -> Double -> Double -> m (Maybe WebKitCSSMatrix)
+              Maybe Double -> Maybe Double -> Maybe Double -> m WebKitCSSMatrix
 translate self x y z
   = liftDOM
       ((self ^. jsf "translate" [toJSVal x, toJSVal y, toJSVal z]) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.translate Mozilla WebKitCSSMatrix.translate documentation> 
 translate_ ::
            (MonadDOM m) =>
-             WebKitCSSMatrix -> Double -> Double -> Double -> m ()
+             WebKitCSSMatrix ->
+               Maybe Double -> Maybe Double -> Maybe Double -> m ()
 translate_ self x y z
   = liftDOM
       (void (self ^. jsf "translate" [toJSVal x, toJSVal y, toJSVal z]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.translate Mozilla WebKitCSSMatrix.translate documentation> 
-translateUnsafe ::
-                (MonadDOM m, HasCallStack) =>
-                  WebKitCSSMatrix -> Double -> Double -> Double -> m WebKitCSSMatrix
-translateUnsafe self x y z
-  = liftDOM
-      (((self ^. jsf "translate" [toJSVal x, toJSVal y, toJSVal z]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.translate Mozilla WebKitCSSMatrix.translate documentation> 
-translateUnchecked ::
-                   (MonadDOM m) =>
-                     WebKitCSSMatrix -> Double -> Double -> Double -> m WebKitCSSMatrix
-translateUnchecked self x y z
-  = liftDOM
-      ((self ^. jsf "translate" [toJSVal x, toJSVal y, toJSVal z]) >>=
-         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.scale Mozilla WebKitCSSMatrix.scale documentation> 
 scale ::
       (MonadDOM m) =>
         WebKitCSSMatrix ->
-          Double -> Double -> Double -> m (Maybe WebKitCSSMatrix)
+          Maybe Double -> Maybe Double -> Maybe Double -> m WebKitCSSMatrix
 scale self scaleX scaleY scaleZ
   = liftDOM
       ((self ^. jsf "scale"
           [toJSVal scaleX, toJSVal scaleY, toJSVal scaleZ])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.scale Mozilla WebKitCSSMatrix.scale documentation> 
 scale_ ::
        (MonadDOM m) =>
-         WebKitCSSMatrix -> Double -> Double -> Double -> m ()
+         WebKitCSSMatrix ->
+           Maybe Double -> Maybe Double -> Maybe Double -> m ()
 scale_ self scaleX scaleY scaleZ
   = liftDOM
       (void
          (self ^. jsf "scale"
             [toJSVal scaleX, toJSVal scaleY, toJSVal scaleZ]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.scale Mozilla WebKitCSSMatrix.scale documentation> 
-scaleUnsafe ::
-            (MonadDOM m, HasCallStack) =>
-              WebKitCSSMatrix -> Double -> Double -> Double -> m WebKitCSSMatrix
-scaleUnsafe self scaleX scaleY scaleZ
-  = liftDOM
-      (((self ^. jsf "scale"
-           [toJSVal scaleX, toJSVal scaleY, toJSVal scaleZ])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.scale Mozilla WebKitCSSMatrix.scale documentation> 
-scaleUnchecked ::
-               (MonadDOM m) =>
-                 WebKitCSSMatrix -> Double -> Double -> Double -> m WebKitCSSMatrix
-scaleUnchecked self scaleX scaleY scaleZ
-  = liftDOM
-      ((self ^. jsf "scale"
-          [toJSVal scaleX, toJSVal scaleY, toJSVal scaleZ])
-         >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotate Mozilla WebKitCSSMatrix.rotate documentation> 
 rotate ::
        (MonadDOM m) =>
          WebKitCSSMatrix ->
-           Double -> Double -> Double -> m (Maybe WebKitCSSMatrix)
+           Maybe Double -> Maybe Double -> Maybe Double -> m WebKitCSSMatrix
 rotate self rotX rotY rotZ
   = liftDOM
       ((self ^. jsf "rotate" [toJSVal rotX, toJSVal rotY, toJSVal rotZ])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotate Mozilla WebKitCSSMatrix.rotate documentation> 
 rotate_ ::
         (MonadDOM m) =>
-          WebKitCSSMatrix -> Double -> Double -> Double -> m ()
+          WebKitCSSMatrix ->
+            Maybe Double -> Maybe Double -> Maybe Double -> m ()
 rotate_ self rotX rotY rotZ
   = liftDOM
       (void
          (self ^. jsf "rotate" [toJSVal rotX, toJSVal rotY, toJSVal rotZ]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotate Mozilla WebKitCSSMatrix.rotate documentation> 
-rotateUnsafe ::
-             (MonadDOM m, HasCallStack) =>
-               WebKitCSSMatrix -> Double -> Double -> Double -> m WebKitCSSMatrix
-rotateUnsafe self rotX rotY rotZ
-  = liftDOM
-      (((self ^. jsf "rotate" [toJSVal rotX, toJSVal rotY, toJSVal rotZ])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotate Mozilla WebKitCSSMatrix.rotate documentation> 
-rotateUnchecked ::
-                (MonadDOM m) =>
-                  WebKitCSSMatrix -> Double -> Double -> Double -> m WebKitCSSMatrix
-rotateUnchecked self rotX rotY rotZ
-  = liftDOM
-      ((self ^. jsf "rotate" [toJSVal rotX, toJSVal rotY, toJSVal rotZ])
-         >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotateAxisAngle Mozilla WebKitCSSMatrix.rotateAxisAngle documentation> 
 rotateAxisAngle ::
                 (MonadDOM m) =>
                   WebKitCSSMatrix ->
-                    Double -> Double -> Double -> Double -> m (Maybe WebKitCSSMatrix)
+                    Maybe Double ->
+                      Maybe Double -> Maybe Double -> Maybe Double -> m WebKitCSSMatrix
 rotateAxisAngle self x y z angle
   = liftDOM
       ((self ^. jsf "rotateAxisAngle"
           [toJSVal x, toJSVal y, toJSVal z, toJSVal angle])
-         >>= fromJSVal)
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotateAxisAngle Mozilla WebKitCSSMatrix.rotateAxisAngle documentation> 
 rotateAxisAngle_ ::
                  (MonadDOM m) =>
-                   WebKitCSSMatrix -> Double -> Double -> Double -> Double -> m ()
+                   WebKitCSSMatrix ->
+                     Maybe Double ->
+                       Maybe Double -> Maybe Double -> Maybe Double -> m ()
 rotateAxisAngle_ self x y z angle
   = liftDOM
       (void
          (self ^. jsf "rotateAxisAngle"
             [toJSVal x, toJSVal y, toJSVal z, toJSVal angle]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotateAxisAngle Mozilla WebKitCSSMatrix.rotateAxisAngle documentation> 
-rotateAxisAngleUnsafe ::
-                      (MonadDOM m, HasCallStack) =>
-                        WebKitCSSMatrix ->
-                          Double -> Double -> Double -> Double -> m WebKitCSSMatrix
-rotateAxisAngleUnsafe self x y z angle
-  = liftDOM
-      (((self ^. jsf "rotateAxisAngle"
-           [toJSVal x, toJSVal y, toJSVal z, toJSVal angle])
-          >>= fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.rotateAxisAngle Mozilla WebKitCSSMatrix.rotateAxisAngle documentation> 
-rotateAxisAngleUnchecked ::
-                         (MonadDOM m) =>
-                           WebKitCSSMatrix ->
-                             Double -> Double -> Double -> Double -> m WebKitCSSMatrix
-rotateAxisAngleUnchecked self x y z angle
-  = liftDOM
-      ((self ^. jsf "rotateAxisAngle"
-          [toJSVal x, toJSVal y, toJSVal z, toJSVal angle])
-         >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewX Mozilla WebKitCSSMatrix.skewX documentation> 
 skewX ::
       (MonadDOM m) =>
-        WebKitCSSMatrix -> Double -> m (Maybe WebKitCSSMatrix)
+        WebKitCSSMatrix -> Maybe Double -> m WebKitCSSMatrix
 skewX self angle
-  = liftDOM ((self ^. jsf "skewX" [toJSVal angle]) >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewX Mozilla WebKitCSSMatrix.skewX documentation> 
-skewX_ :: (MonadDOM m) => WebKitCSSMatrix -> Double -> m ()
-skewX_ self angle
-  = liftDOM (void (self ^. jsf "skewX" [toJSVal angle]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewX Mozilla WebKitCSSMatrix.skewX documentation> 
-skewXUnsafe ::
-            (MonadDOM m, HasCallStack) =>
-              WebKitCSSMatrix -> Double -> m WebKitCSSMatrix
-skewXUnsafe self angle
-  = liftDOM
-      (((self ^. jsf "skewX" [toJSVal angle]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewX Mozilla WebKitCSSMatrix.skewX documentation> 
-skewXUnchecked ::
-               (MonadDOM m) => WebKitCSSMatrix -> Double -> m WebKitCSSMatrix
-skewXUnchecked self angle
   = liftDOM
       ((self ^. jsf "skewX" [toJSVal angle]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewX Mozilla WebKitCSSMatrix.skewX documentation> 
+skewX_ :: (MonadDOM m) => WebKitCSSMatrix -> Maybe Double -> m ()
+skewX_ self angle
+  = liftDOM (void (self ^. jsf "skewX" [toJSVal angle]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewY Mozilla WebKitCSSMatrix.skewY documentation> 
 skewY ::
       (MonadDOM m) =>
-        WebKitCSSMatrix -> Double -> m (Maybe WebKitCSSMatrix)
+        WebKitCSSMatrix -> Maybe Double -> m WebKitCSSMatrix
 skewY self angle
-  = liftDOM ((self ^. jsf "skewY" [toJSVal angle]) >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewY Mozilla WebKitCSSMatrix.skewY documentation> 
-skewY_ :: (MonadDOM m) => WebKitCSSMatrix -> Double -> m ()
-skewY_ self angle
-  = liftDOM (void (self ^. jsf "skewY" [toJSVal angle]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewY Mozilla WebKitCSSMatrix.skewY documentation> 
-skewYUnsafe ::
-            (MonadDOM m, HasCallStack) =>
-              WebKitCSSMatrix -> Double -> m WebKitCSSMatrix
-skewYUnsafe self angle
-  = liftDOM
-      (((self ^. jsf "skewY" [toJSVal angle]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewY Mozilla WebKitCSSMatrix.skewY documentation> 
-skewYUnchecked ::
-               (MonadDOM m) => WebKitCSSMatrix -> Double -> m WebKitCSSMatrix
-skewYUnchecked self angle
   = liftDOM
       ((self ^. jsf "skewY" [toJSVal angle]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.skewY Mozilla WebKitCSSMatrix.skewY documentation> 
+skewY_ :: (MonadDOM m) => WebKitCSSMatrix -> Maybe Double -> m ()
+skewY_ self angle
+  = liftDOM (void (self ^. jsf "skewY" [toJSVal angle]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitCSSMatrix.toString Mozilla WebKitCSSMatrix.toString documentation> 
 toString ::

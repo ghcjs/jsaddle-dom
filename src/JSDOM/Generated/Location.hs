@@ -3,17 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Location
-       (assign, replace, reload, toString, toString_, setHref, getHref,
-        setProtocol, getProtocol, setHost, getHost, setHostname,
-        getHostname, setPort, getPort, setPathname, getPathname, setSearch,
-        getSearch, setHash, getHash, getOrigin, getAncestorOrigins,
-        getAncestorOriginsUnsafe, getAncestorOriginsUnchecked,
-        Location(..), gTypeLocation)
+       (assign, replace, reload, setHref, getHref, setProtocol,
+        getProtocol, setHost, getHost, setHostname, getHostname, setPort,
+        getPort, setPathname, getPathname, setSearch, getSearch, setHash,
+        getHash, getOrigin, getAncestorOrigins, Location(..),
+        gTypeLocation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -36,16 +36,6 @@ replace self url
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.reload Mozilla Location.reload documentation> 
 reload :: (MonadDOM m) => Location -> m ()
 reload self = liftDOM (void (self ^. jsf "reload" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.toString Mozilla Location.toString documentation> 
-toString ::
-         (MonadDOM m, FromJSString result) => Location -> m result
-toString self
-  = liftDOM ((self ^. jsf "toString" ()) >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.toString Mozilla Location.toString documentation> 
-toString_ :: (MonadDOM m) => Location -> m ()
-toString_ self = liftDOM (void (self ^. jsf "toString" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.href Mozilla Location.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => Location -> val -> m ()
@@ -137,21 +127,6 @@ getOrigin self
   = liftDOM ((self ^. js "origin") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.ancestorOrigins Mozilla Location.ancestorOrigins documentation> 
-getAncestorOrigins ::
-                   (MonadDOM m) => Location -> m (Maybe DOMStringList)
+getAncestorOrigins :: (MonadDOM m) => Location -> m DOMStringList
 getAncestorOrigins self
-  = liftDOM ((self ^. js "ancestorOrigins") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.ancestorOrigins Mozilla Location.ancestorOrigins documentation> 
-getAncestorOriginsUnsafe ::
-                         (MonadDOM m, HasCallStack) => Location -> m DOMStringList
-getAncestorOriginsUnsafe self
-  = liftDOM
-      (((self ^. js "ancestorOrigins") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Location.ancestorOrigins Mozilla Location.ancestorOrigins documentation> 
-getAncestorOriginsUnchecked ::
-                            (MonadDOM m) => Location -> m DOMStringList
-getAncestorOriginsUnchecked self
   = liftDOM ((self ^. js "ancestorOrigins") >>= fromJSValUnchecked)

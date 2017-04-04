@@ -3,20 +3,18 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioBufferSourceNode
-       (start, stop, noteOn, noteGrainOn, noteOff,
-        pattern UNSCHEDULED_STATE, pattern SCHEDULED_STATE,
+       (start, stop, pattern UNSCHEDULED_STATE, pattern SCHEDULED_STATE,
         pattern PLAYING_STATE, pattern FINISHED_STATE, setBuffer,
         getBuffer, getBufferUnsafe, getBufferUnchecked, getPlaybackState,
-        getGain, getGainUnsafe, getGainUnchecked, getPlaybackRate,
-        getPlaybackRateUnsafe, getPlaybackRateUnchecked, setLoop, getLoop,
-        setLoopStart, getLoopStart, setLoopEnd, getLoopEnd, setLooping,
-        getLooping, ended, AudioBufferSourceNode(..),
-        gTypeAudioBufferSourceNode)
+        getGain, getPlaybackRate, setLoop, getLoop, setLoopStart,
+        getLoopStart, setLoopEnd, getLoopEnd, ended,
+        AudioBufferSourceNode(..), gTypeAudioBufferSourceNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -29,7 +27,8 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.start Mozilla AudioBufferSourceNode.start documentation> 
 start ::
       (MonadDOM m) =>
-        AudioBufferSourceNode -> Double -> Double -> Double -> m ()
+        AudioBufferSourceNode ->
+          Maybe Double -> Maybe Double -> Maybe Double -> m ()
 start self when grainOffset grainDuration
   = liftDOM
       (void
@@ -37,28 +36,9 @@ start self when grainOffset grainDuration
             [toJSVal when, toJSVal grainOffset, toJSVal grainDuration]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.stop Mozilla AudioBufferSourceNode.stop documentation> 
-stop :: (MonadDOM m) => AudioBufferSourceNode -> Double -> m ()
+stop ::
+     (MonadDOM m) => AudioBufferSourceNode -> Maybe Double -> m ()
 stop self when = liftDOM (void (self ^. jsf "stop" [toJSVal when]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.noteOn Mozilla AudioBufferSourceNode.noteOn documentation> 
-noteOn :: (MonadDOM m) => AudioBufferSourceNode -> Double -> m ()
-noteOn self when
-  = liftDOM (void (self ^. jsf "noteOn" [toJSVal when]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.noteGrainOn Mozilla AudioBufferSourceNode.noteGrainOn documentation> 
-noteGrainOn ::
-            (MonadDOM m) =>
-              AudioBufferSourceNode -> Double -> Double -> Double -> m ()
-noteGrainOn self when grainOffset grainDuration
-  = liftDOM
-      (void
-         (self ^. jsf "noteGrainOn"
-            [toJSVal when, toJSVal grainOffset, toJSVal grainDuration]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.noteOff Mozilla AudioBufferSourceNode.noteOff documentation> 
-noteOff :: (MonadDOM m) => AudioBufferSourceNode -> Double -> m ()
-noteOff self when
-  = liftDOM (void (self ^. jsf "noteOff" [toJSVal when]))
 pattern UNSCHEDULED_STATE = 0
 pattern SCHEDULED_STATE = 1
 pattern PLAYING_STATE = 2
@@ -96,42 +76,13 @@ getPlaybackState self
       (round <$> ((self ^. js "playbackState") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.gain Mozilla AudioBufferSourceNode.gain documentation> 
-getGain ::
-        (MonadDOM m) => AudioBufferSourceNode -> m (Maybe AudioParam)
-getGain self = liftDOM ((self ^. js "gain") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.gain Mozilla AudioBufferSourceNode.gain documentation> 
-getGainUnsafe ::
-              (MonadDOM m, HasCallStack) => AudioBufferSourceNode -> m AudioParam
-getGainUnsafe self
-  = liftDOM
-      (((self ^. js "gain") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.gain Mozilla AudioBufferSourceNode.gain documentation> 
-getGainUnchecked ::
-                 (MonadDOM m) => AudioBufferSourceNode -> m AudioParam
-getGainUnchecked self
-  = liftDOM ((self ^. js "gain") >>= fromJSValUnchecked)
+getGain :: (MonadDOM m) => AudioBufferSourceNode -> m AudioParam
+getGain self = liftDOM ((self ^. js "gain") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.playbackRate Mozilla AudioBufferSourceNode.playbackRate documentation> 
 getPlaybackRate ::
-                (MonadDOM m) => AudioBufferSourceNode -> m (Maybe AudioParam)
+                (MonadDOM m) => AudioBufferSourceNode -> m AudioParam
 getPlaybackRate self
-  = liftDOM ((self ^. js "playbackRate") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.playbackRate Mozilla AudioBufferSourceNode.playbackRate documentation> 
-getPlaybackRateUnsafe ::
-                      (MonadDOM m, HasCallStack) => AudioBufferSourceNode -> m AudioParam
-getPlaybackRateUnsafe self
-  = liftDOM
-      (((self ^. js "playbackRate") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.playbackRate Mozilla AudioBufferSourceNode.playbackRate documentation> 
-getPlaybackRateUnchecked ::
-                         (MonadDOM m) => AudioBufferSourceNode -> m AudioParam
-getPlaybackRateUnchecked self
   = liftDOM ((self ^. js "playbackRate") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.loop Mozilla AudioBufferSourceNode.loop documentation> 
@@ -161,14 +112,6 @@ setLoopEnd self val = liftDOM (self ^. jss "loopEnd" (toJSVal val))
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.loopEnd Mozilla AudioBufferSourceNode.loopEnd documentation> 
 getLoopEnd :: (MonadDOM m) => AudioBufferSourceNode -> m Double
 getLoopEnd self = liftDOM ((self ^. js "loopEnd") >>= valToNumber)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.looping Mozilla AudioBufferSourceNode.looping documentation> 
-setLooping :: (MonadDOM m) => AudioBufferSourceNode -> Bool -> m ()
-setLooping self val = liftDOM (self ^. jss "looping" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.looping Mozilla AudioBufferSourceNode.looping documentation> 
-getLooping :: (MonadDOM m) => AudioBufferSourceNode -> m Bool
-getLooping self = liftDOM ((self ^. js "looping") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode.onended Mozilla AudioBufferSourceNode.onended documentation> 
 ended :: EventName AudioBufferSourceNode Event

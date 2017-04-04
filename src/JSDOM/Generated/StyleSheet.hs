@@ -4,17 +4,16 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.StyleSheet
        (getType, getTypeUnsafe, getTypeUnchecked, setDisabled,
-        getDisabled, getOwnerNode, getOwnerNodeUnsafe,
-        getOwnerNodeUnchecked, getParentStyleSheet,
-        getParentStyleSheetUnsafe, getParentStyleSheetUnchecked, getHref,
+        getDisabled, getOwnerNode, getParentStyleSheet, getHref,
         getHrefUnsafe, getHrefUnchecked, getTitle, getTitleUnsafe,
-        getTitleUnchecked, getMedia, getMediaUnsafe, getMediaUnchecked,
-        StyleSheet(..), gTypeStyleSheet, IsStyleSheet, toStyleSheet)
+        getTitleUnchecked, getMedia, StyleSheet(..), gTypeStyleSheet,
+        IsStyleSheet, toStyleSheet)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -29,8 +28,7 @@ getType ::
         (MonadDOM m, IsStyleSheet self, FromJSString result) =>
           self -> m (Maybe result)
 getType self
-  = liftDOM
-      (((toStyleSheet self) ^. js "type") >>= fromMaybeJSString)
+  = liftDOM (((toStyleSheet self) ^. js "type") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.type Mozilla StyleSheet.type documentation> 
 getTypeUnsafe ::
@@ -39,7 +37,7 @@ getTypeUnsafe ::
                 self -> m result
 getTypeUnsafe self
   = liftDOM
-      ((((toStyleSheet self) ^. js "type") >>= fromMaybeJSString) >>=
+      ((((toStyleSheet self) ^. js "type") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.type Mozilla StyleSheet.type documentation> 
@@ -62,46 +60,15 @@ getDisabled self
   = liftDOM (((toStyleSheet self) ^. js "disabled") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.ownerNode Mozilla StyleSheet.ownerNode documentation> 
-getOwnerNode ::
-             (MonadDOM m, IsStyleSheet self) => self -> m (Maybe Node)
+getOwnerNode :: (MonadDOM m, IsStyleSheet self) => self -> m Node
 getOwnerNode self
-  = liftDOM (((toStyleSheet self) ^. js "ownerNode") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.ownerNode Mozilla StyleSheet.ownerNode documentation> 
-getOwnerNodeUnsafe ::
-                   (MonadDOM m, IsStyleSheet self, HasCallStack) => self -> m Node
-getOwnerNodeUnsafe self
-  = liftDOM
-      ((((toStyleSheet self) ^. js "ownerNode") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.ownerNode Mozilla StyleSheet.ownerNode documentation> 
-getOwnerNodeUnchecked ::
-                      (MonadDOM m, IsStyleSheet self) => self -> m Node
-getOwnerNodeUnchecked self
   = liftDOM
       (((toStyleSheet self) ^. js "ownerNode") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.parentStyleSheet Mozilla StyleSheet.parentStyleSheet documentation> 
 getParentStyleSheet ::
-                    (MonadDOM m, IsStyleSheet self) => self -> m (Maybe StyleSheet)
+                    (MonadDOM m, IsStyleSheet self) => self -> m StyleSheet
 getParentStyleSheet self
-  = liftDOM
-      (((toStyleSheet self) ^. js "parentStyleSheet") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.parentStyleSheet Mozilla StyleSheet.parentStyleSheet documentation> 
-getParentStyleSheetUnsafe ::
-                          (MonadDOM m, IsStyleSheet self, HasCallStack) =>
-                            self -> m StyleSheet
-getParentStyleSheetUnsafe self
-  = liftDOM
-      ((((toStyleSheet self) ^. js "parentStyleSheet") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.parentStyleSheet Mozilla StyleSheet.parentStyleSheet documentation> 
-getParentStyleSheetUnchecked ::
-                             (MonadDOM m, IsStyleSheet self) => self -> m StyleSheet
-getParentStyleSheetUnchecked self
   = liftDOM
       (((toStyleSheet self) ^. js "parentStyleSheet") >>=
          fromJSValUnchecked)
@@ -111,8 +78,7 @@ getHref ::
         (MonadDOM m, IsStyleSheet self, FromJSString result) =>
           self -> m (Maybe result)
 getHref self
-  = liftDOM
-      (((toStyleSheet self) ^. js "href") >>= fromMaybeJSString)
+  = liftDOM (((toStyleSheet self) ^. js "href") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.href Mozilla StyleSheet.href documentation> 
 getHrefUnsafe ::
@@ -121,7 +87,7 @@ getHrefUnsafe ::
                 self -> m result
 getHrefUnsafe self
   = liftDOM
-      ((((toStyleSheet self) ^. js "href") >>= fromMaybeJSString) >>=
+      ((((toStyleSheet self) ^. js "href") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.href Mozilla StyleSheet.href documentation> 
@@ -137,8 +103,7 @@ getTitle ::
          (MonadDOM m, IsStyleSheet self, FromJSString result) =>
            self -> m (Maybe result)
 getTitle self
-  = liftDOM
-      (((toStyleSheet self) ^. js "title") >>= fromMaybeJSString)
+  = liftDOM (((toStyleSheet self) ^. js "title") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.title Mozilla StyleSheet.title documentation> 
 getTitleUnsafe ::
@@ -147,7 +112,7 @@ getTitleUnsafe ::
                  self -> m result
 getTitleUnsafe self
   = liftDOM
-      ((((toStyleSheet self) ^. js "title") >>= fromMaybeJSString) >>=
+      ((((toStyleSheet self) ^. js "title") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.title Mozilla StyleSheet.title documentation> 
@@ -159,23 +124,7 @@ getTitleUnchecked self
       (((toStyleSheet self) ^. js "title") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.media Mozilla StyleSheet.media documentation> 
-getMedia ::
-         (MonadDOM m, IsStyleSheet self) => self -> m (Maybe MediaList)
+getMedia :: (MonadDOM m, IsStyleSheet self) => self -> m MediaList
 getMedia self
-  = liftDOM (((toStyleSheet self) ^. js "media") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.media Mozilla StyleSheet.media documentation> 
-getMediaUnsafe ::
-               (MonadDOM m, IsStyleSheet self, HasCallStack) =>
-                 self -> m MediaList
-getMediaUnsafe self
-  = liftDOM
-      ((((toStyleSheet self) ^. js "media") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.media Mozilla StyleSheet.media documentation> 
-getMediaUnchecked ::
-                  (MonadDOM m, IsStyleSheet self) => self -> m MediaList
-getMediaUnchecked self
   = liftDOM
       (((toStyleSheet self) ^. js "media") >>= fromJSValUnchecked)

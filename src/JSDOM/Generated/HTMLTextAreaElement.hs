@@ -3,28 +3,26 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTextAreaElement
-       (checkValidity, checkValidity_, setCustomValidity, select,
-        setRangeText, setRangeText4, setSelectionRange, setAutofocus,
-        getAutofocus, setCols, getCols, setDirName, getDirName,
-        setDisabled, getDisabled, getForm, getFormUnsafe, getFormUnchecked,
-        setMaxLength, getMaxLength, setName, getName, setPlaceholder,
-        getPlaceholder, setReadOnly, getReadOnly, setRequired, getRequired,
-        setRows, getRows, setWrap, getWrap, getType, setDefaultValue,
-        getDefaultValue, getDefaultValueUnsafe, getDefaultValueUnchecked,
+       (checkValidity, checkValidity_, reportValidity, reportValidity_,
+        setCustomValidity, select, setRangeText, setRangeText4,
+        setSelectionRange, setAutofocus, getAutofocus, setDirName,
+        getDirName, setDisabled, getDisabled, getForm, setMinLength,
+        getMinLength, setMaxLength, getMaxLength, setName, getName,
+        setPlaceholder, getPlaceholder, setReadOnly, getReadOnly,
+        setRequired, getRequired, setRows, getRows, setCols, getCols,
+        setWrap, getWrap, getType, setDefaultValue, getDefaultValue,
         setValue, getValue, getValueUnsafe, getValueUnchecked,
-        getTextLength, getWillValidate, getValidity, getValidityUnsafe,
-        getValidityUnchecked, getValidationMessage, getLabels,
-        getLabelsUnsafe, getLabelsUnchecked, setSelectionStart,
-        getSelectionStart, setSelectionEnd, getSelectionEnd,
-        setSelectionDirection, getSelectionDirection, setAutocorrect,
-        getAutocorrect, setAutocapitalize, getAutocapitalize,
-        getAutocapitalizeUnsafe, getAutocapitalizeUnchecked,
-        HTMLTextAreaElement(..), gTypeHTMLTextAreaElement)
+        getTextLength, getWillValidate, getValidity, getValidationMessage,
+        getLabels, setSelectionStart, getSelectionStart, setSelectionEnd,
+        getSelectionEnd, setSelectionDirection, getSelectionDirection,
+        setAutocomplete, getAutocomplete, HTMLTextAreaElement(..),
+        gTypeHTMLTextAreaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -44,10 +42,20 @@ checkValidity_ :: (MonadDOM m) => HTMLTextAreaElement -> m ()
 checkValidity_ self
   = liftDOM (void (self ^. jsf "checkValidity" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.reportValidity Mozilla HTMLTextAreaElement.reportValidity documentation> 
+reportValidity :: (MonadDOM m) => HTMLTextAreaElement -> m Bool
+reportValidity self
+  = liftDOM ((self ^. jsf "reportValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.reportValidity Mozilla HTMLTextAreaElement.reportValidity documentation> 
+reportValidity_ :: (MonadDOM m) => HTMLTextAreaElement -> m ()
+reportValidity_ self
+  = liftDOM (void (self ^. jsf "reportValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.setCustomValidity Mozilla HTMLTextAreaElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
-                    HTMLTextAreaElement -> Maybe error -> m ()
+                    HTMLTextAreaElement -> error -> m ()
 setCustomValidity self error
   = liftDOM (void (self ^. jsf "setCustomValidity" [toJSVal error]))
 
@@ -66,7 +74,7 @@ setRangeText self replacement
 setRangeText4 ::
               (MonadDOM m, ToJSString replacement, ToJSString selectionMode) =>
                 HTMLTextAreaElement ->
-                  replacement -> Word -> Word -> selectionMode -> m ()
+                  replacement -> Word -> Word -> Maybe selectionMode -> m ()
 setRangeText4 self replacement start end selectionMode
   = liftDOM
       (void
@@ -77,7 +85,8 @@ setRangeText4 self replacement start end selectionMode
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.setSelectionRange Mozilla HTMLTextAreaElement.setSelectionRange documentation> 
 setSelectionRange ::
                   (MonadDOM m, ToJSString direction) =>
-                    HTMLTextAreaElement -> Int -> Int -> direction -> m ()
+                    HTMLTextAreaElement ->
+                      Maybe Int -> Maybe Int -> Maybe direction -> m ()
 setSelectionRange self start end direction
   = liftDOM
       (void
@@ -93,15 +102,6 @@ setAutofocus self val
 getAutofocus :: (MonadDOM m) => HTMLTextAreaElement -> m Bool
 getAutofocus self
   = liftDOM ((self ^. js "autofocus") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.cols Mozilla HTMLTextAreaElement.cols documentation> 
-setCols :: (MonadDOM m) => HTMLTextAreaElement -> Int -> m ()
-setCols self val = liftDOM (self ^. jss "cols" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.cols Mozilla HTMLTextAreaElement.cols documentation> 
-getCols :: (MonadDOM m) => HTMLTextAreaElement -> m Int
-getCols self
-  = liftDOM (round <$> ((self ^. js "cols") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.dirName Mozilla HTMLTextAreaElement.dirName documentation> 
 setDirName ::
@@ -125,24 +125,18 @@ getDisabled :: (MonadDOM m) => HTMLTextAreaElement -> m Bool
 getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.form Mozilla HTMLTextAreaElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLTextAreaElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
+getForm :: (MonadDOM m) => HTMLTextAreaElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.form Mozilla HTMLTextAreaElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLTextAreaElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.minLength Mozilla HTMLTextAreaElement.minLength documentation> 
+setMinLength :: (MonadDOM m) => HTMLTextAreaElement -> Int -> m ()
+setMinLength self val
+  = liftDOM (self ^. jss "minLength" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.form Mozilla HTMLTextAreaElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLTextAreaElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.minLength Mozilla HTMLTextAreaElement.minLength documentation> 
+getMinLength :: (MonadDOM m) => HTMLTextAreaElement -> m Int
+getMinLength self
+  = liftDOM (round <$> ((self ^. js "minLength") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.maxLength Mozilla HTMLTextAreaElement.maxLength documentation> 
 setMaxLength :: (MonadDOM m) => HTMLTextAreaElement -> Int -> m ()
@@ -197,13 +191,22 @@ getRequired :: (MonadDOM m) => HTMLTextAreaElement -> m Bool
 getRequired self = liftDOM ((self ^. js "required") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.rows Mozilla HTMLTextAreaElement.rows documentation> 
-setRows :: (MonadDOM m) => HTMLTextAreaElement -> Int -> m ()
+setRows :: (MonadDOM m) => HTMLTextAreaElement -> Word -> m ()
 setRows self val = liftDOM (self ^. jss "rows" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.rows Mozilla HTMLTextAreaElement.rows documentation> 
-getRows :: (MonadDOM m) => HTMLTextAreaElement -> m Int
+getRows :: (MonadDOM m) => HTMLTextAreaElement -> m Word
 getRows self
   = liftDOM (round <$> ((self ^. js "rows") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.cols Mozilla HTMLTextAreaElement.cols documentation> 
+setCols :: (MonadDOM m) => HTMLTextAreaElement -> Word -> m ()
+setCols self val = liftDOM (self ^. jss "cols" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.cols Mozilla HTMLTextAreaElement.cols documentation> 
+getCols :: (MonadDOM m) => HTMLTextAreaElement -> m Word
+getCols self
+  = liftDOM (round <$> ((self ^. js "cols") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.wrap Mozilla HTMLTextAreaElement.wrap documentation> 
 setWrap ::
@@ -224,32 +227,15 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.defaultValue Mozilla HTMLTextAreaElement.defaultValue documentation> 
 setDefaultValue ::
-                (MonadDOM m, ToJSString val) =>
-                  HTMLTextAreaElement -> Maybe val -> m ()
+                (MonadDOM m, ToJSString val) => HTMLTextAreaElement -> val -> m ()
 setDefaultValue self val
   = liftDOM (self ^. jss "defaultValue" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.defaultValue Mozilla HTMLTextAreaElement.defaultValue documentation> 
 getDefaultValue ::
                 (MonadDOM m, FromJSString result) =>
-                  HTMLTextAreaElement -> m (Maybe result)
+                  HTMLTextAreaElement -> m result
 getDefaultValue self
-  = liftDOM ((self ^. js "defaultValue") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.defaultValue Mozilla HTMLTextAreaElement.defaultValue documentation> 
-getDefaultValueUnsafe ::
-                      (MonadDOM m, HasCallStack, FromJSString result) =>
-                        HTMLTextAreaElement -> m result
-getDefaultValueUnsafe self
-  = liftDOM
-      (((self ^. js "defaultValue") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.defaultValue Mozilla HTMLTextAreaElement.defaultValue documentation> 
-getDefaultValueUnchecked ::
-                         (MonadDOM m, FromJSString result) =>
-                           HTMLTextAreaElement -> m result
-getDefaultValueUnchecked self
   = liftDOM ((self ^. js "defaultValue") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.value Mozilla HTMLTextAreaElement.value documentation> 
@@ -293,22 +279,8 @@ getWillValidate self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.validity Mozilla HTMLTextAreaElement.validity documentation> 
 getValidity ::
-            (MonadDOM m) => HTMLTextAreaElement -> m (Maybe ValidityState)
-getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.validity Mozilla HTMLTextAreaElement.validity documentation> 
-getValidityUnsafe ::
-                  (MonadDOM m, HasCallStack) =>
-                    HTMLTextAreaElement -> m ValidityState
-getValidityUnsafe self
-  = liftDOM
-      (((self ^. js "validity") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.validity Mozilla HTMLTextAreaElement.validity documentation> 
-getValidityUnchecked ::
-                     (MonadDOM m) => HTMLTextAreaElement -> m ValidityState
-getValidityUnchecked self
+            (MonadDOM m) => HTMLTextAreaElement -> m ValidityState
+getValidity self
   = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.validationMessage Mozilla HTMLTextAreaElement.validationMessage documentation> 
@@ -319,22 +291,8 @@ getValidationMessage self
   = liftDOM ((self ^. js "validationMessage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.labels Mozilla HTMLTextAreaElement.labels documentation> 
-getLabels ::
-          (MonadDOM m) => HTMLTextAreaElement -> m (Maybe NodeList)
-getLabels self = liftDOM ((self ^. js "labels") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.labels Mozilla HTMLTextAreaElement.labels documentation> 
-getLabelsUnsafe ::
-                (MonadDOM m, HasCallStack) => HTMLTextAreaElement -> m NodeList
-getLabelsUnsafe self
-  = liftDOM
-      (((self ^. js "labels") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.labels Mozilla HTMLTextAreaElement.labels documentation> 
-getLabelsUnchecked ::
-                   (MonadDOM m) => HTMLTextAreaElement -> m NodeList
-getLabelsUnchecked self
+getLabels :: (MonadDOM m) => HTMLTextAreaElement -> m NodeList
+getLabels self
   = liftDOM ((self ^. js "labels") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.selectionStart Mozilla HTMLTextAreaElement.selectionStart documentation> 
@@ -374,43 +332,15 @@ getSelectionDirection self
   = liftDOM
       ((self ^. js "selectionDirection") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocorrect Mozilla HTMLTextAreaElement.autocorrect documentation> 
-setAutocorrect ::
-               (MonadDOM m) => HTMLTextAreaElement -> Bool -> m ()
-setAutocorrect self val
-  = liftDOM (self ^. jss "autocorrect" (toJSVal val))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocomplete Mozilla HTMLTextAreaElement.autocomplete documentation> 
+setAutocomplete ::
+                (MonadDOM m, ToJSString val) => HTMLTextAreaElement -> val -> m ()
+setAutocomplete self val
+  = liftDOM (self ^. jss "autocomplete" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocorrect Mozilla HTMLTextAreaElement.autocorrect documentation> 
-getAutocorrect :: (MonadDOM m) => HTMLTextAreaElement -> m Bool
-getAutocorrect self
-  = liftDOM ((self ^. js "autocorrect") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocapitalize Mozilla HTMLTextAreaElement.autocapitalize documentation> 
-setAutocapitalize ::
-                  (MonadDOM m, ToJSString val) =>
-                    HTMLTextAreaElement -> Maybe val -> m ()
-setAutocapitalize self val
-  = liftDOM (self ^. jss "autocapitalize" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocapitalize Mozilla HTMLTextAreaElement.autocapitalize documentation> 
-getAutocapitalize ::
-                  (MonadDOM m, FromJSString result) =>
-                    HTMLTextAreaElement -> m (Maybe result)
-getAutocapitalize self
-  = liftDOM ((self ^. js "autocapitalize") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocapitalize Mozilla HTMLTextAreaElement.autocapitalize documentation> 
-getAutocapitalizeUnsafe ::
-                        (MonadDOM m, HasCallStack, FromJSString result) =>
-                          HTMLTextAreaElement -> m result
-getAutocapitalizeUnsafe self
-  = liftDOM
-      (((self ^. js "autocapitalize") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocapitalize Mozilla HTMLTextAreaElement.autocapitalize documentation> 
-getAutocapitalizeUnchecked ::
-                           (MonadDOM m, FromJSString result) =>
-                             HTMLTextAreaElement -> m result
-getAutocapitalizeUnchecked self
-  = liftDOM ((self ^. js "autocapitalize") >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.autocomplete Mozilla HTMLTextAreaElement.autocomplete documentation> 
+getAutocomplete ::
+                (MonadDOM m, FromJSString result) =>
+                  HTMLTextAreaElement -> m result
+getAutocomplete self
+  = liftDOM ((self ^. js "autocomplete") >>= fromJSValUnchecked)

@@ -3,21 +3,21 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFrameElement
-       (getSVGDocument, getSVGDocument_, getSVGDocumentUnsafe,
-        getSVGDocumentUnchecked, setFrameBorder, getFrameBorder,
-        setLongDesc, getLongDesc, setMarginHeight, getMarginHeight,
-        setMarginWidth, getMarginWidth, setName, getName, setNoResize,
-        getNoResize, setScrolling, getScrolling, setSrc, getSrc,
-        getContentDocument, getContentDocumentUnsafe,
-        getContentDocumentUnchecked, getContentWindow,
-        getContentWindowUnsafe, getContentWindowUnchecked, setLocation,
-        getLocation, getLocationUnsafe, getLocationUnchecked, getWidth,
-        getHeight, HTMLFrameElement(..), gTypeHTMLFrameElement)
+       (getSVGDocument, getSVGDocument_, setName, getName, setScrolling,
+        getScrolling, setSrc, getSrc, setFrameBorder, getFrameBorder,
+        setLongDesc, getLongDesc, setNoResize, getNoResize,
+        getContentDocument, getContentWindow, setMarginHeight,
+        getMarginHeight, getMarginHeightUnsafe, getMarginHeightUnchecked,
+        setMarginWidth, getMarginWidth, getMarginWidthUnsafe,
+        getMarginWidthUnchecked, getWidth, getHeight, setLocation,
+        getLocation, getLocationUnsafe, getLocationUnchecked,
+        HTMLFrameElement(..), gTypeHTMLFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -28,30 +28,47 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.getSVGDocument Mozilla HTMLFrameElement.getSVGDocument documentation> 
-getSVGDocument ::
-               (MonadDOM m) => HTMLFrameElement -> m (Maybe SVGDocument)
+getSVGDocument :: (MonadDOM m) => HTMLFrameElement -> m Document
 getSVGDocument self
-  = liftDOM ((self ^. jsf "getSVGDocument" ()) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.getSVGDocument Mozilla HTMLFrameElement.getSVGDocument documentation> 
 getSVGDocument_ :: (MonadDOM m) => HTMLFrameElement -> m ()
 getSVGDocument_ self
   = liftDOM (void (self ^. jsf "getSVGDocument" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.getSVGDocument Mozilla HTMLFrameElement.getSVGDocument documentation> 
-getSVGDocumentUnsafe ::
-                     (MonadDOM m, HasCallStack) => HTMLFrameElement -> m SVGDocument
-getSVGDocumentUnsafe self
-  = liftDOM
-      (((self ^. jsf "getSVGDocument" ()) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.name Mozilla HTMLFrameElement.name documentation> 
+setName ::
+        (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
+setName self val = liftDOM (self ^. jss "name" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.getSVGDocument Mozilla HTMLFrameElement.getSVGDocument documentation> 
-getSVGDocumentUnchecked ::
-                        (MonadDOM m) => HTMLFrameElement -> m SVGDocument
-getSVGDocumentUnchecked self
-  = liftDOM
-      ((self ^. jsf "getSVGDocument" ()) >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.name Mozilla HTMLFrameElement.name documentation> 
+getName ::
+        (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
+getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.scrolling Mozilla HTMLFrameElement.scrolling documentation> 
+setScrolling ::
+             (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
+setScrolling self val
+  = liftDOM (self ^. jss "scrolling" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.scrolling Mozilla HTMLFrameElement.scrolling documentation> 
+getScrolling ::
+             (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
+getScrolling self
+  = liftDOM ((self ^. js "scrolling") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.src Mozilla HTMLFrameElement.src documentation> 
+setSrc ::
+       (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
+setSrc self val = liftDOM (self ^. jss "src" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.src Mozilla HTMLFrameElement.src documentation> 
+getSrc ::
+       (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
+getSrc self = liftDOM ((self ^. js "src") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.frameBorder Mozilla HTMLFrameElement.frameBorder documentation> 
 setFrameBorder ::
@@ -77,40 +94,6 @@ getLongDesc ::
 getLongDesc self
   = liftDOM ((self ^. js "longDesc") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
-setMarginHeight ::
-                (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
-setMarginHeight self val
-  = liftDOM (self ^. jss "marginHeight" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
-getMarginHeight ::
-                (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getMarginHeight self
-  = liftDOM ((self ^. js "marginHeight") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
-setMarginWidth ::
-               (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
-setMarginWidth self val
-  = liftDOM (self ^. jss "marginWidth" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
-getMarginWidth ::
-               (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getMarginWidth self
-  = liftDOM ((self ^. js "marginWidth") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.name Mozilla HTMLFrameElement.name documentation> 
-setName ::
-        (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
-setName self val = liftDOM (self ^. jss "name" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.name Mozilla HTMLFrameElement.name documentation> 
-getName ::
-        (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getName self = liftDOM ((self ^. js "name") >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.noResize Mozilla HTMLFrameElement.noResize documentation> 
 setNoResize :: (MonadDOM m) => HTMLFrameElement -> Bool -> m ()
 setNoResize self val
@@ -120,67 +103,84 @@ setNoResize self val
 getNoResize :: (MonadDOM m) => HTMLFrameElement -> m Bool
 getNoResize self = liftDOM ((self ^. js "noResize") >>= valToBool)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.scrolling Mozilla HTMLFrameElement.scrolling documentation> 
-setScrolling ::
-             (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
-setScrolling self val
-  = liftDOM (self ^. jss "scrolling" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.scrolling Mozilla HTMLFrameElement.scrolling documentation> 
-getScrolling ::
-             (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getScrolling self
-  = liftDOM ((self ^. js "scrolling") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.src Mozilla HTMLFrameElement.src documentation> 
-setSrc ::
-       (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
-setSrc self val = liftDOM (self ^. jss "src" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.src Mozilla HTMLFrameElement.src documentation> 
-getSrc ::
-       (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getSrc self = liftDOM ((self ^. js "src") >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentDocument Mozilla HTMLFrameElement.contentDocument documentation> 
 getContentDocument ::
-                   (MonadDOM m) => HTMLFrameElement -> m (Maybe Document)
+                   (MonadDOM m) => HTMLFrameElement -> m Document
 getContentDocument self
-  = liftDOM ((self ^. js "contentDocument") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentDocument Mozilla HTMLFrameElement.contentDocument documentation> 
-getContentDocumentUnsafe ::
-                         (MonadDOM m, HasCallStack) => HTMLFrameElement -> m Document
-getContentDocumentUnsafe self
-  = liftDOM
-      (((self ^. js "contentDocument") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentDocument Mozilla HTMLFrameElement.contentDocument documentation> 
-getContentDocumentUnchecked ::
-                            (MonadDOM m) => HTMLFrameElement -> m Document
-getContentDocumentUnchecked self
   = liftDOM ((self ^. js "contentDocument") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
-getContentWindow ::
-                 (MonadDOM m) => HTMLFrameElement -> m (Maybe Window)
+getContentWindow :: (MonadDOM m) => HTMLFrameElement -> m Window
 getContentWindow self
-  = liftDOM ((self ^. js "contentWindow") >>= fromJSVal)
+  = liftDOM ((self ^. js "contentWindow") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
-getContentWindowUnsafe ::
-                       (MonadDOM m, HasCallStack) => HTMLFrameElement -> m Window
-getContentWindowUnsafe self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
+setMarginHeight ::
+                (MonadDOM m, ToJSString val) =>
+                  HTMLFrameElement -> Maybe val -> m ()
+setMarginHeight self val
+  = liftDOM (self ^. jss "marginHeight" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
+getMarginHeight ::
+                (MonadDOM m, FromJSString result) =>
+                  HTMLFrameElement -> m (Maybe result)
+getMarginHeight self
+  = liftDOM ((self ^. js "marginHeight") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
+getMarginHeightUnsafe ::
+                      (MonadDOM m, HasCallStack, FromJSString result) =>
+                        HTMLFrameElement -> m result
+getMarginHeightUnsafe self
   = liftDOM
-      (((self ^. js "contentWindow") >>= fromJSVal) >>=
+      (((self ^. js "marginHeight") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.contentWindow Mozilla HTMLFrameElement.contentWindow documentation> 
-getContentWindowUnchecked ::
-                          (MonadDOM m) => HTMLFrameElement -> m Window
-getContentWindowUnchecked self
-  = liftDOM ((self ^. js "contentWindow") >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
+getMarginHeightUnchecked ::
+                         (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
+getMarginHeightUnchecked self
+  = liftDOM ((self ^. js "marginHeight") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
+setMarginWidth ::
+               (MonadDOM m, ToJSString val) =>
+                 HTMLFrameElement -> Maybe val -> m ()
+setMarginWidth self val
+  = liftDOM (self ^. jss "marginWidth" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
+getMarginWidth ::
+               (MonadDOM m, FromJSString result) =>
+                 HTMLFrameElement -> m (Maybe result)
+getMarginWidth self
+  = liftDOM ((self ^. js "marginWidth") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
+getMarginWidthUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLFrameElement -> m result
+getMarginWidthUnsafe self
+  = liftDOM
+      (((self ^. js "marginWidth") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
+getMarginWidthUnchecked ::
+                        (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
+getMarginWidthUnchecked self
+  = liftDOM ((self ^. js "marginWidth") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.width Mozilla HTMLFrameElement.width documentation> 
+getWidth :: (MonadDOM m) => HTMLFrameElement -> m Int
+getWidth self
+  = liftDOM (round <$> ((self ^. js "width") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.height Mozilla HTMLFrameElement.height documentation> 
+getHeight :: (MonadDOM m) => HTMLFrameElement -> m Int
+getHeight self
+  = liftDOM (round <$> ((self ^. js "height") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
 setLocation ::
@@ -193,8 +193,7 @@ setLocation self val
 getLocation ::
             (MonadDOM m, FromJSString result) =>
               HTMLFrameElement -> m (Maybe result)
-getLocation self
-  = liftDOM ((self ^. js "location") >>= fromMaybeJSString)
+getLocation self = liftDOM ((self ^. js "location") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
 getLocationUnsafe ::
@@ -202,7 +201,7 @@ getLocationUnsafe ::
                     HTMLFrameElement -> m result
 getLocationUnsafe self
   = liftDOM
-      (((self ^. js "location") >>= fromMaybeJSString) >>=
+      (((self ^. js "location") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
@@ -210,13 +209,3 @@ getLocationUnchecked ::
                      (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
 getLocationUnchecked self
   = liftDOM ((self ^. js "location") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.width Mozilla HTMLFrameElement.width documentation> 
-getWidth :: (MonadDOM m) => HTMLFrameElement -> m Int
-getWidth self
-  = liftDOM (round <$> ((self ^. js "width") >>= valToNumber))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.height Mozilla HTMLFrameElement.height documentation> 
-getHeight :: (MonadDOM m) => HTMLFrameElement -> m Int
-getHeight self
-  = liftDOM (round <$> ((self ^. js "height") >>= valToNumber))

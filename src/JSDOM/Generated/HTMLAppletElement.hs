@@ -12,7 +12,8 @@ module JSDOM.Generated.HTMLAppletElement
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -88,15 +89,13 @@ getHeight self
   = liftDOM ((self ^. js "height") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement.hspace Mozilla HTMLAppletElement.hspace documentation> 
-setHspace ::
-          (MonadDOM m, ToJSString val) => HTMLAppletElement -> val -> m ()
+setHspace :: (MonadDOM m) => HTMLAppletElement -> Word -> m ()
 setHspace self val = liftDOM (self ^. jss "hspace" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement.hspace Mozilla HTMLAppletElement.hspace documentation> 
-getHspace ::
-          (MonadDOM m, FromJSString result) => HTMLAppletElement -> m result
+getHspace :: (MonadDOM m) => HTMLAppletElement -> m Word
 getHspace self
-  = liftDOM ((self ^. js "hspace") >>= fromJSValUnchecked)
+  = liftDOM (round <$> ((self ^. js "hspace") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement.name Mozilla HTMLAppletElement.name documentation> 
 setName ::
@@ -120,15 +119,13 @@ getObject self
   = liftDOM ((self ^. js "object") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement.vspace Mozilla HTMLAppletElement.vspace documentation> 
-setVspace ::
-          (MonadDOM m, ToJSString val) => HTMLAppletElement -> val -> m ()
+setVspace :: (MonadDOM m) => HTMLAppletElement -> Word -> m ()
 setVspace self val = liftDOM (self ^. jss "vspace" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement.vspace Mozilla HTMLAppletElement.vspace documentation> 
-getVspace ::
-          (MonadDOM m, FromJSString result) => HTMLAppletElement -> m result
+getVspace :: (MonadDOM m) => HTMLAppletElement -> m Word
 getVspace self
-  = liftDOM ((self ^. js "vspace") >>= fromJSValUnchecked)
+  = liftDOM (round <$> ((self ^. js "vspace") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement.width Mozilla HTMLAppletElement.width documentation> 
 setWidth ::

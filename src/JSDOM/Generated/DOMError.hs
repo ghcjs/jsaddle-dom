@@ -3,12 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DOMError
-       (getName, DOMError(..), gTypeDOMError, IsDOMError, toDOMError)
+       (getName, getMessage, DOMError(..), gTypeDOMError, IsDOMError,
+        toDOMError)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,3 +26,11 @@ getName ::
           self -> m result
 getName self
   = liftDOM (((toDOMError self) ^. js "name") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMError.message Mozilla DOMError.message documentation> 
+getMessage ::
+           (MonadDOM m, IsDOMError self, FromJSString result) =>
+             self -> m result
+getMessage self
+  = liftDOM
+      (((toDOMError self) ^. js "message") >>= fromJSValUnchecked)

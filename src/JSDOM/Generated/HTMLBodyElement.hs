@@ -3,16 +3,23 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBodyElement
-       (setALink, getALink, setBackground, getBackground, setBgColor,
-        getBgColor, setLink, getLink, setText, getText, setVLink, getVLink,
-        beforeUnload, hashChange, message, offline, online, popState,
-        resize, storage, unload, orientationChange, blur, error, focus,
-        load, HTMLBodyElement(..), gTypeHTMLBodyElement)
+       (setALink, getALink, getALinkUnsafe, getALinkUnchecked,
+        setBackground, getBackground, setBgColor, getBgColor,
+        getBgColorUnsafe, getBgColorUnchecked, setLink, getLink,
+        getLinkUnsafe, getLinkUnchecked, setText, getText, getTextUnsafe,
+        getTextUnchecked, setVLink, getVLink, getVLinkUnsafe,
+        getVLinkUnchecked, blur, error, focus, focusin, focusout, load,
+        resize, scroll, webKitMouseForcechanged, webKitMouseForcedown,
+        webKitMouseForcewillbegin, webKitMouseForceup,
+        webKitWillRevealBottom, webKitWillRevealLeft,
+        webKitWillRevealRight, webKitWillRevealTop, selectionchange,
+        HTMLBodyElement(..), gTypeHTMLBodyElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,13 +31,30 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
 setALink ::
-         (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
+         (MonadDOM m, ToJSString val) =>
+           HTMLBodyElement -> Maybe val -> m ()
 setALink self val = liftDOM (self ^. jss "aLink" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
 getALink ::
-         (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+         (MonadDOM m, FromJSString result) =>
+           HTMLBodyElement -> m (Maybe result)
 getALink self
+  = liftDOM ((self ^. js "aLink") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
+getALinkUnsafe ::
+               (MonadDOM m, HasCallStack, FromJSString result) =>
+                 HTMLBodyElement -> m result
+getALinkUnsafe self
+  = liftDOM
+      (((self ^. js "aLink") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
+getALinkUnchecked ::
+                  (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getALinkUnchecked self
   = liftDOM ((self ^. js "aLink") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.background Mozilla HTMLBodyElement.background documentation> 
@@ -47,86 +71,113 @@ getBackground self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
 setBgColor ::
-           (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
+           (MonadDOM m, ToJSString val) =>
+             HTMLBodyElement -> Maybe val -> m ()
 setBgColor self val = liftDOM (self ^. jss "bgColor" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
 getBgColor ::
-           (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+           (MonadDOM m, FromJSString result) =>
+             HTMLBodyElement -> m (Maybe result)
 getBgColor self
+  = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
+getBgColorUnsafe ::
+                 (MonadDOM m, HasCallStack, FromJSString result) =>
+                   HTMLBodyElement -> m result
+getBgColorUnsafe self
+  = liftDOM
+      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
+getBgColorUnchecked ::
+                    (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getBgColorUnchecked self
   = liftDOM ((self ^. js "bgColor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
 setLink ::
-        (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
+        (MonadDOM m, ToJSString val) =>
+          HTMLBodyElement -> Maybe val -> m ()
 setLink self val = liftDOM (self ^. jss "link" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
 getLink ::
-        (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getLink self = liftDOM ((self ^. js "link") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) =>
+          HTMLBodyElement -> m (Maybe result)
+getLink self = liftDOM ((self ^. js "link") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
+getLinkUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                HTMLBodyElement -> m result
+getLinkUnsafe self
+  = liftDOM
+      (((self ^. js "link") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
+getLinkUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getLinkUnchecked self
+  = liftDOM ((self ^. js "link") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
 setText ::
-        (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
+        (MonadDOM m, ToJSString val) =>
+          HTMLBodyElement -> Maybe val -> m ()
 setText self val = liftDOM (self ^. jss "text" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
 getText ::
-        (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getText self = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) =>
+          HTMLBodyElement -> m (Maybe result)
+getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
+getTextUnsafe ::
+              (MonadDOM m, HasCallStack, FromJSString result) =>
+                HTMLBodyElement -> m result
+getTextUnsafe self
+  = liftDOM
+      (((self ^. js "text") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
+getTextUnchecked ::
+                 (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getTextUnchecked self
+  = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
 setVLink ::
-         (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
+         (MonadDOM m, ToJSString val) =>
+           HTMLBodyElement -> Maybe val -> m ()
 setVLink self val = liftDOM (self ^. jss "vLink" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
 getVLink ::
-         (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+         (MonadDOM m, FromJSString result) =>
+           HTMLBodyElement -> m (Maybe result)
 getVLink self
+  = liftDOM ((self ^. js "vLink") >>= fromMaybeJSString)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
+getVLinkUnsafe ::
+               (MonadDOM m, HasCallStack, FromJSString result) =>
+                 HTMLBodyElement -> m result
+getVLinkUnsafe self
+  = liftDOM
+      (((self ^. js "vLink") >>= fromMaybeJSString) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
+getVLinkUnchecked ::
+                  (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getVLinkUnchecked self
   = liftDOM ((self ^. js "vLink") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onbeforeunload Mozilla HTMLBodyElement.onbeforeunload documentation> 
-beforeUnload :: EventName HTMLBodyElement BeforeUnloadEvent
-beforeUnload = unsafeEventName (toJSString "beforeunload")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onhashchange Mozilla HTMLBodyElement.onhashchange documentation> 
-hashChange :: EventName HTMLBodyElement HashChangeEvent
-hashChange = unsafeEventName (toJSString "hashchange")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onmessage Mozilla HTMLBodyElement.onmessage documentation> 
-message :: EventName HTMLBodyElement MessageEvent
-message = unsafeEventName (toJSString "message")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onoffline Mozilla HTMLBodyElement.onoffline documentation> 
-offline :: EventName HTMLBodyElement Event
-offline = unsafeEventName (toJSString "offline")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.ononline Mozilla HTMLBodyElement.ononline documentation> 
-online :: EventName HTMLBodyElement Event
-online = unsafeEventName (toJSString "online")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onpopstate Mozilla HTMLBodyElement.onpopstate documentation> 
-popState :: EventName HTMLBodyElement PopStateEvent
-popState = unsafeEventName (toJSString "popstate")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onresize Mozilla HTMLBodyElement.onresize documentation> 
-resize :: EventName HTMLBodyElement UIEvent
-resize = unsafeEventName (toJSString "resize")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onstorage Mozilla HTMLBodyElement.onstorage documentation> 
-storage :: EventName HTMLBodyElement StorageEvent
-storage = unsafeEventName (toJSString "storage")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onunload Mozilla HTMLBodyElement.onunload documentation> 
-unload :: EventName HTMLBodyElement UIEvent
-unload = unsafeEventName (toJSString "unload")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onorientationchange Mozilla HTMLBodyElement.onorientationchange documentation> 
-orientationChange :: EventName HTMLBodyElement Event
-orientationChange
-  = unsafeEventName (toJSString "orientationchange")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onblur Mozilla HTMLBodyElement.onblur documentation> 
 blur :: EventName HTMLBodyElement FocusEvent
@@ -140,6 +191,70 @@ error = unsafeEventName (toJSString "error")
 focus :: EventName HTMLBodyElement FocusEvent
 focus = unsafeEventName (toJSString "focus")
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onfocusin Mozilla HTMLBodyElement.onfocusin documentation> 
+focusin :: EventName HTMLBodyElement onfocusin
+focusin = unsafeEventName (toJSString "focusin")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onfocusout Mozilla HTMLBodyElement.onfocusout documentation> 
+focusout :: EventName HTMLBodyElement onfocusout
+focusout = unsafeEventName (toJSString "focusout")
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onload Mozilla HTMLBodyElement.onload documentation> 
 load :: EventName HTMLBodyElement UIEvent
 load = unsafeEventName (toJSString "load")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onresize Mozilla HTMLBodyElement.onresize documentation> 
+resize :: EventName HTMLBodyElement UIEvent
+resize = unsafeEventName (toJSString "resize")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onscroll Mozilla HTMLBodyElement.onscroll documentation> 
+scroll :: EventName HTMLBodyElement UIEvent
+scroll = unsafeEventName (toJSString "scroll")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitmouseforcechanged Mozilla HTMLBodyElement.onwebkitmouseforcechanged documentation> 
+webKitMouseForcechanged ::
+                          EventName HTMLBodyElement onwebkitmouseforcechanged
+webKitMouseForcechanged
+  = unsafeEventName (toJSString "webkitmouseforcechanged")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitmouseforcedown Mozilla HTMLBodyElement.onwebkitmouseforcedown documentation> 
+webKitMouseForcedown ::
+                       EventName HTMLBodyElement onwebkitmouseforcedown
+webKitMouseForcedown
+  = unsafeEventName (toJSString "webkitmouseforcedown")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitmouseforcewillbegin Mozilla HTMLBodyElement.onwebkitmouseforcewillbegin documentation> 
+webKitMouseForcewillbegin ::
+                            EventName HTMLBodyElement onwebkitmouseforcewillbegin
+webKitMouseForcewillbegin
+  = unsafeEventName (toJSString "webkitmouseforcewillbegin")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitmouseforceup Mozilla HTMLBodyElement.onwebkitmouseforceup documentation> 
+webKitMouseForceup ::
+                     EventName HTMLBodyElement onwebkitmouseforceup
+webKitMouseForceup
+  = unsafeEventName (toJSString "webkitmouseforceup")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitwillrevealbottom Mozilla HTMLBodyElement.onwebkitwillrevealbottom documentation> 
+webKitWillRevealBottom :: EventName HTMLBodyElement Event
+webKitWillRevealBottom
+  = unsafeEventName (toJSString "webkitwillrevealbottom")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitwillrevealleft Mozilla HTMLBodyElement.onwebkitwillrevealleft documentation> 
+webKitWillRevealLeft :: EventName HTMLBodyElement Event
+webKitWillRevealLeft
+  = unsafeEventName (toJSString "webkitwillrevealleft")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitwillrevealright Mozilla HTMLBodyElement.onwebkitwillrevealright documentation> 
+webKitWillRevealRight :: EventName HTMLBodyElement Event
+webKitWillRevealRight
+  = unsafeEventName (toJSString "webkitwillrevealright")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onwebkitwillrevealtop Mozilla HTMLBodyElement.onwebkitwillrevealtop documentation> 
+webKitWillRevealTop :: EventName HTMLBodyElement Event
+webKitWillRevealTop
+  = unsafeEventName (toJSString "webkitwillrevealtop")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onselectionchange Mozilla HTMLBodyElement.onselectionchange documentation> 
+selectionchange :: EventName HTMLBodyElement onselectionchange
+selectionchange = unsafeEventName (toJSString "selectionchange")

@@ -9,7 +9,8 @@ module JSDOM.Generated.Database
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -39,7 +40,7 @@ changeVersion self oldVersion newVersion callback errorCallback
 transaction ::
             (MonadDOM m) =>
               Database ->
-                Maybe SQLTransactionCallback ->
+                SQLTransactionCallback ->
                   Maybe SQLTransactionErrorCallback -> Maybe VoidCallback -> m ()
 transaction self callback errorCallback successCallback
   = liftDOM
@@ -52,7 +53,7 @@ transaction self callback errorCallback successCallback
 readTransaction ::
                 (MonadDOM m) =>
                   Database ->
-                    Maybe SQLTransactionCallback ->
+                    SQLTransactionCallback ->
                       Maybe SQLTransactionErrorCallback -> Maybe VoidCallback -> m ()
 readTransaction self callback errorCallback successCallback
   = liftDOM

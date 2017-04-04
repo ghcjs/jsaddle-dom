@@ -3,13 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.DataTransferItemList
-       (item, item_, itemUnsafe, itemUnchecked, clear, addFile, add,
-        getLength, DataTransferItemList(..), gTypeDataTransferItemList)
+       (item, item_, clear, addFile, add, getLength,
+        DataTransferItemList(..), gTypeDataTransferItemList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -21,31 +22,15 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList.item Mozilla DataTransferItemList.item documentation> 
 item ::
-     (MonadDOM m) =>
-       DataTransferItemList -> Word -> m (Maybe DataTransferItem)
+     (MonadDOM m) => DataTransferItemList -> Word -> m DataTransferItem
 item self index
-  = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList.item Mozilla DataTransferItemList.item documentation> 
 item_ :: (MonadDOM m) => DataTransferItemList -> Word -> m ()
 item_ self index
   = liftDOM (void (self ^. jsf "item" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList.item Mozilla DataTransferItemList.item documentation> 
-itemUnsafe ::
-           (MonadDOM m, HasCallStack) =>
-             DataTransferItemList -> Word -> m DataTransferItem
-itemUnsafe self index
-  = liftDOM
-      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList.item Mozilla DataTransferItemList.item documentation> 
-itemUnchecked ::
-              (MonadDOM m) => DataTransferItemList -> Word -> m DataTransferItem
-itemUnchecked self index
-  = liftDOM
-      ((self ^. jsf "item" [toJSVal index]) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList.clear Mozilla DataTransferItemList.clear documentation> 
 clear :: (MonadDOM m) => DataTransferItemList -> m ()
@@ -60,7 +45,7 @@ addFile self file
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList.add Mozilla DataTransferItemList.add documentation> 
 add ::
     (MonadDOM m, ToJSString data', ToJSString type') =>
-      DataTransferItemList -> data' -> type' -> m ()
+      DataTransferItemList -> Maybe data' -> Maybe type' -> m ()
 add self data' type'
   = liftDOM (void (self ^. jsf "add" [toJSVal data', toJSVal type']))
 

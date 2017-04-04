@@ -3,15 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioBuffer
-       (getChannelData, getChannelData_, getChannelDataUnsafe,
-        getChannelDataUnchecked, getLength, getDuration, getSampleRate,
-        setGain, getGain, getNumberOfChannels, AudioBuffer(..),
-        gTypeAudioBuffer)
+       (getChannelData, getChannelData_, getLength, getDuration,
+        getSampleRate, setGain, getGain, getNumberOfChannels,
+        AudioBuffer(..), gTypeAudioBuffer)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -23,34 +23,17 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.getChannelData Mozilla AudioBuffer.getChannelData documentation> 
 getChannelData ::
-               (MonadDOM m) => AudioBuffer -> Word -> m (Maybe Float32Array)
+               (MonadDOM m) => AudioBuffer -> Word -> m Float32Array
 getChannelData self channelIndex
   = liftDOM
       ((self ^. jsf "getChannelData" [toJSVal channelIndex]) >>=
-         fromJSVal)
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.getChannelData Mozilla AudioBuffer.getChannelData documentation> 
 getChannelData_ :: (MonadDOM m) => AudioBuffer -> Word -> m ()
 getChannelData_ self channelIndex
   = liftDOM
       (void (self ^. jsf "getChannelData" [toJSVal channelIndex]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.getChannelData Mozilla AudioBuffer.getChannelData documentation> 
-getChannelDataUnsafe ::
-                     (MonadDOM m, HasCallStack) => AudioBuffer -> Word -> m Float32Array
-getChannelDataUnsafe self channelIndex
-  = liftDOM
-      (((self ^. jsf "getChannelData" [toJSVal channelIndex]) >>=
-          fromJSVal)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.getChannelData Mozilla AudioBuffer.getChannelData documentation> 
-getChannelDataUnchecked ::
-                        (MonadDOM m) => AudioBuffer -> Word -> m Float32Array
-getChannelDataUnchecked self channelIndex
-  = liftDOM
-      ((self ^. jsf "getChannelData" [toJSVal channelIndex]) >>=
-         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer.length Mozilla AudioBuffer.length documentation> 
 getLength :: (MonadDOM m) => AudioBuffer -> m Int

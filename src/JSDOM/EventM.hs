@@ -73,6 +73,7 @@ import           JSDOM.Types
 import qualified JSDOM.Generated.Event as Event
 import qualified JSDOM.Generated.UIEvent as UIEvent
 import qualified JSDOM.Generated.MouseEvent as MouseEvent
+import qualified JSDOM.Generated.KeyboardEvent as KeyboardEvent
 import           JSDOM.Generated.EventTarget
 import           JSDOM.EventTargetClosures
 import           Data.Word (Word)
@@ -125,13 +126,13 @@ onThese targetsAndEventNames callback = do
 event :: EventM t e e
 event = ask
 
-eventTarget :: IsEvent e => EventM t e (Maybe EventTarget)
+eventTarget :: IsEvent e => EventM t e EventTarget
 eventTarget = event >>= (lift . Event.getTarget)
 
-target :: (IsEvent e, IsGObject t) => EventM t e (Maybe t)
-target = eventTarget >>= mapM (liftJSM . fromJSValUnchecked . coerce)
+target :: (IsEvent e, IsGObject t) => EventM t e t
+target = eventTarget >>= (liftJSM . fromJSValUnchecked . coerce)
 
-eventCurrentTarget :: IsEvent e => EventM t e (Maybe EventTarget)
+eventCurrentTarget :: IsEvent e => EventM t e EventTarget
 eventCurrentTarget = event >>= (lift . Event.getCurrentTarget)
 
 eventPhase :: IsEvent e => EventM t e Word
@@ -158,7 +159,7 @@ defaultPrevented = event >>= (lift . Event.getDefaultPrevented)
 stopImmediatePropagation :: IsEvent e => EventM t e ()
 stopImmediatePropagation = event >>= (lift . Event.stopImmediatePropagation)
 
-srcElement :: IsEvent e => EventM t e (Maybe EventTarget)
+srcElement :: IsEvent e => EventM t e EventTarget
 srcElement = event >>= (lift . Event.getSrcElement)
 
 getCancelBubble :: IsEvent e => EventM t e Bool
@@ -173,17 +174,17 @@ getReturnValue = event >>= (lift . Event.getReturnValue)
 returnValue :: IsEvent e => Bool -> EventM t e ()
 returnValue f = event >>= (lift . flip Event.setReturnValue f)
 
-uiView :: IsUIEvent e => EventM t e (Maybe Window)
+uiView :: IsUIEvent e => EventM t e Window
 uiView = event >>= (lift . UIEvent.getView)
 
 uiDetail :: IsUIEvent e => EventM t e Int
 uiDetail = event >>= (lift . UIEvent.getDetail)
 
-uiKeyCode :: IsUIEvent e => EventM t e Int
-uiKeyCode = event >>= (lift . UIEvent.getKeyCode)
+uiKeyCode :: EventM t KeyboardEvent Word
+uiKeyCode = event >>= (lift . KeyboardEvent.getKeyCode)
 
-uiCharCode :: IsUIEvent e => EventM t e Int
-uiCharCode = event >>= (lift . UIEvent.getCharCode)
+uiCharCode :: EventM t KeyboardEvent Word
+uiCharCode = event >>= (lift . KeyboardEvent.getCharCode)
 
 uiLayerX :: IsUIEvent e => EventM t e Int
 uiLayerX = event >>= (lift . UIEvent.getLayerX)

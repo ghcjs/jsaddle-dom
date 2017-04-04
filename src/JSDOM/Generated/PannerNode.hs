@@ -3,20 +3,19 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.PannerNode
-       (setPosition, setOrientation, setVelocity, pattern EQUALPOWER,
-        pattern HRTF, pattern SOUNDFIELD, pattern LINEAR_DISTANCE,
-        pattern INVERSE_DISTANCE, pattern EXPONENTIAL_DISTANCE,
-        setPanningModel, getPanningModel, setDistanceModel,
-        getDistanceModel, setRefDistance, getRefDistance, setMaxDistance,
-        getMaxDistance, setRolloffFactor, getRolloffFactor,
-        setConeInnerAngle, getConeInnerAngle, setConeOuterAngle,
-        getConeOuterAngle, setConeOuterGain, getConeOuterGain,
-        PannerNode(..), gTypePannerNode)
+       (setPosition, setOrientation, setVelocity, setPanningModel,
+        getPanningModel, setDistanceModel, getDistanceModel,
+        setRefDistance, getRefDistance, setMaxDistance, getMaxDistance,
+        setRolloffFactor, getRolloffFactor, setConeInnerAngle,
+        getConeInnerAngle, setConeOuterAngle, getConeOuterAngle,
+        setConeOuterGain, getConeOuterGain, PannerNode(..),
+        gTypePannerNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -49,34 +48,27 @@ setVelocity self x y z
   = liftDOM
       (void
          (self ^. jsf "setVelocity" [toJSVal x, toJSVal y, toJSVal z]))
-pattern EQUALPOWER = 0
-pattern HRTF = 1
-pattern SOUNDFIELD = 2
-pattern LINEAR_DISTANCE = 0
-pattern INVERSE_DISTANCE = 1
-pattern EXPONENTIAL_DISTANCE = 2
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitAudioPannerNode.panningModel Mozilla webkitAudioPannerNode.panningModel documentation> 
 setPanningModel ::
-                (MonadDOM m, ToJSString val) => PannerNode -> val -> m ()
+                (MonadDOM m) => PannerNode -> PanningModelType -> m ()
 setPanningModel self val
   = liftDOM (self ^. jss "panningModel" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitAudioPannerNode.panningModel Mozilla webkitAudioPannerNode.panningModel documentation> 
-getPanningModel ::
-                (MonadDOM m, FromJSString result) => PannerNode -> m result
+getPanningModel :: (MonadDOM m) => PannerNode -> m PanningModelType
 getPanningModel self
   = liftDOM ((self ^. js "panningModel") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitAudioPannerNode.distanceModel Mozilla webkitAudioPannerNode.distanceModel documentation> 
 setDistanceModel ::
-                 (MonadDOM m, ToJSString val) => PannerNode -> val -> m ()
+                 (MonadDOM m) => PannerNode -> DistanceModelType -> m ()
 setDistanceModel self val
   = liftDOM (self ^. jss "distanceModel" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitAudioPannerNode.distanceModel Mozilla webkitAudioPannerNode.distanceModel documentation> 
 getDistanceModel ::
-                 (MonadDOM m, FromJSString result) => PannerNode -> m result
+                 (MonadDOM m) => PannerNode -> m DistanceModelType
 getDistanceModel self
   = liftDOM ((self ^. js "distanceModel") >>= fromJSValUnchecked)
 

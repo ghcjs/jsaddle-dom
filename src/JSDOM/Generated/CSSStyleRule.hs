@@ -4,13 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CSSStyleRule
        (setSelectorText, getSelectorText, getSelectorTextUnsafe,
-        getSelectorTextUnchecked, getStyle, getStyleUnsafe,
-        getStyleUnchecked, CSSStyleRule(..), gTypeCSSStyleRule)
+        getSelectorTextUnchecked, getStyle, CSSStyleRule(..),
+        gTypeCSSStyleRule)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -31,7 +32,7 @@ getSelectorText ::
                 (MonadDOM m, FromJSString result) =>
                   CSSStyleRule -> m (Maybe result)
 getSelectorText self
-  = liftDOM ((self ^. js "selectorText") >>= fromMaybeJSString)
+  = liftDOM ((self ^. js "selectorText") >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.selectorText Mozilla CSSStyleRule.selectorText documentation> 
 getSelectorTextUnsafe ::
@@ -39,7 +40,7 @@ getSelectorTextUnsafe ::
                         CSSStyleRule -> m result
 getSelectorTextUnsafe self
   = liftDOM
-      (((self ^. js "selectorText") >>= fromMaybeJSString) >>=
+      (((self ^. js "selectorText") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.selectorText Mozilla CSSStyleRule.selectorText documentation> 
@@ -49,20 +50,6 @@ getSelectorTextUnchecked self
   = liftDOM ((self ^. js "selectorText") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.style Mozilla CSSStyleRule.style documentation> 
-getStyle ::
-         (MonadDOM m) => CSSStyleRule -> m (Maybe CSSStyleDeclaration)
-getStyle self = liftDOM ((self ^. js "style") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.style Mozilla CSSStyleRule.style documentation> 
-getStyleUnsafe ::
-               (MonadDOM m, HasCallStack) => CSSStyleRule -> m CSSStyleDeclaration
-getStyleUnsafe self
-  = liftDOM
-      (((self ^. js "style") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule.style Mozilla CSSStyleRule.style documentation> 
-getStyleUnchecked ::
-                  (MonadDOM m) => CSSStyleRule -> m CSSStyleDeclaration
-getStyleUnchecked self
+getStyle :: (MonadDOM m) => CSSStyleRule -> m CSSStyleDeclaration
+getStyle self
   = liftDOM ((self ^. js "style") >>= fromJSValUnchecked)

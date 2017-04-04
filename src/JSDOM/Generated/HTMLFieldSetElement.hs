@@ -3,17 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLFieldSetElement
-       (checkValidity, checkValidity_, setCustomValidity, setDisabled,
-        getDisabled, getForm, getFormUnsafe, getFormUnchecked, setName,
-        getName, getType, getElements, getElementsUnsafe,
-        getElementsUnchecked, getWillValidate, getValidity,
-        getValidityUnsafe, getValidityUnchecked, getValidationMessage,
-        HTMLFieldSetElement(..), gTypeHTMLFieldSetElement)
+       (checkValidity, checkValidity_, reportValidity, reportValidity_,
+        setCustomValidity, setDisabled, getDisabled, getForm, setName,
+        getName, getType, getElements, getWillValidate, getValidity,
+        getValidationMessage, HTMLFieldSetElement(..),
+        gTypeHTMLFieldSetElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -33,10 +33,20 @@ checkValidity_ :: (MonadDOM m) => HTMLFieldSetElement -> m ()
 checkValidity_ self
   = liftDOM (void (self ^. jsf "checkValidity" ()))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.reportValidity Mozilla HTMLFieldSetElement.reportValidity documentation> 
+reportValidity :: (MonadDOM m) => HTMLFieldSetElement -> m Bool
+reportValidity self
+  = liftDOM ((self ^. jsf "reportValidity" ()) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.reportValidity Mozilla HTMLFieldSetElement.reportValidity documentation> 
+reportValidity_ :: (MonadDOM m) => HTMLFieldSetElement -> m ()
+reportValidity_ self
+  = liftDOM (void (self ^. jsf "reportValidity" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.setCustomValidity Mozilla HTMLFieldSetElement.setCustomValidity documentation> 
 setCustomValidity ::
                   (MonadDOM m, ToJSString error) =>
-                    HTMLFieldSetElement -> Maybe error -> m ()
+                    HTMLFieldSetElement -> error -> m ()
 setCustomValidity self error
   = liftDOM (void (self ^. jsf "setCustomValidity" [toJSVal error]))
 
@@ -50,24 +60,8 @@ getDisabled :: (MonadDOM m) => HTMLFieldSetElement -> m Bool
 getDisabled self = liftDOM ((self ^. js "disabled") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.form Mozilla HTMLFieldSetElement.form documentation> 
-getForm ::
-        (MonadDOM m) => HTMLFieldSetElement -> m (Maybe HTMLFormElement)
-getForm self = liftDOM ((self ^. js "form") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.form Mozilla HTMLFieldSetElement.form documentation> 
-getFormUnsafe ::
-              (MonadDOM m, HasCallStack) =>
-                HTMLFieldSetElement -> m HTMLFormElement
-getFormUnsafe self
-  = liftDOM
-      (((self ^. js "form") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.form Mozilla HTMLFieldSetElement.form documentation> 
-getFormUnchecked ::
-                 (MonadDOM m) => HTMLFieldSetElement -> m HTMLFormElement
-getFormUnchecked self
-  = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
+getForm :: (MonadDOM m) => HTMLFieldSetElement -> m HTMLFormElement
+getForm self = liftDOM ((self ^. js "form") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.name Mozilla HTMLFieldSetElement.name documentation> 
 setName ::
@@ -88,22 +82,8 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.elements Mozilla HTMLFieldSetElement.elements documentation> 
 getElements ::
-            (MonadDOM m) => HTMLFieldSetElement -> m (Maybe HTMLCollection)
-getElements self = liftDOM ((self ^. js "elements") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.elements Mozilla HTMLFieldSetElement.elements documentation> 
-getElementsUnsafe ::
-                  (MonadDOM m, HasCallStack) =>
-                    HTMLFieldSetElement -> m HTMLCollection
-getElementsUnsafe self
-  = liftDOM
-      (((self ^. js "elements") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.elements Mozilla HTMLFieldSetElement.elements documentation> 
-getElementsUnchecked ::
-                     (MonadDOM m) => HTMLFieldSetElement -> m HTMLCollection
-getElementsUnchecked self
+            (MonadDOM m) => HTMLFieldSetElement -> m HTMLFormControlsCollection
+getElements self
   = liftDOM ((self ^. js "elements") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.willValidate Mozilla HTMLFieldSetElement.willValidate documentation> 
@@ -113,22 +93,8 @@ getWillValidate self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validity Mozilla HTMLFieldSetElement.validity documentation> 
 getValidity ::
-            (MonadDOM m) => HTMLFieldSetElement -> m (Maybe ValidityState)
-getValidity self = liftDOM ((self ^. js "validity") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validity Mozilla HTMLFieldSetElement.validity documentation> 
-getValidityUnsafe ::
-                  (MonadDOM m, HasCallStack) =>
-                    HTMLFieldSetElement -> m ValidityState
-getValidityUnsafe self
-  = liftDOM
-      (((self ^. js "validity") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validity Mozilla HTMLFieldSetElement.validity documentation> 
-getValidityUnchecked ::
-                     (MonadDOM m) => HTMLFieldSetElement -> m ValidityState
-getValidityUnchecked self
+            (MonadDOM m) => HTMLFieldSetElement -> m ValidityState
+getValidity self
   = liftDOM ((self ^. js "validity") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement.validationMessage Mozilla HTMLFieldSetElement.validationMessage documentation> 

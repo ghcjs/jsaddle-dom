@@ -3,13 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CryptoKey
-       (getType, getExtractable, getAlgorithm, getAlgorithmUnsafe,
-        getAlgorithmUnchecked, getUsages, CryptoKey(..), gTypeCryptoKey)
+       (getType, getExtractable, getAlgorithm, getUsages, CryptoKey(..),
+        gTypeCryptoKey)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -29,24 +30,11 @@ getExtractable self
   = liftDOM ((self ^. js "extractable") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.algorithm Mozilla CryptoKey.algorithm documentation> 
-getAlgorithm :: (MonadDOM m) => CryptoKey -> m (Maybe Algorithm)
+getAlgorithm :: (MonadDOM m) => CryptoKey -> m GObject
 getAlgorithm self
-  = liftDOM ((self ^. js "algorithm") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.algorithm Mozilla CryptoKey.algorithm documentation> 
-getAlgorithmUnsafe ::
-                   (MonadDOM m, HasCallStack) => CryptoKey -> m Algorithm
-getAlgorithmUnsafe self
-  = liftDOM
-      (((self ^. js "algorithm") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.algorithm Mozilla CryptoKey.algorithm documentation> 
-getAlgorithmUnchecked :: (MonadDOM m) => CryptoKey -> m Algorithm
-getAlgorithmUnchecked self
   = liftDOM ((self ^. js "algorithm") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey.usages Mozilla CryptoKey.usages documentation> 
-getUsages :: (MonadDOM m) => CryptoKey -> m [KeyUsage]
+getUsages :: (MonadDOM m) => CryptoKey -> m [CryptoKeyUsage]
 getUsages self
   = liftDOM ((self ^. js "usages") >>= fromJSArrayUnchecked)

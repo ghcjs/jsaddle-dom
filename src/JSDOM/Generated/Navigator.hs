@@ -3,27 +3,20 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Navigator
-       (getGamepads, getGamepads_, webkitGetUserMedia,
-        registerProtocolHandler, isProtocolHandlerRegistered,
-        isProtocolHandlerRegistered_, unregisterProtocolHandler,
-        vibratePattern, vibratePattern_, vibrate, vibrate_, javaEnabled,
-        javaEnabled_, getStorageUpdates, getWebkitBattery,
-        getWebkitBatteryUnsafe, getWebkitBatteryUnchecked, getGeolocation,
-        getGeolocationUnsafe, getGeolocationUnchecked,
-        getWebkitTemporaryStorage, getWebkitTemporaryStorageUnsafe,
-        getWebkitTemporaryStorageUnchecked, getWebkitPersistentStorage,
-        getWebkitPersistentStorageUnsafe,
-        getWebkitPersistentStorageUnchecked, getAppCodeName, getAppName,
-        getAppVersion, getLanguage, getUserAgent, getPlatform, getPlugins,
-        getPluginsUnsafe, getPluginsUnchecked, getMimeTypes,
-        getMimeTypesUnsafe, getMimeTypesUnchecked, getProduct,
-        getProductSub, getVendor, getVendorSub, getCookieEnabled,
-        getOnLine, getHardwareConcurrency, Navigator(..), gTypeNavigator)
+       (requestMediaKeySystemAccess, requestMediaKeySystemAccess_,
+        getGamepads, getGamepads_, getUserMedia, registerProtocolHandler,
+        isProtocolHandlerRegistered, isProtocolHandlerRegistered_,
+        unregisterProtocolHandler, vibratePattern, vibratePattern_,
+        vibrate, vibrate_, javaEnabled, javaEnabled_, getStorageUpdates,
+        getGeolocation, getMediaDevices, getWebkitTemporaryStorage,
+        getWebkitPersistentStorage, getWebdriver, getPlugins, getMimeTypes,
+        getCookieEnabled, Navigator(..), gTypeNavigator)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -33,27 +26,51 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.requestMediaKeySystemAccess Mozilla Navigator.requestMediaKeySystemAccess documentation> 
+requestMediaKeySystemAccess ::
+                            (MonadDOM m, ToJSString keySystem) =>
+                              Navigator ->
+                                keySystem ->
+                                  [MediaKeySystemConfiguration] -> m MediaKeySystemAccess
+requestMediaKeySystemAccess self keySystem supportedConfiguration
+  = liftDOM
+      (((self ^. jsf "requestMediaKeySystemAccess"
+           [toJSVal keySystem, toJSVal (array supportedConfiguration)])
+          >>= readPromise)
+         >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.requestMediaKeySystemAccess Mozilla Navigator.requestMediaKeySystemAccess documentation> 
+requestMediaKeySystemAccess_ ::
+                             (MonadDOM m, ToJSString keySystem) =>
+                               Navigator -> keySystem -> [MediaKeySystemConfiguration] -> m ()
+requestMediaKeySystemAccess_ self keySystem supportedConfiguration
+  = liftDOM
+      (void
+         (self ^. jsf "requestMediaKeySystemAccess"
+            [toJSVal keySystem, toJSVal (array supportedConfiguration)]))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getGamepads Mozilla Navigator.getGamepads documentation> 
-getGamepads :: (MonadDOM m) => Navigator -> m [Maybe Gamepad]
+getGamepads :: (MonadDOM m) => Navigator -> m [Gamepad]
 getGamepads self
-  = liftDOM ((self ^. jsf "getGamepads" ()) >>= fromJSArray)
+  = liftDOM ((self ^. jsf "getGamepads" ()) >>= fromJSArrayUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getGamepads Mozilla Navigator.getGamepads documentation> 
 getGamepads_ :: (MonadDOM m) => Navigator -> m ()
 getGamepads_ self = liftDOM (void (self ^. jsf "getGamepads" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitGetUserMedia Mozilla Navigator.webkitGetUserMedia documentation> 
-webkitGetUserMedia ::
-                   (MonadDOM m, IsDictionary options) =>
-                     Navigator ->
-                       Maybe options ->
-                         Maybe NavigatorUserMediaSuccessCallback ->
-                           Maybe NavigatorUserMediaErrorCallback -> m ()
-webkitGetUserMedia self options successCallback errorCallback
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getUserMedia Mozilla Navigator.getUserMedia documentation> 
+getUserMedia ::
+             (MonadDOM m) =>
+               Navigator ->
+                 MediaStreamConstraints ->
+                   NavigatorUserMediaSuccessCallback ->
+                     NavigatorUserMediaErrorCallback -> m ()
+getUserMedia self constraints successCallback errorCallback
   = liftDOM
       (void
-         (self ^. jsf "webkitGetUserMedia"
-            [toJSVal options, toJSVal successCallback, toJSVal errorCallback]))
+         (self ^. jsf "getUserMedia"
+            [toJSVal constraints, toJSVal successCallback,
+             toJSVal errorCallback]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.registerProtocolHandler Mozilla Navigator.registerProtocolHandler documentation> 
 registerProtocolHandler ::
@@ -132,196 +149,46 @@ getStorageUpdates :: (MonadDOM m) => Navigator -> m ()
 getStorageUpdates self
   = liftDOM (void (self ^. jsf "getStorageUpdates" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
-getWebkitBattery ::
-                 (MonadDOM m) => Navigator -> m (Maybe BatteryManager)
-getWebkitBattery self
-  = liftDOM ((self ^. js "webkitBattery") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
-getWebkitBatteryUnsafe ::
-                       (MonadDOM m, HasCallStack) => Navigator -> m BatteryManager
-getWebkitBatteryUnsafe self
-  = liftDOM
-      (((self ^. js "webkitBattery") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitBattery Mozilla Navigator.webkitBattery documentation> 
-getWebkitBatteryUnchecked ::
-                          (MonadDOM m) => Navigator -> m BatteryManager
-getWebkitBatteryUnchecked self
-  = liftDOM ((self ^. js "webkitBattery") >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
-getGeolocation ::
-               (MonadDOM m) => Navigator -> m (Maybe Geolocation)
+getGeolocation :: (MonadDOM m) => Navigator -> m Geolocation
 getGeolocation self
-  = liftDOM ((self ^. js "geolocation") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
-getGeolocationUnsafe ::
-                     (MonadDOM m, HasCallStack) => Navigator -> m Geolocation
-getGeolocationUnsafe self
-  = liftDOM
-      (((self ^. js "geolocation") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.geolocation Mozilla Navigator.geolocation documentation> 
-getGeolocationUnchecked ::
-                        (MonadDOM m) => Navigator -> m Geolocation
-getGeolocationUnchecked self
   = liftDOM ((self ^. js "geolocation") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mediaDevices Mozilla Navigator.mediaDevices documentation> 
+getMediaDevices :: (MonadDOM m) => Navigator -> m MediaDevices
+getMediaDevices self
+  = liftDOM ((self ^. js "mediaDevices") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
 getWebkitTemporaryStorage ::
-                          (MonadDOM m) => Navigator -> m (Maybe StorageQuota)
+                          (MonadDOM m) => Navigator -> m StorageQuota
 getWebkitTemporaryStorage self
-  = liftDOM ((self ^. js "webkitTemporaryStorage") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
-getWebkitTemporaryStorageUnsafe ::
-                                (MonadDOM m, HasCallStack) => Navigator -> m StorageQuota
-getWebkitTemporaryStorageUnsafe self
-  = liftDOM
-      (((self ^. js "webkitTemporaryStorage") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitTemporaryStorage Mozilla Navigator.webkitTemporaryStorage documentation> 
-getWebkitTemporaryStorageUnchecked ::
-                                   (MonadDOM m) => Navigator -> m StorageQuota
-getWebkitTemporaryStorageUnchecked self
   = liftDOM
       ((self ^. js "webkitTemporaryStorage") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
 getWebkitPersistentStorage ::
-                           (MonadDOM m) => Navigator -> m (Maybe StorageQuota)
+                           (MonadDOM m) => Navigator -> m StorageQuota
 getWebkitPersistentStorage self
-  = liftDOM ((self ^. js "webkitPersistentStorage") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
-getWebkitPersistentStorageUnsafe ::
-                                 (MonadDOM m, HasCallStack) => Navigator -> m StorageQuota
-getWebkitPersistentStorageUnsafe self
-  = liftDOM
-      (((self ^. js "webkitPersistentStorage") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webkitPersistentStorage Mozilla Navigator.webkitPersistentStorage documentation> 
-getWebkitPersistentStorageUnchecked ::
-                                    (MonadDOM m) => Navigator -> m StorageQuota
-getWebkitPersistentStorageUnchecked self
   = liftDOM
       ((self ^. js "webkitPersistentStorage") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.appCodeName Mozilla Navigator.appCodeName documentation> 
-getAppCodeName ::
-               (MonadDOM m, FromJSString result) => Navigator -> m result
-getAppCodeName self
-  = liftDOM ((self ^. js "appCodeName") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.appName Mozilla Navigator.appName documentation> 
-getAppName ::
-           (MonadDOM m, FromJSString result) => Navigator -> m result
-getAppName self
-  = liftDOM ((self ^. js "appName") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.appVersion Mozilla Navigator.appVersion documentation> 
-getAppVersion ::
-              (MonadDOM m, FromJSString result) => Navigator -> m result
-getAppVersion self
-  = liftDOM ((self ^. js "appVersion") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.language Mozilla Navigator.language documentation> 
-getLanguage ::
-            (MonadDOM m, FromJSString result) => Navigator -> m result
-getLanguage self
-  = liftDOM ((self ^. js "language") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.userAgent Mozilla Navigator.userAgent documentation> 
-getUserAgent ::
-             (MonadDOM m, FromJSString result) => Navigator -> m result
-getUserAgent self
-  = liftDOM ((self ^. js "userAgent") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.platform Mozilla Navigator.platform documentation> 
-getPlatform ::
-            (MonadDOM m, FromJSString result) => Navigator -> m result
-getPlatform self
-  = liftDOM ((self ^. js "platform") >>= fromJSValUnchecked)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.webdriver Mozilla Navigator.webdriver documentation> 
+getWebdriver :: (MonadDOM m) => Navigator -> m Bool
+getWebdriver self
+  = liftDOM ((self ^. js "webdriver") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.plugins Mozilla Navigator.plugins documentation> 
-getPlugins :: (MonadDOM m) => Navigator -> m (Maybe PluginArray)
-getPlugins self = liftDOM ((self ^. js "plugins") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.plugins Mozilla Navigator.plugins documentation> 
-getPluginsUnsafe ::
-                 (MonadDOM m, HasCallStack) => Navigator -> m PluginArray
-getPluginsUnsafe self
-  = liftDOM
-      (((self ^. js "plugins") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.plugins Mozilla Navigator.plugins documentation> 
-getPluginsUnchecked :: (MonadDOM m) => Navigator -> m PluginArray
-getPluginsUnchecked self
+getPlugins :: (MonadDOM m) => Navigator -> m PluginArray
+getPlugins self
   = liftDOM ((self ^. js "plugins") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
-getMimeTypes ::
-             (MonadDOM m) => Navigator -> m (Maybe MimeTypeArray)
+getMimeTypes :: (MonadDOM m) => Navigator -> m MimeTypeArray
 getMimeTypes self
-  = liftDOM ((self ^. js "mimeTypes") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
-getMimeTypesUnsafe ::
-                   (MonadDOM m, HasCallStack) => Navigator -> m MimeTypeArray
-getMimeTypesUnsafe self
-  = liftDOM
-      (((self ^. js "mimeTypes") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mimeTypes Mozilla Navigator.mimeTypes documentation> 
-getMimeTypesUnchecked ::
-                      (MonadDOM m) => Navigator -> m MimeTypeArray
-getMimeTypesUnchecked self
   = liftDOM ((self ^. js "mimeTypes") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.product Mozilla Navigator.product documentation> 
-getProduct ::
-           (MonadDOM m, FromJSString result) => Navigator -> m result
-getProduct self
-  = liftDOM ((self ^. js "product") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.productSub Mozilla Navigator.productSub documentation> 
-getProductSub ::
-              (MonadDOM m, FromJSString result) => Navigator -> m result
-getProductSub self
-  = liftDOM ((self ^. js "productSub") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.vendor Mozilla Navigator.vendor documentation> 
-getVendor ::
-          (MonadDOM m, FromJSString result) => Navigator -> m result
-getVendor self
-  = liftDOM ((self ^. js "vendor") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.vendorSub Mozilla Navigator.vendorSub documentation> 
-getVendorSub ::
-             (MonadDOM m, FromJSString result) => Navigator -> m result
-getVendorSub self
-  = liftDOM ((self ^. js "vendorSub") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.cookieEnabled Mozilla Navigator.cookieEnabled documentation> 
 getCookieEnabled :: (MonadDOM m) => Navigator -> m Bool
 getCookieEnabled self
   = liftDOM ((self ^. js "cookieEnabled") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.onLine Mozilla Navigator.onLine documentation> 
-getOnLine :: (MonadDOM m) => Navigator -> m Bool
-getOnLine self = liftDOM ((self ^. js "onLine") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Navigator.hardwareConcurrency Mozilla Navigator.hardwareConcurrency documentation> 
-getHardwareConcurrency :: (MonadDOM m) => Navigator -> m Int
-getHardwareConcurrency self
-  = liftDOM
-      (round <$> ((self ^. js "hardwareConcurrency") >>= valToNumber))

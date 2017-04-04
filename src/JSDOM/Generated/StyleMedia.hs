@@ -9,7 +9,8 @@ module JSDOM.Generated.StyleMedia
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -22,7 +23,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleMedia.matchMedium Mozilla StyleMedia.matchMedium documentation> 
 matchMedium ::
             (MonadDOM m, ToJSString mediaquery) =>
-              StyleMedia -> mediaquery -> m Bool
+              StyleMedia -> Maybe mediaquery -> m Bool
 matchMedium self mediaquery
   = liftDOM
       ((self ^. jsf "matchMedium" [toJSVal mediaquery]) >>= valToBool)
@@ -30,7 +31,7 @@ matchMedium self mediaquery
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleMedia.matchMedium Mozilla StyleMedia.matchMedium documentation> 
 matchMedium_ ::
              (MonadDOM m, ToJSString mediaquery) =>
-               StyleMedia -> mediaquery -> m ()
+               StyleMedia -> Maybe mediaquery -> m ()
 matchMedium_ self mediaquery
   = liftDOM (void (self ^. jsf "matchMedium" [toJSVal mediaquery]))
 

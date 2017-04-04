@@ -29,12 +29,12 @@ import JSDOM.Generated.VoidCallback
        (newVoidCallback)
 
 withSQLTransactionCallback :: MonadDOM m => (SQLTransaction -> DOM ()) -> (SQLTransactionCallback -> DOM a) -> m a
-withSQLTransactionCallback callback = withCallback (newSQLTransactionCallbackSync (callback . fromJust))
+withSQLTransactionCallback callback = withCallback (newSQLTransactionCallbackSync callback)
 
 withSQLErrorCallbacks :: MonadDOM m => (Maybe SQLTransactionErrorCallback -> Maybe VoidCallback -> DOM ()) -> m (Maybe SQLError)
 withSQLErrorCallbacks f = do
     result <- liftIO newEmptyMVar
-    withCallback (newSQLTransactionErrorCallback (liftIO . putMVar result)) $ \error ->
+    withCallback (newSQLTransactionErrorCallback (liftIO . putMVar result . Just)) $ \error ->
         withCallback (newVoidCallback $ liftIO $ putMVar result Nothing) $ \success -> do
             f (Just error) (Just success)
             liftIO $ takeMVar result
@@ -58,7 +58,7 @@ transaction' :: (MonadDOM m) => Database -> (SQLTransaction -> DOM ()) -> m (May
 transaction' self callback =
     withSQLTransactionCallback callback $ \transaction ->
         withSQLErrorCallbacks $ \e s ->
-            Generated.transaction self (Just transaction) e s
+            Generated.transaction self transaction e s
 
 transaction :: (MonadDOM m) => Database -> (SQLTransaction -> DOM ()) -> m ()
 transaction self callback = transaction' self callback >>= maybe (return ()) throwSQLException
@@ -68,7 +68,7 @@ readTransaction' :: (MonadDOM m) => Database -> (SQLTransaction -> DOM ()) -> m 
 readTransaction' self callback =
     withSQLTransactionCallback callback $ \transaction ->
         withSQLErrorCallbacks $ \e s ->
-            Generated.readTransaction self (Just transaction) e s
+            Generated.readTransaction self transaction e s
 
 readTransaction :: (MonadDOM m) => Database -> (SQLTransaction -> DOM ()) -> m ()
 readTransaction self callback = readTransaction' self callback >>= maybe (return ()) throwSQLException

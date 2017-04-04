@@ -3,26 +3,20 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Event
-       (stopPropagation, preventDefault, initEvent,
-        stopImmediatePropagation, pattern NONE, pattern CAPTURING_PHASE,
-        pattern AT_TARGET, pattern BUBBLING_PHASE, pattern MOUSEDOWN,
-        pattern MOUSEUP, pattern MOUSEOVER, pattern MOUSEOUT,
-        pattern MOUSEMOVE, pattern MOUSEDRAG, pattern CLICK,
-        pattern DBLCLICK, pattern KEYDOWN, pattern KEYUP, pattern KEYPRESS,
-        pattern DRAGDROP, pattern FOCUS, pattern BLUR, pattern SELECT,
-        pattern CHANGE, getType, getTarget, getTargetUnsafe,
-        getTargetUnchecked, getCurrentTarget, getCurrentTargetUnsafe,
-        getCurrentTargetUnchecked, getEventPhase, getBubbles,
-        getCancelable, getTimeStamp, getDefaultPrevented, getSrcElement,
-        getSrcElementUnsafe, getSrcElementUnchecked, setReturnValue,
-        getReturnValue, setCancelBubble, getCancelBubble, getClipboardData,
-        getClipboardDataUnsafe, getClipboardDataUnchecked, Event(..),
-        gTypeEvent, IsEvent, toEvent)
+       (newEvent, composedPath, composedPath_, stopPropagation,
+        preventDefault, initEvent, stopImmediatePropagation, pattern NONE,
+        pattern CAPTURING_PHASE, pattern AT_TARGET, pattern BUBBLING_PHASE,
+        getType, getTarget, getCurrentTarget, getEventPhase, getBubbles,
+        getCancelable, getComposed, getTimeStamp, getDefaultPrevented,
+        getIsTrusted, getSrcElement, setReturnValue, getReturnValue,
+        setCancelBubble, getCancelBubble, Event(..), gTypeEvent, IsEvent,
+        toEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -30,6 +24,27 @@ import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.Enums
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event Mozilla Event documentation> 
+newEvent ::
+         (MonadDOM m, ToJSString type', IsEventInit eventInitDict) =>
+           type' -> Maybe eventInitDict -> m Event
+newEvent type' eventInitDict
+  = liftDOM
+      (Event <$>
+         new (jsg "Event") [toJSVal type', toJSVal eventInitDict])
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.composedPath Mozilla Event.composedPath documentation> 
+composedPath :: (MonadDOM m, IsEvent self) => self -> m [Node]
+composedPath self
+  = liftDOM
+      (((toEvent self) ^. jsf "composedPath" ()) >>=
+         fromJSArrayUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.composedPath Mozilla Event.composedPath documentation> 
+composedPath_ :: (MonadDOM m, IsEvent self) => self -> m ()
+composedPath_ self
+  = liftDOM (void ((toEvent self) ^. jsf "composedPath" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.stopPropagation Mozilla Event.stopPropagation documentation> 
 stopPropagation :: (MonadDOM m, IsEvent self) => self -> m ()
@@ -43,14 +58,13 @@ preventDefault self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.initEvent Mozilla Event.initEvent documentation> 
 initEvent ::
-          (MonadDOM m, IsEvent self, ToJSString eventTypeArg) =>
-            self -> eventTypeArg -> Bool -> Bool -> m ()
-initEvent self eventTypeArg canBubbleArg cancelableArg
+          (MonadDOM m, IsEvent self, ToJSString type') =>
+            self -> type' -> Bool -> Bool -> m ()
+initEvent self type' bubbles cancelable
   = liftDOM
       (void
          ((toEvent self) ^. jsf "initEvent"
-            [toJSVal eventTypeArg, toJSVal canBubbleArg,
-             toJSVal cancelableArg]))
+            [toJSVal type', toJSVal bubbles, toJSVal cancelable]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.stopImmediatePropagation Mozilla Event.stopImmediatePropagation documentation> 
 stopImmediatePropagation ::
@@ -62,22 +76,6 @@ pattern NONE = 0
 pattern CAPTURING_PHASE = 1
 pattern AT_TARGET = 2
 pattern BUBBLING_PHASE = 3
-pattern MOUSEDOWN = 1
-pattern MOUSEUP = 2
-pattern MOUSEOVER = 4
-pattern MOUSEOUT = 8
-pattern MOUSEMOVE = 16
-pattern MOUSEDRAG = 32
-pattern CLICK = 64
-pattern DBLCLICK = 128
-pattern KEYDOWN = 256
-pattern KEYUP = 512
-pattern KEYPRESS = 1024
-pattern DRAGDROP = 2048
-pattern FOCUS = 4096
-pattern BLUR = 8192
-pattern SELECT = 16384
-pattern CHANGE = 32768
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.type Mozilla Event.type documentation> 
 getType ::
@@ -86,43 +84,14 @@ getType self
   = liftDOM (((toEvent self) ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.target Mozilla Event.target documentation> 
-getTarget ::
-          (MonadDOM m, IsEvent self) => self -> m (Maybe EventTarget)
+getTarget :: (MonadDOM m, IsEvent self) => self -> m EventTarget
 getTarget self
-  = liftDOM (((toEvent self) ^. js "target") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.target Mozilla Event.target documentation> 
-getTargetUnsafe ::
-                (MonadDOM m, IsEvent self, HasCallStack) => self -> m EventTarget
-getTargetUnsafe self
-  = liftDOM
-      ((((toEvent self) ^. js "target") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.target Mozilla Event.target documentation> 
-getTargetUnchecked ::
-                   (MonadDOM m, IsEvent self) => self -> m EventTarget
-getTargetUnchecked self
   = liftDOM (((toEvent self) ^. js "target") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
 getCurrentTarget ::
-                 (MonadDOM m, IsEvent self) => self -> m (Maybe EventTarget)
+                 (MonadDOM m, IsEvent self) => self -> m EventTarget
 getCurrentTarget self
-  = liftDOM (((toEvent self) ^. js "currentTarget") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
-getCurrentTargetUnsafe ::
-                       (MonadDOM m, IsEvent self, HasCallStack) => self -> m EventTarget
-getCurrentTargetUnsafe self
-  = liftDOM
-      ((((toEvent self) ^. js "currentTarget") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.currentTarget Mozilla Event.currentTarget documentation> 
-getCurrentTargetUnchecked ::
-                          (MonadDOM m, IsEvent self) => self -> m EventTarget
-getCurrentTargetUnchecked self
   = liftDOM
       (((toEvent self) ^. js "currentTarget") >>= fromJSValUnchecked)
 
@@ -142,6 +111,11 @@ getCancelable :: (MonadDOM m, IsEvent self) => self -> m Bool
 getCancelable self
   = liftDOM (((toEvent self) ^. js "cancelable") >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.composed Mozilla Event.composed documentation> 
+getComposed :: (MonadDOM m, IsEvent self) => self -> m Bool
+getComposed self
+  = liftDOM (((toEvent self) ^. js "composed") >>= valToBool)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.timeStamp Mozilla Event.timeStamp documentation> 
 getTimeStamp :: (MonadDOM m, IsEvent self) => self -> m Word
 getTimeStamp self
@@ -153,24 +127,15 @@ getDefaultPrevented :: (MonadDOM m, IsEvent self) => self -> m Bool
 getDefaultPrevented self
   = liftDOM (((toEvent self) ^. js "defaultPrevented") >>= valToBool)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.isTrusted Mozilla Event.isTrusted documentation> 
+getIsTrusted :: (MonadDOM m, IsEvent self) => self -> m Bool
+getIsTrusted self
+  = liftDOM (((toEvent self) ^. js "isTrusted") >>= valToBool)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.srcElement Mozilla Event.srcElement documentation> 
 getSrcElement ::
-              (MonadDOM m, IsEvent self) => self -> m (Maybe EventTarget)
+              (MonadDOM m, IsEvent self) => self -> m EventTarget
 getSrcElement self
-  = liftDOM (((toEvent self) ^. js "srcElement") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.srcElement Mozilla Event.srcElement documentation> 
-getSrcElementUnsafe ::
-                    (MonadDOM m, IsEvent self, HasCallStack) => self -> m EventTarget
-getSrcElementUnsafe self
-  = liftDOM
-      ((((toEvent self) ^. js "srcElement") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.srcElement Mozilla Event.srcElement documentation> 
-getSrcElementUnchecked ::
-                       (MonadDOM m, IsEvent self) => self -> m EventTarget
-getSrcElementUnchecked self
   = liftDOM
       (((toEvent self) ^. js "srcElement") >>= fromJSValUnchecked)
 
@@ -195,24 +160,3 @@ setCancelBubble self val
 getCancelBubble :: (MonadDOM m, IsEvent self) => self -> m Bool
 getCancelBubble self
   = liftDOM (((toEvent self) ^. js "cancelBubble") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.clipboardData Mozilla Event.clipboardData documentation> 
-getClipboardData ::
-                 (MonadDOM m, IsEvent self) => self -> m (Maybe DataTransfer)
-getClipboardData self
-  = liftDOM (((toEvent self) ^. js "clipboardData") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.clipboardData Mozilla Event.clipboardData documentation> 
-getClipboardDataUnsafe ::
-                       (MonadDOM m, IsEvent self, HasCallStack) => self -> m DataTransfer
-getClipboardDataUnsafe self
-  = liftDOM
-      ((((toEvent self) ^. js "clipboardData") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Event.clipboardData Mozilla Event.clipboardData documentation> 
-getClipboardDataUnchecked ::
-                          (MonadDOM m, IsEvent self) => self -> m DataTransfer
-getClipboardDataUnchecked self
-  = liftDOM
-      (((toEvent self) ^. js "clipboardData") >>= fromJSValUnchecked)

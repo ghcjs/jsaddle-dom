@@ -3,16 +3,18 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLScriptElement
-       (setText, getText, getTextUnsafe, getTextUnchecked, setHtmlFor,
-        getHtmlFor, setEvent, getEvent, setCharset, getCharset, setAsync,
-        getAsync, setDefer, getDefer, setSrc, getSrc, setType, getType,
-        setCrossOrigin, getCrossOrigin, setNonce, getNonce,
-        HTMLScriptElement(..), gTypeHTMLScriptElement)
+       (setText, getText, setHtmlFor, getHtmlFor, setEvent, getEvent,
+        setCharset, getCharset, setAsync, getAsync, setDefer, getDefer,
+        setSrc, getSrc, setType, getType, setCrossOrigin, getCrossOrigin,
+        getCrossOriginUnsafe, getCrossOriginUnchecked, setNonce, getNonce,
+        setNoModule, getNoModule, HTMLScriptElement(..),
+        gTypeHTMLScriptElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -24,30 +26,13 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
 setText ::
-        (MonadDOM m, ToJSString val) =>
-          HTMLScriptElement -> Maybe val -> m ()
+        (MonadDOM m, ToJSString val) => HTMLScriptElement -> val -> m ()
 setText self val = liftDOM (self ^. jss "text" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
 getText ::
-        (MonadDOM m, FromJSString result) =>
-          HTMLScriptElement -> m (Maybe result)
-getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
-getTextUnsafe ::
-              (MonadDOM m, HasCallStack, FromJSString result) =>
-                HTMLScriptElement -> m result
-getTextUnsafe self
-  = liftDOM
-      (((self ^. js "text") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.text Mozilla HTMLScriptElement.text documentation> 
-getTextUnchecked ::
-                 (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
-getTextUnchecked self
-  = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
+getText self = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.htmlFor Mozilla HTMLScriptElement.htmlFor documentation> 
 setHtmlFor ::
@@ -120,14 +105,31 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.crossOrigin Mozilla HTMLScriptElement.crossOrigin documentation> 
 setCrossOrigin ::
-               (MonadDOM m, ToJSString val) => HTMLScriptElement -> val -> m ()
+               (MonadDOM m, ToJSString val) =>
+                 HTMLScriptElement -> Maybe val -> m ()
 setCrossOrigin self val
   = liftDOM (self ^. jss "crossOrigin" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.crossOrigin Mozilla HTMLScriptElement.crossOrigin documentation> 
 getCrossOrigin ::
-               (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
+               (MonadDOM m, FromJSString result) =>
+                 HTMLScriptElement -> m (Maybe result)
 getCrossOrigin self
+  = liftDOM ((self ^. js "crossOrigin") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.crossOrigin Mozilla HTMLScriptElement.crossOrigin documentation> 
+getCrossOriginUnsafe ::
+                     (MonadDOM m, HasCallStack, FromJSString result) =>
+                       HTMLScriptElement -> m result
+getCrossOriginUnsafe self
+  = liftDOM
+      (((self ^. js "crossOrigin") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.crossOrigin Mozilla HTMLScriptElement.crossOrigin documentation> 
+getCrossOriginUnchecked ::
+                        (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
+getCrossOriginUnchecked self
   = liftDOM ((self ^. js "crossOrigin") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.nonce Mozilla HTMLScriptElement.nonce documentation> 
@@ -140,3 +142,12 @@ getNonce ::
          (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
 getNonce self
   = liftDOM ((self ^. js "nonce") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.noModule Mozilla HTMLScriptElement.noModule documentation> 
+setNoModule :: (MonadDOM m) => HTMLScriptElement -> Bool -> m ()
+setNoModule self val
+  = liftDOM (self ^. jss "noModule" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.noModule Mozilla HTMLScriptElement.noModule documentation> 
+getNoModule :: (MonadDOM m) => HTMLScriptElement -> m Bool
+getNoModule self = liftDOM ((self ^. js "noModule") >>= valToBool)

@@ -4,13 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLStyleElement
        (setDisabled, getDisabled, setMedia, getMedia, setType, getType,
-        getSheet, getSheetUnsafe, getSheetUnchecked, HTMLStyleElement(..),
+        getSheet, setNonce, getNonce, HTMLStyleElement(..),
         gTypeHTMLStyleElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -51,20 +52,17 @@ getType ::
 getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.sheet Mozilla HTMLStyleElement.sheet documentation> 
-getSheet ::
-         (MonadDOM m) => HTMLStyleElement -> m (Maybe StyleSheet)
-getSheet self = liftDOM ((self ^. js "sheet") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.sheet Mozilla HTMLStyleElement.sheet documentation> 
-getSheetUnsafe ::
-               (MonadDOM m, HasCallStack) => HTMLStyleElement -> m StyleSheet
-getSheetUnsafe self
-  = liftDOM
-      (((self ^. js "sheet") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.sheet Mozilla HTMLStyleElement.sheet documentation> 
-getSheetUnchecked ::
-                  (MonadDOM m) => HTMLStyleElement -> m StyleSheet
-getSheetUnchecked self
+getSheet :: (MonadDOM m) => HTMLStyleElement -> m StyleSheet
+getSheet self
   = liftDOM ((self ^. js "sheet") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.nonce Mozilla HTMLStyleElement.nonce documentation> 
+setNonce ::
+         (MonadDOM m, ToJSString val) => HTMLStyleElement -> val -> m ()
+setNonce self val = liftDOM (self ^. jss "nonce" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement.nonce Mozilla HTMLStyleElement.nonce documentation> 
+getNonce ::
+         (MonadDOM m, FromJSString result) => HTMLStyleElement -> m result
+getNonce self
+  = liftDOM ((self ^. js "nonce") >>= fromJSValUnchecked)

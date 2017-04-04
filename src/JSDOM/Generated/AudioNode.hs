@@ -3,17 +3,17 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.AudioNode
-       (connect, connectParam, disconnect, getContext, getContextUnsafe,
-        getContextUnchecked, getNumberOfInputs, getNumberOfOutputs,
-        setChannelCount, getChannelCount, setChannelCountMode,
-        getChannelCountMode, setChannelInterpretation,
+       (connect, connectParam, disconnect, getContext, getNumberOfInputs,
+        getNumberOfOutputs, setChannelCount, getChannelCount,
+        setChannelCountMode, getChannelCountMode, setChannelInterpretation,
         getChannelInterpretation, AudioNode(..), gTypeAudioNode,
         IsAudioNode, toAudioNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array)
+import Data.Traversable (mapM)
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -26,7 +26,7 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.connect Mozilla AudioNode.connect documentation> 
 connect ::
         (MonadDOM m, IsAudioNode self, IsAudioNode destination) =>
-          self -> Maybe destination -> Word -> Word -> m ()
+          self -> destination -> Maybe Word -> Maybe Word -> m ()
 connect self destination output input
   = liftDOM
       (void
@@ -36,7 +36,7 @@ connect self destination output input
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.connect Mozilla AudioNode.connect documentation> 
 connectParam ::
              (MonadDOM m, IsAudioNode self) =>
-               self -> Maybe AudioParam -> Word -> m ()
+               self -> AudioParam -> Maybe Word -> m ()
 connectParam self destination output
   = liftDOM
       (void
@@ -45,30 +45,15 @@ connectParam self destination output
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.disconnect Mozilla AudioNode.disconnect documentation> 
 disconnect ::
-           (MonadDOM m, IsAudioNode self) => self -> Word -> m ()
+           (MonadDOM m, IsAudioNode self) => self -> Maybe Word -> m ()
 disconnect self output
   = liftDOM
       (void ((toAudioNode self) ^. jsf "disconnect" [toJSVal output]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.context Mozilla AudioNode.context documentation> 
 getContext ::
-           (MonadDOM m, IsAudioNode self) => self -> m (Maybe AudioContext)
+           (MonadDOM m, IsAudioNode self) => self -> m AudioContext
 getContext self
-  = liftDOM (((toAudioNode self) ^. js "context") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.context Mozilla AudioNode.context documentation> 
-getContextUnsafe ::
-                 (MonadDOM m, IsAudioNode self, HasCallStack) =>
-                   self -> m AudioContext
-getContextUnsafe self
-  = liftDOM
-      ((((toAudioNode self) ^. js "context") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/AudioNode.context Mozilla AudioNode.context documentation> 
-getContextUnchecked ::
-                    (MonadDOM m, IsAudioNode self) => self -> m AudioContext
-getContextUnchecked self
   = liftDOM
       (((toAudioNode self) ^. js "context") >>= fromJSValUnchecked)
 
