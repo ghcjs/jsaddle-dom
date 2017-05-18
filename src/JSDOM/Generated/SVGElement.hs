@@ -5,15 +5,15 @@
 module JSDOM.Generated.SVGElement
        (getPresentationAttribute, getPresentationAttribute_, focus, blur,
         getOwnerSVGElement, getViewportElement, setXmllang, getXmllang,
-        setXmlspace, getXmlspace, getClassName, getStyle, setTabIndex,
-        getTabIndex, getDataset, SVGElement(..), gTypeSVGElement,
-        IsSVGElement, toSVGElement)
+        setXmlspace, getXmlspace, getClassName, setTabIndex, getTabIndex,
+        getDataset, SVGElement(..), gTypeSVGElement, IsSVGElement,
+        toSVGElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -103,13 +103,6 @@ getClassName ::
 getClassName self
   = liftDOM
       (((toSVGElement self) ^. js "className") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.style Mozilla SVGElement.style documentation> 
-getStyle ::
-         (MonadDOM m, IsSVGElement self) => self -> m CSSStyleDeclaration
-getStyle self
-  = liftDOM
-      (((toSVGElement self) ^. js "style") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement.tabIndex Mozilla SVGElement.tabIndex documentation> 
 setTabIndex ::

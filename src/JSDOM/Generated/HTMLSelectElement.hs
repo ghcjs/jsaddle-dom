@@ -4,22 +4,22 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLSelectElement
        (item, item_, itemUnsafe, itemUnchecked, namedItem, namedItem_,
-        namedItemUnsafe, namedItemUnchecked, addBefore, removeThis,
-        removeElement, remove, checkValidity, checkValidity_,
-        reportValidity, reportValidity_, setCustomValidity, setAutofocus,
-        getAutofocus, setDisabled, getDisabled, getForm, getFormUnsafe,
-        getFormUnchecked, setMultiple, getMultiple, setName, getName,
-        setRequired, getRequired, setSize, getSize, getType, getOptions,
-        setLength, getLength, getSelectedOptions, setSelectedIndex,
-        getSelectedIndex, setValue, getValue, getWillValidate, getValidity,
-        getValidationMessage, getLabels, setAutocomplete, getAutocomplete,
-        HTMLSelectElement(..), gTypeHTMLSelectElement)
+        namedItemUnsafe, namedItemUnchecked, addBefore, removeThis, remove,
+        checkValidity, checkValidity_, reportValidity, reportValidity_,
+        setCustomValidity, setAutofocus, getAutofocus, setDisabled,
+        getDisabled, getForm, getFormUnsafe, getFormUnchecked, setMultiple,
+        getMultiple, setName, getName, setRequired, getRequired, setSize,
+        getSize, getType, getOptions, setLength, getLength,
+        getSelectedOptions, setSelectedIndex, getSelectedIndex, setValue,
+        getValue, getWillValidate, getValidity, getValidationMessage,
+        getLabels, setAutocomplete, getAutocomplete, HTMLSelectElement(..),
+        gTypeHTMLSelectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -99,12 +99,6 @@ addBefore self element before
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
 removeThis :: (MonadDOM m) => HTMLSelectElement -> m ()
 removeThis self = liftDOM (void (self ^. jsf "remove" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
-removeElement ::
-              (MonadDOM m) => HTMLSelectElement -> HTMLOptionElement -> m ()
-removeElement self option
-  = liftDOM (void (self ^. jsf "remove" [toJSVal option]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement.remove Mozilla HTMLSelectElement.remove documentation> 
 remove :: (MonadDOM m) => HTMLSelectElement -> Int -> m ()

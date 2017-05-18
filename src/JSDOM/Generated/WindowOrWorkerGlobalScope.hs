@@ -4,7 +4,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.WindowOrWorkerGlobalScope
        (setTimeout, setTimeout_, clearTimeout, setInterval, setInterval_,
-        clearInterval, atob, atob_, btoa, btoa_,
+        clearInterval, atob, atob_, btoa, btoa_, getOrigin,
         WindowOrWorkerGlobalScope(..), gTypeWindowOrWorkerGlobalScope,
         IsWindowOrWorkerGlobalScope, toWindowOrWorkerGlobalScope)
        where
@@ -12,7 +12,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -127,3 +127,13 @@ btoa_ self string
       (void
          ((toWindowOrWorkerGlobalScope self) ^. jsf "btoa"
             [toJSVal string]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope.origin Mozilla WindowOrWorkerGlobalScope.origin documentation> 
+getOrigin ::
+          (MonadDOM m, IsWindowOrWorkerGlobalScope self,
+           FromJSString result) =>
+            self -> m result
+getOrigin self
+  = liftDOM
+      (((toWindowOrWorkerGlobalScope self) ^. js "origin") >>=
+         fromJSValUnchecked)

@@ -4,16 +4,20 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCDataChannel
        (send, sendView, sendBlob, sendString, close, getLabel, getOrdered,
-        getMaxRetransmitTime, getMaxRetransmits, getProtocol,
-        getNegotiated, getId, getReadyState, getBufferedAmount,
-        setBinaryType, getBinaryType, open, error, closeEvent, message,
-        RTCDataChannel(..), gTypeRTCDataChannel)
+        getMaxPacketLifeTime, getMaxPacketLifeTimeUnsafe,
+        getMaxPacketLifeTimeUnchecked, getMaxRetransmits,
+        getMaxRetransmitsUnsafe, getMaxRetransmitsUnchecked, getProtocol,
+        getNegotiated, getId, getIdUnsafe, getIdUnchecked, getReadyState,
+        getBufferedAmount, setBufferedAmountLowThreshold,
+        getBufferedAmountLowThreshold, setBinaryType, getBinaryType, open,
+        error, closeEvent, message, bufferedamountlow, RTCDataChannel(..),
+        gTypeRTCDataChannel)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -63,17 +67,45 @@ getLabel self
 getOrdered :: (MonadDOM m) => RTCDataChannel -> m Bool
 getOrdered self = liftDOM ((self ^. js "ordered") >>= valToBool)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxRetransmitTime Mozilla RTCDataChannel.maxRetransmitTime documentation> 
-getMaxRetransmitTime :: (MonadDOM m) => RTCDataChannel -> m Word
-getMaxRetransmitTime self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxPacketLifeTime Mozilla RTCDataChannel.maxPacketLifeTime documentation> 
+getMaxPacketLifeTime ::
+                     (MonadDOM m) => RTCDataChannel -> m (Maybe Word)
+getMaxPacketLifeTime self
+  = liftDOM ((self ^. js "maxPacketLifeTime") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxPacketLifeTime Mozilla RTCDataChannel.maxPacketLifeTime documentation> 
+getMaxPacketLifeTimeUnsafe ::
+                           (MonadDOM m, HasCallStack) => RTCDataChannel -> m Word
+getMaxPacketLifeTimeUnsafe self
   = liftDOM
-      (round <$> ((self ^. js "maxRetransmitTime") >>= valToNumber))
+      (((self ^. js "maxPacketLifeTime") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxPacketLifeTime Mozilla RTCDataChannel.maxPacketLifeTime documentation> 
+getMaxPacketLifeTimeUnchecked ::
+                              (MonadDOM m) => RTCDataChannel -> m Word
+getMaxPacketLifeTimeUnchecked self
+  = liftDOM ((self ^. js "maxPacketLifeTime") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxRetransmits Mozilla RTCDataChannel.maxRetransmits documentation> 
-getMaxRetransmits :: (MonadDOM m) => RTCDataChannel -> m Word
+getMaxRetransmits ::
+                  (MonadDOM m) => RTCDataChannel -> m (Maybe Word)
 getMaxRetransmits self
+  = liftDOM ((self ^. js "maxRetransmits") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxRetransmits Mozilla RTCDataChannel.maxRetransmits documentation> 
+getMaxRetransmitsUnsafe ::
+                        (MonadDOM m, HasCallStack) => RTCDataChannel -> m Word
+getMaxRetransmitsUnsafe self
   = liftDOM
-      (round <$> ((self ^. js "maxRetransmits") >>= valToNumber))
+      (((self ^. js "maxRetransmits") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.maxRetransmits Mozilla RTCDataChannel.maxRetransmits documentation> 
+getMaxRetransmitsUnchecked ::
+                           (MonadDOM m) => RTCDataChannel -> m Word
+getMaxRetransmitsUnchecked self
+  = liftDOM ((self ^. js "maxRetransmits") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.protocol Mozilla RTCDataChannel.protocol documentation> 
 getProtocol ::
@@ -87,13 +119,25 @@ getNegotiated self
   = liftDOM ((self ^. js "negotiated") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.id Mozilla RTCDataChannel.id documentation> 
-getId :: (MonadDOM m) => RTCDataChannel -> m Word
-getId self
-  = liftDOM (round <$> ((self ^. js "id") >>= valToNumber))
+getId :: (MonadDOM m) => RTCDataChannel -> m (Maybe Word)
+getId self = liftDOM ((self ^. js "id") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.id Mozilla RTCDataChannel.id documentation> 
+getIdUnsafe ::
+            (MonadDOM m, HasCallStack) => RTCDataChannel -> m Word
+getIdUnsafe self
+  = liftDOM
+      (((self ^. js "id") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.id Mozilla RTCDataChannel.id documentation> 
+getIdUnchecked :: (MonadDOM m) => RTCDataChannel -> m Word
+getIdUnchecked self
+  = liftDOM ((self ^. js "id") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.readyState Mozilla RTCDataChannel.readyState documentation> 
 getReadyState ::
-              (MonadDOM m, FromJSString result) => RTCDataChannel -> m result
+              (MonadDOM m) => RTCDataChannel -> m RTCDataChannelState
 getReadyState self
   = liftDOM ((self ^. js "readyState") >>= fromJSValUnchecked)
 
@@ -102,6 +146,20 @@ getBufferedAmount :: (MonadDOM m) => RTCDataChannel -> m Word
 getBufferedAmount self
   = liftDOM
       (round <$> ((self ^. js "bufferedAmount") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.bufferedAmountLowThreshold Mozilla RTCDataChannel.bufferedAmountLowThreshold documentation> 
+setBufferedAmountLowThreshold ::
+                              (MonadDOM m) => RTCDataChannel -> Word -> m ()
+setBufferedAmountLowThreshold self val
+  = liftDOM (self ^. jss "bufferedAmountLowThreshold" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.bufferedAmountLowThreshold Mozilla RTCDataChannel.bufferedAmountLowThreshold documentation> 
+getBufferedAmountLowThreshold ::
+                              (MonadDOM m) => RTCDataChannel -> m Word
+getBufferedAmountLowThreshold self
+  = liftDOM
+      (round <$>
+         ((self ^. js "bufferedAmountLowThreshold") >>= valToNumber))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.binaryType Mozilla RTCDataChannel.binaryType documentation> 
 setBinaryType ::
@@ -130,3 +188,8 @@ closeEvent = unsafeEventName (toJSString "close")
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onmessage Mozilla RTCDataChannel.onmessage documentation> 
 message :: EventName RTCDataChannel MessageEvent
 message = unsafeEventName (toJSString "message")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onbufferedamountlow Mozilla RTCDataChannel.onbufferedamountlow documentation> 
+bufferedamountlow :: EventName RTCDataChannel onbufferedamountlow
+bufferedamountlow
+  = unsafeEventName (toJSString "bufferedamountlow")

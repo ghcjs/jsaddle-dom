@@ -1,5 +1,5 @@
 name: jsaddle-dom
-version: 0.8.0.0
+version: 0.9.0.0
 cabal-version: >=1.22
 build-type: Simple
 license: MIT
@@ -44,6 +44,7 @@ library
         JSDOM.Generated.Animatable
         JSDOM.Generated.Animation
         JSDOM.Generated.AnimationEvent
+        JSDOM.Generated.ApplePayError
         JSDOM.Generated.ApplePayPaymentAuthorizedEvent
         JSDOM.Generated.ApplePayPaymentMethodSelectedEvent
         JSDOM.Generated.ApplePaySession
@@ -65,10 +66,12 @@ library
         JSDOM.Generated.AudioTrackList
         JSDOM.Generated.AutocompleteErrorEvent
         JSDOM.Generated.BarProp
+        JSDOM.Generated.BasicCredential
         JSDOM.Generated.BeforeLoadEvent
         JSDOM.Generated.BeforeUnloadEvent
         JSDOM.Generated.BiquadFilterNode
         JSDOM.Generated.Blob
+        JSDOM.Generated.BlobCallback
         JSDOM.Generated.Body
         JSDOM.Generated.ByteLengthQueuingStrategy
         JSDOM.Generated.CSS
@@ -89,13 +92,12 @@ library
         JSDOM.Generated.CSSSupportsRule
         JSDOM.Generated.CSSValue
         JSDOM.Generated.CSSValueList
+        JSDOM.Generated.CanvasCaptureMediaStreamTrack
         JSDOM.Generated.CanvasGradient
         JSDOM.Generated.CanvasPath
         JSDOM.Generated.CanvasRenderingContext2D
         JSDOM.Generated.CharacterData
         JSDOM.Generated.ChildNode
-        JSDOM.Generated.ClientRect
-        JSDOM.Generated.ClientRectList
         JSDOM.Generated.ClipboardEvent
         JSDOM.Generated.CloseEvent
         JSDOM.Generated.CommandLineAPIHost
@@ -133,6 +135,7 @@ library
         JSDOM.Generated.DeviceOrientationEvent
         JSDOM.Generated.DeviceProximityEvent
         JSDOM.Generated.Document
+        JSDOM.Generated.DocumentAndElementEventHandlers
         JSDOM.Generated.DocumentFragment
         JSDOM.Generated.DocumentOrShadowRoot
         JSDOM.Generated.DocumentTimeline
@@ -142,6 +145,7 @@ library
         JSDOM.Generated.EXTTextureFilterAnisotropic
         JSDOM.Generated.EXTsRGB
         JSDOM.Generated.Element
+        JSDOM.Generated.ElementCSSInlineStyle
         JSDOM.Generated.Enums
         JSDOM.Generated.ErrorEvent
         JSDOM.Generated.Event
@@ -314,7 +318,6 @@ library
         JSDOM.Generated.NonDocumentTypeChildNode
         JSDOM.Generated.NonElementParentNode
         JSDOM.Generated.Notification
-        JSDOM.Generated.NotificationCenter
         JSDOM.Generated.NotificationPermissionCallback
         JSDOM.Generated.OESStandardDerivatives
         JSDOM.Generated.OESTextureHalfFloat
@@ -328,6 +331,7 @@ library
         JSDOM.Generated.PageTransitionEvent
         JSDOM.Generated.PannerNode
         JSDOM.Generated.ParentNode
+        JSDOM.Generated.PasswordCredential
         JSDOM.Generated.Path2D
         JSDOM.Generated.Performance
         JSDOM.Generated.PerformanceEntry
@@ -345,6 +349,7 @@ library
         JSDOM.Generated.PositionErrorCallback
         JSDOM.Generated.ProcessingInstruction
         JSDOM.Generated.ProgressEvent
+        JSDOM.Generated.PromiseRejectionEvent
         JSDOM.Generated.QuickTimePluginReplacement
         JSDOM.Generated.RGBColor
         JSDOM.Generated.RTCDTMFSender
@@ -353,7 +358,9 @@ library
         JSDOM.Generated.RTCDataChannelEvent
         JSDOM.Generated.RTCIceCandidate
         JSDOM.Generated.RTCIceCandidateEvent
+        JSDOM.Generated.RTCIceTransport
         JSDOM.Generated.RTCPeerConnection
+        JSDOM.Generated.RTCPeerConnectionIceEvent
         JSDOM.Generated.RTCRtpReceiver
         JSDOM.Generated.RTCRtpSender
         JSDOM.Generated.RTCRtpTransceiver
@@ -363,6 +370,8 @@ library
         JSDOM.Generated.Range
         JSDOM.Generated.ReadableByteStreamController
         JSDOM.Generated.ReadableStream
+        JSDOM.Generated.ReadableStreamBYOBReader
+        JSDOM.Generated.ReadableStreamBYOBRequest
         JSDOM.Generated.ReadableStreamDefaultController
         JSDOM.Generated.ReadableStreamDefaultReader
         JSDOM.Generated.ReadableStreamSource
@@ -493,6 +502,7 @@ library
         JSDOM.Generated.SecurityPolicyViolationEvent
         JSDOM.Generated.Selection
         JSDOM.Generated.ShadowRoot
+        JSDOM.Generated.SiteBoundCredential
         JSDOM.Generated.Slotable
         JSDOM.Generated.SourceBuffer
         JSDOM.Generated.SourceBufferList
@@ -555,6 +565,26 @@ library
         JSDOM.Generated.WebGLLoseContext
         JSDOM.Generated.WebGLRenderingContextBase
         JSDOM.Generated.WebGLShaderPrecisionFormat
+        JSDOM.Generated.WebGPUBuffer
+        JSDOM.Generated.WebGPUCommandBuffer
+        JSDOM.Generated.WebGPUCommandQueue
+        JSDOM.Generated.WebGPUComputeCommandEncoder
+        JSDOM.Generated.WebGPUDepthStencilDescriptor
+        JSDOM.Generated.WebGPUDepthStencilState
+        JSDOM.Generated.WebGPUDrawable
+        JSDOM.Generated.WebGPUFunction
+        JSDOM.Generated.WebGPULibrary
+        JSDOM.Generated.WebGPURenderCommandEncoder
+        JSDOM.Generated.WebGPURenderPassAttachmentDescriptor
+        JSDOM.Generated.WebGPURenderPassColorAttachmentDescriptor
+        JSDOM.Generated.WebGPURenderPassDepthAttachmentDescriptor
+        JSDOM.Generated.WebGPURenderPassDescriptor
+        JSDOM.Generated.WebGPURenderPipelineColorAttachmentDescriptor
+        JSDOM.Generated.WebGPURenderPipelineDescriptor
+        JSDOM.Generated.WebGPURenderPipelineState
+        JSDOM.Generated.WebGPURenderingContext
+        JSDOM.Generated.WebGPUTexture
+        JSDOM.Generated.WebGPUTextureDescriptor
         JSDOM.Generated.WebKitAnimationEvent
         JSDOM.Generated.WebKitCSSMatrix
         JSDOM.Generated.WebKitCSSRegionRule
@@ -615,6 +645,7 @@ library
                         JSDOM.Generated.Animatable as JSDOM.Animatable,
                         JSDOM.Generated.Animation as JSDOM.Animation,
                         JSDOM.Generated.AnimationEvent as JSDOM.AnimationEvent,
+                        JSDOM.Generated.ApplePayError as JSDOM.ApplePayError,
                         JSDOM.Generated.ApplePayPaymentAuthorizedEvent as JSDOM.ApplePayPaymentAuthorizedEvent,
                         JSDOM.Generated.ApplePayPaymentMethodSelectedEvent as JSDOM.ApplePayPaymentMethodSelectedEvent,
                         JSDOM.Generated.ApplePaySession as JSDOM.ApplePaySession,
@@ -635,10 +666,12 @@ library
                         JSDOM.Generated.AudioTrackList as JSDOM.AudioTrackList,
                         JSDOM.Generated.AutocompleteErrorEvent as JSDOM.AutocompleteErrorEvent,
                         JSDOM.Generated.BarProp as JSDOM.BarProp,
+                        JSDOM.Generated.BasicCredential as JSDOM.BasicCredential,
                         JSDOM.Generated.BeforeLoadEvent as JSDOM.BeforeLoadEvent,
                         JSDOM.Generated.BeforeUnloadEvent as JSDOM.BeforeUnloadEvent,
                         JSDOM.Generated.BiquadFilterNode as JSDOM.BiquadFilterNode,
                         JSDOM.Generated.Blob as JSDOM.Blob,
+                        JSDOM.Generated.BlobCallback as JSDOM.BlobCallback,
                         JSDOM.Generated.Body as JSDOM.Body,
                         JSDOM.Generated.ByteLengthQueuingStrategy as JSDOM.ByteLengthQueuingStrategy,
                         JSDOM.Generated.CSS as JSDOM.CSS,
@@ -659,13 +692,12 @@ library
                         JSDOM.Generated.CSSSupportsRule as JSDOM.CSSSupportsRule,
                         JSDOM.Generated.CSSValue as JSDOM.CSSValue,
                         JSDOM.Generated.CSSValueList as JSDOM.CSSValueList,
+                        JSDOM.Generated.CanvasCaptureMediaStreamTrack as JSDOM.CanvasCaptureMediaStreamTrack,
                         JSDOM.Generated.CanvasGradient as JSDOM.CanvasGradient,
                         JSDOM.Generated.CanvasPath as JSDOM.CanvasPath,
                         JSDOM.Generated.CanvasRenderingContext2D as JSDOM.CanvasRenderingContext2D,
                         JSDOM.Generated.CharacterData as JSDOM.CharacterData,
                         JSDOM.Generated.ChildNode as JSDOM.ChildNode,
-                        JSDOM.Generated.ClientRect as JSDOM.ClientRect,
-                        JSDOM.Generated.ClientRectList as JSDOM.ClientRectList,
                         JSDOM.Generated.ClipboardEvent as JSDOM.ClipboardEvent,
                         JSDOM.Generated.CloseEvent as JSDOM.CloseEvent,
                         JSDOM.Generated.CommandLineAPIHost as JSDOM.CommandLineAPIHost,
@@ -701,6 +733,7 @@ library
                         JSDOM.Generated.DeviceOrientationEvent as JSDOM.DeviceOrientationEvent,
                         JSDOM.Generated.DeviceProximityEvent as JSDOM.DeviceProximityEvent,
                         JSDOM.Generated.Document as JSDOM.Document,
+                        JSDOM.Generated.DocumentAndElementEventHandlers as JSDOM.DocumentAndElementEventHandlers,
                         JSDOM.Generated.DocumentFragment as JSDOM.DocumentFragment,
                         JSDOM.Generated.DocumentOrShadowRoot as JSDOM.DocumentOrShadowRoot,
                         JSDOM.Generated.DocumentTimeline as JSDOM.DocumentTimeline,
@@ -710,6 +743,7 @@ library
                         JSDOM.Generated.EXTTextureFilterAnisotropic as JSDOM.EXTTextureFilterAnisotropic,
                         JSDOM.Generated.EXTsRGB as JSDOM.EXTsRGB,
                         JSDOM.Generated.Element as JSDOM.Element,
+                        JSDOM.Generated.ElementCSSInlineStyle as JSDOM.ElementCSSInlineStyle,
                         JSDOM.Generated.ErrorEvent as JSDOM.ErrorEvent,
                         JSDOM.Generated.Event as JSDOM.Event,
                         JSDOM.Generated.EventListener as JSDOM.EventListener,
@@ -878,7 +912,6 @@ library
                         JSDOM.Generated.NonDocumentTypeChildNode as JSDOM.NonDocumentTypeChildNode,
                         JSDOM.Generated.NonElementParentNode as JSDOM.NonElementParentNode,
                         JSDOM.Generated.Notification as JSDOM.Notification,
-                        JSDOM.Generated.NotificationCenter as JSDOM.NotificationCenter,
                         JSDOM.Generated.NotificationPermissionCallback as JSDOM.NotificationPermissionCallback,
                         JSDOM.Generated.OESStandardDerivatives as JSDOM.OESStandardDerivatives,
                         JSDOM.Generated.OESTextureHalfFloat as JSDOM.OESTextureHalfFloat,
@@ -892,6 +925,7 @@ library
                         JSDOM.Generated.PageTransitionEvent as JSDOM.PageTransitionEvent,
                         JSDOM.Generated.PannerNode as JSDOM.PannerNode,
                         JSDOM.Generated.ParentNode as JSDOM.ParentNode,
+                        JSDOM.Generated.PasswordCredential as JSDOM.PasswordCredential,
                         JSDOM.Generated.Path2D as JSDOM.Path2D,
                         JSDOM.Generated.Performance as JSDOM.Performance,
                         JSDOM.Generated.PerformanceEntry as JSDOM.PerformanceEntry,
@@ -908,6 +942,7 @@ library
                         JSDOM.Generated.PositionErrorCallback as JSDOM.PositionErrorCallback,
                         JSDOM.Generated.ProcessingInstruction as JSDOM.ProcessingInstruction,
                         JSDOM.Generated.ProgressEvent as JSDOM.ProgressEvent,
+                        JSDOM.Generated.PromiseRejectionEvent as JSDOM.PromiseRejectionEvent,
                         JSDOM.Generated.QuickTimePluginReplacement as JSDOM.QuickTimePluginReplacement,
                         JSDOM.Generated.RGBColor as JSDOM.RGBColor,
                         JSDOM.Generated.RTCDTMFSender as JSDOM.RTCDTMFSender,
@@ -916,6 +951,8 @@ library
                         JSDOM.Generated.RTCDataChannelEvent as JSDOM.RTCDataChannelEvent,
                         JSDOM.Generated.RTCIceCandidate as JSDOM.RTCIceCandidate,
                         JSDOM.Generated.RTCIceCandidateEvent as JSDOM.RTCIceCandidateEvent,
+                        JSDOM.Generated.RTCIceTransport as JSDOM.RTCIceTransport,
+                        JSDOM.Generated.RTCPeerConnectionIceEvent as JSDOM.RTCPeerConnectionIceEvent,
                         JSDOM.Generated.RTCRtpReceiver as JSDOM.RTCRtpReceiver,
                         JSDOM.Generated.RTCRtpSender as JSDOM.RTCRtpSender,
                         JSDOM.Generated.RTCRtpTransceiver as JSDOM.RTCRtpTransceiver,
@@ -925,6 +962,8 @@ library
                         JSDOM.Generated.Range as JSDOM.Range,
                         JSDOM.Generated.ReadableByteStreamController as JSDOM.ReadableByteStreamController,
                         JSDOM.Generated.ReadableStream as JSDOM.ReadableStream,
+                        JSDOM.Generated.ReadableStreamBYOBReader as JSDOM.ReadableStreamBYOBReader,
+                        JSDOM.Generated.ReadableStreamBYOBRequest as JSDOM.ReadableStreamBYOBRequest,
                         JSDOM.Generated.ReadableStreamDefaultController as JSDOM.ReadableStreamDefaultController,
                         JSDOM.Generated.ReadableStreamDefaultReader as JSDOM.ReadableStreamDefaultReader,
                         JSDOM.Generated.ReadableStreamSource as JSDOM.ReadableStreamSource,
@@ -1053,6 +1092,7 @@ library
                         JSDOM.Generated.SecurityPolicyViolationEvent as JSDOM.SecurityPolicyViolationEvent,
                         JSDOM.Generated.Selection as JSDOM.Selection,
                         JSDOM.Generated.ShadowRoot as JSDOM.ShadowRoot,
+                        JSDOM.Generated.SiteBoundCredential as JSDOM.SiteBoundCredential,
                         JSDOM.Generated.Slotable as JSDOM.Slotable,
                         JSDOM.Generated.SourceBuffer as JSDOM.SourceBuffer,
                         JSDOM.Generated.SourceBufferList as JSDOM.SourceBufferList,
@@ -1115,6 +1155,26 @@ library
                         JSDOM.Generated.WebGLLoseContext as JSDOM.WebGLLoseContext,
                         JSDOM.Generated.WebGLRenderingContextBase as JSDOM.WebGLRenderingContextBase,
                         JSDOM.Generated.WebGLShaderPrecisionFormat as JSDOM.WebGLShaderPrecisionFormat,
+                        JSDOM.Generated.WebGPUBuffer as JSDOM.WebGPUBuffer,
+                        JSDOM.Generated.WebGPUCommandBuffer as JSDOM.WebGPUCommandBuffer,
+                        JSDOM.Generated.WebGPUCommandQueue as JSDOM.WebGPUCommandQueue,
+                        JSDOM.Generated.WebGPUComputeCommandEncoder as JSDOM.WebGPUComputeCommandEncoder,
+                        JSDOM.Generated.WebGPUDepthStencilDescriptor as JSDOM.WebGPUDepthStencilDescriptor,
+                        JSDOM.Generated.WebGPUDepthStencilState as JSDOM.WebGPUDepthStencilState,
+                        JSDOM.Generated.WebGPUDrawable as JSDOM.WebGPUDrawable,
+                        JSDOM.Generated.WebGPUFunction as JSDOM.WebGPUFunction,
+                        JSDOM.Generated.WebGPULibrary as JSDOM.WebGPULibrary,
+                        JSDOM.Generated.WebGPURenderCommandEncoder as JSDOM.WebGPURenderCommandEncoder,
+                        JSDOM.Generated.WebGPURenderPassAttachmentDescriptor as JSDOM.WebGPURenderPassAttachmentDescriptor,
+                        JSDOM.Generated.WebGPURenderPassColorAttachmentDescriptor as JSDOM.WebGPURenderPassColorAttachmentDescriptor,
+                        JSDOM.Generated.WebGPURenderPassDepthAttachmentDescriptor as JSDOM.WebGPURenderPassDepthAttachmentDescriptor,
+                        JSDOM.Generated.WebGPURenderPassDescriptor as JSDOM.WebGPURenderPassDescriptor,
+                        JSDOM.Generated.WebGPURenderPipelineColorAttachmentDescriptor as JSDOM.WebGPURenderPipelineColorAttachmentDescriptor,
+                        JSDOM.Generated.WebGPURenderPipelineDescriptor as JSDOM.WebGPURenderPipelineDescriptor,
+                        JSDOM.Generated.WebGPURenderPipelineState as JSDOM.WebGPURenderPipelineState,
+                        JSDOM.Generated.WebGPURenderingContext as JSDOM.WebGPURenderingContext,
+                        JSDOM.Generated.WebGPUTexture as JSDOM.WebGPUTexture,
+                        JSDOM.Generated.WebGPUTextureDescriptor as JSDOM.WebGPUTextureDescriptor,
                         JSDOM.Generated.WebKitAnimationEvent as JSDOM.WebKitAnimationEvent,
                         JSDOM.Generated.WebKitCSSMatrix as JSDOM.WebKitCSSMatrix,
                         JSDOM.Generated.WebKitCSSRegionRule as JSDOM.WebKitCSSRegionRule,
@@ -1153,7 +1213,7 @@ library
         base-compat >=0.9.0 && <0.10,
         transformers >=0.2 && <0.6,
         text >=0.11.0.6 && <1.3,
-        jsaddle >=0.8.0.0 && <0.9,
+        jsaddle >=0.9.0.0 && <0.10,
         lens >=4.12.3 && <4.16
     default-language: Haskell2010
     hs-source-dirs: src

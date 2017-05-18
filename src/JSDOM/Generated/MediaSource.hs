@@ -14,7 +14,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -107,8 +107,7 @@ getDuration self
   = liftDOM ((self ^. js "duration") >>= valToNumber)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.readyState Mozilla MediaSource.readyState documentation> 
-getReadyState ::
-              (MonadDOM m, FromJSString result) => MediaSource -> m result
+getReadyState :: (MonadDOM m) => MediaSource -> m ReadyState
 getReadyState self
   = liftDOM ((self ^. js "readyState") >>= fromJSValUnchecked)
 

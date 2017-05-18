@@ -3,14 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.RTCRtpSender
-       (replaceTrack, getTrack, getTrackUnsafe, getTrackUnchecked,
-        RTCRtpSender(..), gTypeRTCRtpSender)
+       (getParameters, getParameters_, replaceTrack, getTrack,
+        getTrackUnsafe, getTrackUnchecked, RTCRtpSender(..),
+        gTypeRTCRtpSender)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -20,9 +21,20 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpSender.getParameters Mozilla RTCRtpSender.getParameters documentation> 
+getParameters :: (MonadDOM m) => RTCRtpSender -> m RTCRtpParameters
+getParameters self
+  = liftDOM ((self ^. jsf "getParameters" ()) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpSender.getParameters Mozilla RTCRtpSender.getParameters documentation> 
+getParameters_ :: (MonadDOM m) => RTCRtpSender -> m ()
+getParameters_ self
+  = liftDOM (void (self ^. jsf "getParameters" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpSender.replaceTrack Mozilla RTCRtpSender.replaceTrack documentation> 
 replaceTrack ::
-             (MonadDOM m) => RTCRtpSender -> MediaStreamTrack -> m ()
+             (MonadDOM m, IsMediaStreamTrack withTrack) =>
+               RTCRtpSender -> Maybe withTrack -> m ()
 replaceTrack self withTrack
   = liftDOM
       (void

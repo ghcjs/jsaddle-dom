@@ -10,7 +10,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -36,4 +36,4 @@ newVoidCallbackSync callback
 newVoidCallbackAsync :: (MonadDOM m) => JSM () -> m VoidCallback
 newVoidCallbackAsync callback
   = liftDOM
-      (VoidCallback . Callback <$> function (\ _ _ [] -> callback))
+      (VoidCallback . Callback <$> asyncFunction (\ _ _ [] -> callback))

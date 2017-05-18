@@ -3,16 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Node
-       (insertBefore, insertBefore_, replaceChild, replaceChild_,
-        removeChild, removeChild_, appendChild, appendChild_,
-        hasChildNodes, hasChildNodes_, cloneNode, cloneNode_, normalize,
-        isSameNode, isSameNode_, isEqualNode, isEqualNode_, lookupPrefix,
+       (getRootNode, getRootNode_, hasChildNodes, hasChildNodes_,
+        normalize, cloneNode, cloneNode_, isEqualNode, isEqualNode_,
+        isSameNode, isSameNode_, compareDocumentPosition,
+        compareDocumentPosition_, contains, contains_, lookupPrefix,
         lookupPrefix_, lookupPrefixUnsafe, lookupPrefixUnchecked,
         lookupNamespaceURI, lookupNamespaceURI_, lookupNamespaceURIUnsafe,
         lookupNamespaceURIUnchecked, isDefaultNamespace,
-        isDefaultNamespace_, compareDocumentPosition,
-        compareDocumentPosition_, contains, contains_, getRootNode,
-        getRootNode_, pattern ELEMENT_NODE, pattern ATTRIBUTE_NODE,
+        isDefaultNamespace_, insertBefore, insertBefore_, appendChild,
+        appendChild_, replaceChild, replaceChild_, removeChild,
+        removeChild_, pattern ELEMENT_NODE, pattern ATTRIBUTE_NODE,
         pattern TEXT_NODE, pattern CDATA_SECTION_NODE,
         pattern ENTITY_REFERENCE_NODE, pattern ENTITY_NODE,
         pattern PROCESSING_INSTRUCTION_NODE, pattern COMMENT_NODE,
@@ -23,25 +23,25 @@ module JSDOM.Generated.Node
         pattern DOCUMENT_POSITION_FOLLOWING,
         pattern DOCUMENT_POSITION_CONTAINS,
         pattern DOCUMENT_POSITION_CONTAINED_BY,
-        pattern DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, getNodeName,
-        setNodeValue, getNodeValue, getNodeValueUnsafe,
-        getNodeValueUnchecked, getNodeType, getParentNode,
-        getParentNodeUnsafe, getParentNodeUnchecked, getChildNodes,
+        pattern DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, getNodeType,
+        getNodeName, getBaseURI, getIsConnected, getOwnerDocument,
+        getOwnerDocumentUnsafe, getOwnerDocumentUnchecked, getParentNode,
+        getParentNodeUnsafe, getParentNodeUnchecked, getParentElement,
+        getParentElementUnsafe, getParentElementUnchecked, getChildNodes,
         getFirstChild, getFirstChildUnsafe, getFirstChildUnchecked,
         getLastChild, getLastChildUnsafe, getLastChildUnchecked,
         getPreviousSibling, getPreviousSiblingUnsafe,
         getPreviousSiblingUnchecked, getNextSibling, getNextSiblingUnsafe,
-        getNextSiblingUnchecked, getOwnerDocument, getOwnerDocumentUnsafe,
-        getOwnerDocumentUnchecked, getBaseURI, setTextContent,
+        getNextSiblingUnchecked, setNodeValue, getNodeValue,
+        getNodeValueUnsafe, getNodeValueUnchecked, setTextContent,
         getTextContent, getTextContentUnsafe, getTextContentUnchecked,
-        getIsConnected, getParentElement, getParentElementUnsafe,
-        getParentElementUnchecked, Node(..), gTypeNode, IsNode, toNode)
+        Node(..), gTypeNode, IsNode, toNode)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -51,79 +51,22 @@ import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
-insertBefore ::
-             (MonadDOM m, IsNode self, IsNode newChild, IsNode refChild) =>
-               self -> newChild -> Maybe refChild -> m Node
-insertBefore self newChild refChild
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.getRootNode Mozilla Node.getRootNode documentation> 
+getRootNode ::
+            (MonadDOM m, IsNode self) =>
+              self -> Maybe GetRootNodeOptions -> m Node
+getRootNode self options
   = liftDOM
-      (((toNode self) ^. jsf "insertBefore"
-          [toJSVal newChild, toJSVal refChild])
-         >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
-insertBefore_ ::
-              (MonadDOM m, IsNode self, IsNode newChild, IsNode refChild) =>
-                self -> newChild -> Maybe refChild -> m ()
-insertBefore_ self newChild refChild
-  = liftDOM
-      (void
-         ((toNode self) ^. jsf "insertBefore"
-            [toJSVal newChild, toJSVal refChild]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.replaceChild Mozilla Node.replaceChild documentation> 
-replaceChild ::
-             (MonadDOM m, IsNode self, IsNode newChild, IsNode oldChild) =>
-               self -> newChild -> oldChild -> m Node
-replaceChild self newChild oldChild
-  = liftDOM
-      (((toNode self) ^. jsf "replaceChild"
-          [toJSVal newChild, toJSVal oldChild])
-         >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.replaceChild Mozilla Node.replaceChild documentation> 
-replaceChild_ ::
-              (MonadDOM m, IsNode self, IsNode newChild, IsNode oldChild) =>
-                self -> newChild -> oldChild -> m ()
-replaceChild_ self newChild oldChild
-  = liftDOM
-      (void
-         ((toNode self) ^. jsf "replaceChild"
-            [toJSVal newChild, toJSVal oldChild]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild Mozilla Node.removeChild documentation> 
-removeChild ::
-            (MonadDOM m, IsNode self, IsNode oldChild) =>
-              self -> oldChild -> m Node
-removeChild self oldChild
-  = liftDOM
-      (((toNode self) ^. jsf "removeChild" [toJSVal oldChild]) >>=
+      (((toNode self) ^. jsf "getRootNode" [toJSVal options]) >>=
          fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild Mozilla Node.removeChild documentation> 
-removeChild_ ::
-             (MonadDOM m, IsNode self, IsNode oldChild) =>
-               self -> oldChild -> m ()
-removeChild_ self oldChild
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.getRootNode Mozilla Node.getRootNode documentation> 
+getRootNode_ ::
+             (MonadDOM m, IsNode self) =>
+               self -> Maybe GetRootNodeOptions -> m ()
+getRootNode_ self options
   = liftDOM
-      (void ((toNode self) ^. jsf "removeChild" [toJSVal oldChild]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild Mozilla Node.appendChild documentation> 
-appendChild ::
-            (MonadDOM m, IsNode self, IsNode newChild) =>
-              self -> newChild -> m Node
-appendChild self newChild
-  = liftDOM
-      (((toNode self) ^. jsf "appendChild" [toJSVal newChild]) >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild Mozilla Node.appendChild documentation> 
-appendChild_ ::
-             (MonadDOM m, IsNode self, IsNode newChild) =>
-               self -> newChild -> m ()
-appendChild_ self newChild
-  = liftDOM
-      (void ((toNode self) ^. jsf "appendChild" [toJSVal newChild]))
+      (void ((toNode self) ^. jsf "getRootNode" [toJSVal options]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.hasChildNodes Mozilla Node.hasChildNodes documentation> 
 hasChildNodes :: (MonadDOM m, IsNode self) => self -> m Bool
@@ -134,6 +77,11 @@ hasChildNodes self
 hasChildNodes_ :: (MonadDOM m, IsNode self) => self -> m ()
 hasChildNodes_ self
   = liftDOM (void ((toNode self) ^. jsf "hasChildNodes" ()))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.normalize Mozilla Node.normalize documentation> 
+normalize :: (MonadDOM m, IsNode self) => self -> m ()
+normalize self
+  = liftDOM (void ((toNode self) ^. jsf "normalize" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode Mozilla Node.cloneNode documentation> 
 cloneNode :: (MonadDOM m, IsNode self) => self -> Bool -> m Node
@@ -146,27 +94,6 @@ cloneNode self deep
 cloneNode_ :: (MonadDOM m, IsNode self) => self -> Bool -> m ()
 cloneNode_ self deep
   = liftDOM (void ((toNode self) ^. jsf "cloneNode" [toJSVal deep]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.normalize Mozilla Node.normalize documentation> 
-normalize :: (MonadDOM m, IsNode self) => self -> m ()
-normalize self
-  = liftDOM (void ((toNode self) ^. jsf "normalize" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isSameNode Mozilla Node.isSameNode documentation> 
-isSameNode ::
-           (MonadDOM m, IsNode self, IsNode other) =>
-             self -> Maybe other -> m Bool
-isSameNode self other
-  = liftDOM
-      (((toNode self) ^. jsf "isSameNode" [toJSVal other]) >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isSameNode Mozilla Node.isSameNode documentation> 
-isSameNode_ ::
-            (MonadDOM m, IsNode self, IsNode other) =>
-              self -> Maybe other -> m ()
-isSameNode_ self other
-  = liftDOM
-      (void ((toNode self) ^. jsf "isSameNode" [toJSVal other]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isEqualNode Mozilla Node.isEqualNode documentation> 
 isEqualNode ::
@@ -184,6 +111,54 @@ isEqualNode_ ::
 isEqualNode_ self other
   = liftDOM
       (void ((toNode self) ^. jsf "isEqualNode" [toJSVal other]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isSameNode Mozilla Node.isSameNode documentation> 
+isSameNode ::
+           (MonadDOM m, IsNode self, IsNode other) =>
+             self -> Maybe other -> m Bool
+isSameNode self other
+  = liftDOM
+      (((toNode self) ^. jsf "isSameNode" [toJSVal other]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isSameNode Mozilla Node.isSameNode documentation> 
+isSameNode_ ::
+            (MonadDOM m, IsNode self, IsNode other) =>
+              self -> Maybe other -> m ()
+isSameNode_ self other
+  = liftDOM
+      (void ((toNode self) ^. jsf "isSameNode" [toJSVal other]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition Mozilla Node.compareDocumentPosition documentation> 
+compareDocumentPosition ::
+                        (MonadDOM m, IsNode self, IsNode other) => self -> other -> m Word
+compareDocumentPosition self other
+  = liftDOM
+      (round <$>
+         (((toNode self) ^. jsf "compareDocumentPosition" [toJSVal other])
+            >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition Mozilla Node.compareDocumentPosition documentation> 
+compareDocumentPosition_ ::
+                         (MonadDOM m, IsNode self, IsNode other) => self -> other -> m ()
+compareDocumentPosition_ self other
+  = liftDOM
+      (void
+         ((toNode self) ^. jsf "compareDocumentPosition" [toJSVal other]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.contains Mozilla Node.contains documentation> 
+contains ::
+         (MonadDOM m, IsNode self, IsNode other) =>
+           self -> Maybe other -> m Bool
+contains self other
+  = liftDOM
+      (((toNode self) ^. jsf "contains" [toJSVal other]) >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.contains Mozilla Node.contains documentation> 
+contains_ ::
+          (MonadDOM m, IsNode self, IsNode other) =>
+            self -> Maybe other -> m ()
+contains_ self other
+  = liftDOM (void ((toNode self) ^. jsf "contains" [toJSVal other]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupPrefix Mozilla Node.lookupPrefix documentation> 
 lookupPrefix ::
@@ -281,54 +256,75 @@ isDefaultNamespace_ self namespaceURI
       (void
          ((toNode self) ^. jsf "isDefaultNamespace" [toJSVal namespaceURI]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition Mozilla Node.compareDocumentPosition documentation> 
-compareDocumentPosition ::
-                        (MonadDOM m, IsNode self, IsNode other) => self -> other -> m Word
-compareDocumentPosition self other
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
+insertBefore ::
+             (MonadDOM m, IsNode self, IsNode node, IsNode child) =>
+               self -> node -> Maybe child -> m Node
+insertBefore self node child
   = liftDOM
-      (round <$>
-         (((toNode self) ^. jsf "compareDocumentPosition" [toJSVal other])
-            >>= valToNumber))
+      (((toNode self) ^. jsf "insertBefore"
+          [toJSVal node, toJSVal child])
+         >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition Mozilla Node.compareDocumentPosition documentation> 
-compareDocumentPosition_ ::
-                         (MonadDOM m, IsNode self, IsNode other) => self -> other -> m ()
-compareDocumentPosition_ self other
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore Mozilla Node.insertBefore documentation> 
+insertBefore_ ::
+              (MonadDOM m, IsNode self, IsNode node, IsNode child) =>
+                self -> node -> Maybe child -> m ()
+insertBefore_ self node child
   = liftDOM
       (void
-         ((toNode self) ^. jsf "compareDocumentPosition" [toJSVal other]))
+         ((toNode self) ^. jsf "insertBefore"
+            [toJSVal node, toJSVal child]))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.contains Mozilla Node.contains documentation> 
-contains ::
-         (MonadDOM m, IsNode self, IsNode other) =>
-           self -> Maybe other -> m Bool
-contains self other
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild Mozilla Node.appendChild documentation> 
+appendChild ::
+            (MonadDOM m, IsNode self, IsNode node) => self -> node -> m Node
+appendChild self node
   = liftDOM
-      (((toNode self) ^. jsf "contains" [toJSVal other]) >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.contains Mozilla Node.contains documentation> 
-contains_ ::
-          (MonadDOM m, IsNode self, IsNode other) =>
-            self -> Maybe other -> m ()
-contains_ self other
-  = liftDOM (void ((toNode self) ^. jsf "contains" [toJSVal other]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.getRootNode Mozilla Node.getRootNode documentation> 
-getRootNode ::
-            (MonadDOM m, IsNode self) =>
-              self -> Maybe GetRootNodeOptions -> m Node
-getRootNode self options
-  = liftDOM
-      (((toNode self) ^. jsf "getRootNode" [toJSVal options]) >>=
+      (((toNode self) ^. jsf "appendChild" [toJSVal node]) >>=
          fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.getRootNode Mozilla Node.getRootNode documentation> 
-getRootNode_ ::
-             (MonadDOM m, IsNode self) =>
-               self -> Maybe GetRootNodeOptions -> m ()
-getRootNode_ self options
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild Mozilla Node.appendChild documentation> 
+appendChild_ ::
+             (MonadDOM m, IsNode self, IsNode node) => self -> node -> m ()
+appendChild_ self node
   = liftDOM
-      (void ((toNode self) ^. jsf "getRootNode" [toJSVal options]))
+      (void ((toNode self) ^. jsf "appendChild" [toJSVal node]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.replaceChild Mozilla Node.replaceChild documentation> 
+replaceChild ::
+             (MonadDOM m, IsNode self, IsNode node, IsNode child) =>
+               self -> node -> child -> m Node
+replaceChild self node child
+  = liftDOM
+      (((toNode self) ^. jsf "replaceChild"
+          [toJSVal node, toJSVal child])
+         >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.replaceChild Mozilla Node.replaceChild documentation> 
+replaceChild_ ::
+              (MonadDOM m, IsNode self, IsNode node, IsNode child) =>
+                self -> node -> child -> m ()
+replaceChild_ self node child
+  = liftDOM
+      (void
+         ((toNode self) ^. jsf "replaceChild"
+            [toJSVal node, toJSVal child]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild Mozilla Node.removeChild documentation> 
+removeChild ::
+            (MonadDOM m, IsNode self, IsNode child) => self -> child -> m Node
+removeChild self child
+  = liftDOM
+      (((toNode self) ^. jsf "removeChild" [toJSVal child]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild Mozilla Node.removeChild documentation> 
+removeChild_ ::
+             (MonadDOM m, IsNode self, IsNode child) => self -> child -> m ()
+removeChild_ self child
+  = liftDOM
+      (void ((toNode self) ^. jsf "removeChild" [toJSVal child]))
 pattern ELEMENT_NODE = 1
 pattern ATTRIBUTE_NODE = 2
 pattern TEXT_NODE = 3
@@ -348,47 +344,49 @@ pattern DOCUMENT_POSITION_CONTAINS = 8
 pattern DOCUMENT_POSITION_CONTAINED_BY = 16
 pattern DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType Mozilla Node.nodeType documentation> 
+getNodeType :: (MonadDOM m, IsNode self) => self -> m Word
+getNodeType self
+  = liftDOM
+      (round <$> (((toNode self) ^. js "nodeType") >>= valToNumber))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeName Mozilla Node.nodeName documentation> 
 getNodeName ::
             (MonadDOM m, IsNode self, FromJSString result) => self -> m result
 getNodeName self
   = liftDOM (((toNode self) ^. js "nodeName") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
-setNodeValue ::
-             (MonadDOM m, IsNode self, ToJSString val) =>
-               self -> Maybe val -> m ()
-setNodeValue self val
-  = liftDOM ((toNode self) ^. jss "nodeValue" (toJSVal val))
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.baseURI Mozilla Node.baseURI documentation> 
+getBaseURI ::
+           (MonadDOM m, IsNode self, FromJSString result) => self -> m result
+getBaseURI self
+  = liftDOM (((toNode self) ^. js "baseURI") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
-getNodeValue ::
-             (MonadDOM m, IsNode self, FromJSString result) =>
-               self -> m (Maybe result)
-getNodeValue self
-  = liftDOM (((toNode self) ^. js "nodeValue") >>= fromJSVal)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isConnected Mozilla Node.isConnected documentation> 
+getIsConnected :: (MonadDOM m, IsNode self) => self -> m Bool
+getIsConnected self
+  = liftDOM (((toNode self) ^. js "isConnected") >>= valToBool)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
-getNodeValueUnsafe ::
-                   (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
-                     self -> m result
-getNodeValueUnsafe self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
+getOwnerDocument ::
+                 (MonadDOM m, IsNode self) => self -> m (Maybe Document)
+getOwnerDocument self
+  = liftDOM (((toNode self) ^. js "ownerDocument") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
+getOwnerDocumentUnsafe ::
+                       (MonadDOM m, IsNode self, HasCallStack) => self -> m Document
+getOwnerDocumentUnsafe self
   = liftDOM
-      ((((toNode self) ^. js "nodeValue") >>= fromJSVal) >>=
+      ((((toNode self) ^. js "ownerDocument") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
-getNodeValueUnchecked ::
-                      (MonadDOM m, IsNode self, FromJSString result) => self -> m result
-getNodeValueUnchecked self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
+getOwnerDocumentUnchecked ::
+                          (MonadDOM m, IsNode self) => self -> m Document
+getOwnerDocumentUnchecked self
   = liftDOM
-      (((toNode self) ^. js "nodeValue") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType Mozilla Node.nodeType documentation> 
-getNodeType :: (MonadDOM m, IsNode self) => self -> m Word
-getNodeType self
-  = liftDOM
-      (round <$> (((toNode self) ^. js "nodeType") >>= valToNumber))
+      (((toNode self) ^. js "ownerDocument") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentNode Mozilla Node.parentNode documentation> 
 getParentNode ::
@@ -410,6 +408,27 @@ getParentNodeUnchecked ::
 getParentNodeUnchecked self
   = liftDOM
       (((toNode self) ^. js "parentNode") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
+getParentElement ::
+                 (MonadDOM m, IsNode self) => self -> m (Maybe Element)
+getParentElement self
+  = liftDOM (((toNode self) ^. js "parentElement") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
+getParentElementUnsafe ::
+                       (MonadDOM m, IsNode self, HasCallStack) => self -> m Element
+getParentElementUnsafe self
+  = liftDOM
+      ((((toNode self) ^. js "parentElement") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
+getParentElementUnchecked ::
+                          (MonadDOM m, IsNode self) => self -> m Element
+getParentElementUnchecked self
+  = liftDOM
+      (((toNode self) ^. js "parentElement") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes Mozilla Node.childNodes documentation> 
 getChildNodes :: (MonadDOM m, IsNode self) => self -> m NodeList
@@ -500,32 +519,35 @@ getNextSiblingUnchecked self
   = liftDOM
       (((toNode self) ^. js "nextSibling") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
-getOwnerDocument ::
-                 (MonadDOM m, IsNode self) => self -> m (Maybe Document)
-getOwnerDocument self
-  = liftDOM (((toNode self) ^. js "ownerDocument") >>= fromJSVal)
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
+setNodeValue ::
+             (MonadDOM m, IsNode self, ToJSString val) =>
+               self -> Maybe val -> m ()
+setNodeValue self val
+  = liftDOM ((toNode self) ^. jss "nodeValue" (toJSVal val))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
-getOwnerDocumentUnsafe ::
-                       (MonadDOM m, IsNode self, HasCallStack) => self -> m Document
-getOwnerDocumentUnsafe self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
+getNodeValue ::
+             (MonadDOM m, IsNode self, FromJSString result) =>
+               self -> m (Maybe result)
+getNodeValue self
+  = liftDOM (((toNode self) ^. js "nodeValue") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
+getNodeValueUnsafe ::
+                   (MonadDOM m, IsNode self, HasCallStack, FromJSString result) =>
+                     self -> m result
+getNodeValueUnsafe self
   = liftDOM
-      ((((toNode self) ^. js "ownerDocument") >>= fromJSVal) >>=
+      ((((toNode self) ^. js "nodeValue") >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument Mozilla Node.ownerDocument documentation> 
-getOwnerDocumentUnchecked ::
-                          (MonadDOM m, IsNode self) => self -> m Document
-getOwnerDocumentUnchecked self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
+getNodeValueUnchecked ::
+                      (MonadDOM m, IsNode self, FromJSString result) => self -> m result
+getNodeValueUnchecked self
   = liftDOM
-      (((toNode self) ^. js "ownerDocument") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.baseURI Mozilla Node.baseURI documentation> 
-getBaseURI ::
-           (MonadDOM m, IsNode self, FromJSString result) => self -> m result
-getBaseURI self
-  = liftDOM (((toNode self) ^. js "baseURI") >>= fromJSValUnchecked)
+      (((toNode self) ^. js "nodeValue") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent Mozilla Node.textContent documentation> 
 setTextContent ::
@@ -556,29 +578,3 @@ getTextContentUnchecked ::
 getTextContentUnchecked self
   = liftDOM
       (((toNode self) ^. js "textContent") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.isConnected Mozilla Node.isConnected documentation> 
-getIsConnected :: (MonadDOM m, IsNode self) => self -> m Bool
-getIsConnected self
-  = liftDOM (((toNode self) ^. js "isConnected") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
-getParentElement ::
-                 (MonadDOM m, IsNode self) => self -> m (Maybe Element)
-getParentElement self
-  = liftDOM (((toNode self) ^. js "parentElement") >>= fromJSVal)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
-getParentElementUnsafe ::
-                       (MonadDOM m, IsNode self, HasCallStack) => self -> m Element
-getParentElementUnsafe self
-  = liftDOM
-      ((((toNode self) ^. js "parentElement") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement Mozilla Node.parentElement documentation> 
-getParentElementUnchecked ::
-                          (MonadDOM m, IsNode self) => self -> m Element
-getParentElementUnchecked self
-  = liftDOM
-      (((toNode self) ^. js "parentElement") >>= fromJSValUnchecked)

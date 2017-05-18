@@ -7,6 +7,9 @@ module JSDOM.Generated.ApplePaySession
         canMakePayments, canMakePayments_, canMakePaymentsWithActiveCard,
         canMakePaymentsWithActiveCard_, openPaymentSetup,
         openPaymentSetup_, begin, abort, completeMerchantValidation,
+        completeShippingMethodSelectionUpdate,
+        completeShippingContactSelectionUpdate,
+        completePaymentMethodSelectionUpdate, completePaymentResult,
         completeShippingMethodSelection, completeShippingContactSelection,
         completePaymentMethodSelection, completePayment,
         pattern STATUS_SUCCESS, pattern STATUS_FAILURE,
@@ -23,7 +26,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -121,6 +124,40 @@ completeMerchantValidation self merchantSession
       (void
          (self ^. jsf "completeMerchantValidation"
             [toJSVal merchantSession]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.completeShippingMethodSelection Mozilla ApplePaySession.completeShippingMethodSelection documentation> 
+completeShippingMethodSelectionUpdate ::
+                                      (MonadDOM m) =>
+                                        ApplePaySession -> ApplePayShippingMethodUpdate -> m ()
+completeShippingMethodSelectionUpdate self update
+  = liftDOM
+      (void
+         (self ^. jsf "completeShippingMethodSelection" [toJSVal update]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.completeShippingContactSelection Mozilla ApplePaySession.completeShippingContactSelection documentation> 
+completeShippingContactSelectionUpdate ::
+                                       (MonadDOM m) =>
+                                         ApplePaySession -> ApplePayShippingContactUpdate -> m ()
+completeShippingContactSelectionUpdate self update
+  = liftDOM
+      (void
+         (self ^. jsf "completeShippingContactSelection" [toJSVal update]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.completePaymentMethodSelection Mozilla ApplePaySession.completePaymentMethodSelection documentation> 
+completePaymentMethodSelectionUpdate ::
+                                     (MonadDOM m) =>
+                                       ApplePaySession -> ApplePayPaymentMethodUpdate -> m ()
+completePaymentMethodSelectionUpdate self update
+  = liftDOM
+      (void
+         (self ^. jsf "completePaymentMethodSelection" [toJSVal update]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.completePayment Mozilla ApplePaySession.completePayment documentation> 
+completePaymentResult ::
+                      (MonadDOM m) =>
+                        ApplePaySession -> ApplePayPaymentAuthorizationResult -> m ()
+completePaymentResult self result
+  = liftDOM (void (self ^. jsf "completePayment" [toJSVal result]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.completeShippingMethodSelection Mozilla ApplePaySession.completeShippingMethodSelection documentation> 
 completeShippingMethodSelection ::

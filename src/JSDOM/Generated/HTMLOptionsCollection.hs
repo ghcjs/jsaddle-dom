@@ -3,17 +3,16 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLOptionsCollection
-       (addBefore, remove, removeElement, item, item_, itemUnsafe,
-        itemUnchecked, namedItem, namedItem_, namedItemUnsafe,
-        namedItemUnchecked, setLength, getLength, setSelectedIndex,
-        getSelectedIndex, HTMLOptionsCollection(..),
-        gTypeHTMLOptionsCollection)
+       (addBefore, remove, item, item_, itemUnsafe, itemUnchecked,
+        namedItem, namedItem_, namedItemUnsafe, namedItemUnchecked,
+        setLength, getLength, setSelectedIndex, getSelectedIndex,
+        HTMLOptionsCollection(..), gTypeHTMLOptionsCollection)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -36,12 +35,6 @@ addBefore self element before
 remove :: (MonadDOM m) => HTMLOptionsCollection -> Int -> m ()
 remove self index
   = liftDOM (void (self ^. jsf "remove" [toJSVal index]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionsCollection.remove Mozilla HTMLOptionsCollection.remove documentation> 
-removeElement ::
-              (MonadDOM m) => HTMLOptionsCollection -> HTMLOptionElement -> m ()
-removeElement self option
-  = liftDOM (void (self ^. jsf "remove" [toJSVal option]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionsCollection.item Mozilla HTMLOptionsCollection.item documentation> 
 item ::

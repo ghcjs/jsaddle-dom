@@ -8,13 +8,14 @@ module JSDOM.Generated.MediaControlsHost
         displayNameForTrack, displayNameForTrack_, setSelectedTextTrack,
         setPreparedToReturnVideoLayerToInline, updateTextTrackContainer,
         enteredFullscreen, exitedFullscreen, generateUUID, generateUUID_,
-        base64StringForIconAndPlatform, base64StringForIconAndPlatform_,
+        base64StringForIconNameAndType, base64StringForIconNameAndType_,
         getCaptionMenuOffItem, getCaptionMenuAutomaticItem,
         getCaptionDisplayMode, getTextTrackContainer,
         getAllowsInlineMediaPlayback, getSupportsFullscreen,
         getIsVideoLayerInline, getUserGestureRequired,
-        getIsInMediaDocument, getExternalDeviceDisplayName,
-        getExternalDeviceType, setControlsDependOnPageScaleFactor,
+        getIsInMediaDocument, getShouldForceControlsDisplay,
+        getExternalDeviceDisplayName, getExternalDeviceType,
+        setControlsDependOnPageScaleFactor,
         getControlsDependOnPageScaleFactor, getShadowRootCSSText,
         MediaControlsHost(..), gTypeMediaControlsHost)
        where
@@ -22,7 +23,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -122,26 +123,26 @@ generateUUID self
 generateUUID_ :: (MonadDOM m) => MediaControlsHost -> m ()
 generateUUID_ self = liftDOM (void (self ^. jsf "generateUUID" ()))
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.base64StringForIconAndPlatform Mozilla MediaControlsHost.base64StringForIconAndPlatform documentation> 
-base64StringForIconAndPlatform ::
-                               (MonadDOM m, ToJSString iconName, ToJSString platform,
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.base64StringForIconNameAndType Mozilla MediaControlsHost.base64StringForIconNameAndType documentation> 
+base64StringForIconNameAndType ::
+                               (MonadDOM m, ToJSString iconName, ToJSString iconType,
                                 FromJSString result) =>
-                                 MediaControlsHost -> iconName -> platform -> m result
-base64StringForIconAndPlatform self iconName platform
+                                 MediaControlsHost -> iconName -> iconType -> m result
+base64StringForIconNameAndType self iconName iconType
   = liftDOM
-      ((self ^. jsf "base64StringForIconAndPlatform"
-          [toJSVal iconName, toJSVal platform])
+      ((self ^. jsf "base64StringForIconNameAndType"
+          [toJSVal iconName, toJSVal iconType])
          >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.base64StringForIconAndPlatform Mozilla MediaControlsHost.base64StringForIconAndPlatform documentation> 
-base64StringForIconAndPlatform_ ::
-                                (MonadDOM m, ToJSString iconName, ToJSString platform) =>
-                                  MediaControlsHost -> iconName -> platform -> m ()
-base64StringForIconAndPlatform_ self iconName platform
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.base64StringForIconNameAndType Mozilla MediaControlsHost.base64StringForIconNameAndType documentation> 
+base64StringForIconNameAndType_ ::
+                                (MonadDOM m, ToJSString iconName, ToJSString iconType) =>
+                                  MediaControlsHost -> iconName -> iconType -> m ()
+base64StringForIconNameAndType_ self iconName iconType
   = liftDOM
       (void
-         (self ^. jsf "base64StringForIconAndPlatform"
-            [toJSVal iconName, toJSVal platform]))
+         (self ^. jsf "base64StringForIconNameAndType"
+            [toJSVal iconName, toJSVal iconType]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.captionMenuOffItem Mozilla MediaControlsHost.captionMenuOffItem documentation> 
 getCaptionMenuOffItem ::
@@ -199,6 +200,12 @@ getUserGestureRequired self
 getIsInMediaDocument :: (MonadDOM m) => MediaControlsHost -> m Bool
 getIsInMediaDocument self
   = liftDOM ((self ^. js "isInMediaDocument") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.shouldForceControlsDisplay Mozilla MediaControlsHost.shouldForceControlsDisplay documentation> 
+getShouldForceControlsDisplay ::
+                              (MonadDOM m) => MediaControlsHost -> m Bool
+getShouldForceControlsDisplay self
+  = liftDOM ((self ^. js "shouldForceControlsDisplay") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaControlsHost.externalDeviceDisplayName Mozilla MediaControlsHost.externalDeviceDisplayName documentation> 
 getExternalDeviceDisplayName ::

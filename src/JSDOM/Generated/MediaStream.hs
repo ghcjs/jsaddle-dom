@@ -6,14 +6,14 @@ module JSDOM.Generated.MediaStream
        (newMediaStream, newMediaStream', newMediaStream'', getAudioTracks,
         getAudioTracks_, getVideoTracks, getVideoTracks_, getTracks,
         getTracks_, getTrackById, getTrackById_, addTrack, removeTrack,
-        clone, clone_, getId, getActive, active, inactive, addTrackEvent,
-        removeTrackEvent, MediaStream(..), gTypeMediaStream)
+        clone, clone_, getId, getActive, addTrackEvent, removeTrackEvent,
+        active, inactive, MediaStream(..), gTypeMediaStream)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -36,7 +36,8 @@ newMediaStream' stream
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream Mozilla webkitMediaStream documentation> 
 newMediaStream'' ::
-                 (MonadDOM m) => [MediaStreamTrack] -> m MediaStream
+                 (MonadDOM m, IsMediaStreamTrack tracks) =>
+                   [tracks] -> m MediaStream
 newMediaStream'' tracks
   = liftDOM
       (MediaStream <$> new (jsg "MediaStream") [toJSVal (array tracks)])
@@ -90,13 +91,16 @@ getTrackById_ self trackId
   = liftDOM (void (self ^. jsf "getTrackById" [toJSVal trackId]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.addTrack Mozilla webkitMediaStream.addTrack documentation> 
-addTrack :: (MonadDOM m) => MediaStream -> MediaStreamTrack -> m ()
+addTrack ::
+         (MonadDOM m, IsMediaStreamTrack track) =>
+           MediaStream -> track -> m ()
 addTrack self track
   = liftDOM (void (self ^. jsf "addTrack" [toJSVal track]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.removeTrack Mozilla webkitMediaStream.removeTrack documentation> 
 removeTrack ::
-            (MonadDOM m) => MediaStream -> MediaStreamTrack -> m ()
+            (MonadDOM m, IsMediaStreamTrack track) =>
+              MediaStream -> track -> m ()
 removeTrack self track
   = liftDOM (void (self ^. jsf "removeTrack" [toJSVal track]))
 
@@ -118,14 +122,6 @@ getId self = liftDOM ((self ^. js "id") >>= fromJSValUnchecked)
 getActive :: (MonadDOM m) => MediaStream -> m Bool
 getActive self = liftDOM ((self ^. js "active") >>= valToBool)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.onactive Mozilla webkitMediaStream.onactive documentation> 
-active :: EventName MediaStream Event
-active = unsafeEventName (toJSString "active")
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.oninactive Mozilla webkitMediaStream.oninactive documentation> 
-inactive :: EventName MediaStream Event
-inactive = unsafeEventName (toJSString "inactive")
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.onaddtrack Mozilla webkitMediaStream.onaddtrack documentation> 
 addTrackEvent :: EventName MediaStream Event
 addTrackEvent = unsafeEventName (toJSString "addtrack")
@@ -133,3 +129,11 @@ addTrackEvent = unsafeEventName (toJSString "addtrack")
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.onremovetrack Mozilla webkitMediaStream.onremovetrack documentation> 
 removeTrackEvent :: EventName MediaStream Event
 removeTrackEvent = unsafeEventName (toJSString "removetrack")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.onactive Mozilla webkitMediaStream.onactive documentation> 
+active :: EventName MediaStream Event
+active = unsafeEventName (toJSString "active")
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitMediaStream.oninactive Mozilla webkitMediaStream.oninactive documentation> 
+inactive :: EventName MediaStream Event
+inactive = unsafeEventName (toJSString "inactive")

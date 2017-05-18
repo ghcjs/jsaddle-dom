@@ -3,16 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MessageEvent
-       (newMessageEvent, initMessageEvent, webkitInitMessageEvent,
-        getOrigin, getLastEventId, getSource, getSourceUnsafe,
-        getSourceUnchecked, getData, getPorts, MessageEvent(..),
-        gTypeMessageEvent)
+       (newMessageEvent, initMessageEvent, getOrigin, getLastEventId,
+        getSource, getSourceUnsafe, getSourceUnchecked, getData, getPorts,
+        MessageEvent(..), gTypeMessageEvent)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -50,28 +49,6 @@ initMessageEvent self type' bubbles cancelable data' originArg
             [toJSVal type', toJSVal bubbles, toJSVal cancelable, toJSVal data',
              toJSVal originArg, toJSVal lastEventId, toJSVal source,
              toJSVal (array messagePorts)]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.webkitInitMessageEvent Mozilla MessageEvent.webkitInitMessageEvent documentation> 
-webkitInitMessageEvent ::
-                       (MonadDOM m, ToJSString typeArg, ToJSVal dataArg,
-                        ToJSString originArg, ToJSString lastEventIdArg,
-                        IsMessageEventSource sourceArg) =>
-                         MessageEvent ->
-                           Maybe typeArg ->
-                             Bool ->
-                               Bool ->
-                                 Maybe dataArg ->
-                                   Maybe originArg ->
-                                     Maybe lastEventIdArg ->
-                                       Maybe sourceArg -> [MessagePort] -> m ()
-webkitInitMessageEvent self typeArg canBubbleArg cancelableArg
-  dataArg originArg lastEventIdArg sourceArg messagePorts
-  = liftDOM
-      (void
-         (self ^. jsf "webkitInitMessageEvent"
-            [toJSVal typeArg, toJSVal canBubbleArg, toJSVal cancelableArg,
-             toJSVal dataArg, toJSVal originArg, toJSVal lastEventIdArg,
-             toJSVal sourceArg, toJSVal (array messagePorts)]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent.origin Mozilla MessageEvent.origin documentation> 
 getOrigin ::

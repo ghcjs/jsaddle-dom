@@ -4,14 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ReadableByteStreamController
        (newReadableByteStreamController, enqueue, close, error,
-        getDesiredSize, ReadableByteStreamController(..),
+        getByobRequest, getDesiredSize, ReadableByteStreamController(..),
         gTypeReadableByteStreamController)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -51,6 +51,13 @@ error ::
         ReadableByteStreamController -> Maybe error -> m ()
 error self error
   = liftDOM (void (self ^. jsf "error" [toJSVal error]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableByteStreamController.byobRequest Mozilla ReadableByteStreamController.byobRequest documentation> 
+getByobRequest ::
+               (MonadDOM m) =>
+                 ReadableByteStreamController -> m ReadableStreamBYOBRequest
+getByobRequest self
+  = liftDOM ((self ^. js "byobRequest") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ReadableByteStreamController.desiredSize Mozilla ReadableByteStreamController.desiredSize documentation> 
 getDesiredSize ::

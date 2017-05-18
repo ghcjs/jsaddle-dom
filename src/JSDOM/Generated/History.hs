@@ -3,14 +3,15 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.History
-       (back, forward, go, pushState, replaceState, getLength, getState,
-        History(..), gTypeHistory)
+       (back, forward, go, pushState, replaceState, getLength,
+        setScrollRestoration, getScrollRestoration, getState, History(..),
+        gTypeHistory)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -57,6 +58,18 @@ replaceState self data' title url
 getLength :: (MonadDOM m) => History -> m Word
 getLength self
   = liftDOM (round <$> ((self ^. js "length") >>= valToNumber))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/History.scrollRestoration Mozilla History.scrollRestoration documentation> 
+setScrollRestoration ::
+                     (MonadDOM m) => History -> ScrollRestoration -> m ()
+setScrollRestoration self val
+  = liftDOM (self ^. jss "scrollRestoration" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/History.scrollRestoration Mozilla History.scrollRestoration documentation> 
+getScrollRestoration ::
+                     (MonadDOM m) => History -> m ScrollRestoration
+getScrollRestoration self
+  = liftDOM ((self ^. js "scrollRestoration") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/History.state Mozilla History.state documentation> 
 getState :: (MonadDOM m) => History -> m SerializedScriptValue

@@ -16,7 +16,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -52,29 +52,33 @@ itemUnchecked self index
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
 getNamedItem ::
-             (MonadDOM m, ToJSString name) =>
-               NamedNodeMap -> name -> m (Maybe Attr)
-getNamedItem self name = liftDOM ((self ! name) >>= fromJSVal)
+             (MonadDOM m, ToJSString qualifiedName) =>
+               NamedNodeMap -> qualifiedName -> m (Maybe Attr)
+getNamedItem self qualifiedName
+  = liftDOM ((self ! qualifiedName) >>= fromJSVal)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
 getNamedItem_ ::
-              (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m ()
-getNamedItem_ self name = liftDOM (void (self ! name))
+              (MonadDOM m, ToJSString qualifiedName) =>
+                NamedNodeMap -> qualifiedName -> m ()
+getNamedItem_ self qualifiedName
+  = liftDOM (void (self ! qualifiedName))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
 getNamedItemUnsafe ::
-                   (MonadDOM m, ToJSString name, HasCallStack) =>
-                     NamedNodeMap -> name -> m Attr
-getNamedItemUnsafe self name
+                   (MonadDOM m, ToJSString qualifiedName, HasCallStack) =>
+                     NamedNodeMap -> qualifiedName -> m Attr
+getNamedItemUnsafe self qualifiedName
   = liftDOM
-      (((self ! name) >>= fromJSVal) >>=
+      (((self ! qualifiedName) >>= fromJSVal) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItem Mozilla NamedNodeMap.getNamedItem documentation> 
 getNamedItemUnchecked ::
-                      (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m Attr
-getNamedItemUnchecked self name
-  = liftDOM ((self ! name) >>= fromJSValUnchecked)
+                      (MonadDOM m, ToJSString qualifiedName) =>
+                        NamedNodeMap -> qualifiedName -> m Attr
+getNamedItemUnchecked self qualifiedName
+  = liftDOM ((self ! qualifiedName) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.getNamedItemNS Mozilla NamedNodeMap.getNamedItemNS documentation> 
 getNamedItemNS ::
@@ -176,17 +180,20 @@ setNamedItemNSUnchecked self attr
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
 removeNamedItem ::
-                (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m Attr
-removeNamedItem self name
+                (MonadDOM m, ToJSString qualifiedName) =>
+                  NamedNodeMap -> qualifiedName -> m Attr
+removeNamedItem self qualifiedName
   = liftDOM
-      ((self ^. jsf "removeNamedItem" [toJSVal name]) >>=
+      ((self ^. jsf "removeNamedItem" [toJSVal qualifiedName]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItem Mozilla NamedNodeMap.removeNamedItem documentation> 
 removeNamedItem_ ::
-                 (MonadDOM m, ToJSString name) => NamedNodeMap -> name -> m ()
-removeNamedItem_ self name
-  = liftDOM (void (self ^. jsf "removeNamedItem" [toJSVal name]))
+                 (MonadDOM m, ToJSString qualifiedName) =>
+                   NamedNodeMap -> qualifiedName -> m ()
+removeNamedItem_ self qualifiedName
+  = liftDOM
+      (void (self ^. jsf "removeNamedItem" [toJSVal qualifiedName]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap.removeNamedItemNS Mozilla NamedNodeMap.removeNamedItemNS documentation> 
 removeNamedItemNS ::

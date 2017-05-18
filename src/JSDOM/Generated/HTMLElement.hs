@@ -4,23 +4,25 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLElement
        (newHTMLElement, click, focus, blur, setTitle, getTitle, setLang,
-        getLang, setTranslate, getTranslate, setDir, getDir, setTabIndex,
-        getTabIndex, setDraggable, getDraggable, setWebkitdropzone,
-        getWebkitdropzone, setHidden, getHidden, setAccessKey,
-        getAccessKey, setInnerText, getInnerText, getInnerTextUnsafe,
-        getInnerTextUnchecked, setOuterText, getOuterText,
-        getOuterTextUnsafe, getOuterTextUnchecked, setContentEditable,
-        getContentEditable, getIsContentEditable, setSpellcheck,
-        getSpellcheck, setAutocorrect, getAutocorrect, setAutocapitalize,
-        getAutocapitalize, getAutocapitalizeUnsafe,
-        getAutocapitalizeUnchecked, getDataset, HTMLElement(..),
+        getLang, setTranslate, getTranslate, setDir, getDir, getDataset,
+        setHidden, getHidden, setTabIndex, getTabIndex, setAccessKey,
+        getAccessKey, setDraggable, getDraggable, setSpellcheck,
+        getSpellcheck, setInnerText, getInnerText, getInnerTextUnsafe,
+        getInnerTextUnchecked, setContentEditable, getContentEditable,
+        getIsContentEditable, getOffsetParent, getOffsetParentUnsafe,
+        getOffsetParentUnchecked, getOffsetTop, getOffsetLeft,
+        getOffsetWidth, getOffsetHeight, setOuterText, getOuterText,
+        getOuterTextUnsafe, getOuterTextUnchecked, setAutocorrect,
+        getAutocorrect, setAutocapitalize, getAutocapitalize,
+        getAutocapitalizeUnsafe, getAutocapitalizeUnchecked,
+        setWebkitdropzone, getWebkitdropzone, HTMLElement(..),
         gTypeHTMLElement, IsHTMLElement, toHTMLElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -105,6 +107,24 @@ getDir self
   = liftDOM
       (((toHTMLElement self) ^. js "dir") >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.dataset Mozilla HTMLElement.dataset documentation> 
+getDataset ::
+           (MonadDOM m, IsHTMLElement self) => self -> m DOMStringMap
+getDataset self
+  = liftDOM
+      (((toHTMLElement self) ^. js "dataset") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.hidden Mozilla HTMLElement.hidden documentation> 
+setHidden ::
+          (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
+setHidden self val
+  = liftDOM ((toHTMLElement self) ^. jss "hidden" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.hidden Mozilla HTMLElement.hidden documentation> 
+getHidden :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
+getHidden self
+  = liftDOM (((toHTMLElement self) ^. js "hidden") >>= valToBool)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.tabIndex Mozilla HTMLElement.tabIndex documentation> 
 setTabIndex ::
             (MonadDOM m, IsHTMLElement self) => self -> Int -> m ()
@@ -117,45 +137,6 @@ getTabIndex self
   = liftDOM
       (round <$>
          (((toHTMLElement self) ^. js "tabIndex") >>= valToNumber))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.draggable Mozilla HTMLElement.draggable documentation> 
-setDraggable ::
-             (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
-setDraggable self val
-  = liftDOM ((toHTMLElement self) ^. jss "draggable" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.draggable Mozilla HTMLElement.draggable documentation> 
-getDraggable :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
-getDraggable self
-  = liftDOM (((toHTMLElement self) ^. js "draggable") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.webkitdropzone Mozilla HTMLElement.webkitdropzone documentation> 
-setWebkitdropzone ::
-                  (MonadDOM m, IsHTMLElement self, ToJSString val) =>
-                    self -> val -> m ()
-setWebkitdropzone self val
-  = liftDOM
-      ((toHTMLElement self) ^. jss "webkitdropzone" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.webkitdropzone Mozilla HTMLElement.webkitdropzone documentation> 
-getWebkitdropzone ::
-                  (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                    self -> m result
-getWebkitdropzone self
-  = liftDOM
-      (((toHTMLElement self) ^. js "webkitdropzone") >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.hidden Mozilla HTMLElement.hidden documentation> 
-setHidden ::
-          (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
-setHidden self val
-  = liftDOM ((toHTMLElement self) ^. jss "hidden" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.hidden Mozilla HTMLElement.hidden documentation> 
-getHidden :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
-getHidden self
-  = liftDOM (((toHTMLElement self) ^. js "hidden") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.accessKey Mozilla HTMLElement.accessKey documentation> 
 setAccessKey ::
@@ -171,6 +152,28 @@ getAccessKey ::
 getAccessKey self
   = liftDOM
       (((toHTMLElement self) ^. js "accessKey") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.draggable Mozilla HTMLElement.draggable documentation> 
+setDraggable ::
+             (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
+setDraggable self val
+  = liftDOM ((toHTMLElement self) ^. jss "draggable" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.draggable Mozilla HTMLElement.draggable documentation> 
+getDraggable :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
+getDraggable self
+  = liftDOM (((toHTMLElement self) ^. js "draggable") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.spellcheck Mozilla HTMLElement.spellcheck documentation> 
+setSpellcheck ::
+              (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
+setSpellcheck self val
+  = liftDOM ((toHTMLElement self) ^. jss "spellcheck" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.spellcheck Mozilla HTMLElement.spellcheck documentation> 
+getSpellcheck :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
+getSpellcheck self
+  = liftDOM (((toHTMLElement self) ^. js "spellcheck") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
 setInnerText ::
@@ -205,6 +208,81 @@ getInnerTextUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "innerText") >>= fromJSValUnchecked)
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
+setContentEditable ::
+                   (MonadDOM m, IsHTMLElement self, ToJSString val) =>
+                     self -> val -> m ()
+setContentEditable self val
+  = liftDOM
+      ((toHTMLElement self) ^. jss "contentEditable" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
+getContentEditable ::
+                   (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                     self -> m result
+getContentEditable self
+  = liftDOM
+      (((toHTMLElement self) ^. js "contentEditable") >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.isContentEditable Mozilla HTMLElement.isContentEditable documentation> 
+getIsContentEditable ::
+                     (MonadDOM m, IsHTMLElement self) => self -> m Bool
+getIsContentEditable self
+  = liftDOM
+      (((toHTMLElement self) ^. js "isContentEditable") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetParent Mozilla HTMLElement.offsetParent documentation> 
+getOffsetParent ::
+                (MonadDOM m, IsHTMLElement self) => self -> m (Maybe Element)
+getOffsetParent self
+  = liftDOM
+      (((toHTMLElement self) ^. js "offsetParent") >>= fromJSVal)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetParent Mozilla HTMLElement.offsetParent documentation> 
+getOffsetParentUnsafe ::
+                      (MonadDOM m, IsHTMLElement self, HasCallStack) => self -> m Element
+getOffsetParentUnsafe self
+  = liftDOM
+      ((((toHTMLElement self) ^. js "offsetParent") >>= fromJSVal) >>=
+         maybe (Prelude.error "Nothing to return") return)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetParent Mozilla HTMLElement.offsetParent documentation> 
+getOffsetParentUnchecked ::
+                         (MonadDOM m, IsHTMLElement self) => self -> m Element
+getOffsetParentUnchecked self
+  = liftDOM
+      (((toHTMLElement self) ^. js "offsetParent") >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetTop Mozilla HTMLElement.offsetTop documentation> 
+getOffsetTop ::
+             (MonadDOM m, IsHTMLElement self) => self -> m Double
+getOffsetTop self
+  = liftDOM
+      (((toHTMLElement self) ^. js "offsetTop") >>= valToNumber)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetLeft Mozilla HTMLElement.offsetLeft documentation> 
+getOffsetLeft ::
+              (MonadDOM m, IsHTMLElement self) => self -> m Double
+getOffsetLeft self
+  = liftDOM
+      (((toHTMLElement self) ^. js "offsetLeft") >>= valToNumber)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetWidth Mozilla HTMLElement.offsetWidth documentation> 
+getOffsetWidth ::
+               (MonadDOM m, IsHTMLElement self) => self -> m Double
+getOffsetWidth self
+  = liftDOM
+      (((toHTMLElement self) ^. js "offsetWidth") >>= valToNumber)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.offsetHeight Mozilla HTMLElement.offsetHeight documentation> 
+getOffsetHeight ::
+                (MonadDOM m, IsHTMLElement self) => self -> m Double
+getOffsetHeight self
+  = liftDOM
+      (((toHTMLElement self) ^. js "offsetHeight") >>= valToNumber)
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
 setOuterText ::
              (MonadDOM m, IsHTMLElement self, ToJSString val) =>
@@ -237,41 +315,6 @@ getOuterTextUnchecked ::
 getOuterTextUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "outerText") >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
-setContentEditable ::
-                   (MonadDOM m, IsHTMLElement self, ToJSString val) =>
-                     self -> val -> m ()
-setContentEditable self val
-  = liftDOM
-      ((toHTMLElement self) ^. jss "contentEditable" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.contentEditable Mozilla HTMLElement.contentEditable documentation> 
-getContentEditable ::
-                   (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                     self -> m result
-getContentEditable self
-  = liftDOM
-      (((toHTMLElement self) ^. js "contentEditable") >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.isContentEditable Mozilla HTMLElement.isContentEditable documentation> 
-getIsContentEditable ::
-                     (MonadDOM m, IsHTMLElement self) => self -> m Bool
-getIsContentEditable self
-  = liftDOM
-      (((toHTMLElement self) ^. js "isContentEditable") >>= valToBool)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.spellcheck Mozilla HTMLElement.spellcheck documentation> 
-setSpellcheck ::
-              (MonadDOM m, IsHTMLElement self) => self -> Bool -> m ()
-setSpellcheck self val
-  = liftDOM ((toHTMLElement self) ^. jss "spellcheck" (toJSVal val))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.spellcheck Mozilla HTMLElement.spellcheck documentation> 
-getSpellcheck :: (MonadDOM m, IsHTMLElement self) => self -> m Bool
-getSpellcheck self
-  = liftDOM (((toHTMLElement self) ^. js "spellcheck") >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocorrect Mozilla HTMLElement.autocorrect documentation> 
 setAutocorrect ::
@@ -323,9 +366,19 @@ getAutocapitalizeUnchecked self
       (((toHTMLElement self) ^. js "autocapitalize") >>=
          fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.dataset Mozilla HTMLElement.dataset documentation> 
-getDataset ::
-           (MonadDOM m, IsHTMLElement self) => self -> m DOMStringMap
-getDataset self
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.webkitdropzone Mozilla HTMLElement.webkitdropzone documentation> 
+setWebkitdropzone ::
+                  (MonadDOM m, IsHTMLElement self, ToJSString val) =>
+                    self -> val -> m ()
+setWebkitdropzone self val
   = liftDOM
-      (((toHTMLElement self) ^. js "dataset") >>= fromJSValUnchecked)
+      ((toHTMLElement self) ^. jss "webkitdropzone" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.webkitdropzone Mozilla HTMLElement.webkitdropzone documentation> 
+getWebkitdropzone ::
+                  (MonadDOM m, IsHTMLElement self, FromJSString result) =>
+                    self -> m result
+getWebkitdropzone self
+  = liftDOM
+      (((toHTMLElement self) ^. js "webkitdropzone") >>=
+         fromJSValUnchecked)

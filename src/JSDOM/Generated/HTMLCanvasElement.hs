@@ -4,14 +4,15 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLCanvasElement
        (getContext, getContext_, getContextUnsafe, getContextUnchecked,
-        toDataURL, toDataURL_, setWidth, getWidth, setHeight, getHeight,
-        HTMLCanvasElement(..), gTypeHTMLCanvasElement)
+        toDataURL, toDataURL_, toBlob', captureStream, captureStream_,
+        setWidth, getWidth, setHeight, getHeight, HTMLCanvasElement(..),
+        gTypeHTMLCanvasElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -78,6 +79,32 @@ toDataURL_ ::
              HTMLCanvasElement -> Maybe type' -> m ()
 toDataURL_ self type'
   = liftDOM (void (self ^. jsf "toDataURL" [toJSVal type']))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.toBlob Mozilla HTMLCanvasElement.toBlob documentation> 
+toBlob' ::
+        (MonadDOM m, ToJSString type', ToJSVal quality) =>
+          HTMLCanvasElement ->
+            BlobCallback -> Maybe type' -> Maybe quality -> m ()
+toBlob' self callback type' quality
+  = liftDOM
+      (void
+         (self ^. jsf "toBlob"
+            [toJSVal callback, toJSVal type', toJSVal quality]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.captureStream Mozilla HTMLCanvasElement.captureStream documentation> 
+captureStream ::
+              (MonadDOM m) => HTMLCanvasElement -> Maybe Double -> m MediaStream
+captureStream self frameRequestRate
+  = liftDOM
+      ((self ^. jsf "captureStream" [toJSVal frameRequestRate]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.captureStream Mozilla HTMLCanvasElement.captureStream documentation> 
+captureStream_ ::
+               (MonadDOM m) => HTMLCanvasElement -> Maybe Double -> m ()
+captureStream_ self frameRequestRate
+  = liftDOM
+      (void (self ^. jsf "captureStream" [toJSVal frameRequestRate]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.width Mozilla HTMLCanvasElement.width documentation> 
 setWidth :: (MonadDOM m) => HTMLCanvasElement -> Word -> m ()

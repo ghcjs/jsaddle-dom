@@ -3,14 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaDeviceInfo
-       (newMediaDeviceInfo, getDeviceId, getGroupId, getKind, getLabel,
+       (newMediaDeviceInfo, getDeviceId, getKind, getLabel, getGroupId,
         MediaDeviceInfo(..), gTypeMediaDeviceInfo)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -38,12 +38,6 @@ getDeviceId ::
 getDeviceId self
   = liftDOM ((self ^. js "deviceId") >>= fromJSValUnchecked)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaDeviceInfo.groupId Mozilla MediaDeviceInfo.groupId documentation> 
-getGroupId ::
-           (MonadDOM m, FromJSString result) => MediaDeviceInfo -> m result
-getGroupId self
-  = liftDOM ((self ^. js "groupId") >>= fromJSValUnchecked)
-
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaDeviceInfo.kind Mozilla MediaDeviceInfo.kind documentation> 
 getKind :: (MonadDOM m) => MediaDeviceInfo -> m MediaDeviceKind
 getKind self = liftDOM ((self ^. js "kind") >>= fromJSValUnchecked)
@@ -53,3 +47,9 @@ getLabel ::
          (MonadDOM m, FromJSString result) => MediaDeviceInfo -> m result
 getLabel self
   = liftDOM ((self ^. js "label") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaDeviceInfo.groupId Mozilla MediaDeviceInfo.groupId documentation> 
+getGroupId ::
+           (MonadDOM m, FromJSString result) => MediaDeviceInfo -> m result
+getGroupId self
+  = liftDOM ((self ^. js "groupId") >>= fromJSValUnchecked)

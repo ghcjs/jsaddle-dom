@@ -5,8 +5,7 @@
 module JSDOM.Generated.URL
        (newURL, newURL', newURL'', toJSON, toJSON_, createObjectURL,
         createObjectURL_, revokeObjectURL, createObjectURLSource,
-        createObjectURLSource_, createObjectURLStream,
-        createObjectURLStream_, setHref, getHref, getOrigin, setProtocol,
+        createObjectURLSource_, setHref, getHref, getOrigin, setProtocol,
         getProtocol, setUsername, getUsername, setPassword, getPassword,
         setHost, getHost, setHostname, getHostname, setPort, getPort,
         setPathname, getPathname, setHash, getHash, setSearch, getSearch,
@@ -16,7 +15,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -85,20 +84,6 @@ createObjectURLSource_ ::
                        (MonadDOM m) => URL -> MediaSource -> m ()
 createObjectURLSource_ self source
   = liftDOM (void (self ^. jsf "createObjectURL" [toJSVal source]))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL Mozilla URL.createObjectURL documentation> 
-createObjectURLStream ::
-                      (MonadDOM m, FromJSString result) => URL -> MediaStream -> m result
-createObjectURLStream self stream
-  = liftDOM
-      ((self ^. jsf "createObjectURL" [toJSVal stream]) >>=
-         fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL Mozilla URL.createObjectURL documentation> 
-createObjectURLStream_ ::
-                       (MonadDOM m) => URL -> MediaStream -> m ()
-createObjectURLStream_ self stream
-  = liftDOM (void (self ^. jsf "createObjectURL" [toJSVal stream]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.href Mozilla URL.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => URL -> val -> m ()

@@ -3,14 +3,14 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MutationObserver
-       (newMutationObserver, observe, takeRecords, takeRecords_,
-        disconnect, MutationObserver(..), gTypeMutationObserver)
+       (newMutationObserver, observe, disconnect, takeRecords,
+        takeRecords_, MutationObserver(..), gTypeMutationObserver)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -37,6 +37,10 @@ observe self target options
   = liftDOM
       (void (self ^. jsf "observe" [toJSVal target, toJSVal options]))
 
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.disconnect Mozilla MutationObserver.disconnect documentation> 
+disconnect :: (MonadDOM m) => MutationObserver -> m ()
+disconnect self = liftDOM (void (self ^. jsf "disconnect" ()))
+
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.takeRecords Mozilla MutationObserver.takeRecords documentation> 
 takeRecords ::
             (MonadDOM m) => MutationObserver -> m [MutationRecord]
@@ -46,7 +50,3 @@ takeRecords self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.takeRecords Mozilla MutationObserver.takeRecords documentation> 
 takeRecords_ :: (MonadDOM m) => MutationObserver -> m ()
 takeRecords_ self = liftDOM (void (self ^. jsf "takeRecords" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.disconnect Mozilla MutationObserver.disconnect documentation> 
-disconnect :: (MonadDOM m) => MutationObserver -> m ()
-disconnect self = liftDOM (void (self ^. jsf "disconnect" ()))

@@ -16,7 +16,9 @@ module JSDOM.Generated.Enums
         FontFaceSetLoadStatus(..), js_FontFaceSetLoadStatusLoading,
         js_FontFaceSetLoadStatusLoaded, VisibilityState(..),
         js_VisibilityStateHidden, js_VisibilityStateVisible,
-        js_VisibilityStatePrerender, ShadowRootMode(..),
+        js_VisibilityStatePrerender, DocumentReadyState(..),
+        js_DocumentReadyStateLoading, js_DocumentReadyStateInteractive,
+        js_DocumentReadyStateComplete, ShadowRootMode(..),
         js_ShadowRootModeUserAgent, js_ShadowRootModeClosed,
         js_ShadowRootModeOpen, BlobLineEndings(..),
         js_BlobLineEndingsTransparent, js_BlobLineEndingsNative,
@@ -25,8 +27,93 @@ module JSDOM.Generated.Enums
         CanvasWindingRule(..), js_CanvasWindingRuleNonzero,
         js_CanvasWindingRuleEvenodd, WebGLPowerPreference(..),
         js_WebGLPowerPreferenceDefault, js_WebGLPowerPreferenceLowPower,
-        js_WebGLPowerPreferenceHighPerformance, VideoPresentationMode(..),
-        js_VideoPresentationModeFullscreen,
+        js_WebGLPowerPreferenceHighPerformance, WebGPUCompareFunction(..),
+        js_WebGPUCompareFunctionNever, js_WebGPUCompareFunctionLess,
+        js_WebGPUCompareFunctionEqual, js_WebGPUCompareFunctionLessequal,
+        js_WebGPUCompareFunctionGreater, js_WebGPUCompareFunctionNotequal,
+        js_WebGPUCompareFunctionGreaterequal,
+        js_WebGPUCompareFunctionAlways, WebGPUPixelFormat(..),
+        js_WebGPUPixelFormatBGRA8Unorm, WebGPULoadAction(..),
+        js_WebGPULoadActionDontcare, js_WebGPULoadActionLoad,
+        js_WebGPULoadActionClear, WebGPUStoreAction(..),
+        js_WebGPUStoreActionDontcare, js_WebGPUStoreActionStore,
+        js_WebGPUStoreActionMultisampleresolve, WebGPUPrimitiveType(..),
+        js_WebGPUPrimitiveTypePoint, js_WebGPUPrimitiveTypeLine,
+        js_WebGPUPrimitiveTypeLinestrip, js_WebGPUPrimitiveTypeTriangle,
+        js_WebGPUPrimitiveTypeTrianglestrip, WebGPUFunctionType(..),
+        js_WebGPUFunctionTypeFragment, js_WebGPUFunctionTypeVertex,
+        WebGPUStencilOperation(..), js_WebGPUStencilOperationKeep,
+        js_WebGPUStencilOperationZero, js_WebGPUStencilOperationReplace,
+        js_WebGPUStencilOperationIncrementclamp,
+        js_WebGPUStencilOperationDecrementclamp,
+        js_WebGPUStencilOperationInvert,
+        js_WebGPUStencilOperationIncrementwrap,
+        js_WebGPUStencilOperationDecrementwrap, WebGPUStatus(..),
+        js_WebGPUStatusNotenqueued, js_WebGPUStatusEnqueued,
+        js_WebGPUStatusCommitted, js_WebGPUStatusScheduled,
+        js_WebGPUStatusCompleted, js_WebGPUStatusError,
+        WebGPUSamplerAddressMode(..),
+        js_WebGPUSamplerAddressModeClamptoedge,
+        js_WebGPUSamplerAddressModeMirrorclamptoedge,
+        js_WebGPUSamplerAddressModeRepeat,
+        js_WebGPUSamplerAddressModeMirrorrepeat,
+        js_WebGPUSamplerAddressModeClamptozero,
+        WebGPUSamplerMinMagFilter(..), js_WebGPUSamplerMinMagFilterNearest,
+        js_WebGPUSamplerMinMagFilterLinear, WebGPUSamplerMipFilter(..),
+        js_WebGPUSamplerMipFilterNotmipmapped,
+        js_WebGPUSamplerMipFilterNearest, js_WebGPUSamplerMipFilterLinear,
+        WebGPUCullMode(..), js_WebGPUCullModeNone, js_WebGPUCullModeFront,
+        js_WebGPUCullModeBack, WebGPUIndexType(..),
+        js_WebGPUIndexTypeUint16, js_WebGPUIndexTypeUint32,
+        WebGPUVisibilityResultMode(..),
+        js_WebGPUVisibilityResultModeDisabled,
+        js_WebGPUVisibilityResultModeBoolean,
+        js_WebGPUVisibilityResultModeCounting, WebGPUWinding(..),
+        js_WebGPUWindingClockwise, js_WebGPUWindingCounterclockwise,
+        WebGPUDepthClipMode(..), js_WebGPUDepthClipModeClip,
+        js_WebGPUDepthClipModeClamp, WebGPUTriangleFillMode(..),
+        js_WebGPUTriangleFillModeFill, js_WebGPUTriangleFillModeLines,
+        WebGPUCPUCacheMode(..), js_WebGPUCPUCacheModeDefaultcache,
+        js_WebGPUCPUCacheModeWritecombined, WebGPUStorageMode(..),
+        js_WebGPUStorageModeShared, js_WebGPUStorageModeManaged,
+        js_WebGPUStorageModePrivate, WebGPUResourceOptions(..),
+        js_WebGPUResourceOptionsCpucachemodedefaultcache,
+        js_WebGPUResourceOptionsCpucachemodewritecombined,
+        js_WebGPUResourceOptionsStoragemodeshared,
+        js_WebGPUResourceOptionsStoragemodemanaged,
+        js_WebGPUResourceOptionsStoragemodeprivate,
+        js_WebGPUResourceOptionsOptioncpucachemodedefaultcache,
+        js_WebGPUResourceOptionsOptioncpucachemodewritecombined,
+        WebGPUTextureUsage(..), js_WebGPUTextureUsageUnknown,
+        js_WebGPUTextureUsageShaderread, js_WebGPUTextureUsageShaderwrite,
+        js_WebGPUTextureUsageRendertarget,
+        js_WebGPUTextureUsagePixelformatview, WebGPUBlendOperation(..),
+        js_WebGPUBlendOperationAdd, js_WebGPUBlendOperationSubtract,
+        js_WebGPUBlendOperationReversesubtract, js_WebGPUBlendOperationMin,
+        js_WebGPUBlendOperationMax, WebGPUBlendFactor(..),
+        js_WebGPUBlendFactorZero, js_WebGPUBlendFactorOne,
+        js_WebGPUBlendFactorSourcecolor,
+        js_WebGPUBlendFactorOneminussourcecolor,
+        js_WebGPUBlendFactorSourcealpha,
+        js_WebGPUBlendFactorOneminussourcealpha,
+        js_WebGPUBlendFactorDestinationcolor,
+        js_WebGPUBlendFactorOneminusdestinationcolor,
+        js_WebGPUBlendFactorDestinationalpha,
+        js_WebGPUBlendFactorOneminusdestinationalpha,
+        js_WebGPUBlendFactorSourcealphasaturated,
+        js_WebGPUBlendFactorBlendcolor,
+        js_WebGPUBlendFactorOneminusblendcolor,
+        js_WebGPUBlendFactorBlendalpha,
+        js_WebGPUBlendFactorOneminusblendalpha, WebGPUColorWriteMask(..),
+        js_WebGPUColorWriteMaskNone, js_WebGPUColorWriteMaskRed,
+        js_WebGPUColorWriteMaskGreen, js_WebGPUColorWriteMaskBlue,
+        js_WebGPUColorWriteMaskAlpha, js_WebGPUColorWriteMaskAll,
+        WebGPUMultisampleDepthResolveFilter(..),
+        js_WebGPUMultisampleDepthResolveFilterSample0,
+        js_WebGPUMultisampleDepthResolveFilterMin,
+        js_WebGPUMultisampleDepthResolveFilterMax, WebGPUFeatureSet(..),
+        js_WebGPUFeatureSetLevel1, js_WebGPUFeatureSetLevel2,
+        VideoPresentationMode(..), js_VideoPresentationModeFullscreen,
         js_VideoPresentationModePictureInPicture,
         js_VideoPresentationModeInline, TextTrackMode(..),
         js_TextTrackModeDisabled, js_TextTrackModeHidden,
@@ -34,9 +121,22 @@ module JSDOM.Generated.Enums
         js_TextTrackKindSubtitles, js_TextTrackKindCaptions,
         js_TextTrackKindDescriptions, js_TextTrackKindChapters,
         js_TextTrackKindMetadata, js_TextTrackKindForced,
-        ApplePayLineItemType(..), js_ApplePayLineItemTypePending,
-        js_ApplePayLineItemTypeFinal, ApplePayPaymentMethodType(..),
-        js_ApplePayPaymentMethodTypeDebit,
+        ApplePayErrorCode(..), js_ApplePayErrorCodeUnknown,
+        js_ApplePayErrorCodeShippingContactInvalid,
+        js_ApplePayErrorCodeBillingContactInvalid,
+        js_ApplePayErrorCodeAddressUnservicable,
+        ApplePayErrorContactField(..),
+        js_ApplePayErrorContactFieldPhoneNumber,
+        js_ApplePayErrorContactFieldEmailAddress,
+        js_ApplePayErrorContactFieldName,
+        js_ApplePayErrorContactFieldPostalAddress,
+        js_ApplePayErrorContactFieldAddressLines,
+        js_ApplePayErrorContactFieldLocality,
+        js_ApplePayErrorContactFieldPostalCode,
+        js_ApplePayErrorContactFieldAdministrativeArea,
+        js_ApplePayErrorContactFieldCountry, ApplePayLineItemType(..),
+        js_ApplePayLineItemTypePending, js_ApplePayLineItemTypeFinal,
+        ApplePayPaymentMethodType(..), js_ApplePayPaymentMethodTypeDebit,
         js_ApplePayPaymentMethodTypeCredit,
         js_ApplePayPaymentMethodTypePrepaid,
         js_ApplePayPaymentMethodTypeStore,
@@ -102,22 +202,58 @@ module JSDOM.Generated.Enums
         js_MediaSessionKindContent, js_MediaSessionKindTransient,
         js_MediaSessionKindTransientSolo, js_MediaSessionKindAmbient,
         EndOfStreamError(..), js_EndOfStreamErrorNetwork,
-        js_EndOfStreamErrorDecode, AppendMode(..), js_AppendModeSegments,
-        js_AppendModeSequence, MediaDeviceKind(..),
+        js_EndOfStreamErrorDecode, ReadyState(..), js_ReadyStateClosed,
+        js_ReadyStateOpen, js_ReadyStateEnded, AppendMode(..),
+        js_AppendModeSegments, js_AppendModeSequence, MediaDeviceKind(..),
         js_MediaDeviceKindAudioinput, js_MediaDeviceKindAudiooutput,
         js_MediaDeviceKindVideoinput, MediaStreamTrackState(..),
-        js_MediaStreamTrackStateNew, js_MediaStreamTrackStateLive,
-        js_MediaStreamTrackStateEnded, RTCIceTransportPolicy(..),
-        js_RTCIceTransportPolicyRelay, js_RTCIceTransportPolicyAll,
-        RTCBundlePolicy(..), js_RTCBundlePolicyBalanced,
-        js_RTCBundlePolicyMaxCompat, js_RTCBundlePolicyMaxBundle,
-        RTCRtpTransceiverDirection(..),
+        js_MediaStreamTrackStateLive, js_MediaStreamTrackStateEnded,
+        RTCIceTransportPolicy(..), js_RTCIceTransportPolicyRelay,
+        js_RTCIceTransportPolicyAll, RTCBundlePolicy(..),
+        js_RTCBundlePolicyBalanced, js_RTCBundlePolicyMaxCompat,
+        js_RTCBundlePolicyMaxBundle, RTCDataChannelState(..),
+        js_RTCDataChannelStateConnecting, js_RTCDataChannelStateOpen,
+        js_RTCDataChannelStateClosing, js_RTCDataChannelStateClosed,
+        RTCIceConnectionState(..), js_RTCIceConnectionStateNew,
+        js_RTCIceConnectionStateChecking,
+        js_RTCIceConnectionStateConnected,
+        js_RTCIceConnectionStateCompleted, js_RTCIceConnectionStateFailed,
+        js_RTCIceConnectionStateDisconnected,
+        js_RTCIceConnectionStateClosed, RTCIceGatheringState(..),
+        js_RTCIceGatheringStateNew, js_RTCIceGatheringStateGathering,
+        js_RTCIceGatheringStateComplete, RTCIceTransportState(..),
+        js_RTCIceTransportStateNew, js_RTCIceTransportStateChecking,
+        js_RTCIceTransportStateConnected, js_RTCIceTransportStateCompleted,
+        js_RTCIceTransportStateFailed, js_RTCIceTransportStateDisconnected,
+        js_RTCIceTransportStateClosed, RTCPeerConnectionState(..),
+        js_RTCPeerConnectionStateNew, js_RTCPeerConnectionStateConnecting,
+        js_RTCPeerConnectionStateConnected,
+        js_RTCPeerConnectionStateDisconnected,
+        js_RTCPeerConnectionStateFailed, js_RTCPeerConnectionStateClosed,
+        RTCDegradationPreference(..),
+        js_RTCDegradationPreferenceMaintainFramerate,
+        js_RTCDegradationPreferenceMaintainResolution,
+        js_RTCDegradationPreferenceBalanced, RTCDtxStatus(..),
+        js_RTCDtxStatusDisabled, js_RTCDtxStatusEnabled,
+        RTCPriorityType(..), js_RTCPriorityTypeVeryLow,
+        js_RTCPriorityTypeLow, js_RTCPriorityTypeMedium,
+        js_RTCPriorityTypeHigh, RTCRtpTransceiverDirection(..),
         js_RTCRtpTransceiverDirectionSendrecv,
         js_RTCRtpTransceiverDirectionSendonly,
         js_RTCRtpTransceiverDirectionRecvonly,
         js_RTCRtpTransceiverDirectionInactive, RTCSdpType(..),
         js_RTCSdpTypeOffer, js_RTCSdpTypePranswer, js_RTCSdpTypeAnswer,
-        js_RTCSdpTypeRollback, NotificationDirection(..),
+        js_RTCSdpTypeRollback, RTCSignalingState(..),
+        js_RTCSignalingStateStable, js_RTCSignalingStateHaveLocalOffer,
+        js_RTCSignalingStateHaveRemoteOffer,
+        js_RTCSignalingStateHaveLocalPranswer,
+        js_RTCSignalingStateHaveRemotePranswer, RTCStatsType(..),
+        js_RTCStatsTypeCodec, js_RTCStatsTypeInboundRtp,
+        js_RTCStatsTypeOutboundRtp, js_RTCStatsTypePeerConnection,
+        js_RTCStatsTypeDataChannel, js_RTCStatsTypeTrack,
+        js_RTCStatsTypeTransport, js_RTCStatsTypeCandidatePair,
+        js_RTCStatsTypeLocalCandidate, js_RTCStatsTypeRemoteCandidate,
+        js_RTCStatsTypeCertificate, NotificationDirection(..),
         js_NotificationDirectionAuto, js_NotificationDirectionLtr,
         js_NotificationDirectionRtl, AudioContextState(..),
         js_AudioContextStateSuspended, js_AudioContextStateRunning,
@@ -134,8 +270,9 @@ module JSDOM.Generated.Enums
         DistanceModelType(..), js_DistanceModelTypeLinear,
         js_DistanceModelTypeInverse, js_DistanceModelTypeExponential,
         OverSampleType(..), js_OverSampleTypeNone, js_OverSampleType2x,
-        js_OverSampleType4x, XMLHttpRequestResponseType(..),
-        js_XMLHttpRequestResponseType,
+        js_OverSampleType4x, ScrollRestoration(..),
+        js_ScrollRestorationAuto, js_ScrollRestorationManual,
+        XMLHttpRequestResponseType(..), js_XMLHttpRequestResponseType,
         js_XMLHttpRequestResponseTypeArraybuffer,
         js_XMLHttpRequestResponseTypeBlob,
         js_XMLHttpRequestResponseTypeDocument,
@@ -146,7 +283,7 @@ import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Mayb
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -427,6 +564,40 @@ js_VisibilityStateHidden = "hidden"
 js_VisibilityStateVisible = "visible"
 js_VisibilityStatePrerender = "prerender"
  
+data DocumentReadyState = DocumentReadyStateLoading
+                        | DocumentReadyStateInteractive
+                        | DocumentReadyStateComplete
+                        deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal DocumentReadyState where
+        toJSVal DocumentReadyStateLoading
+          = toJSVal js_DocumentReadyStateLoading
+        toJSVal DocumentReadyStateInteractive
+          = toJSVal js_DocumentReadyStateInteractive
+        toJSVal DocumentReadyStateComplete
+          = toJSVal js_DocumentReadyStateComplete
+ 
+instance FromJSVal DocumentReadyState where
+        fromJSVal x
+          = x `strictEqual` js_DocumentReadyStateLoading >>=
+              \ r ->
+                case r of
+                    True -> return (Just DocumentReadyStateLoading)
+                    False
+                      -> x `strictEqual` js_DocumentReadyStateInteractive >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just DocumentReadyStateInteractive)
+                                 False
+                                   -> x `strictEqual` js_DocumentReadyStateComplete >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just DocumentReadyStateComplete)
+                                              False -> return Nothing
+js_DocumentReadyStateLoading = "loading"
+js_DocumentReadyStateInteractive = "interactive"
+js_DocumentReadyStateComplete = "complete"
+ 
 data ShadowRootMode = ShadowRootModeUserAgent
                     | ShadowRootModeClosed
                     | ShadowRootModeOpen
@@ -577,6 +748,1391 @@ js_WebGLPowerPreferenceDefault = "default"
 js_WebGLPowerPreferenceLowPower = "low-power"
 js_WebGLPowerPreferenceHighPerformance = "high-performance"
  
+data WebGPUCompareFunction = WebGPUCompareFunctionNever
+                           | WebGPUCompareFunctionLess
+                           | WebGPUCompareFunctionEqual
+                           | WebGPUCompareFunctionLessequal
+                           | WebGPUCompareFunctionGreater
+                           | WebGPUCompareFunctionNotequal
+                           | WebGPUCompareFunctionGreaterequal
+                           | WebGPUCompareFunctionAlways
+                           deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUCompareFunction where
+        toJSVal WebGPUCompareFunctionNever
+          = toJSVal js_WebGPUCompareFunctionNever
+        toJSVal WebGPUCompareFunctionLess
+          = toJSVal js_WebGPUCompareFunctionLess
+        toJSVal WebGPUCompareFunctionEqual
+          = toJSVal js_WebGPUCompareFunctionEqual
+        toJSVal WebGPUCompareFunctionLessequal
+          = toJSVal js_WebGPUCompareFunctionLessequal
+        toJSVal WebGPUCompareFunctionGreater
+          = toJSVal js_WebGPUCompareFunctionGreater
+        toJSVal WebGPUCompareFunctionNotequal
+          = toJSVal js_WebGPUCompareFunctionNotequal
+        toJSVal WebGPUCompareFunctionGreaterequal
+          = toJSVal js_WebGPUCompareFunctionGreaterequal
+        toJSVal WebGPUCompareFunctionAlways
+          = toJSVal js_WebGPUCompareFunctionAlways
+ 
+instance FromJSVal WebGPUCompareFunction where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUCompareFunctionNever >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUCompareFunctionNever)
+                    False
+                      -> x `strictEqual` js_WebGPUCompareFunctionLess >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUCompareFunctionLess)
+                                 False
+                                   -> x `strictEqual` js_WebGPUCompareFunctionEqual >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUCompareFunctionEqual)
+                                              False
+                                                -> x `strictEqual` js_WebGPUCompareFunctionLessequal
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     WebGPUCompareFunctionLessequal)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUCompareFunctionGreater
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUCompareFunctionGreater)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_WebGPUCompareFunctionNotequal
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               WebGPUCompareFunctionNotequal)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_WebGPUCompareFunctionGreaterequal
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            WebGPUCompareFunctionGreaterequal)
+                                                                                                  False
+                                                                                                    -> x `strictEqual`
+                                                                                                         js_WebGPUCompareFunctionAlways
+                                                                                                         >>=
+                                                                                                         \ r
+                                                                                                           ->
+                                                                                                           case
+                                                                                                             r
+                                                                                                             of
+                                                                                                               True
+                                                                                                                 -> return
+                                                                                                                      (Just
+                                                                                                                         WebGPUCompareFunctionAlways)
+                                                                                                               False
+                                                                                                                 -> return
+                                                                                                                      Nothing
+js_WebGPUCompareFunctionNever = "never"
+js_WebGPUCompareFunctionLess = "less"
+js_WebGPUCompareFunctionEqual = "equal"
+js_WebGPUCompareFunctionLessequal = "lessequal"
+js_WebGPUCompareFunctionGreater = "greater"
+js_WebGPUCompareFunctionNotequal = "notequal"
+js_WebGPUCompareFunctionGreaterequal = "greaterequal"
+js_WebGPUCompareFunctionAlways = "always"
+ 
+data WebGPUPixelFormat = WebGPUPixelFormatBGRA8Unorm
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUPixelFormat where
+        toJSVal WebGPUPixelFormatBGRA8Unorm
+          = toJSVal js_WebGPUPixelFormatBGRA8Unorm
+ 
+instance FromJSVal WebGPUPixelFormat where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUPixelFormatBGRA8Unorm >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUPixelFormatBGRA8Unorm)
+                    False -> return Nothing
+js_WebGPUPixelFormatBGRA8Unorm = "BGRA8Unorm"
+ 
+data WebGPULoadAction = WebGPULoadActionDontcare
+                      | WebGPULoadActionLoad
+                      | WebGPULoadActionClear
+                      deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPULoadAction where
+        toJSVal WebGPULoadActionDontcare
+          = toJSVal js_WebGPULoadActionDontcare
+        toJSVal WebGPULoadActionLoad = toJSVal js_WebGPULoadActionLoad
+        toJSVal WebGPULoadActionClear = toJSVal js_WebGPULoadActionClear
+ 
+instance FromJSVal WebGPULoadAction where
+        fromJSVal x
+          = x `strictEqual` js_WebGPULoadActionDontcare >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPULoadActionDontcare)
+                    False
+                      -> x `strictEqual` js_WebGPULoadActionLoad >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPULoadActionLoad)
+                                 False
+                                   -> x `strictEqual` js_WebGPULoadActionClear >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPULoadActionClear)
+                                              False -> return Nothing
+js_WebGPULoadActionDontcare = "dontcare"
+js_WebGPULoadActionLoad = "load"
+js_WebGPULoadActionClear = "clear"
+ 
+data WebGPUStoreAction = WebGPUStoreActionDontcare
+                       | WebGPUStoreActionStore
+                       | WebGPUStoreActionMultisampleresolve
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUStoreAction where
+        toJSVal WebGPUStoreActionDontcare
+          = toJSVal js_WebGPUStoreActionDontcare
+        toJSVal WebGPUStoreActionStore = toJSVal js_WebGPUStoreActionStore
+        toJSVal WebGPUStoreActionMultisampleresolve
+          = toJSVal js_WebGPUStoreActionMultisampleresolve
+ 
+instance FromJSVal WebGPUStoreAction where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUStoreActionDontcare >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUStoreActionDontcare)
+                    False
+                      -> x `strictEqual` js_WebGPUStoreActionStore >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUStoreActionStore)
+                                 False
+                                   -> x `strictEqual` js_WebGPUStoreActionMultisampleresolve >>=
+                                        \ r ->
+                                          case r of
+                                              True
+                                                -> return (Just WebGPUStoreActionMultisampleresolve)
+                                              False -> return Nothing
+js_WebGPUStoreActionDontcare = "dontcare"
+js_WebGPUStoreActionStore = "store"
+js_WebGPUStoreActionMultisampleresolve = "multisampleresolve"
+ 
+data WebGPUPrimitiveType = WebGPUPrimitiveTypePoint
+                         | WebGPUPrimitiveTypeLine
+                         | WebGPUPrimitiveTypeLinestrip
+                         | WebGPUPrimitiveTypeTriangle
+                         | WebGPUPrimitiveTypeTrianglestrip
+                         deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUPrimitiveType where
+        toJSVal WebGPUPrimitiveTypePoint
+          = toJSVal js_WebGPUPrimitiveTypePoint
+        toJSVal WebGPUPrimitiveTypeLine
+          = toJSVal js_WebGPUPrimitiveTypeLine
+        toJSVal WebGPUPrimitiveTypeLinestrip
+          = toJSVal js_WebGPUPrimitiveTypeLinestrip
+        toJSVal WebGPUPrimitiveTypeTriangle
+          = toJSVal js_WebGPUPrimitiveTypeTriangle
+        toJSVal WebGPUPrimitiveTypeTrianglestrip
+          = toJSVal js_WebGPUPrimitiveTypeTrianglestrip
+ 
+instance FromJSVal WebGPUPrimitiveType where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUPrimitiveTypePoint >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUPrimitiveTypePoint)
+                    False
+                      -> x `strictEqual` js_WebGPUPrimitiveTypeLine >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUPrimitiveTypeLine)
+                                 False
+                                   -> x `strictEqual` js_WebGPUPrimitiveTypeLinestrip >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUPrimitiveTypeLinestrip)
+                                              False
+                                                -> x `strictEqual` js_WebGPUPrimitiveTypeTriangle
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just WebGPUPrimitiveTypeTriangle)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUPrimitiveTypeTrianglestrip
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUPrimitiveTypeTrianglestrip)
+                                                                        False -> return Nothing
+js_WebGPUPrimitiveTypePoint = "point"
+js_WebGPUPrimitiveTypeLine = "line"
+js_WebGPUPrimitiveTypeLinestrip = "linestrip"
+js_WebGPUPrimitiveTypeTriangle = "triangle"
+js_WebGPUPrimitiveTypeTrianglestrip = "trianglestrip"
+ 
+data WebGPUFunctionType = WebGPUFunctionTypeFragment
+                        | WebGPUFunctionTypeVertex
+                        deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUFunctionType where
+        toJSVal WebGPUFunctionTypeFragment
+          = toJSVal js_WebGPUFunctionTypeFragment
+        toJSVal WebGPUFunctionTypeVertex
+          = toJSVal js_WebGPUFunctionTypeVertex
+ 
+instance FromJSVal WebGPUFunctionType where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUFunctionTypeFragment >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUFunctionTypeFragment)
+                    False
+                      -> x `strictEqual` js_WebGPUFunctionTypeVertex >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUFunctionTypeVertex)
+                                 False -> return Nothing
+js_WebGPUFunctionTypeFragment = "fragment"
+js_WebGPUFunctionTypeVertex = "vertex"
+ 
+data WebGPUStencilOperation = WebGPUStencilOperationKeep
+                            | WebGPUStencilOperationZero
+                            | WebGPUStencilOperationReplace
+                            | WebGPUStencilOperationIncrementclamp
+                            | WebGPUStencilOperationDecrementclamp
+                            | WebGPUStencilOperationInvert
+                            | WebGPUStencilOperationIncrementwrap
+                            | WebGPUStencilOperationDecrementwrap
+                            deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUStencilOperation where
+        toJSVal WebGPUStencilOperationKeep
+          = toJSVal js_WebGPUStencilOperationKeep
+        toJSVal WebGPUStencilOperationZero
+          = toJSVal js_WebGPUStencilOperationZero
+        toJSVal WebGPUStencilOperationReplace
+          = toJSVal js_WebGPUStencilOperationReplace
+        toJSVal WebGPUStencilOperationIncrementclamp
+          = toJSVal js_WebGPUStencilOperationIncrementclamp
+        toJSVal WebGPUStencilOperationDecrementclamp
+          = toJSVal js_WebGPUStencilOperationDecrementclamp
+        toJSVal WebGPUStencilOperationInvert
+          = toJSVal js_WebGPUStencilOperationInvert
+        toJSVal WebGPUStencilOperationIncrementwrap
+          = toJSVal js_WebGPUStencilOperationIncrementwrap
+        toJSVal WebGPUStencilOperationDecrementwrap
+          = toJSVal js_WebGPUStencilOperationDecrementwrap
+ 
+instance FromJSVal WebGPUStencilOperation where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUStencilOperationKeep >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUStencilOperationKeep)
+                    False
+                      -> x `strictEqual` js_WebGPUStencilOperationZero >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUStencilOperationZero)
+                                 False
+                                   -> x `strictEqual` js_WebGPUStencilOperationReplace >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUStencilOperationReplace)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_WebGPUStencilOperationIncrementclamp
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     WebGPUStencilOperationIncrementclamp)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUStencilOperationDecrementclamp
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUStencilOperationDecrementclamp)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_WebGPUStencilOperationInvert
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               WebGPUStencilOperationInvert)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_WebGPUStencilOperationIncrementwrap
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            WebGPUStencilOperationIncrementwrap)
+                                                                                                  False
+                                                                                                    -> x `strictEqual`
+                                                                                                         js_WebGPUStencilOperationDecrementwrap
+                                                                                                         >>=
+                                                                                                         \ r
+                                                                                                           ->
+                                                                                                           case
+                                                                                                             r
+                                                                                                             of
+                                                                                                               True
+                                                                                                                 -> return
+                                                                                                                      (Just
+                                                                                                                         WebGPUStencilOperationDecrementwrap)
+                                                                                                               False
+                                                                                                                 -> return
+                                                                                                                      Nothing
+js_WebGPUStencilOperationKeep = "keep"
+js_WebGPUStencilOperationZero = "zero"
+js_WebGPUStencilOperationReplace = "replace"
+js_WebGPUStencilOperationIncrementclamp = "incrementclamp"
+js_WebGPUStencilOperationDecrementclamp = "decrementclamp"
+js_WebGPUStencilOperationInvert = "invert"
+js_WebGPUStencilOperationIncrementwrap = "incrementwrap"
+js_WebGPUStencilOperationDecrementwrap = "decrementwrap"
+ 
+data WebGPUStatus = WebGPUStatusNotenqueued
+                  | WebGPUStatusEnqueued
+                  | WebGPUStatusCommitted
+                  | WebGPUStatusScheduled
+                  | WebGPUStatusCompleted
+                  | WebGPUStatusError
+                  deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUStatus where
+        toJSVal WebGPUStatusNotenqueued
+          = toJSVal js_WebGPUStatusNotenqueued
+        toJSVal WebGPUStatusEnqueued = toJSVal js_WebGPUStatusEnqueued
+        toJSVal WebGPUStatusCommitted = toJSVal js_WebGPUStatusCommitted
+        toJSVal WebGPUStatusScheduled = toJSVal js_WebGPUStatusScheduled
+        toJSVal WebGPUStatusCompleted = toJSVal js_WebGPUStatusCompleted
+        toJSVal WebGPUStatusError = toJSVal js_WebGPUStatusError
+ 
+instance FromJSVal WebGPUStatus where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUStatusNotenqueued >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUStatusNotenqueued)
+                    False
+                      -> x `strictEqual` js_WebGPUStatusEnqueued >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUStatusEnqueued)
+                                 False
+                                   -> x `strictEqual` js_WebGPUStatusCommitted >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUStatusCommitted)
+                                              False
+                                                -> x `strictEqual` js_WebGPUStatusScheduled >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return (Just WebGPUStatusScheduled)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUStatusCompleted
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUStatusCompleted)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_WebGPUStatusError
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               WebGPUStatusError)
+                                                                                     False
+                                                                                       -> return
+                                                                                            Nothing
+js_WebGPUStatusNotenqueued = "notenqueued"
+js_WebGPUStatusEnqueued = "enqueued"
+js_WebGPUStatusCommitted = "committed"
+js_WebGPUStatusScheduled = "scheduled"
+js_WebGPUStatusCompleted = "completed"
+js_WebGPUStatusError = "error"
+ 
+data WebGPUSamplerAddressMode = WebGPUSamplerAddressModeClamptoedge
+                              | WebGPUSamplerAddressModeMirrorclamptoedge
+                              | WebGPUSamplerAddressModeRepeat
+                              | WebGPUSamplerAddressModeMirrorrepeat
+                              | WebGPUSamplerAddressModeClamptozero
+                              deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUSamplerAddressMode where
+        toJSVal WebGPUSamplerAddressModeClamptoedge
+          = toJSVal js_WebGPUSamplerAddressModeClamptoedge
+        toJSVal WebGPUSamplerAddressModeMirrorclamptoedge
+          = toJSVal js_WebGPUSamplerAddressModeMirrorclamptoedge
+        toJSVal WebGPUSamplerAddressModeRepeat
+          = toJSVal js_WebGPUSamplerAddressModeRepeat
+        toJSVal WebGPUSamplerAddressModeMirrorrepeat
+          = toJSVal js_WebGPUSamplerAddressModeMirrorrepeat
+        toJSVal WebGPUSamplerAddressModeClamptozero
+          = toJSVal js_WebGPUSamplerAddressModeClamptozero
+ 
+instance FromJSVal WebGPUSamplerAddressMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUSamplerAddressModeClamptoedge >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUSamplerAddressModeClamptoedge)
+                    False
+                      -> x `strictEqual` js_WebGPUSamplerAddressModeMirrorclamptoedge >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUSamplerAddressModeMirrorclamptoedge)
+                                 False
+                                   -> x `strictEqual` js_WebGPUSamplerAddressModeRepeat >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUSamplerAddressModeRepeat)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_WebGPUSamplerAddressModeMirrorrepeat
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     WebGPUSamplerAddressModeMirrorrepeat)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUSamplerAddressModeClamptozero
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUSamplerAddressModeClamptozero)
+                                                                        False -> return Nothing
+js_WebGPUSamplerAddressModeClamptoedge = "clamptoedge"
+js_WebGPUSamplerAddressModeMirrorclamptoedge = "mirrorclamptoedge"
+js_WebGPUSamplerAddressModeRepeat = "repeat"
+js_WebGPUSamplerAddressModeMirrorrepeat = "mirrorrepeat"
+js_WebGPUSamplerAddressModeClamptozero = "clamptozero"
+ 
+data WebGPUSamplerMinMagFilter = WebGPUSamplerMinMagFilterNearest
+                               | WebGPUSamplerMinMagFilterLinear
+                               deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUSamplerMinMagFilter where
+        toJSVal WebGPUSamplerMinMagFilterNearest
+          = toJSVal js_WebGPUSamplerMinMagFilterNearest
+        toJSVal WebGPUSamplerMinMagFilterLinear
+          = toJSVal js_WebGPUSamplerMinMagFilterLinear
+ 
+instance FromJSVal WebGPUSamplerMinMagFilter where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUSamplerMinMagFilterNearest >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUSamplerMinMagFilterNearest)
+                    False
+                      -> x `strictEqual` js_WebGPUSamplerMinMagFilterLinear >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUSamplerMinMagFilterLinear)
+                                 False -> return Nothing
+js_WebGPUSamplerMinMagFilterNearest = "nearest"
+js_WebGPUSamplerMinMagFilterLinear = "linear"
+ 
+data WebGPUSamplerMipFilter = WebGPUSamplerMipFilterNotmipmapped
+                            | WebGPUSamplerMipFilterNearest
+                            | WebGPUSamplerMipFilterLinear
+                            deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUSamplerMipFilter where
+        toJSVal WebGPUSamplerMipFilterNotmipmapped
+          = toJSVal js_WebGPUSamplerMipFilterNotmipmapped
+        toJSVal WebGPUSamplerMipFilterNearest
+          = toJSVal js_WebGPUSamplerMipFilterNearest
+        toJSVal WebGPUSamplerMipFilterLinear
+          = toJSVal js_WebGPUSamplerMipFilterLinear
+ 
+instance FromJSVal WebGPUSamplerMipFilter where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUSamplerMipFilterNotmipmapped >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUSamplerMipFilterNotmipmapped)
+                    False
+                      -> x `strictEqual` js_WebGPUSamplerMipFilterNearest >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUSamplerMipFilterNearest)
+                                 False
+                                   -> x `strictEqual` js_WebGPUSamplerMipFilterLinear >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUSamplerMipFilterLinear)
+                                              False -> return Nothing
+js_WebGPUSamplerMipFilterNotmipmapped = "notmipmapped"
+js_WebGPUSamplerMipFilterNearest = "nearest"
+js_WebGPUSamplerMipFilterLinear = "linear"
+ 
+data WebGPUCullMode = WebGPUCullModeNone
+                    | WebGPUCullModeFront
+                    | WebGPUCullModeBack
+                    deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUCullMode where
+        toJSVal WebGPUCullModeNone = toJSVal js_WebGPUCullModeNone
+        toJSVal WebGPUCullModeFront = toJSVal js_WebGPUCullModeFront
+        toJSVal WebGPUCullModeBack = toJSVal js_WebGPUCullModeBack
+ 
+instance FromJSVal WebGPUCullMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUCullModeNone >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUCullModeNone)
+                    False
+                      -> x `strictEqual` js_WebGPUCullModeFront >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUCullModeFront)
+                                 False
+                                   -> x `strictEqual` js_WebGPUCullModeBack >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUCullModeBack)
+                                              False -> return Nothing
+js_WebGPUCullModeNone = "none"
+js_WebGPUCullModeFront = "front"
+js_WebGPUCullModeBack = "back"
+ 
+data WebGPUIndexType = WebGPUIndexTypeUint16
+                     | WebGPUIndexTypeUint32
+                     deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUIndexType where
+        toJSVal WebGPUIndexTypeUint16 = toJSVal js_WebGPUIndexTypeUint16
+        toJSVal WebGPUIndexTypeUint32 = toJSVal js_WebGPUIndexTypeUint32
+ 
+instance FromJSVal WebGPUIndexType where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUIndexTypeUint16 >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUIndexTypeUint16)
+                    False
+                      -> x `strictEqual` js_WebGPUIndexTypeUint32 >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUIndexTypeUint32)
+                                 False -> return Nothing
+js_WebGPUIndexTypeUint16 = "uint16"
+js_WebGPUIndexTypeUint32 = "uint32"
+ 
+data WebGPUVisibilityResultMode = WebGPUVisibilityResultModeDisabled
+                                | WebGPUVisibilityResultModeBoolean
+                                | WebGPUVisibilityResultModeCounting
+                                deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUVisibilityResultMode where
+        toJSVal WebGPUVisibilityResultModeDisabled
+          = toJSVal js_WebGPUVisibilityResultModeDisabled
+        toJSVal WebGPUVisibilityResultModeBoolean
+          = toJSVal js_WebGPUVisibilityResultModeBoolean
+        toJSVal WebGPUVisibilityResultModeCounting
+          = toJSVal js_WebGPUVisibilityResultModeCounting
+ 
+instance FromJSVal WebGPUVisibilityResultMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUVisibilityResultModeDisabled >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUVisibilityResultModeDisabled)
+                    False
+                      -> x `strictEqual` js_WebGPUVisibilityResultModeBoolean >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUVisibilityResultModeBoolean)
+                                 False
+                                   -> x `strictEqual` js_WebGPUVisibilityResultModeCounting >>=
+                                        \ r ->
+                                          case r of
+                                              True
+                                                -> return (Just WebGPUVisibilityResultModeCounting)
+                                              False -> return Nothing
+js_WebGPUVisibilityResultModeDisabled = "disabled"
+js_WebGPUVisibilityResultModeBoolean = "boolean"
+js_WebGPUVisibilityResultModeCounting = "counting"
+ 
+data WebGPUWinding = WebGPUWindingClockwise
+                   | WebGPUWindingCounterclockwise
+                   deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUWinding where
+        toJSVal WebGPUWindingClockwise = toJSVal js_WebGPUWindingClockwise
+        toJSVal WebGPUWindingCounterclockwise
+          = toJSVal js_WebGPUWindingCounterclockwise
+ 
+instance FromJSVal WebGPUWinding where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUWindingClockwise >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUWindingClockwise)
+                    False
+                      -> x `strictEqual` js_WebGPUWindingCounterclockwise >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUWindingCounterclockwise)
+                                 False -> return Nothing
+js_WebGPUWindingClockwise = "clockwise"
+js_WebGPUWindingCounterclockwise = "counterclockwise"
+ 
+data WebGPUDepthClipMode = WebGPUDepthClipModeClip
+                         | WebGPUDepthClipModeClamp
+                         deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUDepthClipMode where
+        toJSVal WebGPUDepthClipModeClip
+          = toJSVal js_WebGPUDepthClipModeClip
+        toJSVal WebGPUDepthClipModeClamp
+          = toJSVal js_WebGPUDepthClipModeClamp
+ 
+instance FromJSVal WebGPUDepthClipMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUDepthClipModeClip >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUDepthClipModeClip)
+                    False
+                      -> x `strictEqual` js_WebGPUDepthClipModeClamp >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUDepthClipModeClamp)
+                                 False -> return Nothing
+js_WebGPUDepthClipModeClip = "clip"
+js_WebGPUDepthClipModeClamp = "clamp"
+ 
+data WebGPUTriangleFillMode = WebGPUTriangleFillModeFill
+                            | WebGPUTriangleFillModeLines
+                            deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUTriangleFillMode where
+        toJSVal WebGPUTriangleFillModeFill
+          = toJSVal js_WebGPUTriangleFillModeFill
+        toJSVal WebGPUTriangleFillModeLines
+          = toJSVal js_WebGPUTriangleFillModeLines
+ 
+instance FromJSVal WebGPUTriangleFillMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUTriangleFillModeFill >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUTriangleFillModeFill)
+                    False
+                      -> x `strictEqual` js_WebGPUTriangleFillModeLines >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUTriangleFillModeLines)
+                                 False -> return Nothing
+js_WebGPUTriangleFillModeFill = "fill"
+js_WebGPUTriangleFillModeLines = "lines"
+ 
+data WebGPUCPUCacheMode = WebGPUCPUCacheModeDefaultcache
+                        | WebGPUCPUCacheModeWritecombined
+                        deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUCPUCacheMode where
+        toJSVal WebGPUCPUCacheModeDefaultcache
+          = toJSVal js_WebGPUCPUCacheModeDefaultcache
+        toJSVal WebGPUCPUCacheModeWritecombined
+          = toJSVal js_WebGPUCPUCacheModeWritecombined
+ 
+instance FromJSVal WebGPUCPUCacheMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUCPUCacheModeDefaultcache >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUCPUCacheModeDefaultcache)
+                    False
+                      -> x `strictEqual` js_WebGPUCPUCacheModeWritecombined >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUCPUCacheModeWritecombined)
+                                 False -> return Nothing
+js_WebGPUCPUCacheModeDefaultcache = "defaultcache"
+js_WebGPUCPUCacheModeWritecombined = "writecombined"
+ 
+data WebGPUStorageMode = WebGPUStorageModeShared
+                       | WebGPUStorageModeManaged
+                       | WebGPUStorageModePrivate
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUStorageMode where
+        toJSVal WebGPUStorageModeShared
+          = toJSVal js_WebGPUStorageModeShared
+        toJSVal WebGPUStorageModeManaged
+          = toJSVal js_WebGPUStorageModeManaged
+        toJSVal WebGPUStorageModePrivate
+          = toJSVal js_WebGPUStorageModePrivate
+ 
+instance FromJSVal WebGPUStorageMode where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUStorageModeShared >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUStorageModeShared)
+                    False
+                      -> x `strictEqual` js_WebGPUStorageModeManaged >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUStorageModeManaged)
+                                 False
+                                   -> x `strictEqual` js_WebGPUStorageModePrivate >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUStorageModePrivate)
+                                              False -> return Nothing
+js_WebGPUStorageModeShared = "shared"
+js_WebGPUStorageModeManaged = "managed"
+js_WebGPUStorageModePrivate = "private"
+ 
+data WebGPUResourceOptions = WebGPUResourceOptionsCpucachemodedefaultcache
+                           | WebGPUResourceOptionsCpucachemodewritecombined
+                           | WebGPUResourceOptionsStoragemodeshared
+                           | WebGPUResourceOptionsStoragemodemanaged
+                           | WebGPUResourceOptionsStoragemodeprivate
+                           | WebGPUResourceOptionsOptioncpucachemodedefaultcache
+                           | WebGPUResourceOptionsOptioncpucachemodewritecombined
+                           deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUResourceOptions where
+        toJSVal WebGPUResourceOptionsCpucachemodedefaultcache
+          = toJSVal js_WebGPUResourceOptionsCpucachemodedefaultcache
+        toJSVal WebGPUResourceOptionsCpucachemodewritecombined
+          = toJSVal js_WebGPUResourceOptionsCpucachemodewritecombined
+        toJSVal WebGPUResourceOptionsStoragemodeshared
+          = toJSVal js_WebGPUResourceOptionsStoragemodeshared
+        toJSVal WebGPUResourceOptionsStoragemodemanaged
+          = toJSVal js_WebGPUResourceOptionsStoragemodemanaged
+        toJSVal WebGPUResourceOptionsStoragemodeprivate
+          = toJSVal js_WebGPUResourceOptionsStoragemodeprivate
+        toJSVal WebGPUResourceOptionsOptioncpucachemodedefaultcache
+          = toJSVal js_WebGPUResourceOptionsOptioncpucachemodedefaultcache
+        toJSVal WebGPUResourceOptionsOptioncpucachemodewritecombined
+          = toJSVal js_WebGPUResourceOptionsOptioncpucachemodewritecombined
+ 
+instance FromJSVal WebGPUResourceOptions where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUResourceOptionsCpucachemodedefaultcache
+              >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUResourceOptionsCpucachemodedefaultcache)
+                    False
+                      -> x `strictEqual`
+                           js_WebGPUResourceOptionsCpucachemodewritecombined
+                           >>=
+                           \ r ->
+                             case r of
+                                 True
+                                   -> return (Just WebGPUResourceOptionsCpucachemodewritecombined)
+                                 False
+                                   -> x `strictEqual` js_WebGPUResourceOptionsStoragemodeshared >>=
+                                        \ r ->
+                                          case r of
+                                              True
+                                                -> return
+                                                     (Just WebGPUResourceOptionsStoragemodeshared)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_WebGPUResourceOptionsStoragemodemanaged
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     WebGPUResourceOptionsStoragemodemanaged)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUResourceOptionsStoragemodeprivate
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUResourceOptionsStoragemodeprivate)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_WebGPUResourceOptionsOptioncpucachemodedefaultcache
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               WebGPUResourceOptionsOptioncpucachemodedefaultcache)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_WebGPUResourceOptionsOptioncpucachemodewritecombined
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            WebGPUResourceOptionsOptioncpucachemodewritecombined)
+                                                                                                  False
+                                                                                                    -> return
+                                                                                                         Nothing
+js_WebGPUResourceOptionsCpucachemodedefaultcache
+  = "cpucachemodedefaultcache"
+js_WebGPUResourceOptionsCpucachemodewritecombined
+  = "cpucachemodewritecombined"
+js_WebGPUResourceOptionsStoragemodeshared = "storagemodeshared"
+js_WebGPUResourceOptionsStoragemodemanaged = "storagemodemanaged"
+js_WebGPUResourceOptionsStoragemodeprivate = "storagemodeprivate"
+js_WebGPUResourceOptionsOptioncpucachemodedefaultcache
+  = "optioncpucachemodedefaultcache"
+js_WebGPUResourceOptionsOptioncpucachemodewritecombined
+  = "optioncpucachemodewritecombined"
+ 
+data WebGPUTextureUsage = WebGPUTextureUsageUnknown
+                        | WebGPUTextureUsageShaderread
+                        | WebGPUTextureUsageShaderwrite
+                        | WebGPUTextureUsageRendertarget
+                        | WebGPUTextureUsagePixelformatview
+                        deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUTextureUsage where
+        toJSVal WebGPUTextureUsageUnknown
+          = toJSVal js_WebGPUTextureUsageUnknown
+        toJSVal WebGPUTextureUsageShaderread
+          = toJSVal js_WebGPUTextureUsageShaderread
+        toJSVal WebGPUTextureUsageShaderwrite
+          = toJSVal js_WebGPUTextureUsageShaderwrite
+        toJSVal WebGPUTextureUsageRendertarget
+          = toJSVal js_WebGPUTextureUsageRendertarget
+        toJSVal WebGPUTextureUsagePixelformatview
+          = toJSVal js_WebGPUTextureUsagePixelformatview
+ 
+instance FromJSVal WebGPUTextureUsage where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUTextureUsageUnknown >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUTextureUsageUnknown)
+                    False
+                      -> x `strictEqual` js_WebGPUTextureUsageShaderread >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUTextureUsageShaderread)
+                                 False
+                                   -> x `strictEqual` js_WebGPUTextureUsageShaderwrite >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUTextureUsageShaderwrite)
+                                              False
+                                                -> x `strictEqual` js_WebGPUTextureUsageRendertarget
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     WebGPUTextureUsageRendertarget)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUTextureUsagePixelformatview
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUTextureUsagePixelformatview)
+                                                                        False -> return Nothing
+js_WebGPUTextureUsageUnknown = "unknown"
+js_WebGPUTextureUsageShaderread = "shaderread"
+js_WebGPUTextureUsageShaderwrite = "shaderwrite"
+js_WebGPUTextureUsageRendertarget = "rendertarget"
+js_WebGPUTextureUsagePixelformatview = "pixelformatview"
+ 
+data WebGPUBlendOperation = WebGPUBlendOperationAdd
+                          | WebGPUBlendOperationSubtract
+                          | WebGPUBlendOperationReversesubtract
+                          | WebGPUBlendOperationMin
+                          | WebGPUBlendOperationMax
+                          deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUBlendOperation where
+        toJSVal WebGPUBlendOperationAdd
+          = toJSVal js_WebGPUBlendOperationAdd
+        toJSVal WebGPUBlendOperationSubtract
+          = toJSVal js_WebGPUBlendOperationSubtract
+        toJSVal WebGPUBlendOperationReversesubtract
+          = toJSVal js_WebGPUBlendOperationReversesubtract
+        toJSVal WebGPUBlendOperationMin
+          = toJSVal js_WebGPUBlendOperationMin
+        toJSVal WebGPUBlendOperationMax
+          = toJSVal js_WebGPUBlendOperationMax
+ 
+instance FromJSVal WebGPUBlendOperation where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUBlendOperationAdd >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUBlendOperationAdd)
+                    False
+                      -> x `strictEqual` js_WebGPUBlendOperationSubtract >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUBlendOperationSubtract)
+                                 False
+                                   -> x `strictEqual` js_WebGPUBlendOperationReversesubtract >>=
+                                        \ r ->
+                                          case r of
+                                              True
+                                                -> return (Just WebGPUBlendOperationReversesubtract)
+                                              False
+                                                -> x `strictEqual` js_WebGPUBlendOperationMin >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just WebGPUBlendOperationMin)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUBlendOperationMax
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUBlendOperationMax)
+                                                                        False -> return Nothing
+js_WebGPUBlendOperationAdd = "add"
+js_WebGPUBlendOperationSubtract = "subtract"
+js_WebGPUBlendOperationReversesubtract = "reversesubtract"
+js_WebGPUBlendOperationMin = "min"
+js_WebGPUBlendOperationMax = "max"
+ 
+data WebGPUBlendFactor = WebGPUBlendFactorZero
+                       | WebGPUBlendFactorOne
+                       | WebGPUBlendFactorSourcecolor
+                       | WebGPUBlendFactorOneminussourcecolor
+                       | WebGPUBlendFactorSourcealpha
+                       | WebGPUBlendFactorOneminussourcealpha
+                       | WebGPUBlendFactorDestinationcolor
+                       | WebGPUBlendFactorOneminusdestinationcolor
+                       | WebGPUBlendFactorDestinationalpha
+                       | WebGPUBlendFactorOneminusdestinationalpha
+                       | WebGPUBlendFactorSourcealphasaturated
+                       | WebGPUBlendFactorBlendcolor
+                       | WebGPUBlendFactorOneminusblendcolor
+                       | WebGPUBlendFactorBlendalpha
+                       | WebGPUBlendFactorOneminusblendalpha
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUBlendFactor where
+        toJSVal WebGPUBlendFactorZero = toJSVal js_WebGPUBlendFactorZero
+        toJSVal WebGPUBlendFactorOne = toJSVal js_WebGPUBlendFactorOne
+        toJSVal WebGPUBlendFactorSourcecolor
+          = toJSVal js_WebGPUBlendFactorSourcecolor
+        toJSVal WebGPUBlendFactorOneminussourcecolor
+          = toJSVal js_WebGPUBlendFactorOneminussourcecolor
+        toJSVal WebGPUBlendFactorSourcealpha
+          = toJSVal js_WebGPUBlendFactorSourcealpha
+        toJSVal WebGPUBlendFactorOneminussourcealpha
+          = toJSVal js_WebGPUBlendFactorOneminussourcealpha
+        toJSVal WebGPUBlendFactorDestinationcolor
+          = toJSVal js_WebGPUBlendFactorDestinationcolor
+        toJSVal WebGPUBlendFactorOneminusdestinationcolor
+          = toJSVal js_WebGPUBlendFactorOneminusdestinationcolor
+        toJSVal WebGPUBlendFactorDestinationalpha
+          = toJSVal js_WebGPUBlendFactorDestinationalpha
+        toJSVal WebGPUBlendFactorOneminusdestinationalpha
+          = toJSVal js_WebGPUBlendFactorOneminusdestinationalpha
+        toJSVal WebGPUBlendFactorSourcealphasaturated
+          = toJSVal js_WebGPUBlendFactorSourcealphasaturated
+        toJSVal WebGPUBlendFactorBlendcolor
+          = toJSVal js_WebGPUBlendFactorBlendcolor
+        toJSVal WebGPUBlendFactorOneminusblendcolor
+          = toJSVal js_WebGPUBlendFactorOneminusblendcolor
+        toJSVal WebGPUBlendFactorBlendalpha
+          = toJSVal js_WebGPUBlendFactorBlendalpha
+        toJSVal WebGPUBlendFactorOneminusblendalpha
+          = toJSVal js_WebGPUBlendFactorOneminusblendalpha
+ 
+instance FromJSVal WebGPUBlendFactor where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUBlendFactorZero >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUBlendFactorZero)
+                    False
+                      -> x `strictEqual` js_WebGPUBlendFactorOne >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUBlendFactorOne)
+                                 False
+                                   -> x `strictEqual` js_WebGPUBlendFactorSourcecolor >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUBlendFactorSourcecolor)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_WebGPUBlendFactorOneminussourcecolor
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     WebGPUBlendFactorOneminussourcecolor)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUBlendFactorSourcealpha
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUBlendFactorSourcealpha)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_WebGPUBlendFactorOneminussourcealpha
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               WebGPUBlendFactorOneminussourcealpha)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_WebGPUBlendFactorDestinationcolor
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            WebGPUBlendFactorDestinationcolor)
+                                                                                                  False
+                                                                                                    -> x `strictEqual`
+                                                                                                         js_WebGPUBlendFactorOneminusdestinationcolor
+                                                                                                         >>=
+                                                                                                         \ r
+                                                                                                           ->
+                                                                                                           case
+                                                                                                             r
+                                                                                                             of
+                                                                                                               True
+                                                                                                                 -> return
+                                                                                                                      (Just
+                                                                                                                         WebGPUBlendFactorOneminusdestinationcolor)
+                                                                                                               False
+                                                                                                                 -> x `strictEqual`
+                                                                                                                      js_WebGPUBlendFactorDestinationalpha
+                                                                                                                      >>=
+                                                                                                                      \ r
+                                                                                                                        ->
+                                                                                                                        case
+                                                                                                                          r
+                                                                                                                          of
+                                                                                                                            True
+                                                                                                                              -> return
+                                                                                                                                   (Just
+                                                                                                                                      WebGPUBlendFactorDestinationalpha)
+                                                                                                                            False
+                                                                                                                              -> x `strictEqual`
+                                                                                                                                   js_WebGPUBlendFactorOneminusdestinationalpha
+                                                                                                                                   >>=
+                                                                                                                                   \ r
+                                                                                                                                     ->
+                                                                                                                                     case
+                                                                                                                                       r
+                                                                                                                                       of
+                                                                                                                                         True
+                                                                                                                                           -> return
+                                                                                                                                                (Just
+                                                                                                                                                   WebGPUBlendFactorOneminusdestinationalpha)
+                                                                                                                                         False
+                                                                                                                                           -> x `strictEqual`
+                                                                                                                                                js_WebGPUBlendFactorSourcealphasaturated
+                                                                                                                                                >>=
+                                                                                                                                                \ r
+                                                                                                                                                  ->
+                                                                                                                                                  case
+                                                                                                                                                    r
+                                                                                                                                                    of
+                                                                                                                                                      True
+                                                                                                                                                        -> return
+                                                                                                                                                             (Just
+                                                                                                                                                                WebGPUBlendFactorSourcealphasaturated)
+                                                                                                                                                      False
+                                                                                                                                                        -> x `strictEqual`
+                                                                                                                                                             js_WebGPUBlendFactorBlendcolor
+                                                                                                                                                             >>=
+                                                                                                                                                             \ r
+                                                                                                                                                               ->
+                                                                                                                                                               case
+                                                                                                                                                                 r
+                                                                                                                                                                 of
+                                                                                                                                                                   True
+                                                                                                                                                                     -> return
+                                                                                                                                                                          (Just
+                                                                                                                                                                             WebGPUBlendFactorBlendcolor)
+                                                                                                                                                                   False
+                                                                                                                                                                     -> x `strictEqual`
+                                                                                                                                                                          js_WebGPUBlendFactorOneminusblendcolor
+                                                                                                                                                                          >>=
+                                                                                                                                                                          \ r
+                                                                                                                                                                            ->
+                                                                                                                                                                            case
+                                                                                                                                                                              r
+                                                                                                                                                                              of
+                                                                                                                                                                                True
+                                                                                                                                                                                  -> return
+                                                                                                                                                                                       (Just
+                                                                                                                                                                                          WebGPUBlendFactorOneminusblendcolor)
+                                                                                                                                                                                False
+                                                                                                                                                                                  -> x `strictEqual`
+                                                                                                                                                                                       js_WebGPUBlendFactorBlendalpha
+                                                                                                                                                                                       >>=
+                                                                                                                                                                                       \ r
+                                                                                                                                                                                         ->
+                                                                                                                                                                                         case
+                                                                                                                                                                                           r
+                                                                                                                                                                                           of
+                                                                                                                                                                                             True
+                                                                                                                                                                                               -> return
+                                                                                                                                                                                                    (Just
+                                                                                                                                                                                                       WebGPUBlendFactorBlendalpha)
+                                                                                                                                                                                             False
+                                                                                                                                                                                               -> x `strictEqual`
+                                                                                                                                                                                                    js_WebGPUBlendFactorOneminusblendalpha
+                                                                                                                                                                                                    >>=
+                                                                                                                                                                                                    \ r
+                                                                                                                                                                                                      ->
+                                                                                                                                                                                                      case
+                                                                                                                                                                                                        r
+                                                                                                                                                                                                        of
+                                                                                                                                                                                                          True
+                                                                                                                                                                                                            -> return
+                                                                                                                                                                                                                 (Just
+                                                                                                                                                                                                                    WebGPUBlendFactorOneminusblendalpha)
+                                                                                                                                                                                                          False
+                                                                                                                                                                                                            -> return
+                                                                                                                                                                                                                 Nothing
+js_WebGPUBlendFactorZero = "zero"
+js_WebGPUBlendFactorOne = "one"
+js_WebGPUBlendFactorSourcecolor = "sourcecolor"
+js_WebGPUBlendFactorOneminussourcecolor = "oneminussourcecolor"
+js_WebGPUBlendFactorSourcealpha = "sourcealpha"
+js_WebGPUBlendFactorOneminussourcealpha = "oneminussourcealpha"
+js_WebGPUBlendFactorDestinationcolor = "destinationcolor"
+js_WebGPUBlendFactorOneminusdestinationcolor
+  = "oneminusdestinationcolor"
+js_WebGPUBlendFactorDestinationalpha = "destinationalpha"
+js_WebGPUBlendFactorOneminusdestinationalpha
+  = "oneminusdestinationalpha"
+js_WebGPUBlendFactorSourcealphasaturated = "sourcealphasaturated"
+js_WebGPUBlendFactorBlendcolor = "blendcolor"
+js_WebGPUBlendFactorOneminusblendcolor = "oneminusblendcolor"
+js_WebGPUBlendFactorBlendalpha = "blendalpha"
+js_WebGPUBlendFactorOneminusblendalpha = "oneminusblendalpha"
+ 
+data WebGPUColorWriteMask = WebGPUColorWriteMaskNone
+                          | WebGPUColorWriteMaskRed
+                          | WebGPUColorWriteMaskGreen
+                          | WebGPUColorWriteMaskBlue
+                          | WebGPUColorWriteMaskAlpha
+                          | WebGPUColorWriteMaskAll
+                          deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUColorWriteMask where
+        toJSVal WebGPUColorWriteMaskNone
+          = toJSVal js_WebGPUColorWriteMaskNone
+        toJSVal WebGPUColorWriteMaskRed
+          = toJSVal js_WebGPUColorWriteMaskRed
+        toJSVal WebGPUColorWriteMaskGreen
+          = toJSVal js_WebGPUColorWriteMaskGreen
+        toJSVal WebGPUColorWriteMaskBlue
+          = toJSVal js_WebGPUColorWriteMaskBlue
+        toJSVal WebGPUColorWriteMaskAlpha
+          = toJSVal js_WebGPUColorWriteMaskAlpha
+        toJSVal WebGPUColorWriteMaskAll
+          = toJSVal js_WebGPUColorWriteMaskAll
+ 
+instance FromJSVal WebGPUColorWriteMask where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUColorWriteMaskNone >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUColorWriteMaskNone)
+                    False
+                      -> x `strictEqual` js_WebGPUColorWriteMaskRed >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUColorWriteMaskRed)
+                                 False
+                                   -> x `strictEqual` js_WebGPUColorWriteMaskGreen >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just WebGPUColorWriteMaskGreen)
+                                              False
+                                                -> x `strictEqual` js_WebGPUColorWriteMaskBlue >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just WebGPUColorWriteMaskBlue)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_WebGPUColorWriteMaskAlpha
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  WebGPUColorWriteMaskAlpha)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_WebGPUColorWriteMaskAll
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               WebGPUColorWriteMaskAll)
+                                                                                     False
+                                                                                       -> return
+                                                                                            Nothing
+js_WebGPUColorWriteMaskNone = "none"
+js_WebGPUColorWriteMaskRed = "red"
+js_WebGPUColorWriteMaskGreen = "green"
+js_WebGPUColorWriteMaskBlue = "blue"
+js_WebGPUColorWriteMaskAlpha = "alpha"
+js_WebGPUColorWriteMaskAll = "all"
+ 
+data WebGPUMultisampleDepthResolveFilter = WebGPUMultisampleDepthResolveFilterSample0
+                                         | WebGPUMultisampleDepthResolveFilterMin
+                                         | WebGPUMultisampleDepthResolveFilterMax
+                                         deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUMultisampleDepthResolveFilter where
+        toJSVal WebGPUMultisampleDepthResolveFilterSample0
+          = toJSVal js_WebGPUMultisampleDepthResolveFilterSample0
+        toJSVal WebGPUMultisampleDepthResolveFilterMin
+          = toJSVal js_WebGPUMultisampleDepthResolveFilterMin
+        toJSVal WebGPUMultisampleDepthResolveFilterMax
+          = toJSVal js_WebGPUMultisampleDepthResolveFilterMax
+ 
+instance FromJSVal WebGPUMultisampleDepthResolveFilter where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUMultisampleDepthResolveFilterSample0 >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUMultisampleDepthResolveFilterSample0)
+                    False
+                      -> x `strictEqual` js_WebGPUMultisampleDepthResolveFilterMin >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUMultisampleDepthResolveFilterMin)
+                                 False
+                                   -> x `strictEqual` js_WebGPUMultisampleDepthResolveFilterMax >>=
+                                        \ r ->
+                                          case r of
+                                              True
+                                                -> return
+                                                     (Just WebGPUMultisampleDepthResolveFilterMax)
+                                              False -> return Nothing
+js_WebGPUMultisampleDepthResolveFilterSample0 = "sample0"
+js_WebGPUMultisampleDepthResolveFilterMin = "min"
+js_WebGPUMultisampleDepthResolveFilterMax = "max"
+ 
+data WebGPUFeatureSet = WebGPUFeatureSetLevel1
+                      | WebGPUFeatureSetLevel2
+                      deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal WebGPUFeatureSet where
+        toJSVal WebGPUFeatureSetLevel1 = toJSVal js_WebGPUFeatureSetLevel1
+        toJSVal WebGPUFeatureSetLevel2 = toJSVal js_WebGPUFeatureSetLevel2
+ 
+instance FromJSVal WebGPUFeatureSet where
+        fromJSVal x
+          = x `strictEqual` js_WebGPUFeatureSetLevel1 >>=
+              \ r ->
+                case r of
+                    True -> return (Just WebGPUFeatureSetLevel1)
+                    False
+                      -> x `strictEqual` js_WebGPUFeatureSetLevel2 >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just WebGPUFeatureSetLevel2)
+                                 False -> return Nothing
+js_WebGPUFeatureSetLevel1 = "level1"
+js_WebGPUFeatureSetLevel2 = "level2"
+ 
 data VideoPresentationMode = VideoPresentationModeFullscreen
                            | VideoPresentationModePictureInPicture
                            | VideoPresentationModeInline
@@ -710,6 +2266,185 @@ js_TextTrackKindDescriptions = "descriptions"
 js_TextTrackKindChapters = "chapters"
 js_TextTrackKindMetadata = "metadata"
 js_TextTrackKindForced = "forced"
+ 
+data ApplePayErrorCode = ApplePayErrorCodeUnknown
+                       | ApplePayErrorCodeShippingContactInvalid
+                       | ApplePayErrorCodeBillingContactInvalid
+                       | ApplePayErrorCodeAddressUnservicable
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal ApplePayErrorCode where
+        toJSVal ApplePayErrorCodeUnknown
+          = toJSVal js_ApplePayErrorCodeUnknown
+        toJSVal ApplePayErrorCodeShippingContactInvalid
+          = toJSVal js_ApplePayErrorCodeShippingContactInvalid
+        toJSVal ApplePayErrorCodeBillingContactInvalid
+          = toJSVal js_ApplePayErrorCodeBillingContactInvalid
+        toJSVal ApplePayErrorCodeAddressUnservicable
+          = toJSVal js_ApplePayErrorCodeAddressUnservicable
+ 
+instance FromJSVal ApplePayErrorCode where
+        fromJSVal x
+          = x `strictEqual` js_ApplePayErrorCodeUnknown >>=
+              \ r ->
+                case r of
+                    True -> return (Just ApplePayErrorCodeUnknown)
+                    False
+                      -> x `strictEqual` js_ApplePayErrorCodeShippingContactInvalid >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just ApplePayErrorCodeShippingContactInvalid)
+                                 False
+                                   -> x `strictEqual` js_ApplePayErrorCodeBillingContactInvalid >>=
+                                        \ r ->
+                                          case r of
+                                              True
+                                                -> return
+                                                     (Just ApplePayErrorCodeBillingContactInvalid)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_ApplePayErrorCodeAddressUnservicable
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     ApplePayErrorCodeAddressUnservicable)
+                                                           False -> return Nothing
+js_ApplePayErrorCodeUnknown = "unknown"
+js_ApplePayErrorCodeShippingContactInvalid
+  = "shippingContactInvalid"
+js_ApplePayErrorCodeBillingContactInvalid = "billingContactInvalid"
+js_ApplePayErrorCodeAddressUnservicable = "addressUnservicable"
+ 
+data ApplePayErrorContactField = ApplePayErrorContactFieldPhoneNumber
+                               | ApplePayErrorContactFieldEmailAddress
+                               | ApplePayErrorContactFieldName
+                               | ApplePayErrorContactFieldPostalAddress
+                               | ApplePayErrorContactFieldAddressLines
+                               | ApplePayErrorContactFieldLocality
+                               | ApplePayErrorContactFieldPostalCode
+                               | ApplePayErrorContactFieldAdministrativeArea
+                               | ApplePayErrorContactFieldCountry
+                               deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal ApplePayErrorContactField where
+        toJSVal ApplePayErrorContactFieldPhoneNumber
+          = toJSVal js_ApplePayErrorContactFieldPhoneNumber
+        toJSVal ApplePayErrorContactFieldEmailAddress
+          = toJSVal js_ApplePayErrorContactFieldEmailAddress
+        toJSVal ApplePayErrorContactFieldName
+          = toJSVal js_ApplePayErrorContactFieldName
+        toJSVal ApplePayErrorContactFieldPostalAddress
+          = toJSVal js_ApplePayErrorContactFieldPostalAddress
+        toJSVal ApplePayErrorContactFieldAddressLines
+          = toJSVal js_ApplePayErrorContactFieldAddressLines
+        toJSVal ApplePayErrorContactFieldLocality
+          = toJSVal js_ApplePayErrorContactFieldLocality
+        toJSVal ApplePayErrorContactFieldPostalCode
+          = toJSVal js_ApplePayErrorContactFieldPostalCode
+        toJSVal ApplePayErrorContactFieldAdministrativeArea
+          = toJSVal js_ApplePayErrorContactFieldAdministrativeArea
+        toJSVal ApplePayErrorContactFieldCountry
+          = toJSVal js_ApplePayErrorContactFieldCountry
+ 
+instance FromJSVal ApplePayErrorContactField where
+        fromJSVal x
+          = x `strictEqual` js_ApplePayErrorContactFieldPhoneNumber >>=
+              \ r ->
+                case r of
+                    True -> return (Just ApplePayErrorContactFieldPhoneNumber)
+                    False
+                      -> x `strictEqual` js_ApplePayErrorContactFieldEmailAddress >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just ApplePayErrorContactFieldEmailAddress)
+                                 False
+                                   -> x `strictEqual` js_ApplePayErrorContactFieldName >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just ApplePayErrorContactFieldName)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_ApplePayErrorContactFieldPostalAddress
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     ApplePayErrorContactFieldPostalAddress)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_ApplePayErrorContactFieldAddressLines
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  ApplePayErrorContactFieldAddressLines)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_ApplePayErrorContactFieldLocality
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               ApplePayErrorContactFieldLocality)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_ApplePayErrorContactFieldPostalCode
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            ApplePayErrorContactFieldPostalCode)
+                                                                                                  False
+                                                                                                    -> x `strictEqual`
+                                                                                                         js_ApplePayErrorContactFieldAdministrativeArea
+                                                                                                         >>=
+                                                                                                         \ r
+                                                                                                           ->
+                                                                                                           case
+                                                                                                             r
+                                                                                                             of
+                                                                                                               True
+                                                                                                                 -> return
+                                                                                                                      (Just
+                                                                                                                         ApplePayErrorContactFieldAdministrativeArea)
+                                                                                                               False
+                                                                                                                 -> x `strictEqual`
+                                                                                                                      js_ApplePayErrorContactFieldCountry
+                                                                                                                      >>=
+                                                                                                                      \ r
+                                                                                                                        ->
+                                                                                                                        case
+                                                                                                                          r
+                                                                                                                          of
+                                                                                                                            True
+                                                                                                                              -> return
+                                                                                                                                   (Just
+                                                                                                                                      ApplePayErrorContactFieldCountry)
+                                                                                                                            False
+                                                                                                                              -> return
+                                                                                                                                   Nothing
+js_ApplePayErrorContactFieldPhoneNumber = "phoneNumber"
+js_ApplePayErrorContactFieldEmailAddress = "emailAddress"
+js_ApplePayErrorContactFieldName = "name"
+js_ApplePayErrorContactFieldPostalAddress = "postalAddress"
+js_ApplePayErrorContactFieldAddressLines = "addressLines"
+js_ApplePayErrorContactFieldLocality = "locality"
+js_ApplePayErrorContactFieldPostalCode = "postalCode"
+js_ApplePayErrorContactFieldAdministrativeArea
+  = "administrativeArea"
+js_ApplePayErrorContactFieldCountry = "country"
  
 data ApplePayLineItemType = ApplePayLineItemTypePending
                           | ApplePayLineItemTypeFinal
@@ -1903,6 +3638,37 @@ instance FromJSVal EndOfStreamError where
 js_EndOfStreamErrorNetwork = "network"
 js_EndOfStreamErrorDecode = "decode"
  
+data ReadyState = ReadyStateClosed
+                | ReadyStateOpen
+                | ReadyStateEnded
+                deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal ReadyState where
+        toJSVal ReadyStateClosed = toJSVal js_ReadyStateClosed
+        toJSVal ReadyStateOpen = toJSVal js_ReadyStateOpen
+        toJSVal ReadyStateEnded = toJSVal js_ReadyStateEnded
+ 
+instance FromJSVal ReadyState where
+        fromJSVal x
+          = x `strictEqual` js_ReadyStateClosed >>=
+              \ r ->
+                case r of
+                    True -> return (Just ReadyStateClosed)
+                    False
+                      -> x `strictEqual` js_ReadyStateOpen >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just ReadyStateOpen)
+                                 False
+                                   -> x `strictEqual` js_ReadyStateEnded >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just ReadyStateEnded)
+                                              False -> return Nothing
+js_ReadyStateClosed = "closed"
+js_ReadyStateOpen = "open"
+js_ReadyStateEnded = "ended"
+ 
 data AppendMode = AppendModeSegments
                 | AppendModeSequence
                 deriving (Show, Read, Eq, Ord, Typeable)
@@ -1960,14 +3726,11 @@ js_MediaDeviceKindAudioinput = "audioinput"
 js_MediaDeviceKindAudiooutput = "audiooutput"
 js_MediaDeviceKindVideoinput = "videoinput"
  
-data MediaStreamTrackState = MediaStreamTrackStateNew
-                           | MediaStreamTrackStateLive
+data MediaStreamTrackState = MediaStreamTrackStateLive
                            | MediaStreamTrackStateEnded
                            deriving (Show, Read, Eq, Ord, Typeable)
  
 instance ToJSVal MediaStreamTrackState where
-        toJSVal MediaStreamTrackStateNew
-          = toJSVal js_MediaStreamTrackStateNew
         toJSVal MediaStreamTrackStateLive
           = toJSVal js_MediaStreamTrackStateLive
         toJSVal MediaStreamTrackStateEnded
@@ -1975,22 +3738,16 @@ instance ToJSVal MediaStreamTrackState where
  
 instance FromJSVal MediaStreamTrackState where
         fromJSVal x
-          = x `strictEqual` js_MediaStreamTrackStateNew >>=
+          = x `strictEqual` js_MediaStreamTrackStateLive >>=
               \ r ->
                 case r of
-                    True -> return (Just MediaStreamTrackStateNew)
+                    True -> return (Just MediaStreamTrackStateLive)
                     False
-                      -> x `strictEqual` js_MediaStreamTrackStateLive >>=
+                      -> x `strictEqual` js_MediaStreamTrackStateEnded >>=
                            \ r ->
                              case r of
-                                 True -> return (Just MediaStreamTrackStateLive)
-                                 False
-                                   -> x `strictEqual` js_MediaStreamTrackStateEnded >>=
-                                        \ r ->
-                                          case r of
-                                              True -> return (Just MediaStreamTrackStateEnded)
-                                              False -> return Nothing
-js_MediaStreamTrackStateNew = "new"
+                                 True -> return (Just MediaStreamTrackStateEnded)
+                                 False -> return Nothing
 js_MediaStreamTrackStateLive = "live"
 js_MediaStreamTrackStateEnded = "ended"
  
@@ -2052,6 +3809,445 @@ instance FromJSVal RTCBundlePolicy where
 js_RTCBundlePolicyBalanced = "balanced"
 js_RTCBundlePolicyMaxCompat = "max-compat"
 js_RTCBundlePolicyMaxBundle = "max-bundle"
+ 
+data RTCDataChannelState = RTCDataChannelStateConnecting
+                         | RTCDataChannelStateOpen
+                         | RTCDataChannelStateClosing
+                         | RTCDataChannelStateClosed
+                         deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCDataChannelState where
+        toJSVal RTCDataChannelStateConnecting
+          = toJSVal js_RTCDataChannelStateConnecting
+        toJSVal RTCDataChannelStateOpen
+          = toJSVal js_RTCDataChannelStateOpen
+        toJSVal RTCDataChannelStateClosing
+          = toJSVal js_RTCDataChannelStateClosing
+        toJSVal RTCDataChannelStateClosed
+          = toJSVal js_RTCDataChannelStateClosed
+ 
+instance FromJSVal RTCDataChannelState where
+        fromJSVal x
+          = x `strictEqual` js_RTCDataChannelStateConnecting >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCDataChannelStateConnecting)
+                    False
+                      -> x `strictEqual` js_RTCDataChannelStateOpen >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCDataChannelStateOpen)
+                                 False
+                                   -> x `strictEqual` js_RTCDataChannelStateClosing >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCDataChannelStateClosing)
+                                              False
+                                                -> x `strictEqual` js_RTCDataChannelStateClosed >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just RTCDataChannelStateClosed)
+                                                           False -> return Nothing
+js_RTCDataChannelStateConnecting = "connecting"
+js_RTCDataChannelStateOpen = "open"
+js_RTCDataChannelStateClosing = "closing"
+js_RTCDataChannelStateClosed = "closed"
+ 
+data RTCIceConnectionState = RTCIceConnectionStateNew
+                           | RTCIceConnectionStateChecking
+                           | RTCIceConnectionStateConnected
+                           | RTCIceConnectionStateCompleted
+                           | RTCIceConnectionStateFailed
+                           | RTCIceConnectionStateDisconnected
+                           | RTCIceConnectionStateClosed
+                           deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCIceConnectionState where
+        toJSVal RTCIceConnectionStateNew
+          = toJSVal js_RTCIceConnectionStateNew
+        toJSVal RTCIceConnectionStateChecking
+          = toJSVal js_RTCIceConnectionStateChecking
+        toJSVal RTCIceConnectionStateConnected
+          = toJSVal js_RTCIceConnectionStateConnected
+        toJSVal RTCIceConnectionStateCompleted
+          = toJSVal js_RTCIceConnectionStateCompleted
+        toJSVal RTCIceConnectionStateFailed
+          = toJSVal js_RTCIceConnectionStateFailed
+        toJSVal RTCIceConnectionStateDisconnected
+          = toJSVal js_RTCIceConnectionStateDisconnected
+        toJSVal RTCIceConnectionStateClosed
+          = toJSVal js_RTCIceConnectionStateClosed
+ 
+instance FromJSVal RTCIceConnectionState where
+        fromJSVal x
+          = x `strictEqual` js_RTCIceConnectionStateNew >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCIceConnectionStateNew)
+                    False
+                      -> x `strictEqual` js_RTCIceConnectionStateChecking >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCIceConnectionStateChecking)
+                                 False
+                                   -> x `strictEqual` js_RTCIceConnectionStateConnected >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCIceConnectionStateConnected)
+                                              False
+                                                -> x `strictEqual` js_RTCIceConnectionStateCompleted
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     RTCIceConnectionStateCompleted)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_RTCIceConnectionStateFailed
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  RTCIceConnectionStateFailed)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_RTCIceConnectionStateDisconnected
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               RTCIceConnectionStateDisconnected)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_RTCIceConnectionStateClosed
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            RTCIceConnectionStateClosed)
+                                                                                                  False
+                                                                                                    -> return
+                                                                                                         Nothing
+js_RTCIceConnectionStateNew = "new"
+js_RTCIceConnectionStateChecking = "checking"
+js_RTCIceConnectionStateConnected = "connected"
+js_RTCIceConnectionStateCompleted = "completed"
+js_RTCIceConnectionStateFailed = "failed"
+js_RTCIceConnectionStateDisconnected = "disconnected"
+js_RTCIceConnectionStateClosed = "closed"
+ 
+data RTCIceGatheringState = RTCIceGatheringStateNew
+                          | RTCIceGatheringStateGathering
+                          | RTCIceGatheringStateComplete
+                          deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCIceGatheringState where
+        toJSVal RTCIceGatheringStateNew
+          = toJSVal js_RTCIceGatheringStateNew
+        toJSVal RTCIceGatheringStateGathering
+          = toJSVal js_RTCIceGatheringStateGathering
+        toJSVal RTCIceGatheringStateComplete
+          = toJSVal js_RTCIceGatheringStateComplete
+ 
+instance FromJSVal RTCIceGatheringState where
+        fromJSVal x
+          = x `strictEqual` js_RTCIceGatheringStateNew >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCIceGatheringStateNew)
+                    False
+                      -> x `strictEqual` js_RTCIceGatheringStateGathering >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCIceGatheringStateGathering)
+                                 False
+                                   -> x `strictEqual` js_RTCIceGatheringStateComplete >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCIceGatheringStateComplete)
+                                              False -> return Nothing
+js_RTCIceGatheringStateNew = "new"
+js_RTCIceGatheringStateGathering = "gathering"
+js_RTCIceGatheringStateComplete = "complete"
+ 
+data RTCIceTransportState = RTCIceTransportStateNew
+                          | RTCIceTransportStateChecking
+                          | RTCIceTransportStateConnected
+                          | RTCIceTransportStateCompleted
+                          | RTCIceTransportStateFailed
+                          | RTCIceTransportStateDisconnected
+                          | RTCIceTransportStateClosed
+                          deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCIceTransportState where
+        toJSVal RTCIceTransportStateNew
+          = toJSVal js_RTCIceTransportStateNew
+        toJSVal RTCIceTransportStateChecking
+          = toJSVal js_RTCIceTransportStateChecking
+        toJSVal RTCIceTransportStateConnected
+          = toJSVal js_RTCIceTransportStateConnected
+        toJSVal RTCIceTransportStateCompleted
+          = toJSVal js_RTCIceTransportStateCompleted
+        toJSVal RTCIceTransportStateFailed
+          = toJSVal js_RTCIceTransportStateFailed
+        toJSVal RTCIceTransportStateDisconnected
+          = toJSVal js_RTCIceTransportStateDisconnected
+        toJSVal RTCIceTransportStateClosed
+          = toJSVal js_RTCIceTransportStateClosed
+ 
+instance FromJSVal RTCIceTransportState where
+        fromJSVal x
+          = x `strictEqual` js_RTCIceTransportStateNew >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCIceTransportStateNew)
+                    False
+                      -> x `strictEqual` js_RTCIceTransportStateChecking >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCIceTransportStateChecking)
+                                 False
+                                   -> x `strictEqual` js_RTCIceTransportStateConnected >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCIceTransportStateConnected)
+                                              False
+                                                -> x `strictEqual` js_RTCIceTransportStateCompleted
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     RTCIceTransportStateCompleted)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_RTCIceTransportStateFailed
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  RTCIceTransportStateFailed)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_RTCIceTransportStateDisconnected
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               RTCIceTransportStateDisconnected)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_RTCIceTransportStateClosed
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            RTCIceTransportStateClosed)
+                                                                                                  False
+                                                                                                    -> return
+                                                                                                         Nothing
+js_RTCIceTransportStateNew = "new"
+js_RTCIceTransportStateChecking = "checking"
+js_RTCIceTransportStateConnected = "connected"
+js_RTCIceTransportStateCompleted = "completed"
+js_RTCIceTransportStateFailed = "failed"
+js_RTCIceTransportStateDisconnected = "disconnected"
+js_RTCIceTransportStateClosed = "closed"
+ 
+data RTCPeerConnectionState = RTCPeerConnectionStateNew
+                            | RTCPeerConnectionStateConnecting
+                            | RTCPeerConnectionStateConnected
+                            | RTCPeerConnectionStateDisconnected
+                            | RTCPeerConnectionStateFailed
+                            | RTCPeerConnectionStateClosed
+                            deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCPeerConnectionState where
+        toJSVal RTCPeerConnectionStateNew
+          = toJSVal js_RTCPeerConnectionStateNew
+        toJSVal RTCPeerConnectionStateConnecting
+          = toJSVal js_RTCPeerConnectionStateConnecting
+        toJSVal RTCPeerConnectionStateConnected
+          = toJSVal js_RTCPeerConnectionStateConnected
+        toJSVal RTCPeerConnectionStateDisconnected
+          = toJSVal js_RTCPeerConnectionStateDisconnected
+        toJSVal RTCPeerConnectionStateFailed
+          = toJSVal js_RTCPeerConnectionStateFailed
+        toJSVal RTCPeerConnectionStateClosed
+          = toJSVal js_RTCPeerConnectionStateClosed
+ 
+instance FromJSVal RTCPeerConnectionState where
+        fromJSVal x
+          = x `strictEqual` js_RTCPeerConnectionStateNew >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCPeerConnectionStateNew)
+                    False
+                      -> x `strictEqual` js_RTCPeerConnectionStateConnecting >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCPeerConnectionStateConnecting)
+                                 False
+                                   -> x `strictEqual` js_RTCPeerConnectionStateConnected >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCPeerConnectionStateConnected)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_RTCPeerConnectionStateDisconnected
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     RTCPeerConnectionStateDisconnected)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_RTCPeerConnectionStateFailed
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  RTCPeerConnectionStateFailed)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_RTCPeerConnectionStateClosed
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               RTCPeerConnectionStateClosed)
+                                                                                     False
+                                                                                       -> return
+                                                                                            Nothing
+js_RTCPeerConnectionStateNew = "new"
+js_RTCPeerConnectionStateConnecting = "connecting"
+js_RTCPeerConnectionStateConnected = "connected"
+js_RTCPeerConnectionStateDisconnected = "disconnected"
+js_RTCPeerConnectionStateFailed = "failed"
+js_RTCPeerConnectionStateClosed = "closed"
+ 
+data RTCDegradationPreference = RTCDegradationPreferenceMaintainFramerate
+                              | RTCDegradationPreferenceMaintainResolution
+                              | RTCDegradationPreferenceBalanced
+                              deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCDegradationPreference where
+        toJSVal RTCDegradationPreferenceMaintainFramerate
+          = toJSVal js_RTCDegradationPreferenceMaintainFramerate
+        toJSVal RTCDegradationPreferenceMaintainResolution
+          = toJSVal js_RTCDegradationPreferenceMaintainResolution
+        toJSVal RTCDegradationPreferenceBalanced
+          = toJSVal js_RTCDegradationPreferenceBalanced
+ 
+instance FromJSVal RTCDegradationPreference where
+        fromJSVal x
+          = x `strictEqual` js_RTCDegradationPreferenceMaintainFramerate >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCDegradationPreferenceMaintainFramerate)
+                    False
+                      -> x `strictEqual` js_RTCDegradationPreferenceMaintainResolution
+                           >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCDegradationPreferenceMaintainResolution)
+                                 False
+                                   -> x `strictEqual` js_RTCDegradationPreferenceBalanced >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCDegradationPreferenceBalanced)
+                                              False -> return Nothing
+js_RTCDegradationPreferenceMaintainFramerate = "maintain-framerate"
+js_RTCDegradationPreferenceMaintainResolution
+  = "maintain-resolution"
+js_RTCDegradationPreferenceBalanced = "balanced"
+ 
+data RTCDtxStatus = RTCDtxStatusDisabled
+                  | RTCDtxStatusEnabled
+                  deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCDtxStatus where
+        toJSVal RTCDtxStatusDisabled = toJSVal js_RTCDtxStatusDisabled
+        toJSVal RTCDtxStatusEnabled = toJSVal js_RTCDtxStatusEnabled
+ 
+instance FromJSVal RTCDtxStatus where
+        fromJSVal x
+          = x `strictEqual` js_RTCDtxStatusDisabled >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCDtxStatusDisabled)
+                    False
+                      -> x `strictEqual` js_RTCDtxStatusEnabled >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCDtxStatusEnabled)
+                                 False -> return Nothing
+js_RTCDtxStatusDisabled = "disabled"
+js_RTCDtxStatusEnabled = "enabled"
+ 
+data RTCPriorityType = RTCPriorityTypeVeryLow
+                     | RTCPriorityTypeLow
+                     | RTCPriorityTypeMedium
+                     | RTCPriorityTypeHigh
+                     deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCPriorityType where
+        toJSVal RTCPriorityTypeVeryLow = toJSVal js_RTCPriorityTypeVeryLow
+        toJSVal RTCPriorityTypeLow = toJSVal js_RTCPriorityTypeLow
+        toJSVal RTCPriorityTypeMedium = toJSVal js_RTCPriorityTypeMedium
+        toJSVal RTCPriorityTypeHigh = toJSVal js_RTCPriorityTypeHigh
+ 
+instance FromJSVal RTCPriorityType where
+        fromJSVal x
+          = x `strictEqual` js_RTCPriorityTypeVeryLow >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCPriorityTypeVeryLow)
+                    False
+                      -> x `strictEqual` js_RTCPriorityTypeLow >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCPriorityTypeLow)
+                                 False
+                                   -> x `strictEqual` js_RTCPriorityTypeMedium >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCPriorityTypeMedium)
+                                              False
+                                                -> x `strictEqual` js_RTCPriorityTypeHigh >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True -> return (Just RTCPriorityTypeHigh)
+                                                           False -> return Nothing
+js_RTCPriorityTypeVeryLow = "very-low"
+js_RTCPriorityTypeLow = "low"
+js_RTCPriorityTypeMedium = "medium"
+js_RTCPriorityTypeHigh = "high"
  
 data RTCRtpTransceiverDirection = RTCRtpTransceiverDirectionSendrecv
                                 | RTCRtpTransceiverDirectionSendonly
@@ -2140,6 +4336,222 @@ js_RTCSdpTypeOffer = "offer"
 js_RTCSdpTypePranswer = "pranswer"
 js_RTCSdpTypeAnswer = "answer"
 js_RTCSdpTypeRollback = "rollback"
+ 
+data RTCSignalingState = RTCSignalingStateStable
+                       | RTCSignalingStateHaveLocalOffer
+                       | RTCSignalingStateHaveRemoteOffer
+                       | RTCSignalingStateHaveLocalPranswer
+                       | RTCSignalingStateHaveRemotePranswer
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCSignalingState where
+        toJSVal RTCSignalingStateStable
+          = toJSVal js_RTCSignalingStateStable
+        toJSVal RTCSignalingStateHaveLocalOffer
+          = toJSVal js_RTCSignalingStateHaveLocalOffer
+        toJSVal RTCSignalingStateHaveRemoteOffer
+          = toJSVal js_RTCSignalingStateHaveRemoteOffer
+        toJSVal RTCSignalingStateHaveLocalPranswer
+          = toJSVal js_RTCSignalingStateHaveLocalPranswer
+        toJSVal RTCSignalingStateHaveRemotePranswer
+          = toJSVal js_RTCSignalingStateHaveRemotePranswer
+ 
+instance FromJSVal RTCSignalingState where
+        fromJSVal x
+          = x `strictEqual` js_RTCSignalingStateStable >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCSignalingStateStable)
+                    False
+                      -> x `strictEqual` js_RTCSignalingStateHaveLocalOffer >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCSignalingStateHaveLocalOffer)
+                                 False
+                                   -> x `strictEqual` js_RTCSignalingStateHaveRemoteOffer >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCSignalingStateHaveRemoteOffer)
+                                              False
+                                                -> x `strictEqual`
+                                                     js_RTCSignalingStateHaveLocalPranswer
+                                                     >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just
+                                                                     RTCSignalingStateHaveLocalPranswer)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_RTCSignalingStateHaveRemotePranswer
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  RTCSignalingStateHaveRemotePranswer)
+                                                                        False -> return Nothing
+js_RTCSignalingStateStable = "stable"
+js_RTCSignalingStateHaveLocalOffer = "have-local-offer"
+js_RTCSignalingStateHaveRemoteOffer = "have-remote-offer"
+js_RTCSignalingStateHaveLocalPranswer = "have-local-pranswer"
+js_RTCSignalingStateHaveRemotePranswer = "have-remote-pranswer"
+ 
+data RTCStatsType = RTCStatsTypeCodec
+                  | RTCStatsTypeInboundRtp
+                  | RTCStatsTypeOutboundRtp
+                  | RTCStatsTypePeerConnection
+                  | RTCStatsTypeDataChannel
+                  | RTCStatsTypeTrack
+                  | RTCStatsTypeTransport
+                  | RTCStatsTypeCandidatePair
+                  | RTCStatsTypeLocalCandidate
+                  | RTCStatsTypeRemoteCandidate
+                  | RTCStatsTypeCertificate
+                  deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal RTCStatsType where
+        toJSVal RTCStatsTypeCodec = toJSVal js_RTCStatsTypeCodec
+        toJSVal RTCStatsTypeInboundRtp = toJSVal js_RTCStatsTypeInboundRtp
+        toJSVal RTCStatsTypeOutboundRtp
+          = toJSVal js_RTCStatsTypeOutboundRtp
+        toJSVal RTCStatsTypePeerConnection
+          = toJSVal js_RTCStatsTypePeerConnection
+        toJSVal RTCStatsTypeDataChannel
+          = toJSVal js_RTCStatsTypeDataChannel
+        toJSVal RTCStatsTypeTrack = toJSVal js_RTCStatsTypeTrack
+        toJSVal RTCStatsTypeTransport = toJSVal js_RTCStatsTypeTransport
+        toJSVal RTCStatsTypeCandidatePair
+          = toJSVal js_RTCStatsTypeCandidatePair
+        toJSVal RTCStatsTypeLocalCandidate
+          = toJSVal js_RTCStatsTypeLocalCandidate
+        toJSVal RTCStatsTypeRemoteCandidate
+          = toJSVal js_RTCStatsTypeRemoteCandidate
+        toJSVal RTCStatsTypeCertificate
+          = toJSVal js_RTCStatsTypeCertificate
+ 
+instance FromJSVal RTCStatsType where
+        fromJSVal x
+          = x `strictEqual` js_RTCStatsTypeCodec >>=
+              \ r ->
+                case r of
+                    True -> return (Just RTCStatsTypeCodec)
+                    False
+                      -> x `strictEqual` js_RTCStatsTypeInboundRtp >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just RTCStatsTypeInboundRtp)
+                                 False
+                                   -> x `strictEqual` js_RTCStatsTypeOutboundRtp >>=
+                                        \ r ->
+                                          case r of
+                                              True -> return (Just RTCStatsTypeOutboundRtp)
+                                              False
+                                                -> x `strictEqual` js_RTCStatsTypePeerConnection >>=
+                                                     \ r ->
+                                                       case r of
+                                                           True
+                                                             -> return
+                                                                  (Just RTCStatsTypePeerConnection)
+                                                           False
+                                                             -> x `strictEqual`
+                                                                  js_RTCStatsTypeDataChannel
+                                                                  >>=
+                                                                  \ r ->
+                                                                    case r of
+                                                                        True
+                                                                          -> return
+                                                                               (Just
+                                                                                  RTCStatsTypeDataChannel)
+                                                                        False
+                                                                          -> x `strictEqual`
+                                                                               js_RTCStatsTypeTrack
+                                                                               >>=
+                                                                               \ r ->
+                                                                                 case r of
+                                                                                     True
+                                                                                       -> return
+                                                                                            (Just
+                                                                                               RTCStatsTypeTrack)
+                                                                                     False
+                                                                                       -> x `strictEqual`
+                                                                                            js_RTCStatsTypeTransport
+                                                                                            >>=
+                                                                                            \ r ->
+                                                                                              case r
+                                                                                                of
+                                                                                                  True
+                                                                                                    -> return
+                                                                                                         (Just
+                                                                                                            RTCStatsTypeTransport)
+                                                                                                  False
+                                                                                                    -> x `strictEqual`
+                                                                                                         js_RTCStatsTypeCandidatePair
+                                                                                                         >>=
+                                                                                                         \ r
+                                                                                                           ->
+                                                                                                           case
+                                                                                                             r
+                                                                                                             of
+                                                                                                               True
+                                                                                                                 -> return
+                                                                                                                      (Just
+                                                                                                                         RTCStatsTypeCandidatePair)
+                                                                                                               False
+                                                                                                                 -> x `strictEqual`
+                                                                                                                      js_RTCStatsTypeLocalCandidate
+                                                                                                                      >>=
+                                                                                                                      \ r
+                                                                                                                        ->
+                                                                                                                        case
+                                                                                                                          r
+                                                                                                                          of
+                                                                                                                            True
+                                                                                                                              -> return
+                                                                                                                                   (Just
+                                                                                                                                      RTCStatsTypeLocalCandidate)
+                                                                                                                            False
+                                                                                                                              -> x `strictEqual`
+                                                                                                                                   js_RTCStatsTypeRemoteCandidate
+                                                                                                                                   >>=
+                                                                                                                                   \ r
+                                                                                                                                     ->
+                                                                                                                                     case
+                                                                                                                                       r
+                                                                                                                                       of
+                                                                                                                                         True
+                                                                                                                                           -> return
+                                                                                                                                                (Just
+                                                                                                                                                   RTCStatsTypeRemoteCandidate)
+                                                                                                                                         False
+                                                                                                                                           -> x `strictEqual`
+                                                                                                                                                js_RTCStatsTypeCertificate
+                                                                                                                                                >>=
+                                                                                                                                                \ r
+                                                                                                                                                  ->
+                                                                                                                                                  case
+                                                                                                                                                    r
+                                                                                                                                                    of
+                                                                                                                                                      True
+                                                                                                                                                        -> return
+                                                                                                                                                             (Just
+                                                                                                                                                                RTCStatsTypeCertificate)
+                                                                                                                                                      False
+                                                                                                                                                        -> return
+                                                                                                                                                             Nothing
+js_RTCStatsTypeCodec = "codec"
+js_RTCStatsTypeInboundRtp = "inbound-rtp"
+js_RTCStatsTypeOutboundRtp = "outbound-rtp"
+js_RTCStatsTypePeerConnection = "peer-connection"
+js_RTCStatsTypeDataChannel = "data-channel"
+js_RTCStatsTypeTrack = "track"
+js_RTCStatsTypeTransport = "transport"
+js_RTCStatsTypeCandidatePair = "candidate-pair"
+js_RTCStatsTypeLocalCandidate = "local-candidate"
+js_RTCStatsTypeRemoteCandidate = "remote-candidate"
+js_RTCStatsTypeCertificate = "certificate"
  
 data NotificationDirection = NotificationDirectionAuto
                            | NotificationDirectionLtr
@@ -2467,6 +4879,30 @@ instance FromJSVal OverSampleType where
 js_OverSampleTypeNone = "none"
 js_OverSampleType2x = "2x"
 js_OverSampleType4x = "4x"
+ 
+data ScrollRestoration = ScrollRestorationAuto
+                       | ScrollRestorationManual
+                       deriving (Show, Read, Eq, Ord, Typeable)
+ 
+instance ToJSVal ScrollRestoration where
+        toJSVal ScrollRestorationAuto = toJSVal js_ScrollRestorationAuto
+        toJSVal ScrollRestorationManual
+          = toJSVal js_ScrollRestorationManual
+ 
+instance FromJSVal ScrollRestoration where
+        fromJSVal x
+          = x `strictEqual` js_ScrollRestorationAuto >>=
+              \ r ->
+                case r of
+                    True -> return (Just ScrollRestorationAuto)
+                    False
+                      -> x `strictEqual` js_ScrollRestorationManual >>=
+                           \ r ->
+                             case r of
+                                 True -> return (Just ScrollRestorationManual)
+                                 False -> return Nothing
+js_ScrollRestorationAuto = "auto"
+js_ScrollRestorationManual = "manual"
  
 data XMLHttpRequestResponseType = XMLHttpRequestResponseType
                                 | XMLHttpRequestResponseTypeArraybuffer

@@ -7,14 +7,14 @@ module JSDOM.Generated.HTMLScriptElement
         setCharset, getCharset, setAsync, getAsync, setDefer, getDefer,
         setSrc, getSrc, setType, getType, setCrossOrigin, getCrossOrigin,
         getCrossOriginUnsafe, getCrossOriginUnchecked, setNonce, getNonce,
-        setNoModule, getNoModule, HTMLScriptElement(..),
-        gTypeHTMLScriptElement)
+        setNoModule, getNoModule, setIntegrity, getIntegrity,
+        HTMLScriptElement(..), gTypeHTMLScriptElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -151,3 +151,15 @@ setNoModule self val
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.noModule Mozilla HTMLScriptElement.noModule documentation> 
 getNoModule :: (MonadDOM m) => HTMLScriptElement -> m Bool
 getNoModule self = liftDOM ((self ^. js "noModule") >>= valToBool)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.integrity Mozilla HTMLScriptElement.integrity documentation> 
+setIntegrity ::
+             (MonadDOM m, ToJSString val) => HTMLScriptElement -> val -> m ()
+setIntegrity self val
+  = liftDOM (self ^. jss "integrity" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement.integrity Mozilla HTMLScriptElement.integrity documentation> 
+getIntegrity ::
+             (MonadDOM m, FromJSString result) => HTMLScriptElement -> m result
+getIntegrity self
+  = liftDOM ((self ^. js "integrity") >>= fromJSValUnchecked)

@@ -8,14 +8,14 @@ module JSDOM.Generated.HTMLLinkElement
         getRel, setRev, getRev, getSizes, setTarget, getTarget, setType,
         getType, setAs, getAs, setCrossOrigin, getCrossOrigin,
         getCrossOriginUnsafe, getCrossOriginUnchecked, getSheet,
-        getRelList, setNonce, getNonce, HTMLLinkElement(..),
-        gTypeHTMLLinkElement)
+        getRelList, setNonce, getNonce, setIntegrity, getIntegrity,
+        HTMLLinkElement(..), gTypeHTMLLinkElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -183,3 +183,15 @@ getNonce ::
          (MonadDOM m, FromJSString result) => HTMLLinkElement -> m result
 getNonce self
   = liftDOM ((self ^. js "nonce") >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.integrity Mozilla HTMLLinkElement.integrity documentation> 
+setIntegrity ::
+             (MonadDOM m, ToJSString val) => HTMLLinkElement -> val -> m ()
+setIntegrity self val
+  = liftDOM (self ^. jss "integrity" (toJSVal val))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.integrity Mozilla HTMLLinkElement.integrity documentation> 
+getIntegrity ::
+             (MonadDOM m, FromJSString result) => HTMLLinkElement -> m result
+getIntegrity self
+  = liftDOM ((self ^. js "integrity") >>= fromJSValUnchecked)

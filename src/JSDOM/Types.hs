@@ -37,12 +37,16 @@ module JSDOM.Types (
   , DOMString(..), ToDOMString(..), FromDOMString(..), IsDOMString
   , USVString(..), IsUSVString
   , ByteString(..), IsByteString
+  , CSSOMString(..), IsCSSOMString
 
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', GType(..)
   , GObject(..), IsGObject, toGObject, gTypeGObject, isA, objectToString
   , castTo, unsafeCastTo, uncheckedCastTo
   , strictEqual
+
+  -- * TypedArray
+  , RawTypedArray(RawTypedArray), unRawTypedArray, IsRawTypedArray, toRawTypedArray
 
   , Function(Function), unFunction, IsFunction, toFunction
 
@@ -53,6 +57,7 @@ module JSDOM.Types (
   , Callback(..)
   , withCallback
   , AudioBufferCallback(..)
+  , BlobCallback(..)
   , DatabaseCallback(..)
   , IntersectionObserverCallback(..)
   , MediaQueryListListener(..)
@@ -135,6 +140,7 @@ module JSDOM.Types (
   , BufferSource(BufferSource), unBufferSource, IsBufferSource, toBufferSource
   , CanvasImageSource(CanvasImageSource), unCanvasImageSource, IsCanvasImageSource, toCanvasImageSource
   , CanvasStyle(CanvasStyle), unCanvasStyle, IsCanvasStyle
+  , CredentialBodyType(CredentialBodyType), unCredentialBodyType, IsCredentialBodyType, toCredentialBodyType
   , CryptoKeyOrKeyPair(CryptoKeyOrKeyPair), unCryptoKeyOrKeyPair, IsCryptoKeyOrKeyPair, toCryptoKeyOrKeyPair
   , EventListenerOptionsOrBool(EventListenerOptionsOrBool), unEventListenerOptionsOrBool, IsEventListenerOptionsOrBool, toEventListenerOptionsOrBool
   , Float32List(Float32List), unFloat32List, IsFloat32List
@@ -148,8 +154,10 @@ module JSDOM.Types (
   , Int32List(Int32List), unInt32List, IsInt32List
   , KeyData(KeyData), unKeyData, IsKeyData, toKeyData
   , MediaProvider(MediaProvider), unMediaProvider, IsMediaProvider, toMediaProvider
+  , MediaStreamTrackOrKind(MediaStreamTrackOrKind), unMediaStreamTrackOrKind, IsMediaStreamTrackOrKind
   , MessageEventSource(MessageEventSource), unMessageEventSource, IsMessageEventSource, toMessageEventSource
   , NodeOrString(NodeOrString), unNodeOrString, IsNodeOrString
+  , RTCIceCandidateOrInit(RTCIceCandidateOrInit), unRTCIceCandidateOrInit, IsRTCIceCandidateOrInit, toRTCIceCandidateOrInit
   , RadioNodeListOrElement(RadioNodeListOrElement), unRadioNodeListOrElement, IsRadioNodeListOrElement, toRadioNodeListOrElement
   , RenderingContext(RenderingContext), unRenderingContext, IsRenderingContext, toRenderingContext
   , SQLValue(SQLValue), unSQLValue, IsSQLValue
@@ -165,8 +173,10 @@ module JSDOM.Types (
   , AbstractWorker(AbstractWorker), unAbstractWorker, IsAbstractWorker, toAbstractWorker, gTypeAbstractWorker
   , Acceleration(Acceleration), unAcceleration, gTypeAcceleration
   , AddEventListenerOptions(AddEventListenerOptions), unAddEventListenerOptions, gTypeAddEventListenerOptions
-  , AesCbcParams(AesCbcParams), unAesCbcParams, gTypeAesCbcParams
-  , AesKeyGenParams(AesKeyGenParams), unAesKeyGenParams, gTypeAesKeyGenParams
+  , AesCbcCfbParams(AesCbcCfbParams), unAesCbcCfbParams, gTypeAesCbcCfbParams
+  , AesCtrParams(AesCtrParams), unAesCtrParams, gTypeAesCtrParams
+  , AesGcmParams(AesGcmParams), unAesGcmParams, gTypeAesGcmParams
+  , AesKeyParams(AesKeyParams), unAesKeyParams, gTypeAesKeyParams
   , AnalyserNode(AnalyserNode), unAnalyserNode, gTypeAnalyserNode
   , Animatable(Animatable), unAnimatable, IsAnimatable, toAnimatable, gTypeAnimatable
   , Animation(Animation), unAnimation, gTypeAnimation
@@ -174,19 +184,24 @@ module JSDOM.Types (
   , AnimationEvent(AnimationEvent), unAnimationEvent, gTypeAnimationEvent
   , AnimationEventInit(AnimationEventInit), unAnimationEventInit, gTypeAnimationEventInit
   , AnimationTimeline(AnimationTimeline), unAnimationTimeline, IsAnimationTimeline, toAnimationTimeline, gTypeAnimationTimeline
+  , ApplePayError(ApplePayError), unApplePayError, gTypeApplePayError
   , ApplePayLineItem(ApplePayLineItem), unApplePayLineItem, gTypeApplePayLineItem
   , ApplePayPayment(ApplePayPayment), unApplePayPayment, gTypeApplePayPayment
+  , ApplePayPaymentAuthorizationResult(ApplePayPaymentAuthorizationResult), unApplePayPaymentAuthorizationResult, gTypeApplePayPaymentAuthorizationResult
   , ApplePayPaymentAuthorizedEvent(ApplePayPaymentAuthorizedEvent), unApplePayPaymentAuthorizedEvent, gTypeApplePayPaymentAuthorizedEvent
   , ApplePayPaymentContact(ApplePayPaymentContact), unApplePayPaymentContact, gTypeApplePayPaymentContact
   , ApplePayPaymentMethod(ApplePayPaymentMethod), unApplePayPaymentMethod, gTypeApplePayPaymentMethod
   , ApplePayPaymentMethodSelectedEvent(ApplePayPaymentMethodSelectedEvent), unApplePayPaymentMethodSelectedEvent, gTypeApplePayPaymentMethodSelectedEvent
+  , ApplePayPaymentMethodUpdate(ApplePayPaymentMethodUpdate), unApplePayPaymentMethodUpdate, gTypeApplePayPaymentMethodUpdate
   , ApplePayPaymentPass(ApplePayPaymentPass), unApplePayPaymentPass, gTypeApplePayPaymentPass
   , ApplePayPaymentRequest(ApplePayPaymentRequest), unApplePayPaymentRequest, gTypeApplePayPaymentRequest
   , ApplePayPaymentToken(ApplePayPaymentToken), unApplePayPaymentToken, gTypeApplePayPaymentToken
   , ApplePaySession(ApplePaySession), unApplePaySession, gTypeApplePaySession
   , ApplePayShippingContactSelectedEvent(ApplePayShippingContactSelectedEvent), unApplePayShippingContactSelectedEvent, gTypeApplePayShippingContactSelectedEvent
+  , ApplePayShippingContactUpdate(ApplePayShippingContactUpdate), unApplePayShippingContactUpdate, gTypeApplePayShippingContactUpdate
   , ApplePayShippingMethod(ApplePayShippingMethod), unApplePayShippingMethod, gTypeApplePayShippingMethod
   , ApplePayShippingMethodSelectedEvent(ApplePayShippingMethodSelectedEvent), unApplePayShippingMethodSelectedEvent, gTypeApplePayShippingMethodSelectedEvent
+  , ApplePayShippingMethodUpdate(ApplePayShippingMethodUpdate), unApplePayShippingMethodUpdate, gTypeApplePayShippingMethodUpdate
   , ApplePayValidateMerchantEvent(ApplePayValidateMerchantEvent), unApplePayValidateMerchantEvent, gTypeApplePayValidateMerchantEvent
   , ApplicationCache(ApplicationCache), unApplicationCache, gTypeApplicationCache
   , AssignedNodesOptions(AssignedNodesOptions), unAssignedNodesOptions, gTypeAssignedNodesOptions
@@ -204,6 +219,7 @@ module JSDOM.Types (
   , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEvent, gTypeAutocompleteErrorEvent
   , AutocompleteErrorEventInit(AutocompleteErrorEventInit), unAutocompleteErrorEventInit, gTypeAutocompleteErrorEventInit
   , BarProp(BarProp), unBarProp, gTypeBarProp
+  , BasicCredential(BasicCredential), unBasicCredential, IsBasicCredential, toBasicCredential, gTypeBasicCredential
   , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEvent, gTypeBeforeLoadEvent
   , BeforeLoadEventInit(BeforeLoadEventInit), unBeforeLoadEventInit, gTypeBeforeLoadEventInit
   , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEvent, gTypeBeforeUnloadEvent
@@ -233,6 +249,7 @@ module JSDOM.Types (
   , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRule, gTypeCSSUnknownRule
   , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValue, gTypeCSSValue
   , CSSValueList(CSSValueList), unCSSValueList, gTypeCSSValueList
+  , CanvasCaptureMediaStreamTrack(CanvasCaptureMediaStreamTrack), unCanvasCaptureMediaStreamTrack, gTypeCanvasCaptureMediaStreamTrack
   , CanvasGradient(CanvasGradient), unCanvasGradient, gTypeCanvasGradient
   , CanvasPath(CanvasPath), unCanvasPath, IsCanvasPath, toCanvasPath, gTypeCanvasPath
   , CanvasPattern(CanvasPattern), unCanvasPattern, gTypeCanvasPattern
@@ -242,8 +259,6 @@ module JSDOM.Types (
   , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNode, gTypeChannelSplitterNode
   , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterData, gTypeCharacterData
   , ChildNode(ChildNode), unChildNode, IsChildNode, toChildNode, gTypeChildNode
-  , ClientRect(ClientRect), unClientRect, gTypeClientRect
-  , ClientRectList(ClientRectList), unClientRectList, gTypeClientRectList
   , ClipboardEvent(ClipboardEvent), unClipboardEvent, gTypeClipboardEvent
   , ClipboardEventInit(ClipboardEventInit), unClipboardEventInit, gTypeClipboardEventInit
   , CloseEvent(CloseEvent), unCloseEvent, gTypeCloseEvent
@@ -260,6 +275,7 @@ module JSDOM.Types (
   , Coordinates(Coordinates), unCoordinates, gTypeCoordinates
   , CountQueuingStrategy(CountQueuingStrategy), unCountQueuingStrategy, gTypeCountQueuingStrategy
   , Counter(Counter), unCounter, gTypeCounter
+  , CredentialData(CredentialData), unCredentialData, IsCredentialData, toCredentialData, gTypeCredentialData
   , Crypto(Crypto), unCrypto, gTypeCrypto
   , CryptoAlgorithmParameters(CryptoAlgorithmParameters), unCryptoAlgorithmParameters, IsCryptoAlgorithmParameters, toCryptoAlgorithmParameters, gTypeCryptoAlgorithmParameters
   , CryptoKey(CryptoKey), unCryptoKey, gTypeCryptoKey
@@ -293,6 +309,7 @@ module JSDOM.Types (
   , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEvent, gTypeDeviceProximityEvent
   , DeviceProximityEventInit(DeviceProximityEventInit), unDeviceProximityEventInit, gTypeDeviceProximityEventInit
   , Document(Document), unDocument, IsDocument, toDocument, gTypeDocument
+  , DocumentAndElementEventHandlers(DocumentAndElementEventHandlers), unDocumentAndElementEventHandlers, IsDocumentAndElementEventHandlers, toDocumentAndElementEventHandlers, gTypeDocumentAndElementEventHandlers
   , DocumentFragment(DocumentFragment), unDocumentFragment, IsDocumentFragment, toDocumentFragment, gTypeDocumentFragment
   , DocumentOrShadowRoot(DocumentOrShadowRoot), unDocumentOrShadowRoot, IsDocumentOrShadowRoot, toDocumentOrShadowRoot, gTypeDocumentOrShadowRoot
   , DocumentTimeline(DocumentTimeline), unDocumentTimeline, gTypeDocumentTimeline
@@ -304,7 +321,11 @@ module JSDOM.Types (
   , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLOD, gTypeEXTShaderTextureLOD
   , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropic, gTypeEXTTextureFilterAnisotropic
   , EXTsRGB(EXTsRGB), unEXTsRGB, gTypeEXTsRGB
+  , EcKeyParams(EcKeyParams), unEcKeyParams, gTypeEcKeyParams
+  , EcdhKeyDeriveParams(EcdhKeyDeriveParams), unEcdhKeyDeriveParams, gTypeEcdhKeyDeriveParams
+  , EcdsaParams(EcdsaParams), unEcdsaParams, gTypeEcdsaParams
   , Element(Element), unElement, IsElement, toElement, gTypeElement
+  , ElementCSSInlineStyle(ElementCSSInlineStyle), unElementCSSInlineStyle, IsElementCSSInlineStyle, toElementCSSInlineStyle, gTypeElementCSSInlineStyle
   , ErrorEvent(ErrorEvent), unErrorEvent, gTypeErrorEvent
   , ErrorEventInit(ErrorEventInit), unErrorEventInit, gTypeErrorEventInit
   , Event(Event), unEvent, IsEvent, toEvent, gTypeEvent
@@ -422,6 +443,7 @@ module JSDOM.Types (
   , HashChangeEventInit(HashChangeEventInit), unHashChangeEventInit, gTypeHashChangeEventInit
   , Headers(Headers), unHeaders, gTypeHeaders
   , History(History), unHistory, gTypeHistory
+  , HkdfParams(HkdfParams), unHkdfParams, gTypeHkdfParams
   , HmacKeyParams(HmacKeyParams), unHmacKeyParams, gTypeHmacKeyParams
   , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursor, gTypeIDBCursor
   , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValue, gTypeIDBCursorWithValue
@@ -479,7 +501,7 @@ module JSDOM.Types (
   , MediaStreamConstraints(MediaStreamConstraints), unMediaStreamConstraints, gTypeMediaStreamConstraints
   , MediaStreamEvent(MediaStreamEvent), unMediaStreamEvent, gTypeMediaStreamEvent
   , MediaStreamEventInit(MediaStreamEventInit), unMediaStreamEventInit, gTypeMediaStreamEventInit
-  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, gTypeMediaStreamTrack
+  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack, gTypeMediaStreamTrack
   , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEvent, gTypeMediaStreamTrackEvent
   , MediaStreamTrackEventInit(MediaStreamTrackEventInit), unMediaStreamTrackEventInit, gTypeMediaStreamTrackEventInit
   , MediaTrackCapabilities(MediaTrackCapabilities), unMediaTrackCapabilities, gTypeMediaTrackCapabilities
@@ -512,7 +534,6 @@ module JSDOM.Types (
   , NonDocumentTypeChildNode(NonDocumentTypeChildNode), unNonDocumentTypeChildNode, IsNonDocumentTypeChildNode, toNonDocumentTypeChildNode, gTypeNonDocumentTypeChildNode
   , NonElementParentNode(NonElementParentNode), unNonElementParentNode, IsNonElementParentNode, toNonElementParentNode, gTypeNonElementParentNode
   , Notification(Notification), unNotification, gTypeNotification
-  , NotificationCenter(NotificationCenter), unNotificationCenter, gTypeNotificationCenter
   , NotificationOptions(NotificationOptions), unNotificationOptions, gTypeNotificationOptions
   , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUint, gTypeOESElementIndexUint
   , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivatives, gTypeOESStandardDerivatives
@@ -533,7 +554,10 @@ module JSDOM.Types (
   , PageTransitionEventInit(PageTransitionEventInit), unPageTransitionEventInit, gTypePageTransitionEventInit
   , PannerNode(PannerNode), unPannerNode, gTypePannerNode
   , ParentNode(ParentNode), unParentNode, IsParentNode, toParentNode, gTypeParentNode
+  , PasswordCredential(PasswordCredential), unPasswordCredential, gTypePasswordCredential
+  , PasswordCredentialData(PasswordCredentialData), unPasswordCredentialData, gTypePasswordCredentialData
   , Path2D(Path2D), unPath2D, gTypePath2D
+  , Pbkdf2Params(Pbkdf2Params), unPbkdf2Params, gTypePbkdf2Params
   , Performance(Performance), unPerformance, gTypePerformance
   , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntry, gTypePerformanceEntry
   , PerformanceMark(PerformanceMark), unPerformanceMark, gTypePerformanceMark
@@ -554,6 +578,8 @@ module JSDOM.Types (
   , ProcessingInstruction(ProcessingInstruction), unProcessingInstruction, gTypeProcessingInstruction
   , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEvent, gTypeProgressEvent
   , ProgressEventInit(ProgressEventInit), unProgressEventInit, gTypeProgressEventInit
+  , PromiseRejectionEvent(PromiseRejectionEvent), unPromiseRejectionEvent, gTypePromiseRejectionEvent
+  , PromiseRejectionEventInit(PromiseRejectionEventInit), unPromiseRejectionEventInit, gTypePromiseRejectionEventInit
   , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacement, gTypeQuickTimePluginReplacement
   , RGBColor(RGBColor), unRGBColor, gTypeRGBColor
   , RTCAnswerOptions(RTCAnswerOptions), unRTCAnswerOptions, gTypeRTCAnswerOptions
@@ -563,20 +589,35 @@ module JSDOM.Types (
   , RTCDTMFToneChangeEventInit(RTCDTMFToneChangeEventInit), unRTCDTMFToneChangeEventInit, gTypeRTCDTMFToneChangeEventInit
   , RTCDataChannel(RTCDataChannel), unRTCDataChannel, gTypeRTCDataChannel
   , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEvent, gTypeRTCDataChannelEvent
+  , RTCDataChannelEventInit(RTCDataChannelEventInit), unRTCDataChannelEventInit, gTypeRTCDataChannelEventInit
   , RTCDataChannelInit(RTCDataChannelInit), unRTCDataChannelInit, gTypeRTCDataChannelInit
+  , RTCDataChannelStats(RTCDataChannelStats), unRTCDataChannelStats, gTypeRTCDataChannelStats
   , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidate, gTypeRTCIceCandidate
   , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEvent, gTypeRTCIceCandidateEvent
   , RTCIceCandidateInit(RTCIceCandidateInit), unRTCIceCandidateInit, gTypeRTCIceCandidateInit
   , RTCIceServer(RTCIceServer), unRTCIceServer, gTypeRTCIceServer
+  , RTCIceTransport(RTCIceTransport), unRTCIceTransport, gTypeRTCIceTransport
+  , RTCInboundRTPStreamStats(RTCInboundRTPStreamStats), unRTCInboundRTPStreamStats, gTypeRTCInboundRTPStreamStats
+  , RTCMediaStreamTrackStats(RTCMediaStreamTrackStats), unRTCMediaStreamTrackStats, gTypeRTCMediaStreamTrackStats
   , RTCOfferAnswerOptions(RTCOfferAnswerOptions), unRTCOfferAnswerOptions, IsRTCOfferAnswerOptions, toRTCOfferAnswerOptions, gTypeRTCOfferAnswerOptions
   , RTCOfferOptions(RTCOfferOptions), unRTCOfferOptions, gTypeRTCOfferOptions
+  , RTCOutboundRTPStreamStats(RTCOutboundRTPStreamStats), unRTCOutboundRTPStreamStats, gTypeRTCOutboundRTPStreamStats
   , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnection, gTypeRTCPeerConnection
+  , RTCPeerConnectionIceEvent(RTCPeerConnectionIceEvent), unRTCPeerConnectionIceEvent, gTypeRTCPeerConnectionIceEvent
+  , RTCRTPStreamStats(RTCRTPStreamStats), unRTCRTPStreamStats, IsRTCRTPStreamStats, toRTCRTPStreamStats, gTypeRTCRTPStreamStats
+  , RTCRtpCodecParameters(RTCRtpCodecParameters), unRTCRtpCodecParameters, gTypeRTCRtpCodecParameters
+  , RTCRtpEncodingParameters(RTCRtpEncodingParameters), unRTCRtpEncodingParameters, gTypeRTCRtpEncodingParameters
+  , RTCRtpFecParameters(RTCRtpFecParameters), unRTCRtpFecParameters, gTypeRTCRtpFecParameters
+  , RTCRtpHeaderExtensionParameters(RTCRtpHeaderExtensionParameters), unRTCRtpHeaderExtensionParameters, gTypeRTCRtpHeaderExtensionParameters
+  , RTCRtpParameters(RTCRtpParameters), unRTCRtpParameters, gTypeRTCRtpParameters
   , RTCRtpReceiver(RTCRtpReceiver), unRTCRtpReceiver, gTypeRTCRtpReceiver
+  , RTCRtpRtxParameters(RTCRtpRtxParameters), unRTCRtpRtxParameters, gTypeRTCRtpRtxParameters
   , RTCRtpSender(RTCRtpSender), unRTCRtpSender, gTypeRTCRtpSender
   , RTCRtpTransceiver(RTCRtpTransceiver), unRTCRtpTransceiver, gTypeRTCRtpTransceiver
   , RTCRtpTransceiverInit(RTCRtpTransceiverInit), unRTCRtpTransceiverInit, gTypeRTCRtpTransceiverInit
   , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescription, gTypeRTCSessionDescription
   , RTCSessionDescriptionInit(RTCSessionDescriptionInit), unRTCSessionDescriptionInit, gTypeRTCSessionDescriptionInit
+  , RTCStats(RTCStats), unRTCStats, IsRTCStats, toRTCStats, gTypeRTCStats
   , RTCStatsReport(RTCStatsReport), unRTCStatsReport, gTypeRTCStatsReport
   , RTCTrackEvent(RTCTrackEvent), unRTCTrackEvent, gTypeRTCTrackEvent
   , RTCTrackEventInit(RTCTrackEventInit), unRTCTrackEventInit, gTypeRTCTrackEventInit
@@ -584,6 +625,8 @@ module JSDOM.Types (
   , Range(Range), unRange, gTypeRange
   , ReadableByteStreamController(ReadableByteStreamController), unReadableByteStreamController, gTypeReadableByteStreamController
   , ReadableStream(ReadableStream), unReadableStream, gTypeReadableStream
+  , ReadableStreamBYOBReader(ReadableStreamBYOBReader), unReadableStreamBYOBReader, gTypeReadableStreamBYOBReader
+  , ReadableStreamBYOBRequest(ReadableStreamBYOBRequest), unReadableStreamBYOBRequest, gTypeReadableStreamBYOBRequest
   , ReadableStreamDefaultController(ReadableStreamDefaultController), unReadableStreamDefaultController, gTypeReadableStreamDefaultController
   , ReadableStreamDefaultReader(ReadableStreamDefaultReader), unReadableStreamDefaultReader, gTypeReadableStreamDefaultReader
   , ReadableStreamSource(ReadableStreamSource), unReadableStreamSource, gTypeReadableStreamSource
@@ -754,6 +797,8 @@ module JSDOM.Types (
   , Selection(Selection), unSelection, gTypeSelection
   , ShadowRoot(ShadowRoot), unShadowRoot, gTypeShadowRoot
   , ShadowRootInit(ShadowRootInit), unShadowRootInit, gTypeShadowRootInit
+  , SiteBoundCredential(SiteBoundCredential), unSiteBoundCredential, IsSiteBoundCredential, toSiteBoundCredential, gTypeSiteBoundCredential
+  , SiteBoundCredentialData(SiteBoundCredentialData), unSiteBoundCredentialData, IsSiteBoundCredentialData, toSiteBoundCredentialData, gTypeSiteBoundCredentialData
   , Slotable(Slotable), unSlotable, IsSlotable, toSlotable, gTypeSlotable
   , SourceBuffer(SourceBuffer), unSourceBuffer, gTypeSourceBuffer
   , SourceBufferList(SourceBufferList), unSourceBufferList, gTypeSourceBufferList
@@ -835,6 +880,28 @@ module JSDOM.Types (
   , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocation, gTypeWebGLUniformLocation
   , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObject, gTypeWebGLVertexArrayObject
   , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOES, gTypeWebGLVertexArrayObjectOES
+  , WebGPUBuffer(WebGPUBuffer), unWebGPUBuffer, gTypeWebGPUBuffer
+  , WebGPUCommandBuffer(WebGPUCommandBuffer), unWebGPUCommandBuffer, gTypeWebGPUCommandBuffer
+  , WebGPUCommandQueue(WebGPUCommandQueue), unWebGPUCommandQueue, gTypeWebGPUCommandQueue
+  , WebGPUComputeCommandEncoder(WebGPUComputeCommandEncoder), unWebGPUComputeCommandEncoder, gTypeWebGPUComputeCommandEncoder
+  , WebGPUComputePipelineState(WebGPUComputePipelineState), unWebGPUComputePipelineState, gTypeWebGPUComputePipelineState
+  , WebGPUDepthStencilDescriptor(WebGPUDepthStencilDescriptor), unWebGPUDepthStencilDescriptor, gTypeWebGPUDepthStencilDescriptor
+  , WebGPUDepthStencilState(WebGPUDepthStencilState), unWebGPUDepthStencilState, gTypeWebGPUDepthStencilState
+  , WebGPUDrawable(WebGPUDrawable), unWebGPUDrawable, gTypeWebGPUDrawable
+  , WebGPUFunction(WebGPUFunction), unWebGPUFunction, gTypeWebGPUFunction
+  , WebGPULibrary(WebGPULibrary), unWebGPULibrary, gTypeWebGPULibrary
+  , WebGPURenderCommandEncoder(WebGPURenderCommandEncoder), unWebGPURenderCommandEncoder, gTypeWebGPURenderCommandEncoder
+  , WebGPURenderPassAttachmentDescriptor(WebGPURenderPassAttachmentDescriptor), unWebGPURenderPassAttachmentDescriptor, IsWebGPURenderPassAttachmentDescriptor, toWebGPURenderPassAttachmentDescriptor, gTypeWebGPURenderPassAttachmentDescriptor
+  , WebGPURenderPassColorAttachmentDescriptor(WebGPURenderPassColorAttachmentDescriptor), unWebGPURenderPassColorAttachmentDescriptor, gTypeWebGPURenderPassColorAttachmentDescriptor
+  , WebGPURenderPassDepthAttachmentDescriptor(WebGPURenderPassDepthAttachmentDescriptor), unWebGPURenderPassDepthAttachmentDescriptor, gTypeWebGPURenderPassDepthAttachmentDescriptor
+  , WebGPURenderPassDescriptor(WebGPURenderPassDescriptor), unWebGPURenderPassDescriptor, gTypeWebGPURenderPassDescriptor
+  , WebGPURenderPipelineColorAttachmentDescriptor(WebGPURenderPipelineColorAttachmentDescriptor), unWebGPURenderPipelineColorAttachmentDescriptor, gTypeWebGPURenderPipelineColorAttachmentDescriptor
+  , WebGPURenderPipelineDescriptor(WebGPURenderPipelineDescriptor), unWebGPURenderPipelineDescriptor, gTypeWebGPURenderPipelineDescriptor
+  , WebGPURenderPipelineState(WebGPURenderPipelineState), unWebGPURenderPipelineState, gTypeWebGPURenderPipelineState
+  , WebGPURenderingContext(WebGPURenderingContext), unWebGPURenderingContext, gTypeWebGPURenderingContext
+  , WebGPUSize(WebGPUSize), unWebGPUSize, gTypeWebGPUSize
+  , WebGPUTexture(WebGPUTexture), unWebGPUTexture, gTypeWebGPUTexture
+  , WebGPUTextureDescriptor(WebGPUTextureDescriptor), unWebGPUTextureDescriptor, gTypeWebGPUTextureDescriptor
   , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEvent, gTypeWebKitAnimationEvent
   , WebKitAnimationEventInit(WebKitAnimationEventInit), unWebKitAnimationEventInit, gTypeWebKitAnimationEventInit
   , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrix, gTypeWebKitCSSMatrix
@@ -1060,6 +1127,7 @@ objectToString self = fromJSValUnchecked (unGObject $ toGObject self)
 --   want to take a string from the DOM then
 --   give it back as is.
 type DOMString = JSString
+type CSSOMString = JSString
 type USVString = JSString
 type ByteString = JSString
 
@@ -1089,8 +1157,34 @@ integralFromDoubleFromJSValUnchecked = fmap round . (fromJSValUnchecked :: JSVal
 type ToDOMString s = ToJSString s
 type FromDOMString s = FromJSString s
 type IsDOMString s = (ToDOMString s, FromDOMString s)
+type IsCSSOMString s = (ToDOMString s, FromDOMString s)
 type IsUSVString s = (ToDOMString s, FromDOMString s)
 type IsByteString s = (ToDOMString s, FromDOMString s)
+
+newtype RawTypedArray = RawTypedArray { unRawTypedArray :: JSVal }
+
+instance PToJSVal RawTypedArray where
+  pToJSVal = unRawTypedArray
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RawTypedArray where
+  pFromJSVal = RawTypedArray
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RawTypedArray where
+  toJSVal = return . unRawTypedArray
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RawTypedArray where
+  fromJSVal v = fmap RawTypedArray <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RawTypedArray
+  {-# INLINE fromJSValUnchecked #-}
+
+class (FromJSVal o, ToJSVal o, PFromJSVal o, PToJSVal o, Coercible o JSVal) => IsRawTypedArray o
+
+toRawTypedArray :: IsRawTypedArray o => o -> RawTypedArray
+toRawTypedArray = RawTypedArray . coerce
 
 newtype Function = Function { unFunction :: JSVal }
 
@@ -1153,6 +1247,8 @@ withCallback aquire f = do
 
 newtype AudioBufferCallback = AudioBufferCallback (Callback (JSVal -> IO ()))
 instance ToJSVal AudioBufferCallback where toJSVal (AudioBufferCallback (Callback r)) = toJSVal r
+newtype BlobCallback = BlobCallback (Callback (JSVal -> IO ()))
+instance ToJSVal BlobCallback where toJSVal (BlobCallback (Callback r)) = toJSVal r
 newtype DatabaseCallback = DatabaseCallback (Callback (JSVal -> IO ()))
 instance ToJSVal DatabaseCallback where toJSVal (DatabaseCallback (Callback r)) = toJSVal r
 newtype IntersectionObserverCallback = IntersectionObserverCallback (Callback (JSVal -> JSVal -> IO ()))
@@ -2082,6 +2178,38 @@ instance IsCanvasStyle Text
 instance IsCanvasStyle JSString
 instance IsCanvasStyle String
 
+newtype CredentialBodyType = CredentialBodyType { unCredentialBodyType :: JSVal }
+
+instance PToJSVal CredentialBodyType where
+  pToJSVal = unCredentialBodyType
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal CredentialBodyType where
+  pFromJSVal = CredentialBodyType
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal CredentialBodyType where
+  toJSVal = return . unCredentialBodyType
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal CredentialBodyType where
+  fromJSVal v = fmap CredentialBodyType <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CredentialBodyType
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject CredentialBodyType where
+  makeObject = makeObject . unCredentialBodyType
+
+class (FromJSVal o, ToJSVal o, PFromJSVal o, PToJSVal o, Coercible o JSVal) => IsCredentialBodyType o
+
+toCredentialBodyType :: IsCredentialBodyType o => o -> CredentialBodyType
+toCredentialBodyType = CredentialBodyType . coerce
+
+instance IsCredentialBodyType CredentialBodyType
+instance IsCredentialBodyType URLSearchParams
+instance IsCredentialBodyType FormData
+
 newtype CryptoKeyOrKeyPair = CryptoKeyOrKeyPair { unCryptoKeyOrKeyPair :: JSVal }
 
 instance PToJSVal CryptoKeyOrKeyPair where
@@ -2734,6 +2862,38 @@ instance IsMediaProvider MediaSource
 instance IsMediaProvider Blob
 instance IsMediaProvider File
 
+newtype MediaStreamTrackOrKind = MediaStreamTrackOrKind { unMediaStreamTrackOrKind :: JSVal }
+
+instance PToJSVal MediaStreamTrackOrKind where
+  pToJSVal = unMediaStreamTrackOrKind
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal MediaStreamTrackOrKind where
+  pFromJSVal = MediaStreamTrackOrKind
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal MediaStreamTrackOrKind where
+  toJSVal = return . unMediaStreamTrackOrKind
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal MediaStreamTrackOrKind where
+  fromJSVal v = fmap MediaStreamTrackOrKind <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . MediaStreamTrackOrKind
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject MediaStreamTrackOrKind where
+  makeObject = makeObject . unMediaStreamTrackOrKind
+
+class (FromJSVal o, ToJSVal o) => IsMediaStreamTrackOrKind o
+
+instance IsMediaStreamTrackOrKind MediaStreamTrackOrKind
+instance IsMediaStreamTrackOrKind Text
+instance IsMediaStreamTrackOrKind JSString
+instance IsMediaStreamTrackOrKind String
+instance IsMediaStreamTrackOrKind MediaStreamTrack
+instance IsMediaStreamTrackOrKind CanvasCaptureMediaStreamTrack
+
 newtype MessageEventSource = MessageEventSource { unMessageEventSource :: JSVal }
 
 instance PToJSVal MessageEventSource where
@@ -2968,6 +3128,38 @@ instance IsNodeOrString Comment
 instance IsNodeOrString CharacterData
 instance IsNodeOrString CDATASection
 instance IsNodeOrString Attr
+
+newtype RTCIceCandidateOrInit = RTCIceCandidateOrInit { unRTCIceCandidateOrInit :: JSVal }
+
+instance PToJSVal RTCIceCandidateOrInit where
+  pToJSVal = unRTCIceCandidateOrInit
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCIceCandidateOrInit where
+  pFromJSVal = RTCIceCandidateOrInit
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCIceCandidateOrInit where
+  toJSVal = return . unRTCIceCandidateOrInit
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCIceCandidateOrInit where
+  fromJSVal v = fmap RTCIceCandidateOrInit <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCIceCandidateOrInit
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCIceCandidateOrInit where
+  makeObject = makeObject . unRTCIceCandidateOrInit
+
+class (FromJSVal o, ToJSVal o, PFromJSVal o, PToJSVal o, Coercible o JSVal) => IsRTCIceCandidateOrInit o
+
+toRTCIceCandidateOrInit :: IsRTCIceCandidateOrInit o => o -> RTCIceCandidateOrInit
+toRTCIceCandidateOrInit = RTCIceCandidateOrInit . coerce
+
+instance IsRTCIceCandidateOrInit RTCIceCandidateOrInit
+instance IsRTCIceCandidateOrInit RTCIceCandidate
+instance IsRTCIceCandidateOrInit RTCIceCandidateInit
 
 newtype RadioNodeListOrElement = RadioNodeListOrElement { unRadioNodeListOrElement :: JSVal }
 
@@ -3606,79 +3798,153 @@ instance IsGObject AddEventListenerOptions where
 gTypeAddEventListenerOptions :: JSM GType
 gTypeAddEventListenerOptions = GType . Object <$> jsg "AddEventListenerOptions"
 
--- | Functions for this inteface are in "JSDOM.AesCbcParams".
+-- | Functions for this inteface are in "JSDOM.AesCbcCfbParams".
 -- Base interface functions are in:
 --
 --     * "JSDOM.CryptoAlgorithmParameters"
 --
--- <https://developer.mozilla.org/en-US/docs/Web/API/AesCbcParams Mozilla AesCbcParams documentation>
-newtype AesCbcParams = AesCbcParams { unAesCbcParams :: JSVal }
+-- <https://developer.mozilla.org/en-US/docs/Web/API/AesCbcCfbParams Mozilla AesCbcCfbParams documentation>
+newtype AesCbcCfbParams = AesCbcCfbParams { unAesCbcCfbParams :: JSVal }
 
-instance PToJSVal AesCbcParams where
-  pToJSVal = unAesCbcParams
+instance PToJSVal AesCbcCfbParams where
+  pToJSVal = unAesCbcCfbParams
   {-# INLINE pToJSVal #-}
 
-instance PFromJSVal AesCbcParams where
-  pFromJSVal = AesCbcParams
+instance PFromJSVal AesCbcCfbParams where
+  pFromJSVal = AesCbcCfbParams
   {-# INLINE pFromJSVal #-}
 
-instance ToJSVal AesCbcParams where
-  toJSVal = return . unAesCbcParams
+instance ToJSVal AesCbcCfbParams where
+  toJSVal = return . unAesCbcCfbParams
   {-# INLINE toJSVal #-}
 
-instance FromJSVal AesCbcParams where
-  fromJSVal v = fmap AesCbcParams <$> maybeNullOrUndefined v
+instance FromJSVal AesCbcCfbParams where
+  fromJSVal v = fmap AesCbcCfbParams <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
-  fromJSValUnchecked = return . AesCbcParams
+  fromJSValUnchecked = return . AesCbcCfbParams
   {-# INLINE fromJSValUnchecked #-}
 
-instance MakeObject AesCbcParams where
-  makeObject = makeObject . unAesCbcParams
+instance MakeObject AesCbcCfbParams where
+  makeObject = makeObject . unAesCbcCfbParams
 
-instance IsCryptoAlgorithmParameters AesCbcParams
-instance IsGObject AesCbcParams where
-  typeGType _ = gTypeAesCbcParams
+instance IsCryptoAlgorithmParameters AesCbcCfbParams
+instance IsGObject AesCbcCfbParams where
+  typeGType _ = gTypeAesCbcCfbParams
   {-# INLINE typeGType #-}
 
-gTypeAesCbcParams :: JSM GType
-gTypeAesCbcParams = GType . Object <$> jsg "AesCbcParams"
+gTypeAesCbcCfbParams :: JSM GType
+gTypeAesCbcCfbParams = GType . Object <$> jsg "AesCbcCfbParams"
 
--- | Functions for this inteface are in "JSDOM.AesKeyGenParams".
+-- | Functions for this inteface are in "JSDOM.AesCtrParams".
 -- Base interface functions are in:
 --
 --     * "JSDOM.CryptoAlgorithmParameters"
 --
--- <https://developer.mozilla.org/en-US/docs/Web/API/AesKeyGenParams Mozilla AesKeyGenParams documentation>
-newtype AesKeyGenParams = AesKeyGenParams { unAesKeyGenParams :: JSVal }
+-- <https://developer.mozilla.org/en-US/docs/Web/API/AesCtrParams Mozilla AesCtrParams documentation>
+newtype AesCtrParams = AesCtrParams { unAesCtrParams :: JSVal }
 
-instance PToJSVal AesKeyGenParams where
-  pToJSVal = unAesKeyGenParams
+instance PToJSVal AesCtrParams where
+  pToJSVal = unAesCtrParams
   {-# INLINE pToJSVal #-}
 
-instance PFromJSVal AesKeyGenParams where
-  pFromJSVal = AesKeyGenParams
+instance PFromJSVal AesCtrParams where
+  pFromJSVal = AesCtrParams
   {-# INLINE pFromJSVal #-}
 
-instance ToJSVal AesKeyGenParams where
-  toJSVal = return . unAesKeyGenParams
+instance ToJSVal AesCtrParams where
+  toJSVal = return . unAesCtrParams
   {-# INLINE toJSVal #-}
 
-instance FromJSVal AesKeyGenParams where
-  fromJSVal v = fmap AesKeyGenParams <$> maybeNullOrUndefined v
+instance FromJSVal AesCtrParams where
+  fromJSVal v = fmap AesCtrParams <$> maybeNullOrUndefined v
   {-# INLINE fromJSVal #-}
-  fromJSValUnchecked = return . AesKeyGenParams
+  fromJSValUnchecked = return . AesCtrParams
   {-# INLINE fromJSValUnchecked #-}
 
-instance MakeObject AesKeyGenParams where
-  makeObject = makeObject . unAesKeyGenParams
+instance MakeObject AesCtrParams where
+  makeObject = makeObject . unAesCtrParams
 
-instance IsCryptoAlgorithmParameters AesKeyGenParams
-instance IsGObject AesKeyGenParams where
-  typeGType _ = gTypeAesKeyGenParams
+instance IsCryptoAlgorithmParameters AesCtrParams
+instance IsGObject AesCtrParams where
+  typeGType _ = gTypeAesCtrParams
   {-# INLINE typeGType #-}
 
-gTypeAesKeyGenParams :: JSM GType
-gTypeAesKeyGenParams = GType . Object <$> jsg "AesKeyGenParams"
+gTypeAesCtrParams :: JSM GType
+gTypeAesCtrParams = GType . Object <$> jsg "AesCtrParams"
+
+-- | Functions for this inteface are in "JSDOM.AesGcmParams".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/AesGcmParams Mozilla AesGcmParams documentation>
+newtype AesGcmParams = AesGcmParams { unAesGcmParams :: JSVal }
+
+instance PToJSVal AesGcmParams where
+  pToJSVal = unAesGcmParams
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal AesGcmParams where
+  pFromJSVal = AesGcmParams
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal AesGcmParams where
+  toJSVal = return . unAesGcmParams
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal AesGcmParams where
+  fromJSVal v = fmap AesGcmParams <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AesGcmParams
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject AesGcmParams where
+  makeObject = makeObject . unAesGcmParams
+
+instance IsCryptoAlgorithmParameters AesGcmParams
+instance IsGObject AesGcmParams where
+  typeGType _ = gTypeAesGcmParams
+  {-# INLINE typeGType #-}
+
+gTypeAesGcmParams :: JSM GType
+gTypeAesGcmParams = GType . Object <$> jsg "AesGcmParams"
+
+-- | Functions for this inteface are in "JSDOM.AesKeyParams".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/AesKeyParams Mozilla AesKeyParams documentation>
+newtype AesKeyParams = AesKeyParams { unAesKeyParams :: JSVal }
+
+instance PToJSVal AesKeyParams where
+  pToJSVal = unAesKeyParams
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal AesKeyParams where
+  pFromJSVal = AesKeyParams
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal AesKeyParams where
+  toJSVal = return . unAesKeyParams
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal AesKeyParams where
+  fromJSVal v = fmap AesKeyParams <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . AesKeyParams
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject AesKeyParams where
+  makeObject = makeObject . unAesKeyParams
+
+instance IsCryptoAlgorithmParameters AesKeyParams
+instance IsGObject AesKeyParams where
+  typeGType _ = gTypeAesKeyParams
+  {-# INLINE typeGType #-}
+
+gTypeAesKeyParams :: JSM GType
+gTypeAesKeyParams = GType . Object <$> jsg "AesKeyParams"
 
 -- | Functions for this inteface are in "JSDOM.AnalyserNode".
 -- Base interface functions are in:
@@ -3940,6 +4206,39 @@ instance IsGObject AnimationTimeline where
 gTypeAnimationTimeline :: JSM GType
 gTypeAnimationTimeline = GType . Object <$> jsg "AnimationTimeline"
 
+-- | Functions for this inteface are in "JSDOM.ApplePayError".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayError Mozilla ApplePayError documentation>
+newtype ApplePayError = ApplePayError { unApplePayError :: JSVal }
+
+instance PToJSVal ApplePayError where
+  pToJSVal = unApplePayError
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ApplePayError where
+  pFromJSVal = ApplePayError
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ApplePayError where
+  toJSVal = return . unApplePayError
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ApplePayError where
+  fromJSVal v = fmap ApplePayError <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ApplePayError
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ApplePayError where
+  makeObject = makeObject . unApplePayError
+
+instance IsGObject ApplePayError where
+  typeGType _ = gTypeApplePayError
+  {-# INLINE typeGType #-}
+
+gTypeApplePayError :: JSM GType
+gTypeApplePayError = GType . Object <$> jsg "ApplePayError"
+
 -- | Functions for this inteface are in "JSDOM.ApplePayLineItem".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayLineItem Mozilla ApplePayLineItem documentation>
@@ -4005,6 +4304,39 @@ instance IsGObject ApplePayPayment where
 
 gTypeApplePayPayment :: JSM GType
 gTypeApplePayPayment = GType . Object <$> jsg "ApplePayPayment"
+
+-- | Functions for this inteface are in "JSDOM.ApplePayPaymentAuthorizationResult".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayPaymentAuthorizationResult Mozilla ApplePayPaymentAuthorizationResult documentation>
+newtype ApplePayPaymentAuthorizationResult = ApplePayPaymentAuthorizationResult { unApplePayPaymentAuthorizationResult :: JSVal }
+
+instance PToJSVal ApplePayPaymentAuthorizationResult where
+  pToJSVal = unApplePayPaymentAuthorizationResult
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ApplePayPaymentAuthorizationResult where
+  pFromJSVal = ApplePayPaymentAuthorizationResult
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ApplePayPaymentAuthorizationResult where
+  toJSVal = return . unApplePayPaymentAuthorizationResult
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ApplePayPaymentAuthorizationResult where
+  fromJSVal v = fmap ApplePayPaymentAuthorizationResult <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ApplePayPaymentAuthorizationResult
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ApplePayPaymentAuthorizationResult where
+  makeObject = makeObject . unApplePayPaymentAuthorizationResult
+
+instance IsGObject ApplePayPaymentAuthorizationResult where
+  typeGType _ = gTypeApplePayPaymentAuthorizationResult
+  {-# INLINE typeGType #-}
+
+gTypeApplePayPaymentAuthorizationResult :: JSM GType
+gTypeApplePayPaymentAuthorizationResult = GType . Object <$> jsg "ApplePayPaymentAuthorizationResult"
 
 -- | Functions for this inteface are in "JSDOM.ApplePayPaymentAuthorizedEvent".
 -- Base interface functions are in:
@@ -4145,6 +4477,39 @@ instance IsGObject ApplePayPaymentMethodSelectedEvent where
 
 gTypeApplePayPaymentMethodSelectedEvent :: JSM GType
 gTypeApplePayPaymentMethodSelectedEvent = GType . Object <$> jsg "ApplePayPaymentMethodSelectedEvent"
+
+-- | Functions for this inteface are in "JSDOM.ApplePayPaymentMethodUpdate".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayPaymentMethodUpdate Mozilla ApplePayPaymentMethodUpdate documentation>
+newtype ApplePayPaymentMethodUpdate = ApplePayPaymentMethodUpdate { unApplePayPaymentMethodUpdate :: JSVal }
+
+instance PToJSVal ApplePayPaymentMethodUpdate where
+  pToJSVal = unApplePayPaymentMethodUpdate
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ApplePayPaymentMethodUpdate where
+  pFromJSVal = ApplePayPaymentMethodUpdate
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ApplePayPaymentMethodUpdate where
+  toJSVal = return . unApplePayPaymentMethodUpdate
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ApplePayPaymentMethodUpdate where
+  fromJSVal v = fmap ApplePayPaymentMethodUpdate <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ApplePayPaymentMethodUpdate
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ApplePayPaymentMethodUpdate where
+  makeObject = makeObject . unApplePayPaymentMethodUpdate
+
+instance IsGObject ApplePayPaymentMethodUpdate where
+  typeGType _ = gTypeApplePayPaymentMethodUpdate
+  {-# INLINE typeGType #-}
+
+gTypeApplePayPaymentMethodUpdate :: JSM GType
+gTypeApplePayPaymentMethodUpdate = GType . Object <$> jsg "ApplePayPaymentMethodUpdate"
 
 -- | Functions for this inteface are in "JSDOM.ApplePayPaymentPass".
 --
@@ -4319,6 +4684,39 @@ instance IsGObject ApplePayShippingContactSelectedEvent where
 gTypeApplePayShippingContactSelectedEvent :: JSM GType
 gTypeApplePayShippingContactSelectedEvent = GType . Object <$> jsg "ApplePayShippingContactSelectedEvent"
 
+-- | Functions for this inteface are in "JSDOM.ApplePayShippingContactUpdate".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayShippingContactUpdate Mozilla ApplePayShippingContactUpdate documentation>
+newtype ApplePayShippingContactUpdate = ApplePayShippingContactUpdate { unApplePayShippingContactUpdate :: JSVal }
+
+instance PToJSVal ApplePayShippingContactUpdate where
+  pToJSVal = unApplePayShippingContactUpdate
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ApplePayShippingContactUpdate where
+  pFromJSVal = ApplePayShippingContactUpdate
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ApplePayShippingContactUpdate where
+  toJSVal = return . unApplePayShippingContactUpdate
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ApplePayShippingContactUpdate where
+  fromJSVal v = fmap ApplePayShippingContactUpdate <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ApplePayShippingContactUpdate
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ApplePayShippingContactUpdate where
+  makeObject = makeObject . unApplePayShippingContactUpdate
+
+instance IsGObject ApplePayShippingContactUpdate where
+  typeGType _ = gTypeApplePayShippingContactUpdate
+  {-# INLINE typeGType #-}
+
+gTypeApplePayShippingContactUpdate :: JSM GType
+gTypeApplePayShippingContactUpdate = GType . Object <$> jsg "ApplePayShippingContactUpdate"
+
 -- | Functions for this inteface are in "JSDOM.ApplePayShippingMethod".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayShippingMethod Mozilla ApplePayShippingMethod documentation>
@@ -4388,6 +4786,39 @@ instance IsGObject ApplePayShippingMethodSelectedEvent where
 
 gTypeApplePayShippingMethodSelectedEvent :: JSM GType
 gTypeApplePayShippingMethodSelectedEvent = GType . Object <$> jsg "ApplePayShippingMethodSelectedEvent"
+
+-- | Functions for this inteface are in "JSDOM.ApplePayShippingMethodUpdate".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ApplePayShippingMethodUpdate Mozilla ApplePayShippingMethodUpdate documentation>
+newtype ApplePayShippingMethodUpdate = ApplePayShippingMethodUpdate { unApplePayShippingMethodUpdate :: JSVal }
+
+instance PToJSVal ApplePayShippingMethodUpdate where
+  pToJSVal = unApplePayShippingMethodUpdate
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ApplePayShippingMethodUpdate where
+  pFromJSVal = ApplePayShippingMethodUpdate
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ApplePayShippingMethodUpdate where
+  toJSVal = return . unApplePayShippingMethodUpdate
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ApplePayShippingMethodUpdate where
+  fromJSVal v = fmap ApplePayShippingMethodUpdate <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ApplePayShippingMethodUpdate
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ApplePayShippingMethodUpdate where
+  makeObject = makeObject . unApplePayShippingMethodUpdate
+
+instance IsGObject ApplePayShippingMethodUpdate where
+  typeGType _ = gTypeApplePayShippingMethodUpdate
+  {-# INLINE typeGType #-}
+
+gTypeApplePayShippingMethodUpdate :: JSM GType
+gTypeApplePayShippingMethodUpdate = GType . Object <$> jsg "ApplePayShippingMethodUpdate"
 
 -- | Functions for this inteface are in "JSDOM.ApplePayValidateMerchantEvent".
 -- Base interface functions are in:
@@ -5009,6 +5440,44 @@ instance IsGObject BarProp where
 
 gTypeBarProp :: JSM GType
 gTypeBarProp = GType . Object <$> jsg "BarProp"
+
+-- | Functions for this inteface are in "JSDOM.BasicCredential".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/BasicCredential Mozilla BasicCredential documentation>
+newtype BasicCredential = BasicCredential { unBasicCredential :: JSVal }
+
+instance PToJSVal BasicCredential where
+  pToJSVal = unBasicCredential
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal BasicCredential where
+  pFromJSVal = BasicCredential
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal BasicCredential where
+  toJSVal = return . unBasicCredential
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal BasicCredential where
+  fromJSVal v = fmap BasicCredential <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . BasicCredential
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject BasicCredential where
+  makeObject = makeObject . unBasicCredential
+
+class (IsGObject o) => IsBasicCredential o
+toBasicCredential :: IsBasicCredential o => o -> BasicCredential
+toBasicCredential = BasicCredential . coerce
+
+instance IsBasicCredential BasicCredential
+instance IsGObject BasicCredential where
+  typeGType _ = gTypeBasicCredential
+  {-# INLINE typeGType #-}
+
+gTypeBasicCredential :: JSM GType
+gTypeBasicCredential = GType . Object <$> jsg "BasicCredential"
 
 -- | Functions for this inteface are in "JSDOM.BeforeLoadEvent".
 -- Base interface functions are in:
@@ -6086,6 +6555,45 @@ instance IsGObject CSSValueList where
 gTypeCSSValueList :: JSM GType
 gTypeCSSValueList = GType . Object <$> jsg "CSSValueList"
 
+-- | Functions for this inteface are in "JSDOM.CanvasCaptureMediaStreamTrack".
+-- Base interface functions are in:
+--
+--     * "JSDOM.MediaStreamTrack"
+--     * "JSDOM.EventTarget"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/CanvasCaptureMediaStreamTrack Mozilla CanvasCaptureMediaStreamTrack documentation>
+newtype CanvasCaptureMediaStreamTrack = CanvasCaptureMediaStreamTrack { unCanvasCaptureMediaStreamTrack :: JSVal }
+
+instance PToJSVal CanvasCaptureMediaStreamTrack where
+  pToJSVal = unCanvasCaptureMediaStreamTrack
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal CanvasCaptureMediaStreamTrack where
+  pFromJSVal = CanvasCaptureMediaStreamTrack
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal CanvasCaptureMediaStreamTrack where
+  toJSVal = return . unCanvasCaptureMediaStreamTrack
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal CanvasCaptureMediaStreamTrack where
+  fromJSVal v = fmap CanvasCaptureMediaStreamTrack <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CanvasCaptureMediaStreamTrack
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject CanvasCaptureMediaStreamTrack where
+  makeObject = makeObject . unCanvasCaptureMediaStreamTrack
+
+instance IsMediaStreamTrack CanvasCaptureMediaStreamTrack
+instance IsEventTarget CanvasCaptureMediaStreamTrack
+instance IsGObject CanvasCaptureMediaStreamTrack where
+  typeGType _ = gTypeCanvasCaptureMediaStreamTrack
+  {-# INLINE typeGType #-}
+
+gTypeCanvasCaptureMediaStreamTrack :: JSM GType
+gTypeCanvasCaptureMediaStreamTrack = GType . Object <$> jsg "CanvasCaptureMediaStreamTrack"
+
 -- | Functions for this inteface are in "JSDOM.CanvasGradient".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/CanvasGradient Mozilla CanvasGradient documentation>
@@ -6423,72 +6931,6 @@ instance IsGObject ChildNode where
 
 gTypeChildNode :: JSM GType
 gTypeChildNode = GType . Object <$> jsg "ChildNode"
-
--- | Functions for this inteface are in "JSDOM.ClientRect".
---
--- <https://developer.mozilla.org/en-US/docs/Web/API/ClientRect Mozilla ClientRect documentation>
-newtype ClientRect = ClientRect { unClientRect :: JSVal }
-
-instance PToJSVal ClientRect where
-  pToJSVal = unClientRect
-  {-# INLINE pToJSVal #-}
-
-instance PFromJSVal ClientRect where
-  pFromJSVal = ClientRect
-  {-# INLINE pFromJSVal #-}
-
-instance ToJSVal ClientRect where
-  toJSVal = return . unClientRect
-  {-# INLINE toJSVal #-}
-
-instance FromJSVal ClientRect where
-  fromJSVal v = fmap ClientRect <$> maybeNullOrUndefined v
-  {-# INLINE fromJSVal #-}
-  fromJSValUnchecked = return . ClientRect
-  {-# INLINE fromJSValUnchecked #-}
-
-instance MakeObject ClientRect where
-  makeObject = makeObject . unClientRect
-
-instance IsGObject ClientRect where
-  typeGType _ = gTypeClientRect
-  {-# INLINE typeGType #-}
-
-gTypeClientRect :: JSM GType
-gTypeClientRect = GType . Object <$> jsg "ClientRect"
-
--- | Functions for this inteface are in "JSDOM.ClientRectList".
---
--- <https://developer.mozilla.org/en-US/docs/Web/API/ClientRectList Mozilla ClientRectList documentation>
-newtype ClientRectList = ClientRectList { unClientRectList :: JSVal }
-
-instance PToJSVal ClientRectList where
-  pToJSVal = unClientRectList
-  {-# INLINE pToJSVal #-}
-
-instance PFromJSVal ClientRectList where
-  pFromJSVal = ClientRectList
-  {-# INLINE pFromJSVal #-}
-
-instance ToJSVal ClientRectList where
-  toJSVal = return . unClientRectList
-  {-# INLINE toJSVal #-}
-
-instance FromJSVal ClientRectList where
-  fromJSVal v = fmap ClientRectList <$> maybeNullOrUndefined v
-  {-# INLINE fromJSVal #-}
-  fromJSValUnchecked = return . ClientRectList
-  {-# INLINE fromJSValUnchecked #-}
-
-instance MakeObject ClientRectList where
-  makeObject = makeObject . unClientRectList
-
-instance IsGObject ClientRectList where
-  typeGType _ = gTypeClientRectList
-  {-# INLINE typeGType #-}
-
-gTypeClientRectList :: JSM GType
-gTypeClientRectList = GType . Object <$> jsg "ClientRectList"
 
 -- | Functions for this inteface are in "JSDOM.ClipboardEvent".
 -- Base interface functions are in:
@@ -7071,6 +7513,44 @@ instance IsGObject Counter where
 
 gTypeCounter :: JSM GType
 gTypeCounter = GType . Object <$> jsg "Counter"
+
+-- | Functions for this inteface are in "JSDOM.CredentialData".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/CredentialData Mozilla CredentialData documentation>
+newtype CredentialData = CredentialData { unCredentialData :: JSVal }
+
+instance PToJSVal CredentialData where
+  pToJSVal = unCredentialData
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal CredentialData where
+  pFromJSVal = CredentialData
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal CredentialData where
+  toJSVal = return . unCredentialData
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal CredentialData where
+  fromJSVal v = fmap CredentialData <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . CredentialData
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject CredentialData where
+  makeObject = makeObject . unCredentialData
+
+class (IsGObject o) => IsCredentialData o
+toCredentialData :: IsCredentialData o => o -> CredentialData
+toCredentialData = CredentialData . coerce
+
+instance IsCredentialData CredentialData
+instance IsGObject CredentialData where
+  typeGType _ = gTypeCredentialData
+  {-# INLINE typeGType #-}
+
+gTypeCredentialData :: JSM GType
+gTypeCredentialData = GType . Object <$> jsg "CredentialData"
 
 -- | Functions for this inteface are in "JSDOM.Crypto".
 --
@@ -8213,6 +8693,7 @@ gTypeDeviceProximityEventInit = GType . Object <$> jsg "DeviceProximityEventInit
 --     * "JSDOM.DocumentOrShadowRoot"
 --     * "JSDOM.NonElementParentNode"
 --     * "JSDOM.ParentNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/Document Mozilla Document documentation>
 newtype Document = Document { unDocument :: JSVal }
@@ -8238,7 +8719,7 @@ instance FromJSVal Document where
 instance MakeObject Document where
   makeObject = makeObject . unDocument
 
-class (IsNode o, IsEventTarget o, IsGlobalEventHandlers o, IsDocumentOrShadowRoot o, IsNonElementParentNode o, IsParentNode o, IsGObject o) => IsDocument o
+class (IsNode o, IsEventTarget o, IsGlobalEventHandlers o, IsDocumentOrShadowRoot o, IsNonElementParentNode o, IsParentNode o, IsDocumentAndElementEventHandlers o, IsGObject o) => IsDocument o
 toDocument :: IsDocument o => o -> Document
 toDocument = Document . coerce
 
@@ -8249,12 +8730,51 @@ instance IsGlobalEventHandlers Document
 instance IsDocumentOrShadowRoot Document
 instance IsNonElementParentNode Document
 instance IsParentNode Document
+instance IsDocumentAndElementEventHandlers Document
 instance IsGObject Document where
   typeGType _ = gTypeDocument
   {-# INLINE typeGType #-}
 
 gTypeDocument :: JSM GType
 gTypeDocument = GType . Object <$> jsg "Document"
+
+-- | Functions for this inteface are in "JSDOM.DocumentAndElementEventHandlers".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/DocumentAndElementEventHandlers Mozilla DocumentAndElementEventHandlers documentation>
+newtype DocumentAndElementEventHandlers = DocumentAndElementEventHandlers { unDocumentAndElementEventHandlers :: JSVal }
+
+instance PToJSVal DocumentAndElementEventHandlers where
+  pToJSVal = unDocumentAndElementEventHandlers
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal DocumentAndElementEventHandlers where
+  pFromJSVal = DocumentAndElementEventHandlers
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal DocumentAndElementEventHandlers where
+  toJSVal = return . unDocumentAndElementEventHandlers
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal DocumentAndElementEventHandlers where
+  fromJSVal v = fmap DocumentAndElementEventHandlers <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . DocumentAndElementEventHandlers
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject DocumentAndElementEventHandlers where
+  makeObject = makeObject . unDocumentAndElementEventHandlers
+
+class (IsGObject o) => IsDocumentAndElementEventHandlers o
+toDocumentAndElementEventHandlers :: IsDocumentAndElementEventHandlers o => o -> DocumentAndElementEventHandlers
+toDocumentAndElementEventHandlers = DocumentAndElementEventHandlers . coerce
+
+instance IsDocumentAndElementEventHandlers DocumentAndElementEventHandlers
+instance IsGObject DocumentAndElementEventHandlers where
+  typeGType _ = gTypeDocumentAndElementEventHandlers
+  {-# INLINE typeGType #-}
+
+gTypeDocumentAndElementEventHandlers :: JSM GType
+gTypeDocumentAndElementEventHandlers = GType . Object <$> jsg "DocumentAndElementEventHandlers"
 
 -- | Functions for this inteface are in "JSDOM.DocumentFragment".
 -- Base interface functions are in:
@@ -8662,6 +9182,117 @@ instance IsGObject EXTsRGB where
 gTypeEXTsRGB :: JSM GType
 gTypeEXTsRGB = GType . Object <$> jsg "EXTsRGB"
 
+-- | Functions for this inteface are in "JSDOM.EcKeyParams".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/EcKeyParams Mozilla EcKeyParams documentation>
+newtype EcKeyParams = EcKeyParams { unEcKeyParams :: JSVal }
+
+instance PToJSVal EcKeyParams where
+  pToJSVal = unEcKeyParams
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal EcKeyParams where
+  pFromJSVal = EcKeyParams
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal EcKeyParams where
+  toJSVal = return . unEcKeyParams
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal EcKeyParams where
+  fromJSVal v = fmap EcKeyParams <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EcKeyParams
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject EcKeyParams where
+  makeObject = makeObject . unEcKeyParams
+
+instance IsCryptoAlgorithmParameters EcKeyParams
+instance IsGObject EcKeyParams where
+  typeGType _ = gTypeEcKeyParams
+  {-# INLINE typeGType #-}
+
+gTypeEcKeyParams :: JSM GType
+gTypeEcKeyParams = GType . Object <$> jsg "EcKeyParams"
+
+-- | Functions for this inteface are in "JSDOM.EcdhKeyDeriveParams".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/EcdhKeyDeriveParams Mozilla EcdhKeyDeriveParams documentation>
+newtype EcdhKeyDeriveParams = EcdhKeyDeriveParams { unEcdhKeyDeriveParams :: JSVal }
+
+instance PToJSVal EcdhKeyDeriveParams where
+  pToJSVal = unEcdhKeyDeriveParams
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal EcdhKeyDeriveParams where
+  pFromJSVal = EcdhKeyDeriveParams
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal EcdhKeyDeriveParams where
+  toJSVal = return . unEcdhKeyDeriveParams
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal EcdhKeyDeriveParams where
+  fromJSVal v = fmap EcdhKeyDeriveParams <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EcdhKeyDeriveParams
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject EcdhKeyDeriveParams where
+  makeObject = makeObject . unEcdhKeyDeriveParams
+
+instance IsCryptoAlgorithmParameters EcdhKeyDeriveParams
+instance IsGObject EcdhKeyDeriveParams where
+  typeGType _ = gTypeEcdhKeyDeriveParams
+  {-# INLINE typeGType #-}
+
+gTypeEcdhKeyDeriveParams :: JSM GType
+gTypeEcdhKeyDeriveParams = GType . Object <$> jsg "EcdhKeyDeriveParams"
+
+-- | Functions for this inteface are in "JSDOM.EcdsaParams".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/EcdsaParams Mozilla EcdsaParams documentation>
+newtype EcdsaParams = EcdsaParams { unEcdsaParams :: JSVal }
+
+instance PToJSVal EcdsaParams where
+  pToJSVal = unEcdsaParams
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal EcdsaParams where
+  pFromJSVal = EcdsaParams
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal EcdsaParams where
+  toJSVal = return . unEcdsaParams
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal EcdsaParams where
+  fromJSVal v = fmap EcdsaParams <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . EcdsaParams
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject EcdsaParams where
+  makeObject = makeObject . unEcdsaParams
+
+instance IsCryptoAlgorithmParameters EcdsaParams
+instance IsGObject EcdsaParams where
+  typeGType _ = gTypeEcdsaParams
+  {-# INLINE typeGType #-}
+
+gTypeEcdsaParams :: JSM GType
+gTypeEcdsaParams = GType . Object <$> jsg "EcdsaParams"
+
 -- | Functions for this inteface are in "JSDOM.Element".
 -- Base interface functions are in:
 --
@@ -8670,6 +9301,7 @@ gTypeEXTsRGB = GType . Object <$> jsg "EXTsRGB"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --
@@ -8697,7 +9329,7 @@ instance FromJSVal Element where
 instance MakeObject Element where
   makeObject = makeObject . unElement
 
-class (IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGObject o) => IsElement o
+class (IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGObject o) => IsElement o
 toElement :: IsElement o => o -> Element
 toElement = Element . coerce
 
@@ -8707,6 +9339,7 @@ instance IsEventTarget Element
 instance IsSlotable Element
 instance IsParentNode Element
 instance IsNonDocumentTypeChildNode Element
+instance IsDocumentAndElementEventHandlers Element
 instance IsChildNode Element
 instance IsAnimatable Element
 instance IsGObject Element where
@@ -8715,6 +9348,44 @@ instance IsGObject Element where
 
 gTypeElement :: JSM GType
 gTypeElement = GType . Object <$> jsg "Element"
+
+-- | Functions for this inteface are in "JSDOM.ElementCSSInlineStyle".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle Mozilla ElementCSSInlineStyle documentation>
+newtype ElementCSSInlineStyle = ElementCSSInlineStyle { unElementCSSInlineStyle :: JSVal }
+
+instance PToJSVal ElementCSSInlineStyle where
+  pToJSVal = unElementCSSInlineStyle
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ElementCSSInlineStyle where
+  pFromJSVal = ElementCSSInlineStyle
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ElementCSSInlineStyle where
+  toJSVal = return . unElementCSSInlineStyle
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ElementCSSInlineStyle where
+  fromJSVal v = fmap ElementCSSInlineStyle <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ElementCSSInlineStyle
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ElementCSSInlineStyle where
+  makeObject = makeObject . unElementCSSInlineStyle
+
+class (IsGObject o) => IsElementCSSInlineStyle o
+toElementCSSInlineStyle :: IsElementCSSInlineStyle o => o -> ElementCSSInlineStyle
+toElementCSSInlineStyle = ElementCSSInlineStyle . coerce
+
+instance IsElementCSSInlineStyle ElementCSSInlineStyle
+instance IsGObject ElementCSSInlineStyle where
+  typeGType _ = gTypeElementCSSInlineStyle
+  {-# INLINE typeGType #-}
+
+gTypeElementCSSInlineStyle :: JSM GType
+gTypeElementCSSInlineStyle = GType . Object <$> jsg "ElementCSSInlineStyle"
 
 -- | Functions for this inteface are in "JSDOM.ErrorEvent".
 -- Base interface functions are in:
@@ -9981,9 +10652,11 @@ gTypeHTMLAllCollection = GType . Object <$> jsg "HTMLAllCollection"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.HTMLHyperlinkElementUtils"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement Mozilla HTMLAnchorElement documentation>
@@ -10017,9 +10690,11 @@ instance IsEventTarget HTMLAnchorElement
 instance IsSlotable HTMLAnchorElement
 instance IsParentNode HTMLAnchorElement
 instance IsNonDocumentTypeChildNode HTMLAnchorElement
+instance IsDocumentAndElementEventHandlers HTMLAnchorElement
 instance IsChildNode HTMLAnchorElement
 instance IsAnimatable HTMLAnchorElement
 instance IsGlobalEventHandlers HTMLAnchorElement
+instance IsElementCSSInlineStyle HTMLAnchorElement
 instance IsHTMLHyperlinkElementUtils HTMLAnchorElement
 instance IsGObject HTMLAnchorElement where
   typeGType _ = gTypeHTMLAnchorElement
@@ -10038,9 +10713,11 @@ gTypeHTMLAnchorElement = GType . Object <$> jsg "HTMLAnchorElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAppletElement Mozilla HTMLAppletElement documentation>
 newtype HTMLAppletElement = HTMLAppletElement { unHTMLAppletElement :: JSVal }
@@ -10073,9 +10750,11 @@ instance IsEventTarget HTMLAppletElement
 instance IsSlotable HTMLAppletElement
 instance IsParentNode HTMLAppletElement
 instance IsNonDocumentTypeChildNode HTMLAppletElement
+instance IsDocumentAndElementEventHandlers HTMLAppletElement
 instance IsChildNode HTMLAppletElement
 instance IsAnimatable HTMLAppletElement
 instance IsGlobalEventHandlers HTMLAppletElement
+instance IsElementCSSInlineStyle HTMLAppletElement
 instance IsGObject HTMLAppletElement where
   typeGType _ = gTypeHTMLAppletElement
   {-# INLINE typeGType #-}
@@ -10093,9 +10772,11 @@ gTypeHTMLAppletElement = GType . Object <$> jsg "HTMLAppletElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.HTMLHyperlinkElementUtils"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAreaElement Mozilla HTMLAreaElement documentation>
@@ -10129,9 +10810,11 @@ instance IsEventTarget HTMLAreaElement
 instance IsSlotable HTMLAreaElement
 instance IsParentNode HTMLAreaElement
 instance IsNonDocumentTypeChildNode HTMLAreaElement
+instance IsDocumentAndElementEventHandlers HTMLAreaElement
 instance IsChildNode HTMLAreaElement
 instance IsAnimatable HTMLAreaElement
 instance IsGlobalEventHandlers HTMLAreaElement
+instance IsElementCSSInlineStyle HTMLAreaElement
 instance IsHTMLHyperlinkElementUtils HTMLAreaElement
 instance IsGObject HTMLAreaElement where
   typeGType _ = gTypeHTMLAreaElement
@@ -10150,9 +10833,11 @@ gTypeHTMLAreaElement = GType . Object <$> jsg "HTMLAreaElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAttachmentElement Mozilla HTMLAttachmentElement documentation>
 newtype HTMLAttachmentElement = HTMLAttachmentElement { unHTMLAttachmentElement :: JSVal }
@@ -10185,9 +10870,11 @@ instance IsEventTarget HTMLAttachmentElement
 instance IsSlotable HTMLAttachmentElement
 instance IsParentNode HTMLAttachmentElement
 instance IsNonDocumentTypeChildNode HTMLAttachmentElement
+instance IsDocumentAndElementEventHandlers HTMLAttachmentElement
 instance IsChildNode HTMLAttachmentElement
 instance IsAnimatable HTMLAttachmentElement
 instance IsGlobalEventHandlers HTMLAttachmentElement
+instance IsElementCSSInlineStyle HTMLAttachmentElement
 instance IsGObject HTMLAttachmentElement where
   typeGType _ = gTypeHTMLAttachmentElement
   {-# INLINE typeGType #-}
@@ -10206,9 +10893,11 @@ gTypeHTMLAttachmentElement = GType . Object <$> jsg "HTMLAttachmentElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement Mozilla HTMLAudioElement documentation>
 newtype HTMLAudioElement = HTMLAudioElement { unHTMLAudioElement :: JSVal }
@@ -10242,9 +10931,11 @@ instance IsEventTarget HTMLAudioElement
 instance IsSlotable HTMLAudioElement
 instance IsParentNode HTMLAudioElement
 instance IsNonDocumentTypeChildNode HTMLAudioElement
+instance IsDocumentAndElementEventHandlers HTMLAudioElement
 instance IsChildNode HTMLAudioElement
 instance IsAnimatable HTMLAudioElement
 instance IsGlobalEventHandlers HTMLAudioElement
+instance IsElementCSSInlineStyle HTMLAudioElement
 instance IsGObject HTMLAudioElement where
   typeGType _ = gTypeHTMLAudioElement
   {-# INLINE typeGType #-}
@@ -10262,9 +10953,11 @@ gTypeHTMLAudioElement = GType . Object <$> jsg "HTMLAudioElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBRElement Mozilla HTMLBRElement documentation>
 newtype HTMLBRElement = HTMLBRElement { unHTMLBRElement :: JSVal }
@@ -10297,9 +10990,11 @@ instance IsEventTarget HTMLBRElement
 instance IsSlotable HTMLBRElement
 instance IsParentNode HTMLBRElement
 instance IsNonDocumentTypeChildNode HTMLBRElement
+instance IsDocumentAndElementEventHandlers HTMLBRElement
 instance IsChildNode HTMLBRElement
 instance IsAnimatable HTMLBRElement
 instance IsGlobalEventHandlers HTMLBRElement
+instance IsElementCSSInlineStyle HTMLBRElement
 instance IsGObject HTMLBRElement where
   typeGType _ = gTypeHTMLBRElement
   {-# INLINE typeGType #-}
@@ -10317,9 +11012,11 @@ gTypeHTMLBRElement = GType . Object <$> jsg "HTMLBRElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBaseElement Mozilla HTMLBaseElement documentation>
 newtype HTMLBaseElement = HTMLBaseElement { unHTMLBaseElement :: JSVal }
@@ -10352,9 +11049,11 @@ instance IsEventTarget HTMLBaseElement
 instance IsSlotable HTMLBaseElement
 instance IsParentNode HTMLBaseElement
 instance IsNonDocumentTypeChildNode HTMLBaseElement
+instance IsDocumentAndElementEventHandlers HTMLBaseElement
 instance IsChildNode HTMLBaseElement
 instance IsAnimatable HTMLBaseElement
 instance IsGlobalEventHandlers HTMLBaseElement
+instance IsElementCSSInlineStyle HTMLBaseElement
 instance IsGObject HTMLBaseElement where
   typeGType _ = gTypeHTMLBaseElement
   {-# INLINE typeGType #-}
@@ -10372,9 +11071,11 @@ gTypeHTMLBaseElement = GType . Object <$> jsg "HTMLBaseElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.WindowEventHandlers"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement Mozilla HTMLBodyElement documentation>
@@ -10408,9 +11109,11 @@ instance IsEventTarget HTMLBodyElement
 instance IsSlotable HTMLBodyElement
 instance IsParentNode HTMLBodyElement
 instance IsNonDocumentTypeChildNode HTMLBodyElement
+instance IsDocumentAndElementEventHandlers HTMLBodyElement
 instance IsChildNode HTMLBodyElement
 instance IsAnimatable HTMLBodyElement
 instance IsGlobalEventHandlers HTMLBodyElement
+instance IsElementCSSInlineStyle HTMLBodyElement
 instance IsWindowEventHandlers HTMLBodyElement
 instance IsGObject HTMLBodyElement where
   typeGType _ = gTypeHTMLBodyElement
@@ -10429,9 +11132,11 @@ gTypeHTMLBodyElement = GType . Object <$> jsg "HTMLBodyElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement Mozilla HTMLButtonElement documentation>
 newtype HTMLButtonElement = HTMLButtonElement { unHTMLButtonElement :: JSVal }
@@ -10464,9 +11169,11 @@ instance IsEventTarget HTMLButtonElement
 instance IsSlotable HTMLButtonElement
 instance IsParentNode HTMLButtonElement
 instance IsNonDocumentTypeChildNode HTMLButtonElement
+instance IsDocumentAndElementEventHandlers HTMLButtonElement
 instance IsChildNode HTMLButtonElement
 instance IsAnimatable HTMLButtonElement
 instance IsGlobalEventHandlers HTMLButtonElement
+instance IsElementCSSInlineStyle HTMLButtonElement
 instance IsGObject HTMLButtonElement where
   typeGType _ = gTypeHTMLButtonElement
   {-# INLINE typeGType #-}
@@ -10484,9 +11191,11 @@ gTypeHTMLButtonElement = GType . Object <$> jsg "HTMLButtonElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement Mozilla HTMLCanvasElement documentation>
 newtype HTMLCanvasElement = HTMLCanvasElement { unHTMLCanvasElement :: JSVal }
@@ -10519,9 +11228,11 @@ instance IsEventTarget HTMLCanvasElement
 instance IsSlotable HTMLCanvasElement
 instance IsParentNode HTMLCanvasElement
 instance IsNonDocumentTypeChildNode HTMLCanvasElement
+instance IsDocumentAndElementEventHandlers HTMLCanvasElement
 instance IsChildNode HTMLCanvasElement
 instance IsAnimatable HTMLCanvasElement
 instance IsGlobalEventHandlers HTMLCanvasElement
+instance IsElementCSSInlineStyle HTMLCanvasElement
 instance IsGObject HTMLCanvasElement where
   typeGType _ = gTypeHTMLCanvasElement
   {-# INLINE typeGType #-}
@@ -10577,9 +11288,11 @@ gTypeHTMLCollection = GType . Object <$> jsg "HTMLCollection"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDListElement Mozilla HTMLDListElement documentation>
 newtype HTMLDListElement = HTMLDListElement { unHTMLDListElement :: JSVal }
@@ -10612,9 +11325,11 @@ instance IsEventTarget HTMLDListElement
 instance IsSlotable HTMLDListElement
 instance IsParentNode HTMLDListElement
 instance IsNonDocumentTypeChildNode HTMLDListElement
+instance IsDocumentAndElementEventHandlers HTMLDListElement
 instance IsChildNode HTMLDListElement
 instance IsAnimatable HTMLDListElement
 instance IsGlobalEventHandlers HTMLDListElement
+instance IsElementCSSInlineStyle HTMLDListElement
 instance IsGObject HTMLDListElement where
   typeGType _ = gTypeHTMLDListElement
   {-# INLINE typeGType #-}
@@ -10632,9 +11347,11 @@ gTypeHTMLDListElement = GType . Object <$> jsg "HTMLDListElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDataElement Mozilla HTMLDataElement documentation>
 newtype HTMLDataElement = HTMLDataElement { unHTMLDataElement :: JSVal }
@@ -10667,9 +11384,11 @@ instance IsEventTarget HTMLDataElement
 instance IsSlotable HTMLDataElement
 instance IsParentNode HTMLDataElement
 instance IsNonDocumentTypeChildNode HTMLDataElement
+instance IsDocumentAndElementEventHandlers HTMLDataElement
 instance IsChildNode HTMLDataElement
 instance IsAnimatable HTMLDataElement
 instance IsGlobalEventHandlers HTMLDataElement
+instance IsElementCSSInlineStyle HTMLDataElement
 instance IsGObject HTMLDataElement where
   typeGType _ = gTypeHTMLDataElement
   {-# INLINE typeGType #-}
@@ -10687,9 +11406,11 @@ gTypeHTMLDataElement = GType . Object <$> jsg "HTMLDataElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDataListElement Mozilla HTMLDataListElement documentation>
 newtype HTMLDataListElement = HTMLDataListElement { unHTMLDataListElement :: JSVal }
@@ -10722,9 +11443,11 @@ instance IsEventTarget HTMLDataListElement
 instance IsSlotable HTMLDataListElement
 instance IsParentNode HTMLDataListElement
 instance IsNonDocumentTypeChildNode HTMLDataListElement
+instance IsDocumentAndElementEventHandlers HTMLDataListElement
 instance IsChildNode HTMLDataListElement
 instance IsAnimatable HTMLDataListElement
 instance IsGlobalEventHandlers HTMLDataListElement
+instance IsElementCSSInlineStyle HTMLDataListElement
 instance IsGObject HTMLDataListElement where
   typeGType _ = gTypeHTMLDataListElement
   {-# INLINE typeGType #-}
@@ -10742,9 +11465,11 @@ gTypeHTMLDataListElement = GType . Object <$> jsg "HTMLDataListElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDetailsElement Mozilla HTMLDetailsElement documentation>
 newtype HTMLDetailsElement = HTMLDetailsElement { unHTMLDetailsElement :: JSVal }
@@ -10777,9 +11502,11 @@ instance IsEventTarget HTMLDetailsElement
 instance IsSlotable HTMLDetailsElement
 instance IsParentNode HTMLDetailsElement
 instance IsNonDocumentTypeChildNode HTMLDetailsElement
+instance IsDocumentAndElementEventHandlers HTMLDetailsElement
 instance IsChildNode HTMLDetailsElement
 instance IsAnimatable HTMLDetailsElement
 instance IsGlobalEventHandlers HTMLDetailsElement
+instance IsElementCSSInlineStyle HTMLDetailsElement
 instance IsGObject HTMLDetailsElement where
   typeGType _ = gTypeHTMLDetailsElement
   {-# INLINE typeGType #-}
@@ -10797,9 +11524,11 @@ gTypeHTMLDetailsElement = GType . Object <$> jsg "HTMLDetailsElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDirectoryElement Mozilla HTMLDirectoryElement documentation>
 newtype HTMLDirectoryElement = HTMLDirectoryElement { unHTMLDirectoryElement :: JSVal }
@@ -10832,9 +11561,11 @@ instance IsEventTarget HTMLDirectoryElement
 instance IsSlotable HTMLDirectoryElement
 instance IsParentNode HTMLDirectoryElement
 instance IsNonDocumentTypeChildNode HTMLDirectoryElement
+instance IsDocumentAndElementEventHandlers HTMLDirectoryElement
 instance IsChildNode HTMLDirectoryElement
 instance IsAnimatable HTMLDirectoryElement
 instance IsGlobalEventHandlers HTMLDirectoryElement
+instance IsElementCSSInlineStyle HTMLDirectoryElement
 instance IsGObject HTMLDirectoryElement where
   typeGType _ = gTypeHTMLDirectoryElement
   {-# INLINE typeGType #-}
@@ -10852,9 +11583,11 @@ gTypeHTMLDirectoryElement = GType . Object <$> jsg "HTMLDirectoryElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDivElement Mozilla HTMLDivElement documentation>
 newtype HTMLDivElement = HTMLDivElement { unHTMLDivElement :: JSVal }
@@ -10887,9 +11620,11 @@ instance IsEventTarget HTMLDivElement
 instance IsSlotable HTMLDivElement
 instance IsParentNode HTMLDivElement
 instance IsNonDocumentTypeChildNode HTMLDivElement
+instance IsDocumentAndElementEventHandlers HTMLDivElement
 instance IsChildNode HTMLDivElement
 instance IsAnimatable HTMLDivElement
 instance IsGlobalEventHandlers HTMLDivElement
+instance IsElementCSSInlineStyle HTMLDivElement
 instance IsGObject HTMLDivElement where
   typeGType _ = gTypeHTMLDivElement
   {-# INLINE typeGType #-}
@@ -10907,6 +11642,7 @@ gTypeHTMLDivElement = GType . Object <$> jsg "HTMLDivElement"
 --     * "JSDOM.DocumentOrShadowRoot"
 --     * "JSDOM.NonElementParentNode"
 --     * "JSDOM.ParentNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument Mozilla HTMLDocument documentation>
 newtype HTMLDocument = HTMLDocument { unHTMLDocument :: JSVal }
@@ -10939,6 +11675,7 @@ instance IsGlobalEventHandlers HTMLDocument
 instance IsDocumentOrShadowRoot HTMLDocument
 instance IsNonElementParentNode HTMLDocument
 instance IsParentNode HTMLDocument
+instance IsDocumentAndElementEventHandlers HTMLDocument
 instance IsGObject HTMLDocument where
   typeGType _ = gTypeHTMLDocument
   {-# INLINE typeGType #-}
@@ -10955,9 +11692,11 @@ gTypeHTMLDocument = GType . Object <$> jsg "HTMLDocument"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement Mozilla HTMLElement documentation>
 newtype HTMLElement = HTMLElement { unHTMLElement :: JSVal }
@@ -10983,7 +11722,7 @@ instance FromJSVal HTMLElement where
 instance MakeObject HTMLElement where
   makeObject = makeObject . unHTMLElement
 
-class (IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsGObject o) => IsHTMLElement o
+class (IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsGObject o) => IsHTMLElement o
 toHTMLElement :: IsHTMLElement o => o -> HTMLElement
 toHTMLElement = HTMLElement . coerce
 
@@ -10994,9 +11733,11 @@ instance IsEventTarget HTMLElement
 instance IsSlotable HTMLElement
 instance IsParentNode HTMLElement
 instance IsNonDocumentTypeChildNode HTMLElement
+instance IsDocumentAndElementEventHandlers HTMLElement
 instance IsChildNode HTMLElement
 instance IsAnimatable HTMLElement
 instance IsGlobalEventHandlers HTMLElement
+instance IsElementCSSInlineStyle HTMLElement
 instance IsGObject HTMLElement where
   typeGType _ = gTypeHTMLElement
   {-# INLINE typeGType #-}
@@ -11014,9 +11755,11 @@ gTypeHTMLElement = GType . Object <$> jsg "HTMLElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLEmbedElement Mozilla HTMLEmbedElement documentation>
 newtype HTMLEmbedElement = HTMLEmbedElement { unHTMLEmbedElement :: JSVal }
@@ -11049,9 +11792,11 @@ instance IsEventTarget HTMLEmbedElement
 instance IsSlotable HTMLEmbedElement
 instance IsParentNode HTMLEmbedElement
 instance IsNonDocumentTypeChildNode HTMLEmbedElement
+instance IsDocumentAndElementEventHandlers HTMLEmbedElement
 instance IsChildNode HTMLEmbedElement
 instance IsAnimatable HTMLEmbedElement
 instance IsGlobalEventHandlers HTMLEmbedElement
+instance IsElementCSSInlineStyle HTMLEmbedElement
 instance IsGObject HTMLEmbedElement where
   typeGType _ = gTypeHTMLEmbedElement
   {-# INLINE typeGType #-}
@@ -11069,9 +11814,11 @@ gTypeHTMLEmbedElement = GType . Object <$> jsg "HTMLEmbedElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFieldSetElement Mozilla HTMLFieldSetElement documentation>
 newtype HTMLFieldSetElement = HTMLFieldSetElement { unHTMLFieldSetElement :: JSVal }
@@ -11104,9 +11851,11 @@ instance IsEventTarget HTMLFieldSetElement
 instance IsSlotable HTMLFieldSetElement
 instance IsParentNode HTMLFieldSetElement
 instance IsNonDocumentTypeChildNode HTMLFieldSetElement
+instance IsDocumentAndElementEventHandlers HTMLFieldSetElement
 instance IsChildNode HTMLFieldSetElement
 instance IsAnimatable HTMLFieldSetElement
 instance IsGlobalEventHandlers HTMLFieldSetElement
+instance IsElementCSSInlineStyle HTMLFieldSetElement
 instance IsGObject HTMLFieldSetElement where
   typeGType _ = gTypeHTMLFieldSetElement
   {-# INLINE typeGType #-}
@@ -11124,9 +11873,11 @@ gTypeHTMLFieldSetElement = GType . Object <$> jsg "HTMLFieldSetElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFontElement Mozilla HTMLFontElement documentation>
 newtype HTMLFontElement = HTMLFontElement { unHTMLFontElement :: JSVal }
@@ -11159,9 +11910,11 @@ instance IsEventTarget HTMLFontElement
 instance IsSlotable HTMLFontElement
 instance IsParentNode HTMLFontElement
 instance IsNonDocumentTypeChildNode HTMLFontElement
+instance IsDocumentAndElementEventHandlers HTMLFontElement
 instance IsChildNode HTMLFontElement
 instance IsAnimatable HTMLFontElement
 instance IsGlobalEventHandlers HTMLFontElement
+instance IsElementCSSInlineStyle HTMLFontElement
 instance IsGObject HTMLFontElement where
   typeGType _ = gTypeHTMLFontElement
   {-# INLINE typeGType #-}
@@ -11216,9 +11969,11 @@ gTypeHTMLFormControlsCollection = GType . Object <$> jsg "HTMLFormControlsCollec
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement Mozilla HTMLFormElement documentation>
 newtype HTMLFormElement = HTMLFormElement { unHTMLFormElement :: JSVal }
@@ -11251,9 +12006,11 @@ instance IsEventTarget HTMLFormElement
 instance IsSlotable HTMLFormElement
 instance IsParentNode HTMLFormElement
 instance IsNonDocumentTypeChildNode HTMLFormElement
+instance IsDocumentAndElementEventHandlers HTMLFormElement
 instance IsChildNode HTMLFormElement
 instance IsAnimatable HTMLFormElement
 instance IsGlobalEventHandlers HTMLFormElement
+instance IsElementCSSInlineStyle HTMLFormElement
 instance IsGObject HTMLFormElement where
   typeGType _ = gTypeHTMLFormElement
   {-# INLINE typeGType #-}
@@ -11271,9 +12028,11 @@ gTypeHTMLFormElement = GType . Object <$> jsg "HTMLFormElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement Mozilla HTMLFrameElement documentation>
 newtype HTMLFrameElement = HTMLFrameElement { unHTMLFrameElement :: JSVal }
@@ -11306,9 +12065,11 @@ instance IsEventTarget HTMLFrameElement
 instance IsSlotable HTMLFrameElement
 instance IsParentNode HTMLFrameElement
 instance IsNonDocumentTypeChildNode HTMLFrameElement
+instance IsDocumentAndElementEventHandlers HTMLFrameElement
 instance IsChildNode HTMLFrameElement
 instance IsAnimatable HTMLFrameElement
 instance IsGlobalEventHandlers HTMLFrameElement
+instance IsElementCSSInlineStyle HTMLFrameElement
 instance IsGObject HTMLFrameElement where
   typeGType _ = gTypeHTMLFrameElement
   {-# INLINE typeGType #-}
@@ -11326,9 +12087,11 @@ gTypeHTMLFrameElement = GType . Object <$> jsg "HTMLFrameElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.WindowEventHandlers"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameSetElement Mozilla HTMLFrameSetElement documentation>
@@ -11362,9 +12125,11 @@ instance IsEventTarget HTMLFrameSetElement
 instance IsSlotable HTMLFrameSetElement
 instance IsParentNode HTMLFrameSetElement
 instance IsNonDocumentTypeChildNode HTMLFrameSetElement
+instance IsDocumentAndElementEventHandlers HTMLFrameSetElement
 instance IsChildNode HTMLFrameSetElement
 instance IsAnimatable HTMLFrameSetElement
 instance IsGlobalEventHandlers HTMLFrameSetElement
+instance IsElementCSSInlineStyle HTMLFrameSetElement
 instance IsWindowEventHandlers HTMLFrameSetElement
 instance IsGObject HTMLFrameSetElement where
   typeGType _ = gTypeHTMLFrameSetElement
@@ -11383,9 +12148,11 @@ gTypeHTMLFrameSetElement = GType . Object <$> jsg "HTMLFrameSetElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHRElement Mozilla HTMLHRElement documentation>
 newtype HTMLHRElement = HTMLHRElement { unHTMLHRElement :: JSVal }
@@ -11418,9 +12185,11 @@ instance IsEventTarget HTMLHRElement
 instance IsSlotable HTMLHRElement
 instance IsParentNode HTMLHRElement
 instance IsNonDocumentTypeChildNode HTMLHRElement
+instance IsDocumentAndElementEventHandlers HTMLHRElement
 instance IsChildNode HTMLHRElement
 instance IsAnimatable HTMLHRElement
 instance IsGlobalEventHandlers HTMLHRElement
+instance IsElementCSSInlineStyle HTMLHRElement
 instance IsGObject HTMLHRElement where
   typeGType _ = gTypeHTMLHRElement
   {-# INLINE typeGType #-}
@@ -11438,9 +12207,11 @@ gTypeHTMLHRElement = GType . Object <$> jsg "HTMLHRElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHeadElement Mozilla HTMLHeadElement documentation>
 newtype HTMLHeadElement = HTMLHeadElement { unHTMLHeadElement :: JSVal }
@@ -11473,9 +12244,11 @@ instance IsEventTarget HTMLHeadElement
 instance IsSlotable HTMLHeadElement
 instance IsParentNode HTMLHeadElement
 instance IsNonDocumentTypeChildNode HTMLHeadElement
+instance IsDocumentAndElementEventHandlers HTMLHeadElement
 instance IsChildNode HTMLHeadElement
 instance IsAnimatable HTMLHeadElement
 instance IsGlobalEventHandlers HTMLHeadElement
+instance IsElementCSSInlineStyle HTMLHeadElement
 instance IsGObject HTMLHeadElement where
   typeGType _ = gTypeHTMLHeadElement
   {-# INLINE typeGType #-}
@@ -11493,9 +12266,11 @@ gTypeHTMLHeadElement = GType . Object <$> jsg "HTMLHeadElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHeadingElement Mozilla HTMLHeadingElement documentation>
 newtype HTMLHeadingElement = HTMLHeadingElement { unHTMLHeadingElement :: JSVal }
@@ -11528,9 +12303,11 @@ instance IsEventTarget HTMLHeadingElement
 instance IsSlotable HTMLHeadingElement
 instance IsParentNode HTMLHeadingElement
 instance IsNonDocumentTypeChildNode HTMLHeadingElement
+instance IsDocumentAndElementEventHandlers HTMLHeadingElement
 instance IsChildNode HTMLHeadingElement
 instance IsAnimatable HTMLHeadingElement
 instance IsGlobalEventHandlers HTMLHeadingElement
+instance IsElementCSSInlineStyle HTMLHeadingElement
 instance IsGObject HTMLHeadingElement where
   typeGType _ = gTypeHTMLHeadingElement
   {-# INLINE typeGType #-}
@@ -11548,9 +12325,11 @@ gTypeHTMLHeadingElement = GType . Object <$> jsg "HTMLHeadingElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLHtmlElement Mozilla HTMLHtmlElement documentation>
 newtype HTMLHtmlElement = HTMLHtmlElement { unHTMLHtmlElement :: JSVal }
@@ -11583,9 +12362,11 @@ instance IsEventTarget HTMLHtmlElement
 instance IsSlotable HTMLHtmlElement
 instance IsParentNode HTMLHtmlElement
 instance IsNonDocumentTypeChildNode HTMLHtmlElement
+instance IsDocumentAndElementEventHandlers HTMLHtmlElement
 instance IsChildNode HTMLHtmlElement
 instance IsAnimatable HTMLHtmlElement
 instance IsGlobalEventHandlers HTMLHtmlElement
+instance IsElementCSSInlineStyle HTMLHtmlElement
 instance IsGObject HTMLHtmlElement where
   typeGType _ = gTypeHTMLHtmlElement
   {-# INLINE typeGType #-}
@@ -11641,9 +12422,11 @@ gTypeHTMLHyperlinkElementUtils = GType . Object <$> jsg "HTMLHyperlinkElementUti
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement Mozilla HTMLIFrameElement documentation>
 newtype HTMLIFrameElement = HTMLIFrameElement { unHTMLIFrameElement :: JSVal }
@@ -11676,9 +12459,11 @@ instance IsEventTarget HTMLIFrameElement
 instance IsSlotable HTMLIFrameElement
 instance IsParentNode HTMLIFrameElement
 instance IsNonDocumentTypeChildNode HTMLIFrameElement
+instance IsDocumentAndElementEventHandlers HTMLIFrameElement
 instance IsChildNode HTMLIFrameElement
 instance IsAnimatable HTMLIFrameElement
 instance IsGlobalEventHandlers HTMLIFrameElement
+instance IsElementCSSInlineStyle HTMLIFrameElement
 instance IsGObject HTMLIFrameElement where
   typeGType _ = gTypeHTMLIFrameElement
   {-# INLINE typeGType #-}
@@ -11696,9 +12481,11 @@ gTypeHTMLIFrameElement = GType . Object <$> jsg "HTMLIFrameElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement Mozilla HTMLImageElement documentation>
 newtype HTMLImageElement = HTMLImageElement { unHTMLImageElement :: JSVal }
@@ -11731,9 +12518,11 @@ instance IsEventTarget HTMLImageElement
 instance IsSlotable HTMLImageElement
 instance IsParentNode HTMLImageElement
 instance IsNonDocumentTypeChildNode HTMLImageElement
+instance IsDocumentAndElementEventHandlers HTMLImageElement
 instance IsChildNode HTMLImageElement
 instance IsAnimatable HTMLImageElement
 instance IsGlobalEventHandlers HTMLImageElement
+instance IsElementCSSInlineStyle HTMLImageElement
 instance IsGObject HTMLImageElement where
   typeGType _ = gTypeHTMLImageElement
   {-# INLINE typeGType #-}
@@ -11751,9 +12540,11 @@ gTypeHTMLImageElement = GType . Object <$> jsg "HTMLImageElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement Mozilla HTMLInputElement documentation>
 newtype HTMLInputElement = HTMLInputElement { unHTMLInputElement :: JSVal }
@@ -11786,9 +12577,11 @@ instance IsEventTarget HTMLInputElement
 instance IsSlotable HTMLInputElement
 instance IsParentNode HTMLInputElement
 instance IsNonDocumentTypeChildNode HTMLInputElement
+instance IsDocumentAndElementEventHandlers HTMLInputElement
 instance IsChildNode HTMLInputElement
 instance IsAnimatable HTMLInputElement
 instance IsGlobalEventHandlers HTMLInputElement
+instance IsElementCSSInlineStyle HTMLInputElement
 instance IsGObject HTMLInputElement where
   typeGType _ = gTypeHTMLInputElement
   {-# INLINE typeGType #-}
@@ -11806,9 +12599,11 @@ gTypeHTMLInputElement = GType . Object <$> jsg "HTMLInputElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLKeygenElement Mozilla HTMLKeygenElement documentation>
 newtype HTMLKeygenElement = HTMLKeygenElement { unHTMLKeygenElement :: JSVal }
@@ -11841,9 +12636,11 @@ instance IsEventTarget HTMLKeygenElement
 instance IsSlotable HTMLKeygenElement
 instance IsParentNode HTMLKeygenElement
 instance IsNonDocumentTypeChildNode HTMLKeygenElement
+instance IsDocumentAndElementEventHandlers HTMLKeygenElement
 instance IsChildNode HTMLKeygenElement
 instance IsAnimatable HTMLKeygenElement
 instance IsGlobalEventHandlers HTMLKeygenElement
+instance IsElementCSSInlineStyle HTMLKeygenElement
 instance IsGObject HTMLKeygenElement where
   typeGType _ = gTypeHTMLKeygenElement
   {-# INLINE typeGType #-}
@@ -11861,9 +12658,11 @@ gTypeHTMLKeygenElement = GType . Object <$> jsg "HTMLKeygenElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLIElement Mozilla HTMLLIElement documentation>
 newtype HTMLLIElement = HTMLLIElement { unHTMLLIElement :: JSVal }
@@ -11896,9 +12695,11 @@ instance IsEventTarget HTMLLIElement
 instance IsSlotable HTMLLIElement
 instance IsParentNode HTMLLIElement
 instance IsNonDocumentTypeChildNode HTMLLIElement
+instance IsDocumentAndElementEventHandlers HTMLLIElement
 instance IsChildNode HTMLLIElement
 instance IsAnimatable HTMLLIElement
 instance IsGlobalEventHandlers HTMLLIElement
+instance IsElementCSSInlineStyle HTMLLIElement
 instance IsGObject HTMLLIElement where
   typeGType _ = gTypeHTMLLIElement
   {-# INLINE typeGType #-}
@@ -11916,9 +12717,11 @@ gTypeHTMLLIElement = GType . Object <$> jsg "HTMLLIElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement Mozilla HTMLLabelElement documentation>
 newtype HTMLLabelElement = HTMLLabelElement { unHTMLLabelElement :: JSVal }
@@ -11951,9 +12754,11 @@ instance IsEventTarget HTMLLabelElement
 instance IsSlotable HTMLLabelElement
 instance IsParentNode HTMLLabelElement
 instance IsNonDocumentTypeChildNode HTMLLabelElement
+instance IsDocumentAndElementEventHandlers HTMLLabelElement
 instance IsChildNode HTMLLabelElement
 instance IsAnimatable HTMLLabelElement
 instance IsGlobalEventHandlers HTMLLabelElement
+instance IsElementCSSInlineStyle HTMLLabelElement
 instance IsGObject HTMLLabelElement where
   typeGType _ = gTypeHTMLLabelElement
   {-# INLINE typeGType #-}
@@ -11971,9 +12776,11 @@ gTypeHTMLLabelElement = GType . Object <$> jsg "HTMLLabelElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLegendElement Mozilla HTMLLegendElement documentation>
 newtype HTMLLegendElement = HTMLLegendElement { unHTMLLegendElement :: JSVal }
@@ -12006,9 +12813,11 @@ instance IsEventTarget HTMLLegendElement
 instance IsSlotable HTMLLegendElement
 instance IsParentNode HTMLLegendElement
 instance IsNonDocumentTypeChildNode HTMLLegendElement
+instance IsDocumentAndElementEventHandlers HTMLLegendElement
 instance IsChildNode HTMLLegendElement
 instance IsAnimatable HTMLLegendElement
 instance IsGlobalEventHandlers HTMLLegendElement
+instance IsElementCSSInlineStyle HTMLLegendElement
 instance IsGObject HTMLLegendElement where
   typeGType _ = gTypeHTMLLegendElement
   {-# INLINE typeGType #-}
@@ -12026,9 +12835,11 @@ gTypeHTMLLegendElement = GType . Object <$> jsg "HTMLLegendElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement Mozilla HTMLLinkElement documentation>
 newtype HTMLLinkElement = HTMLLinkElement { unHTMLLinkElement :: JSVal }
@@ -12061,9 +12872,11 @@ instance IsEventTarget HTMLLinkElement
 instance IsSlotable HTMLLinkElement
 instance IsParentNode HTMLLinkElement
 instance IsNonDocumentTypeChildNode HTMLLinkElement
+instance IsDocumentAndElementEventHandlers HTMLLinkElement
 instance IsChildNode HTMLLinkElement
 instance IsAnimatable HTMLLinkElement
 instance IsGlobalEventHandlers HTMLLinkElement
+instance IsElementCSSInlineStyle HTMLLinkElement
 instance IsGObject HTMLLinkElement where
   typeGType _ = gTypeHTMLLinkElement
   {-# INLINE typeGType #-}
@@ -12081,9 +12894,11 @@ gTypeHTMLLinkElement = GType . Object <$> jsg "HTMLLinkElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMapElement Mozilla HTMLMapElement documentation>
 newtype HTMLMapElement = HTMLMapElement { unHTMLMapElement :: JSVal }
@@ -12116,9 +12931,11 @@ instance IsEventTarget HTMLMapElement
 instance IsSlotable HTMLMapElement
 instance IsParentNode HTMLMapElement
 instance IsNonDocumentTypeChildNode HTMLMapElement
+instance IsDocumentAndElementEventHandlers HTMLMapElement
 instance IsChildNode HTMLMapElement
 instance IsAnimatable HTMLMapElement
 instance IsGlobalEventHandlers HTMLMapElement
+instance IsElementCSSInlineStyle HTMLMapElement
 instance IsGObject HTMLMapElement where
   typeGType _ = gTypeHTMLMapElement
   {-# INLINE typeGType #-}
@@ -12136,9 +12953,11 @@ gTypeHTMLMapElement = GType . Object <$> jsg "HTMLMapElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMarqueeElement Mozilla HTMLMarqueeElement documentation>
 newtype HTMLMarqueeElement = HTMLMarqueeElement { unHTMLMarqueeElement :: JSVal }
@@ -12171,9 +12990,11 @@ instance IsEventTarget HTMLMarqueeElement
 instance IsSlotable HTMLMarqueeElement
 instance IsParentNode HTMLMarqueeElement
 instance IsNonDocumentTypeChildNode HTMLMarqueeElement
+instance IsDocumentAndElementEventHandlers HTMLMarqueeElement
 instance IsChildNode HTMLMarqueeElement
 instance IsAnimatable HTMLMarqueeElement
 instance IsGlobalEventHandlers HTMLMarqueeElement
+instance IsElementCSSInlineStyle HTMLMarqueeElement
 instance IsGObject HTMLMarqueeElement where
   typeGType _ = gTypeHTMLMarqueeElement
   {-# INLINE typeGType #-}
@@ -12191,9 +13012,11 @@ gTypeHTMLMarqueeElement = GType . Object <$> jsg "HTMLMarqueeElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement Mozilla HTMLMediaElement documentation>
 newtype HTMLMediaElement = HTMLMediaElement { unHTMLMediaElement :: JSVal }
@@ -12219,7 +13042,7 @@ instance FromJSVal HTMLMediaElement where
 instance MakeObject HTMLMediaElement where
   makeObject = makeObject . unHTMLMediaElement
 
-class (IsHTMLElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsGObject o) => IsHTMLMediaElement o
+class (IsHTMLElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsGObject o) => IsHTMLMediaElement o
 toHTMLMediaElement :: IsHTMLMediaElement o => o -> HTMLMediaElement
 toHTMLMediaElement = HTMLMediaElement . coerce
 
@@ -12231,9 +13054,11 @@ instance IsEventTarget HTMLMediaElement
 instance IsSlotable HTMLMediaElement
 instance IsParentNode HTMLMediaElement
 instance IsNonDocumentTypeChildNode HTMLMediaElement
+instance IsDocumentAndElementEventHandlers HTMLMediaElement
 instance IsChildNode HTMLMediaElement
 instance IsAnimatable HTMLMediaElement
 instance IsGlobalEventHandlers HTMLMediaElement
+instance IsElementCSSInlineStyle HTMLMediaElement
 instance IsGObject HTMLMediaElement where
   typeGType _ = gTypeHTMLMediaElement
   {-# INLINE typeGType #-}
@@ -12251,9 +13076,11 @@ gTypeHTMLMediaElement = GType . Object <$> jsg "HTMLMediaElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMenuElement Mozilla HTMLMenuElement documentation>
 newtype HTMLMenuElement = HTMLMenuElement { unHTMLMenuElement :: JSVal }
@@ -12286,9 +13113,11 @@ instance IsEventTarget HTMLMenuElement
 instance IsSlotable HTMLMenuElement
 instance IsParentNode HTMLMenuElement
 instance IsNonDocumentTypeChildNode HTMLMenuElement
+instance IsDocumentAndElementEventHandlers HTMLMenuElement
 instance IsChildNode HTMLMenuElement
 instance IsAnimatable HTMLMenuElement
 instance IsGlobalEventHandlers HTMLMenuElement
+instance IsElementCSSInlineStyle HTMLMenuElement
 instance IsGObject HTMLMenuElement where
   typeGType _ = gTypeHTMLMenuElement
   {-# INLINE typeGType #-}
@@ -12306,9 +13135,11 @@ gTypeHTMLMenuElement = GType . Object <$> jsg "HTMLMenuElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMetaElement Mozilla HTMLMetaElement documentation>
 newtype HTMLMetaElement = HTMLMetaElement { unHTMLMetaElement :: JSVal }
@@ -12341,9 +13172,11 @@ instance IsEventTarget HTMLMetaElement
 instance IsSlotable HTMLMetaElement
 instance IsParentNode HTMLMetaElement
 instance IsNonDocumentTypeChildNode HTMLMetaElement
+instance IsDocumentAndElementEventHandlers HTMLMetaElement
 instance IsChildNode HTMLMetaElement
 instance IsAnimatable HTMLMetaElement
 instance IsGlobalEventHandlers HTMLMetaElement
+instance IsElementCSSInlineStyle HTMLMetaElement
 instance IsGObject HTMLMetaElement where
   typeGType _ = gTypeHTMLMetaElement
   {-# INLINE typeGType #-}
@@ -12361,9 +13194,11 @@ gTypeHTMLMetaElement = GType . Object <$> jsg "HTMLMetaElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMeterElement Mozilla HTMLMeterElement documentation>
 newtype HTMLMeterElement = HTMLMeterElement { unHTMLMeterElement :: JSVal }
@@ -12396,9 +13231,11 @@ instance IsEventTarget HTMLMeterElement
 instance IsSlotable HTMLMeterElement
 instance IsParentNode HTMLMeterElement
 instance IsNonDocumentTypeChildNode HTMLMeterElement
+instance IsDocumentAndElementEventHandlers HTMLMeterElement
 instance IsChildNode HTMLMeterElement
 instance IsAnimatable HTMLMeterElement
 instance IsGlobalEventHandlers HTMLMeterElement
+instance IsElementCSSInlineStyle HTMLMeterElement
 instance IsGObject HTMLMeterElement where
   typeGType _ = gTypeHTMLMeterElement
   {-# INLINE typeGType #-}
@@ -12416,9 +13253,11 @@ gTypeHTMLMeterElement = GType . Object <$> jsg "HTMLMeterElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLModElement Mozilla HTMLModElement documentation>
 newtype HTMLModElement = HTMLModElement { unHTMLModElement :: JSVal }
@@ -12451,9 +13290,11 @@ instance IsEventTarget HTMLModElement
 instance IsSlotable HTMLModElement
 instance IsParentNode HTMLModElement
 instance IsNonDocumentTypeChildNode HTMLModElement
+instance IsDocumentAndElementEventHandlers HTMLModElement
 instance IsChildNode HTMLModElement
 instance IsAnimatable HTMLModElement
 instance IsGlobalEventHandlers HTMLModElement
+instance IsElementCSSInlineStyle HTMLModElement
 instance IsGObject HTMLModElement where
   typeGType _ = gTypeHTMLModElement
   {-# INLINE typeGType #-}
@@ -12471,9 +13312,11 @@ gTypeHTMLModElement = GType . Object <$> jsg "HTMLModElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOListElement Mozilla HTMLOListElement documentation>
 newtype HTMLOListElement = HTMLOListElement { unHTMLOListElement :: JSVal }
@@ -12506,9 +13349,11 @@ instance IsEventTarget HTMLOListElement
 instance IsSlotable HTMLOListElement
 instance IsParentNode HTMLOListElement
 instance IsNonDocumentTypeChildNode HTMLOListElement
+instance IsDocumentAndElementEventHandlers HTMLOListElement
 instance IsChildNode HTMLOListElement
 instance IsAnimatable HTMLOListElement
 instance IsGlobalEventHandlers HTMLOListElement
+instance IsElementCSSInlineStyle HTMLOListElement
 instance IsGObject HTMLOListElement where
   typeGType _ = gTypeHTMLOListElement
   {-# INLINE typeGType #-}
@@ -12526,9 +13371,11 @@ gTypeHTMLOListElement = GType . Object <$> jsg "HTMLOListElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement Mozilla HTMLObjectElement documentation>
 newtype HTMLObjectElement = HTMLObjectElement { unHTMLObjectElement :: JSVal }
@@ -12561,9 +13408,11 @@ instance IsEventTarget HTMLObjectElement
 instance IsSlotable HTMLObjectElement
 instance IsParentNode HTMLObjectElement
 instance IsNonDocumentTypeChildNode HTMLObjectElement
+instance IsDocumentAndElementEventHandlers HTMLObjectElement
 instance IsChildNode HTMLObjectElement
 instance IsAnimatable HTMLObjectElement
 instance IsGlobalEventHandlers HTMLObjectElement
+instance IsElementCSSInlineStyle HTMLObjectElement
 instance IsGObject HTMLObjectElement where
   typeGType _ = gTypeHTMLObjectElement
   {-# INLINE typeGType #-}
@@ -12581,9 +13430,11 @@ gTypeHTMLObjectElement = GType . Object <$> jsg "HTMLObjectElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptGroupElement Mozilla HTMLOptGroupElement documentation>
 newtype HTMLOptGroupElement = HTMLOptGroupElement { unHTMLOptGroupElement :: JSVal }
@@ -12616,9 +13467,11 @@ instance IsEventTarget HTMLOptGroupElement
 instance IsSlotable HTMLOptGroupElement
 instance IsParentNode HTMLOptGroupElement
 instance IsNonDocumentTypeChildNode HTMLOptGroupElement
+instance IsDocumentAndElementEventHandlers HTMLOptGroupElement
 instance IsChildNode HTMLOptGroupElement
 instance IsAnimatable HTMLOptGroupElement
 instance IsGlobalEventHandlers HTMLOptGroupElement
+instance IsElementCSSInlineStyle HTMLOptGroupElement
 instance IsGObject HTMLOptGroupElement where
   typeGType _ = gTypeHTMLOptGroupElement
   {-# INLINE typeGType #-}
@@ -12636,9 +13489,11 @@ gTypeHTMLOptGroupElement = GType . Object <$> jsg "HTMLOptGroupElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement Mozilla HTMLOptionElement documentation>
 newtype HTMLOptionElement = HTMLOptionElement { unHTMLOptionElement :: JSVal }
@@ -12671,9 +13526,11 @@ instance IsEventTarget HTMLOptionElement
 instance IsSlotable HTMLOptionElement
 instance IsParentNode HTMLOptionElement
 instance IsNonDocumentTypeChildNode HTMLOptionElement
+instance IsDocumentAndElementEventHandlers HTMLOptionElement
 instance IsChildNode HTMLOptionElement
 instance IsAnimatable HTMLOptionElement
 instance IsGlobalEventHandlers HTMLOptionElement
+instance IsElementCSSInlineStyle HTMLOptionElement
 instance IsGObject HTMLOptionElement where
   typeGType _ = gTypeHTMLOptionElement
   {-# INLINE typeGType #-}
@@ -12728,9 +13585,11 @@ gTypeHTMLOptionsCollection = GType . Object <$> jsg "HTMLOptionsCollection"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement Mozilla HTMLOutputElement documentation>
 newtype HTMLOutputElement = HTMLOutputElement { unHTMLOutputElement :: JSVal }
@@ -12763,9 +13622,11 @@ instance IsEventTarget HTMLOutputElement
 instance IsSlotable HTMLOutputElement
 instance IsParentNode HTMLOutputElement
 instance IsNonDocumentTypeChildNode HTMLOutputElement
+instance IsDocumentAndElementEventHandlers HTMLOutputElement
 instance IsChildNode HTMLOutputElement
 instance IsAnimatable HTMLOutputElement
 instance IsGlobalEventHandlers HTMLOutputElement
+instance IsElementCSSInlineStyle HTMLOutputElement
 instance IsGObject HTMLOutputElement where
   typeGType _ = gTypeHTMLOutputElement
   {-# INLINE typeGType #-}
@@ -12783,9 +13644,11 @@ gTypeHTMLOutputElement = GType . Object <$> jsg "HTMLOutputElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLParagraphElement Mozilla HTMLParagraphElement documentation>
 newtype HTMLParagraphElement = HTMLParagraphElement { unHTMLParagraphElement :: JSVal }
@@ -12818,9 +13681,11 @@ instance IsEventTarget HTMLParagraphElement
 instance IsSlotable HTMLParagraphElement
 instance IsParentNode HTMLParagraphElement
 instance IsNonDocumentTypeChildNode HTMLParagraphElement
+instance IsDocumentAndElementEventHandlers HTMLParagraphElement
 instance IsChildNode HTMLParagraphElement
 instance IsAnimatable HTMLParagraphElement
 instance IsGlobalEventHandlers HTMLParagraphElement
+instance IsElementCSSInlineStyle HTMLParagraphElement
 instance IsGObject HTMLParagraphElement where
   typeGType _ = gTypeHTMLParagraphElement
   {-# INLINE typeGType #-}
@@ -12838,9 +13703,11 @@ gTypeHTMLParagraphElement = GType . Object <$> jsg "HTMLParagraphElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLParamElement Mozilla HTMLParamElement documentation>
 newtype HTMLParamElement = HTMLParamElement { unHTMLParamElement :: JSVal }
@@ -12873,9 +13740,11 @@ instance IsEventTarget HTMLParamElement
 instance IsSlotable HTMLParamElement
 instance IsParentNode HTMLParamElement
 instance IsNonDocumentTypeChildNode HTMLParamElement
+instance IsDocumentAndElementEventHandlers HTMLParamElement
 instance IsChildNode HTMLParamElement
 instance IsAnimatable HTMLParamElement
 instance IsGlobalEventHandlers HTMLParamElement
+instance IsElementCSSInlineStyle HTMLParamElement
 instance IsGObject HTMLParamElement where
   typeGType _ = gTypeHTMLParamElement
   {-# INLINE typeGType #-}
@@ -12893,9 +13762,11 @@ gTypeHTMLParamElement = GType . Object <$> jsg "HTMLParamElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLPictureElement Mozilla HTMLPictureElement documentation>
 newtype HTMLPictureElement = HTMLPictureElement { unHTMLPictureElement :: JSVal }
@@ -12928,9 +13799,11 @@ instance IsEventTarget HTMLPictureElement
 instance IsSlotable HTMLPictureElement
 instance IsParentNode HTMLPictureElement
 instance IsNonDocumentTypeChildNode HTMLPictureElement
+instance IsDocumentAndElementEventHandlers HTMLPictureElement
 instance IsChildNode HTMLPictureElement
 instance IsAnimatable HTMLPictureElement
 instance IsGlobalEventHandlers HTMLPictureElement
+instance IsElementCSSInlineStyle HTMLPictureElement
 instance IsGObject HTMLPictureElement where
   typeGType _ = gTypeHTMLPictureElement
   {-# INLINE typeGType #-}
@@ -12948,9 +13821,11 @@ gTypeHTMLPictureElement = GType . Object <$> jsg "HTMLPictureElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLPreElement Mozilla HTMLPreElement documentation>
 newtype HTMLPreElement = HTMLPreElement { unHTMLPreElement :: JSVal }
@@ -12983,9 +13858,11 @@ instance IsEventTarget HTMLPreElement
 instance IsSlotable HTMLPreElement
 instance IsParentNode HTMLPreElement
 instance IsNonDocumentTypeChildNode HTMLPreElement
+instance IsDocumentAndElementEventHandlers HTMLPreElement
 instance IsChildNode HTMLPreElement
 instance IsAnimatable HTMLPreElement
 instance IsGlobalEventHandlers HTMLPreElement
+instance IsElementCSSInlineStyle HTMLPreElement
 instance IsGObject HTMLPreElement where
   typeGType _ = gTypeHTMLPreElement
   {-# INLINE typeGType #-}
@@ -13003,9 +13880,11 @@ gTypeHTMLPreElement = GType . Object <$> jsg "HTMLPreElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLProgressElement Mozilla HTMLProgressElement documentation>
 newtype HTMLProgressElement = HTMLProgressElement { unHTMLProgressElement :: JSVal }
@@ -13038,9 +13917,11 @@ instance IsEventTarget HTMLProgressElement
 instance IsSlotable HTMLProgressElement
 instance IsParentNode HTMLProgressElement
 instance IsNonDocumentTypeChildNode HTMLProgressElement
+instance IsDocumentAndElementEventHandlers HTMLProgressElement
 instance IsChildNode HTMLProgressElement
 instance IsAnimatable HTMLProgressElement
 instance IsGlobalEventHandlers HTMLProgressElement
+instance IsElementCSSInlineStyle HTMLProgressElement
 instance IsGObject HTMLProgressElement where
   typeGType _ = gTypeHTMLProgressElement
   {-# INLINE typeGType #-}
@@ -13058,9 +13939,11 @@ gTypeHTMLProgressElement = GType . Object <$> jsg "HTMLProgressElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLQuoteElement Mozilla HTMLQuoteElement documentation>
 newtype HTMLQuoteElement = HTMLQuoteElement { unHTMLQuoteElement :: JSVal }
@@ -13093,9 +13976,11 @@ instance IsEventTarget HTMLQuoteElement
 instance IsSlotable HTMLQuoteElement
 instance IsParentNode HTMLQuoteElement
 instance IsNonDocumentTypeChildNode HTMLQuoteElement
+instance IsDocumentAndElementEventHandlers HTMLQuoteElement
 instance IsChildNode HTMLQuoteElement
 instance IsAnimatable HTMLQuoteElement
 instance IsGlobalEventHandlers HTMLQuoteElement
+instance IsElementCSSInlineStyle HTMLQuoteElement
 instance IsGObject HTMLQuoteElement where
   typeGType _ = gTypeHTMLQuoteElement
   {-# INLINE typeGType #-}
@@ -13113,9 +13998,11 @@ gTypeHTMLQuoteElement = GType . Object <$> jsg "HTMLQuoteElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement Mozilla HTMLScriptElement documentation>
 newtype HTMLScriptElement = HTMLScriptElement { unHTMLScriptElement :: JSVal }
@@ -13148,9 +14035,11 @@ instance IsEventTarget HTMLScriptElement
 instance IsSlotable HTMLScriptElement
 instance IsParentNode HTMLScriptElement
 instance IsNonDocumentTypeChildNode HTMLScriptElement
+instance IsDocumentAndElementEventHandlers HTMLScriptElement
 instance IsChildNode HTMLScriptElement
 instance IsAnimatable HTMLScriptElement
 instance IsGlobalEventHandlers HTMLScriptElement
+instance IsElementCSSInlineStyle HTMLScriptElement
 instance IsGObject HTMLScriptElement where
   typeGType _ = gTypeHTMLScriptElement
   {-# INLINE typeGType #-}
@@ -13168,9 +14057,11 @@ gTypeHTMLScriptElement = GType . Object <$> jsg "HTMLScriptElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement Mozilla HTMLSelectElement documentation>
 newtype HTMLSelectElement = HTMLSelectElement { unHTMLSelectElement :: JSVal }
@@ -13203,9 +14094,11 @@ instance IsEventTarget HTMLSelectElement
 instance IsSlotable HTMLSelectElement
 instance IsParentNode HTMLSelectElement
 instance IsNonDocumentTypeChildNode HTMLSelectElement
+instance IsDocumentAndElementEventHandlers HTMLSelectElement
 instance IsChildNode HTMLSelectElement
 instance IsAnimatable HTMLSelectElement
 instance IsGlobalEventHandlers HTMLSelectElement
+instance IsElementCSSInlineStyle HTMLSelectElement
 instance IsGObject HTMLSelectElement where
   typeGType _ = gTypeHTMLSelectElement
   {-# INLINE typeGType #-}
@@ -13223,9 +14116,11 @@ gTypeHTMLSelectElement = GType . Object <$> jsg "HTMLSelectElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSlotElement Mozilla HTMLSlotElement documentation>
 newtype HTMLSlotElement = HTMLSlotElement { unHTMLSlotElement :: JSVal }
@@ -13258,9 +14153,11 @@ instance IsEventTarget HTMLSlotElement
 instance IsSlotable HTMLSlotElement
 instance IsParentNode HTMLSlotElement
 instance IsNonDocumentTypeChildNode HTMLSlotElement
+instance IsDocumentAndElementEventHandlers HTMLSlotElement
 instance IsChildNode HTMLSlotElement
 instance IsAnimatable HTMLSlotElement
 instance IsGlobalEventHandlers HTMLSlotElement
+instance IsElementCSSInlineStyle HTMLSlotElement
 instance IsGObject HTMLSlotElement where
   typeGType _ = gTypeHTMLSlotElement
   {-# INLINE typeGType #-}
@@ -13278,9 +14175,11 @@ gTypeHTMLSlotElement = GType . Object <$> jsg "HTMLSlotElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement Mozilla HTMLSourceElement documentation>
 newtype HTMLSourceElement = HTMLSourceElement { unHTMLSourceElement :: JSVal }
@@ -13313,9 +14212,11 @@ instance IsEventTarget HTMLSourceElement
 instance IsSlotable HTMLSourceElement
 instance IsParentNode HTMLSourceElement
 instance IsNonDocumentTypeChildNode HTMLSourceElement
+instance IsDocumentAndElementEventHandlers HTMLSourceElement
 instance IsChildNode HTMLSourceElement
 instance IsAnimatable HTMLSourceElement
 instance IsGlobalEventHandlers HTMLSourceElement
+instance IsElementCSSInlineStyle HTMLSourceElement
 instance IsGObject HTMLSourceElement where
   typeGType _ = gTypeHTMLSourceElement
   {-# INLINE typeGType #-}
@@ -13333,9 +14234,11 @@ gTypeHTMLSourceElement = GType . Object <$> jsg "HTMLSourceElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLSpanElement Mozilla HTMLSpanElement documentation>
 newtype HTMLSpanElement = HTMLSpanElement { unHTMLSpanElement :: JSVal }
@@ -13368,9 +14271,11 @@ instance IsEventTarget HTMLSpanElement
 instance IsSlotable HTMLSpanElement
 instance IsParentNode HTMLSpanElement
 instance IsNonDocumentTypeChildNode HTMLSpanElement
+instance IsDocumentAndElementEventHandlers HTMLSpanElement
 instance IsChildNode HTMLSpanElement
 instance IsAnimatable HTMLSpanElement
 instance IsGlobalEventHandlers HTMLSpanElement
+instance IsElementCSSInlineStyle HTMLSpanElement
 instance IsGObject HTMLSpanElement where
   typeGType _ = gTypeHTMLSpanElement
   {-# INLINE typeGType #-}
@@ -13388,9 +14293,11 @@ gTypeHTMLSpanElement = GType . Object <$> jsg "HTMLSpanElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement Mozilla HTMLStyleElement documentation>
 newtype HTMLStyleElement = HTMLStyleElement { unHTMLStyleElement :: JSVal }
@@ -13423,9 +14330,11 @@ instance IsEventTarget HTMLStyleElement
 instance IsSlotable HTMLStyleElement
 instance IsParentNode HTMLStyleElement
 instance IsNonDocumentTypeChildNode HTMLStyleElement
+instance IsDocumentAndElementEventHandlers HTMLStyleElement
 instance IsChildNode HTMLStyleElement
 instance IsAnimatable HTMLStyleElement
 instance IsGlobalEventHandlers HTMLStyleElement
+instance IsElementCSSInlineStyle HTMLStyleElement
 instance IsGObject HTMLStyleElement where
   typeGType _ = gTypeHTMLStyleElement
   {-# INLINE typeGType #-}
@@ -13443,9 +14352,11 @@ gTypeHTMLStyleElement = GType . Object <$> jsg "HTMLStyleElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCaptionElement Mozilla HTMLTableCaptionElement documentation>
 newtype HTMLTableCaptionElement = HTMLTableCaptionElement { unHTMLTableCaptionElement :: JSVal }
@@ -13478,9 +14389,11 @@ instance IsEventTarget HTMLTableCaptionElement
 instance IsSlotable HTMLTableCaptionElement
 instance IsParentNode HTMLTableCaptionElement
 instance IsNonDocumentTypeChildNode HTMLTableCaptionElement
+instance IsDocumentAndElementEventHandlers HTMLTableCaptionElement
 instance IsChildNode HTMLTableCaptionElement
 instance IsAnimatable HTMLTableCaptionElement
 instance IsGlobalEventHandlers HTMLTableCaptionElement
+instance IsElementCSSInlineStyle HTMLTableCaptionElement
 instance IsGObject HTMLTableCaptionElement where
   typeGType _ = gTypeHTMLTableCaptionElement
   {-# INLINE typeGType #-}
@@ -13498,9 +14411,11 @@ gTypeHTMLTableCaptionElement = GType . Object <$> jsg "HTMLTableCaptionElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement Mozilla HTMLTableCellElement documentation>
 newtype HTMLTableCellElement = HTMLTableCellElement { unHTMLTableCellElement :: JSVal }
@@ -13533,9 +14448,11 @@ instance IsEventTarget HTMLTableCellElement
 instance IsSlotable HTMLTableCellElement
 instance IsParentNode HTMLTableCellElement
 instance IsNonDocumentTypeChildNode HTMLTableCellElement
+instance IsDocumentAndElementEventHandlers HTMLTableCellElement
 instance IsChildNode HTMLTableCellElement
 instance IsAnimatable HTMLTableCellElement
 instance IsGlobalEventHandlers HTMLTableCellElement
+instance IsElementCSSInlineStyle HTMLTableCellElement
 instance IsGObject HTMLTableCellElement where
   typeGType _ = gTypeHTMLTableCellElement
   {-# INLINE typeGType #-}
@@ -13553,9 +14470,11 @@ gTypeHTMLTableCellElement = GType . Object <$> jsg "HTMLTableCellElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableColElement Mozilla HTMLTableColElement documentation>
 newtype HTMLTableColElement = HTMLTableColElement { unHTMLTableColElement :: JSVal }
@@ -13588,9 +14507,11 @@ instance IsEventTarget HTMLTableColElement
 instance IsSlotable HTMLTableColElement
 instance IsParentNode HTMLTableColElement
 instance IsNonDocumentTypeChildNode HTMLTableColElement
+instance IsDocumentAndElementEventHandlers HTMLTableColElement
 instance IsChildNode HTMLTableColElement
 instance IsAnimatable HTMLTableColElement
 instance IsGlobalEventHandlers HTMLTableColElement
+instance IsElementCSSInlineStyle HTMLTableColElement
 instance IsGObject HTMLTableColElement where
   typeGType _ = gTypeHTMLTableColElement
   {-# INLINE typeGType #-}
@@ -13608,9 +14529,11 @@ gTypeHTMLTableColElement = GType . Object <$> jsg "HTMLTableColElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement Mozilla HTMLTableElement documentation>
 newtype HTMLTableElement = HTMLTableElement { unHTMLTableElement :: JSVal }
@@ -13643,9 +14566,11 @@ instance IsEventTarget HTMLTableElement
 instance IsSlotable HTMLTableElement
 instance IsParentNode HTMLTableElement
 instance IsNonDocumentTypeChildNode HTMLTableElement
+instance IsDocumentAndElementEventHandlers HTMLTableElement
 instance IsChildNode HTMLTableElement
 instance IsAnimatable HTMLTableElement
 instance IsGlobalEventHandlers HTMLTableElement
+instance IsElementCSSInlineStyle HTMLTableElement
 instance IsGObject HTMLTableElement where
   typeGType _ = gTypeHTMLTableElement
   {-# INLINE typeGType #-}
@@ -13663,9 +14588,11 @@ gTypeHTMLTableElement = GType . Object <$> jsg "HTMLTableElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement Mozilla HTMLTableRowElement documentation>
 newtype HTMLTableRowElement = HTMLTableRowElement { unHTMLTableRowElement :: JSVal }
@@ -13698,9 +14625,11 @@ instance IsEventTarget HTMLTableRowElement
 instance IsSlotable HTMLTableRowElement
 instance IsParentNode HTMLTableRowElement
 instance IsNonDocumentTypeChildNode HTMLTableRowElement
+instance IsDocumentAndElementEventHandlers HTMLTableRowElement
 instance IsChildNode HTMLTableRowElement
 instance IsAnimatable HTMLTableRowElement
 instance IsGlobalEventHandlers HTMLTableRowElement
+instance IsElementCSSInlineStyle HTMLTableRowElement
 instance IsGObject HTMLTableRowElement where
   typeGType _ = gTypeHTMLTableRowElement
   {-# INLINE typeGType #-}
@@ -13718,9 +14647,11 @@ gTypeHTMLTableRowElement = GType . Object <$> jsg "HTMLTableRowElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableSectionElement Mozilla HTMLTableSectionElement documentation>
 newtype HTMLTableSectionElement = HTMLTableSectionElement { unHTMLTableSectionElement :: JSVal }
@@ -13753,9 +14684,11 @@ instance IsEventTarget HTMLTableSectionElement
 instance IsSlotable HTMLTableSectionElement
 instance IsParentNode HTMLTableSectionElement
 instance IsNonDocumentTypeChildNode HTMLTableSectionElement
+instance IsDocumentAndElementEventHandlers HTMLTableSectionElement
 instance IsChildNode HTMLTableSectionElement
 instance IsAnimatable HTMLTableSectionElement
 instance IsGlobalEventHandlers HTMLTableSectionElement
+instance IsElementCSSInlineStyle HTMLTableSectionElement
 instance IsGObject HTMLTableSectionElement where
   typeGType _ = gTypeHTMLTableSectionElement
   {-# INLINE typeGType #-}
@@ -13773,9 +14706,11 @@ gTypeHTMLTableSectionElement = GType . Object <$> jsg "HTMLTableSectionElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTemplateElement Mozilla HTMLTemplateElement documentation>
 newtype HTMLTemplateElement = HTMLTemplateElement { unHTMLTemplateElement :: JSVal }
@@ -13808,9 +14743,11 @@ instance IsEventTarget HTMLTemplateElement
 instance IsSlotable HTMLTemplateElement
 instance IsParentNode HTMLTemplateElement
 instance IsNonDocumentTypeChildNode HTMLTemplateElement
+instance IsDocumentAndElementEventHandlers HTMLTemplateElement
 instance IsChildNode HTMLTemplateElement
 instance IsAnimatable HTMLTemplateElement
 instance IsGlobalEventHandlers HTMLTemplateElement
+instance IsElementCSSInlineStyle HTMLTemplateElement
 instance IsGObject HTMLTemplateElement where
   typeGType _ = gTypeHTMLTemplateElement
   {-# INLINE typeGType #-}
@@ -13828,9 +14765,11 @@ gTypeHTMLTemplateElement = GType . Object <$> jsg "HTMLTemplateElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement Mozilla HTMLTextAreaElement documentation>
 newtype HTMLTextAreaElement = HTMLTextAreaElement { unHTMLTextAreaElement :: JSVal }
@@ -13863,9 +14802,11 @@ instance IsEventTarget HTMLTextAreaElement
 instance IsSlotable HTMLTextAreaElement
 instance IsParentNode HTMLTextAreaElement
 instance IsNonDocumentTypeChildNode HTMLTextAreaElement
+instance IsDocumentAndElementEventHandlers HTMLTextAreaElement
 instance IsChildNode HTMLTextAreaElement
 instance IsAnimatable HTMLTextAreaElement
 instance IsGlobalEventHandlers HTMLTextAreaElement
+instance IsElementCSSInlineStyle HTMLTextAreaElement
 instance IsGObject HTMLTextAreaElement where
   typeGType _ = gTypeHTMLTextAreaElement
   {-# INLINE typeGType #-}
@@ -13883,9 +14824,11 @@ gTypeHTMLTextAreaElement = GType . Object <$> jsg "HTMLTextAreaElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTimeElement Mozilla HTMLTimeElement documentation>
 newtype HTMLTimeElement = HTMLTimeElement { unHTMLTimeElement :: JSVal }
@@ -13918,9 +14861,11 @@ instance IsEventTarget HTMLTimeElement
 instance IsSlotable HTMLTimeElement
 instance IsParentNode HTMLTimeElement
 instance IsNonDocumentTypeChildNode HTMLTimeElement
+instance IsDocumentAndElementEventHandlers HTMLTimeElement
 instance IsChildNode HTMLTimeElement
 instance IsAnimatable HTMLTimeElement
 instance IsGlobalEventHandlers HTMLTimeElement
+instance IsElementCSSInlineStyle HTMLTimeElement
 instance IsGObject HTMLTimeElement where
   typeGType _ = gTypeHTMLTimeElement
   {-# INLINE typeGType #-}
@@ -13938,9 +14883,11 @@ gTypeHTMLTimeElement = GType . Object <$> jsg "HTMLTimeElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTitleElement Mozilla HTMLTitleElement documentation>
 newtype HTMLTitleElement = HTMLTitleElement { unHTMLTitleElement :: JSVal }
@@ -13973,9 +14920,11 @@ instance IsEventTarget HTMLTitleElement
 instance IsSlotable HTMLTitleElement
 instance IsParentNode HTMLTitleElement
 instance IsNonDocumentTypeChildNode HTMLTitleElement
+instance IsDocumentAndElementEventHandlers HTMLTitleElement
 instance IsChildNode HTMLTitleElement
 instance IsAnimatable HTMLTitleElement
 instance IsGlobalEventHandlers HTMLTitleElement
+instance IsElementCSSInlineStyle HTMLTitleElement
 instance IsGObject HTMLTitleElement where
   typeGType _ = gTypeHTMLTitleElement
   {-# INLINE typeGType #-}
@@ -13993,9 +14942,11 @@ gTypeHTMLTitleElement = GType . Object <$> jsg "HTMLTitleElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement Mozilla HTMLTrackElement documentation>
 newtype HTMLTrackElement = HTMLTrackElement { unHTMLTrackElement :: JSVal }
@@ -14028,9 +14979,11 @@ instance IsEventTarget HTMLTrackElement
 instance IsSlotable HTMLTrackElement
 instance IsParentNode HTMLTrackElement
 instance IsNonDocumentTypeChildNode HTMLTrackElement
+instance IsDocumentAndElementEventHandlers HTMLTrackElement
 instance IsChildNode HTMLTrackElement
 instance IsAnimatable HTMLTrackElement
 instance IsGlobalEventHandlers HTMLTrackElement
+instance IsElementCSSInlineStyle HTMLTrackElement
 instance IsGObject HTMLTrackElement where
   typeGType _ = gTypeHTMLTrackElement
   {-# INLINE typeGType #-}
@@ -14048,9 +15001,11 @@ gTypeHTMLTrackElement = GType . Object <$> jsg "HTMLTrackElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLUListElement Mozilla HTMLUListElement documentation>
 newtype HTMLUListElement = HTMLUListElement { unHTMLUListElement :: JSVal }
@@ -14083,9 +15038,11 @@ instance IsEventTarget HTMLUListElement
 instance IsSlotable HTMLUListElement
 instance IsParentNode HTMLUListElement
 instance IsNonDocumentTypeChildNode HTMLUListElement
+instance IsDocumentAndElementEventHandlers HTMLUListElement
 instance IsChildNode HTMLUListElement
 instance IsAnimatable HTMLUListElement
 instance IsGlobalEventHandlers HTMLUListElement
+instance IsElementCSSInlineStyle HTMLUListElement
 instance IsGObject HTMLUListElement where
   typeGType _ = gTypeHTMLUListElement
   {-# INLINE typeGType #-}
@@ -14103,9 +15060,11 @@ gTypeHTMLUListElement = GType . Object <$> jsg "HTMLUListElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLUnknownElement Mozilla HTMLUnknownElement documentation>
 newtype HTMLUnknownElement = HTMLUnknownElement { unHTMLUnknownElement :: JSVal }
@@ -14138,9 +15097,11 @@ instance IsEventTarget HTMLUnknownElement
 instance IsSlotable HTMLUnknownElement
 instance IsParentNode HTMLUnknownElement
 instance IsNonDocumentTypeChildNode HTMLUnknownElement
+instance IsDocumentAndElementEventHandlers HTMLUnknownElement
 instance IsChildNode HTMLUnknownElement
 instance IsAnimatable HTMLUnknownElement
 instance IsGlobalEventHandlers HTMLUnknownElement
+instance IsElementCSSInlineStyle HTMLUnknownElement
 instance IsGObject HTMLUnknownElement where
   typeGType _ = gTypeHTMLUnknownElement
   {-# INLINE typeGType #-}
@@ -14159,9 +15120,11 @@ gTypeHTMLUnknownElement = GType . Object <$> jsg "HTMLUnknownElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement Mozilla HTMLVideoElement documentation>
 newtype HTMLVideoElement = HTMLVideoElement { unHTMLVideoElement :: JSVal }
@@ -14195,9 +15158,11 @@ instance IsEventTarget HTMLVideoElement
 instance IsSlotable HTMLVideoElement
 instance IsParentNode HTMLVideoElement
 instance IsNonDocumentTypeChildNode HTMLVideoElement
+instance IsDocumentAndElementEventHandlers HTMLVideoElement
 instance IsChildNode HTMLVideoElement
 instance IsAnimatable HTMLVideoElement
 instance IsGlobalEventHandlers HTMLVideoElement
+instance IsElementCSSInlineStyle HTMLVideoElement
 instance IsGObject HTMLVideoElement where
   typeGType _ = gTypeHTMLVideoElement
   {-# INLINE typeGType #-}
@@ -14344,6 +15309,43 @@ instance IsGObject History where
 
 gTypeHistory :: JSM GType
 gTypeHistory = GType . Object <$> jsg "History"
+
+-- | Functions for this inteface are in "JSDOM.HkdfParams".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/HkdfParams Mozilla HkdfParams documentation>
+newtype HkdfParams = HkdfParams { unHkdfParams :: JSVal }
+
+instance PToJSVal HkdfParams where
+  pToJSVal = unHkdfParams
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal HkdfParams where
+  pFromJSVal = HkdfParams
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal HkdfParams where
+  toJSVal = return . unHkdfParams
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal HkdfParams where
+  fromJSVal v = fmap HkdfParams <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . HkdfParams
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject HkdfParams where
+  makeObject = makeObject . unHkdfParams
+
+instance IsCryptoAlgorithmParameters HkdfParams
+instance IsGObject HkdfParams where
+  typeGType _ = gTypeHkdfParams
+  {-# INLINE typeGType #-}
+
+gTypeHkdfParams :: JSM GType
+gTypeHkdfParams = GType . Object <$> jsg "HkdfParams"
 
 -- | Functions for this inteface are in "JSDOM.HmacKeyParams".
 -- Base interface functions are in:
@@ -16396,6 +17398,11 @@ instance FromJSVal MediaStreamTrack where
 instance MakeObject MediaStreamTrack where
   makeObject = makeObject . unMediaStreamTrack
 
+class (IsEventTarget o, IsGObject o) => IsMediaStreamTrack o
+toMediaStreamTrack :: IsMediaStreamTrack o => o -> MediaStreamTrack
+toMediaStreamTrack = MediaStreamTrack . coerce
+
+instance IsMediaStreamTrack MediaStreamTrack
 instance IsEventTarget MediaStreamTrack
 instance IsGObject MediaStreamTrack where
   typeGType _ = gTypeMediaStreamTrack
@@ -17579,39 +18586,6 @@ instance IsGObject Notification where
 gTypeNotification :: JSM GType
 gTypeNotification = GType . Object <$> jsg "Notification"
 
--- | Functions for this inteface are in "JSDOM.NotificationCenter".
---
--- <https://developer.mozilla.org/en-US/docs/Web/API/NotificationCenter Mozilla NotificationCenter documentation>
-newtype NotificationCenter = NotificationCenter { unNotificationCenter :: JSVal }
-
-instance PToJSVal NotificationCenter where
-  pToJSVal = unNotificationCenter
-  {-# INLINE pToJSVal #-}
-
-instance PFromJSVal NotificationCenter where
-  pFromJSVal = NotificationCenter
-  {-# INLINE pFromJSVal #-}
-
-instance ToJSVal NotificationCenter where
-  toJSVal = return . unNotificationCenter
-  {-# INLINE toJSVal #-}
-
-instance FromJSVal NotificationCenter where
-  fromJSVal v = fmap NotificationCenter <$> maybeNullOrUndefined v
-  {-# INLINE fromJSVal #-}
-  fromJSValUnchecked = return . NotificationCenter
-  {-# INLINE fromJSValUnchecked #-}
-
-instance MakeObject NotificationCenter where
-  makeObject = makeObject . unNotificationCenter
-
-instance IsGObject NotificationCenter where
-  typeGType _ = gTypeNotificationCenter
-  {-# INLINE typeGType #-}
-
-gTypeNotificationCenter :: JSM GType
-gTypeNotificationCenter = GType . Object <$> jsg "NotificationCenter"
-
 -- | Functions for this inteface are in "JSDOM.NotificationOptions".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/NotificationOptions Mozilla NotificationOptions documentation>
@@ -18323,6 +19297,84 @@ instance IsGObject ParentNode where
 gTypeParentNode :: JSM GType
 gTypeParentNode = GType . Object <$> jsg "ParentNode"
 
+-- | Functions for this inteface are in "JSDOM.PasswordCredential".
+-- Base interface functions are in:
+--
+--     * "JSDOM.SiteBoundCredential"
+--     * "JSDOM.BasicCredential"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/PasswordCredential Mozilla PasswordCredential documentation>
+newtype PasswordCredential = PasswordCredential { unPasswordCredential :: JSVal }
+
+instance PToJSVal PasswordCredential where
+  pToJSVal = unPasswordCredential
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal PasswordCredential where
+  pFromJSVal = PasswordCredential
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal PasswordCredential where
+  toJSVal = return . unPasswordCredential
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal PasswordCredential where
+  fromJSVal v = fmap PasswordCredential <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PasswordCredential
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject PasswordCredential where
+  makeObject = makeObject . unPasswordCredential
+
+instance IsSiteBoundCredential PasswordCredential
+instance IsBasicCredential PasswordCredential
+instance IsGObject PasswordCredential where
+  typeGType _ = gTypePasswordCredential
+  {-# INLINE typeGType #-}
+
+gTypePasswordCredential :: JSM GType
+gTypePasswordCredential = GType . Object <$> jsg "PasswordCredential"
+
+-- | Functions for this inteface are in "JSDOM.PasswordCredentialData".
+-- Base interface functions are in:
+--
+--     * "JSDOM.SiteBoundCredentialData"
+--     * "JSDOM.CredentialData"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/PasswordCredentialData Mozilla PasswordCredentialData documentation>
+newtype PasswordCredentialData = PasswordCredentialData { unPasswordCredentialData :: JSVal }
+
+instance PToJSVal PasswordCredentialData where
+  pToJSVal = unPasswordCredentialData
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal PasswordCredentialData where
+  pFromJSVal = PasswordCredentialData
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal PasswordCredentialData where
+  toJSVal = return . unPasswordCredentialData
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal PasswordCredentialData where
+  fromJSVal v = fmap PasswordCredentialData <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PasswordCredentialData
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject PasswordCredentialData where
+  makeObject = makeObject . unPasswordCredentialData
+
+instance IsSiteBoundCredentialData PasswordCredentialData
+instance IsCredentialData PasswordCredentialData
+instance IsGObject PasswordCredentialData where
+  typeGType _ = gTypePasswordCredentialData
+  {-# INLINE typeGType #-}
+
+gTypePasswordCredentialData :: JSM GType
+gTypePasswordCredentialData = GType . Object <$> jsg "PasswordCredentialData"
+
 -- | Functions for this inteface are in "JSDOM.Path2D".
 -- Base interface functions are in:
 --
@@ -18359,6 +19411,43 @@ instance IsGObject Path2D where
 
 gTypePath2D :: JSM GType
 gTypePath2D = GType . Object <$> jsg "Path2D"
+
+-- | Functions for this inteface are in "JSDOM.Pbkdf2Params".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CryptoAlgorithmParameters"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/Pbkdf2Params Mozilla Pbkdf2Params documentation>
+newtype Pbkdf2Params = Pbkdf2Params { unPbkdf2Params :: JSVal }
+
+instance PToJSVal Pbkdf2Params where
+  pToJSVal = unPbkdf2Params
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal Pbkdf2Params where
+  pFromJSVal = Pbkdf2Params
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal Pbkdf2Params where
+  toJSVal = return . unPbkdf2Params
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal Pbkdf2Params where
+  fromJSVal v = fmap Pbkdf2Params <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . Pbkdf2Params
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject Pbkdf2Params where
+  makeObject = makeObject . unPbkdf2Params
+
+instance IsCryptoAlgorithmParameters Pbkdf2Params
+instance IsGObject Pbkdf2Params where
+  typeGType _ = gTypePbkdf2Params
+  {-# INLINE typeGType #-}
+
+gTypePbkdf2Params :: JSM GType
+gTypePbkdf2Params = GType . Object <$> jsg "Pbkdf2Params"
 
 -- | Functions for this inteface are in "JSDOM.Performance".
 -- Base interface functions are in:
@@ -19074,6 +20163,80 @@ instance IsGObject ProgressEventInit where
 gTypeProgressEventInit :: JSM GType
 gTypeProgressEventInit = GType . Object <$> jsg "ProgressEventInit"
 
+-- | Functions for this inteface are in "JSDOM.PromiseRejectionEvent".
+-- Base interface functions are in:
+--
+--     * "JSDOM.Event"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent Mozilla PromiseRejectionEvent documentation>
+newtype PromiseRejectionEvent = PromiseRejectionEvent { unPromiseRejectionEvent :: JSVal }
+
+instance PToJSVal PromiseRejectionEvent where
+  pToJSVal = unPromiseRejectionEvent
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal PromiseRejectionEvent where
+  pFromJSVal = PromiseRejectionEvent
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal PromiseRejectionEvent where
+  toJSVal = return . unPromiseRejectionEvent
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal PromiseRejectionEvent where
+  fromJSVal v = fmap PromiseRejectionEvent <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PromiseRejectionEvent
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject PromiseRejectionEvent where
+  makeObject = makeObject . unPromiseRejectionEvent
+
+instance IsEvent PromiseRejectionEvent
+instance IsGObject PromiseRejectionEvent where
+  typeGType _ = gTypePromiseRejectionEvent
+  {-# INLINE typeGType #-}
+
+gTypePromiseRejectionEvent :: JSM GType
+gTypePromiseRejectionEvent = GType . Object <$> jsg "PromiseRejectionEvent"
+
+-- | Functions for this inteface are in "JSDOM.PromiseRejectionEventInit".
+-- Base interface functions are in:
+--
+--     * "JSDOM.EventInit"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEventInit Mozilla PromiseRejectionEventInit documentation>
+newtype PromiseRejectionEventInit = PromiseRejectionEventInit { unPromiseRejectionEventInit :: JSVal }
+
+instance PToJSVal PromiseRejectionEventInit where
+  pToJSVal = unPromiseRejectionEventInit
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal PromiseRejectionEventInit where
+  pFromJSVal = PromiseRejectionEventInit
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal PromiseRejectionEventInit where
+  toJSVal = return . unPromiseRejectionEventInit
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal PromiseRejectionEventInit where
+  fromJSVal v = fmap PromiseRejectionEventInit <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . PromiseRejectionEventInit
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject PromiseRejectionEventInit where
+  makeObject = makeObject . unPromiseRejectionEventInit
+
+instance IsEventInit PromiseRejectionEventInit
+instance IsGObject PromiseRejectionEventInit where
+  typeGType _ = gTypePromiseRejectionEventInit
+  {-# INLINE typeGType #-}
+
+gTypePromiseRejectionEventInit :: JSM GType
+gTypePromiseRejectionEventInit = GType . Object <$> jsg "PromiseRejectionEventInit"
+
 -- | Functions for this inteface are in "JSDOM.QuickTimePluginReplacement".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/QuickTimePluginReplacement Mozilla QuickTimePluginReplacement documentation>
@@ -19395,6 +20558,43 @@ instance IsGObject RTCDataChannelEvent where
 gTypeRTCDataChannelEvent :: JSM GType
 gTypeRTCDataChannelEvent = GType . Object <$> jsg "RTCDataChannelEvent"
 
+-- | Functions for this inteface are in "JSDOM.RTCDataChannelEventInit".
+-- Base interface functions are in:
+--
+--     * "JSDOM.EventInit"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannelEventInit Mozilla RTCDataChannelEventInit documentation>
+newtype RTCDataChannelEventInit = RTCDataChannelEventInit { unRTCDataChannelEventInit :: JSVal }
+
+instance PToJSVal RTCDataChannelEventInit where
+  pToJSVal = unRTCDataChannelEventInit
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCDataChannelEventInit where
+  pFromJSVal = RTCDataChannelEventInit
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCDataChannelEventInit where
+  toJSVal = return . unRTCDataChannelEventInit
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCDataChannelEventInit where
+  fromJSVal v = fmap RTCDataChannelEventInit <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCDataChannelEventInit
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCDataChannelEventInit where
+  makeObject = makeObject . unRTCDataChannelEventInit
+
+instance IsEventInit RTCDataChannelEventInit
+instance IsGObject RTCDataChannelEventInit where
+  typeGType _ = gTypeRTCDataChannelEventInit
+  {-# INLINE typeGType #-}
+
+gTypeRTCDataChannelEventInit :: JSM GType
+gTypeRTCDataChannelEventInit = GType . Object <$> jsg "RTCDataChannelEventInit"
+
 -- | Functions for this inteface are in "JSDOM.RTCDataChannelInit".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannelInit Mozilla RTCDataChannelInit documentation>
@@ -19427,6 +20627,43 @@ instance IsGObject RTCDataChannelInit where
 
 gTypeRTCDataChannelInit :: JSM GType
 gTypeRTCDataChannelInit = GType . Object <$> jsg "RTCDataChannelInit"
+
+-- | Functions for this inteface are in "JSDOM.RTCDataChannelStats".
+-- Base interface functions are in:
+--
+--     * "JSDOM.RTCStats"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannelStats Mozilla RTCDataChannelStats documentation>
+newtype RTCDataChannelStats = RTCDataChannelStats { unRTCDataChannelStats :: JSVal }
+
+instance PToJSVal RTCDataChannelStats where
+  pToJSVal = unRTCDataChannelStats
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCDataChannelStats where
+  pFromJSVal = RTCDataChannelStats
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCDataChannelStats where
+  toJSVal = return . unRTCDataChannelStats
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCDataChannelStats where
+  fromJSVal v = fmap RTCDataChannelStats <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCDataChannelStats
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCDataChannelStats where
+  makeObject = makeObject . unRTCDataChannelStats
+
+instance IsRTCStats RTCDataChannelStats
+instance IsGObject RTCDataChannelStats where
+  typeGType _ = gTypeRTCDataChannelStats
+  {-# INLINE typeGType #-}
+
+gTypeRTCDataChannelStats :: JSM GType
+gTypeRTCDataChannelStats = GType . Object <$> jsg "RTCDataChannelStats"
 
 -- | Functions for this inteface are in "JSDOM.RTCIceCandidate".
 --
@@ -19564,6 +20801,115 @@ instance IsGObject RTCIceServer where
 gTypeRTCIceServer :: JSM GType
 gTypeRTCIceServer = GType . Object <$> jsg "RTCIceServer"
 
+-- | Functions for this inteface are in "JSDOM.RTCIceTransport".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCIceTransport Mozilla RTCIceTransport documentation>
+newtype RTCIceTransport = RTCIceTransport { unRTCIceTransport :: JSVal }
+
+instance PToJSVal RTCIceTransport where
+  pToJSVal = unRTCIceTransport
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCIceTransport where
+  pFromJSVal = RTCIceTransport
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCIceTransport where
+  toJSVal = return . unRTCIceTransport
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCIceTransport where
+  fromJSVal v = fmap RTCIceTransport <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCIceTransport
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCIceTransport where
+  makeObject = makeObject . unRTCIceTransport
+
+instance IsGObject RTCIceTransport where
+  typeGType _ = gTypeRTCIceTransport
+  {-# INLINE typeGType #-}
+
+gTypeRTCIceTransport :: JSM GType
+gTypeRTCIceTransport = GType . Object <$> jsg "RTCIceTransport"
+
+-- | Functions for this inteface are in "JSDOM.RTCInboundRTPStreamStats".
+-- Base interface functions are in:
+--
+--     * "JSDOM.RTCRTPStreamStats"
+--     * "JSDOM.RTCStats"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCInboundRTPStreamStats Mozilla RTCInboundRTPStreamStats documentation>
+newtype RTCInboundRTPStreamStats = RTCInboundRTPStreamStats { unRTCInboundRTPStreamStats :: JSVal }
+
+instance PToJSVal RTCInboundRTPStreamStats where
+  pToJSVal = unRTCInboundRTPStreamStats
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCInboundRTPStreamStats where
+  pFromJSVal = RTCInboundRTPStreamStats
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCInboundRTPStreamStats where
+  toJSVal = return . unRTCInboundRTPStreamStats
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCInboundRTPStreamStats where
+  fromJSVal v = fmap RTCInboundRTPStreamStats <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCInboundRTPStreamStats
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCInboundRTPStreamStats where
+  makeObject = makeObject . unRTCInboundRTPStreamStats
+
+instance IsRTCRTPStreamStats RTCInboundRTPStreamStats
+instance IsRTCStats RTCInboundRTPStreamStats
+instance IsGObject RTCInboundRTPStreamStats where
+  typeGType _ = gTypeRTCInboundRTPStreamStats
+  {-# INLINE typeGType #-}
+
+gTypeRTCInboundRTPStreamStats :: JSM GType
+gTypeRTCInboundRTPStreamStats = GType . Object <$> jsg "RTCInboundRTPStreamStats"
+
+-- | Functions for this inteface are in "JSDOM.RTCMediaStreamTrackStats".
+-- Base interface functions are in:
+--
+--     * "JSDOM.RTCStats"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCMediaStreamTrackStats Mozilla RTCMediaStreamTrackStats documentation>
+newtype RTCMediaStreamTrackStats = RTCMediaStreamTrackStats { unRTCMediaStreamTrackStats :: JSVal }
+
+instance PToJSVal RTCMediaStreamTrackStats where
+  pToJSVal = unRTCMediaStreamTrackStats
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCMediaStreamTrackStats where
+  pFromJSVal = RTCMediaStreamTrackStats
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCMediaStreamTrackStats where
+  toJSVal = return . unRTCMediaStreamTrackStats
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCMediaStreamTrackStats where
+  fromJSVal v = fmap RTCMediaStreamTrackStats <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCMediaStreamTrackStats
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCMediaStreamTrackStats where
+  makeObject = makeObject . unRTCMediaStreamTrackStats
+
+instance IsRTCStats RTCMediaStreamTrackStats
+instance IsGObject RTCMediaStreamTrackStats where
+  typeGType _ = gTypeRTCMediaStreamTrackStats
+  {-# INLINE typeGType #-}
+
+gTypeRTCMediaStreamTrackStats :: JSM GType
+gTypeRTCMediaStreamTrackStats = GType . Object <$> jsg "RTCMediaStreamTrackStats"
+
 -- | Functions for this inteface are in "JSDOM.RTCOfferAnswerOptions".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/RTCOfferAnswerOptions Mozilla RTCOfferAnswerOptions documentation>
@@ -19639,6 +20985,45 @@ instance IsGObject RTCOfferOptions where
 gTypeRTCOfferOptions :: JSM GType
 gTypeRTCOfferOptions = GType . Object <$> jsg "RTCOfferOptions"
 
+-- | Functions for this inteface are in "JSDOM.RTCOutboundRTPStreamStats".
+-- Base interface functions are in:
+--
+--     * "JSDOM.RTCRTPStreamStats"
+--     * "JSDOM.RTCStats"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCOutboundRTPStreamStats Mozilla RTCOutboundRTPStreamStats documentation>
+newtype RTCOutboundRTPStreamStats = RTCOutboundRTPStreamStats { unRTCOutboundRTPStreamStats :: JSVal }
+
+instance PToJSVal RTCOutboundRTPStreamStats where
+  pToJSVal = unRTCOutboundRTPStreamStats
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCOutboundRTPStreamStats where
+  pFromJSVal = RTCOutboundRTPStreamStats
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCOutboundRTPStreamStats where
+  toJSVal = return . unRTCOutboundRTPStreamStats
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCOutboundRTPStreamStats where
+  fromJSVal v = fmap RTCOutboundRTPStreamStats <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCOutboundRTPStreamStats
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCOutboundRTPStreamStats where
+  makeObject = makeObject . unRTCOutboundRTPStreamStats
+
+instance IsRTCRTPStreamStats RTCOutboundRTPStreamStats
+instance IsRTCStats RTCOutboundRTPStreamStats
+instance IsGObject RTCOutboundRTPStreamStats where
+  typeGType _ = gTypeRTCOutboundRTPStreamStats
+  {-# INLINE typeGType #-}
+
+gTypeRTCOutboundRTPStreamStats :: JSM GType
+gTypeRTCOutboundRTPStreamStats = GType . Object <$> jsg "RTCOutboundRTPStreamStats"
+
 -- | Functions for this inteface are in "JSDOM.RTCPeerConnection".
 -- Base interface functions are in:
 --
@@ -19676,6 +21061,250 @@ instance IsGObject RTCPeerConnection where
 gTypeRTCPeerConnection :: JSM GType
 gTypeRTCPeerConnection = GType . Object <$> jsg "webkitRTCPeerConnection"
 
+-- | Functions for this inteface are in "JSDOM.RTCPeerConnectionIceEvent".
+-- Base interface functions are in:
+--
+--     * "JSDOM.Event"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnectionIceEvent Mozilla RTCPeerConnectionIceEvent documentation>
+newtype RTCPeerConnectionIceEvent = RTCPeerConnectionIceEvent { unRTCPeerConnectionIceEvent :: JSVal }
+
+instance PToJSVal RTCPeerConnectionIceEvent where
+  pToJSVal = unRTCPeerConnectionIceEvent
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCPeerConnectionIceEvent where
+  pFromJSVal = RTCPeerConnectionIceEvent
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCPeerConnectionIceEvent where
+  toJSVal = return . unRTCPeerConnectionIceEvent
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCPeerConnectionIceEvent where
+  fromJSVal v = fmap RTCPeerConnectionIceEvent <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCPeerConnectionIceEvent
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCPeerConnectionIceEvent where
+  makeObject = makeObject . unRTCPeerConnectionIceEvent
+
+instance IsEvent RTCPeerConnectionIceEvent
+instance IsGObject RTCPeerConnectionIceEvent where
+  typeGType _ = gTypeRTCPeerConnectionIceEvent
+  {-# INLINE typeGType #-}
+
+gTypeRTCPeerConnectionIceEvent :: JSM GType
+gTypeRTCPeerConnectionIceEvent = GType . Object <$> jsg "RTCPeerConnectionIceEvent"
+
+-- | Functions for this inteface are in "JSDOM.RTCRTPStreamStats".
+-- Base interface functions are in:
+--
+--     * "JSDOM.RTCStats"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRTPStreamStats Mozilla RTCRTPStreamStats documentation>
+newtype RTCRTPStreamStats = RTCRTPStreamStats { unRTCRTPStreamStats :: JSVal }
+
+instance PToJSVal RTCRTPStreamStats where
+  pToJSVal = unRTCRTPStreamStats
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRTPStreamStats where
+  pFromJSVal = RTCRTPStreamStats
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRTPStreamStats where
+  toJSVal = return . unRTCRTPStreamStats
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRTPStreamStats where
+  fromJSVal v = fmap RTCRTPStreamStats <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRTPStreamStats
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRTPStreamStats where
+  makeObject = makeObject . unRTCRTPStreamStats
+
+class (IsRTCStats o, IsGObject o) => IsRTCRTPStreamStats o
+toRTCRTPStreamStats :: IsRTCRTPStreamStats o => o -> RTCRTPStreamStats
+toRTCRTPStreamStats = RTCRTPStreamStats . coerce
+
+instance IsRTCRTPStreamStats RTCRTPStreamStats
+instance IsRTCStats RTCRTPStreamStats
+instance IsGObject RTCRTPStreamStats where
+  typeGType _ = gTypeRTCRTPStreamStats
+  {-# INLINE typeGType #-}
+
+gTypeRTCRTPStreamStats :: JSM GType
+gTypeRTCRTPStreamStats = GType . Object <$> jsg "RTCRTPStreamStats"
+
+-- | Functions for this inteface are in "JSDOM.RTCRtpCodecParameters".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpCodecParameters Mozilla RTCRtpCodecParameters documentation>
+newtype RTCRtpCodecParameters = RTCRtpCodecParameters { unRTCRtpCodecParameters :: JSVal }
+
+instance PToJSVal RTCRtpCodecParameters where
+  pToJSVal = unRTCRtpCodecParameters
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRtpCodecParameters where
+  pFromJSVal = RTCRtpCodecParameters
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRtpCodecParameters where
+  toJSVal = return . unRTCRtpCodecParameters
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRtpCodecParameters where
+  fromJSVal v = fmap RTCRtpCodecParameters <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRtpCodecParameters
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRtpCodecParameters where
+  makeObject = makeObject . unRTCRtpCodecParameters
+
+instance IsGObject RTCRtpCodecParameters where
+  typeGType _ = gTypeRTCRtpCodecParameters
+  {-# INLINE typeGType #-}
+
+gTypeRTCRtpCodecParameters :: JSM GType
+gTypeRTCRtpCodecParameters = GType . Object <$> jsg "RTCRtpCodecParameters"
+
+-- | Functions for this inteface are in "JSDOM.RTCRtpEncodingParameters".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpEncodingParameters Mozilla RTCRtpEncodingParameters documentation>
+newtype RTCRtpEncodingParameters = RTCRtpEncodingParameters { unRTCRtpEncodingParameters :: JSVal }
+
+instance PToJSVal RTCRtpEncodingParameters where
+  pToJSVal = unRTCRtpEncodingParameters
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRtpEncodingParameters where
+  pFromJSVal = RTCRtpEncodingParameters
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRtpEncodingParameters where
+  toJSVal = return . unRTCRtpEncodingParameters
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRtpEncodingParameters where
+  fromJSVal v = fmap RTCRtpEncodingParameters <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRtpEncodingParameters
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRtpEncodingParameters where
+  makeObject = makeObject . unRTCRtpEncodingParameters
+
+instance IsGObject RTCRtpEncodingParameters where
+  typeGType _ = gTypeRTCRtpEncodingParameters
+  {-# INLINE typeGType #-}
+
+gTypeRTCRtpEncodingParameters :: JSM GType
+gTypeRTCRtpEncodingParameters = GType . Object <$> jsg "RTCRtpEncodingParameters"
+
+-- | Functions for this inteface are in "JSDOM.RTCRtpFecParameters".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpFecParameters Mozilla RTCRtpFecParameters documentation>
+newtype RTCRtpFecParameters = RTCRtpFecParameters { unRTCRtpFecParameters :: JSVal }
+
+instance PToJSVal RTCRtpFecParameters where
+  pToJSVal = unRTCRtpFecParameters
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRtpFecParameters where
+  pFromJSVal = RTCRtpFecParameters
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRtpFecParameters where
+  toJSVal = return . unRTCRtpFecParameters
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRtpFecParameters where
+  fromJSVal v = fmap RTCRtpFecParameters <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRtpFecParameters
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRtpFecParameters where
+  makeObject = makeObject . unRTCRtpFecParameters
+
+instance IsGObject RTCRtpFecParameters where
+  typeGType _ = gTypeRTCRtpFecParameters
+  {-# INLINE typeGType #-}
+
+gTypeRTCRtpFecParameters :: JSM GType
+gTypeRTCRtpFecParameters = GType . Object <$> jsg "RTCRtpFecParameters"
+
+-- | Functions for this inteface are in "JSDOM.RTCRtpHeaderExtensionParameters".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpHeaderExtensionParameters Mozilla RTCRtpHeaderExtensionParameters documentation>
+newtype RTCRtpHeaderExtensionParameters = RTCRtpHeaderExtensionParameters { unRTCRtpHeaderExtensionParameters :: JSVal }
+
+instance PToJSVal RTCRtpHeaderExtensionParameters where
+  pToJSVal = unRTCRtpHeaderExtensionParameters
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRtpHeaderExtensionParameters where
+  pFromJSVal = RTCRtpHeaderExtensionParameters
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRtpHeaderExtensionParameters where
+  toJSVal = return . unRTCRtpHeaderExtensionParameters
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRtpHeaderExtensionParameters where
+  fromJSVal v = fmap RTCRtpHeaderExtensionParameters <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRtpHeaderExtensionParameters
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRtpHeaderExtensionParameters where
+  makeObject = makeObject . unRTCRtpHeaderExtensionParameters
+
+instance IsGObject RTCRtpHeaderExtensionParameters where
+  typeGType _ = gTypeRTCRtpHeaderExtensionParameters
+  {-# INLINE typeGType #-}
+
+gTypeRTCRtpHeaderExtensionParameters :: JSM GType
+gTypeRTCRtpHeaderExtensionParameters = GType . Object <$> jsg "RTCRtpHeaderExtensionParameters"
+
+-- | Functions for this inteface are in "JSDOM.RTCRtpParameters".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpParameters Mozilla RTCRtpParameters documentation>
+newtype RTCRtpParameters = RTCRtpParameters { unRTCRtpParameters :: JSVal }
+
+instance PToJSVal RTCRtpParameters where
+  pToJSVal = unRTCRtpParameters
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRtpParameters where
+  pFromJSVal = RTCRtpParameters
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRtpParameters where
+  toJSVal = return . unRTCRtpParameters
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRtpParameters where
+  fromJSVal v = fmap RTCRtpParameters <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRtpParameters
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRtpParameters where
+  makeObject = makeObject . unRTCRtpParameters
+
+instance IsGObject RTCRtpParameters where
+  typeGType _ = gTypeRTCRtpParameters
+  {-# INLINE typeGType #-}
+
+gTypeRTCRtpParameters :: JSM GType
+gTypeRTCRtpParameters = GType . Object <$> jsg "RTCRtpParameters"
+
 -- | Functions for this inteface are in "JSDOM.RTCRtpReceiver".
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpReceiver Mozilla RTCRtpReceiver documentation>
@@ -19708,6 +21337,39 @@ instance IsGObject RTCRtpReceiver where
 
 gTypeRTCRtpReceiver :: JSM GType
 gTypeRTCRtpReceiver = GType . Object <$> jsg "RTCRtpReceiver"
+
+-- | Functions for this inteface are in "JSDOM.RTCRtpRtxParameters".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpRtxParameters Mozilla RTCRtpRtxParameters documentation>
+newtype RTCRtpRtxParameters = RTCRtpRtxParameters { unRTCRtpRtxParameters :: JSVal }
+
+instance PToJSVal RTCRtpRtxParameters where
+  pToJSVal = unRTCRtpRtxParameters
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCRtpRtxParameters where
+  pFromJSVal = RTCRtpRtxParameters
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCRtpRtxParameters where
+  toJSVal = return . unRTCRtpRtxParameters
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCRtpRtxParameters where
+  fromJSVal v = fmap RTCRtpRtxParameters <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCRtpRtxParameters
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCRtpRtxParameters where
+  makeObject = makeObject . unRTCRtpRtxParameters
+
+instance IsGObject RTCRtpRtxParameters where
+  typeGType _ = gTypeRTCRtpRtxParameters
+  {-# INLINE typeGType #-}
+
+gTypeRTCRtpRtxParameters :: JSM GType
+gTypeRTCRtpRtxParameters = GType . Object <$> jsg "RTCRtpRtxParameters"
 
 -- | Functions for this inteface are in "JSDOM.RTCRtpSender".
 --
@@ -19873,6 +21535,44 @@ instance IsGObject RTCSessionDescriptionInit where
 
 gTypeRTCSessionDescriptionInit :: JSM GType
 gTypeRTCSessionDescriptionInit = GType . Object <$> jsg "RTCSessionDescriptionInit"
+
+-- | Functions for this inteface are in "JSDOM.RTCStats".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/RTCStats Mozilla RTCStats documentation>
+newtype RTCStats = RTCStats { unRTCStats :: JSVal }
+
+instance PToJSVal RTCStats where
+  pToJSVal = unRTCStats
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal RTCStats where
+  pFromJSVal = RTCStats
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal RTCStats where
+  toJSVal = return . unRTCStats
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal RTCStats where
+  fromJSVal v = fmap RTCStats <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . RTCStats
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject RTCStats where
+  makeObject = makeObject . unRTCStats
+
+class (IsGObject o) => IsRTCStats o
+toRTCStats :: IsRTCStats o => o -> RTCStats
+toRTCStats = RTCStats . coerce
+
+instance IsRTCStats RTCStats
+instance IsGObject RTCStats where
+  typeGType _ = gTypeRTCStats
+  {-# INLINE typeGType #-}
+
+gTypeRTCStats :: JSM GType
+gTypeRTCStats = GType . Object <$> jsg "RTCStats"
 
 -- | Functions for this inteface are in "JSDOM.RTCStatsReport".
 --
@@ -20116,6 +21816,72 @@ instance IsGObject ReadableStream where
 
 gTypeReadableStream :: JSM GType
 gTypeReadableStream = GType . Object <$> jsg "ReadableStream"
+
+-- | Functions for this inteface are in "JSDOM.ReadableStreamBYOBReader".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader Mozilla ReadableStreamBYOBReader documentation>
+newtype ReadableStreamBYOBReader = ReadableStreamBYOBReader { unReadableStreamBYOBReader :: JSVal }
+
+instance PToJSVal ReadableStreamBYOBReader where
+  pToJSVal = unReadableStreamBYOBReader
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ReadableStreamBYOBReader where
+  pFromJSVal = ReadableStreamBYOBReader
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ReadableStreamBYOBReader where
+  toJSVal = return . unReadableStreamBYOBReader
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ReadableStreamBYOBReader where
+  fromJSVal v = fmap ReadableStreamBYOBReader <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ReadableStreamBYOBReader
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ReadableStreamBYOBReader where
+  makeObject = makeObject . unReadableStreamBYOBReader
+
+instance IsGObject ReadableStreamBYOBReader where
+  typeGType _ = gTypeReadableStreamBYOBReader
+  {-# INLINE typeGType #-}
+
+gTypeReadableStreamBYOBReader :: JSM GType
+gTypeReadableStreamBYOBReader = GType . Object <$> jsg "ReadableStreamBYOBReader"
+
+-- | Functions for this inteface are in "JSDOM.ReadableStreamBYOBRequest".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBRequest Mozilla ReadableStreamBYOBRequest documentation>
+newtype ReadableStreamBYOBRequest = ReadableStreamBYOBRequest { unReadableStreamBYOBRequest :: JSVal }
+
+instance PToJSVal ReadableStreamBYOBRequest where
+  pToJSVal = unReadableStreamBYOBRequest
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal ReadableStreamBYOBRequest where
+  pFromJSVal = ReadableStreamBYOBRequest
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal ReadableStreamBYOBRequest where
+  toJSVal = return . unReadableStreamBYOBRequest
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal ReadableStreamBYOBRequest where
+  fromJSVal v = fmap ReadableStreamBYOBRequest <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . ReadableStreamBYOBRequest
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject ReadableStreamBYOBRequest where
+  makeObject = makeObject . unReadableStreamBYOBRequest
+
+instance IsGObject ReadableStreamBYOBRequest where
+  typeGType _ = gTypeReadableStreamBYOBRequest
+  {-# INLINE typeGType #-}
+
+gTypeReadableStreamBYOBRequest :: JSM GType
+gTypeReadableStreamBYOBRequest = GType . Object <$> jsg "ReadableStreamBYOBRequest"
 
 -- | Functions for this inteface are in "JSDOM.ReadableStreamDefaultController".
 --
@@ -20749,9 +22515,11 @@ gTypeSQLTransaction = GType . Object <$> jsg "SQLTransaction"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
@@ -20788,9 +22556,11 @@ instance IsEventTarget SVGAElement
 instance IsSlotable SVGAElement
 instance IsParentNode SVGAElement
 instance IsNonDocumentTypeChildNode SVGAElement
+instance IsDocumentAndElementEventHandlers SVGAElement
 instance IsChildNode SVGAElement
 instance IsAnimatable SVGAElement
 instance IsGlobalEventHandlers SVGAElement
+instance IsElementCSSInlineStyle SVGAElement
 instance IsSVGTests SVGAElement
 instance IsSVGURIReference SVGAElement
 instance IsSVGExternalResourcesRequired SVGAElement
@@ -20811,9 +22581,11 @@ gTypeSVGAElement = GType . Object <$> jsg "SVGAElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGAltGlyphDefElement Mozilla SVGAltGlyphDefElement documentation>
 newtype SVGAltGlyphDefElement = SVGAltGlyphDefElement { unSVGAltGlyphDefElement :: JSVal }
@@ -20846,9 +22618,11 @@ instance IsEventTarget SVGAltGlyphDefElement
 instance IsSlotable SVGAltGlyphDefElement
 instance IsParentNode SVGAltGlyphDefElement
 instance IsNonDocumentTypeChildNode SVGAltGlyphDefElement
+instance IsDocumentAndElementEventHandlers SVGAltGlyphDefElement
 instance IsChildNode SVGAltGlyphDefElement
 instance IsAnimatable SVGAltGlyphDefElement
 instance IsGlobalEventHandlers SVGAltGlyphDefElement
+instance IsElementCSSInlineStyle SVGAltGlyphDefElement
 instance IsGObject SVGAltGlyphDefElement where
   typeGType _ = gTypeSVGAltGlyphDefElement
   {-# INLINE typeGType #-}
@@ -20869,9 +22643,11 @@ gTypeSVGAltGlyphDefElement = GType . Object <$> jsg "SVGAltGlyphDefElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --     * "JSDOM.SVGURIReference"
@@ -20910,9 +22686,11 @@ instance IsEventTarget SVGAltGlyphElement
 instance IsSlotable SVGAltGlyphElement
 instance IsParentNode SVGAltGlyphElement
 instance IsNonDocumentTypeChildNode SVGAltGlyphElement
+instance IsDocumentAndElementEventHandlers SVGAltGlyphElement
 instance IsChildNode SVGAltGlyphElement
 instance IsAnimatable SVGAltGlyphElement
 instance IsGlobalEventHandlers SVGAltGlyphElement
+instance IsElementCSSInlineStyle SVGAltGlyphElement
 instance IsSVGTests SVGAltGlyphElement
 instance IsSVGExternalResourcesRequired SVGAltGlyphElement
 instance IsSVGURIReference SVGAltGlyphElement
@@ -20933,9 +22711,11 @@ gTypeSVGAltGlyphElement = GType . Object <$> jsg "SVGAltGlyphElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGAltGlyphItemElement Mozilla SVGAltGlyphItemElement documentation>
 newtype SVGAltGlyphItemElement = SVGAltGlyphItemElement { unSVGAltGlyphItemElement :: JSVal }
@@ -20968,9 +22748,11 @@ instance IsEventTarget SVGAltGlyphItemElement
 instance IsSlotable SVGAltGlyphItemElement
 instance IsParentNode SVGAltGlyphItemElement
 instance IsNonDocumentTypeChildNode SVGAltGlyphItemElement
+instance IsDocumentAndElementEventHandlers SVGAltGlyphItemElement
 instance IsChildNode SVGAltGlyphItemElement
 instance IsAnimatable SVGAltGlyphItemElement
 instance IsGlobalEventHandlers SVGAltGlyphItemElement
+instance IsElementCSSInlineStyle SVGAltGlyphItemElement
 instance IsGObject SVGAltGlyphItemElement where
   typeGType _ = gTypeSVGAltGlyphItemElement
   {-# INLINE typeGType #-}
@@ -21022,9 +22804,11 @@ gTypeSVGAngle = GType . Object <$> jsg "SVGAngle"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21060,9 +22844,11 @@ instance IsEventTarget SVGAnimateColorElement
 instance IsSlotable SVGAnimateColorElement
 instance IsParentNode SVGAnimateColorElement
 instance IsNonDocumentTypeChildNode SVGAnimateColorElement
+instance IsDocumentAndElementEventHandlers SVGAnimateColorElement
 instance IsChildNode SVGAnimateColorElement
 instance IsAnimatable SVGAnimateColorElement
 instance IsGlobalEventHandlers SVGAnimateColorElement
+instance IsElementCSSInlineStyle SVGAnimateColorElement
 instance IsSVGTests SVGAnimateColorElement
 instance IsSVGExternalResourcesRequired SVGAnimateColorElement
 instance IsGObject SVGAnimateColorElement where
@@ -21083,9 +22869,11 @@ gTypeSVGAnimateColorElement = GType . Object <$> jsg "SVGAnimateColorElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21121,9 +22909,11 @@ instance IsEventTarget SVGAnimateElement
 instance IsSlotable SVGAnimateElement
 instance IsParentNode SVGAnimateElement
 instance IsNonDocumentTypeChildNode SVGAnimateElement
+instance IsDocumentAndElementEventHandlers SVGAnimateElement
 instance IsChildNode SVGAnimateElement
 instance IsAnimatable SVGAnimateElement
 instance IsGlobalEventHandlers SVGAnimateElement
+instance IsElementCSSInlineStyle SVGAnimateElement
 instance IsSVGTests SVGAnimateElement
 instance IsSVGExternalResourcesRequired SVGAnimateElement
 instance IsGObject SVGAnimateElement where
@@ -21144,9 +22934,11 @@ gTypeSVGAnimateElement = GType . Object <$> jsg "SVGAnimateElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21182,9 +22974,11 @@ instance IsEventTarget SVGAnimateMotionElement
 instance IsSlotable SVGAnimateMotionElement
 instance IsParentNode SVGAnimateMotionElement
 instance IsNonDocumentTypeChildNode SVGAnimateMotionElement
+instance IsDocumentAndElementEventHandlers SVGAnimateMotionElement
 instance IsChildNode SVGAnimateMotionElement
 instance IsAnimatable SVGAnimateMotionElement
 instance IsGlobalEventHandlers SVGAnimateMotionElement
+instance IsElementCSSInlineStyle SVGAnimateMotionElement
 instance IsSVGTests SVGAnimateMotionElement
 instance IsSVGExternalResourcesRequired SVGAnimateMotionElement
 instance IsGObject SVGAnimateMotionElement where
@@ -21205,9 +22999,11 @@ gTypeSVGAnimateMotionElement = GType . Object <$> jsg "SVGAnimateMotionElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21243,9 +23039,11 @@ instance IsEventTarget SVGAnimateTransformElement
 instance IsSlotable SVGAnimateTransformElement
 instance IsParentNode SVGAnimateTransformElement
 instance IsNonDocumentTypeChildNode SVGAnimateTransformElement
+instance IsDocumentAndElementEventHandlers SVGAnimateTransformElement
 instance IsChildNode SVGAnimateTransformElement
 instance IsAnimatable SVGAnimateTransformElement
 instance IsGlobalEventHandlers SVGAnimateTransformElement
+instance IsElementCSSInlineStyle SVGAnimateTransformElement
 instance IsSVGTests SVGAnimateTransformElement
 instance IsSVGExternalResourcesRequired SVGAnimateTransformElement
 instance IsGObject SVGAnimateTransformElement where
@@ -21661,9 +23459,11 @@ gTypeSVGAnimatedTransformList = GType . Object <$> jsg "SVGAnimatedTransformList
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21691,7 +23491,7 @@ instance FromJSVal SVGAnimationElement where
 instance MakeObject SVGAnimationElement where
   makeObject = makeObject . unSVGAnimationElement
 
-class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsSVGTests o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGAnimationElement o
+class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsSVGTests o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGAnimationElement o
 toSVGAnimationElement :: IsSVGAnimationElement o => o -> SVGAnimationElement
 toSVGAnimationElement = SVGAnimationElement . coerce
 
@@ -21703,9 +23503,11 @@ instance IsEventTarget SVGAnimationElement
 instance IsSlotable SVGAnimationElement
 instance IsParentNode SVGAnimationElement
 instance IsNonDocumentTypeChildNode SVGAnimationElement
+instance IsDocumentAndElementEventHandlers SVGAnimationElement
 instance IsChildNode SVGAnimationElement
 instance IsAnimatable SVGAnimationElement
 instance IsGlobalEventHandlers SVGAnimationElement
+instance IsElementCSSInlineStyle SVGAnimationElement
 instance IsSVGTests SVGAnimationElement
 instance IsSVGExternalResourcesRequired SVGAnimationElement
 instance IsGObject SVGAnimationElement where
@@ -21726,9 +23528,11 @@ gTypeSVGAnimationElement = GType . Object <$> jsg "SVGAnimationElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21764,9 +23568,11 @@ instance IsEventTarget SVGCircleElement
 instance IsSlotable SVGCircleElement
 instance IsParentNode SVGCircleElement
 instance IsNonDocumentTypeChildNode SVGCircleElement
+instance IsDocumentAndElementEventHandlers SVGCircleElement
 instance IsChildNode SVGCircleElement
 instance IsAnimatable SVGCircleElement
 instance IsGlobalEventHandlers SVGCircleElement
+instance IsElementCSSInlineStyle SVGCircleElement
 instance IsSVGTests SVGCircleElement
 instance IsSVGExternalResourcesRequired SVGCircleElement
 instance IsGObject SVGCircleElement where
@@ -21787,9 +23593,11 @@ gTypeSVGCircleElement = GType . Object <$> jsg "SVGCircleElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -21825,9 +23633,11 @@ instance IsEventTarget SVGClipPathElement
 instance IsSlotable SVGClipPathElement
 instance IsParentNode SVGClipPathElement
 instance IsNonDocumentTypeChildNode SVGClipPathElement
+instance IsDocumentAndElementEventHandlers SVGClipPathElement
 instance IsChildNode SVGClipPathElement
 instance IsAnimatable SVGClipPathElement
 instance IsGlobalEventHandlers SVGClipPathElement
+instance IsElementCSSInlineStyle SVGClipPathElement
 instance IsSVGTests SVGClipPathElement
 instance IsSVGExternalResourcesRequired SVGClipPathElement
 instance IsGObject SVGClipPathElement where
@@ -21847,9 +23657,11 @@ gTypeSVGClipPathElement = GType . Object <$> jsg "SVGClipPathElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGComponentTransferFunctionElement Mozilla SVGComponentTransferFunctionElement documentation>
 newtype SVGComponentTransferFunctionElement = SVGComponentTransferFunctionElement { unSVGComponentTransferFunctionElement :: JSVal }
@@ -21875,7 +23687,7 @@ instance FromJSVal SVGComponentTransferFunctionElement where
 instance MakeObject SVGComponentTransferFunctionElement where
   makeObject = makeObject . unSVGComponentTransferFunctionElement
 
-class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsGObject o) => IsSVGComponentTransferFunctionElement o
+class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsGObject o) => IsSVGComponentTransferFunctionElement o
 toSVGComponentTransferFunctionElement :: IsSVGComponentTransferFunctionElement o => o -> SVGComponentTransferFunctionElement
 toSVGComponentTransferFunctionElement = SVGComponentTransferFunctionElement . coerce
 
@@ -21887,9 +23699,11 @@ instance IsEventTarget SVGComponentTransferFunctionElement
 instance IsSlotable SVGComponentTransferFunctionElement
 instance IsParentNode SVGComponentTransferFunctionElement
 instance IsNonDocumentTypeChildNode SVGComponentTransferFunctionElement
+instance IsDocumentAndElementEventHandlers SVGComponentTransferFunctionElement
 instance IsChildNode SVGComponentTransferFunctionElement
 instance IsAnimatable SVGComponentTransferFunctionElement
 instance IsGlobalEventHandlers SVGComponentTransferFunctionElement
+instance IsElementCSSInlineStyle SVGComponentTransferFunctionElement
 instance IsGObject SVGComponentTransferFunctionElement where
   typeGType _ = gTypeSVGComponentTransferFunctionElement
   {-# INLINE typeGType #-}
@@ -21907,9 +23721,11 @@ gTypeSVGComponentTransferFunctionElement = GType . Object <$> jsg "SVGComponentT
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
@@ -21945,9 +23761,11 @@ instance IsEventTarget SVGCursorElement
 instance IsSlotable SVGCursorElement
 instance IsParentNode SVGCursorElement
 instance IsNonDocumentTypeChildNode SVGCursorElement
+instance IsDocumentAndElementEventHandlers SVGCursorElement
 instance IsChildNode SVGCursorElement
 instance IsAnimatable SVGCursorElement
 instance IsGlobalEventHandlers SVGCursorElement
+instance IsElementCSSInlineStyle SVGCursorElement
 instance IsSVGURIReference SVGCursorElement
 instance IsSVGTests SVGCursorElement
 instance IsSVGExternalResourcesRequired SVGCursorElement
@@ -21969,9 +23787,11 @@ gTypeSVGCursorElement = GType . Object <$> jsg "SVGCursorElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -22007,9 +23827,11 @@ instance IsEventTarget SVGDefsElement
 instance IsSlotable SVGDefsElement
 instance IsParentNode SVGDefsElement
 instance IsNonDocumentTypeChildNode SVGDefsElement
+instance IsDocumentAndElementEventHandlers SVGDefsElement
 instance IsChildNode SVGDefsElement
 instance IsAnimatable SVGDefsElement
 instance IsGlobalEventHandlers SVGDefsElement
+instance IsElementCSSInlineStyle SVGDefsElement
 instance IsSVGTests SVGDefsElement
 instance IsSVGExternalResourcesRequired SVGDefsElement
 instance IsGObject SVGDefsElement where
@@ -22029,9 +23851,11 @@ gTypeSVGDefsElement = GType . Object <$> jsg "SVGDefsElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGDescElement Mozilla SVGDescElement documentation>
 newtype SVGDescElement = SVGDescElement { unSVGDescElement :: JSVal }
@@ -22064,9 +23888,11 @@ instance IsEventTarget SVGDescElement
 instance IsSlotable SVGDescElement
 instance IsParentNode SVGDescElement
 instance IsNonDocumentTypeChildNode SVGDescElement
+instance IsDocumentAndElementEventHandlers SVGDescElement
 instance IsChildNode SVGDescElement
 instance IsAnimatable SVGDescElement
 instance IsGlobalEventHandlers SVGDescElement
+instance IsElementCSSInlineStyle SVGDescElement
 instance IsGObject SVGDescElement where
   typeGType _ = gTypeSVGDescElement
   {-# INLINE typeGType #-}
@@ -22083,9 +23909,11 @@ gTypeSVGDescElement = GType . Object <$> jsg "SVGDescElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGElement Mozilla SVGElement documentation>
 newtype SVGElement = SVGElement { unSVGElement :: JSVal }
@@ -22111,7 +23939,7 @@ instance FromJSVal SVGElement where
 instance MakeObject SVGElement where
   makeObject = makeObject . unSVGElement
 
-class (IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsGObject o) => IsSVGElement o
+class (IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsGObject o) => IsSVGElement o
 toSVGElement :: IsSVGElement o => o -> SVGElement
 toSVGElement = SVGElement . coerce
 
@@ -22122,9 +23950,11 @@ instance IsEventTarget SVGElement
 instance IsSlotable SVGElement
 instance IsParentNode SVGElement
 instance IsNonDocumentTypeChildNode SVGElement
+instance IsDocumentAndElementEventHandlers SVGElement
 instance IsChildNode SVGElement
 instance IsAnimatable SVGElement
 instance IsGlobalEventHandlers SVGElement
+instance IsElementCSSInlineStyle SVGElement
 instance IsGObject SVGElement where
   typeGType _ = gTypeSVGElement
   {-# INLINE typeGType #-}
@@ -22143,9 +23973,11 @@ gTypeSVGElement = GType . Object <$> jsg "SVGElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -22181,9 +24013,11 @@ instance IsEventTarget SVGEllipseElement
 instance IsSlotable SVGEllipseElement
 instance IsParentNode SVGEllipseElement
 instance IsNonDocumentTypeChildNode SVGEllipseElement
+instance IsDocumentAndElementEventHandlers SVGEllipseElement
 instance IsChildNode SVGEllipseElement
 instance IsAnimatable SVGEllipseElement
 instance IsGlobalEventHandlers SVGEllipseElement
+instance IsElementCSSInlineStyle SVGEllipseElement
 instance IsSVGTests SVGEllipseElement
 instance IsSVGExternalResourcesRequired SVGEllipseElement
 instance IsGObject SVGEllipseElement where
@@ -22274,9 +24108,11 @@ gTypeSVGExternalResourcesRequired = GType . Object <$> jsg "SVGExternalResources
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEBlendElement Mozilla SVGFEBlendElement documentation>
@@ -22310,9 +24146,11 @@ instance IsEventTarget SVGFEBlendElement
 instance IsSlotable SVGFEBlendElement
 instance IsParentNode SVGFEBlendElement
 instance IsNonDocumentTypeChildNode SVGFEBlendElement
+instance IsDocumentAndElementEventHandlers SVGFEBlendElement
 instance IsChildNode SVGFEBlendElement
 instance IsAnimatable SVGFEBlendElement
 instance IsGlobalEventHandlers SVGFEBlendElement
+instance IsElementCSSInlineStyle SVGFEBlendElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEBlendElement
 instance IsGObject SVGFEBlendElement where
   typeGType _ = gTypeSVGFEBlendElement
@@ -22331,9 +24169,11 @@ gTypeSVGFEBlendElement = GType . Object <$> jsg "SVGFEBlendElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEColorMatrixElement Mozilla SVGFEColorMatrixElement documentation>
@@ -22367,9 +24207,11 @@ instance IsEventTarget SVGFEColorMatrixElement
 instance IsSlotable SVGFEColorMatrixElement
 instance IsParentNode SVGFEColorMatrixElement
 instance IsNonDocumentTypeChildNode SVGFEColorMatrixElement
+instance IsDocumentAndElementEventHandlers SVGFEColorMatrixElement
 instance IsChildNode SVGFEColorMatrixElement
 instance IsAnimatable SVGFEColorMatrixElement
 instance IsGlobalEventHandlers SVGFEColorMatrixElement
+instance IsElementCSSInlineStyle SVGFEColorMatrixElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEColorMatrixElement
 instance IsGObject SVGFEColorMatrixElement where
   typeGType _ = gTypeSVGFEColorMatrixElement
@@ -22388,9 +24230,11 @@ gTypeSVGFEColorMatrixElement = GType . Object <$> jsg "SVGFEColorMatrixElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEComponentTransferElement Mozilla SVGFEComponentTransferElement documentation>
@@ -22424,9 +24268,11 @@ instance IsEventTarget SVGFEComponentTransferElement
 instance IsSlotable SVGFEComponentTransferElement
 instance IsParentNode SVGFEComponentTransferElement
 instance IsNonDocumentTypeChildNode SVGFEComponentTransferElement
+instance IsDocumentAndElementEventHandlers SVGFEComponentTransferElement
 instance IsChildNode SVGFEComponentTransferElement
 instance IsAnimatable SVGFEComponentTransferElement
 instance IsGlobalEventHandlers SVGFEComponentTransferElement
+instance IsElementCSSInlineStyle SVGFEComponentTransferElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEComponentTransferElement
 instance IsGObject SVGFEComponentTransferElement where
   typeGType _ = gTypeSVGFEComponentTransferElement
@@ -22445,9 +24291,11 @@ gTypeSVGFEComponentTransferElement = GType . Object <$> jsg "SVGFEComponentTrans
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFECompositeElement Mozilla SVGFECompositeElement documentation>
@@ -22481,9 +24329,11 @@ instance IsEventTarget SVGFECompositeElement
 instance IsSlotable SVGFECompositeElement
 instance IsParentNode SVGFECompositeElement
 instance IsNonDocumentTypeChildNode SVGFECompositeElement
+instance IsDocumentAndElementEventHandlers SVGFECompositeElement
 instance IsChildNode SVGFECompositeElement
 instance IsAnimatable SVGFECompositeElement
 instance IsGlobalEventHandlers SVGFECompositeElement
+instance IsElementCSSInlineStyle SVGFECompositeElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFECompositeElement
 instance IsGObject SVGFECompositeElement where
   typeGType _ = gTypeSVGFECompositeElement
@@ -22502,9 +24352,11 @@ gTypeSVGFECompositeElement = GType . Object <$> jsg "SVGFECompositeElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEConvolveMatrixElement Mozilla SVGFEConvolveMatrixElement documentation>
@@ -22538,9 +24390,11 @@ instance IsEventTarget SVGFEConvolveMatrixElement
 instance IsSlotable SVGFEConvolveMatrixElement
 instance IsParentNode SVGFEConvolveMatrixElement
 instance IsNonDocumentTypeChildNode SVGFEConvolveMatrixElement
+instance IsDocumentAndElementEventHandlers SVGFEConvolveMatrixElement
 instance IsChildNode SVGFEConvolveMatrixElement
 instance IsAnimatable SVGFEConvolveMatrixElement
 instance IsGlobalEventHandlers SVGFEConvolveMatrixElement
+instance IsElementCSSInlineStyle SVGFEConvolveMatrixElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEConvolveMatrixElement
 instance IsGObject SVGFEConvolveMatrixElement where
   typeGType _ = gTypeSVGFEConvolveMatrixElement
@@ -22559,9 +24413,11 @@ gTypeSVGFEConvolveMatrixElement = GType . Object <$> jsg "SVGFEConvolveMatrixEle
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDiffuseLightingElement Mozilla SVGFEDiffuseLightingElement documentation>
@@ -22595,9 +24451,11 @@ instance IsEventTarget SVGFEDiffuseLightingElement
 instance IsSlotable SVGFEDiffuseLightingElement
 instance IsParentNode SVGFEDiffuseLightingElement
 instance IsNonDocumentTypeChildNode SVGFEDiffuseLightingElement
+instance IsDocumentAndElementEventHandlers SVGFEDiffuseLightingElement
 instance IsChildNode SVGFEDiffuseLightingElement
 instance IsAnimatable SVGFEDiffuseLightingElement
 instance IsGlobalEventHandlers SVGFEDiffuseLightingElement
+instance IsElementCSSInlineStyle SVGFEDiffuseLightingElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEDiffuseLightingElement
 instance IsGObject SVGFEDiffuseLightingElement where
   typeGType _ = gTypeSVGFEDiffuseLightingElement
@@ -22616,9 +24474,11 @@ gTypeSVGFEDiffuseLightingElement = GType . Object <$> jsg "SVGFEDiffuseLightingE
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDisplacementMapElement Mozilla SVGFEDisplacementMapElement documentation>
@@ -22652,9 +24512,11 @@ instance IsEventTarget SVGFEDisplacementMapElement
 instance IsSlotable SVGFEDisplacementMapElement
 instance IsParentNode SVGFEDisplacementMapElement
 instance IsNonDocumentTypeChildNode SVGFEDisplacementMapElement
+instance IsDocumentAndElementEventHandlers SVGFEDisplacementMapElement
 instance IsChildNode SVGFEDisplacementMapElement
 instance IsAnimatable SVGFEDisplacementMapElement
 instance IsGlobalEventHandlers SVGFEDisplacementMapElement
+instance IsElementCSSInlineStyle SVGFEDisplacementMapElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEDisplacementMapElement
 instance IsGObject SVGFEDisplacementMapElement where
   typeGType _ = gTypeSVGFEDisplacementMapElement
@@ -22673,9 +24535,11 @@ gTypeSVGFEDisplacementMapElement = GType . Object <$> jsg "SVGFEDisplacementMapE
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDistantLightElement Mozilla SVGFEDistantLightElement documentation>
 newtype SVGFEDistantLightElement = SVGFEDistantLightElement { unSVGFEDistantLightElement :: JSVal }
@@ -22708,9 +24572,11 @@ instance IsEventTarget SVGFEDistantLightElement
 instance IsSlotable SVGFEDistantLightElement
 instance IsParentNode SVGFEDistantLightElement
 instance IsNonDocumentTypeChildNode SVGFEDistantLightElement
+instance IsDocumentAndElementEventHandlers SVGFEDistantLightElement
 instance IsChildNode SVGFEDistantLightElement
 instance IsAnimatable SVGFEDistantLightElement
 instance IsGlobalEventHandlers SVGFEDistantLightElement
+instance IsElementCSSInlineStyle SVGFEDistantLightElement
 instance IsGObject SVGFEDistantLightElement where
   typeGType _ = gTypeSVGFEDistantLightElement
   {-# INLINE typeGType #-}
@@ -22728,9 +24594,11 @@ gTypeSVGFEDistantLightElement = GType . Object <$> jsg "SVGFEDistantLightElement
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEDropShadowElement Mozilla SVGFEDropShadowElement documentation>
@@ -22764,9 +24632,11 @@ instance IsEventTarget SVGFEDropShadowElement
 instance IsSlotable SVGFEDropShadowElement
 instance IsParentNode SVGFEDropShadowElement
 instance IsNonDocumentTypeChildNode SVGFEDropShadowElement
+instance IsDocumentAndElementEventHandlers SVGFEDropShadowElement
 instance IsChildNode SVGFEDropShadowElement
 instance IsAnimatable SVGFEDropShadowElement
 instance IsGlobalEventHandlers SVGFEDropShadowElement
+instance IsElementCSSInlineStyle SVGFEDropShadowElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEDropShadowElement
 instance IsGObject SVGFEDropShadowElement where
   typeGType _ = gTypeSVGFEDropShadowElement
@@ -22785,9 +24655,11 @@ gTypeSVGFEDropShadowElement = GType . Object <$> jsg "SVGFEDropShadowElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEFloodElement Mozilla SVGFEFloodElement documentation>
@@ -22821,9 +24693,11 @@ instance IsEventTarget SVGFEFloodElement
 instance IsSlotable SVGFEFloodElement
 instance IsParentNode SVGFEFloodElement
 instance IsNonDocumentTypeChildNode SVGFEFloodElement
+instance IsDocumentAndElementEventHandlers SVGFEFloodElement
 instance IsChildNode SVGFEFloodElement
 instance IsAnimatable SVGFEFloodElement
 instance IsGlobalEventHandlers SVGFEFloodElement
+instance IsElementCSSInlineStyle SVGFEFloodElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEFloodElement
 instance IsGObject SVGFEFloodElement where
   typeGType _ = gTypeSVGFEFloodElement
@@ -22843,9 +24717,11 @@ gTypeSVGFEFloodElement = GType . Object <$> jsg "SVGFEFloodElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEFuncAElement Mozilla SVGFEFuncAElement documentation>
 newtype SVGFEFuncAElement = SVGFEFuncAElement { unSVGFEFuncAElement :: JSVal }
@@ -22879,9 +24755,11 @@ instance IsEventTarget SVGFEFuncAElement
 instance IsSlotable SVGFEFuncAElement
 instance IsParentNode SVGFEFuncAElement
 instance IsNonDocumentTypeChildNode SVGFEFuncAElement
+instance IsDocumentAndElementEventHandlers SVGFEFuncAElement
 instance IsChildNode SVGFEFuncAElement
 instance IsAnimatable SVGFEFuncAElement
 instance IsGlobalEventHandlers SVGFEFuncAElement
+instance IsElementCSSInlineStyle SVGFEFuncAElement
 instance IsGObject SVGFEFuncAElement where
   typeGType _ = gTypeSVGFEFuncAElement
   {-# INLINE typeGType #-}
@@ -22900,9 +24778,11 @@ gTypeSVGFEFuncAElement = GType . Object <$> jsg "SVGFEFuncAElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEFuncBElement Mozilla SVGFEFuncBElement documentation>
 newtype SVGFEFuncBElement = SVGFEFuncBElement { unSVGFEFuncBElement :: JSVal }
@@ -22936,9 +24816,11 @@ instance IsEventTarget SVGFEFuncBElement
 instance IsSlotable SVGFEFuncBElement
 instance IsParentNode SVGFEFuncBElement
 instance IsNonDocumentTypeChildNode SVGFEFuncBElement
+instance IsDocumentAndElementEventHandlers SVGFEFuncBElement
 instance IsChildNode SVGFEFuncBElement
 instance IsAnimatable SVGFEFuncBElement
 instance IsGlobalEventHandlers SVGFEFuncBElement
+instance IsElementCSSInlineStyle SVGFEFuncBElement
 instance IsGObject SVGFEFuncBElement where
   typeGType _ = gTypeSVGFEFuncBElement
   {-# INLINE typeGType #-}
@@ -22957,9 +24839,11 @@ gTypeSVGFEFuncBElement = GType . Object <$> jsg "SVGFEFuncBElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEFuncGElement Mozilla SVGFEFuncGElement documentation>
 newtype SVGFEFuncGElement = SVGFEFuncGElement { unSVGFEFuncGElement :: JSVal }
@@ -22993,9 +24877,11 @@ instance IsEventTarget SVGFEFuncGElement
 instance IsSlotable SVGFEFuncGElement
 instance IsParentNode SVGFEFuncGElement
 instance IsNonDocumentTypeChildNode SVGFEFuncGElement
+instance IsDocumentAndElementEventHandlers SVGFEFuncGElement
 instance IsChildNode SVGFEFuncGElement
 instance IsAnimatable SVGFEFuncGElement
 instance IsGlobalEventHandlers SVGFEFuncGElement
+instance IsElementCSSInlineStyle SVGFEFuncGElement
 instance IsGObject SVGFEFuncGElement where
   typeGType _ = gTypeSVGFEFuncGElement
   {-# INLINE typeGType #-}
@@ -23014,9 +24900,11 @@ gTypeSVGFEFuncGElement = GType . Object <$> jsg "SVGFEFuncGElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEFuncRElement Mozilla SVGFEFuncRElement documentation>
 newtype SVGFEFuncRElement = SVGFEFuncRElement { unSVGFEFuncRElement :: JSVal }
@@ -23050,9 +24938,11 @@ instance IsEventTarget SVGFEFuncRElement
 instance IsSlotable SVGFEFuncRElement
 instance IsParentNode SVGFEFuncRElement
 instance IsNonDocumentTypeChildNode SVGFEFuncRElement
+instance IsDocumentAndElementEventHandlers SVGFEFuncRElement
 instance IsChildNode SVGFEFuncRElement
 instance IsAnimatable SVGFEFuncRElement
 instance IsGlobalEventHandlers SVGFEFuncRElement
+instance IsElementCSSInlineStyle SVGFEFuncRElement
 instance IsGObject SVGFEFuncRElement where
   typeGType _ = gTypeSVGFEFuncRElement
   {-# INLINE typeGType #-}
@@ -23070,9 +24960,11 @@ gTypeSVGFEFuncRElement = GType . Object <$> jsg "SVGFEFuncRElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEGaussianBlurElement Mozilla SVGFEGaussianBlurElement documentation>
@@ -23106,9 +24998,11 @@ instance IsEventTarget SVGFEGaussianBlurElement
 instance IsSlotable SVGFEGaussianBlurElement
 instance IsParentNode SVGFEGaussianBlurElement
 instance IsNonDocumentTypeChildNode SVGFEGaussianBlurElement
+instance IsDocumentAndElementEventHandlers SVGFEGaussianBlurElement
 instance IsChildNode SVGFEGaussianBlurElement
 instance IsAnimatable SVGFEGaussianBlurElement
 instance IsGlobalEventHandlers SVGFEGaussianBlurElement
+instance IsElementCSSInlineStyle SVGFEGaussianBlurElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEGaussianBlurElement
 instance IsGObject SVGFEGaussianBlurElement where
   typeGType _ = gTypeSVGFEGaussianBlurElement
@@ -23127,9 +25021,11 @@ gTypeSVGFEGaussianBlurElement = GType . Object <$> jsg "SVGFEGaussianBlurElement
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --     * "JSDOM.SVGExternalResourcesRequired"
@@ -23165,9 +25061,11 @@ instance IsEventTarget SVGFEImageElement
 instance IsSlotable SVGFEImageElement
 instance IsParentNode SVGFEImageElement
 instance IsNonDocumentTypeChildNode SVGFEImageElement
+instance IsDocumentAndElementEventHandlers SVGFEImageElement
 instance IsChildNode SVGFEImageElement
 instance IsAnimatable SVGFEImageElement
 instance IsGlobalEventHandlers SVGFEImageElement
+instance IsElementCSSInlineStyle SVGFEImageElement
 instance IsSVGURIReference SVGFEImageElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEImageElement
 instance IsSVGExternalResourcesRequired SVGFEImageElement
@@ -23188,9 +25086,11 @@ gTypeSVGFEImageElement = GType . Object <$> jsg "SVGFEImageElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMergeElement Mozilla SVGFEMergeElement documentation>
@@ -23224,9 +25124,11 @@ instance IsEventTarget SVGFEMergeElement
 instance IsSlotable SVGFEMergeElement
 instance IsParentNode SVGFEMergeElement
 instance IsNonDocumentTypeChildNode SVGFEMergeElement
+instance IsDocumentAndElementEventHandlers SVGFEMergeElement
 instance IsChildNode SVGFEMergeElement
 instance IsAnimatable SVGFEMergeElement
 instance IsGlobalEventHandlers SVGFEMergeElement
+instance IsElementCSSInlineStyle SVGFEMergeElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEMergeElement
 instance IsGObject SVGFEMergeElement where
   typeGType _ = gTypeSVGFEMergeElement
@@ -23245,9 +25147,11 @@ gTypeSVGFEMergeElement = GType . Object <$> jsg "SVGFEMergeElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMergeNodeElement Mozilla SVGFEMergeNodeElement documentation>
 newtype SVGFEMergeNodeElement = SVGFEMergeNodeElement { unSVGFEMergeNodeElement :: JSVal }
@@ -23280,9 +25184,11 @@ instance IsEventTarget SVGFEMergeNodeElement
 instance IsSlotable SVGFEMergeNodeElement
 instance IsParentNode SVGFEMergeNodeElement
 instance IsNonDocumentTypeChildNode SVGFEMergeNodeElement
+instance IsDocumentAndElementEventHandlers SVGFEMergeNodeElement
 instance IsChildNode SVGFEMergeNodeElement
 instance IsAnimatable SVGFEMergeNodeElement
 instance IsGlobalEventHandlers SVGFEMergeNodeElement
+instance IsElementCSSInlineStyle SVGFEMergeNodeElement
 instance IsGObject SVGFEMergeNodeElement where
   typeGType _ = gTypeSVGFEMergeNodeElement
   {-# INLINE typeGType #-}
@@ -23300,9 +25206,11 @@ gTypeSVGFEMergeNodeElement = GType . Object <$> jsg "SVGFEMergeNodeElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEMorphologyElement Mozilla SVGFEMorphologyElement documentation>
@@ -23336,9 +25244,11 @@ instance IsEventTarget SVGFEMorphologyElement
 instance IsSlotable SVGFEMorphologyElement
 instance IsParentNode SVGFEMorphologyElement
 instance IsNonDocumentTypeChildNode SVGFEMorphologyElement
+instance IsDocumentAndElementEventHandlers SVGFEMorphologyElement
 instance IsChildNode SVGFEMorphologyElement
 instance IsAnimatable SVGFEMorphologyElement
 instance IsGlobalEventHandlers SVGFEMorphologyElement
+instance IsElementCSSInlineStyle SVGFEMorphologyElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEMorphologyElement
 instance IsGObject SVGFEMorphologyElement where
   typeGType _ = gTypeSVGFEMorphologyElement
@@ -23357,9 +25267,11 @@ gTypeSVGFEMorphologyElement = GType . Object <$> jsg "SVGFEMorphologyElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEOffsetElement Mozilla SVGFEOffsetElement documentation>
@@ -23393,9 +25305,11 @@ instance IsEventTarget SVGFEOffsetElement
 instance IsSlotable SVGFEOffsetElement
 instance IsParentNode SVGFEOffsetElement
 instance IsNonDocumentTypeChildNode SVGFEOffsetElement
+instance IsDocumentAndElementEventHandlers SVGFEOffsetElement
 instance IsChildNode SVGFEOffsetElement
 instance IsAnimatable SVGFEOffsetElement
 instance IsGlobalEventHandlers SVGFEOffsetElement
+instance IsElementCSSInlineStyle SVGFEOffsetElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFEOffsetElement
 instance IsGObject SVGFEOffsetElement where
   typeGType _ = gTypeSVGFEOffsetElement
@@ -23414,9 +25328,11 @@ gTypeSVGFEOffsetElement = GType . Object <$> jsg "SVGFEOffsetElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFEPointLightElement Mozilla SVGFEPointLightElement documentation>
 newtype SVGFEPointLightElement = SVGFEPointLightElement { unSVGFEPointLightElement :: JSVal }
@@ -23449,9 +25365,11 @@ instance IsEventTarget SVGFEPointLightElement
 instance IsSlotable SVGFEPointLightElement
 instance IsParentNode SVGFEPointLightElement
 instance IsNonDocumentTypeChildNode SVGFEPointLightElement
+instance IsDocumentAndElementEventHandlers SVGFEPointLightElement
 instance IsChildNode SVGFEPointLightElement
 instance IsAnimatable SVGFEPointLightElement
 instance IsGlobalEventHandlers SVGFEPointLightElement
+instance IsElementCSSInlineStyle SVGFEPointLightElement
 instance IsGObject SVGFEPointLightElement where
   typeGType _ = gTypeSVGFEPointLightElement
   {-# INLINE typeGType #-}
@@ -23469,9 +25387,11 @@ gTypeSVGFEPointLightElement = GType . Object <$> jsg "SVGFEPointLightElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFESpecularLightingElement Mozilla SVGFESpecularLightingElement documentation>
@@ -23505,9 +25425,11 @@ instance IsEventTarget SVGFESpecularLightingElement
 instance IsSlotable SVGFESpecularLightingElement
 instance IsParentNode SVGFESpecularLightingElement
 instance IsNonDocumentTypeChildNode SVGFESpecularLightingElement
+instance IsDocumentAndElementEventHandlers SVGFESpecularLightingElement
 instance IsChildNode SVGFESpecularLightingElement
 instance IsAnimatable SVGFESpecularLightingElement
 instance IsGlobalEventHandlers SVGFESpecularLightingElement
+instance IsElementCSSInlineStyle SVGFESpecularLightingElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFESpecularLightingElement
 instance IsGObject SVGFESpecularLightingElement where
   typeGType _ = gTypeSVGFESpecularLightingElement
@@ -23526,9 +25448,11 @@ gTypeSVGFESpecularLightingElement = GType . Object <$> jsg "SVGFESpecularLightin
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFESpotLightElement Mozilla SVGFESpotLightElement documentation>
 newtype SVGFESpotLightElement = SVGFESpotLightElement { unSVGFESpotLightElement :: JSVal }
@@ -23561,9 +25485,11 @@ instance IsEventTarget SVGFESpotLightElement
 instance IsSlotable SVGFESpotLightElement
 instance IsParentNode SVGFESpotLightElement
 instance IsNonDocumentTypeChildNode SVGFESpotLightElement
+instance IsDocumentAndElementEventHandlers SVGFESpotLightElement
 instance IsChildNode SVGFESpotLightElement
 instance IsAnimatable SVGFESpotLightElement
 instance IsGlobalEventHandlers SVGFESpotLightElement
+instance IsElementCSSInlineStyle SVGFESpotLightElement
 instance IsGObject SVGFESpotLightElement where
   typeGType _ = gTypeSVGFESpotLightElement
   {-# INLINE typeGType #-}
@@ -23581,9 +25507,11 @@ gTypeSVGFESpotLightElement = GType . Object <$> jsg "SVGFESpotLightElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETileElement Mozilla SVGFETileElement documentation>
@@ -23617,9 +25545,11 @@ instance IsEventTarget SVGFETileElement
 instance IsSlotable SVGFETileElement
 instance IsParentNode SVGFETileElement
 instance IsNonDocumentTypeChildNode SVGFETileElement
+instance IsDocumentAndElementEventHandlers SVGFETileElement
 instance IsChildNode SVGFETileElement
 instance IsAnimatable SVGFETileElement
 instance IsGlobalEventHandlers SVGFETileElement
+instance IsElementCSSInlineStyle SVGFETileElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFETileElement
 instance IsGObject SVGFETileElement where
   typeGType _ = gTypeSVGFETileElement
@@ -23638,9 +25568,11 @@ gTypeSVGFETileElement = GType . Object <$> jsg "SVGFETileElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFilterPrimitiveStandardAttributes"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFETurbulenceElement Mozilla SVGFETurbulenceElement documentation>
@@ -23674,9 +25606,11 @@ instance IsEventTarget SVGFETurbulenceElement
 instance IsSlotable SVGFETurbulenceElement
 instance IsParentNode SVGFETurbulenceElement
 instance IsNonDocumentTypeChildNode SVGFETurbulenceElement
+instance IsDocumentAndElementEventHandlers SVGFETurbulenceElement
 instance IsChildNode SVGFETurbulenceElement
 instance IsAnimatable SVGFETurbulenceElement
 instance IsGlobalEventHandlers SVGFETurbulenceElement
+instance IsElementCSSInlineStyle SVGFETurbulenceElement
 instance IsSVGFilterPrimitiveStandardAttributes SVGFETurbulenceElement
 instance IsGObject SVGFETurbulenceElement where
   typeGType _ = gTypeSVGFETurbulenceElement
@@ -23695,9 +25629,11 @@ gTypeSVGFETurbulenceElement = GType . Object <$> jsg "SVGFETurbulenceElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -23732,9 +25668,11 @@ instance IsEventTarget SVGFilterElement
 instance IsSlotable SVGFilterElement
 instance IsParentNode SVGFilterElement
 instance IsNonDocumentTypeChildNode SVGFilterElement
+instance IsDocumentAndElementEventHandlers SVGFilterElement
 instance IsChildNode SVGFilterElement
 instance IsAnimatable SVGFilterElement
 instance IsGlobalEventHandlers SVGFilterElement
+instance IsElementCSSInlineStyle SVGFilterElement
 instance IsSVGURIReference SVGFilterElement
 instance IsSVGExternalResourcesRequired SVGFilterElement
 instance IsGObject SVGFilterElement where
@@ -23830,9 +25768,11 @@ gTypeSVGFitToViewBox = GType . Object <$> jsg "SVGFitToViewBox"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFontElement Mozilla SVGFontElement documentation>
 newtype SVGFontElement = SVGFontElement { unSVGFontElement :: JSVal }
@@ -23865,9 +25805,11 @@ instance IsEventTarget SVGFontElement
 instance IsSlotable SVGFontElement
 instance IsParentNode SVGFontElement
 instance IsNonDocumentTypeChildNode SVGFontElement
+instance IsDocumentAndElementEventHandlers SVGFontElement
 instance IsChildNode SVGFontElement
 instance IsAnimatable SVGFontElement
 instance IsGlobalEventHandlers SVGFontElement
+instance IsElementCSSInlineStyle SVGFontElement
 instance IsGObject SVGFontElement where
   typeGType _ = gTypeSVGFontElement
   {-# INLINE typeGType #-}
@@ -23885,9 +25827,11 @@ gTypeSVGFontElement = GType . Object <$> jsg "SVGFontElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFontFaceElement Mozilla SVGFontFaceElement documentation>
 newtype SVGFontFaceElement = SVGFontFaceElement { unSVGFontFaceElement :: JSVal }
@@ -23920,9 +25864,11 @@ instance IsEventTarget SVGFontFaceElement
 instance IsSlotable SVGFontFaceElement
 instance IsParentNode SVGFontFaceElement
 instance IsNonDocumentTypeChildNode SVGFontFaceElement
+instance IsDocumentAndElementEventHandlers SVGFontFaceElement
 instance IsChildNode SVGFontFaceElement
 instance IsAnimatable SVGFontFaceElement
 instance IsGlobalEventHandlers SVGFontFaceElement
+instance IsElementCSSInlineStyle SVGFontFaceElement
 instance IsGObject SVGFontFaceElement where
   typeGType _ = gTypeSVGFontFaceElement
   {-# INLINE typeGType #-}
@@ -23940,9 +25886,11 @@ gTypeSVGFontFaceElement = GType . Object <$> jsg "SVGFontFaceElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFontFaceFormatElement Mozilla SVGFontFaceFormatElement documentation>
 newtype SVGFontFaceFormatElement = SVGFontFaceFormatElement { unSVGFontFaceFormatElement :: JSVal }
@@ -23975,9 +25923,11 @@ instance IsEventTarget SVGFontFaceFormatElement
 instance IsSlotable SVGFontFaceFormatElement
 instance IsParentNode SVGFontFaceFormatElement
 instance IsNonDocumentTypeChildNode SVGFontFaceFormatElement
+instance IsDocumentAndElementEventHandlers SVGFontFaceFormatElement
 instance IsChildNode SVGFontFaceFormatElement
 instance IsAnimatable SVGFontFaceFormatElement
 instance IsGlobalEventHandlers SVGFontFaceFormatElement
+instance IsElementCSSInlineStyle SVGFontFaceFormatElement
 instance IsGObject SVGFontFaceFormatElement where
   typeGType _ = gTypeSVGFontFaceFormatElement
   {-# INLINE typeGType #-}
@@ -23995,9 +25945,11 @@ gTypeSVGFontFaceFormatElement = GType . Object <$> jsg "SVGFontFaceFormatElement
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFontFaceNameElement Mozilla SVGFontFaceNameElement documentation>
 newtype SVGFontFaceNameElement = SVGFontFaceNameElement { unSVGFontFaceNameElement :: JSVal }
@@ -24030,9 +25982,11 @@ instance IsEventTarget SVGFontFaceNameElement
 instance IsSlotable SVGFontFaceNameElement
 instance IsParentNode SVGFontFaceNameElement
 instance IsNonDocumentTypeChildNode SVGFontFaceNameElement
+instance IsDocumentAndElementEventHandlers SVGFontFaceNameElement
 instance IsChildNode SVGFontFaceNameElement
 instance IsAnimatable SVGFontFaceNameElement
 instance IsGlobalEventHandlers SVGFontFaceNameElement
+instance IsElementCSSInlineStyle SVGFontFaceNameElement
 instance IsGObject SVGFontFaceNameElement where
   typeGType _ = gTypeSVGFontFaceNameElement
   {-# INLINE typeGType #-}
@@ -24050,9 +26004,11 @@ gTypeSVGFontFaceNameElement = GType . Object <$> jsg "SVGFontFaceNameElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFontFaceSrcElement Mozilla SVGFontFaceSrcElement documentation>
 newtype SVGFontFaceSrcElement = SVGFontFaceSrcElement { unSVGFontFaceSrcElement :: JSVal }
@@ -24085,9 +26041,11 @@ instance IsEventTarget SVGFontFaceSrcElement
 instance IsSlotable SVGFontFaceSrcElement
 instance IsParentNode SVGFontFaceSrcElement
 instance IsNonDocumentTypeChildNode SVGFontFaceSrcElement
+instance IsDocumentAndElementEventHandlers SVGFontFaceSrcElement
 instance IsChildNode SVGFontFaceSrcElement
 instance IsAnimatable SVGFontFaceSrcElement
 instance IsGlobalEventHandlers SVGFontFaceSrcElement
+instance IsElementCSSInlineStyle SVGFontFaceSrcElement
 instance IsGObject SVGFontFaceSrcElement where
   typeGType _ = gTypeSVGFontFaceSrcElement
   {-# INLINE typeGType #-}
@@ -24105,9 +26063,11 @@ gTypeSVGFontFaceSrcElement = GType . Object <$> jsg "SVGFontFaceSrcElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGFontFaceUriElement Mozilla SVGFontFaceUriElement documentation>
 newtype SVGFontFaceUriElement = SVGFontFaceUriElement { unSVGFontFaceUriElement :: JSVal }
@@ -24140,9 +26100,11 @@ instance IsEventTarget SVGFontFaceUriElement
 instance IsSlotable SVGFontFaceUriElement
 instance IsParentNode SVGFontFaceUriElement
 instance IsNonDocumentTypeChildNode SVGFontFaceUriElement
+instance IsDocumentAndElementEventHandlers SVGFontFaceUriElement
 instance IsChildNode SVGFontFaceUriElement
 instance IsAnimatable SVGFontFaceUriElement
 instance IsGlobalEventHandlers SVGFontFaceUriElement
+instance IsElementCSSInlineStyle SVGFontFaceUriElement
 instance IsGObject SVGFontFaceUriElement where
   typeGType _ = gTypeSVGFontFaceUriElement
   {-# INLINE typeGType #-}
@@ -24161,9 +26123,11 @@ gTypeSVGFontFaceUriElement = GType . Object <$> jsg "SVGFontFaceUriElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24199,9 +26163,11 @@ instance IsEventTarget SVGForeignObjectElement
 instance IsSlotable SVGForeignObjectElement
 instance IsParentNode SVGForeignObjectElement
 instance IsNonDocumentTypeChildNode SVGForeignObjectElement
+instance IsDocumentAndElementEventHandlers SVGForeignObjectElement
 instance IsChildNode SVGForeignObjectElement
 instance IsAnimatable SVGForeignObjectElement
 instance IsGlobalEventHandlers SVGForeignObjectElement
+instance IsElementCSSInlineStyle SVGForeignObjectElement
 instance IsSVGTests SVGForeignObjectElement
 instance IsSVGExternalResourcesRequired SVGForeignObjectElement
 instance IsGObject SVGForeignObjectElement where
@@ -24222,9 +26188,11 @@ gTypeSVGForeignObjectElement = GType . Object <$> jsg "SVGForeignObjectElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24260,9 +26228,11 @@ instance IsEventTarget SVGGElement
 instance IsSlotable SVGGElement
 instance IsParentNode SVGGElement
 instance IsNonDocumentTypeChildNode SVGGElement
+instance IsDocumentAndElementEventHandlers SVGGElement
 instance IsChildNode SVGGElement
 instance IsAnimatable SVGGElement
 instance IsGlobalEventHandlers SVGGElement
+instance IsElementCSSInlineStyle SVGGElement
 instance IsSVGTests SVGGElement
 instance IsSVGExternalResourcesRequired SVGGElement
 instance IsGObject SVGGElement where
@@ -24282,9 +26252,11 @@ gTypeSVGGElement = GType . Object <$> jsg "SVGGElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGGlyphElement Mozilla SVGGlyphElement documentation>
 newtype SVGGlyphElement = SVGGlyphElement { unSVGGlyphElement :: JSVal }
@@ -24317,9 +26289,11 @@ instance IsEventTarget SVGGlyphElement
 instance IsSlotable SVGGlyphElement
 instance IsParentNode SVGGlyphElement
 instance IsNonDocumentTypeChildNode SVGGlyphElement
+instance IsDocumentAndElementEventHandlers SVGGlyphElement
 instance IsChildNode SVGGlyphElement
 instance IsAnimatable SVGGlyphElement
 instance IsGlobalEventHandlers SVGGlyphElement
+instance IsElementCSSInlineStyle SVGGlyphElement
 instance IsGObject SVGGlyphElement where
   typeGType _ = gTypeSVGGlyphElement
   {-# INLINE typeGType #-}
@@ -24337,9 +26311,11 @@ gTypeSVGGlyphElement = GType . Object <$> jsg "SVGGlyphElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGGlyphRefElement Mozilla SVGGlyphRefElement documentation>
@@ -24373,9 +26349,11 @@ instance IsEventTarget SVGGlyphRefElement
 instance IsSlotable SVGGlyphRefElement
 instance IsParentNode SVGGlyphRefElement
 instance IsNonDocumentTypeChildNode SVGGlyphRefElement
+instance IsDocumentAndElementEventHandlers SVGGlyphRefElement
 instance IsChildNode SVGGlyphRefElement
 instance IsAnimatable SVGGlyphRefElement
 instance IsGlobalEventHandlers SVGGlyphRefElement
+instance IsElementCSSInlineStyle SVGGlyphRefElement
 instance IsSVGURIReference SVGGlyphRefElement
 instance IsGObject SVGGlyphRefElement where
   typeGType _ = gTypeSVGGlyphRefElement
@@ -24394,9 +26372,11 @@ gTypeSVGGlyphRefElement = GType . Object <$> jsg "SVGGlyphRefElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24424,7 +26404,7 @@ instance FromJSVal SVGGradientElement where
 instance MakeObject SVGGradientElement where
   makeObject = makeObject . unSVGGradientElement
 
-class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsSVGURIReference o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGGradientElement o
+class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsSVGURIReference o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGGradientElement o
 toSVGGradientElement :: IsSVGGradientElement o => o -> SVGGradientElement
 toSVGGradientElement = SVGGradientElement . coerce
 
@@ -24436,9 +26416,11 @@ instance IsEventTarget SVGGradientElement
 instance IsSlotable SVGGradientElement
 instance IsParentNode SVGGradientElement
 instance IsNonDocumentTypeChildNode SVGGradientElement
+instance IsDocumentAndElementEventHandlers SVGGradientElement
 instance IsChildNode SVGGradientElement
 instance IsAnimatable SVGGradientElement
 instance IsGlobalEventHandlers SVGGradientElement
+instance IsElementCSSInlineStyle SVGGradientElement
 instance IsSVGURIReference SVGGradientElement
 instance IsSVGExternalResourcesRequired SVGGradientElement
 instance IsGObject SVGGradientElement where
@@ -24458,9 +26440,11 @@ gTypeSVGGradientElement = GType . Object <$> jsg "SVGGradientElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement Mozilla SVGGraphicsElement documentation>
@@ -24487,7 +26471,7 @@ instance FromJSVal SVGGraphicsElement where
 instance MakeObject SVGGraphicsElement where
   makeObject = makeObject . unSVGGraphicsElement
 
-class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsSVGTests o, IsGObject o) => IsSVGGraphicsElement o
+class (IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsSVGTests o, IsGObject o) => IsSVGGraphicsElement o
 toSVGGraphicsElement :: IsSVGGraphicsElement o => o -> SVGGraphicsElement
 toSVGGraphicsElement = SVGGraphicsElement . coerce
 
@@ -24499,9 +26483,11 @@ instance IsEventTarget SVGGraphicsElement
 instance IsSlotable SVGGraphicsElement
 instance IsParentNode SVGGraphicsElement
 instance IsNonDocumentTypeChildNode SVGGraphicsElement
+instance IsDocumentAndElementEventHandlers SVGGraphicsElement
 instance IsChildNode SVGGraphicsElement
 instance IsAnimatable SVGGraphicsElement
 instance IsGlobalEventHandlers SVGGraphicsElement
+instance IsElementCSSInlineStyle SVGGraphicsElement
 instance IsSVGTests SVGGraphicsElement
 instance IsGObject SVGGraphicsElement where
   typeGType _ = gTypeSVGGraphicsElement
@@ -24520,9 +26506,11 @@ gTypeSVGGraphicsElement = GType . Object <$> jsg "SVGGraphicsElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGHKernElement Mozilla SVGHKernElement documentation>
 newtype SVGHKernElement = SVGHKernElement { unSVGHKernElement :: JSVal }
@@ -24555,9 +26543,11 @@ instance IsEventTarget SVGHKernElement
 instance IsSlotable SVGHKernElement
 instance IsParentNode SVGHKernElement
 instance IsNonDocumentTypeChildNode SVGHKernElement
+instance IsDocumentAndElementEventHandlers SVGHKernElement
 instance IsChildNode SVGHKernElement
 instance IsAnimatable SVGHKernElement
 instance IsGlobalEventHandlers SVGHKernElement
+instance IsElementCSSInlineStyle SVGHKernElement
 instance IsGObject SVGHKernElement where
   typeGType _ = gTypeSVGHKernElement
   {-# INLINE typeGType #-}
@@ -24576,9 +26566,11 @@ gTypeSVGHKernElement = GType . Object <$> jsg "SVGHKernElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
@@ -24615,9 +26607,11 @@ instance IsEventTarget SVGImageElement
 instance IsSlotable SVGImageElement
 instance IsParentNode SVGImageElement
 instance IsNonDocumentTypeChildNode SVGImageElement
+instance IsDocumentAndElementEventHandlers SVGImageElement
 instance IsChildNode SVGImageElement
 instance IsAnimatable SVGImageElement
 instance IsGlobalEventHandlers SVGImageElement
+instance IsElementCSSInlineStyle SVGImageElement
 instance IsSVGTests SVGImageElement
 instance IsSVGURIReference SVGImageElement
 instance IsSVGExternalResourcesRequired SVGImageElement
@@ -24705,9 +26699,11 @@ gTypeSVGLengthList = GType . Object <$> jsg "SVGLengthList"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24743,9 +26739,11 @@ instance IsEventTarget SVGLineElement
 instance IsSlotable SVGLineElement
 instance IsParentNode SVGLineElement
 instance IsNonDocumentTypeChildNode SVGLineElement
+instance IsDocumentAndElementEventHandlers SVGLineElement
 instance IsChildNode SVGLineElement
 instance IsAnimatable SVGLineElement
 instance IsGlobalEventHandlers SVGLineElement
+instance IsElementCSSInlineStyle SVGLineElement
 instance IsSVGTests SVGLineElement
 instance IsSVGExternalResourcesRequired SVGLineElement
 instance IsGObject SVGLineElement where
@@ -24766,9 +26764,11 @@ gTypeSVGLineElement = GType . Object <$> jsg "SVGLineElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24804,9 +26804,11 @@ instance IsEventTarget SVGLinearGradientElement
 instance IsSlotable SVGLinearGradientElement
 instance IsParentNode SVGLinearGradientElement
 instance IsNonDocumentTypeChildNode SVGLinearGradientElement
+instance IsDocumentAndElementEventHandlers SVGLinearGradientElement
 instance IsChildNode SVGLinearGradientElement
 instance IsAnimatable SVGLinearGradientElement
 instance IsGlobalEventHandlers SVGLinearGradientElement
+instance IsElementCSSInlineStyle SVGLinearGradientElement
 instance IsSVGURIReference SVGLinearGradientElement
 instance IsSVGExternalResourcesRequired SVGLinearGradientElement
 instance IsGObject SVGLinearGradientElement where
@@ -24826,9 +26828,11 @@ gTypeSVGLinearGradientElement = GType . Object <$> jsg "SVGLinearGradientElement
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24863,9 +26867,11 @@ instance IsEventTarget SVGMPathElement
 instance IsSlotable SVGMPathElement
 instance IsParentNode SVGMPathElement
 instance IsNonDocumentTypeChildNode SVGMPathElement
+instance IsDocumentAndElementEventHandlers SVGMPathElement
 instance IsChildNode SVGMPathElement
 instance IsAnimatable SVGMPathElement
 instance IsGlobalEventHandlers SVGMPathElement
+instance IsElementCSSInlineStyle SVGMPathElement
 instance IsSVGURIReference SVGMPathElement
 instance IsSVGExternalResourcesRequired SVGMPathElement
 instance IsGObject SVGMPathElement where
@@ -24885,9 +26891,11 @@ gTypeSVGMPathElement = GType . Object <$> jsg "SVGMPathElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFitToViewBox"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24922,9 +26930,11 @@ instance IsEventTarget SVGMarkerElement
 instance IsSlotable SVGMarkerElement
 instance IsParentNode SVGMarkerElement
 instance IsNonDocumentTypeChildNode SVGMarkerElement
+instance IsDocumentAndElementEventHandlers SVGMarkerElement
 instance IsChildNode SVGMarkerElement
 instance IsAnimatable SVGMarkerElement
 instance IsGlobalEventHandlers SVGMarkerElement
+instance IsElementCSSInlineStyle SVGMarkerElement
 instance IsSVGFitToViewBox SVGMarkerElement
 instance IsSVGExternalResourcesRequired SVGMarkerElement
 instance IsGObject SVGMarkerElement where
@@ -24944,9 +26954,11 @@ gTypeSVGMarkerElement = GType . Object <$> jsg "SVGMarkerElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -24981,9 +26993,11 @@ instance IsEventTarget SVGMaskElement
 instance IsSlotable SVGMaskElement
 instance IsParentNode SVGMaskElement
 instance IsNonDocumentTypeChildNode SVGMaskElement
+instance IsDocumentAndElementEventHandlers SVGMaskElement
 instance IsChildNode SVGMaskElement
 instance IsAnimatable SVGMaskElement
 instance IsGlobalEventHandlers SVGMaskElement
+instance IsElementCSSInlineStyle SVGMaskElement
 instance IsSVGTests SVGMaskElement
 instance IsSVGExternalResourcesRequired SVGMaskElement
 instance IsGObject SVGMaskElement where
@@ -25036,9 +27050,11 @@ gTypeSVGMatrix = GType . Object <$> jsg "SVGMatrix"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGMetadataElement Mozilla SVGMetadataElement documentation>
 newtype SVGMetadataElement = SVGMetadataElement { unSVGMetadataElement :: JSVal }
@@ -25071,9 +27087,11 @@ instance IsEventTarget SVGMetadataElement
 instance IsSlotable SVGMetadataElement
 instance IsParentNode SVGMetadataElement
 instance IsNonDocumentTypeChildNode SVGMetadataElement
+instance IsDocumentAndElementEventHandlers SVGMetadataElement
 instance IsChildNode SVGMetadataElement
 instance IsAnimatable SVGMetadataElement
 instance IsGlobalEventHandlers SVGMetadataElement
+instance IsElementCSSInlineStyle SVGMetadataElement
 instance IsGObject SVGMetadataElement where
   typeGType _ = gTypeSVGMetadataElement
   {-# INLINE typeGType #-}
@@ -25091,9 +27109,11 @@ gTypeSVGMetadataElement = GType . Object <$> jsg "SVGMetadataElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGMissingGlyphElement Mozilla SVGMissingGlyphElement documentation>
 newtype SVGMissingGlyphElement = SVGMissingGlyphElement { unSVGMissingGlyphElement :: JSVal }
@@ -25126,9 +27146,11 @@ instance IsEventTarget SVGMissingGlyphElement
 instance IsSlotable SVGMissingGlyphElement
 instance IsParentNode SVGMissingGlyphElement
 instance IsNonDocumentTypeChildNode SVGMissingGlyphElement
+instance IsDocumentAndElementEventHandlers SVGMissingGlyphElement
 instance IsChildNode SVGMissingGlyphElement
 instance IsAnimatable SVGMissingGlyphElement
 instance IsGlobalEventHandlers SVGMissingGlyphElement
+instance IsElementCSSInlineStyle SVGMissingGlyphElement
 instance IsGObject SVGMissingGlyphElement where
   typeGType _ = gTypeSVGMissingGlyphElement
   {-# INLINE typeGType #-}
@@ -25213,9 +27235,11 @@ gTypeSVGNumberList = GType . Object <$> jsg "SVGNumberList"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -25251,9 +27275,11 @@ instance IsEventTarget SVGPathElement
 instance IsSlotable SVGPathElement
 instance IsParentNode SVGPathElement
 instance IsNonDocumentTypeChildNode SVGPathElement
+instance IsDocumentAndElementEventHandlers SVGPathElement
 instance IsChildNode SVGPathElement
 instance IsAnimatable SVGPathElement
 instance IsGlobalEventHandlers SVGPathElement
+instance IsElementCSSInlineStyle SVGPathElement
 instance IsSVGTests SVGPathElement
 instance IsSVGExternalResourcesRequired SVGPathElement
 instance IsGObject SVGPathElement where
@@ -26047,9 +28073,11 @@ gTypeSVGPathSegMovetoRel = GType . Object <$> jsg "SVGPathSegMovetoRel"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGFitToViewBox"
@@ -26086,9 +28114,11 @@ instance IsEventTarget SVGPatternElement
 instance IsSlotable SVGPatternElement
 instance IsParentNode SVGPatternElement
 instance IsNonDocumentTypeChildNode SVGPatternElement
+instance IsDocumentAndElementEventHandlers SVGPatternElement
 instance IsChildNode SVGPatternElement
 instance IsAnimatable SVGPatternElement
 instance IsGlobalEventHandlers SVGPatternElement
+instance IsElementCSSInlineStyle SVGPatternElement
 instance IsSVGURIReference SVGPatternElement
 instance IsSVGTests SVGPatternElement
 instance IsSVGFitToViewBox SVGPatternElement
@@ -26177,9 +28207,11 @@ gTypeSVGPointList = GType . Object <$> jsg "SVGPointList"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26215,9 +28247,11 @@ instance IsEventTarget SVGPolygonElement
 instance IsSlotable SVGPolygonElement
 instance IsParentNode SVGPolygonElement
 instance IsNonDocumentTypeChildNode SVGPolygonElement
+instance IsDocumentAndElementEventHandlers SVGPolygonElement
 instance IsChildNode SVGPolygonElement
 instance IsAnimatable SVGPolygonElement
 instance IsGlobalEventHandlers SVGPolygonElement
+instance IsElementCSSInlineStyle SVGPolygonElement
 instance IsSVGTests SVGPolygonElement
 instance IsSVGExternalResourcesRequired SVGPolygonElement
 instance IsGObject SVGPolygonElement where
@@ -26238,9 +28272,11 @@ gTypeSVGPolygonElement = GType . Object <$> jsg "SVGPolygonElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26276,9 +28312,11 @@ instance IsEventTarget SVGPolylineElement
 instance IsSlotable SVGPolylineElement
 instance IsParentNode SVGPolylineElement
 instance IsNonDocumentTypeChildNode SVGPolylineElement
+instance IsDocumentAndElementEventHandlers SVGPolylineElement
 instance IsChildNode SVGPolylineElement
 instance IsAnimatable SVGPolylineElement
 instance IsGlobalEventHandlers SVGPolylineElement
+instance IsElementCSSInlineStyle SVGPolylineElement
 instance IsSVGTests SVGPolylineElement
 instance IsSVGExternalResourcesRequired SVGPolylineElement
 instance IsGObject SVGPolylineElement where
@@ -26332,9 +28370,11 @@ gTypeSVGPreserveAspectRatio = GType . Object <$> jsg "SVGPreserveAspectRatio"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26370,9 +28410,11 @@ instance IsEventTarget SVGRadialGradientElement
 instance IsSlotable SVGRadialGradientElement
 instance IsParentNode SVGRadialGradientElement
 instance IsNonDocumentTypeChildNode SVGRadialGradientElement
+instance IsDocumentAndElementEventHandlers SVGRadialGradientElement
 instance IsChildNode SVGRadialGradientElement
 instance IsAnimatable SVGRadialGradientElement
 instance IsGlobalEventHandlers SVGRadialGradientElement
+instance IsElementCSSInlineStyle SVGRadialGradientElement
 instance IsSVGURIReference SVGRadialGradientElement
 instance IsSVGExternalResourcesRequired SVGRadialGradientElement
 instance IsGObject SVGRadialGradientElement where
@@ -26426,9 +28468,11 @@ gTypeSVGRect = GType . Object <$> jsg "SVGRect"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26464,9 +28508,11 @@ instance IsEventTarget SVGRectElement
 instance IsSlotable SVGRectElement
 instance IsParentNode SVGRectElement
 instance IsNonDocumentTypeChildNode SVGRectElement
+instance IsDocumentAndElementEventHandlers SVGRectElement
 instance IsChildNode SVGRectElement
 instance IsAnimatable SVGRectElement
 instance IsGlobalEventHandlers SVGRectElement
+instance IsElementCSSInlineStyle SVGRectElement
 instance IsSVGTests SVGRectElement
 instance IsSVGExternalResourcesRequired SVGRectElement
 instance IsGObject SVGRectElement where
@@ -26520,9 +28566,11 @@ gTypeSVGRenderingIntent = GType . Object <$> jsg "SVGRenderingIntent"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGZoomAndPan"
 --     * "JSDOM.SVGFitToViewBox"
@@ -26560,9 +28608,11 @@ instance IsEventTarget SVGSVGElement
 instance IsSlotable SVGSVGElement
 instance IsParentNode SVGSVGElement
 instance IsNonDocumentTypeChildNode SVGSVGElement
+instance IsDocumentAndElementEventHandlers SVGSVGElement
 instance IsChildNode SVGSVGElement
 instance IsAnimatable SVGSVGElement
 instance IsGlobalEventHandlers SVGSVGElement
+instance IsElementCSSInlineStyle SVGSVGElement
 instance IsSVGTests SVGSVGElement
 instance IsSVGZoomAndPan SVGSVGElement
 instance IsSVGFitToViewBox SVGSVGElement
@@ -26584,9 +28634,11 @@ gTypeSVGSVGElement = GType . Object <$> jsg "SVGSVGElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26621,9 +28673,11 @@ instance IsEventTarget SVGScriptElement
 instance IsSlotable SVGScriptElement
 instance IsParentNode SVGScriptElement
 instance IsNonDocumentTypeChildNode SVGScriptElement
+instance IsDocumentAndElementEventHandlers SVGScriptElement
 instance IsChildNode SVGScriptElement
 instance IsAnimatable SVGScriptElement
 instance IsGlobalEventHandlers SVGScriptElement
+instance IsElementCSSInlineStyle SVGScriptElement
 instance IsSVGURIReference SVGScriptElement
 instance IsSVGExternalResourcesRequired SVGScriptElement
 instance IsGObject SVGScriptElement where
@@ -26644,9 +28698,11 @@ gTypeSVGScriptElement = GType . Object <$> jsg "SVGScriptElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26682,9 +28738,11 @@ instance IsEventTarget SVGSetElement
 instance IsSlotable SVGSetElement
 instance IsParentNode SVGSetElement
 instance IsNonDocumentTypeChildNode SVGSetElement
+instance IsDocumentAndElementEventHandlers SVGSetElement
 instance IsChildNode SVGSetElement
 instance IsAnimatable SVGSetElement
 instance IsGlobalEventHandlers SVGSetElement
+instance IsElementCSSInlineStyle SVGSetElement
 instance IsSVGTests SVGSetElement
 instance IsSVGExternalResourcesRequired SVGSetElement
 instance IsGObject SVGSetElement where
@@ -26704,9 +28762,11 @@ gTypeSVGSetElement = GType . Object <$> jsg "SVGSetElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGStopElement Mozilla SVGStopElement documentation>
 newtype SVGStopElement = SVGStopElement { unSVGStopElement :: JSVal }
@@ -26739,9 +28799,11 @@ instance IsEventTarget SVGStopElement
 instance IsSlotable SVGStopElement
 instance IsParentNode SVGStopElement
 instance IsNonDocumentTypeChildNode SVGStopElement
+instance IsDocumentAndElementEventHandlers SVGStopElement
 instance IsChildNode SVGStopElement
 instance IsAnimatable SVGStopElement
 instance IsGlobalEventHandlers SVGStopElement
+instance IsElementCSSInlineStyle SVGStopElement
 instance IsGObject SVGStopElement where
   typeGType _ = gTypeSVGStopElement
   {-# INLINE typeGType #-}
@@ -26792,9 +28854,11 @@ gTypeSVGStringList = GType . Object <$> jsg "SVGStringList"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGStyleElement Mozilla SVGStyleElement documentation>
 newtype SVGStyleElement = SVGStyleElement { unSVGStyleElement :: JSVal }
@@ -26827,9 +28891,11 @@ instance IsEventTarget SVGStyleElement
 instance IsSlotable SVGStyleElement
 instance IsParentNode SVGStyleElement
 instance IsNonDocumentTypeChildNode SVGStyleElement
+instance IsDocumentAndElementEventHandlers SVGStyleElement
 instance IsChildNode SVGStyleElement
 instance IsAnimatable SVGStyleElement
 instance IsGlobalEventHandlers SVGStyleElement
+instance IsElementCSSInlineStyle SVGStyleElement
 instance IsGObject SVGStyleElement where
   typeGType _ = gTypeSVGStyleElement
   {-# INLINE typeGType #-}
@@ -26848,9 +28914,11 @@ gTypeSVGStyleElement = GType . Object <$> jsg "SVGStyleElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26886,9 +28954,11 @@ instance IsEventTarget SVGSwitchElement
 instance IsSlotable SVGSwitchElement
 instance IsParentNode SVGSwitchElement
 instance IsNonDocumentTypeChildNode SVGSwitchElement
+instance IsDocumentAndElementEventHandlers SVGSwitchElement
 instance IsChildNode SVGSwitchElement
 instance IsAnimatable SVGSwitchElement
 instance IsGlobalEventHandlers SVGSwitchElement
+instance IsElementCSSInlineStyle SVGSwitchElement
 instance IsSVGTests SVGSwitchElement
 instance IsSVGExternalResourcesRequired SVGSwitchElement
 instance IsGObject SVGSwitchElement where
@@ -26908,9 +28978,11 @@ gTypeSVGSwitchElement = GType . Object <$> jsg "SVGSwitchElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGFitToViewBox"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -26945,9 +29017,11 @@ instance IsEventTarget SVGSymbolElement
 instance IsSlotable SVGSymbolElement
 instance IsParentNode SVGSymbolElement
 instance IsNonDocumentTypeChildNode SVGSymbolElement
+instance IsDocumentAndElementEventHandlers SVGSymbolElement
 instance IsChildNode SVGSymbolElement
 instance IsAnimatable SVGSymbolElement
 instance IsGlobalEventHandlers SVGSymbolElement
+instance IsElementCSSInlineStyle SVGSymbolElement
 instance IsSVGFitToViewBox SVGSymbolElement
 instance IsSVGExternalResourcesRequired SVGSymbolElement
 instance IsGObject SVGSymbolElement where
@@ -26970,9 +29044,11 @@ gTypeSVGSymbolElement = GType . Object <$> jsg "SVGSymbolElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --     * "JSDOM.SVGURIReference"
@@ -27011,9 +29087,11 @@ instance IsEventTarget SVGTRefElement
 instance IsSlotable SVGTRefElement
 instance IsParentNode SVGTRefElement
 instance IsNonDocumentTypeChildNode SVGTRefElement
+instance IsDocumentAndElementEventHandlers SVGTRefElement
 instance IsChildNode SVGTRefElement
 instance IsAnimatable SVGTRefElement
 instance IsGlobalEventHandlers SVGTRefElement
+instance IsElementCSSInlineStyle SVGTRefElement
 instance IsSVGTests SVGTRefElement
 instance IsSVGExternalResourcesRequired SVGTRefElement
 instance IsSVGURIReference SVGTRefElement
@@ -27037,9 +29115,11 @@ gTypeSVGTRefElement = GType . Object <$> jsg "SVGTRefElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -27077,9 +29157,11 @@ instance IsEventTarget SVGTSpanElement
 instance IsSlotable SVGTSpanElement
 instance IsParentNode SVGTSpanElement
 instance IsNonDocumentTypeChildNode SVGTSpanElement
+instance IsDocumentAndElementEventHandlers SVGTSpanElement
 instance IsChildNode SVGTSpanElement
 instance IsAnimatable SVGTSpanElement
 instance IsGlobalEventHandlers SVGTSpanElement
+instance IsElementCSSInlineStyle SVGTSpanElement
 instance IsSVGTests SVGTSpanElement
 instance IsSVGExternalResourcesRequired SVGTSpanElement
 instance IsGObject SVGTSpanElement where
@@ -27138,9 +29220,11 @@ gTypeSVGTests = GType . Object <$> jsg "SVGTests"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -27168,7 +29252,7 @@ instance FromJSVal SVGTextContentElement where
 instance MakeObject SVGTextContentElement where
   makeObject = makeObject . unSVGTextContentElement
 
-class (IsSVGGraphicsElement o, IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsSVGTests o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGTextContentElement o
+class (IsSVGGraphicsElement o, IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsSVGTests o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGTextContentElement o
 toSVGTextContentElement :: IsSVGTextContentElement o => o -> SVGTextContentElement
 toSVGTextContentElement = SVGTextContentElement . coerce
 
@@ -27181,9 +29265,11 @@ instance IsEventTarget SVGTextContentElement
 instance IsSlotable SVGTextContentElement
 instance IsParentNode SVGTextContentElement
 instance IsNonDocumentTypeChildNode SVGTextContentElement
+instance IsDocumentAndElementEventHandlers SVGTextContentElement
 instance IsChildNode SVGTextContentElement
 instance IsAnimatable SVGTextContentElement
 instance IsGlobalEventHandlers SVGTextContentElement
+instance IsElementCSSInlineStyle SVGTextContentElement
 instance IsSVGTests SVGTextContentElement
 instance IsSVGExternalResourcesRequired SVGTextContentElement
 instance IsGObject SVGTextContentElement where
@@ -27206,9 +29292,11 @@ gTypeSVGTextContentElement = GType . Object <$> jsg "SVGTextContentElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -27246,9 +29334,11 @@ instance IsEventTarget SVGTextElement
 instance IsSlotable SVGTextElement
 instance IsParentNode SVGTextElement
 instance IsNonDocumentTypeChildNode SVGTextElement
+instance IsDocumentAndElementEventHandlers SVGTextElement
 instance IsChildNode SVGTextElement
 instance IsAnimatable SVGTextElement
 instance IsGlobalEventHandlers SVGTextElement
+instance IsElementCSSInlineStyle SVGTextElement
 instance IsSVGTests SVGTextElement
 instance IsSVGExternalResourcesRequired SVGTextElement
 instance IsGObject SVGTextElement where
@@ -27270,9 +29360,11 @@ gTypeSVGTextElement = GType . Object <$> jsg "SVGTextElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --     * "JSDOM.SVGURIReference"
@@ -27310,9 +29402,11 @@ instance IsEventTarget SVGTextPathElement
 instance IsSlotable SVGTextPathElement
 instance IsParentNode SVGTextPathElement
 instance IsNonDocumentTypeChildNode SVGTextPathElement
+instance IsDocumentAndElementEventHandlers SVGTextPathElement
 instance IsChildNode SVGTextPathElement
 instance IsAnimatable SVGTextPathElement
 instance IsGlobalEventHandlers SVGTextPathElement
+instance IsElementCSSInlineStyle SVGTextPathElement
 instance IsSVGTests SVGTextPathElement
 instance IsSVGExternalResourcesRequired SVGTextPathElement
 instance IsSVGURIReference SVGTextPathElement
@@ -27335,9 +29429,11 @@ gTypeSVGTextPathElement = GType . Object <$> jsg "SVGTextPathElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGExternalResourcesRequired"
 --
@@ -27365,7 +29461,7 @@ instance FromJSVal SVGTextPositioningElement where
 instance MakeObject SVGTextPositioningElement where
   makeObject = makeObject . unSVGTextPositioningElement
 
-class (IsSVGTextContentElement o, IsSVGGraphicsElement o, IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsSVGTests o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGTextPositioningElement o
+class (IsSVGTextContentElement o, IsSVGGraphicsElement o, IsSVGElement o, IsElement o, IsNode o, IsEventTarget o, IsSlotable o, IsParentNode o, IsNonDocumentTypeChildNode o, IsDocumentAndElementEventHandlers o, IsChildNode o, IsAnimatable o, IsGlobalEventHandlers o, IsElementCSSInlineStyle o, IsSVGTests o, IsSVGExternalResourcesRequired o, IsGObject o) => IsSVGTextPositioningElement o
 toSVGTextPositioningElement :: IsSVGTextPositioningElement o => o -> SVGTextPositioningElement
 toSVGTextPositioningElement = SVGTextPositioningElement . coerce
 
@@ -27379,9 +29475,11 @@ instance IsEventTarget SVGTextPositioningElement
 instance IsSlotable SVGTextPositioningElement
 instance IsParentNode SVGTextPositioningElement
 instance IsNonDocumentTypeChildNode SVGTextPositioningElement
+instance IsDocumentAndElementEventHandlers SVGTextPositioningElement
 instance IsChildNode SVGTextPositioningElement
 instance IsAnimatable SVGTextPositioningElement
 instance IsGlobalEventHandlers SVGTextPositioningElement
+instance IsElementCSSInlineStyle SVGTextPositioningElement
 instance IsSVGTests SVGTextPositioningElement
 instance IsSVGExternalResourcesRequired SVGTextPositioningElement
 instance IsGObject SVGTextPositioningElement where
@@ -27401,9 +29499,11 @@ gTypeSVGTextPositioningElement = GType . Object <$> jsg "SVGTextPositioningEleme
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGTitleElement Mozilla SVGTitleElement documentation>
 newtype SVGTitleElement = SVGTitleElement { unSVGTitleElement :: JSVal }
@@ -27436,9 +29536,11 @@ instance IsEventTarget SVGTitleElement
 instance IsSlotable SVGTitleElement
 instance IsParentNode SVGTitleElement
 instance IsNonDocumentTypeChildNode SVGTitleElement
+instance IsDocumentAndElementEventHandlers SVGTitleElement
 instance IsChildNode SVGTitleElement
 instance IsAnimatable SVGTitleElement
 instance IsGlobalEventHandlers SVGTitleElement
+instance IsElementCSSInlineStyle SVGTitleElement
 instance IsGObject SVGTitleElement where
   typeGType _ = gTypeSVGTitleElement
   {-# INLINE typeGType #-}
@@ -27594,9 +29696,11 @@ gTypeSVGUnitTypes = GType . Object <$> jsg "SVGUnitTypes"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGTests"
 --     * "JSDOM.SVGURIReference"
 --     * "JSDOM.SVGExternalResourcesRequired"
@@ -27633,9 +29737,11 @@ instance IsEventTarget SVGUseElement
 instance IsSlotable SVGUseElement
 instance IsParentNode SVGUseElement
 instance IsNonDocumentTypeChildNode SVGUseElement
+instance IsDocumentAndElementEventHandlers SVGUseElement
 instance IsChildNode SVGUseElement
 instance IsAnimatable SVGUseElement
 instance IsGlobalEventHandlers SVGUseElement
+instance IsElementCSSInlineStyle SVGUseElement
 instance IsSVGTests SVGUseElement
 instance IsSVGURIReference SVGUseElement
 instance IsSVGExternalResourcesRequired SVGUseElement
@@ -27656,9 +29762,11 @@ gTypeSVGUseElement = GType . Object <$> jsg "SVGUseElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/SVGVKernElement Mozilla SVGVKernElement documentation>
 newtype SVGVKernElement = SVGVKernElement { unSVGVKernElement :: JSVal }
@@ -27691,9 +29799,11 @@ instance IsEventTarget SVGVKernElement
 instance IsSlotable SVGVKernElement
 instance IsParentNode SVGVKernElement
 instance IsNonDocumentTypeChildNode SVGVKernElement
+instance IsDocumentAndElementEventHandlers SVGVKernElement
 instance IsChildNode SVGVKernElement
 instance IsAnimatable SVGVKernElement
 instance IsGlobalEventHandlers SVGVKernElement
+instance IsElementCSSInlineStyle SVGVKernElement
 instance IsGObject SVGVKernElement where
   typeGType _ = gTypeSVGVKernElement
   {-# INLINE typeGType #-}
@@ -27711,9 +29821,11 @@ gTypeSVGVKernElement = GType . Object <$> jsg "SVGVKernElement"
 --     * "JSDOM.Slotable"
 --     * "JSDOM.ParentNode"
 --     * "JSDOM.NonDocumentTypeChildNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --     * "JSDOM.ChildNode"
 --     * "JSDOM.Animatable"
 --     * "JSDOM.GlobalEventHandlers"
+--     * "JSDOM.ElementCSSInlineStyle"
 --     * "JSDOM.SVGZoomAndPan"
 --     * "JSDOM.SVGFitToViewBox"
 --     * "JSDOM.SVGExternalResourcesRequired"
@@ -27749,9 +29861,11 @@ instance IsEventTarget SVGViewElement
 instance IsSlotable SVGViewElement
 instance IsParentNode SVGViewElement
 instance IsNonDocumentTypeChildNode SVGViewElement
+instance IsDocumentAndElementEventHandlers SVGViewElement
 instance IsChildNode SVGViewElement
 instance IsAnimatable SVGViewElement
 instance IsGlobalEventHandlers SVGViewElement
+instance IsElementCSSInlineStyle SVGViewElement
 instance IsSVGZoomAndPan SVGViewElement
 instance IsSVGFitToViewBox SVGViewElement
 instance IsSVGExternalResourcesRequired SVGViewElement
@@ -28167,6 +30281,90 @@ instance IsGObject ShadowRootInit where
 
 gTypeShadowRootInit :: JSM GType
 gTypeShadowRootInit = GType . Object <$> jsg "ShadowRootInit"
+
+-- | Functions for this inteface are in "JSDOM.SiteBoundCredential".
+-- Base interface functions are in:
+--
+--     * "JSDOM.BasicCredential"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/SiteBoundCredential Mozilla SiteBoundCredential documentation>
+newtype SiteBoundCredential = SiteBoundCredential { unSiteBoundCredential :: JSVal }
+
+instance PToJSVal SiteBoundCredential where
+  pToJSVal = unSiteBoundCredential
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal SiteBoundCredential where
+  pFromJSVal = SiteBoundCredential
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal SiteBoundCredential where
+  toJSVal = return . unSiteBoundCredential
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal SiteBoundCredential where
+  fromJSVal v = fmap SiteBoundCredential <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SiteBoundCredential
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject SiteBoundCredential where
+  makeObject = makeObject . unSiteBoundCredential
+
+class (IsBasicCredential o, IsGObject o) => IsSiteBoundCredential o
+toSiteBoundCredential :: IsSiteBoundCredential o => o -> SiteBoundCredential
+toSiteBoundCredential = SiteBoundCredential . coerce
+
+instance IsSiteBoundCredential SiteBoundCredential
+instance IsBasicCredential SiteBoundCredential
+instance IsGObject SiteBoundCredential where
+  typeGType _ = gTypeSiteBoundCredential
+  {-# INLINE typeGType #-}
+
+gTypeSiteBoundCredential :: JSM GType
+gTypeSiteBoundCredential = GType . Object <$> jsg "SiteBoundCredential"
+
+-- | Functions for this inteface are in "JSDOM.SiteBoundCredentialData".
+-- Base interface functions are in:
+--
+--     * "JSDOM.CredentialData"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/SiteBoundCredentialData Mozilla SiteBoundCredentialData documentation>
+newtype SiteBoundCredentialData = SiteBoundCredentialData { unSiteBoundCredentialData :: JSVal }
+
+instance PToJSVal SiteBoundCredentialData where
+  pToJSVal = unSiteBoundCredentialData
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal SiteBoundCredentialData where
+  pFromJSVal = SiteBoundCredentialData
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal SiteBoundCredentialData where
+  toJSVal = return . unSiteBoundCredentialData
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal SiteBoundCredentialData where
+  fromJSVal v = fmap SiteBoundCredentialData <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . SiteBoundCredentialData
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject SiteBoundCredentialData where
+  makeObject = makeObject . unSiteBoundCredentialData
+
+class (IsCredentialData o, IsGObject o) => IsSiteBoundCredentialData o
+toSiteBoundCredentialData :: IsSiteBoundCredentialData o => o -> SiteBoundCredentialData
+toSiteBoundCredentialData = SiteBoundCredentialData . coerce
+
+instance IsSiteBoundCredentialData SiteBoundCredentialData
+instance IsCredentialData SiteBoundCredentialData
+instance IsGObject SiteBoundCredentialData where
+  typeGType _ = gTypeSiteBoundCredentialData
+  {-# INLINE typeGType #-}
+
+gTypeSiteBoundCredentialData :: JSM GType
+gTypeSiteBoundCredentialData = GType . Object <$> jsg "SiteBoundCredentialData"
 
 -- | Functions for this inteface are in "JSDOM.Slotable".
 --
@@ -31000,6 +33198,745 @@ instance IsGObject WebGLVertexArrayObjectOES where
 gTypeWebGLVertexArrayObjectOES :: JSM GType
 gTypeWebGLVertexArrayObjectOES = GType . Object <$> jsg "WebGLVertexArrayObjectOES"
 
+-- | Functions for this inteface are in "JSDOM.WebGPUBuffer".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUBuffer Mozilla WebGPUBuffer documentation>
+newtype WebGPUBuffer = WebGPUBuffer { unWebGPUBuffer :: JSVal }
+
+instance PToJSVal WebGPUBuffer where
+  pToJSVal = unWebGPUBuffer
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUBuffer where
+  pFromJSVal = WebGPUBuffer
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUBuffer where
+  toJSVal = return . unWebGPUBuffer
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUBuffer where
+  fromJSVal v = fmap WebGPUBuffer <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUBuffer
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUBuffer where
+  makeObject = makeObject . unWebGPUBuffer
+
+instance IsGObject WebGPUBuffer where
+  typeGType _ = gTypeWebGPUBuffer
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUBuffer :: JSM GType
+gTypeWebGPUBuffer = GType . Object <$> jsg "WebGPUBuffer"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUCommandBuffer".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUCommandBuffer Mozilla WebGPUCommandBuffer documentation>
+newtype WebGPUCommandBuffer = WebGPUCommandBuffer { unWebGPUCommandBuffer :: JSVal }
+
+instance PToJSVal WebGPUCommandBuffer where
+  pToJSVal = unWebGPUCommandBuffer
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUCommandBuffer where
+  pFromJSVal = WebGPUCommandBuffer
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUCommandBuffer where
+  toJSVal = return . unWebGPUCommandBuffer
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUCommandBuffer where
+  fromJSVal v = fmap WebGPUCommandBuffer <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUCommandBuffer
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUCommandBuffer where
+  makeObject = makeObject . unWebGPUCommandBuffer
+
+instance IsGObject WebGPUCommandBuffer where
+  typeGType _ = gTypeWebGPUCommandBuffer
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUCommandBuffer :: JSM GType
+gTypeWebGPUCommandBuffer = GType . Object <$> jsg "WebGPUCommandBuffer"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUCommandQueue".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUCommandQueue Mozilla WebGPUCommandQueue documentation>
+newtype WebGPUCommandQueue = WebGPUCommandQueue { unWebGPUCommandQueue :: JSVal }
+
+instance PToJSVal WebGPUCommandQueue where
+  pToJSVal = unWebGPUCommandQueue
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUCommandQueue where
+  pFromJSVal = WebGPUCommandQueue
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUCommandQueue where
+  toJSVal = return . unWebGPUCommandQueue
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUCommandQueue where
+  fromJSVal v = fmap WebGPUCommandQueue <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUCommandQueue
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUCommandQueue where
+  makeObject = makeObject . unWebGPUCommandQueue
+
+instance IsGObject WebGPUCommandQueue where
+  typeGType _ = gTypeWebGPUCommandQueue
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUCommandQueue :: JSM GType
+gTypeWebGPUCommandQueue = GType . Object <$> jsg "WebGPUCommandQueue"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUComputeCommandEncoder".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUComputeCommandEncoder Mozilla WebGPUComputeCommandEncoder documentation>
+newtype WebGPUComputeCommandEncoder = WebGPUComputeCommandEncoder { unWebGPUComputeCommandEncoder :: JSVal }
+
+instance PToJSVal WebGPUComputeCommandEncoder where
+  pToJSVal = unWebGPUComputeCommandEncoder
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUComputeCommandEncoder where
+  pFromJSVal = WebGPUComputeCommandEncoder
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUComputeCommandEncoder where
+  toJSVal = return . unWebGPUComputeCommandEncoder
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUComputeCommandEncoder where
+  fromJSVal v = fmap WebGPUComputeCommandEncoder <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUComputeCommandEncoder
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUComputeCommandEncoder where
+  makeObject = makeObject . unWebGPUComputeCommandEncoder
+
+instance IsGObject WebGPUComputeCommandEncoder where
+  typeGType _ = gTypeWebGPUComputeCommandEncoder
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUComputeCommandEncoder :: JSM GType
+gTypeWebGPUComputeCommandEncoder = GType . Object <$> jsg "WebGPUComputeCommandEncoder"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUComputePipelineState".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUComputePipelineState Mozilla WebGPUComputePipelineState documentation>
+newtype WebGPUComputePipelineState = WebGPUComputePipelineState { unWebGPUComputePipelineState :: JSVal }
+
+instance PToJSVal WebGPUComputePipelineState where
+  pToJSVal = unWebGPUComputePipelineState
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUComputePipelineState where
+  pFromJSVal = WebGPUComputePipelineState
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUComputePipelineState where
+  toJSVal = return . unWebGPUComputePipelineState
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUComputePipelineState where
+  fromJSVal v = fmap WebGPUComputePipelineState <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUComputePipelineState
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUComputePipelineState where
+  makeObject = makeObject . unWebGPUComputePipelineState
+
+instance IsGObject WebGPUComputePipelineState where
+  typeGType _ = gTypeWebGPUComputePipelineState
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUComputePipelineState :: JSM GType
+gTypeWebGPUComputePipelineState = GType . Object <$> jsg "WebGPUComputePipelineState"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUDepthStencilDescriptor".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUDepthStencilDescriptor Mozilla WebGPUDepthStencilDescriptor documentation>
+newtype WebGPUDepthStencilDescriptor = WebGPUDepthStencilDescriptor { unWebGPUDepthStencilDescriptor :: JSVal }
+
+instance PToJSVal WebGPUDepthStencilDescriptor where
+  pToJSVal = unWebGPUDepthStencilDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUDepthStencilDescriptor where
+  pFromJSVal = WebGPUDepthStencilDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUDepthStencilDescriptor where
+  toJSVal = return . unWebGPUDepthStencilDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUDepthStencilDescriptor where
+  fromJSVal v = fmap WebGPUDepthStencilDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUDepthStencilDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUDepthStencilDescriptor where
+  makeObject = makeObject . unWebGPUDepthStencilDescriptor
+
+instance IsGObject WebGPUDepthStencilDescriptor where
+  typeGType _ = gTypeWebGPUDepthStencilDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUDepthStencilDescriptor :: JSM GType
+gTypeWebGPUDepthStencilDescriptor = GType . Object <$> jsg "WebGPUDepthStencilDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUDepthStencilState".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUDepthStencilState Mozilla WebGPUDepthStencilState documentation>
+newtype WebGPUDepthStencilState = WebGPUDepthStencilState { unWebGPUDepthStencilState :: JSVal }
+
+instance PToJSVal WebGPUDepthStencilState where
+  pToJSVal = unWebGPUDepthStencilState
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUDepthStencilState where
+  pFromJSVal = WebGPUDepthStencilState
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUDepthStencilState where
+  toJSVal = return . unWebGPUDepthStencilState
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUDepthStencilState where
+  fromJSVal v = fmap WebGPUDepthStencilState <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUDepthStencilState
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUDepthStencilState where
+  makeObject = makeObject . unWebGPUDepthStencilState
+
+instance IsGObject WebGPUDepthStencilState where
+  typeGType _ = gTypeWebGPUDepthStencilState
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUDepthStencilState :: JSM GType
+gTypeWebGPUDepthStencilState = GType . Object <$> jsg "WebGPUDepthStencilState"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUDrawable".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUDrawable Mozilla WebGPUDrawable documentation>
+newtype WebGPUDrawable = WebGPUDrawable { unWebGPUDrawable :: JSVal }
+
+instance PToJSVal WebGPUDrawable where
+  pToJSVal = unWebGPUDrawable
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUDrawable where
+  pFromJSVal = WebGPUDrawable
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUDrawable where
+  toJSVal = return . unWebGPUDrawable
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUDrawable where
+  fromJSVal v = fmap WebGPUDrawable <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUDrawable
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUDrawable where
+  makeObject = makeObject . unWebGPUDrawable
+
+instance IsGObject WebGPUDrawable where
+  typeGType _ = gTypeWebGPUDrawable
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUDrawable :: JSM GType
+gTypeWebGPUDrawable = GType . Object <$> jsg "WebGPUDrawable"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUFunction".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUFunction Mozilla WebGPUFunction documentation>
+newtype WebGPUFunction = WebGPUFunction { unWebGPUFunction :: JSVal }
+
+instance PToJSVal WebGPUFunction where
+  pToJSVal = unWebGPUFunction
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUFunction where
+  pFromJSVal = WebGPUFunction
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUFunction where
+  toJSVal = return . unWebGPUFunction
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUFunction where
+  fromJSVal v = fmap WebGPUFunction <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUFunction
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUFunction where
+  makeObject = makeObject . unWebGPUFunction
+
+instance IsGObject WebGPUFunction where
+  typeGType _ = gTypeWebGPUFunction
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUFunction :: JSM GType
+gTypeWebGPUFunction = GType . Object <$> jsg "WebGPUFunction"
+
+-- | Functions for this inteface are in "JSDOM.WebGPULibrary".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPULibrary Mozilla WebGPULibrary documentation>
+newtype WebGPULibrary = WebGPULibrary { unWebGPULibrary :: JSVal }
+
+instance PToJSVal WebGPULibrary where
+  pToJSVal = unWebGPULibrary
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPULibrary where
+  pFromJSVal = WebGPULibrary
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPULibrary where
+  toJSVal = return . unWebGPULibrary
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPULibrary where
+  fromJSVal v = fmap WebGPULibrary <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPULibrary
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPULibrary where
+  makeObject = makeObject . unWebGPULibrary
+
+instance IsGObject WebGPULibrary where
+  typeGType _ = gTypeWebGPULibrary
+  {-# INLINE typeGType #-}
+
+gTypeWebGPULibrary :: JSM GType
+gTypeWebGPULibrary = GType . Object <$> jsg "WebGPULibrary"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderCommandEncoder".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderCommandEncoder Mozilla WebGPURenderCommandEncoder documentation>
+newtype WebGPURenderCommandEncoder = WebGPURenderCommandEncoder { unWebGPURenderCommandEncoder :: JSVal }
+
+instance PToJSVal WebGPURenderCommandEncoder where
+  pToJSVal = unWebGPURenderCommandEncoder
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderCommandEncoder where
+  pFromJSVal = WebGPURenderCommandEncoder
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderCommandEncoder where
+  toJSVal = return . unWebGPURenderCommandEncoder
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderCommandEncoder where
+  fromJSVal v = fmap WebGPURenderCommandEncoder <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderCommandEncoder
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderCommandEncoder where
+  makeObject = makeObject . unWebGPURenderCommandEncoder
+
+instance IsGObject WebGPURenderCommandEncoder where
+  typeGType _ = gTypeWebGPURenderCommandEncoder
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderCommandEncoder :: JSM GType
+gTypeWebGPURenderCommandEncoder = GType . Object <$> jsg "WebGPURenderCommandEncoder"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPassAttachmentDescriptor".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPassAttachmentDescriptor Mozilla WebGPURenderPassAttachmentDescriptor documentation>
+newtype WebGPURenderPassAttachmentDescriptor = WebGPURenderPassAttachmentDescriptor { unWebGPURenderPassAttachmentDescriptor :: JSVal }
+
+instance PToJSVal WebGPURenderPassAttachmentDescriptor where
+  pToJSVal = unWebGPURenderPassAttachmentDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPassAttachmentDescriptor where
+  pFromJSVal = WebGPURenderPassAttachmentDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPassAttachmentDescriptor where
+  toJSVal = return . unWebGPURenderPassAttachmentDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPassAttachmentDescriptor where
+  fromJSVal v = fmap WebGPURenderPassAttachmentDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPassAttachmentDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPassAttachmentDescriptor where
+  makeObject = makeObject . unWebGPURenderPassAttachmentDescriptor
+
+class (IsGObject o) => IsWebGPURenderPassAttachmentDescriptor o
+toWebGPURenderPassAttachmentDescriptor :: IsWebGPURenderPassAttachmentDescriptor o => o -> WebGPURenderPassAttachmentDescriptor
+toWebGPURenderPassAttachmentDescriptor = WebGPURenderPassAttachmentDescriptor . coerce
+
+instance IsWebGPURenderPassAttachmentDescriptor WebGPURenderPassAttachmentDescriptor
+instance IsGObject WebGPURenderPassAttachmentDescriptor where
+  typeGType _ = gTypeWebGPURenderPassAttachmentDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPassAttachmentDescriptor :: JSM GType
+gTypeWebGPURenderPassAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPassAttachmentDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPassColorAttachmentDescriptor".
+-- Base interface functions are in:
+--
+--     * "JSDOM.WebGPURenderPassAttachmentDescriptor"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPassColorAttachmentDescriptor Mozilla WebGPURenderPassColorAttachmentDescriptor documentation>
+newtype WebGPURenderPassColorAttachmentDescriptor = WebGPURenderPassColorAttachmentDescriptor { unWebGPURenderPassColorAttachmentDescriptor :: JSVal }
+
+instance PToJSVal WebGPURenderPassColorAttachmentDescriptor where
+  pToJSVal = unWebGPURenderPassColorAttachmentDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPassColorAttachmentDescriptor where
+  pFromJSVal = WebGPURenderPassColorAttachmentDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPassColorAttachmentDescriptor where
+  toJSVal = return . unWebGPURenderPassColorAttachmentDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPassColorAttachmentDescriptor where
+  fromJSVal v = fmap WebGPURenderPassColorAttachmentDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPassColorAttachmentDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPassColorAttachmentDescriptor where
+  makeObject = makeObject . unWebGPURenderPassColorAttachmentDescriptor
+
+instance IsWebGPURenderPassAttachmentDescriptor WebGPURenderPassColorAttachmentDescriptor
+instance IsGObject WebGPURenderPassColorAttachmentDescriptor where
+  typeGType _ = gTypeWebGPURenderPassColorAttachmentDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPassColorAttachmentDescriptor :: JSM GType
+gTypeWebGPURenderPassColorAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPassColorAttachmentDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPassDepthAttachmentDescriptor".
+-- Base interface functions are in:
+--
+--     * "JSDOM.WebGPURenderPassAttachmentDescriptor"
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPassDepthAttachmentDescriptor Mozilla WebGPURenderPassDepthAttachmentDescriptor documentation>
+newtype WebGPURenderPassDepthAttachmentDescriptor = WebGPURenderPassDepthAttachmentDescriptor { unWebGPURenderPassDepthAttachmentDescriptor :: JSVal }
+
+instance PToJSVal WebGPURenderPassDepthAttachmentDescriptor where
+  pToJSVal = unWebGPURenderPassDepthAttachmentDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPassDepthAttachmentDescriptor where
+  pFromJSVal = WebGPURenderPassDepthAttachmentDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPassDepthAttachmentDescriptor where
+  toJSVal = return . unWebGPURenderPassDepthAttachmentDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPassDepthAttachmentDescriptor where
+  fromJSVal v = fmap WebGPURenderPassDepthAttachmentDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPassDepthAttachmentDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPassDepthAttachmentDescriptor where
+  makeObject = makeObject . unWebGPURenderPassDepthAttachmentDescriptor
+
+instance IsWebGPURenderPassAttachmentDescriptor WebGPURenderPassDepthAttachmentDescriptor
+instance IsGObject WebGPURenderPassDepthAttachmentDescriptor where
+  typeGType _ = gTypeWebGPURenderPassDepthAttachmentDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPassDepthAttachmentDescriptor :: JSM GType
+gTypeWebGPURenderPassDepthAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPassDepthAttachmentDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPassDescriptor".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPassDescriptor Mozilla WebGPURenderPassDescriptor documentation>
+newtype WebGPURenderPassDescriptor = WebGPURenderPassDescriptor { unWebGPURenderPassDescriptor :: JSVal }
+
+instance PToJSVal WebGPURenderPassDescriptor where
+  pToJSVal = unWebGPURenderPassDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPassDescriptor where
+  pFromJSVal = WebGPURenderPassDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPassDescriptor where
+  toJSVal = return . unWebGPURenderPassDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPassDescriptor where
+  fromJSVal v = fmap WebGPURenderPassDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPassDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPassDescriptor where
+  makeObject = makeObject . unWebGPURenderPassDescriptor
+
+instance IsGObject WebGPURenderPassDescriptor where
+  typeGType _ = gTypeWebGPURenderPassDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPassDescriptor :: JSM GType
+gTypeWebGPURenderPassDescriptor = GType . Object <$> jsg "WebGPURenderPassDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPipelineColorAttachmentDescriptor".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPipelineColorAttachmentDescriptor Mozilla WebGPURenderPipelineColorAttachmentDescriptor documentation>
+newtype WebGPURenderPipelineColorAttachmentDescriptor = WebGPURenderPipelineColorAttachmentDescriptor { unWebGPURenderPipelineColorAttachmentDescriptor :: JSVal }
+
+instance PToJSVal WebGPURenderPipelineColorAttachmentDescriptor where
+  pToJSVal = unWebGPURenderPipelineColorAttachmentDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPipelineColorAttachmentDescriptor where
+  pFromJSVal = WebGPURenderPipelineColorAttachmentDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPipelineColorAttachmentDescriptor where
+  toJSVal = return . unWebGPURenderPipelineColorAttachmentDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPipelineColorAttachmentDescriptor where
+  fromJSVal v = fmap WebGPURenderPipelineColorAttachmentDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPipelineColorAttachmentDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPipelineColorAttachmentDescriptor where
+  makeObject = makeObject . unWebGPURenderPipelineColorAttachmentDescriptor
+
+instance IsGObject WebGPURenderPipelineColorAttachmentDescriptor where
+  typeGType _ = gTypeWebGPURenderPipelineColorAttachmentDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPipelineColorAttachmentDescriptor :: JSM GType
+gTypeWebGPURenderPipelineColorAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPipelineColorAttachmentDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPipelineDescriptor".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPipelineDescriptor Mozilla WebGPURenderPipelineDescriptor documentation>
+newtype WebGPURenderPipelineDescriptor = WebGPURenderPipelineDescriptor { unWebGPURenderPipelineDescriptor :: JSVal }
+
+instance PToJSVal WebGPURenderPipelineDescriptor where
+  pToJSVal = unWebGPURenderPipelineDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPipelineDescriptor where
+  pFromJSVal = WebGPURenderPipelineDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPipelineDescriptor where
+  toJSVal = return . unWebGPURenderPipelineDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPipelineDescriptor where
+  fromJSVal v = fmap WebGPURenderPipelineDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPipelineDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPipelineDescriptor where
+  makeObject = makeObject . unWebGPURenderPipelineDescriptor
+
+instance IsGObject WebGPURenderPipelineDescriptor where
+  typeGType _ = gTypeWebGPURenderPipelineDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPipelineDescriptor :: JSM GType
+gTypeWebGPURenderPipelineDescriptor = GType . Object <$> jsg "WebGPURenderPipelineDescriptor"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderPipelineState".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderPipelineState Mozilla WebGPURenderPipelineState documentation>
+newtype WebGPURenderPipelineState = WebGPURenderPipelineState { unWebGPURenderPipelineState :: JSVal }
+
+instance PToJSVal WebGPURenderPipelineState where
+  pToJSVal = unWebGPURenderPipelineState
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderPipelineState where
+  pFromJSVal = WebGPURenderPipelineState
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderPipelineState where
+  toJSVal = return . unWebGPURenderPipelineState
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderPipelineState where
+  fromJSVal v = fmap WebGPURenderPipelineState <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderPipelineState
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderPipelineState where
+  makeObject = makeObject . unWebGPURenderPipelineState
+
+instance IsGObject WebGPURenderPipelineState where
+  typeGType _ = gTypeWebGPURenderPipelineState
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderPipelineState :: JSM GType
+gTypeWebGPURenderPipelineState = GType . Object <$> jsg "WebGPURenderPipelineState"
+
+-- | Functions for this inteface are in "JSDOM.WebGPURenderingContext".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPURenderingContext Mozilla WebGPURenderingContext documentation>
+newtype WebGPURenderingContext = WebGPURenderingContext { unWebGPURenderingContext :: JSVal }
+
+instance PToJSVal WebGPURenderingContext where
+  pToJSVal = unWebGPURenderingContext
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPURenderingContext where
+  pFromJSVal = WebGPURenderingContext
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPURenderingContext where
+  toJSVal = return . unWebGPURenderingContext
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPURenderingContext where
+  fromJSVal v = fmap WebGPURenderingContext <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPURenderingContext
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPURenderingContext where
+  makeObject = makeObject . unWebGPURenderingContext
+
+instance IsGObject WebGPURenderingContext where
+  typeGType _ = gTypeWebGPURenderingContext
+  {-# INLINE typeGType #-}
+
+gTypeWebGPURenderingContext :: JSM GType
+gTypeWebGPURenderingContext = GType . Object <$> jsg "WebGPURenderingContext"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUSize".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUSize Mozilla WebGPUSize documentation>
+newtype WebGPUSize = WebGPUSize { unWebGPUSize :: JSVal }
+
+instance PToJSVal WebGPUSize where
+  pToJSVal = unWebGPUSize
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUSize where
+  pFromJSVal = WebGPUSize
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUSize where
+  toJSVal = return . unWebGPUSize
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUSize where
+  fromJSVal v = fmap WebGPUSize <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUSize
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUSize where
+  makeObject = makeObject . unWebGPUSize
+
+instance IsGObject WebGPUSize where
+  typeGType _ = gTypeWebGPUSize
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUSize :: JSM GType
+gTypeWebGPUSize = GType . Object <$> jsg "WebGPUSize"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUTexture".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUTexture Mozilla WebGPUTexture documentation>
+newtype WebGPUTexture = WebGPUTexture { unWebGPUTexture :: JSVal }
+
+instance PToJSVal WebGPUTexture where
+  pToJSVal = unWebGPUTexture
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUTexture where
+  pFromJSVal = WebGPUTexture
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUTexture where
+  toJSVal = return . unWebGPUTexture
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUTexture where
+  fromJSVal v = fmap WebGPUTexture <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUTexture
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUTexture where
+  makeObject = makeObject . unWebGPUTexture
+
+instance IsGObject WebGPUTexture where
+  typeGType _ = gTypeWebGPUTexture
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUTexture :: JSM GType
+gTypeWebGPUTexture = GType . Object <$> jsg "WebGPUTexture"
+
+-- | Functions for this inteface are in "JSDOM.WebGPUTextureDescriptor".
+--
+-- <https://developer.mozilla.org/en-US/docs/Web/API/WebGPUTextureDescriptor Mozilla WebGPUTextureDescriptor documentation>
+newtype WebGPUTextureDescriptor = WebGPUTextureDescriptor { unWebGPUTextureDescriptor :: JSVal }
+
+instance PToJSVal WebGPUTextureDescriptor where
+  pToJSVal = unWebGPUTextureDescriptor
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal WebGPUTextureDescriptor where
+  pFromJSVal = WebGPUTextureDescriptor
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal WebGPUTextureDescriptor where
+  toJSVal = return . unWebGPUTextureDescriptor
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal WebGPUTextureDescriptor where
+  fromJSVal v = fmap WebGPUTextureDescriptor <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . WebGPUTextureDescriptor
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject WebGPUTextureDescriptor where
+  makeObject = makeObject . unWebGPUTextureDescriptor
+
+instance IsGObject WebGPUTextureDescriptor where
+  typeGType _ = gTypeWebGPUTextureDescriptor
+  {-# INLINE typeGType #-}
+
+gTypeWebGPUTextureDescriptor :: JSM GType
+gTypeWebGPUTextureDescriptor = GType . Object <$> jsg "WebGPUTextureDescriptor"
+
 -- | Functions for this inteface are in "JSDOM.WebKitAnimationEvent".
 -- Base interface functions are in:
 --
@@ -32166,6 +35103,7 @@ gTypeWritableStream = GType . Object <$> jsg "WritableStream"
 --     * "JSDOM.DocumentOrShadowRoot"
 --     * "JSDOM.NonElementParentNode"
 --     * "JSDOM.ParentNode"
+--     * "JSDOM.DocumentAndElementEventHandlers"
 --
 -- <https://developer.mozilla.org/en-US/docs/Web/API/XMLDocument Mozilla XMLDocument documentation>
 newtype XMLDocument = XMLDocument { unXMLDocument :: JSVal }
@@ -32198,6 +35136,7 @@ instance IsGlobalEventHandlers XMLDocument
 instance IsDocumentOrShadowRoot XMLDocument
 instance IsNonElementParentNode XMLDocument
 instance IsParentNode XMLDocument
+instance IsDocumentAndElementEventHandlers XMLDocument
 instance IsGObject XMLDocument where
   typeGType _ = gTypeXMLDocument
   {-# INLINE typeGType #-}

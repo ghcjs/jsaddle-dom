@@ -5,14 +5,14 @@
 module JSDOM.Generated.DOMImplementation
        (createDocumentType, createDocumentType_, createDocument,
         createDocument_, createHTMLDocument, createHTMLDocument_,
-        hasFeature, hasFeature_, createCSSStyleSheet, createCSSStyleSheet_,
-        DOMImplementation(..), gTypeDOMImplementation)
+        hasFeature, hasFeature_, DOMImplementation(..),
+        gTypeDOMImplementation)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
 import Data.Typeable (Typeable)
 import Data.Traversable (mapM)
-import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, new, array, jsUndefined, (!), (!!))
+import Language.Javascript.JSaddle (JSM(..), JSVal(..), JSString, strictEqual, toJSVal, valToStr, valToNumber, valToBool, js, jss, jsf, jsg, function, asyncFunction, new, array, jsUndefined, (!), (!!))
 import Data.Int (Int64)
 import Data.Word (Word, Word64)
 import JSDOM.Types
@@ -93,21 +93,3 @@ hasFeature self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.hasFeature Mozilla DOMImplementation.hasFeature documentation> 
 hasFeature_ :: (MonadDOM m) => DOMImplementation -> m ()
 hasFeature_ self = liftDOM (void (self ^. jsf "hasFeature" ()))
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createCSSStyleSheet Mozilla DOMImplementation.createCSSStyleSheet documentation> 
-createCSSStyleSheet ::
-                    (MonadDOM m, ToJSString title, ToJSString media) =>
-                      DOMImplementation -> Maybe title -> Maybe media -> m CSSStyleSheet
-createCSSStyleSheet self title media
-  = liftDOM
-      ((self ^. jsf "createCSSStyleSheet" [toJSVal title, toJSVal media])
-         >>= fromJSValUnchecked)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createCSSStyleSheet Mozilla DOMImplementation.createCSSStyleSheet documentation> 
-createCSSStyleSheet_ ::
-                     (MonadDOM m, ToJSString title, ToJSString media) =>
-                       DOMImplementation -> Maybe title -> Maybe media -> m ()
-createCSSStyleSheet_ self title media
-  = liftDOM
-      (void
-         (self ^. jsf "createCSSStyleSheet" [toJSVal title, toJSVal media]))
