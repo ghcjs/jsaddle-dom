@@ -3,7 +3,9 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.Window
-       (fetch, fetch_, openDatabase, openDatabase_, openDatabaseUnsafe,
+       (decodeURI, decodeURI_, decodeURIComponent, decodeURIComponent_,
+        encodeURI, encodeURI_, encodeURIComponent, encodeURIComponent_,
+        fetch, fetch_, openDatabase, openDatabase_, openDatabaseUnsafe,
         openDatabaseUnchecked, close, stop, focus, blur, open, open_,
         openUnsafe, openUnchecked, alertNoMessage, alert, confirm,
         confirm_, prompt, prompt_, promptUnsafe, promptUnchecked, print,
@@ -57,6 +59,62 @@ import Control.Monad (void)
 import Control.Lens.Operators ((^.))
 import JSDOM.EventTargetClosures (EventName, unsafeEventName)
 import JSDOM.Enums
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.decodeURI Mozilla Window.decodeURI documentation> 
+decodeURI ::
+          (MonadDOM m, ToJSString uri, FromJSString result) =>
+            Window -> uri -> m result
+decodeURI self uri
+  = liftDOM
+      ((self ^. jsf "decodeURI" [toJSVal uri]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.decodeURI Mozilla Window.decodeURI documentation> 
+decodeURI_ :: (MonadDOM m, ToJSString uri) => Window -> uri -> m ()
+decodeURI_ self uri
+  = liftDOM (void (self ^. jsf "decodeURI" [toJSVal uri]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.decodeURIComponent Mozilla Window.decodeURIComponent documentation> 
+decodeURIComponent ::
+                   (MonadDOM m, ToJSString uri, FromJSString result) =>
+                     Window -> uri -> m result
+decodeURIComponent self uri
+  = liftDOM
+      ((self ^. jsf "decodeURIComponent" [toJSVal uri]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.decodeURIComponent Mozilla Window.decodeURIComponent documentation> 
+decodeURIComponent_ ::
+                    (MonadDOM m, ToJSString uri) => Window -> uri -> m ()
+decodeURIComponent_ self uri
+  = liftDOM (void (self ^. jsf "decodeURIComponent" [toJSVal uri]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.encodeURI Mozilla Window.encodeURI documentation> 
+encodeURI ::
+          (MonadDOM m, ToJSString uri, FromJSString result) =>
+            Window -> uri -> m result
+encodeURI self uri
+  = liftDOM
+      ((self ^. jsf "encodeURI" [toJSVal uri]) >>= fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.encodeURI Mozilla Window.encodeURI documentation> 
+encodeURI_ :: (MonadDOM m, ToJSString uri) => Window -> uri -> m ()
+encodeURI_ self uri
+  = liftDOM (void (self ^. jsf "encodeURI" [toJSVal uri]))
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.encodeURIComponent Mozilla Window.encodeURIComponent documentation> 
+encodeURIComponent ::
+                   (MonadDOM m, ToJSString uri, FromJSString result) =>
+                     Window -> uri -> m result
+encodeURIComponent self uri
+  = liftDOM
+      ((self ^. jsf "encodeURIComponent" [toJSVal uri]) >>=
+         fromJSValUnchecked)
+
+-- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.encodeURIComponent Mozilla Window.encodeURIComponent documentation> 
+encodeURIComponent_ ::
+                    (MonadDOM m, ToJSString uri) => Window -> uri -> m ()
+encodeURIComponent_ self uri
+  = liftDOM (void (self ^. jsf "encodeURIComponent" [toJSVal uri]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.fetch Mozilla Window.fetch documentation> 
 fetch ::
