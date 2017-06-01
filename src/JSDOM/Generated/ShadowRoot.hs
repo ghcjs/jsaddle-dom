@@ -3,8 +3,8 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.ShadowRoot
-       (getMode, getHost, setInnerHTML, getInnerHTML, getInnerHTMLUnsafe,
-        getInnerHTMLUnchecked, ShadowRoot(..), gTypeShadowRoot)
+       (getMode, getHost, setInnerHTML, getInnerHTML, ShadowRoot(..),
+        gTypeShadowRoot)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -30,27 +30,12 @@ getHost self = liftDOM ((self ^. js "host") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot.innerHTML Mozilla ShadowRoot.innerHTML documentation> 
 setInnerHTML ::
-             (MonadDOM m, ToJSString val) => ShadowRoot -> Maybe val -> m ()
+             (MonadDOM m, ToJSString val) => ShadowRoot -> val -> m ()
 setInnerHTML self val
   = liftDOM (self ^. jss "innerHTML" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot.innerHTML Mozilla ShadowRoot.innerHTML documentation> 
 getInnerHTML ::
-             (MonadDOM m, FromJSString result) => ShadowRoot -> m (Maybe result)
+             (MonadDOM m, FromJSString result) => ShadowRoot -> m result
 getInnerHTML self
-  = liftDOM ((self ^. js "innerHTML") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot.innerHTML Mozilla ShadowRoot.innerHTML documentation> 
-getInnerHTMLUnsafe ::
-                   (MonadDOM m, HasCallStack, FromJSString result) =>
-                     ShadowRoot -> m result
-getInnerHTMLUnsafe self
-  = liftDOM
-      (((self ^. js "innerHTML") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot.innerHTML Mozilla ShadowRoot.innerHTML documentation> 
-getInnerHTMLUnchecked ::
-                      (MonadDOM m, FromJSString result) => ShadowRoot -> m result
-getInnerHTMLUnchecked self
   = liftDOM ((self ^. js "innerHTML") >>= fromJSValUnchecked)

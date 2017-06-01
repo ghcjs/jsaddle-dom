@@ -4,14 +4,14 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLImageElement
        (setName, getName, setAlign, getAlign, setAlt, getAlt, setBorder,
-        getBorder, getBorderUnsafe, getBorderUnchecked, setCrossOrigin,
-        getCrossOrigin, getCrossOriginUnsafe, getCrossOriginUnchecked,
-        setHeight, getHeight, setHspace, getHspace, setIsMap, getIsMap,
-        setLongDesc, getLongDesc, setSrc, getSrc, setSrcset, getSrcset,
-        setSizes, getSizes, getCurrentSrc, setUseMap, getUseMap, setVspace,
-        getVspace, setWidth, getWidth, getComplete, setLowsrc, getLowsrc,
-        getNaturalHeight, getNaturalWidth, getX, getY,
-        HTMLImageElement(..), gTypeHTMLImageElement)
+        getBorder, setCrossOrigin, getCrossOrigin, getCrossOriginUnsafe,
+        getCrossOriginUnchecked, setHeight, getHeight, setHspace,
+        getHspace, setIsMap, getIsMap, setLongDesc, getLongDesc, setSrc,
+        getSrc, setSrcset, getSrcset, setSizes, getSizes, getCurrentSrc,
+        setUseMap, getUseMap, setVspace, getVspace, setWidth, getWidth,
+        getComplete, setLowsrc, getLowsrc, getNaturalHeight,
+        getNaturalWidth, getX, getY, HTMLImageElement(..),
+        gTypeHTMLImageElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -60,30 +60,13 @@ getAlt self = liftDOM ((self ^. js "alt") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
 setBorder ::
-          (MonadDOM m, ToJSString val) =>
-            HTMLImageElement -> Maybe val -> m ()
+          (MonadDOM m, ToJSString val) => HTMLImageElement -> val -> m ()
 setBorder self val = liftDOM (self ^. jss "border" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
 getBorder ::
-          (MonadDOM m, FromJSString result) =>
-            HTMLImageElement -> m (Maybe result)
+          (MonadDOM m, FromJSString result) => HTMLImageElement -> m result
 getBorder self
-  = liftDOM ((self ^. js "border") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
-getBorderUnsafe ::
-                (MonadDOM m, HasCallStack, FromJSString result) =>
-                  HTMLImageElement -> m result
-getBorderUnsafe self
-  = liftDOM
-      (((self ^. js "border") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.border Mozilla HTMLImageElement.border documentation> 
-getBorderUnchecked ::
-                   (MonadDOM m, FromJSString result) => HTMLImageElement -> m result
-getBorderUnchecked self
   = liftDOM ((self ^. js "border") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 

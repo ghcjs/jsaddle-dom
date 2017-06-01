@@ -7,11 +7,9 @@ module JSDOM.Generated.HTMLFrameElement
         getScrolling, setSrc, getSrc, setFrameBorder, getFrameBorder,
         setLongDesc, getLongDesc, setNoResize, getNoResize,
         getContentDocument, getContentWindow, setMarginHeight,
-        getMarginHeight, getMarginHeightUnsafe, getMarginHeightUnchecked,
-        setMarginWidth, getMarginWidth, getMarginWidthUnsafe,
-        getMarginWidthUnchecked, getWidth, getHeight, setLocation,
-        getLocation, getLocationUnsafe, getLocationUnchecked,
-        HTMLFrameElement(..), gTypeHTMLFrameElement)
+        getMarginHeight, setMarginWidth, getMarginWidth, getWidth,
+        getHeight, setLocation, getLocation, getLocationUnsafe,
+        getLocationUnchecked, HTMLFrameElement(..), gTypeHTMLFrameElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -116,60 +114,26 @@ getContentWindow self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
 setMarginHeight ::
-                (MonadDOM m, ToJSString val) =>
-                  HTMLFrameElement -> Maybe val -> m ()
+                (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
 setMarginHeight self val
   = liftDOM (self ^. jss "marginHeight" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
 getMarginHeight ::
-                (MonadDOM m, FromJSString result) =>
-                  HTMLFrameElement -> m (Maybe result)
+                (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
 getMarginHeight self
-  = liftDOM ((self ^. js "marginHeight") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
-getMarginHeightUnsafe ::
-                      (MonadDOM m, HasCallStack, FromJSString result) =>
-                        HTMLFrameElement -> m result
-getMarginHeightUnsafe self
-  = liftDOM
-      (((self ^. js "marginHeight") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginHeight Mozilla HTMLFrameElement.marginHeight documentation> 
-getMarginHeightUnchecked ::
-                         (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getMarginHeightUnchecked self
   = liftDOM ((self ^. js "marginHeight") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
 setMarginWidth ::
-               (MonadDOM m, ToJSString val) =>
-                 HTMLFrameElement -> Maybe val -> m ()
+               (MonadDOM m, ToJSString val) => HTMLFrameElement -> val -> m ()
 setMarginWidth self val
   = liftDOM (self ^. jss "marginWidth" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
 getMarginWidth ::
-               (MonadDOM m, FromJSString result) =>
-                 HTMLFrameElement -> m (Maybe result)
+               (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
 getMarginWidth self
-  = liftDOM ((self ^. js "marginWidth") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
-getMarginWidthUnsafe ::
-                     (MonadDOM m, HasCallStack, FromJSString result) =>
-                       HTMLFrameElement -> m result
-getMarginWidthUnsafe self
-  = liftDOM
-      (((self ^. js "marginWidth") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.marginWidth Mozilla HTMLFrameElement.marginWidth documentation> 
-getMarginWidthUnchecked ::
-                        (MonadDOM m, FromJSString result) => HTMLFrameElement -> m result
-getMarginWidthUnchecked self
   = liftDOM ((self ^. js "marginWidth") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.width Mozilla HTMLFrameElement.width documentation> 

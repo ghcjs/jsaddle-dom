@@ -4,8 +4,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.MediaList
        (item, item_, itemUnsafe, itemUnchecked, deleteMedium,
-        appendMedium, setMediaText, getMediaText, getMediaTextUnsafe,
-        getMediaTextUnchecked, getLength, MediaList(..), gTypeMediaList)
+        appendMedium, setMediaText, getMediaText, getLength, MediaList(..),
+        gTypeMediaList)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -65,29 +65,14 @@ appendMedium self newMedium
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
 setMediaText ::
-             (MonadDOM m, ToJSString val) => MediaList -> Maybe val -> m ()
+             (MonadDOM m, ToJSString val) => MediaList -> val -> m ()
 setMediaText self val
   = liftDOM (self ^. jss "mediaText" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
 getMediaText ::
-             (MonadDOM m, FromJSString result) => MediaList -> m (Maybe result)
+             (MonadDOM m, FromJSString result) => MediaList -> m result
 getMediaText self
-  = liftDOM ((self ^. js "mediaText") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
-getMediaTextUnsafe ::
-                   (MonadDOM m, HasCallStack, FromJSString result) =>
-                     MediaList -> m result
-getMediaTextUnsafe self
-  = liftDOM
-      (((self ^. js "mediaText") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.mediaText Mozilla MediaList.mediaText documentation> 
-getMediaTextUnchecked ::
-                      (MonadDOM m, FromJSString result) => MediaList -> m result
-getMediaTextUnchecked self
   = liftDOM ((self ^. js "mediaText") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.length Mozilla MediaList.length documentation> 

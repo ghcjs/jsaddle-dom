@@ -37,11 +37,9 @@ module JSDOM.Generated.Element
         getShadowRootUnchecked, setScrollTop, getScrollTop, setScrollLeft,
         getScrollLeft, getScrollWidth, getScrollHeight, getClientTop,
         getClientLeft, getClientWidth, getClientHeight, setInnerHTML,
-        getInnerHTML, getInnerHTMLUnsafe, getInnerHTMLUnchecked,
-        setOuterHTML, getOuterHTML, getOuterHTMLUnsafe,
-        getOuterHTMLUnchecked, getWebkitRegionOverset, selectStart,
-        gestureChange, gestureEnd, gestureStart, webKitAnimationEnd,
-        webKitAnimationIteration, webKitAnimationStart,
+        getInnerHTML, setOuterHTML, getOuterHTML, getWebkitRegionOverset,
+        selectStart, gestureChange, gestureEnd, gestureStart,
+        webKitAnimationEnd, webKitAnimationIteration, webKitAnimationStart,
         webKitTransitionEnd, webKitFullscreenChange, webKitFullscreenError,
         focusin, focusout, beforeload, webKitNeedKey,
         webKitPresentationModeChanged,
@@ -964,65 +962,29 @@ getClientHeight self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
 setInnerHTML ::
-             (MonadDOM m, IsElement self, ToJSString val) =>
-               self -> Maybe val -> m ()
+             (MonadDOM m, IsElement self, ToJSString val) => self -> val -> m ()
 setInnerHTML self val
   = liftDOM ((toElement self) ^. jss "innerHTML" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
 getInnerHTML ::
              (MonadDOM m, IsElement self, FromJSString result) =>
-               self -> m (Maybe result)
+               self -> m result
 getInnerHTML self
-  = liftDOM
-      (((toElement self) ^. js "innerHTML") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
-getInnerHTMLUnsafe ::
-                   (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
-                     self -> m result
-getInnerHTMLUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "innerHTML") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML Mozilla Element.innerHTML documentation> 
-getInnerHTMLUnchecked ::
-                      (MonadDOM m, IsElement self, FromJSString result) =>
-                        self -> m result
-getInnerHTMLUnchecked self
   = liftDOM
       (((toElement self) ^. js "innerHTML") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
 setOuterHTML ::
-             (MonadDOM m, IsElement self, ToJSString val) =>
-               self -> Maybe val -> m ()
+             (MonadDOM m, IsElement self, ToJSString val) => self -> val -> m ()
 setOuterHTML self val
   = liftDOM ((toElement self) ^. jss "outerHTML" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
 getOuterHTML ::
              (MonadDOM m, IsElement self, FromJSString result) =>
-               self -> m (Maybe result)
+               self -> m result
 getOuterHTML self
-  = liftDOM
-      (((toElement self) ^. js "outerHTML") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
-getOuterHTMLUnsafe ::
-                   (MonadDOM m, IsElement self, HasCallStack, FromJSString result) =>
-                     self -> m result
-getOuterHTMLUnsafe self
-  = liftDOM
-      ((((toElement self) ^. js "outerHTML") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML Mozilla Element.outerHTML documentation> 
-getOuterHTMLUnchecked ::
-                      (MonadDOM m, IsElement self, FromJSString result) =>
-                        self -> m result
-getOuterHTMLUnchecked self
   = liftDOM
       (((toElement self) ^. js "outerHTML") >>= fromJSValUnchecked)
 

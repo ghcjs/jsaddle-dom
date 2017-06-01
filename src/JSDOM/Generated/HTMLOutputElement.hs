@@ -5,11 +5,9 @@
 module JSDOM.Generated.HTMLOutputElement
        (checkValidity, checkValidity_, reportValidity, reportValidity_,
         setCustomValidity, getHtmlFor, getForm, setName, getName, getType,
-        setDefaultValue, getDefaultValue, getDefaultValueUnsafe,
-        getDefaultValueUnchecked, setValue, getValue, getValueUnsafe,
-        getValueUnchecked, getWillValidate, getValidity,
-        getValidationMessage, getLabels, HTMLOutputElement(..),
-        gTypeHTMLOutputElement)
+        setDefaultValue, getDefaultValue, setValue, getValue,
+        getWillValidate, getValidity, getValidationMessage, getLabels,
+        HTMLOutputElement(..), gTypeHTMLOutputElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -78,59 +76,25 @@ getType self = liftDOM ((self ^. js "type") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.defaultValue Mozilla HTMLOutputElement.defaultValue documentation> 
 setDefaultValue ::
-                (MonadDOM m, ToJSString val) =>
-                  HTMLOutputElement -> Maybe val -> m ()
+                (MonadDOM m, ToJSString val) => HTMLOutputElement -> val -> m ()
 setDefaultValue self val
   = liftDOM (self ^. jss "defaultValue" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.defaultValue Mozilla HTMLOutputElement.defaultValue documentation> 
 getDefaultValue ::
-                (MonadDOM m, FromJSString result) =>
-                  HTMLOutputElement -> m (Maybe result)
+                (MonadDOM m, FromJSString result) => HTMLOutputElement -> m result
 getDefaultValue self
-  = liftDOM ((self ^. js "defaultValue") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.defaultValue Mozilla HTMLOutputElement.defaultValue documentation> 
-getDefaultValueUnsafe ::
-                      (MonadDOM m, HasCallStack, FromJSString result) =>
-                        HTMLOutputElement -> m result
-getDefaultValueUnsafe self
-  = liftDOM
-      (((self ^. js "defaultValue") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.defaultValue Mozilla HTMLOutputElement.defaultValue documentation> 
-getDefaultValueUnchecked ::
-                         (MonadDOM m, FromJSString result) => HTMLOutputElement -> m result
-getDefaultValueUnchecked self
   = liftDOM ((self ^. js "defaultValue") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.value Mozilla HTMLOutputElement.value documentation> 
 setValue ::
-         (MonadDOM m, ToJSString val) =>
-           HTMLOutputElement -> Maybe val -> m ()
+         (MonadDOM m, ToJSString val) => HTMLOutputElement -> val -> m ()
 setValue self val = liftDOM (self ^. jss "value" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.value Mozilla HTMLOutputElement.value documentation> 
 getValue ::
-         (MonadDOM m, FromJSString result) =>
-           HTMLOutputElement -> m (Maybe result)
+         (MonadDOM m, FromJSString result) => HTMLOutputElement -> m result
 getValue self
-  = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.value Mozilla HTMLOutputElement.value documentation> 
-getValueUnsafe ::
-               (MonadDOM m, HasCallStack, FromJSString result) =>
-                 HTMLOutputElement -> m result
-getValueUnsafe self
-  = liftDOM
-      (((self ^. js "value") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.value Mozilla HTMLOutputElement.value documentation> 
-getValueUnchecked ::
-                  (MonadDOM m, FromJSString result) => HTMLOutputElement -> m result
-getValueUnchecked self
   = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLOutputElement.willValidate Mozilla HTMLOutputElement.willValidate documentation> 

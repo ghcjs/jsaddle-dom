@@ -209,7 +209,7 @@ addTransceiverTrack_ self track init
 createDataChannel ::
                   (MonadDOM m, ToJSString label) =>
                     RTCPeerConnection ->
-                      Maybe label -> Maybe RTCDataChannelInit -> m RTCDataChannel
+                      label -> Maybe RTCDataChannelInit -> m RTCDataChannel
 createDataChannel self label options
   = liftDOM
       ((self ^. jsf "createDataChannel" [toJSVal label, toJSVal options])
@@ -218,8 +218,7 @@ createDataChannel self label options
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/webkitRTCPeerConnection.createDataChannel Mozilla webkitRTCPeerConnection.createDataChannel documentation> 
 createDataChannel_ ::
                    (MonadDOM m, ToJSString label) =>
-                     RTCPeerConnection ->
-                       Maybe label -> Maybe RTCDataChannelInit -> m ()
+                     RTCPeerConnection -> label -> Maybe RTCDataChannelInit -> m ()
 createDataChannel_ self label options
   = liftDOM
       (void

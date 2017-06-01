@@ -11,12 +11,11 @@ module JSDOM.Generated.HTMLTextAreaElement
         setPlaceholder, getPlaceholder, setReadOnly, getReadOnly,
         setRequired, getRequired, setRows, getRows, setCols, getCols,
         setWrap, getWrap, getType, setDefaultValue, getDefaultValue,
-        setValue, getValue, getValueUnsafe, getValueUnchecked,
-        getTextLength, getWillValidate, getValidity, getValidationMessage,
-        getLabels, setSelectionStart, getSelectionStart, setSelectionEnd,
-        getSelectionEnd, setSelectionDirection, getSelectionDirection,
-        setAutocomplete, getAutocomplete, HTMLTextAreaElement(..),
-        gTypeHTMLTextAreaElement)
+        setValue, getValue, getTextLength, getWillValidate, getValidity,
+        getValidationMessage, getLabels, setSelectionStart,
+        getSelectionStart, setSelectionEnd, getSelectionEnd,
+        setSelectionDirection, getSelectionDirection, setAutocomplete,
+        getAutocomplete, HTMLTextAreaElement(..), gTypeHTMLTextAreaElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -240,31 +239,14 @@ getDefaultValue self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.value Mozilla HTMLTextAreaElement.value documentation> 
 setValue ::
-         (MonadDOM m, ToJSString val) =>
-           HTMLTextAreaElement -> Maybe val -> m ()
+         (MonadDOM m, ToJSString val) => HTMLTextAreaElement -> val -> m ()
 setValue self val = liftDOM (self ^. jss "value" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.value Mozilla HTMLTextAreaElement.value documentation> 
 getValue ::
          (MonadDOM m, FromJSString result) =>
-           HTMLTextAreaElement -> m (Maybe result)
+           HTMLTextAreaElement -> m result
 getValue self
-  = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.value Mozilla HTMLTextAreaElement.value documentation> 
-getValueUnsafe ::
-               (MonadDOM m, HasCallStack, FromJSString result) =>
-                 HTMLTextAreaElement -> m result
-getValueUnsafe self
-  = liftDOM
-      (((self ^. js "value") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.value Mozilla HTMLTextAreaElement.value documentation> 
-getValueUnchecked ::
-                  (MonadDOM m, FromJSString result) =>
-                    HTMLTextAreaElement -> m result
-getValueUnchecked self
   = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement.textLength Mozilla HTMLTextAreaElement.textLength documentation> 

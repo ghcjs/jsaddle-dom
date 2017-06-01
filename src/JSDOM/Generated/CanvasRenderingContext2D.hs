@@ -685,7 +685,7 @@ createRadialGradient_ self x0 y0 r0 x1 y1 r1
 createPattern ::
               (MonadDOM m, IsCanvasImageSource image, ToJSString repetition) =>
                 CanvasRenderingContext2D ->
-                  image -> Maybe repetition -> m (Maybe CanvasPattern)
+                  image -> repetition -> m (Maybe CanvasPattern)
 createPattern self image repetition
   = liftDOM
       ((self ^. jsf "createPattern" [toJSVal image, toJSVal repetition])
@@ -694,7 +694,7 @@ createPattern self image repetition
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
 createPattern_ ::
                (MonadDOM m, IsCanvasImageSource image, ToJSString repetition) =>
-                 CanvasRenderingContext2D -> image -> Maybe repetition -> m ()
+                 CanvasRenderingContext2D -> image -> repetition -> m ()
 createPattern_ self image repetition
   = liftDOM
       (void
@@ -704,8 +704,7 @@ createPattern_ self image repetition
 createPatternUnsafe ::
                     (MonadDOM m, IsCanvasImageSource image, ToJSString repetition,
                      HasCallStack) =>
-                      CanvasRenderingContext2D ->
-                        image -> Maybe repetition -> m CanvasPattern
+                      CanvasRenderingContext2D -> image -> repetition -> m CanvasPattern
 createPatternUnsafe self image repetition
   = liftDOM
       (((self ^. jsf "createPattern" [toJSVal image, toJSVal repetition])
@@ -715,8 +714,7 @@ createPatternUnsafe self image repetition
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.createPattern Mozilla CanvasRenderingContext2D.createPattern documentation> 
 createPatternUnchecked ::
                        (MonadDOM m, IsCanvasImageSource image, ToJSString repetition) =>
-                         CanvasRenderingContext2D ->
-                           image -> Maybe repetition -> m CanvasPattern
+                         CanvasRenderingContext2D -> image -> repetition -> m CanvasPattern
 createPatternUnchecked self image repetition
   = liftDOM
       ((self ^. jsf "createPattern" [toJSVal image, toJSVal repetition])

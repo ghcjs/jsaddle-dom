@@ -7,16 +7,13 @@ module JSDOM.Generated.HTMLElement
         getLang, setTranslate, getTranslate, setDir, getDir, getDataset,
         setHidden, getHidden, setTabIndex, getTabIndex, setAccessKey,
         getAccessKey, setDraggable, getDraggable, setSpellcheck,
-        getSpellcheck, setInnerText, getInnerText, getInnerTextUnsafe,
-        getInnerTextUnchecked, setContentEditable, getContentEditable,
-        getIsContentEditable, getOffsetParent, getOffsetParentUnsafe,
-        getOffsetParentUnchecked, getOffsetTop, getOffsetLeft,
-        getOffsetWidth, getOffsetHeight, setOuterText, getOuterText,
-        getOuterTextUnsafe, getOuterTextUnchecked, setAutocorrect,
-        getAutocorrect, setAutocapitalize, getAutocapitalize,
-        getAutocapitalizeUnsafe, getAutocapitalizeUnchecked,
-        setWebkitdropzone, getWebkitdropzone, HTMLElement(..),
-        gTypeHTMLElement, IsHTMLElement, toHTMLElement)
+        getSpellcheck, setInnerText, getInnerText, setContentEditable,
+        getContentEditable, getIsContentEditable, getOffsetParent,
+        getOffsetParentUnsafe, getOffsetParentUnchecked, getOffsetTop,
+        getOffsetLeft, getOffsetWidth, getOffsetHeight, setOuterText,
+        getOuterText, setAutocorrect, getAutocorrect, setAutocapitalize,
+        getAutocapitalize, setWebkitdropzone, getWebkitdropzone,
+        HTMLElement(..), gTypeHTMLElement, IsHTMLElement, toHTMLElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -178,33 +175,15 @@ getSpellcheck self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
 setInnerText ::
              (MonadDOM m, IsHTMLElement self, ToJSString val) =>
-               self -> Maybe val -> m ()
+               self -> val -> m ()
 setInnerText self val
   = liftDOM ((toHTMLElement self) ^. jss "innerText" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
 getInnerText ::
              (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-               self -> m (Maybe result)
+               self -> m result
 getInnerText self
-  = liftDOM
-      (((toHTMLElement self) ^. js "innerText") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
-getInnerTextUnsafe ::
-                   (MonadDOM m, IsHTMLElement self, HasCallStack,
-                    FromJSString result) =>
-                     self -> m result
-getInnerTextUnsafe self
-  = liftDOM
-      ((((toHTMLElement self) ^. js "innerText") >>= fromMaybeJSString)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.innerText Mozilla HTMLElement.innerText documentation> 
-getInnerTextUnchecked ::
-                      (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                        self -> m result
-getInnerTextUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "innerText") >>= fromJSValUnchecked)
 
@@ -286,33 +265,15 @@ getOffsetHeight self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
 setOuterText ::
              (MonadDOM m, IsHTMLElement self, ToJSString val) =>
-               self -> Maybe val -> m ()
+               self -> val -> m ()
 setOuterText self val
   = liftDOM ((toHTMLElement self) ^. jss "outerText" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
 getOuterText ::
              (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-               self -> m (Maybe result)
+               self -> m result
 getOuterText self
-  = liftDOM
-      (((toHTMLElement self) ^. js "outerText") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
-getOuterTextUnsafe ::
-                   (MonadDOM m, IsHTMLElement self, HasCallStack,
-                    FromJSString result) =>
-                     self -> m result
-getOuterTextUnsafe self
-  = liftDOM
-      ((((toHTMLElement self) ^. js "outerText") >>= fromMaybeJSString)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.outerText Mozilla HTMLElement.outerText documentation> 
-getOuterTextUnchecked ::
-                      (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                        self -> m result
-getOuterTextUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "outerText") >>= fromJSValUnchecked)
 
@@ -332,7 +293,7 @@ getAutocorrect self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
 setAutocapitalize ::
                   (MonadDOM m, IsHTMLElement self, ToJSString val) =>
-                    self -> Maybe val -> m ()
+                    self -> val -> m ()
 setAutocapitalize self val
   = liftDOM
       ((toHTMLElement self) ^. jss "autocapitalize" (toJSVal val))
@@ -340,28 +301,8 @@ setAutocapitalize self val
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
 getAutocapitalize ::
                   (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                    self -> m (Maybe result)
+                    self -> m result
 getAutocapitalize self
-  = liftDOM
-      (((toHTMLElement self) ^. js "autocapitalize") >>=
-         fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
-getAutocapitalizeUnsafe ::
-                        (MonadDOM m, IsHTMLElement self, HasCallStack,
-                         FromJSString result) =>
-                          self -> m result
-getAutocapitalizeUnsafe self
-  = liftDOM
-      ((((toHTMLElement self) ^. js "autocapitalize") >>=
-          fromMaybeJSString)
-         >>= maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement.autocapitalize Mozilla HTMLElement.autocapitalize documentation> 
-getAutocapitalizeUnchecked ::
-                           (MonadDOM m, IsHTMLElement self, FromJSString result) =>
-                             self -> m result
-getAutocapitalizeUnchecked self
   = liftDOM
       (((toHTMLElement self) ^. js "autocapitalize") >>=
          fromJSValUnchecked)

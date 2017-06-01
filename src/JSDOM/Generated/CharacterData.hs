@@ -4,9 +4,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.CharacterData
        (substringData, substringData_, appendData, insertData, deleteData,
-        replaceData, setData, getData, getDataUnsafe, getDataUnchecked,
-        getLength, CharacterData(..), gTypeCharacterData, IsCharacterData,
-        toCharacterData)
+        replaceData, setData, getData, getLength, CharacterData(..),
+        gTypeCharacterData, IsCharacterData, toCharacterData)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -81,33 +80,15 @@ replaceData self offset count data'
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
 setData ::
         (MonadDOM m, IsCharacterData self, ToJSString val) =>
-          self -> Maybe val -> m ()
+          self -> val -> m ()
 setData self val
   = liftDOM ((toCharacterData self) ^. jss "data" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
 getData ::
         (MonadDOM m, IsCharacterData self, FromJSString result) =>
-          self -> m (Maybe result)
+          self -> m result
 getData self
-  = liftDOM
-      (((toCharacterData self) ^. js "data") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
-getDataUnsafe ::
-              (MonadDOM m, IsCharacterData self, HasCallStack,
-               FromJSString result) =>
-                self -> m result
-getDataUnsafe self
-  = liftDOM
-      ((((toCharacterData self) ^. js "data") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/CharacterData.data Mozilla CharacterData.data documentation> 
-getDataUnchecked ::
-                 (MonadDOM m, IsCharacterData self, FromJSString result) =>
-                   self -> m result
-getDataUnchecked self
   = liftDOM
       (((toCharacterData self) ^. js "data") >>= fromJSValUnchecked)
 

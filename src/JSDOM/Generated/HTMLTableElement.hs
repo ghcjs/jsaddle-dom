@@ -9,13 +9,10 @@ module JSDOM.Generated.HTMLTableElement
         setCaption, getCaption, getCaptionUnsafe, getCaptionUnchecked,
         setTHead, getTHead, getTHeadUnsafe, getTHeadUnchecked, setTFoot,
         getTFoot, getTFootUnsafe, getTFootUnchecked, getRows, getTBodies,
-        setAlign, getAlign, setBgColor, getBgColor, getBgColorUnsafe,
-        getBgColorUnchecked, setBorder, getBorder, setCellPadding,
-        getCellPadding, getCellPaddingUnsafe, getCellPaddingUnchecked,
-        setCellSpacing, getCellSpacing, getCellSpacingUnsafe,
-        getCellSpacingUnchecked, setFrame, getFrame, setRules, getRules,
-        setSummary, getSummary, setWidth, getWidth, HTMLTableElement(..),
-        gTypeHTMLTableElement)
+        setAlign, getAlign, setBgColor, getBgColor, setBorder, getBorder,
+        setCellPadding, getCellPadding, setCellSpacing, getCellSpacing,
+        setFrame, getFrame, setRules, getRules, setSummary, getSummary,
+        setWidth, getWidth, HTMLTableElement(..), gTypeHTMLTableElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -201,30 +198,13 @@ getAlign self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.bgColor Mozilla HTMLTableElement.bgColor documentation> 
 setBgColor ::
-           (MonadDOM m, ToJSString val) =>
-             HTMLTableElement -> Maybe val -> m ()
+           (MonadDOM m, ToJSString val) => HTMLTableElement -> val -> m ()
 setBgColor self val = liftDOM (self ^. jss "bgColor" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.bgColor Mozilla HTMLTableElement.bgColor documentation> 
 getBgColor ::
-           (MonadDOM m, FromJSString result) =>
-             HTMLTableElement -> m (Maybe result)
+           (MonadDOM m, FromJSString result) => HTMLTableElement -> m result
 getBgColor self
-  = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.bgColor Mozilla HTMLTableElement.bgColor documentation> 
-getBgColorUnsafe ::
-                 (MonadDOM m, HasCallStack, FromJSString result) =>
-                   HTMLTableElement -> m result
-getBgColorUnsafe self
-  = liftDOM
-      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.bgColor Mozilla HTMLTableElement.bgColor documentation> 
-getBgColorUnchecked ::
-                    (MonadDOM m, FromJSString result) => HTMLTableElement -> m result
-getBgColorUnchecked self
   = liftDOM ((self ^. js "bgColor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.border Mozilla HTMLTableElement.border documentation> 
@@ -240,60 +220,26 @@ getBorder self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellPadding Mozilla HTMLTableElement.cellPadding documentation> 
 setCellPadding ::
-               (MonadDOM m, ToJSString val) =>
-                 HTMLTableElement -> Maybe val -> m ()
+               (MonadDOM m, ToJSString val) => HTMLTableElement -> val -> m ()
 setCellPadding self val
   = liftDOM (self ^. jss "cellPadding" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellPadding Mozilla HTMLTableElement.cellPadding documentation> 
 getCellPadding ::
-               (MonadDOM m, FromJSString result) =>
-                 HTMLTableElement -> m (Maybe result)
+               (MonadDOM m, FromJSString result) => HTMLTableElement -> m result
 getCellPadding self
-  = liftDOM ((self ^. js "cellPadding") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellPadding Mozilla HTMLTableElement.cellPadding documentation> 
-getCellPaddingUnsafe ::
-                     (MonadDOM m, HasCallStack, FromJSString result) =>
-                       HTMLTableElement -> m result
-getCellPaddingUnsafe self
-  = liftDOM
-      (((self ^. js "cellPadding") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellPadding Mozilla HTMLTableElement.cellPadding documentation> 
-getCellPaddingUnchecked ::
-                        (MonadDOM m, FromJSString result) => HTMLTableElement -> m result
-getCellPaddingUnchecked self
   = liftDOM ((self ^. js "cellPadding") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellSpacing Mozilla HTMLTableElement.cellSpacing documentation> 
 setCellSpacing ::
-               (MonadDOM m, ToJSString val) =>
-                 HTMLTableElement -> Maybe val -> m ()
+               (MonadDOM m, ToJSString val) => HTMLTableElement -> val -> m ()
 setCellSpacing self val
   = liftDOM (self ^. jss "cellSpacing" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellSpacing Mozilla HTMLTableElement.cellSpacing documentation> 
 getCellSpacing ::
-               (MonadDOM m, FromJSString result) =>
-                 HTMLTableElement -> m (Maybe result)
+               (MonadDOM m, FromJSString result) => HTMLTableElement -> m result
 getCellSpacing self
-  = liftDOM ((self ^. js "cellSpacing") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellSpacing Mozilla HTMLTableElement.cellSpacing documentation> 
-getCellSpacingUnsafe ::
-                     (MonadDOM m, HasCallStack, FromJSString result) =>
-                       HTMLTableElement -> m result
-getCellSpacingUnsafe self
-  = liftDOM
-      (((self ^. js "cellSpacing") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.cellSpacing Mozilla HTMLTableElement.cellSpacing documentation> 
-getCellSpacingUnchecked ::
-                        (MonadDOM m, FromJSString result) => HTMLTableElement -> m result
-getCellSpacingUnchecked self
   = liftDOM ((self ^. js "cellSpacing") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableElement.frame Mozilla HTMLTableElement.frame documentation> 

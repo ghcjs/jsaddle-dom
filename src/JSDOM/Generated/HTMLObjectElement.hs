@@ -6,13 +6,13 @@ module JSDOM.Generated.HTMLObjectElement
        (checkValidity, checkValidity_, reportValidity, reportValidity_,
         setCustomValidity, getSVGDocument, getSVGDocument_, getForm,
         setCode, getCode, setAlign, getAlign, setArchive, getArchive,
-        setBorder, getBorder, getBorderUnsafe, getBorderUnchecked,
-        setCodeBase, getCodeBase, setCodeType, getCodeType, setData,
-        getData, setDeclare, getDeclare, setHeight, getHeight, setHspace,
-        getHspace, setName, getName, setStandby, getStandby, setType,
-        getType, setUseMap, getUseMap, setVspace, getVspace, setWidth,
-        getWidth, getWillValidate, getValidity, getValidationMessage,
-        getContentDocument, HTMLObjectElement(..), gTypeHTMLObjectElement)
+        setBorder, getBorder, setCodeBase, getCodeBase, setCodeType,
+        getCodeType, setData, getData, setDeclare, getDeclare, setHeight,
+        getHeight, setHspace, getHspace, setName, getName, setStandby,
+        getStandby, setType, getType, setUseMap, getUseMap, setVspace,
+        getVspace, setWidth, getWidth, getWillValidate, getValidity,
+        getValidationMessage, getContentDocument, HTMLObjectElement(..),
+        gTypeHTMLObjectElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -104,30 +104,13 @@ getArchive self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
 setBorder ::
-          (MonadDOM m, ToJSString val) =>
-            HTMLObjectElement -> Maybe val -> m ()
+          (MonadDOM m, ToJSString val) => HTMLObjectElement -> val -> m ()
 setBorder self val = liftDOM (self ^. jss "border" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
 getBorder ::
-          (MonadDOM m, FromJSString result) =>
-            HTMLObjectElement -> m (Maybe result)
+          (MonadDOM m, FromJSString result) => HTMLObjectElement -> m result
 getBorder self
-  = liftDOM ((self ^. js "border") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
-getBorderUnsafe ::
-                (MonadDOM m, HasCallStack, FromJSString result) =>
-                  HTMLObjectElement -> m result
-getBorderUnsafe self
-  = liftDOM
-      (((self ^. js "border") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.border Mozilla HTMLObjectElement.border documentation> 
-getBorderUnchecked ::
-                   (MonadDOM m, FromJSString result) => HTMLObjectElement -> m result
-getBorderUnchecked self
   = liftDOM ((self ^. js "border") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement.codeBase Mozilla HTMLObjectElement.codeBase documentation> 

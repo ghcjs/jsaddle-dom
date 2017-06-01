@@ -50,7 +50,7 @@ createDocument ::
                (MonadDOM m, ToJSString namespaceURI, ToJSString qualifiedName) =>
                  DOMImplementation ->
                    Maybe namespaceURI ->
-                     Maybe qualifiedName -> Maybe DocumentType -> m XMLDocument
+                     qualifiedName -> Maybe DocumentType -> m XMLDocument
 createDocument self namespaceURI qualifiedName doctype
   = liftDOM
       ((self ^. jsf "createDocument"
@@ -61,8 +61,7 @@ createDocument self namespaceURI qualifiedName doctype
 createDocument_ ::
                 (MonadDOM m, ToJSString namespaceURI, ToJSString qualifiedName) =>
                   DOMImplementation ->
-                    Maybe namespaceURI ->
-                      Maybe qualifiedName -> Maybe DocumentType -> m ()
+                    Maybe namespaceURI -> qualifiedName -> Maybe DocumentType -> m ()
 createDocument_ self namespaceURI qualifiedName doctype
   = liftDOM
       (void

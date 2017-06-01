@@ -19,15 +19,15 @@ module JSDOM.Generated.HTMLInputElement
         getPattern, setPlaceholder, getPlaceholder, setReadOnly,
         getReadOnly, setRequired, getRequired, setSize, getSize, setSrc,
         getSrc, setStep, getStep, setType, getType, setDefaultValue,
-        getDefaultValue, setValue, getValue, getValueUnsafe,
-        getValueUnchecked, setValueAsDate, getValueAsDate,
-        getValueAsDateUnsafe, getValueAsDateUnchecked, setValueAsNumber,
-        getValueAsNumber, setWidth, getWidth, getWillValidate, getValidity,
-        getValidationMessage, getLabels, setSelectionStart,
-        getSelectionStart, setSelectionEnd, getSelectionEnd,
-        setSelectionDirection, getSelectionDirection, setAlign, getAlign,
-        setUseMap, getUseMap, setIncremental, getIncremental, setCapture,
-        getCapture, HTMLInputElement(..), gTypeHTMLInputElement)
+        getDefaultValue, setValue, getValue, setValueAsDate,
+        getValueAsDate, getValueAsDateUnsafe, getValueAsDateUnchecked,
+        setValueAsNumber, getValueAsNumber, setWidth, getWidth,
+        getWillValidate, getValidity, getValidationMessage, getLabels,
+        setSelectionStart, getSelectionStart, setSelectionEnd,
+        getSelectionEnd, setSelectionDirection, getSelectionDirection,
+        setAlign, getAlign, setUseMap, getUseMap, setIncremental,
+        getIncremental, setCapture, getCapture, HTMLInputElement(..),
+        gTypeHTMLInputElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -455,30 +455,13 @@ getDefaultValue self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.value Mozilla HTMLInputElement.value documentation> 
 setValue ::
-         (MonadDOM m, ToJSString val) =>
-           HTMLInputElement -> Maybe val -> m ()
+         (MonadDOM m, ToJSString val) => HTMLInputElement -> val -> m ()
 setValue self val = liftDOM (self ^. jss "value" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.value Mozilla HTMLInputElement.value documentation> 
 getValue ::
-         (MonadDOM m, FromJSString result) =>
-           HTMLInputElement -> m (Maybe result)
+         (MonadDOM m, FromJSString result) => HTMLInputElement -> m result
 getValue self
-  = liftDOM ((self ^. js "value") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.value Mozilla HTMLInputElement.value documentation> 
-getValueUnsafe ::
-               (MonadDOM m, HasCallStack, FromJSString result) =>
-                 HTMLInputElement -> m result
-getValueUnsafe self
-  = liftDOM
-      (((self ^. js "value") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.value Mozilla HTMLInputElement.value documentation> 
-getValueUnchecked ::
-                  (MonadDOM m, FromJSString result) => HTMLInputElement -> m result
-getValueUnchecked self
   = liftDOM ((self ^. js "value") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.valueAsDate Mozilla HTMLInputElement.valueAsDate documentation> 

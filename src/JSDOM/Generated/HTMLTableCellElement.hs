@@ -4,12 +4,11 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLTableCellElement
        (getCellIndex, setAlign, getAlign, setAxis, getAxis, setBgColor,
-        getBgColor, getBgColorUnsafe, getBgColorUnchecked, setCh, getCh,
-        setChOff, getChOff, setColSpan, getColSpan, setRowSpan, getRowSpan,
-        setHeaders, getHeaders, setHeight, getHeight, setNoWrap, getNoWrap,
-        setVAlign, getVAlign, setWidth, getWidth, setAbbr, getAbbr,
-        setScope, getScope, HTMLTableCellElement(..),
-        gTypeHTMLTableCellElement)
+        getBgColor, setCh, getCh, setChOff, getChOff, setColSpan,
+        getColSpan, setRowSpan, getRowSpan, setHeaders, getHeaders,
+        setHeight, getHeight, setNoWrap, getNoWrap, setVAlign, getVAlign,
+        setWidth, getWidth, setAbbr, getAbbr, setScope, getScope,
+        HTMLTableCellElement(..), gTypeHTMLTableCellElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -55,31 +54,14 @@ getAxis self = liftDOM ((self ^. js "axis") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement.bgColor Mozilla HTMLTableCellElement.bgColor documentation> 
 setBgColor ::
-           (MonadDOM m, ToJSString val) =>
-             HTMLTableCellElement -> Maybe val -> m ()
+           (MonadDOM m, ToJSString val) => HTMLTableCellElement -> val -> m ()
 setBgColor self val = liftDOM (self ^. jss "bgColor" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement.bgColor Mozilla HTMLTableCellElement.bgColor documentation> 
 getBgColor ::
            (MonadDOM m, FromJSString result) =>
-             HTMLTableCellElement -> m (Maybe result)
+             HTMLTableCellElement -> m result
 getBgColor self
-  = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement.bgColor Mozilla HTMLTableCellElement.bgColor documentation> 
-getBgColorUnsafe ::
-                 (MonadDOM m, HasCallStack, FromJSString result) =>
-                   HTMLTableCellElement -> m result
-getBgColorUnsafe self
-  = liftDOM
-      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement.bgColor Mozilla HTMLTableCellElement.bgColor documentation> 
-getBgColorUnchecked ::
-                    (MonadDOM m, FromJSString result) =>
-                      HTMLTableCellElement -> m result
-getBgColorUnchecked self
   = liftDOM ((self ^. js "bgColor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement.ch Mozilla HTMLTableCellElement.ch documentation> 

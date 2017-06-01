@@ -5,10 +5,8 @@
 module JSDOM.Generated.HTMLIFrameElement
        (getSVGDocument, getSVGDocument_, setAlign, getAlign,
         setFrameBorder, getFrameBorder, setHeight, getHeight, setLongDesc,
-        getLongDesc, setMarginHeight, getMarginHeight,
-        getMarginHeightUnsafe, getMarginHeightUnchecked, setMarginWidth,
-        getMarginWidth, getMarginWidthUnsafe, getMarginWidthUnchecked,
-        setName, getName, getSandbox, setAllowFullscreen,
+        getLongDesc, setMarginHeight, getMarginHeight, setMarginWidth,
+        getMarginWidth, setName, getName, getSandbox, setAllowFullscreen,
         getAllowFullscreen, setScrolling, getScrolling, setSrc, getSrc,
         setSrcdoc, getSrcdoc, setWidth, getWidth, getContentDocument,
         getContentWindow, HTMLIFrameElement(..), gTypeHTMLIFrameElement)
@@ -86,60 +84,26 @@ getLongDesc self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
 setMarginHeight ::
-                (MonadDOM m, ToJSString val) =>
-                  HTMLIFrameElement -> Maybe val -> m ()
+                (MonadDOM m, ToJSString val) => HTMLIFrameElement -> val -> m ()
 setMarginHeight self val
   = liftDOM (self ^. jss "marginHeight" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
 getMarginHeight ::
-                (MonadDOM m, FromJSString result) =>
-                  HTMLIFrameElement -> m (Maybe result)
+                (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
 getMarginHeight self
-  = liftDOM ((self ^. js "marginHeight") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
-getMarginHeightUnsafe ::
-                      (MonadDOM m, HasCallStack, FromJSString result) =>
-                        HTMLIFrameElement -> m result
-getMarginHeightUnsafe self
-  = liftDOM
-      (((self ^. js "marginHeight") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginHeight Mozilla HTMLIFrameElement.marginHeight documentation> 
-getMarginHeightUnchecked ::
-                         (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
-getMarginHeightUnchecked self
   = liftDOM ((self ^. js "marginHeight") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
 setMarginWidth ::
-               (MonadDOM m, ToJSString val) =>
-                 HTMLIFrameElement -> Maybe val -> m ()
+               (MonadDOM m, ToJSString val) => HTMLIFrameElement -> val -> m ()
 setMarginWidth self val
   = liftDOM (self ^. jss "marginWidth" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
 getMarginWidth ::
-               (MonadDOM m, FromJSString result) =>
-                 HTMLIFrameElement -> m (Maybe result)
+               (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
 getMarginWidth self
-  = liftDOM ((self ^. js "marginWidth") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
-getMarginWidthUnsafe ::
-                     (MonadDOM m, HasCallStack, FromJSString result) =>
-                       HTMLIFrameElement -> m result
-getMarginWidthUnsafe self
-  = liftDOM
-      (((self ^. js "marginWidth") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.marginWidth Mozilla HTMLIFrameElement.marginWidth documentation> 
-getMarginWidthUnchecked ::
-                        (MonadDOM m, FromJSString result) => HTMLIFrameElement -> m result
-getMarginWidthUnchecked self
   = liftDOM ((self ^. js "marginWidth") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement.name Mozilla HTMLIFrameElement.name documentation> 

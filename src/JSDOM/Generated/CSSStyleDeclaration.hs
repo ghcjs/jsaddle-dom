@@ -141,7 +141,7 @@ setProperty ::
             (MonadDOM m, ToJSString propertyName, ToJSString value,
              ToJSString priority) =>
               CSSStyleDeclaration ->
-                propertyName -> Maybe value -> Maybe priority -> m ()
+                propertyName -> value -> Maybe priority -> m ()
 setProperty self propertyName value priority
   = liftDOM
       (void

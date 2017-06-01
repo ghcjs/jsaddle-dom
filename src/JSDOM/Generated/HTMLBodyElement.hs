@@ -3,13 +3,10 @@
 {-# LANGUAGE ImplicitParams, ConstraintKinds, KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 module JSDOM.Generated.HTMLBodyElement
-       (setALink, getALink, getALinkUnsafe, getALinkUnchecked,
-        setBackground, getBackground, setBgColor, getBgColor,
-        getBgColorUnsafe, getBgColorUnchecked, setLink, getLink,
-        getLinkUnsafe, getLinkUnchecked, setText, getText, getTextUnsafe,
-        getTextUnchecked, setVLink, getVLink, getVLinkUnsafe,
-        getVLinkUnchecked, blur, error, focus, focusin, focusout, load,
-        resize, scroll, webKitMouseForcechanged, webKitMouseForcedown,
+       (setALink, getALink, setBackground, getBackground, setBgColor,
+        getBgColor, setLink, getLink, setText, getText, setVLink, getVLink,
+        blur, error, focus, focusin, focusout, load, resize, scroll,
+        webKitMouseForcechanged, webKitMouseForcedown,
         webKitMouseForcewillbegin, webKitMouseForceup,
         webKitWillRevealBottom, webKitWillRevealLeft,
         webKitWillRevealRight, webKitWillRevealTop, selectionchange,
@@ -31,30 +28,13 @@ import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
 setALink ::
-         (MonadDOM m, ToJSString val) =>
-           HTMLBodyElement -> Maybe val -> m ()
+         (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
 setALink self val = liftDOM (self ^. jss "aLink" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
 getALink ::
-         (MonadDOM m, FromJSString result) =>
-           HTMLBodyElement -> m (Maybe result)
+         (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
 getALink self
-  = liftDOM ((self ^. js "aLink") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
-getALinkUnsafe ::
-               (MonadDOM m, HasCallStack, FromJSString result) =>
-                 HTMLBodyElement -> m result
-getALinkUnsafe self
-  = liftDOM
-      (((self ^. js "aLink") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
-getALinkUnchecked ::
-                  (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getALinkUnchecked self
   = liftDOM ((self ^. js "aLink") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.background Mozilla HTMLBodyElement.background documentation> 
@@ -71,112 +51,44 @@ getBackground self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
 setBgColor ::
-           (MonadDOM m, ToJSString val) =>
-             HTMLBodyElement -> Maybe val -> m ()
+           (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
 setBgColor self val = liftDOM (self ^. jss "bgColor" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
 getBgColor ::
-           (MonadDOM m, FromJSString result) =>
-             HTMLBodyElement -> m (Maybe result)
+           (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
 getBgColor self
-  = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
-getBgColorUnsafe ::
-                 (MonadDOM m, HasCallStack, FromJSString result) =>
-                   HTMLBodyElement -> m result
-getBgColorUnsafe self
-  = liftDOM
-      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.bgColor Mozilla HTMLBodyElement.bgColor documentation> 
-getBgColorUnchecked ::
-                    (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getBgColorUnchecked self
   = liftDOM ((self ^. js "bgColor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
 setLink ::
-        (MonadDOM m, ToJSString val) =>
-          HTMLBodyElement -> Maybe val -> m ()
+        (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
 setLink self val = liftDOM (self ^. jss "link" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
 getLink ::
-        (MonadDOM m, FromJSString result) =>
-          HTMLBodyElement -> m (Maybe result)
-getLink self = liftDOM ((self ^. js "link") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
-getLinkUnsafe ::
-              (MonadDOM m, HasCallStack, FromJSString result) =>
-                HTMLBodyElement -> m result
-getLinkUnsafe self
-  = liftDOM
-      (((self ^. js "link") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.link Mozilla HTMLBodyElement.link documentation> 
-getLinkUnchecked ::
-                 (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getLinkUnchecked self
-  = liftDOM ((self ^. js "link") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getLink self = liftDOM ((self ^. js "link") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
 setText ::
-        (MonadDOM m, ToJSString val) =>
-          HTMLBodyElement -> Maybe val -> m ()
+        (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
 setText self val = liftDOM (self ^. jss "text" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
 getText ::
-        (MonadDOM m, FromJSString result) =>
-          HTMLBodyElement -> m (Maybe result)
-getText self = liftDOM ((self ^. js "text") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
-getTextUnsafe ::
-              (MonadDOM m, HasCallStack, FromJSString result) =>
-                HTMLBodyElement -> m result
-getTextUnsafe self
-  = liftDOM
-      (((self ^. js "text") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.text Mozilla HTMLBodyElement.text documentation> 
-getTextUnchecked ::
-                 (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getTextUnchecked self
-  = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
+        (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
+getText self = liftDOM ((self ^. js "text") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
 setVLink ::
-         (MonadDOM m, ToJSString val) =>
-           HTMLBodyElement -> Maybe val -> m ()
+         (MonadDOM m, ToJSString val) => HTMLBodyElement -> val -> m ()
 setVLink self val = liftDOM (self ^. jss "vLink" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
 getVLink ::
-         (MonadDOM m, FromJSString result) =>
-           HTMLBodyElement -> m (Maybe result)
+         (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
 getVLink self
-  = liftDOM ((self ^. js "vLink") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
-getVLinkUnsafe ::
-               (MonadDOM m, HasCallStack, FromJSString result) =>
-                 HTMLBodyElement -> m result
-getVLinkUnsafe self
-  = liftDOM
-      (((self ^. js "vLink") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.vLink Mozilla HTMLBodyElement.vLink documentation> 
-getVLinkUnchecked ::
-                  (MonadDOM m, FromJSString result) => HTMLBodyElement -> m result
-getVLinkUnchecked self
   = liftDOM ((self ^. js "vLink") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onblur Mozilla HTMLBodyElement.onblur documentation> 

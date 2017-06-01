@@ -5,9 +5,8 @@
 module JSDOM.Generated.HTMLTableRowElement
        (insertCell, insertCell_, deleteCell, getRowIndex,
         getSectionRowIndex, getCells, setAlign, getAlign, setBgColor,
-        getBgColor, getBgColorUnsafe, getBgColorUnchecked, setCh, getCh,
-        setChOff, getChOff, setVAlign, getVAlign, HTMLTableRowElement(..),
-        gTypeHTMLTableRowElement)
+        getBgColor, setCh, getCh, setChOff, getChOff, setVAlign, getVAlign,
+        HTMLTableRowElement(..), gTypeHTMLTableRowElement)
        where
 import Prelude ((.), (==), (>>=), return, IO, Int, Float, Double, Bool(..), Maybe, maybe, fromIntegral, round, realToFrac, fmap, Show, Read, Eq, Ord, Maybe(..))
 import qualified Prelude (error)
@@ -71,31 +70,14 @@ getAlign self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
 setBgColor ::
-           (MonadDOM m, ToJSString val) =>
-             HTMLTableRowElement -> Maybe val -> m ()
+           (MonadDOM m, ToJSString val) => HTMLTableRowElement -> val -> m ()
 setBgColor self val = liftDOM (self ^. jss "bgColor" (toJSVal val))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
 getBgColor ::
            (MonadDOM m, FromJSString result) =>
-             HTMLTableRowElement -> m (Maybe result)
+             HTMLTableRowElement -> m result
 getBgColor self
-  = liftDOM ((self ^. js "bgColor") >>= fromMaybeJSString)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
-getBgColorUnsafe ::
-                 (MonadDOM m, HasCallStack, FromJSString result) =>
-                   HTMLTableRowElement -> m result
-getBgColorUnsafe self
-  = liftDOM
-      (((self ^. js "bgColor") >>= fromMaybeJSString) >>=
-         maybe (Prelude.error "Nothing to return") return)
-
--- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.bgColor Mozilla HTMLTableRowElement.bgColor documentation> 
-getBgColorUnchecked ::
-                    (MonadDOM m, FromJSString result) =>
-                      HTMLTableRowElement -> m result
-getBgColorUnchecked self
   = liftDOM ((self ^. js "bgColor") >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement.ch Mozilla HTMLTableRowElement.ch documentation> 
