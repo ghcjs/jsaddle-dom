@@ -23,6 +23,7 @@ module JSDOM.Types (
   -- * JavaScript String
   , JSString(..), ToJSString(..), FromJSString(..)
   , toMaybeJSString, fromMaybeJSString
+  , noJSString
 
   -- * JavaScript Array
   , fromJSArray, fromJSArrayUnchecked
@@ -34,21 +35,21 @@ module JSDOM.Types (
   , Nullable(..), nullableToMaybe, maybeToNullable
 
   -- * DOM String
-  , DOMString(..), ToDOMString(..), FromDOMString(..), IsDOMString
-  , USVString(..), IsUSVString
-  , ByteString(..), IsByteString
-  , CSSOMString(..), IsCSSOMString
+  , DOMString(..), ToDOMString(..), FromDOMString(..), IsDOMString, noDOMString
+  , USVString(..), IsUSVString, noUSVString
+  , ByteString(..), IsByteString, noByteString
+  , CSSOMString(..), IsCSSOMString, noCSSOMString
 
   -- * Object
   , maybeNullOrUndefined, maybeNullOrUndefined', GType(..)
-  , GObject(..), IsGObject, toGObject, gTypeGObject, isA, objectToString
+  , GObject(..), noGObject, IsGObject, toGObject, gTypeGObject, isA, objectToString
   , castTo, unsafeCastTo, uncheckedCastTo
   , strictEqual
 
   -- * TypedArray
-  , RawTypedArray(RawTypedArray), unRawTypedArray, IsRawTypedArray, toRawTypedArray
+  , RawTypedArray(RawTypedArray), unRawTypedArray, IsRawTypedArray, toRawTypedArray, noRawTypedArray
 
-  , Function(Function), unFunction, IsFunction, toFunction
+  , Function(Function), unFunction, IsFunction, toFunction, noFunction
 
   -- * Promise
   , readPromise
@@ -56,75 +57,78 @@ module JSDOM.Types (
   -- * Callbacks
   , Callback(..)
   , withCallback
-  , AudioBufferCallback(..)
-  , BlobCallback(..)
-  , DatabaseCallback(..)
-  , IntersectionObserverCallback(..)
-  , MediaQueryListListener(..)
-  , MediaStreamTrackSourcesCallback(..)
-  , NavigatorUserMediaErrorCallback(..)
-  , NavigatorUserMediaSuccessCallback(..)
+  , AudioBufferCallback(..), noAudioBufferCallback
+  , BlobCallback(..), noBlobCallback
+  , DatabaseCallback(..), noDatabaseCallback
+  , IntersectionObserverCallback(..), noIntersectionObserverCallback
+  , MediaQueryListListener(..), noMediaQueryListListener
+  , MediaStreamTrackSourcesCallback(..), noMediaStreamTrackSourcesCallback
+  , NavigatorUserMediaErrorCallback(..), noNavigatorUserMediaErrorCallback
+  , NavigatorUserMediaSuccessCallback(..), noNavigatorUserMediaSuccessCallback
   , NotificationPermissionCallback(..)
-  , NodeFilter(..)
-  , PositionCallback(..)
-  , PositionErrorCallback(..)
-  , PerformanceObserverCallback(..)
-  , RequestAnimationFrameCallback(..)
-  , RTCPeerConnectionErrorCallback(..)
-  , RTCSessionDescriptionCallback(..)
-  , RTCStatsCallback(..)
-  , SQLStatementCallback(..)
-  , SQLStatementErrorCallback(..)
-  , SQLTransactionCallback(..)
-  , SQLTransactionErrorCallback(..)
-  , StorageErrorCallback(..)
-  , StorageQuotaCallback(..)
-  , StorageUsageCallback(..)
+  , NodeFilter(..), noNodeFilter
+  , PositionCallback(..), noPositionCallback
+  , PositionErrorCallback(..), noPositionErrorCallback
+  , PerformanceObserverCallback(..), noPerformanceObserverCallback
+  , RequestAnimationFrameCallback(..), noRequestAnimationFrameCallback
+  , RTCPeerConnectionErrorCallback(..), noRTCPeerConnectionErrorCallback
+  , RTCSessionDescriptionCallback(..), noRTCSessionDescriptionCallback
+  , RTCStatsCallback(..), noRTCStatsCallback
+  , SQLStatementCallback(..), noSQLStatementCallback
+  , SQLStatementErrorCallback(..), noSQLStatementErrorCallback
+  , SQLTransactionCallback(..), noSQLTransactionCallback
+  , SQLTransactionErrorCallback(..), noSQLTransactionErrorCallback
+  , StorageErrorCallback(..), noStorageErrorCallback
+  , StorageQuotaCallback(..), noStorageQuotaCallback
+  , StorageUsageCallback(..), noStorageUsageCallback
   , StringCallback(..)
-  , VoidCallback(..)
+  , VoidCallback(..), noVoidCallback
 
   -- * Custom Types
-  , DOMHighResTimeStamp
-  , PerformanceEntryList
+  , DOMHighResTimeStamp, noDOMHighResTimeStamp
+  , PerformanceEntryList, noPerformanceEntryList
 
   -- * Record Type
   , Record(Record), unRecord
 
   -- * Dictionaries
-  , Dictionary(Dictionary), unDictionary, IsDictionary, toDictionary
+  , Dictionary(Dictionary), unDictionary, IsDictionary, toDictionary, noDictionary
 
   -- * Mutation Callback
-  , MutationCallback(MutationCallback), unMutationCallback, IsMutationCallback, toMutationCallback
+  , MutationCallback(MutationCallback), unMutationCallback, IsMutationCallback, toMutationCallback, noMutationCallback
 
   -- * Date
-  , Date(Date), unDate, IsDate, toDate, gTypeDate
+  , Date(Date), unDate, IsDate, toDate, gTypeDate, noDate
 
   -- * Arrays
-  , Array(Array), unArray, IsArray, toArray, gTypeArray
-  , ObjectArray(ObjectArray), unObjectArray, IsObjectArray, toObjectArray
-  , ArrayBuffer(ArrayBuffer), unArrayBuffer, IsArrayBuffer, toArrayBuffer, gTypeArrayBuffer
-  , ArrayBufferView(ArrayBufferView), unArrayBufferView, IsArrayBufferView, toArrayBufferView
-  , Float32Array(Float32Array), unFloat32Array, IsFloat32Array, toFloat32Array, gTypeFloat32Array
-  , Float64Array(Float64Array), unFloat64Array, IsFloat64Array, toFloat64Array, gTypeFloat64Array
-  , Uint8Array(Uint8Array), unUint8Array, IsUint8Array, toUint8Array, gTypeUint8Array
-  , Uint8ClampedArray(Uint8ClampedArray), unUint8ClampedArray, IsUint8ClampedArray, toUint8ClampedArray, gTypeUint8ClampedArray
-  , Uint16Array(Uint16Array), unUint16Array, IsUint16Array, toUint16Array, gTypeUint16Array
-  , Uint32Array(Uint32Array), unUint32Array, IsUint32Array, toUint32Array, gTypeUint32Array
-  , Int8Array(Int8Array), unInt8Array, IsInt8Array, toInt8Array, gTypeInt8Array
-  , Int16Array(Int16Array), unInt16Array, IsInt16Array, toInt16Array, gTypeInt16Array
-  , Int32Array(Int32Array), unInt32Array, IsInt32Array, toInt32Array, gTypeInt32Array
+  , Array(Array), unArray, IsArray, toArray, gTypeArray, noArray
+  , ObjectArray(ObjectArray), unObjectArray, IsObjectArray, toObjectArray, noObjectArray
+  , ArrayBuffer(ArrayBuffer), unArrayBuffer, IsArrayBuffer, toArrayBuffer, gTypeArrayBuffer, noArrayBuffer
+  , ArrayBufferView(ArrayBufferView), unArrayBufferView, IsArrayBufferView, toArrayBufferView, noArrayBufferView
+  , Float32Array(Float32Array), unFloat32Array, IsFloat32Array, toFloat32Array, gTypeFloat32Array, noFloat32Array
+  , Float64Array(Float64Array), unFloat64Array, IsFloat64Array, toFloat64Array, gTypeFloat64Array, noFloat64Array
+  , Uint8Array(Uint8Array), unUint8Array, IsUint8Array, toUint8Array, gTypeUint8Array, noUint8Array
+  , Uint8ClampedArray(Uint8ClampedArray), unUint8ClampedArray, IsUint8ClampedArray, toUint8ClampedArray, gTypeUint8ClampedArray, noUint8ClampedArray
+  , Uint16Array(Uint16Array), unUint16Array, IsUint16Array, toUint16Array, gTypeUint16Array, noUint16Array
+  , Uint32Array(Uint32Array), unUint32Array, IsUint32Array, toUint32Array, gTypeUint32Array, noUint32Array
+  , Int8Array(Int8Array), unInt8Array, IsInt8Array, toInt8Array, gTypeInt8Array, noInt8Array
+  , Int16Array(Int16Array), unInt16Array, IsInt16Array, toInt16Array, gTypeInt16Array, noInt16Array
+  , Int32Array(Int32Array), unInt32Array, IsInt32Array, toInt32Array, gTypeInt32Array, noInt32Array
 
   -- * Geolocation
-  , SerializedScriptValue(SerializedScriptValue), unSerializedScriptValue, IsSerializedScriptValue, toSerializedScriptValue
+  , SerializedScriptValue(SerializedScriptValue), unSerializedScriptValue, IsSerializedScriptValue, toSerializedScriptValue, noSerializedScriptValue
 
   -- * Crypto
-  , Algorithm(Algorithm), unAlgorithm, IsAlgorithm, toAlgorithm
-  , CryptoOperationData(CryptoOperationData), unCryptoOperationData, IsCryptoOperationData, toCryptoOperationData
+  , Algorithm(Algorithm), unAlgorithm, IsAlgorithm, toAlgorithm, noAlgorithm
+  , CryptoOperationData(CryptoOperationData), unCryptoOperationData, IsCryptoOperationData, toCryptoOperationData, noCryptoOperationData
 
   -- * WebGL typedefs
   , GLenum(..), GLboolean(..), GLbitfield(..), GLbyte(..), GLshort(..), GLint(..), GLsizei(..)
   , GLintptr(..), GLsizeiptr(..), GLubyte(..), GLushort(..), GLuint(..), GLfloat(..), GLclampf(..)
   , GLint64, GLuint64
+  , noGLenum, noGLboolean, noGLbitfield, noGLbyte, noGLshort, noGLint, noGLsizei
+  , noGLintptr, noGLsizeiptr, noGLubyte, noGLushort, noGLuint, noGLfloat, noGLclampf
+  , noGLint64, noGLuint64
 
   -- * Used for better error messages
   , HasCallStack
@@ -169,782 +173,782 @@ module JSDOM.Types (
   , URLSearchParamsInit(URLSearchParamsInit), unURLSearchParamsInit, IsURLSearchParamsInit
   , XMLHttpRequestBody(XMLHttpRequestBody), unXMLHttpRequestBody, IsXMLHttpRequestBody
 
-  , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArrays, gTypeANGLEInstancedArrays
-  , AbstractWorker(AbstractWorker), unAbstractWorker, IsAbstractWorker, toAbstractWorker, gTypeAbstractWorker
-  , Acceleration(Acceleration), unAcceleration, gTypeAcceleration
-  , AddEventListenerOptions(AddEventListenerOptions), unAddEventListenerOptions, gTypeAddEventListenerOptions
-  , AesCbcCfbParams(AesCbcCfbParams), unAesCbcCfbParams, gTypeAesCbcCfbParams
-  , AesCtrParams(AesCtrParams), unAesCtrParams, gTypeAesCtrParams
-  , AesGcmParams(AesGcmParams), unAesGcmParams, gTypeAesGcmParams
-  , AesKeyParams(AesKeyParams), unAesKeyParams, gTypeAesKeyParams
-  , AnalyserNode(AnalyserNode), unAnalyserNode, gTypeAnalyserNode
-  , Animatable(Animatable), unAnimatable, IsAnimatable, toAnimatable, gTypeAnimatable
-  , Animation(Animation), unAnimation, gTypeAnimation
-  , AnimationEffect(AnimationEffect), unAnimationEffect, IsAnimationEffect, toAnimationEffect, gTypeAnimationEffect
-  , AnimationEvent(AnimationEvent), unAnimationEvent, gTypeAnimationEvent
-  , AnimationEventInit(AnimationEventInit), unAnimationEventInit, gTypeAnimationEventInit
-  , AnimationTimeline(AnimationTimeline), unAnimationTimeline, IsAnimationTimeline, toAnimationTimeline, gTypeAnimationTimeline
-  , ApplePayError(ApplePayError), unApplePayError, gTypeApplePayError
-  , ApplePayLineItem(ApplePayLineItem), unApplePayLineItem, gTypeApplePayLineItem
-  , ApplePayPayment(ApplePayPayment), unApplePayPayment, gTypeApplePayPayment
-  , ApplePayPaymentAuthorizationResult(ApplePayPaymentAuthorizationResult), unApplePayPaymentAuthorizationResult, gTypeApplePayPaymentAuthorizationResult
-  , ApplePayPaymentAuthorizedEvent(ApplePayPaymentAuthorizedEvent), unApplePayPaymentAuthorizedEvent, gTypeApplePayPaymentAuthorizedEvent
-  , ApplePayPaymentContact(ApplePayPaymentContact), unApplePayPaymentContact, gTypeApplePayPaymentContact
-  , ApplePayPaymentMethod(ApplePayPaymentMethod), unApplePayPaymentMethod, gTypeApplePayPaymentMethod
-  , ApplePayPaymentMethodSelectedEvent(ApplePayPaymentMethodSelectedEvent), unApplePayPaymentMethodSelectedEvent, gTypeApplePayPaymentMethodSelectedEvent
-  , ApplePayPaymentMethodUpdate(ApplePayPaymentMethodUpdate), unApplePayPaymentMethodUpdate, gTypeApplePayPaymentMethodUpdate
-  , ApplePayPaymentPass(ApplePayPaymentPass), unApplePayPaymentPass, gTypeApplePayPaymentPass
-  , ApplePayPaymentRequest(ApplePayPaymentRequest), unApplePayPaymentRequest, gTypeApplePayPaymentRequest
-  , ApplePayPaymentToken(ApplePayPaymentToken), unApplePayPaymentToken, gTypeApplePayPaymentToken
-  , ApplePaySession(ApplePaySession), unApplePaySession, gTypeApplePaySession
-  , ApplePayShippingContactSelectedEvent(ApplePayShippingContactSelectedEvent), unApplePayShippingContactSelectedEvent, gTypeApplePayShippingContactSelectedEvent
-  , ApplePayShippingContactUpdate(ApplePayShippingContactUpdate), unApplePayShippingContactUpdate, gTypeApplePayShippingContactUpdate
-  , ApplePayShippingMethod(ApplePayShippingMethod), unApplePayShippingMethod, gTypeApplePayShippingMethod
-  , ApplePayShippingMethodSelectedEvent(ApplePayShippingMethodSelectedEvent), unApplePayShippingMethodSelectedEvent, gTypeApplePayShippingMethodSelectedEvent
-  , ApplePayShippingMethodUpdate(ApplePayShippingMethodUpdate), unApplePayShippingMethodUpdate, gTypeApplePayShippingMethodUpdate
-  , ApplePayValidateMerchantEvent(ApplePayValidateMerchantEvent), unApplePayValidateMerchantEvent, gTypeApplePayValidateMerchantEvent
-  , ApplicationCache(ApplicationCache), unApplicationCache, gTypeApplicationCache
-  , AssignedNodesOptions(AssignedNodesOptions), unAssignedNodesOptions, gTypeAssignedNodesOptions
-  , Attr(Attr), unAttr, gTypeAttr
-  , AudioBuffer(AudioBuffer), unAudioBuffer, gTypeAudioBuffer
-  , AudioBufferSourceNode(AudioBufferSourceNode), unAudioBufferSourceNode, gTypeAudioBufferSourceNode
-  , AudioContext(AudioContext), unAudioContext, IsAudioContext, toAudioContext, gTypeAudioContext
-  , AudioDestinationNode(AudioDestinationNode), unAudioDestinationNode, gTypeAudioDestinationNode
-  , AudioListener(AudioListener), unAudioListener, gTypeAudioListener
-  , AudioNode(AudioNode), unAudioNode, IsAudioNode, toAudioNode, gTypeAudioNode
-  , AudioParam(AudioParam), unAudioParam, gTypeAudioParam
-  , AudioProcessingEvent(AudioProcessingEvent), unAudioProcessingEvent, gTypeAudioProcessingEvent
-  , AudioTrack(AudioTrack), unAudioTrack, gTypeAudioTrack
-  , AudioTrackList(AudioTrackList), unAudioTrackList, gTypeAudioTrackList
-  , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEvent, gTypeAutocompleteErrorEvent
-  , AutocompleteErrorEventInit(AutocompleteErrorEventInit), unAutocompleteErrorEventInit, gTypeAutocompleteErrorEventInit
-  , BarProp(BarProp), unBarProp, gTypeBarProp
-  , BasicCredential(BasicCredential), unBasicCredential, IsBasicCredential, toBasicCredential, gTypeBasicCredential
-  , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEvent, gTypeBeforeLoadEvent
-  , BeforeLoadEventInit(BeforeLoadEventInit), unBeforeLoadEventInit, gTypeBeforeLoadEventInit
-  , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEvent, gTypeBeforeUnloadEvent
-  , BiquadFilterNode(BiquadFilterNode), unBiquadFilterNode, gTypeBiquadFilterNode
-  , Blob(Blob), unBlob, IsBlob, toBlob, gTypeBlob
-  , BlobPropertyBag(BlobPropertyBag), unBlobPropertyBag, IsBlobPropertyBag, toBlobPropertyBag, gTypeBlobPropertyBag
-  , Body(Body), unBody, IsBody, toBody, gTypeBody
-  , ByteLengthQueuingStrategy(ByteLengthQueuingStrategy), unByteLengthQueuingStrategy, gTypeByteLengthQueuingStrategy
-  , CDATASection(CDATASection), unCDATASection, gTypeCDATASection
-  , CSS(CSS), unCSS, gTypeCSS
-  , CSSFontFaceLoadEvent(CSSFontFaceLoadEvent), unCSSFontFaceLoadEvent, gTypeCSSFontFaceLoadEvent
-  , CSSFontFaceLoadEventInit(CSSFontFaceLoadEventInit), unCSSFontFaceLoadEventInit, gTypeCSSFontFaceLoadEventInit
-  , CSSFontFaceRule(CSSFontFaceRule), unCSSFontFaceRule, gTypeCSSFontFaceRule
-  , CSSImportRule(CSSImportRule), unCSSImportRule, gTypeCSSImportRule
-  , CSSKeyframeRule(CSSKeyframeRule), unCSSKeyframeRule, gTypeCSSKeyframeRule
-  , CSSKeyframesRule(CSSKeyframesRule), unCSSKeyframesRule, gTypeCSSKeyframesRule
-  , CSSMediaRule(CSSMediaRule), unCSSMediaRule, gTypeCSSMediaRule
-  , CSSNamespaceRule(CSSNamespaceRule), unCSSNamespaceRule, gTypeCSSNamespaceRule
-  , CSSPageRule(CSSPageRule), unCSSPageRule, gTypeCSSPageRule
-  , CSSPrimitiveValue(CSSPrimitiveValue), unCSSPrimitiveValue, gTypeCSSPrimitiveValue
-  , CSSRule(CSSRule), unCSSRule, IsCSSRule, toCSSRule, gTypeCSSRule
-  , CSSRuleList(CSSRuleList), unCSSRuleList, gTypeCSSRuleList
-  , CSSStyleDeclaration(CSSStyleDeclaration), unCSSStyleDeclaration, gTypeCSSStyleDeclaration
-  , CSSStyleRule(CSSStyleRule), unCSSStyleRule, gTypeCSSStyleRule
-  , CSSStyleSheet(CSSStyleSheet), unCSSStyleSheet, gTypeCSSStyleSheet
-  , CSSSupportsRule(CSSSupportsRule), unCSSSupportsRule, gTypeCSSSupportsRule
-  , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRule, gTypeCSSUnknownRule
-  , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValue, gTypeCSSValue
-  , CSSValueList(CSSValueList), unCSSValueList, gTypeCSSValueList
-  , CanvasCaptureMediaStreamTrack(CanvasCaptureMediaStreamTrack), unCanvasCaptureMediaStreamTrack, gTypeCanvasCaptureMediaStreamTrack
-  , CanvasGradient(CanvasGradient), unCanvasGradient, gTypeCanvasGradient
-  , CanvasPath(CanvasPath), unCanvasPath, IsCanvasPath, toCanvasPath, gTypeCanvasPath
-  , CanvasPattern(CanvasPattern), unCanvasPattern, gTypeCanvasPattern
-  , CanvasProxy(CanvasProxy), unCanvasProxy, gTypeCanvasProxy
-  , CanvasRenderingContext2D(CanvasRenderingContext2D), unCanvasRenderingContext2D, gTypeCanvasRenderingContext2D
-  , ChannelMergerNode(ChannelMergerNode), unChannelMergerNode, gTypeChannelMergerNode
-  , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNode, gTypeChannelSplitterNode
-  , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterData, gTypeCharacterData
-  , ChildNode(ChildNode), unChildNode, IsChildNode, toChildNode, gTypeChildNode
-  , ClipboardEvent(ClipboardEvent), unClipboardEvent, gTypeClipboardEvent
-  , ClipboardEventInit(ClipboardEventInit), unClipboardEventInit, gTypeClipboardEventInit
-  , CloseEvent(CloseEvent), unCloseEvent, gTypeCloseEvent
-  , CloseEventInit(CloseEventInit), unCloseEventInit, gTypeCloseEventInit
-  , CommandLineAPIHost(CommandLineAPIHost), unCommandLineAPIHost, gTypeCommandLineAPIHost
-  , Comment(Comment), unComment, gTypeComment
-  , CompositionEvent(CompositionEvent), unCompositionEvent, gTypeCompositionEvent
-  , CompositionEventInit(CompositionEventInit), unCompositionEventInit, gTypeCompositionEventInit
-  , ConstrainBooleanParameters(ConstrainBooleanParameters), unConstrainBooleanParameters, gTypeConstrainBooleanParameters
-  , ConstrainDOMStringParameters(ConstrainDOMStringParameters), unConstrainDOMStringParameters, gTypeConstrainDOMStringParameters
-  , ConstrainDoubleRange(ConstrainDoubleRange), unConstrainDoubleRange, gTypeConstrainDoubleRange
-  , ConstrainLongRange(ConstrainLongRange), unConstrainLongRange, gTypeConstrainLongRange
-  , ConvolverNode(ConvolverNode), unConvolverNode, gTypeConvolverNode
-  , Coordinates(Coordinates), unCoordinates, gTypeCoordinates
-  , CountQueuingStrategy(CountQueuingStrategy), unCountQueuingStrategy, gTypeCountQueuingStrategy
-  , Counter(Counter), unCounter, gTypeCounter
-  , CredentialData(CredentialData), unCredentialData, IsCredentialData, toCredentialData, gTypeCredentialData
-  , Crypto(Crypto), unCrypto, gTypeCrypto
-  , CryptoAlgorithmParameters(CryptoAlgorithmParameters), unCryptoAlgorithmParameters, IsCryptoAlgorithmParameters, toCryptoAlgorithmParameters, gTypeCryptoAlgorithmParameters
-  , CryptoKey(CryptoKey), unCryptoKey, gTypeCryptoKey
-  , CryptoKeyPair(CryptoKeyPair), unCryptoKeyPair, gTypeCryptoKeyPair
-  , CustomElementRegistry(CustomElementRegistry), unCustomElementRegistry, gTypeCustomElementRegistry
-  , CustomEvent(CustomEvent), unCustomEvent, gTypeCustomEvent
-  , CustomEventInit(CustomEventInit), unCustomEventInit, gTypeCustomEventInit
-  , DOMError(DOMError), unDOMError, IsDOMError, toDOMError, gTypeDOMError
-  , DOMException(DOMException), unDOMException, gTypeDOMException
-  , DOMImplementation(DOMImplementation), unDOMImplementation, gTypeDOMImplementation
-  , DOMNamedFlowCollection(DOMNamedFlowCollection), unDOMNamedFlowCollection, gTypeDOMNamedFlowCollection
-  , DOMParser(DOMParser), unDOMParser, gTypeDOMParser
-  , DOMPoint(DOMPoint), unDOMPoint, gTypeDOMPoint
-  , DOMPointInit(DOMPointInit), unDOMPointInit, gTypeDOMPointInit
-  , DOMPointReadOnly(DOMPointReadOnly), unDOMPointReadOnly, IsDOMPointReadOnly, toDOMPointReadOnly, gTypeDOMPointReadOnly
-  , DOMRect(DOMRect), unDOMRect, gTypeDOMRect
-  , DOMRectInit(DOMRectInit), unDOMRectInit, gTypeDOMRectInit
-  , DOMRectReadOnly(DOMRectReadOnly), unDOMRectReadOnly, IsDOMRectReadOnly, toDOMRectReadOnly, gTypeDOMRectReadOnly
-  , DOMStringList(DOMStringList), unDOMStringList, gTypeDOMStringList
-  , DOMStringMap(DOMStringMap), unDOMStringMap, gTypeDOMStringMap
-  , DOMTokenList(DOMTokenList), unDOMTokenList, gTypeDOMTokenList
-  , DataCue(DataCue), unDataCue, gTypeDataCue
-  , DataTransfer(DataTransfer), unDataTransfer, gTypeDataTransfer
-  , DataTransferItem(DataTransferItem), unDataTransferItem, gTypeDataTransferItem
-  , DataTransferItemList(DataTransferItemList), unDataTransferItemList, gTypeDataTransferItemList
-  , Database(Database), unDatabase, gTypeDatabase
-  , DedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope), unDedicatedWorkerGlobalScope, gTypeDedicatedWorkerGlobalScope
-  , DelayNode(DelayNode), unDelayNode, gTypeDelayNode
-  , DeviceMotionEvent(DeviceMotionEvent), unDeviceMotionEvent, gTypeDeviceMotionEvent
-  , DeviceOrientationEvent(DeviceOrientationEvent), unDeviceOrientationEvent, gTypeDeviceOrientationEvent
-  , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEvent, gTypeDeviceProximityEvent
-  , DeviceProximityEventInit(DeviceProximityEventInit), unDeviceProximityEventInit, gTypeDeviceProximityEventInit
-  , Document(Document), unDocument, IsDocument, toDocument, gTypeDocument
-  , DocumentAndElementEventHandlers(DocumentAndElementEventHandlers), unDocumentAndElementEventHandlers, IsDocumentAndElementEventHandlers, toDocumentAndElementEventHandlers, gTypeDocumentAndElementEventHandlers
-  , DocumentFragment(DocumentFragment), unDocumentFragment, IsDocumentFragment, toDocumentFragment, gTypeDocumentFragment
-  , DocumentOrShadowRoot(DocumentOrShadowRoot), unDocumentOrShadowRoot, IsDocumentOrShadowRoot, toDocumentOrShadowRoot, gTypeDocumentOrShadowRoot
-  , DocumentTimeline(DocumentTimeline), unDocumentTimeline, gTypeDocumentTimeline
-  , DocumentType(DocumentType), unDocumentType, gTypeDocumentType
-  , DoubleRange(DoubleRange), unDoubleRange, IsDoubleRange, toDoubleRange, gTypeDoubleRange
-  , DynamicsCompressorNode(DynamicsCompressorNode), unDynamicsCompressorNode, gTypeDynamicsCompressorNode
-  , EXTBlendMinMax(EXTBlendMinMax), unEXTBlendMinMax, gTypeEXTBlendMinMax
-  , EXTFragDepth(EXTFragDepth), unEXTFragDepth, gTypeEXTFragDepth
-  , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLOD, gTypeEXTShaderTextureLOD
-  , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropic, gTypeEXTTextureFilterAnisotropic
-  , EXTsRGB(EXTsRGB), unEXTsRGB, gTypeEXTsRGB
-  , EcKeyParams(EcKeyParams), unEcKeyParams, gTypeEcKeyParams
-  , EcdhKeyDeriveParams(EcdhKeyDeriveParams), unEcdhKeyDeriveParams, gTypeEcdhKeyDeriveParams
-  , EcdsaParams(EcdsaParams), unEcdsaParams, gTypeEcdsaParams
-  , Element(Element), unElement, IsElement, toElement, gTypeElement
-  , ElementCSSInlineStyle(ElementCSSInlineStyle), unElementCSSInlineStyle, IsElementCSSInlineStyle, toElementCSSInlineStyle, gTypeElementCSSInlineStyle
-  , ErrorEvent(ErrorEvent), unErrorEvent, gTypeErrorEvent
-  , ErrorEventInit(ErrorEventInit), unErrorEventInit, gTypeErrorEventInit
-  , Event(Event), unEvent, IsEvent, toEvent, gTypeEvent
-  , EventInit(EventInit), unEventInit, IsEventInit, toEventInit, gTypeEventInit
-  , EventListener(EventListener), unEventListener, gTypeEventListener
-  , EventListenerOptions(EventListenerOptions), unEventListenerOptions, IsEventListenerOptions, toEventListenerOptions, gTypeEventListenerOptions
-  , EventModifierInit(EventModifierInit), unEventModifierInit, IsEventModifierInit, toEventModifierInit, gTypeEventModifierInit
-  , EventSource(EventSource), unEventSource, gTypeEventSource
-  , EventSourceInit(EventSourceInit), unEventSourceInit, gTypeEventSourceInit
-  , EventTarget(EventTarget), unEventTarget, IsEventTarget, toEventTarget, gTypeEventTarget
-  , File(File), unFile, gTypeFile
-  , FileError(FileError), unFileError, gTypeFileError
-  , FileException(FileException), unFileException, gTypeFileException
-  , FileList(FileList), unFileList, gTypeFileList
-  , FilePropertyBag(FilePropertyBag), unFilePropertyBag, gTypeFilePropertyBag
-  , FileReader(FileReader), unFileReader, gTypeFileReader
-  , FileReaderSync(FileReaderSync), unFileReaderSync, gTypeFileReaderSync
-  , FocusEvent(FocusEvent), unFocusEvent, gTypeFocusEvent
-  , FocusEventInit(FocusEventInit), unFocusEventInit, gTypeFocusEventInit
-  , FontFace(FontFace), unFontFace, gTypeFontFace
-  , FontFaceDescriptors(FontFaceDescriptors), unFontFaceDescriptors, gTypeFontFaceDescriptors
-  , FontFaceSet(FontFaceSet), unFontFaceSet, gTypeFontFaceSet
-  , FormData(FormData), unFormData, gTypeFormData
-  , GainNode(GainNode), unGainNode, gTypeGainNode
-  , Gamepad(Gamepad), unGamepad, gTypeGamepad
-  , GamepadButton(GamepadButton), unGamepadButton, gTypeGamepadButton
-  , GamepadEvent(GamepadEvent), unGamepadEvent, gTypeGamepadEvent
-  , GamepadEventInit(GamepadEventInit), unGamepadEventInit, gTypeGamepadEventInit
-  , Geolocation(Geolocation), unGeolocation, gTypeGeolocation
-  , Geoposition(Geoposition), unGeoposition, gTypeGeoposition
-  , GetRootNodeOptions(GetRootNodeOptions), unGetRootNodeOptions, gTypeGetRootNodeOptions
-  , GlobalCrypto(GlobalCrypto), unGlobalCrypto, IsGlobalCrypto, toGlobalCrypto, gTypeGlobalCrypto
-  , GlobalEventHandlers(GlobalEventHandlers), unGlobalEventHandlers, IsGlobalEventHandlers, toGlobalEventHandlers, gTypeGlobalEventHandlers
-  , GlobalPerformance(GlobalPerformance), unGlobalPerformance, IsGlobalPerformance, toGlobalPerformance, gTypeGlobalPerformance
-  , HTMLAllCollection(HTMLAllCollection), unHTMLAllCollection, gTypeHTMLAllCollection
-  , HTMLAnchorElement(HTMLAnchorElement), unHTMLAnchorElement, gTypeHTMLAnchorElement
-  , HTMLAppletElement(HTMLAppletElement), unHTMLAppletElement, gTypeHTMLAppletElement
-  , HTMLAreaElement(HTMLAreaElement), unHTMLAreaElement, gTypeHTMLAreaElement
-  , HTMLAttachmentElement(HTMLAttachmentElement), unHTMLAttachmentElement, gTypeHTMLAttachmentElement
-  , HTMLAudioElement(HTMLAudioElement), unHTMLAudioElement, gTypeHTMLAudioElement
-  , HTMLBRElement(HTMLBRElement), unHTMLBRElement, gTypeHTMLBRElement
-  , HTMLBaseElement(HTMLBaseElement), unHTMLBaseElement, gTypeHTMLBaseElement
-  , HTMLBodyElement(HTMLBodyElement), unHTMLBodyElement, gTypeHTMLBodyElement
-  , HTMLButtonElement(HTMLButtonElement), unHTMLButtonElement, gTypeHTMLButtonElement
-  , HTMLCanvasElement(HTMLCanvasElement), unHTMLCanvasElement, gTypeHTMLCanvasElement
-  , HTMLCollection(HTMLCollection), unHTMLCollection, IsHTMLCollection, toHTMLCollection, gTypeHTMLCollection
-  , HTMLDListElement(HTMLDListElement), unHTMLDListElement, gTypeHTMLDListElement
-  , HTMLDataElement(HTMLDataElement), unHTMLDataElement, gTypeHTMLDataElement
-  , HTMLDataListElement(HTMLDataListElement), unHTMLDataListElement, gTypeHTMLDataListElement
-  , HTMLDetailsElement(HTMLDetailsElement), unHTMLDetailsElement, gTypeHTMLDetailsElement
-  , HTMLDirectoryElement(HTMLDirectoryElement), unHTMLDirectoryElement, gTypeHTMLDirectoryElement
-  , HTMLDivElement(HTMLDivElement), unHTMLDivElement, gTypeHTMLDivElement
-  , HTMLDocument(HTMLDocument), unHTMLDocument, gTypeHTMLDocument
-  , HTMLElement(HTMLElement), unHTMLElement, IsHTMLElement, toHTMLElement, gTypeHTMLElement
-  , HTMLEmbedElement(HTMLEmbedElement), unHTMLEmbedElement, gTypeHTMLEmbedElement
-  , HTMLFieldSetElement(HTMLFieldSetElement), unHTMLFieldSetElement, gTypeHTMLFieldSetElement
-  , HTMLFontElement(HTMLFontElement), unHTMLFontElement, gTypeHTMLFontElement
-  , HTMLFormControlsCollection(HTMLFormControlsCollection), unHTMLFormControlsCollection, gTypeHTMLFormControlsCollection
-  , HTMLFormElement(HTMLFormElement), unHTMLFormElement, gTypeHTMLFormElement
-  , HTMLFrameElement(HTMLFrameElement), unHTMLFrameElement, gTypeHTMLFrameElement
-  , HTMLFrameSetElement(HTMLFrameSetElement), unHTMLFrameSetElement, gTypeHTMLFrameSetElement
-  , HTMLHRElement(HTMLHRElement), unHTMLHRElement, gTypeHTMLHRElement
-  , HTMLHeadElement(HTMLHeadElement), unHTMLHeadElement, gTypeHTMLHeadElement
-  , HTMLHeadingElement(HTMLHeadingElement), unHTMLHeadingElement, gTypeHTMLHeadingElement
-  , HTMLHtmlElement(HTMLHtmlElement), unHTMLHtmlElement, gTypeHTMLHtmlElement
-  , HTMLHyperlinkElementUtils(HTMLHyperlinkElementUtils), unHTMLHyperlinkElementUtils, IsHTMLHyperlinkElementUtils, toHTMLHyperlinkElementUtils, gTypeHTMLHyperlinkElementUtils
-  , HTMLIFrameElement(HTMLIFrameElement), unHTMLIFrameElement, gTypeHTMLIFrameElement
-  , HTMLImageElement(HTMLImageElement), unHTMLImageElement, gTypeHTMLImageElement
-  , HTMLInputElement(HTMLInputElement), unHTMLInputElement, gTypeHTMLInputElement
-  , HTMLKeygenElement(HTMLKeygenElement), unHTMLKeygenElement, gTypeHTMLKeygenElement
-  , HTMLLIElement(HTMLLIElement), unHTMLLIElement, gTypeHTMLLIElement
-  , HTMLLabelElement(HTMLLabelElement), unHTMLLabelElement, gTypeHTMLLabelElement
-  , HTMLLegendElement(HTMLLegendElement), unHTMLLegendElement, gTypeHTMLLegendElement
-  , HTMLLinkElement(HTMLLinkElement), unHTMLLinkElement, gTypeHTMLLinkElement
-  , HTMLMapElement(HTMLMapElement), unHTMLMapElement, gTypeHTMLMapElement
-  , HTMLMarqueeElement(HTMLMarqueeElement), unHTMLMarqueeElement, gTypeHTMLMarqueeElement
-  , HTMLMediaElement(HTMLMediaElement), unHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement, gTypeHTMLMediaElement
-  , HTMLMenuElement(HTMLMenuElement), unHTMLMenuElement, gTypeHTMLMenuElement
-  , HTMLMetaElement(HTMLMetaElement), unHTMLMetaElement, gTypeHTMLMetaElement
-  , HTMLMeterElement(HTMLMeterElement), unHTMLMeterElement, gTypeHTMLMeterElement
-  , HTMLModElement(HTMLModElement), unHTMLModElement, gTypeHTMLModElement
-  , HTMLOListElement(HTMLOListElement), unHTMLOListElement, gTypeHTMLOListElement
-  , HTMLObjectElement(HTMLObjectElement), unHTMLObjectElement, gTypeHTMLObjectElement
-  , HTMLOptGroupElement(HTMLOptGroupElement), unHTMLOptGroupElement, gTypeHTMLOptGroupElement
-  , HTMLOptionElement(HTMLOptionElement), unHTMLOptionElement, gTypeHTMLOptionElement
-  , HTMLOptionsCollection(HTMLOptionsCollection), unHTMLOptionsCollection, gTypeHTMLOptionsCollection
-  , HTMLOutputElement(HTMLOutputElement), unHTMLOutputElement, gTypeHTMLOutputElement
-  , HTMLParagraphElement(HTMLParagraphElement), unHTMLParagraphElement, gTypeHTMLParagraphElement
-  , HTMLParamElement(HTMLParamElement), unHTMLParamElement, gTypeHTMLParamElement
-  , HTMLPictureElement(HTMLPictureElement), unHTMLPictureElement, gTypeHTMLPictureElement
-  , HTMLPreElement(HTMLPreElement), unHTMLPreElement, gTypeHTMLPreElement
-  , HTMLProgressElement(HTMLProgressElement), unHTMLProgressElement, gTypeHTMLProgressElement
-  , HTMLQuoteElement(HTMLQuoteElement), unHTMLQuoteElement, gTypeHTMLQuoteElement
-  , HTMLScriptElement(HTMLScriptElement), unHTMLScriptElement, gTypeHTMLScriptElement
-  , HTMLSelectElement(HTMLSelectElement), unHTMLSelectElement, gTypeHTMLSelectElement
-  , HTMLSlotElement(HTMLSlotElement), unHTMLSlotElement, gTypeHTMLSlotElement
-  , HTMLSourceElement(HTMLSourceElement), unHTMLSourceElement, gTypeHTMLSourceElement
-  , HTMLSpanElement(HTMLSpanElement), unHTMLSpanElement, gTypeHTMLSpanElement
-  , HTMLStyleElement(HTMLStyleElement), unHTMLStyleElement, gTypeHTMLStyleElement
-  , HTMLTableCaptionElement(HTMLTableCaptionElement), unHTMLTableCaptionElement, gTypeHTMLTableCaptionElement
-  , HTMLTableCellElement(HTMLTableCellElement), unHTMLTableCellElement, gTypeHTMLTableCellElement
-  , HTMLTableColElement(HTMLTableColElement), unHTMLTableColElement, gTypeHTMLTableColElement
-  , HTMLTableElement(HTMLTableElement), unHTMLTableElement, gTypeHTMLTableElement
-  , HTMLTableRowElement(HTMLTableRowElement), unHTMLTableRowElement, gTypeHTMLTableRowElement
-  , HTMLTableSectionElement(HTMLTableSectionElement), unHTMLTableSectionElement, gTypeHTMLTableSectionElement
-  , HTMLTemplateElement(HTMLTemplateElement), unHTMLTemplateElement, gTypeHTMLTemplateElement
-  , HTMLTextAreaElement(HTMLTextAreaElement), unHTMLTextAreaElement, gTypeHTMLTextAreaElement
-  , HTMLTimeElement(HTMLTimeElement), unHTMLTimeElement, gTypeHTMLTimeElement
-  , HTMLTitleElement(HTMLTitleElement), unHTMLTitleElement, gTypeHTMLTitleElement
-  , HTMLTrackElement(HTMLTrackElement), unHTMLTrackElement, gTypeHTMLTrackElement
-  , HTMLUListElement(HTMLUListElement), unHTMLUListElement, gTypeHTMLUListElement
-  , HTMLUnknownElement(HTMLUnknownElement), unHTMLUnknownElement, gTypeHTMLUnknownElement
-  , HTMLVideoElement(HTMLVideoElement), unHTMLVideoElement, gTypeHTMLVideoElement
-  , HashChangeEvent(HashChangeEvent), unHashChangeEvent, gTypeHashChangeEvent
-  , HashChangeEventInit(HashChangeEventInit), unHashChangeEventInit, gTypeHashChangeEventInit
-  , Headers(Headers), unHeaders, gTypeHeaders
-  , History(History), unHistory, gTypeHistory
-  , HkdfParams(HkdfParams), unHkdfParams, gTypeHkdfParams
-  , HmacKeyParams(HmacKeyParams), unHmacKeyParams, gTypeHmacKeyParams
-  , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursor, gTypeIDBCursor
-  , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValue, gTypeIDBCursorWithValue
-  , IDBDatabase(IDBDatabase), unIDBDatabase, gTypeIDBDatabase
-  , IDBFactory(IDBFactory), unIDBFactory, gTypeIDBFactory
-  , IDBIndex(IDBIndex), unIDBIndex, gTypeIDBIndex
-  , IDBIndexParameters(IDBIndexParameters), unIDBIndexParameters, gTypeIDBIndexParameters
-  , IDBKeyRange(IDBKeyRange), unIDBKeyRange, gTypeIDBKeyRange
-  , IDBObjectStore(IDBObjectStore), unIDBObjectStore, gTypeIDBObjectStore
-  , IDBObjectStoreParameters(IDBObjectStoreParameters), unIDBObjectStoreParameters, gTypeIDBObjectStoreParameters
-  , IDBOpenDBRequest(IDBOpenDBRequest), unIDBOpenDBRequest, gTypeIDBOpenDBRequest
-  , IDBRequest(IDBRequest), unIDBRequest, IsIDBRequest, toIDBRequest, gTypeIDBRequest
-  , IDBTransaction(IDBTransaction), unIDBTransaction, gTypeIDBTransaction
-  , IDBVersionChangeEvent(IDBVersionChangeEvent), unIDBVersionChangeEvent, gTypeIDBVersionChangeEvent
-  , IDBVersionChangeEventInit(IDBVersionChangeEventInit), unIDBVersionChangeEventInit, gTypeIDBVersionChangeEventInit
-  , ImageData(ImageData), unImageData, gTypeImageData
-  , InputEvent(InputEvent), unInputEvent, gTypeInputEvent
-  , InputEventInit(InputEventInit), unInputEventInit, gTypeInputEventInit
-  , InspectorFrontendHost(InspectorFrontendHost), unInspectorFrontendHost, gTypeInspectorFrontendHost
-  , IntersectionObserver(IntersectionObserver), unIntersectionObserver, gTypeIntersectionObserver
-  , IntersectionObserverEntry(IntersectionObserverEntry), unIntersectionObserverEntry, gTypeIntersectionObserverEntry
-  , IntersectionObserverEntryInit(IntersectionObserverEntryInit), unIntersectionObserverEntryInit, gTypeIntersectionObserverEntryInit
-  , IntersectionObserverInit(IntersectionObserverInit), unIntersectionObserverInit, gTypeIntersectionObserverInit
-  , JsonWebKey(JsonWebKey), unJsonWebKey, gTypeJsonWebKey
-  , KeyboardEvent(KeyboardEvent), unKeyboardEvent, gTypeKeyboardEvent
-  , KeyboardEventInit(KeyboardEventInit), unKeyboardEventInit, gTypeKeyboardEventInit
-  , KeyframeEffect(KeyframeEffect), unKeyframeEffect, gTypeKeyframeEffect
-  , Location(Location), unLocation, gTypeLocation
-  , LongRange(LongRange), unLongRange, IsLongRange, toLongRange, gTypeLongRange
-  , MediaController(MediaController), unMediaController, gTypeMediaController
-  , MediaControlsHost(MediaControlsHost), unMediaControlsHost, gTypeMediaControlsHost
-  , MediaDeviceInfo(MediaDeviceInfo), unMediaDeviceInfo, gTypeMediaDeviceInfo
-  , MediaDevices(MediaDevices), unMediaDevices, gTypeMediaDevices
-  , MediaElementAudioSourceNode(MediaElementAudioSourceNode), unMediaElementAudioSourceNode, gTypeMediaElementAudioSourceNode
-  , MediaEncryptedEvent(MediaEncryptedEvent), unMediaEncryptedEvent, gTypeMediaEncryptedEvent
-  , MediaEncryptedEventInit(MediaEncryptedEventInit), unMediaEncryptedEventInit, gTypeMediaEncryptedEventInit
-  , MediaError(MediaError), unMediaError, gTypeMediaError
-  , MediaKeyMessageEvent(MediaKeyMessageEvent), unMediaKeyMessageEvent, gTypeMediaKeyMessageEvent
-  , MediaKeyMessageEventInit(MediaKeyMessageEventInit), unMediaKeyMessageEventInit, gTypeMediaKeyMessageEventInit
-  , MediaKeySession(MediaKeySession), unMediaKeySession, gTypeMediaKeySession
-  , MediaKeyStatusMap(MediaKeyStatusMap), unMediaKeyStatusMap, gTypeMediaKeyStatusMap
-  , MediaKeySystemAccess(MediaKeySystemAccess), unMediaKeySystemAccess, gTypeMediaKeySystemAccess
-  , MediaKeySystemConfiguration(MediaKeySystemConfiguration), unMediaKeySystemConfiguration, gTypeMediaKeySystemConfiguration
-  , MediaKeySystemMediaCapability(MediaKeySystemMediaCapability), unMediaKeySystemMediaCapability, gTypeMediaKeySystemMediaCapability
-  , MediaKeys(MediaKeys), unMediaKeys, gTypeMediaKeys
-  , MediaList(MediaList), unMediaList, gTypeMediaList
-  , MediaMetadata(MediaMetadata), unMediaMetadata, gTypeMediaMetadata
-  , MediaQueryList(MediaQueryList), unMediaQueryList, gTypeMediaQueryList
-  , MediaRemoteControls(MediaRemoteControls), unMediaRemoteControls, gTypeMediaRemoteControls
-  , MediaSession(MediaSession), unMediaSession, gTypeMediaSession
-  , MediaSource(MediaSource), unMediaSource, gTypeMediaSource
-  , MediaStream(MediaStream), unMediaStream, gTypeMediaStream
-  , MediaStreamAudioDestinationNode(MediaStreamAudioDestinationNode), unMediaStreamAudioDestinationNode, gTypeMediaStreamAudioDestinationNode
-  , MediaStreamAudioSourceNode(MediaStreamAudioSourceNode), unMediaStreamAudioSourceNode, gTypeMediaStreamAudioSourceNode
-  , MediaStreamConstraints(MediaStreamConstraints), unMediaStreamConstraints, gTypeMediaStreamConstraints
-  , MediaStreamEvent(MediaStreamEvent), unMediaStreamEvent, gTypeMediaStreamEvent
-  , MediaStreamEventInit(MediaStreamEventInit), unMediaStreamEventInit, gTypeMediaStreamEventInit
-  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack, gTypeMediaStreamTrack
-  , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEvent, gTypeMediaStreamTrackEvent
-  , MediaStreamTrackEventInit(MediaStreamTrackEventInit), unMediaStreamTrackEventInit, gTypeMediaStreamTrackEventInit
-  , MediaTrackCapabilities(MediaTrackCapabilities), unMediaTrackCapabilities, gTypeMediaTrackCapabilities
-  , MediaTrackConstraintSet(MediaTrackConstraintSet), unMediaTrackConstraintSet, IsMediaTrackConstraintSet, toMediaTrackConstraintSet, gTypeMediaTrackConstraintSet
-  , MediaTrackConstraints(MediaTrackConstraints), unMediaTrackConstraints, gTypeMediaTrackConstraints
-  , MediaTrackSettings(MediaTrackSettings), unMediaTrackSettings, gTypeMediaTrackSettings
-  , MediaTrackSupportedConstraints(MediaTrackSupportedConstraints), unMediaTrackSupportedConstraints, gTypeMediaTrackSupportedConstraints
-  , MessageChannel(MessageChannel), unMessageChannel, gTypeMessageChannel
-  , MessageEvent(MessageEvent), unMessageEvent, gTypeMessageEvent
-  , MessageEventInit(MessageEventInit), unMessageEventInit, gTypeMessageEventInit
-  , MessagePort(MessagePort), unMessagePort, gTypeMessagePort
-  , MimeType(MimeType), unMimeType, gTypeMimeType
-  , MimeTypeArray(MimeTypeArray), unMimeTypeArray, gTypeMimeTypeArray
-  , MouseEvent(MouseEvent), unMouseEvent, IsMouseEvent, toMouseEvent, gTypeMouseEvent
-  , MouseEventInit(MouseEventInit), unMouseEventInit, IsMouseEventInit, toMouseEventInit, gTypeMouseEventInit
-  , MutationEvent(MutationEvent), unMutationEvent, gTypeMutationEvent
-  , MutationObserver(MutationObserver), unMutationObserver, gTypeMutationObserver
-  , MutationObserverInit(MutationObserverInit), unMutationObserverInit, gTypeMutationObserverInit
-  , MutationRecord(MutationRecord), unMutationRecord, gTypeMutationRecord
-  , NamedNodeMap(NamedNodeMap), unNamedNodeMap, gTypeNamedNodeMap
-  , Navigator(Navigator), unNavigator, gTypeNavigator
-  , NavigatorConcurrentHardware(NavigatorConcurrentHardware), unNavigatorConcurrentHardware, IsNavigatorConcurrentHardware, toNavigatorConcurrentHardware, gTypeNavigatorConcurrentHardware
-  , NavigatorID(NavigatorID), unNavigatorID, IsNavigatorID, toNavigatorID, gTypeNavigatorID
-  , NavigatorLanguage(NavigatorLanguage), unNavigatorLanguage, IsNavigatorLanguage, toNavigatorLanguage, gTypeNavigatorLanguage
-  , NavigatorOnLine(NavigatorOnLine), unNavigatorOnLine, IsNavigatorOnLine, toNavigatorOnLine, gTypeNavigatorOnLine
-  , NavigatorUserMediaError(NavigatorUserMediaError), unNavigatorUserMediaError, gTypeNavigatorUserMediaError
-  , Node(Node), unNode, IsNode, toNode, gTypeNode
-  , NodeIterator(NodeIterator), unNodeIterator, gTypeNodeIterator
-  , NodeList(NodeList), unNodeList, IsNodeList, toNodeList, gTypeNodeList
-  , NonDocumentTypeChildNode(NonDocumentTypeChildNode), unNonDocumentTypeChildNode, IsNonDocumentTypeChildNode, toNonDocumentTypeChildNode, gTypeNonDocumentTypeChildNode
-  , NonElementParentNode(NonElementParentNode), unNonElementParentNode, IsNonElementParentNode, toNonElementParentNode, gTypeNonElementParentNode
-  , Notification(Notification), unNotification, gTypeNotification
-  , NotificationOptions(NotificationOptions), unNotificationOptions, gTypeNotificationOptions
-  , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUint, gTypeOESElementIndexUint
-  , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivatives, gTypeOESStandardDerivatives
-  , OESTextureFloat(OESTextureFloat), unOESTextureFloat, gTypeOESTextureFloat
-  , OESTextureFloatLinear(OESTextureFloatLinear), unOESTextureFloatLinear, gTypeOESTextureFloatLinear
-  , OESTextureHalfFloat(OESTextureHalfFloat), unOESTextureHalfFloat, gTypeOESTextureHalfFloat
-  , OESTextureHalfFloatLinear(OESTextureHalfFloatLinear), unOESTextureHalfFloatLinear, gTypeOESTextureHalfFloatLinear
-  , OESVertexArrayObject(OESVertexArrayObject), unOESVertexArrayObject, gTypeOESVertexArrayObject
-  , OfflineAudioCompletionEvent(OfflineAudioCompletionEvent), unOfflineAudioCompletionEvent, gTypeOfflineAudioCompletionEvent
-  , OfflineAudioContext(OfflineAudioContext), unOfflineAudioContext, gTypeOfflineAudioContext
-  , OscillatorNode(OscillatorNode), unOscillatorNode, gTypeOscillatorNode
-  , OverconstrainedError(OverconstrainedError), unOverconstrainedError, gTypeOverconstrainedError
-  , OverconstrainedErrorEvent(OverconstrainedErrorEvent), unOverconstrainedErrorEvent, gTypeOverconstrainedErrorEvent
-  , OverconstrainedErrorEventInit(OverconstrainedErrorEventInit), unOverconstrainedErrorEventInit, gTypeOverconstrainedErrorEventInit
-  , OverflowEvent(OverflowEvent), unOverflowEvent, gTypeOverflowEvent
-  , OverflowEventInit(OverflowEventInit), unOverflowEventInit, gTypeOverflowEventInit
-  , PageTransitionEvent(PageTransitionEvent), unPageTransitionEvent, gTypePageTransitionEvent
-  , PageTransitionEventInit(PageTransitionEventInit), unPageTransitionEventInit, gTypePageTransitionEventInit
-  , PannerNode(PannerNode), unPannerNode, gTypePannerNode
-  , ParentNode(ParentNode), unParentNode, IsParentNode, toParentNode, gTypeParentNode
-  , PasswordCredential(PasswordCredential), unPasswordCredential, gTypePasswordCredential
-  , PasswordCredentialData(PasswordCredentialData), unPasswordCredentialData, gTypePasswordCredentialData
-  , Path2D(Path2D), unPath2D, gTypePath2D
-  , Pbkdf2Params(Pbkdf2Params), unPbkdf2Params, gTypePbkdf2Params
-  , Performance(Performance), unPerformance, gTypePerformance
-  , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntry, gTypePerformanceEntry
-  , PerformanceMark(PerformanceMark), unPerformanceMark, gTypePerformanceMark
-  , PerformanceMeasure(PerformanceMeasure), unPerformanceMeasure, gTypePerformanceMeasure
-  , PerformanceNavigation(PerformanceNavigation), unPerformanceNavigation, gTypePerformanceNavigation
-  , PerformanceObserver(PerformanceObserver), unPerformanceObserver, gTypePerformanceObserver
-  , PerformanceObserverEntryList(PerformanceObserverEntryList), unPerformanceObserverEntryList, gTypePerformanceObserverEntryList
-  , PerformanceObserverInit(PerformanceObserverInit), unPerformanceObserverInit, gTypePerformanceObserverInit
-  , PerformanceResourceTiming(PerformanceResourceTiming), unPerformanceResourceTiming, gTypePerformanceResourceTiming
-  , PerformanceTiming(PerformanceTiming), unPerformanceTiming, gTypePerformanceTiming
-  , PeriodicWave(PeriodicWave), unPeriodicWave, gTypePeriodicWave
-  , Plugin(Plugin), unPlugin, gTypePlugin
-  , PluginArray(PluginArray), unPluginArray, gTypePluginArray
-  , PopStateEvent(PopStateEvent), unPopStateEvent, gTypePopStateEvent
-  , PopStateEventInit(PopStateEventInit), unPopStateEventInit, gTypePopStateEventInit
-  , PositionError(PositionError), unPositionError, gTypePositionError
-  , PositionOptions(PositionOptions), unPositionOptions, gTypePositionOptions
-  , ProcessingInstruction(ProcessingInstruction), unProcessingInstruction, gTypeProcessingInstruction
-  , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEvent, gTypeProgressEvent
-  , ProgressEventInit(ProgressEventInit), unProgressEventInit, gTypeProgressEventInit
-  , PromiseRejectionEvent(PromiseRejectionEvent), unPromiseRejectionEvent, gTypePromiseRejectionEvent
-  , PromiseRejectionEventInit(PromiseRejectionEventInit), unPromiseRejectionEventInit, gTypePromiseRejectionEventInit
-  , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacement, gTypeQuickTimePluginReplacement
-  , RGBColor(RGBColor), unRGBColor, gTypeRGBColor
-  , RTCAnswerOptions(RTCAnswerOptions), unRTCAnswerOptions, gTypeRTCAnswerOptions
-  , RTCConfiguration(RTCConfiguration), unRTCConfiguration, gTypeRTCConfiguration
-  , RTCDTMFSender(RTCDTMFSender), unRTCDTMFSender, gTypeRTCDTMFSender
-  , RTCDTMFToneChangeEvent(RTCDTMFToneChangeEvent), unRTCDTMFToneChangeEvent, gTypeRTCDTMFToneChangeEvent
-  , RTCDTMFToneChangeEventInit(RTCDTMFToneChangeEventInit), unRTCDTMFToneChangeEventInit, gTypeRTCDTMFToneChangeEventInit
-  , RTCDataChannel(RTCDataChannel), unRTCDataChannel, gTypeRTCDataChannel
-  , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEvent, gTypeRTCDataChannelEvent
-  , RTCDataChannelEventInit(RTCDataChannelEventInit), unRTCDataChannelEventInit, gTypeRTCDataChannelEventInit
-  , RTCDataChannelInit(RTCDataChannelInit), unRTCDataChannelInit, gTypeRTCDataChannelInit
-  , RTCDataChannelStats(RTCDataChannelStats), unRTCDataChannelStats, gTypeRTCDataChannelStats
-  , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidate, gTypeRTCIceCandidate
-  , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEvent, gTypeRTCIceCandidateEvent
-  , RTCIceCandidateInit(RTCIceCandidateInit), unRTCIceCandidateInit, gTypeRTCIceCandidateInit
-  , RTCIceServer(RTCIceServer), unRTCIceServer, gTypeRTCIceServer
-  , RTCIceTransport(RTCIceTransport), unRTCIceTransport, gTypeRTCIceTransport
-  , RTCInboundRTPStreamStats(RTCInboundRTPStreamStats), unRTCInboundRTPStreamStats, gTypeRTCInboundRTPStreamStats
-  , RTCMediaStreamTrackStats(RTCMediaStreamTrackStats), unRTCMediaStreamTrackStats, gTypeRTCMediaStreamTrackStats
-  , RTCOfferAnswerOptions(RTCOfferAnswerOptions), unRTCOfferAnswerOptions, IsRTCOfferAnswerOptions, toRTCOfferAnswerOptions, gTypeRTCOfferAnswerOptions
-  , RTCOfferOptions(RTCOfferOptions), unRTCOfferOptions, gTypeRTCOfferOptions
-  , RTCOutboundRTPStreamStats(RTCOutboundRTPStreamStats), unRTCOutboundRTPStreamStats, gTypeRTCOutboundRTPStreamStats
-  , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnection, gTypeRTCPeerConnection
-  , RTCPeerConnectionIceEvent(RTCPeerConnectionIceEvent), unRTCPeerConnectionIceEvent, gTypeRTCPeerConnectionIceEvent
-  , RTCRTPStreamStats(RTCRTPStreamStats), unRTCRTPStreamStats, IsRTCRTPStreamStats, toRTCRTPStreamStats, gTypeRTCRTPStreamStats
-  , RTCRtpCodecParameters(RTCRtpCodecParameters), unRTCRtpCodecParameters, gTypeRTCRtpCodecParameters
-  , RTCRtpEncodingParameters(RTCRtpEncodingParameters), unRTCRtpEncodingParameters, gTypeRTCRtpEncodingParameters
-  , RTCRtpFecParameters(RTCRtpFecParameters), unRTCRtpFecParameters, gTypeRTCRtpFecParameters
-  , RTCRtpHeaderExtensionParameters(RTCRtpHeaderExtensionParameters), unRTCRtpHeaderExtensionParameters, gTypeRTCRtpHeaderExtensionParameters
-  , RTCRtpParameters(RTCRtpParameters), unRTCRtpParameters, gTypeRTCRtpParameters
-  , RTCRtpReceiver(RTCRtpReceiver), unRTCRtpReceiver, gTypeRTCRtpReceiver
-  , RTCRtpRtxParameters(RTCRtpRtxParameters), unRTCRtpRtxParameters, gTypeRTCRtpRtxParameters
-  , RTCRtpSender(RTCRtpSender), unRTCRtpSender, gTypeRTCRtpSender
-  , RTCRtpTransceiver(RTCRtpTransceiver), unRTCRtpTransceiver, gTypeRTCRtpTransceiver
-  , RTCRtpTransceiverInit(RTCRtpTransceiverInit), unRTCRtpTransceiverInit, gTypeRTCRtpTransceiverInit
-  , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescription, gTypeRTCSessionDescription
-  , RTCSessionDescriptionInit(RTCSessionDescriptionInit), unRTCSessionDescriptionInit, gTypeRTCSessionDescriptionInit
-  , RTCStats(RTCStats), unRTCStats, IsRTCStats, toRTCStats, gTypeRTCStats
-  , RTCStatsReport(RTCStatsReport), unRTCStatsReport, gTypeRTCStatsReport
-  , RTCTrackEvent(RTCTrackEvent), unRTCTrackEvent, gTypeRTCTrackEvent
-  , RTCTrackEventInit(RTCTrackEventInit), unRTCTrackEventInit, gTypeRTCTrackEventInit
-  , RadioNodeList(RadioNodeList), unRadioNodeList, gTypeRadioNodeList
-  , Range(Range), unRange, gTypeRange
-  , ReadableByteStreamController(ReadableByteStreamController), unReadableByteStreamController, gTypeReadableByteStreamController
-  , ReadableStream(ReadableStream), unReadableStream, gTypeReadableStream
-  , ReadableStreamBYOBReader(ReadableStreamBYOBReader), unReadableStreamBYOBReader, gTypeReadableStreamBYOBReader
-  , ReadableStreamBYOBRequest(ReadableStreamBYOBRequest), unReadableStreamBYOBRequest, gTypeReadableStreamBYOBRequest
-  , ReadableStreamDefaultController(ReadableStreamDefaultController), unReadableStreamDefaultController, gTypeReadableStreamDefaultController
-  , ReadableStreamDefaultReader(ReadableStreamDefaultReader), unReadableStreamDefaultReader, gTypeReadableStreamDefaultReader
-  , ReadableStreamSource(ReadableStreamSource), unReadableStreamSource, gTypeReadableStreamSource
-  , Rect(Rect), unRect, gTypeRect
-  , Request(Request), unRequest, gTypeRequest
-  , RequestInit(RequestInit), unRequestInit, gTypeRequestInit
-  , Response(Response), unResponse, gTypeResponse
-  , RotationRate(RotationRate), unRotationRate, gTypeRotationRate
-  , RsaHashedImportParams(RsaHashedImportParams), unRsaHashedImportParams, gTypeRsaHashedImportParams
-  , RsaHashedKeyGenParams(RsaHashedKeyGenParams), unRsaHashedKeyGenParams, gTypeRsaHashedKeyGenParams
-  , RsaKeyGenParams(RsaKeyGenParams), unRsaKeyGenParams, IsRsaKeyGenParams, toRsaKeyGenParams, gTypeRsaKeyGenParams
-  , RsaOaepParams(RsaOaepParams), unRsaOaepParams, gTypeRsaOaepParams
-  , RsaOtherPrimesInfo(RsaOtherPrimesInfo), unRsaOtherPrimesInfo, gTypeRsaOtherPrimesInfo
-  , SQLError(SQLError), unSQLError, gTypeSQLError
-  , SQLException(SQLException), unSQLException, gTypeSQLException
-  , SQLResultSet(SQLResultSet), unSQLResultSet, gTypeSQLResultSet
-  , SQLResultSetRowList(SQLResultSetRowList), unSQLResultSetRowList, gTypeSQLResultSetRowList
-  , SQLTransaction(SQLTransaction), unSQLTransaction, gTypeSQLTransaction
-  , SVGAElement(SVGAElement), unSVGAElement, gTypeSVGAElement
-  , SVGAltGlyphDefElement(SVGAltGlyphDefElement), unSVGAltGlyphDefElement, gTypeSVGAltGlyphDefElement
-  , SVGAltGlyphElement(SVGAltGlyphElement), unSVGAltGlyphElement, gTypeSVGAltGlyphElement
-  , SVGAltGlyphItemElement(SVGAltGlyphItemElement), unSVGAltGlyphItemElement, gTypeSVGAltGlyphItemElement
-  , SVGAngle(SVGAngle), unSVGAngle, gTypeSVGAngle
-  , SVGAnimateColorElement(SVGAnimateColorElement), unSVGAnimateColorElement, gTypeSVGAnimateColorElement
-  , SVGAnimateElement(SVGAnimateElement), unSVGAnimateElement, gTypeSVGAnimateElement
-  , SVGAnimateMotionElement(SVGAnimateMotionElement), unSVGAnimateMotionElement, gTypeSVGAnimateMotionElement
-  , SVGAnimateTransformElement(SVGAnimateTransformElement), unSVGAnimateTransformElement, gTypeSVGAnimateTransformElement
-  , SVGAnimatedAngle(SVGAnimatedAngle), unSVGAnimatedAngle, gTypeSVGAnimatedAngle
-  , SVGAnimatedBoolean(SVGAnimatedBoolean), unSVGAnimatedBoolean, gTypeSVGAnimatedBoolean
-  , SVGAnimatedEnumeration(SVGAnimatedEnumeration), unSVGAnimatedEnumeration, gTypeSVGAnimatedEnumeration
-  , SVGAnimatedInteger(SVGAnimatedInteger), unSVGAnimatedInteger, gTypeSVGAnimatedInteger
-  , SVGAnimatedLength(SVGAnimatedLength), unSVGAnimatedLength, gTypeSVGAnimatedLength
-  , SVGAnimatedLengthList(SVGAnimatedLengthList), unSVGAnimatedLengthList, gTypeSVGAnimatedLengthList
-  , SVGAnimatedNumber(SVGAnimatedNumber), unSVGAnimatedNumber, gTypeSVGAnimatedNumber
-  , SVGAnimatedNumberList(SVGAnimatedNumberList), unSVGAnimatedNumberList, gTypeSVGAnimatedNumberList
-  , SVGAnimatedPreserveAspectRatio(SVGAnimatedPreserveAspectRatio), unSVGAnimatedPreserveAspectRatio, gTypeSVGAnimatedPreserveAspectRatio
-  , SVGAnimatedRect(SVGAnimatedRect), unSVGAnimatedRect, gTypeSVGAnimatedRect
-  , SVGAnimatedString(SVGAnimatedString), unSVGAnimatedString, gTypeSVGAnimatedString
-  , SVGAnimatedTransformList(SVGAnimatedTransformList), unSVGAnimatedTransformList, gTypeSVGAnimatedTransformList
-  , SVGAnimationElement(SVGAnimationElement), unSVGAnimationElement, IsSVGAnimationElement, toSVGAnimationElement, gTypeSVGAnimationElement
-  , SVGCircleElement(SVGCircleElement), unSVGCircleElement, gTypeSVGCircleElement
-  , SVGClipPathElement(SVGClipPathElement), unSVGClipPathElement, gTypeSVGClipPathElement
-  , SVGComponentTransferFunctionElement(SVGComponentTransferFunctionElement), unSVGComponentTransferFunctionElement, IsSVGComponentTransferFunctionElement, toSVGComponentTransferFunctionElement, gTypeSVGComponentTransferFunctionElement
-  , SVGCursorElement(SVGCursorElement), unSVGCursorElement, gTypeSVGCursorElement
-  , SVGDefsElement(SVGDefsElement), unSVGDefsElement, gTypeSVGDefsElement
-  , SVGDescElement(SVGDescElement), unSVGDescElement, gTypeSVGDescElement
-  , SVGElement(SVGElement), unSVGElement, IsSVGElement, toSVGElement, gTypeSVGElement
-  , SVGEllipseElement(SVGEllipseElement), unSVGEllipseElement, gTypeSVGEllipseElement
-  , SVGException(SVGException), unSVGException, gTypeSVGException
-  , SVGExternalResourcesRequired(SVGExternalResourcesRequired), unSVGExternalResourcesRequired, IsSVGExternalResourcesRequired, toSVGExternalResourcesRequired, gTypeSVGExternalResourcesRequired
-  , SVGFEBlendElement(SVGFEBlendElement), unSVGFEBlendElement, gTypeSVGFEBlendElement
-  , SVGFEColorMatrixElement(SVGFEColorMatrixElement), unSVGFEColorMatrixElement, gTypeSVGFEColorMatrixElement
-  , SVGFEComponentTransferElement(SVGFEComponentTransferElement), unSVGFEComponentTransferElement, gTypeSVGFEComponentTransferElement
-  , SVGFECompositeElement(SVGFECompositeElement), unSVGFECompositeElement, gTypeSVGFECompositeElement
-  , SVGFEConvolveMatrixElement(SVGFEConvolveMatrixElement), unSVGFEConvolveMatrixElement, gTypeSVGFEConvolveMatrixElement
-  , SVGFEDiffuseLightingElement(SVGFEDiffuseLightingElement), unSVGFEDiffuseLightingElement, gTypeSVGFEDiffuseLightingElement
-  , SVGFEDisplacementMapElement(SVGFEDisplacementMapElement), unSVGFEDisplacementMapElement, gTypeSVGFEDisplacementMapElement
-  , SVGFEDistantLightElement(SVGFEDistantLightElement), unSVGFEDistantLightElement, gTypeSVGFEDistantLightElement
-  , SVGFEDropShadowElement(SVGFEDropShadowElement), unSVGFEDropShadowElement, gTypeSVGFEDropShadowElement
-  , SVGFEFloodElement(SVGFEFloodElement), unSVGFEFloodElement, gTypeSVGFEFloodElement
-  , SVGFEFuncAElement(SVGFEFuncAElement), unSVGFEFuncAElement, gTypeSVGFEFuncAElement
-  , SVGFEFuncBElement(SVGFEFuncBElement), unSVGFEFuncBElement, gTypeSVGFEFuncBElement
-  , SVGFEFuncGElement(SVGFEFuncGElement), unSVGFEFuncGElement, gTypeSVGFEFuncGElement
-  , SVGFEFuncRElement(SVGFEFuncRElement), unSVGFEFuncRElement, gTypeSVGFEFuncRElement
-  , SVGFEGaussianBlurElement(SVGFEGaussianBlurElement), unSVGFEGaussianBlurElement, gTypeSVGFEGaussianBlurElement
-  , SVGFEImageElement(SVGFEImageElement), unSVGFEImageElement, gTypeSVGFEImageElement
-  , SVGFEMergeElement(SVGFEMergeElement), unSVGFEMergeElement, gTypeSVGFEMergeElement
-  , SVGFEMergeNodeElement(SVGFEMergeNodeElement), unSVGFEMergeNodeElement, gTypeSVGFEMergeNodeElement
-  , SVGFEMorphologyElement(SVGFEMorphologyElement), unSVGFEMorphologyElement, gTypeSVGFEMorphologyElement
-  , SVGFEOffsetElement(SVGFEOffsetElement), unSVGFEOffsetElement, gTypeSVGFEOffsetElement
-  , SVGFEPointLightElement(SVGFEPointLightElement), unSVGFEPointLightElement, gTypeSVGFEPointLightElement
-  , SVGFESpecularLightingElement(SVGFESpecularLightingElement), unSVGFESpecularLightingElement, gTypeSVGFESpecularLightingElement
-  , SVGFESpotLightElement(SVGFESpotLightElement), unSVGFESpotLightElement, gTypeSVGFESpotLightElement
-  , SVGFETileElement(SVGFETileElement), unSVGFETileElement, gTypeSVGFETileElement
-  , SVGFETurbulenceElement(SVGFETurbulenceElement), unSVGFETurbulenceElement, gTypeSVGFETurbulenceElement
-  , SVGFilterElement(SVGFilterElement), unSVGFilterElement, gTypeSVGFilterElement
-  , SVGFilterPrimitiveStandardAttributes(SVGFilterPrimitiveStandardAttributes), unSVGFilterPrimitiveStandardAttributes, IsSVGFilterPrimitiveStandardAttributes, toSVGFilterPrimitiveStandardAttributes, gTypeSVGFilterPrimitiveStandardAttributes
-  , SVGFitToViewBox(SVGFitToViewBox), unSVGFitToViewBox, IsSVGFitToViewBox, toSVGFitToViewBox, gTypeSVGFitToViewBox
-  , SVGFontElement(SVGFontElement), unSVGFontElement, gTypeSVGFontElement
-  , SVGFontFaceElement(SVGFontFaceElement), unSVGFontFaceElement, gTypeSVGFontFaceElement
-  , SVGFontFaceFormatElement(SVGFontFaceFormatElement), unSVGFontFaceFormatElement, gTypeSVGFontFaceFormatElement
-  , SVGFontFaceNameElement(SVGFontFaceNameElement), unSVGFontFaceNameElement, gTypeSVGFontFaceNameElement
-  , SVGFontFaceSrcElement(SVGFontFaceSrcElement), unSVGFontFaceSrcElement, gTypeSVGFontFaceSrcElement
-  , SVGFontFaceUriElement(SVGFontFaceUriElement), unSVGFontFaceUriElement, gTypeSVGFontFaceUriElement
-  , SVGForeignObjectElement(SVGForeignObjectElement), unSVGForeignObjectElement, gTypeSVGForeignObjectElement
-  , SVGGElement(SVGGElement), unSVGGElement, gTypeSVGGElement
-  , SVGGlyphElement(SVGGlyphElement), unSVGGlyphElement, gTypeSVGGlyphElement
-  , SVGGlyphRefElement(SVGGlyphRefElement), unSVGGlyphRefElement, gTypeSVGGlyphRefElement
-  , SVGGradientElement(SVGGradientElement), unSVGGradientElement, IsSVGGradientElement, toSVGGradientElement, gTypeSVGGradientElement
-  , SVGGraphicsElement(SVGGraphicsElement), unSVGGraphicsElement, IsSVGGraphicsElement, toSVGGraphicsElement, gTypeSVGGraphicsElement
-  , SVGHKernElement(SVGHKernElement), unSVGHKernElement, gTypeSVGHKernElement
-  , SVGImageElement(SVGImageElement), unSVGImageElement, gTypeSVGImageElement
-  , SVGLength(SVGLength), unSVGLength, gTypeSVGLength
-  , SVGLengthList(SVGLengthList), unSVGLengthList, gTypeSVGLengthList
-  , SVGLineElement(SVGLineElement), unSVGLineElement, gTypeSVGLineElement
-  , SVGLinearGradientElement(SVGLinearGradientElement), unSVGLinearGradientElement, gTypeSVGLinearGradientElement
-  , SVGMPathElement(SVGMPathElement), unSVGMPathElement, gTypeSVGMPathElement
-  , SVGMarkerElement(SVGMarkerElement), unSVGMarkerElement, gTypeSVGMarkerElement
-  , SVGMaskElement(SVGMaskElement), unSVGMaskElement, gTypeSVGMaskElement
-  , SVGMatrix(SVGMatrix), unSVGMatrix, gTypeSVGMatrix
-  , SVGMetadataElement(SVGMetadataElement), unSVGMetadataElement, gTypeSVGMetadataElement
-  , SVGMissingGlyphElement(SVGMissingGlyphElement), unSVGMissingGlyphElement, gTypeSVGMissingGlyphElement
-  , SVGNumber(SVGNumber), unSVGNumber, gTypeSVGNumber
-  , SVGNumberList(SVGNumberList), unSVGNumberList, gTypeSVGNumberList
-  , SVGPathElement(SVGPathElement), unSVGPathElement, gTypeSVGPathElement
-  , SVGPathSeg(SVGPathSeg), unSVGPathSeg, IsSVGPathSeg, toSVGPathSeg, gTypeSVGPathSeg
-  , SVGPathSegArcAbs(SVGPathSegArcAbs), unSVGPathSegArcAbs, gTypeSVGPathSegArcAbs
-  , SVGPathSegArcRel(SVGPathSegArcRel), unSVGPathSegArcRel, gTypeSVGPathSegArcRel
-  , SVGPathSegClosePath(SVGPathSegClosePath), unSVGPathSegClosePath, gTypeSVGPathSegClosePath
-  , SVGPathSegCurvetoCubicAbs(SVGPathSegCurvetoCubicAbs), unSVGPathSegCurvetoCubicAbs, gTypeSVGPathSegCurvetoCubicAbs
-  , SVGPathSegCurvetoCubicRel(SVGPathSegCurvetoCubicRel), unSVGPathSegCurvetoCubicRel, gTypeSVGPathSegCurvetoCubicRel
-  , SVGPathSegCurvetoCubicSmoothAbs(SVGPathSegCurvetoCubicSmoothAbs), unSVGPathSegCurvetoCubicSmoothAbs, gTypeSVGPathSegCurvetoCubicSmoothAbs
-  , SVGPathSegCurvetoCubicSmoothRel(SVGPathSegCurvetoCubicSmoothRel), unSVGPathSegCurvetoCubicSmoothRel, gTypeSVGPathSegCurvetoCubicSmoothRel
-  , SVGPathSegCurvetoQuadraticAbs(SVGPathSegCurvetoQuadraticAbs), unSVGPathSegCurvetoQuadraticAbs, gTypeSVGPathSegCurvetoQuadraticAbs
-  , SVGPathSegCurvetoQuadraticRel(SVGPathSegCurvetoQuadraticRel), unSVGPathSegCurvetoQuadraticRel, gTypeSVGPathSegCurvetoQuadraticRel
-  , SVGPathSegCurvetoQuadraticSmoothAbs(SVGPathSegCurvetoQuadraticSmoothAbs), unSVGPathSegCurvetoQuadraticSmoothAbs, gTypeSVGPathSegCurvetoQuadraticSmoothAbs
-  , SVGPathSegCurvetoQuadraticSmoothRel(SVGPathSegCurvetoQuadraticSmoothRel), unSVGPathSegCurvetoQuadraticSmoothRel, gTypeSVGPathSegCurvetoQuadraticSmoothRel
-  , SVGPathSegLinetoAbs(SVGPathSegLinetoAbs), unSVGPathSegLinetoAbs, gTypeSVGPathSegLinetoAbs
-  , SVGPathSegLinetoHorizontalAbs(SVGPathSegLinetoHorizontalAbs), unSVGPathSegLinetoHorizontalAbs, gTypeSVGPathSegLinetoHorizontalAbs
-  , SVGPathSegLinetoHorizontalRel(SVGPathSegLinetoHorizontalRel), unSVGPathSegLinetoHorizontalRel, gTypeSVGPathSegLinetoHorizontalRel
-  , SVGPathSegLinetoRel(SVGPathSegLinetoRel), unSVGPathSegLinetoRel, gTypeSVGPathSegLinetoRel
-  , SVGPathSegLinetoVerticalAbs(SVGPathSegLinetoVerticalAbs), unSVGPathSegLinetoVerticalAbs, gTypeSVGPathSegLinetoVerticalAbs
-  , SVGPathSegLinetoVerticalRel(SVGPathSegLinetoVerticalRel), unSVGPathSegLinetoVerticalRel, gTypeSVGPathSegLinetoVerticalRel
-  , SVGPathSegList(SVGPathSegList), unSVGPathSegList, gTypeSVGPathSegList
-  , SVGPathSegMovetoAbs(SVGPathSegMovetoAbs), unSVGPathSegMovetoAbs, gTypeSVGPathSegMovetoAbs
-  , SVGPathSegMovetoRel(SVGPathSegMovetoRel), unSVGPathSegMovetoRel, gTypeSVGPathSegMovetoRel
-  , SVGPatternElement(SVGPatternElement), unSVGPatternElement, gTypeSVGPatternElement
-  , SVGPoint(SVGPoint), unSVGPoint, gTypeSVGPoint
-  , SVGPointList(SVGPointList), unSVGPointList, gTypeSVGPointList
-  , SVGPolygonElement(SVGPolygonElement), unSVGPolygonElement, gTypeSVGPolygonElement
-  , SVGPolylineElement(SVGPolylineElement), unSVGPolylineElement, gTypeSVGPolylineElement
-  , SVGPreserveAspectRatio(SVGPreserveAspectRatio), unSVGPreserveAspectRatio, gTypeSVGPreserveAspectRatio
-  , SVGRadialGradientElement(SVGRadialGradientElement), unSVGRadialGradientElement, gTypeSVGRadialGradientElement
-  , SVGRect(SVGRect), unSVGRect, gTypeSVGRect
-  , SVGRectElement(SVGRectElement), unSVGRectElement, gTypeSVGRectElement
-  , SVGRenderingIntent(SVGRenderingIntent), unSVGRenderingIntent, gTypeSVGRenderingIntent
-  , SVGSVGElement(SVGSVGElement), unSVGSVGElement, gTypeSVGSVGElement
-  , SVGScriptElement(SVGScriptElement), unSVGScriptElement, gTypeSVGScriptElement
-  , SVGSetElement(SVGSetElement), unSVGSetElement, gTypeSVGSetElement
-  , SVGStopElement(SVGStopElement), unSVGStopElement, gTypeSVGStopElement
-  , SVGStringList(SVGStringList), unSVGStringList, gTypeSVGStringList
-  , SVGStyleElement(SVGStyleElement), unSVGStyleElement, gTypeSVGStyleElement
-  , SVGSwitchElement(SVGSwitchElement), unSVGSwitchElement, gTypeSVGSwitchElement
-  , SVGSymbolElement(SVGSymbolElement), unSVGSymbolElement, gTypeSVGSymbolElement
-  , SVGTRefElement(SVGTRefElement), unSVGTRefElement, gTypeSVGTRefElement
-  , SVGTSpanElement(SVGTSpanElement), unSVGTSpanElement, gTypeSVGTSpanElement
-  , SVGTests(SVGTests), unSVGTests, IsSVGTests, toSVGTests, gTypeSVGTests
-  , SVGTextContentElement(SVGTextContentElement), unSVGTextContentElement, IsSVGTextContentElement, toSVGTextContentElement, gTypeSVGTextContentElement
-  , SVGTextElement(SVGTextElement), unSVGTextElement, gTypeSVGTextElement
-  , SVGTextPathElement(SVGTextPathElement), unSVGTextPathElement, gTypeSVGTextPathElement
-  , SVGTextPositioningElement(SVGTextPositioningElement), unSVGTextPositioningElement, IsSVGTextPositioningElement, toSVGTextPositioningElement, gTypeSVGTextPositioningElement
-  , SVGTitleElement(SVGTitleElement), unSVGTitleElement, gTypeSVGTitleElement
-  , SVGTransform(SVGTransform), unSVGTransform, gTypeSVGTransform
-  , SVGTransformList(SVGTransformList), unSVGTransformList, gTypeSVGTransformList
-  , SVGURIReference(SVGURIReference), unSVGURIReference, IsSVGURIReference, toSVGURIReference, gTypeSVGURIReference
-  , SVGUnitTypes(SVGUnitTypes), unSVGUnitTypes, gTypeSVGUnitTypes
-  , SVGUseElement(SVGUseElement), unSVGUseElement, gTypeSVGUseElement
-  , SVGVKernElement(SVGVKernElement), unSVGVKernElement, gTypeSVGVKernElement
-  , SVGViewElement(SVGViewElement), unSVGViewElement, gTypeSVGViewElement
-  , SVGViewSpec(SVGViewSpec), unSVGViewSpec, gTypeSVGViewSpec
-  , SVGZoomAndPan(SVGZoomAndPan), unSVGZoomAndPan, IsSVGZoomAndPan, toSVGZoomAndPan, gTypeSVGZoomAndPan
-  , SVGZoomEvent(SVGZoomEvent), unSVGZoomEvent, gTypeSVGZoomEvent
-  , Screen(Screen), unScreen, gTypeScreen
-  , ScriptProcessorNode(ScriptProcessorNode), unScriptProcessorNode, gTypeScriptProcessorNode
-  , ScrollToOptions(ScrollToOptions), unScrollToOptions, gTypeScrollToOptions
-  , SecurityPolicyViolationEvent(SecurityPolicyViolationEvent), unSecurityPolicyViolationEvent, gTypeSecurityPolicyViolationEvent
-  , SecurityPolicyViolationEventInit(SecurityPolicyViolationEventInit), unSecurityPolicyViolationEventInit, gTypeSecurityPolicyViolationEventInit
-  , Selection(Selection), unSelection, gTypeSelection
-  , ShadowRoot(ShadowRoot), unShadowRoot, gTypeShadowRoot
-  , ShadowRootInit(ShadowRootInit), unShadowRootInit, gTypeShadowRootInit
-  , SiteBoundCredential(SiteBoundCredential), unSiteBoundCredential, IsSiteBoundCredential, toSiteBoundCredential, gTypeSiteBoundCredential
-  , SiteBoundCredentialData(SiteBoundCredentialData), unSiteBoundCredentialData, IsSiteBoundCredentialData, toSiteBoundCredentialData, gTypeSiteBoundCredentialData
-  , Slotable(Slotable), unSlotable, IsSlotable, toSlotable, gTypeSlotable
-  , SourceBuffer(SourceBuffer), unSourceBuffer, gTypeSourceBuffer
-  , SourceBufferList(SourceBufferList), unSourceBufferList, gTypeSourceBufferList
-  , SpeechSynthesis(SpeechSynthesis), unSpeechSynthesis, gTypeSpeechSynthesis
-  , SpeechSynthesisEvent(SpeechSynthesisEvent), unSpeechSynthesisEvent, gTypeSpeechSynthesisEvent
-  , SpeechSynthesisUtterance(SpeechSynthesisUtterance), unSpeechSynthesisUtterance, gTypeSpeechSynthesisUtterance
-  , SpeechSynthesisVoice(SpeechSynthesisVoice), unSpeechSynthesisVoice, gTypeSpeechSynthesisVoice
-  , StaticRange(StaticRange), unStaticRange, gTypeStaticRange
-  , Storage(Storage), unStorage, gTypeStorage
-  , StorageEvent(StorageEvent), unStorageEvent, gTypeStorageEvent
-  , StorageEventInit(StorageEventInit), unStorageEventInit, gTypeStorageEventInit
-  , StorageInfo(StorageInfo), unStorageInfo, gTypeStorageInfo
-  , StorageQuota(StorageQuota), unStorageQuota, gTypeStorageQuota
-  , StyleMedia(StyleMedia), unStyleMedia, gTypeStyleMedia
-  , StyleSheet(StyleSheet), unStyleSheet, IsStyleSheet, toStyleSheet, gTypeStyleSheet
-  , StyleSheetList(StyleSheetList), unStyleSheetList, gTypeStyleSheetList
-  , SubtleCrypto(SubtleCrypto), unSubtleCrypto, gTypeSubtleCrypto
-  , Text(Text), unText, IsText, toText, gTypeText
-  , TextDecodeOptions(TextDecodeOptions), unTextDecodeOptions, gTypeTextDecodeOptions
-  , TextDecoder(TextDecoder), unTextDecoder, gTypeTextDecoder
-  , TextDecoderOptions(TextDecoderOptions), unTextDecoderOptions, gTypeTextDecoderOptions
-  , TextEncoder(TextEncoder), unTextEncoder, gTypeTextEncoder
-  , TextEvent(TextEvent), unTextEvent, gTypeTextEvent
-  , TextMetrics(TextMetrics), unTextMetrics, gTypeTextMetrics
-  , TextTrack(TextTrack), unTextTrack, gTypeTextTrack
-  , TextTrackCue(TextTrackCue), unTextTrackCue, IsTextTrackCue, toTextTrackCue, gTypeTextTrackCue
-  , TextTrackCueList(TextTrackCueList), unTextTrackCueList, gTypeTextTrackCueList
-  , TextTrackList(TextTrackList), unTextTrackList, gTypeTextTrackList
-  , TimeRanges(TimeRanges), unTimeRanges, gTypeTimeRanges
-  , Touch(Touch), unTouch, gTypeTouch
-  , TouchEvent(TouchEvent), unTouchEvent, gTypeTouchEvent
-  , TouchEventInit(TouchEventInit), unTouchEventInit, gTypeTouchEventInit
-  , TouchList(TouchList), unTouchList, gTypeTouchList
-  , TrackEvent(TrackEvent), unTrackEvent, gTypeTrackEvent
-  , TrackEventInit(TrackEventInit), unTrackEventInit, gTypeTrackEventInit
-  , TransitionEvent(TransitionEvent), unTransitionEvent, gTypeTransitionEvent
-  , TransitionEventInit(TransitionEventInit), unTransitionEventInit, gTypeTransitionEventInit
-  , TreeWalker(TreeWalker), unTreeWalker, gTypeTreeWalker
-  , UIEvent(UIEvent), unUIEvent, IsUIEvent, toUIEvent, gTypeUIEvent
-  , UIEventInit(UIEventInit), unUIEventInit, IsUIEventInit, toUIEventInit, gTypeUIEventInit
-  , URL(URL), unURL, gTypeURL
-  , URLSearchParams(URLSearchParams), unURLSearchParams, gTypeURLSearchParams
-  , UserMessageHandler(UserMessageHandler), unUserMessageHandler, gTypeUserMessageHandler
-  , UserMessageHandlersNamespace(UserMessageHandlersNamespace), unUserMessageHandlersNamespace, gTypeUserMessageHandlersNamespace
-  , VTTCue(VTTCue), unVTTCue, gTypeVTTCue
-  , VTTRegion(VTTRegion), unVTTRegion, gTypeVTTRegion
-  , VTTRegionList(VTTRegionList), unVTTRegionList, gTypeVTTRegionList
-  , ValidityState(ValidityState), unValidityState, gTypeValidityState
-  , VideoPlaybackQuality(VideoPlaybackQuality), unVideoPlaybackQuality, gTypeVideoPlaybackQuality
-  , VideoTrack(VideoTrack), unVideoTrack, gTypeVideoTrack
-  , VideoTrackList(VideoTrackList), unVideoTrackList, gTypeVideoTrackList
-  , WaveShaperNode(WaveShaperNode), unWaveShaperNode, gTypeWaveShaperNode
-  , WebGL2RenderingContext(WebGL2RenderingContext), unWebGL2RenderingContext, gTypeWebGL2RenderingContext
-  , WebGLActiveInfo(WebGLActiveInfo), unWebGLActiveInfo, gTypeWebGLActiveInfo
-  , WebGLBuffer(WebGLBuffer), unWebGLBuffer, gTypeWebGLBuffer
-  , WebGLCompressedTextureATC(WebGLCompressedTextureATC), unWebGLCompressedTextureATC, gTypeWebGLCompressedTextureATC
-  , WebGLCompressedTexturePVRTC(WebGLCompressedTexturePVRTC), unWebGLCompressedTexturePVRTC, gTypeWebGLCompressedTexturePVRTC
-  , WebGLCompressedTextureS3TC(WebGLCompressedTextureS3TC), unWebGLCompressedTextureS3TC, gTypeWebGLCompressedTextureS3TC
-  , WebGLContextAttributes(WebGLContextAttributes), unWebGLContextAttributes, gTypeWebGLContextAttributes
-  , WebGLContextEvent(WebGLContextEvent), unWebGLContextEvent, gTypeWebGLContextEvent
-  , WebGLContextEventInit(WebGLContextEventInit), unWebGLContextEventInit, gTypeWebGLContextEventInit
-  , WebGLDebugRendererInfo(WebGLDebugRendererInfo), unWebGLDebugRendererInfo, gTypeWebGLDebugRendererInfo
-  , WebGLDebugShaders(WebGLDebugShaders), unWebGLDebugShaders, gTypeWebGLDebugShaders
-  , WebGLDepthTexture(WebGLDepthTexture), unWebGLDepthTexture, gTypeWebGLDepthTexture
-  , WebGLDrawBuffers(WebGLDrawBuffers), unWebGLDrawBuffers, gTypeWebGLDrawBuffers
-  , WebGLFramebuffer(WebGLFramebuffer), unWebGLFramebuffer, gTypeWebGLFramebuffer
-  , WebGLLoseContext(WebGLLoseContext), unWebGLLoseContext, gTypeWebGLLoseContext
-  , WebGLProgram(WebGLProgram), unWebGLProgram, gTypeWebGLProgram
-  , WebGLQuery(WebGLQuery), unWebGLQuery, gTypeWebGLQuery
-  , WebGLRenderbuffer(WebGLRenderbuffer), unWebGLRenderbuffer, gTypeWebGLRenderbuffer
-  , WebGLRenderingContext(WebGLRenderingContext), unWebGLRenderingContext, gTypeWebGLRenderingContext
-  , WebGLRenderingContextBase(WebGLRenderingContextBase), unWebGLRenderingContextBase, IsWebGLRenderingContextBase, toWebGLRenderingContextBase, gTypeWebGLRenderingContextBase
-  , WebGLSampler(WebGLSampler), unWebGLSampler, gTypeWebGLSampler
-  , WebGLShader(WebGLShader), unWebGLShader, gTypeWebGLShader
-  , WebGLShaderPrecisionFormat(WebGLShaderPrecisionFormat), unWebGLShaderPrecisionFormat, gTypeWebGLShaderPrecisionFormat
-  , WebGLSync(WebGLSync), unWebGLSync, gTypeWebGLSync
-  , WebGLTexture(WebGLTexture), unWebGLTexture, gTypeWebGLTexture
-  , WebGLTransformFeedback(WebGLTransformFeedback), unWebGLTransformFeedback, gTypeWebGLTransformFeedback
-  , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocation, gTypeWebGLUniformLocation
-  , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObject, gTypeWebGLVertexArrayObject
-  , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOES, gTypeWebGLVertexArrayObjectOES
-  , WebGPUBuffer(WebGPUBuffer), unWebGPUBuffer, gTypeWebGPUBuffer
-  , WebGPUCommandBuffer(WebGPUCommandBuffer), unWebGPUCommandBuffer, gTypeWebGPUCommandBuffer
-  , WebGPUCommandQueue(WebGPUCommandQueue), unWebGPUCommandQueue, gTypeWebGPUCommandQueue
-  , WebGPUComputeCommandEncoder(WebGPUComputeCommandEncoder), unWebGPUComputeCommandEncoder, gTypeWebGPUComputeCommandEncoder
-  , WebGPUComputePipelineState(WebGPUComputePipelineState), unWebGPUComputePipelineState, gTypeWebGPUComputePipelineState
-  , WebGPUDepthStencilDescriptor(WebGPUDepthStencilDescriptor), unWebGPUDepthStencilDescriptor, gTypeWebGPUDepthStencilDescriptor
-  , WebGPUDepthStencilState(WebGPUDepthStencilState), unWebGPUDepthStencilState, gTypeWebGPUDepthStencilState
-  , WebGPUDrawable(WebGPUDrawable), unWebGPUDrawable, gTypeWebGPUDrawable
-  , WebGPUFunction(WebGPUFunction), unWebGPUFunction, gTypeWebGPUFunction
-  , WebGPULibrary(WebGPULibrary), unWebGPULibrary, gTypeWebGPULibrary
-  , WebGPURenderCommandEncoder(WebGPURenderCommandEncoder), unWebGPURenderCommandEncoder, gTypeWebGPURenderCommandEncoder
-  , WebGPURenderPassAttachmentDescriptor(WebGPURenderPassAttachmentDescriptor), unWebGPURenderPassAttachmentDescriptor, IsWebGPURenderPassAttachmentDescriptor, toWebGPURenderPassAttachmentDescriptor, gTypeWebGPURenderPassAttachmentDescriptor
-  , WebGPURenderPassColorAttachmentDescriptor(WebGPURenderPassColorAttachmentDescriptor), unWebGPURenderPassColorAttachmentDescriptor, gTypeWebGPURenderPassColorAttachmentDescriptor
-  , WebGPURenderPassDepthAttachmentDescriptor(WebGPURenderPassDepthAttachmentDescriptor), unWebGPURenderPassDepthAttachmentDescriptor, gTypeWebGPURenderPassDepthAttachmentDescriptor
-  , WebGPURenderPassDescriptor(WebGPURenderPassDescriptor), unWebGPURenderPassDescriptor, gTypeWebGPURenderPassDescriptor
-  , WebGPURenderPipelineColorAttachmentDescriptor(WebGPURenderPipelineColorAttachmentDescriptor), unWebGPURenderPipelineColorAttachmentDescriptor, gTypeWebGPURenderPipelineColorAttachmentDescriptor
-  , WebGPURenderPipelineDescriptor(WebGPURenderPipelineDescriptor), unWebGPURenderPipelineDescriptor, gTypeWebGPURenderPipelineDescriptor
-  , WebGPURenderPipelineState(WebGPURenderPipelineState), unWebGPURenderPipelineState, gTypeWebGPURenderPipelineState
-  , WebGPURenderingContext(WebGPURenderingContext), unWebGPURenderingContext, gTypeWebGPURenderingContext
-  , WebGPUSize(WebGPUSize), unWebGPUSize, gTypeWebGPUSize
-  , WebGPUTexture(WebGPUTexture), unWebGPUTexture, gTypeWebGPUTexture
-  , WebGPUTextureDescriptor(WebGPUTextureDescriptor), unWebGPUTextureDescriptor, gTypeWebGPUTextureDescriptor
-  , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEvent, gTypeWebKitAnimationEvent
-  , WebKitAnimationEventInit(WebKitAnimationEventInit), unWebKitAnimationEventInit, gTypeWebKitAnimationEventInit
-  , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrix, gTypeWebKitCSSMatrix
-  , WebKitCSSRegionRule(WebKitCSSRegionRule), unWebKitCSSRegionRule, gTypeWebKitCSSRegionRule
-  , WebKitCSSViewportRule(WebKitCSSViewportRule), unWebKitCSSViewportRule, gTypeWebKitCSSViewportRule
-  , WebKitMediaKeyError(WebKitMediaKeyError), unWebKitMediaKeyError, gTypeWebKitMediaKeyError
-  , WebKitMediaKeyMessageEvent(WebKitMediaKeyMessageEvent), unWebKitMediaKeyMessageEvent, gTypeWebKitMediaKeyMessageEvent
-  , WebKitMediaKeyMessageEventInit(WebKitMediaKeyMessageEventInit), unWebKitMediaKeyMessageEventInit, gTypeWebKitMediaKeyMessageEventInit
-  , WebKitMediaKeyNeededEvent(WebKitMediaKeyNeededEvent), unWebKitMediaKeyNeededEvent, gTypeWebKitMediaKeyNeededEvent
-  , WebKitMediaKeyNeededEventInit(WebKitMediaKeyNeededEventInit), unWebKitMediaKeyNeededEventInit, gTypeWebKitMediaKeyNeededEventInit
-  , WebKitMediaKeySession(WebKitMediaKeySession), unWebKitMediaKeySession, gTypeWebKitMediaKeySession
-  , WebKitMediaKeys(WebKitMediaKeys), unWebKitMediaKeys, gTypeWebKitMediaKeys
-  , WebKitNamedFlow(WebKitNamedFlow), unWebKitNamedFlow, gTypeWebKitNamedFlow
-  , WebKitNamespace(WebKitNamespace), unWebKitNamespace, gTypeWebKitNamespace
-  , WebKitPlaybackTargetAvailabilityEvent(WebKitPlaybackTargetAvailabilityEvent), unWebKitPlaybackTargetAvailabilityEvent, gTypeWebKitPlaybackTargetAvailabilityEvent
-  , WebKitPlaybackTargetAvailabilityEventInit(WebKitPlaybackTargetAvailabilityEventInit), unWebKitPlaybackTargetAvailabilityEventInit, gTypeWebKitPlaybackTargetAvailabilityEventInit
-  , WebKitPoint(WebKitPoint), unWebKitPoint, gTypeWebKitPoint
-  , WebKitSubtleCrypto(WebKitSubtleCrypto), unWebKitSubtleCrypto, gTypeWebKitSubtleCrypto
-  , WebKitTransitionEvent(WebKitTransitionEvent), unWebKitTransitionEvent, gTypeWebKitTransitionEvent
-  , WebKitTransitionEventInit(WebKitTransitionEventInit), unWebKitTransitionEventInit, gTypeWebKitTransitionEventInit
-  , WebSocket(WebSocket), unWebSocket, gTypeWebSocket
-  , WheelEvent(WheelEvent), unWheelEvent, gTypeWheelEvent
-  , WheelEventInit(WheelEventInit), unWheelEventInit, gTypeWheelEventInit
-  , Window(Window), unWindow, gTypeWindow
-  , WindowEventHandlers(WindowEventHandlers), unWindowEventHandlers, IsWindowEventHandlers, toWindowEventHandlers, gTypeWindowEventHandlers
-  , WindowOrWorkerGlobalScope(WindowOrWorkerGlobalScope), unWindowOrWorkerGlobalScope, IsWindowOrWorkerGlobalScope, toWindowOrWorkerGlobalScope, gTypeWindowOrWorkerGlobalScope
-  , Worker(Worker), unWorker, gTypeWorker
-  , WorkerGlobalScope(WorkerGlobalScope), unWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope, gTypeWorkerGlobalScope
-  , WorkerLocation(WorkerLocation), unWorkerLocation, gTypeWorkerLocation
-  , WorkerNavigator(WorkerNavigator), unWorkerNavigator, gTypeWorkerNavigator
-  , WritableStream(WritableStream), unWritableStream, gTypeWritableStream
-  , XMLDocument(XMLDocument), unXMLDocument, gTypeXMLDocument
-  , XMLHttpRequest(XMLHttpRequest), unXMLHttpRequest, gTypeXMLHttpRequest
-  , XMLHttpRequestEventTarget(XMLHttpRequestEventTarget), unXMLHttpRequestEventTarget, IsXMLHttpRequestEventTarget, toXMLHttpRequestEventTarget, gTypeXMLHttpRequestEventTarget
-  , XMLHttpRequestProgressEvent(XMLHttpRequestProgressEvent), unXMLHttpRequestProgressEvent, gTypeXMLHttpRequestProgressEvent
-  , XMLHttpRequestUpload(XMLHttpRequestUpload), unXMLHttpRequestUpload, gTypeXMLHttpRequestUpload
-  , XMLSerializer(XMLSerializer), unXMLSerializer, gTypeXMLSerializer
-  , XPathEvaluator(XPathEvaluator), unXPathEvaluator, gTypeXPathEvaluator
-  , XPathException(XPathException), unXPathException, gTypeXPathException
-  , XPathExpression(XPathExpression), unXPathExpression, gTypeXPathExpression
-  , XPathNSResolver(XPathNSResolver), unXPathNSResolver, gTypeXPathNSResolver
-  , XPathResult(XPathResult), unXPathResult, gTypeXPathResult
-  , XSLTProcessor(XSLTProcessor), unXSLTProcessor, gTypeXSLTProcessor
+  , ANGLEInstancedArrays(ANGLEInstancedArrays), unANGLEInstancedArrays, noANGLEInstancedArrays, gTypeANGLEInstancedArrays
+  , AbstractWorker(AbstractWorker), unAbstractWorker, IsAbstractWorker, toAbstractWorker, noAbstractWorker, gTypeAbstractWorker
+  , Acceleration(Acceleration), unAcceleration, noAcceleration, gTypeAcceleration
+  , AddEventListenerOptions(AddEventListenerOptions), unAddEventListenerOptions, noAddEventListenerOptions, gTypeAddEventListenerOptions
+  , AesCbcCfbParams(AesCbcCfbParams), unAesCbcCfbParams, noAesCbcCfbParams, gTypeAesCbcCfbParams
+  , AesCtrParams(AesCtrParams), unAesCtrParams, noAesCtrParams, gTypeAesCtrParams
+  , AesGcmParams(AesGcmParams), unAesGcmParams, noAesGcmParams, gTypeAesGcmParams
+  , AesKeyParams(AesKeyParams), unAesKeyParams, noAesKeyParams, gTypeAesKeyParams
+  , AnalyserNode(AnalyserNode), unAnalyserNode, noAnalyserNode, gTypeAnalyserNode
+  , Animatable(Animatable), unAnimatable, IsAnimatable, toAnimatable, noAnimatable, gTypeAnimatable
+  , Animation(Animation), unAnimation, noAnimation, gTypeAnimation
+  , AnimationEffect(AnimationEffect), unAnimationEffect, IsAnimationEffect, toAnimationEffect, noAnimationEffect, gTypeAnimationEffect
+  , AnimationEvent(AnimationEvent), unAnimationEvent, noAnimationEvent, gTypeAnimationEvent
+  , AnimationEventInit(AnimationEventInit), unAnimationEventInit, noAnimationEventInit, gTypeAnimationEventInit
+  , AnimationTimeline(AnimationTimeline), unAnimationTimeline, IsAnimationTimeline, toAnimationTimeline, noAnimationTimeline, gTypeAnimationTimeline
+  , ApplePayError(ApplePayError), unApplePayError, noApplePayError, gTypeApplePayError
+  , ApplePayLineItem(ApplePayLineItem), unApplePayLineItem, noApplePayLineItem, gTypeApplePayLineItem
+  , ApplePayPayment(ApplePayPayment), unApplePayPayment, noApplePayPayment, gTypeApplePayPayment
+  , ApplePayPaymentAuthorizationResult(ApplePayPaymentAuthorizationResult), unApplePayPaymentAuthorizationResult, noApplePayPaymentAuthorizationResult, gTypeApplePayPaymentAuthorizationResult
+  , ApplePayPaymentAuthorizedEvent(ApplePayPaymentAuthorizedEvent), unApplePayPaymentAuthorizedEvent, noApplePayPaymentAuthorizedEvent, gTypeApplePayPaymentAuthorizedEvent
+  , ApplePayPaymentContact(ApplePayPaymentContact), unApplePayPaymentContact, noApplePayPaymentContact, gTypeApplePayPaymentContact
+  , ApplePayPaymentMethod(ApplePayPaymentMethod), unApplePayPaymentMethod, noApplePayPaymentMethod, gTypeApplePayPaymentMethod
+  , ApplePayPaymentMethodSelectedEvent(ApplePayPaymentMethodSelectedEvent), unApplePayPaymentMethodSelectedEvent, noApplePayPaymentMethodSelectedEvent, gTypeApplePayPaymentMethodSelectedEvent
+  , ApplePayPaymentMethodUpdate(ApplePayPaymentMethodUpdate), unApplePayPaymentMethodUpdate, noApplePayPaymentMethodUpdate, gTypeApplePayPaymentMethodUpdate
+  , ApplePayPaymentPass(ApplePayPaymentPass), unApplePayPaymentPass, noApplePayPaymentPass, gTypeApplePayPaymentPass
+  , ApplePayPaymentRequest(ApplePayPaymentRequest), unApplePayPaymentRequest, noApplePayPaymentRequest, gTypeApplePayPaymentRequest
+  , ApplePayPaymentToken(ApplePayPaymentToken), unApplePayPaymentToken, noApplePayPaymentToken, gTypeApplePayPaymentToken
+  , ApplePaySession(ApplePaySession), unApplePaySession, noApplePaySession, gTypeApplePaySession
+  , ApplePayShippingContactSelectedEvent(ApplePayShippingContactSelectedEvent), unApplePayShippingContactSelectedEvent, noApplePayShippingContactSelectedEvent, gTypeApplePayShippingContactSelectedEvent
+  , ApplePayShippingContactUpdate(ApplePayShippingContactUpdate), unApplePayShippingContactUpdate, noApplePayShippingContactUpdate, gTypeApplePayShippingContactUpdate
+  , ApplePayShippingMethod(ApplePayShippingMethod), unApplePayShippingMethod, noApplePayShippingMethod, gTypeApplePayShippingMethod
+  , ApplePayShippingMethodSelectedEvent(ApplePayShippingMethodSelectedEvent), unApplePayShippingMethodSelectedEvent, noApplePayShippingMethodSelectedEvent, gTypeApplePayShippingMethodSelectedEvent
+  , ApplePayShippingMethodUpdate(ApplePayShippingMethodUpdate), unApplePayShippingMethodUpdate, noApplePayShippingMethodUpdate, gTypeApplePayShippingMethodUpdate
+  , ApplePayValidateMerchantEvent(ApplePayValidateMerchantEvent), unApplePayValidateMerchantEvent, noApplePayValidateMerchantEvent, gTypeApplePayValidateMerchantEvent
+  , ApplicationCache(ApplicationCache), unApplicationCache, noApplicationCache, gTypeApplicationCache
+  , AssignedNodesOptions(AssignedNodesOptions), unAssignedNodesOptions, noAssignedNodesOptions, gTypeAssignedNodesOptions
+  , Attr(Attr), unAttr, noAttr, gTypeAttr
+  , AudioBuffer(AudioBuffer), unAudioBuffer, noAudioBuffer, gTypeAudioBuffer
+  , AudioBufferSourceNode(AudioBufferSourceNode), unAudioBufferSourceNode, noAudioBufferSourceNode, gTypeAudioBufferSourceNode
+  , AudioContext(AudioContext), unAudioContext, IsAudioContext, toAudioContext, noAudioContext, gTypeAudioContext
+  , AudioDestinationNode(AudioDestinationNode), unAudioDestinationNode, noAudioDestinationNode, gTypeAudioDestinationNode
+  , AudioListener(AudioListener), unAudioListener, noAudioListener, gTypeAudioListener
+  , AudioNode(AudioNode), unAudioNode, IsAudioNode, toAudioNode, noAudioNode, gTypeAudioNode
+  , AudioParam(AudioParam), unAudioParam, noAudioParam, gTypeAudioParam
+  , AudioProcessingEvent(AudioProcessingEvent), unAudioProcessingEvent, noAudioProcessingEvent, gTypeAudioProcessingEvent
+  , AudioTrack(AudioTrack), unAudioTrack, noAudioTrack, gTypeAudioTrack
+  , AudioTrackList(AudioTrackList), unAudioTrackList, noAudioTrackList, gTypeAudioTrackList
+  , AutocompleteErrorEvent(AutocompleteErrorEvent), unAutocompleteErrorEvent, noAutocompleteErrorEvent, gTypeAutocompleteErrorEvent
+  , AutocompleteErrorEventInit(AutocompleteErrorEventInit), unAutocompleteErrorEventInit, noAutocompleteErrorEventInit, gTypeAutocompleteErrorEventInit
+  , BarProp(BarProp), unBarProp, noBarProp, gTypeBarProp
+  , BasicCredential(BasicCredential), unBasicCredential, IsBasicCredential, toBasicCredential, noBasicCredential, gTypeBasicCredential
+  , BeforeLoadEvent(BeforeLoadEvent), unBeforeLoadEvent, noBeforeLoadEvent, gTypeBeforeLoadEvent
+  , BeforeLoadEventInit(BeforeLoadEventInit), unBeforeLoadEventInit, noBeforeLoadEventInit, gTypeBeforeLoadEventInit
+  , BeforeUnloadEvent(BeforeUnloadEvent), unBeforeUnloadEvent, noBeforeUnloadEvent, gTypeBeforeUnloadEvent
+  , BiquadFilterNode(BiquadFilterNode), unBiquadFilterNode, noBiquadFilterNode, gTypeBiquadFilterNode
+  , Blob(Blob), unBlob, IsBlob, toBlob, noBlob, gTypeBlob
+  , BlobPropertyBag(BlobPropertyBag), unBlobPropertyBag, IsBlobPropertyBag, toBlobPropertyBag, noBlobPropertyBag, gTypeBlobPropertyBag
+  , Body(Body), unBody, IsBody, toBody, noBody, gTypeBody
+  , ByteLengthQueuingStrategy(ByteLengthQueuingStrategy), unByteLengthQueuingStrategy, noByteLengthQueuingStrategy, gTypeByteLengthQueuingStrategy
+  , CDATASection(CDATASection), unCDATASection, noCDATASection, gTypeCDATASection
+  , CSS(CSS), unCSS, noCSS, gTypeCSS
+  , CSSFontFaceLoadEvent(CSSFontFaceLoadEvent), unCSSFontFaceLoadEvent, noCSSFontFaceLoadEvent, gTypeCSSFontFaceLoadEvent
+  , CSSFontFaceLoadEventInit(CSSFontFaceLoadEventInit), unCSSFontFaceLoadEventInit, noCSSFontFaceLoadEventInit, gTypeCSSFontFaceLoadEventInit
+  , CSSFontFaceRule(CSSFontFaceRule), unCSSFontFaceRule, noCSSFontFaceRule, gTypeCSSFontFaceRule
+  , CSSImportRule(CSSImportRule), unCSSImportRule, noCSSImportRule, gTypeCSSImportRule
+  , CSSKeyframeRule(CSSKeyframeRule), unCSSKeyframeRule, noCSSKeyframeRule, gTypeCSSKeyframeRule
+  , CSSKeyframesRule(CSSKeyframesRule), unCSSKeyframesRule, noCSSKeyframesRule, gTypeCSSKeyframesRule
+  , CSSMediaRule(CSSMediaRule), unCSSMediaRule, noCSSMediaRule, gTypeCSSMediaRule
+  , CSSNamespaceRule(CSSNamespaceRule), unCSSNamespaceRule, noCSSNamespaceRule, gTypeCSSNamespaceRule
+  , CSSPageRule(CSSPageRule), unCSSPageRule, noCSSPageRule, gTypeCSSPageRule
+  , CSSPrimitiveValue(CSSPrimitiveValue), unCSSPrimitiveValue, noCSSPrimitiveValue, gTypeCSSPrimitiveValue
+  , CSSRule(CSSRule), unCSSRule, IsCSSRule, toCSSRule, noCSSRule, gTypeCSSRule
+  , CSSRuleList(CSSRuleList), unCSSRuleList, noCSSRuleList, gTypeCSSRuleList
+  , CSSStyleDeclaration(CSSStyleDeclaration), unCSSStyleDeclaration, noCSSStyleDeclaration, gTypeCSSStyleDeclaration
+  , CSSStyleRule(CSSStyleRule), unCSSStyleRule, noCSSStyleRule, gTypeCSSStyleRule
+  , CSSStyleSheet(CSSStyleSheet), unCSSStyleSheet, noCSSStyleSheet, gTypeCSSStyleSheet
+  , CSSSupportsRule(CSSSupportsRule), unCSSSupportsRule, noCSSSupportsRule, gTypeCSSSupportsRule
+  , CSSUnknownRule(CSSUnknownRule), unCSSUnknownRule, noCSSUnknownRule, gTypeCSSUnknownRule
+  , CSSValue(CSSValue), unCSSValue, IsCSSValue, toCSSValue, noCSSValue, gTypeCSSValue
+  , CSSValueList(CSSValueList), unCSSValueList, noCSSValueList, gTypeCSSValueList
+  , CanvasCaptureMediaStreamTrack(CanvasCaptureMediaStreamTrack), unCanvasCaptureMediaStreamTrack, noCanvasCaptureMediaStreamTrack, gTypeCanvasCaptureMediaStreamTrack
+  , CanvasGradient(CanvasGradient), unCanvasGradient, noCanvasGradient, gTypeCanvasGradient
+  , CanvasPath(CanvasPath), unCanvasPath, IsCanvasPath, toCanvasPath, noCanvasPath, gTypeCanvasPath
+  , CanvasPattern(CanvasPattern), unCanvasPattern, noCanvasPattern, gTypeCanvasPattern
+  , CanvasProxy(CanvasProxy), unCanvasProxy, noCanvasProxy, gTypeCanvasProxy
+  , CanvasRenderingContext2D(CanvasRenderingContext2D), unCanvasRenderingContext2D, noCanvasRenderingContext2D, gTypeCanvasRenderingContext2D
+  , ChannelMergerNode(ChannelMergerNode), unChannelMergerNode, noChannelMergerNode, gTypeChannelMergerNode
+  , ChannelSplitterNode(ChannelSplitterNode), unChannelSplitterNode, noChannelSplitterNode, gTypeChannelSplitterNode
+  , CharacterData(CharacterData), unCharacterData, IsCharacterData, toCharacterData, noCharacterData, gTypeCharacterData
+  , ChildNode(ChildNode), unChildNode, IsChildNode, toChildNode, noChildNode, gTypeChildNode
+  , ClipboardEvent(ClipboardEvent), unClipboardEvent, noClipboardEvent, gTypeClipboardEvent
+  , ClipboardEventInit(ClipboardEventInit), unClipboardEventInit, noClipboardEventInit, gTypeClipboardEventInit
+  , CloseEvent(CloseEvent), unCloseEvent, noCloseEvent, gTypeCloseEvent
+  , CloseEventInit(CloseEventInit), unCloseEventInit, noCloseEventInit, gTypeCloseEventInit
+  , CommandLineAPIHost(CommandLineAPIHost), unCommandLineAPIHost, noCommandLineAPIHost, gTypeCommandLineAPIHost
+  , Comment(Comment), unComment, noComment, gTypeComment
+  , CompositionEvent(CompositionEvent), unCompositionEvent, noCompositionEvent, gTypeCompositionEvent
+  , CompositionEventInit(CompositionEventInit), unCompositionEventInit, noCompositionEventInit, gTypeCompositionEventInit
+  , ConstrainBooleanParameters(ConstrainBooleanParameters), unConstrainBooleanParameters, noConstrainBooleanParameters, gTypeConstrainBooleanParameters
+  , ConstrainDOMStringParameters(ConstrainDOMStringParameters), unConstrainDOMStringParameters, noConstrainDOMStringParameters, gTypeConstrainDOMStringParameters
+  , ConstrainDoubleRange(ConstrainDoubleRange), unConstrainDoubleRange, noConstrainDoubleRange, gTypeConstrainDoubleRange
+  , ConstrainLongRange(ConstrainLongRange), unConstrainLongRange, noConstrainLongRange, gTypeConstrainLongRange
+  , ConvolverNode(ConvolverNode), unConvolverNode, noConvolverNode, gTypeConvolverNode
+  , Coordinates(Coordinates), unCoordinates, noCoordinates, gTypeCoordinates
+  , CountQueuingStrategy(CountQueuingStrategy), unCountQueuingStrategy, noCountQueuingStrategy, gTypeCountQueuingStrategy
+  , Counter(Counter), unCounter, noCounter, gTypeCounter
+  , CredentialData(CredentialData), unCredentialData, IsCredentialData, toCredentialData, noCredentialData, gTypeCredentialData
+  , Crypto(Crypto), unCrypto, noCrypto, gTypeCrypto
+  , CryptoAlgorithmParameters(CryptoAlgorithmParameters), unCryptoAlgorithmParameters, IsCryptoAlgorithmParameters, toCryptoAlgorithmParameters, noCryptoAlgorithmParameters, gTypeCryptoAlgorithmParameters
+  , CryptoKey(CryptoKey), unCryptoKey, noCryptoKey, gTypeCryptoKey
+  , CryptoKeyPair(CryptoKeyPair), unCryptoKeyPair, noCryptoKeyPair, gTypeCryptoKeyPair
+  , CustomElementRegistry(CustomElementRegistry), unCustomElementRegistry, noCustomElementRegistry, gTypeCustomElementRegistry
+  , CustomEvent(CustomEvent), unCustomEvent, noCustomEvent, gTypeCustomEvent
+  , CustomEventInit(CustomEventInit), unCustomEventInit, noCustomEventInit, gTypeCustomEventInit
+  , DOMError(DOMError), unDOMError, IsDOMError, toDOMError, noDOMError, gTypeDOMError
+  , DOMException(DOMException), unDOMException, noDOMException, gTypeDOMException
+  , DOMImplementation(DOMImplementation), unDOMImplementation, noDOMImplementation, gTypeDOMImplementation
+  , DOMNamedFlowCollection(DOMNamedFlowCollection), unDOMNamedFlowCollection, noDOMNamedFlowCollection, gTypeDOMNamedFlowCollection
+  , DOMParser(DOMParser), unDOMParser, noDOMParser, gTypeDOMParser
+  , DOMPoint(DOMPoint), unDOMPoint, noDOMPoint, gTypeDOMPoint
+  , DOMPointInit(DOMPointInit), unDOMPointInit, noDOMPointInit, gTypeDOMPointInit
+  , DOMPointReadOnly(DOMPointReadOnly), unDOMPointReadOnly, IsDOMPointReadOnly, toDOMPointReadOnly, noDOMPointReadOnly, gTypeDOMPointReadOnly
+  , DOMRect(DOMRect), unDOMRect, noDOMRect, gTypeDOMRect
+  , DOMRectInit(DOMRectInit), unDOMRectInit, noDOMRectInit, gTypeDOMRectInit
+  , DOMRectReadOnly(DOMRectReadOnly), unDOMRectReadOnly, IsDOMRectReadOnly, toDOMRectReadOnly, noDOMRectReadOnly, gTypeDOMRectReadOnly
+  , DOMStringList(DOMStringList), unDOMStringList, noDOMStringList, gTypeDOMStringList
+  , DOMStringMap(DOMStringMap), unDOMStringMap, noDOMStringMap, gTypeDOMStringMap
+  , DOMTokenList(DOMTokenList), unDOMTokenList, noDOMTokenList, gTypeDOMTokenList
+  , DataCue(DataCue), unDataCue, noDataCue, gTypeDataCue
+  , DataTransfer(DataTransfer), unDataTransfer, noDataTransfer, gTypeDataTransfer
+  , DataTransferItem(DataTransferItem), unDataTransferItem, noDataTransferItem, gTypeDataTransferItem
+  , DataTransferItemList(DataTransferItemList), unDataTransferItemList, noDataTransferItemList, gTypeDataTransferItemList
+  , Database(Database), unDatabase, noDatabase, gTypeDatabase
+  , DedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope), unDedicatedWorkerGlobalScope, noDedicatedWorkerGlobalScope, gTypeDedicatedWorkerGlobalScope
+  , DelayNode(DelayNode), unDelayNode, noDelayNode, gTypeDelayNode
+  , DeviceMotionEvent(DeviceMotionEvent), unDeviceMotionEvent, noDeviceMotionEvent, gTypeDeviceMotionEvent
+  , DeviceOrientationEvent(DeviceOrientationEvent), unDeviceOrientationEvent, noDeviceOrientationEvent, gTypeDeviceOrientationEvent
+  , DeviceProximityEvent(DeviceProximityEvent), unDeviceProximityEvent, noDeviceProximityEvent, gTypeDeviceProximityEvent
+  , DeviceProximityEventInit(DeviceProximityEventInit), unDeviceProximityEventInit, noDeviceProximityEventInit, gTypeDeviceProximityEventInit
+  , Document(Document), unDocument, IsDocument, toDocument, noDocument, gTypeDocument
+  , DocumentAndElementEventHandlers(DocumentAndElementEventHandlers), unDocumentAndElementEventHandlers, IsDocumentAndElementEventHandlers, toDocumentAndElementEventHandlers, noDocumentAndElementEventHandlers, gTypeDocumentAndElementEventHandlers
+  , DocumentFragment(DocumentFragment), unDocumentFragment, IsDocumentFragment, toDocumentFragment, noDocumentFragment, gTypeDocumentFragment
+  , DocumentOrShadowRoot(DocumentOrShadowRoot), unDocumentOrShadowRoot, IsDocumentOrShadowRoot, toDocumentOrShadowRoot, noDocumentOrShadowRoot, gTypeDocumentOrShadowRoot
+  , DocumentTimeline(DocumentTimeline), unDocumentTimeline, noDocumentTimeline, gTypeDocumentTimeline
+  , DocumentType(DocumentType), unDocumentType, noDocumentType, gTypeDocumentType
+  , DoubleRange(DoubleRange), unDoubleRange, IsDoubleRange, toDoubleRange, noDoubleRange, gTypeDoubleRange
+  , DynamicsCompressorNode(DynamicsCompressorNode), unDynamicsCompressorNode, noDynamicsCompressorNode, gTypeDynamicsCompressorNode
+  , EXTBlendMinMax(EXTBlendMinMax), unEXTBlendMinMax, noEXTBlendMinMax, gTypeEXTBlendMinMax
+  , EXTFragDepth(EXTFragDepth), unEXTFragDepth, noEXTFragDepth, gTypeEXTFragDepth
+  , EXTShaderTextureLOD(EXTShaderTextureLOD), unEXTShaderTextureLOD, noEXTShaderTextureLOD, gTypeEXTShaderTextureLOD
+  , EXTTextureFilterAnisotropic(EXTTextureFilterAnisotropic), unEXTTextureFilterAnisotropic, noEXTTextureFilterAnisotropic, gTypeEXTTextureFilterAnisotropic
+  , EXTsRGB(EXTsRGB), unEXTsRGB, noEXTsRGB, gTypeEXTsRGB
+  , EcKeyParams(EcKeyParams), unEcKeyParams, noEcKeyParams, gTypeEcKeyParams
+  , EcdhKeyDeriveParams(EcdhKeyDeriveParams), unEcdhKeyDeriveParams, noEcdhKeyDeriveParams, gTypeEcdhKeyDeriveParams
+  , EcdsaParams(EcdsaParams), unEcdsaParams, noEcdsaParams, gTypeEcdsaParams
+  , Element(Element), unElement, IsElement, toElement, noElement, gTypeElement
+  , ElementCSSInlineStyle(ElementCSSInlineStyle), unElementCSSInlineStyle, IsElementCSSInlineStyle, toElementCSSInlineStyle, noElementCSSInlineStyle, gTypeElementCSSInlineStyle
+  , ErrorEvent(ErrorEvent), unErrorEvent, noErrorEvent, gTypeErrorEvent
+  , ErrorEventInit(ErrorEventInit), unErrorEventInit, noErrorEventInit, gTypeErrorEventInit
+  , Event(Event), unEvent, IsEvent, toEvent, noEvent, gTypeEvent
+  , EventInit(EventInit), unEventInit, IsEventInit, toEventInit, noEventInit, gTypeEventInit
+  , EventListener(EventListener), unEventListener, noEventListener, gTypeEventListener
+  , EventListenerOptions(EventListenerOptions), unEventListenerOptions, IsEventListenerOptions, toEventListenerOptions, noEventListenerOptions, gTypeEventListenerOptions
+  , EventModifierInit(EventModifierInit), unEventModifierInit, IsEventModifierInit, toEventModifierInit, noEventModifierInit, gTypeEventModifierInit
+  , EventSource(EventSource), unEventSource, noEventSource, gTypeEventSource
+  , EventSourceInit(EventSourceInit), unEventSourceInit, noEventSourceInit, gTypeEventSourceInit
+  , EventTarget(EventTarget), unEventTarget, IsEventTarget, toEventTarget, noEventTarget, gTypeEventTarget
+  , File(File), unFile, noFile, gTypeFile
+  , FileError(FileError), unFileError, noFileError, gTypeFileError
+  , FileException(FileException), unFileException, noFileException, gTypeFileException
+  , FileList(FileList), unFileList, noFileList, gTypeFileList
+  , FilePropertyBag(FilePropertyBag), unFilePropertyBag, noFilePropertyBag, gTypeFilePropertyBag
+  , FileReader(FileReader), unFileReader, noFileReader, gTypeFileReader
+  , FileReaderSync(FileReaderSync), unFileReaderSync, noFileReaderSync, gTypeFileReaderSync
+  , FocusEvent(FocusEvent), unFocusEvent, noFocusEvent, gTypeFocusEvent
+  , FocusEventInit(FocusEventInit), unFocusEventInit, noFocusEventInit, gTypeFocusEventInit
+  , FontFace(FontFace), unFontFace, noFontFace, gTypeFontFace
+  , FontFaceDescriptors(FontFaceDescriptors), unFontFaceDescriptors, noFontFaceDescriptors, gTypeFontFaceDescriptors
+  , FontFaceSet(FontFaceSet), unFontFaceSet, noFontFaceSet, gTypeFontFaceSet
+  , FormData(FormData), unFormData, noFormData, gTypeFormData
+  , GainNode(GainNode), unGainNode, noGainNode, gTypeGainNode
+  , Gamepad(Gamepad), unGamepad, noGamepad, gTypeGamepad
+  , GamepadButton(GamepadButton), unGamepadButton, noGamepadButton, gTypeGamepadButton
+  , GamepadEvent(GamepadEvent), unGamepadEvent, noGamepadEvent, gTypeGamepadEvent
+  , GamepadEventInit(GamepadEventInit), unGamepadEventInit, noGamepadEventInit, gTypeGamepadEventInit
+  , Geolocation(Geolocation), unGeolocation, noGeolocation, gTypeGeolocation
+  , Geoposition(Geoposition), unGeoposition, noGeoposition, gTypeGeoposition
+  , GetRootNodeOptions(GetRootNodeOptions), unGetRootNodeOptions, noGetRootNodeOptions, gTypeGetRootNodeOptions
+  , GlobalCrypto(GlobalCrypto), unGlobalCrypto, IsGlobalCrypto, toGlobalCrypto, noGlobalCrypto, gTypeGlobalCrypto
+  , GlobalEventHandlers(GlobalEventHandlers), unGlobalEventHandlers, IsGlobalEventHandlers, toGlobalEventHandlers, noGlobalEventHandlers, gTypeGlobalEventHandlers
+  , GlobalPerformance(GlobalPerformance), unGlobalPerformance, IsGlobalPerformance, toGlobalPerformance, noGlobalPerformance, gTypeGlobalPerformance
+  , HTMLAllCollection(HTMLAllCollection), unHTMLAllCollection, noHTMLAllCollection, gTypeHTMLAllCollection
+  , HTMLAnchorElement(HTMLAnchorElement), unHTMLAnchorElement, noHTMLAnchorElement, gTypeHTMLAnchorElement
+  , HTMLAppletElement(HTMLAppletElement), unHTMLAppletElement, noHTMLAppletElement, gTypeHTMLAppletElement
+  , HTMLAreaElement(HTMLAreaElement), unHTMLAreaElement, noHTMLAreaElement, gTypeHTMLAreaElement
+  , HTMLAttachmentElement(HTMLAttachmentElement), unHTMLAttachmentElement, noHTMLAttachmentElement, gTypeHTMLAttachmentElement
+  , HTMLAudioElement(HTMLAudioElement), unHTMLAudioElement, noHTMLAudioElement, gTypeHTMLAudioElement
+  , HTMLBRElement(HTMLBRElement), unHTMLBRElement, noHTMLBRElement, gTypeHTMLBRElement
+  , HTMLBaseElement(HTMLBaseElement), unHTMLBaseElement, noHTMLBaseElement, gTypeHTMLBaseElement
+  , HTMLBodyElement(HTMLBodyElement), unHTMLBodyElement, noHTMLBodyElement, gTypeHTMLBodyElement
+  , HTMLButtonElement(HTMLButtonElement), unHTMLButtonElement, noHTMLButtonElement, gTypeHTMLButtonElement
+  , HTMLCanvasElement(HTMLCanvasElement), unHTMLCanvasElement, noHTMLCanvasElement, gTypeHTMLCanvasElement
+  , HTMLCollection(HTMLCollection), unHTMLCollection, IsHTMLCollection, toHTMLCollection, noHTMLCollection, gTypeHTMLCollection
+  , HTMLDListElement(HTMLDListElement), unHTMLDListElement, noHTMLDListElement, gTypeHTMLDListElement
+  , HTMLDataElement(HTMLDataElement), unHTMLDataElement, noHTMLDataElement, gTypeHTMLDataElement
+  , HTMLDataListElement(HTMLDataListElement), unHTMLDataListElement, noHTMLDataListElement, gTypeHTMLDataListElement
+  , HTMLDetailsElement(HTMLDetailsElement), unHTMLDetailsElement, noHTMLDetailsElement, gTypeHTMLDetailsElement
+  , HTMLDirectoryElement(HTMLDirectoryElement), unHTMLDirectoryElement, noHTMLDirectoryElement, gTypeHTMLDirectoryElement
+  , HTMLDivElement(HTMLDivElement), unHTMLDivElement, noHTMLDivElement, gTypeHTMLDivElement
+  , HTMLDocument(HTMLDocument), unHTMLDocument, noHTMLDocument, gTypeHTMLDocument
+  , HTMLElement(HTMLElement), unHTMLElement, IsHTMLElement, toHTMLElement, noHTMLElement, gTypeHTMLElement
+  , HTMLEmbedElement(HTMLEmbedElement), unHTMLEmbedElement, noHTMLEmbedElement, gTypeHTMLEmbedElement
+  , HTMLFieldSetElement(HTMLFieldSetElement), unHTMLFieldSetElement, noHTMLFieldSetElement, gTypeHTMLFieldSetElement
+  , HTMLFontElement(HTMLFontElement), unHTMLFontElement, noHTMLFontElement, gTypeHTMLFontElement
+  , HTMLFormControlsCollection(HTMLFormControlsCollection), unHTMLFormControlsCollection, noHTMLFormControlsCollection, gTypeHTMLFormControlsCollection
+  , HTMLFormElement(HTMLFormElement), unHTMLFormElement, noHTMLFormElement, gTypeHTMLFormElement
+  , HTMLFrameElement(HTMLFrameElement), unHTMLFrameElement, noHTMLFrameElement, gTypeHTMLFrameElement
+  , HTMLFrameSetElement(HTMLFrameSetElement), unHTMLFrameSetElement, noHTMLFrameSetElement, gTypeHTMLFrameSetElement
+  , HTMLHRElement(HTMLHRElement), unHTMLHRElement, noHTMLHRElement, gTypeHTMLHRElement
+  , HTMLHeadElement(HTMLHeadElement), unHTMLHeadElement, noHTMLHeadElement, gTypeHTMLHeadElement
+  , HTMLHeadingElement(HTMLHeadingElement), unHTMLHeadingElement, noHTMLHeadingElement, gTypeHTMLHeadingElement
+  , HTMLHtmlElement(HTMLHtmlElement), unHTMLHtmlElement, noHTMLHtmlElement, gTypeHTMLHtmlElement
+  , HTMLHyperlinkElementUtils(HTMLHyperlinkElementUtils), unHTMLHyperlinkElementUtils, IsHTMLHyperlinkElementUtils, toHTMLHyperlinkElementUtils, noHTMLHyperlinkElementUtils, gTypeHTMLHyperlinkElementUtils
+  , HTMLIFrameElement(HTMLIFrameElement), unHTMLIFrameElement, noHTMLIFrameElement, gTypeHTMLIFrameElement
+  , HTMLImageElement(HTMLImageElement), unHTMLImageElement, noHTMLImageElement, gTypeHTMLImageElement
+  , HTMLInputElement(HTMLInputElement), unHTMLInputElement, noHTMLInputElement, gTypeHTMLInputElement
+  , HTMLKeygenElement(HTMLKeygenElement), unHTMLKeygenElement, noHTMLKeygenElement, gTypeHTMLKeygenElement
+  , HTMLLIElement(HTMLLIElement), unHTMLLIElement, noHTMLLIElement, gTypeHTMLLIElement
+  , HTMLLabelElement(HTMLLabelElement), unHTMLLabelElement, noHTMLLabelElement, gTypeHTMLLabelElement
+  , HTMLLegendElement(HTMLLegendElement), unHTMLLegendElement, noHTMLLegendElement, gTypeHTMLLegendElement
+  , HTMLLinkElement(HTMLLinkElement), unHTMLLinkElement, noHTMLLinkElement, gTypeHTMLLinkElement
+  , HTMLMapElement(HTMLMapElement), unHTMLMapElement, noHTMLMapElement, gTypeHTMLMapElement
+  , HTMLMarqueeElement(HTMLMarqueeElement), unHTMLMarqueeElement, noHTMLMarqueeElement, gTypeHTMLMarqueeElement
+  , HTMLMediaElement(HTMLMediaElement), unHTMLMediaElement, IsHTMLMediaElement, toHTMLMediaElement, noHTMLMediaElement, gTypeHTMLMediaElement
+  , HTMLMenuElement(HTMLMenuElement), unHTMLMenuElement, noHTMLMenuElement, gTypeHTMLMenuElement
+  , HTMLMetaElement(HTMLMetaElement), unHTMLMetaElement, noHTMLMetaElement, gTypeHTMLMetaElement
+  , HTMLMeterElement(HTMLMeterElement), unHTMLMeterElement, noHTMLMeterElement, gTypeHTMLMeterElement
+  , HTMLModElement(HTMLModElement), unHTMLModElement, noHTMLModElement, gTypeHTMLModElement
+  , HTMLOListElement(HTMLOListElement), unHTMLOListElement, noHTMLOListElement, gTypeHTMLOListElement
+  , HTMLObjectElement(HTMLObjectElement), unHTMLObjectElement, noHTMLObjectElement, gTypeHTMLObjectElement
+  , HTMLOptGroupElement(HTMLOptGroupElement), unHTMLOptGroupElement, noHTMLOptGroupElement, gTypeHTMLOptGroupElement
+  , HTMLOptionElement(HTMLOptionElement), unHTMLOptionElement, noHTMLOptionElement, gTypeHTMLOptionElement
+  , HTMLOptionsCollection(HTMLOptionsCollection), unHTMLOptionsCollection, noHTMLOptionsCollection, gTypeHTMLOptionsCollection
+  , HTMLOutputElement(HTMLOutputElement), unHTMLOutputElement, noHTMLOutputElement, gTypeHTMLOutputElement
+  , HTMLParagraphElement(HTMLParagraphElement), unHTMLParagraphElement, noHTMLParagraphElement, gTypeHTMLParagraphElement
+  , HTMLParamElement(HTMLParamElement), unHTMLParamElement, noHTMLParamElement, gTypeHTMLParamElement
+  , HTMLPictureElement(HTMLPictureElement), unHTMLPictureElement, noHTMLPictureElement, gTypeHTMLPictureElement
+  , HTMLPreElement(HTMLPreElement), unHTMLPreElement, noHTMLPreElement, gTypeHTMLPreElement
+  , HTMLProgressElement(HTMLProgressElement), unHTMLProgressElement, noHTMLProgressElement, gTypeHTMLProgressElement
+  , HTMLQuoteElement(HTMLQuoteElement), unHTMLQuoteElement, noHTMLQuoteElement, gTypeHTMLQuoteElement
+  , HTMLScriptElement(HTMLScriptElement), unHTMLScriptElement, noHTMLScriptElement, gTypeHTMLScriptElement
+  , HTMLSelectElement(HTMLSelectElement), unHTMLSelectElement, noHTMLSelectElement, gTypeHTMLSelectElement
+  , HTMLSlotElement(HTMLSlotElement), unHTMLSlotElement, noHTMLSlotElement, gTypeHTMLSlotElement
+  , HTMLSourceElement(HTMLSourceElement), unHTMLSourceElement, noHTMLSourceElement, gTypeHTMLSourceElement
+  , HTMLSpanElement(HTMLSpanElement), unHTMLSpanElement, noHTMLSpanElement, gTypeHTMLSpanElement
+  , HTMLStyleElement(HTMLStyleElement), unHTMLStyleElement, noHTMLStyleElement, gTypeHTMLStyleElement
+  , HTMLTableCaptionElement(HTMLTableCaptionElement), unHTMLTableCaptionElement, noHTMLTableCaptionElement, gTypeHTMLTableCaptionElement
+  , HTMLTableCellElement(HTMLTableCellElement), unHTMLTableCellElement, noHTMLTableCellElement, gTypeHTMLTableCellElement
+  , HTMLTableColElement(HTMLTableColElement), unHTMLTableColElement, noHTMLTableColElement, gTypeHTMLTableColElement
+  , HTMLTableElement(HTMLTableElement), unHTMLTableElement, noHTMLTableElement, gTypeHTMLTableElement
+  , HTMLTableRowElement(HTMLTableRowElement), unHTMLTableRowElement, noHTMLTableRowElement, gTypeHTMLTableRowElement
+  , HTMLTableSectionElement(HTMLTableSectionElement), unHTMLTableSectionElement, noHTMLTableSectionElement, gTypeHTMLTableSectionElement
+  , HTMLTemplateElement(HTMLTemplateElement), unHTMLTemplateElement, noHTMLTemplateElement, gTypeHTMLTemplateElement
+  , HTMLTextAreaElement(HTMLTextAreaElement), unHTMLTextAreaElement, noHTMLTextAreaElement, gTypeHTMLTextAreaElement
+  , HTMLTimeElement(HTMLTimeElement), unHTMLTimeElement, noHTMLTimeElement, gTypeHTMLTimeElement
+  , HTMLTitleElement(HTMLTitleElement), unHTMLTitleElement, noHTMLTitleElement, gTypeHTMLTitleElement
+  , HTMLTrackElement(HTMLTrackElement), unHTMLTrackElement, noHTMLTrackElement, gTypeHTMLTrackElement
+  , HTMLUListElement(HTMLUListElement), unHTMLUListElement, noHTMLUListElement, gTypeHTMLUListElement
+  , HTMLUnknownElement(HTMLUnknownElement), unHTMLUnknownElement, noHTMLUnknownElement, gTypeHTMLUnknownElement
+  , HTMLVideoElement(HTMLVideoElement), unHTMLVideoElement, noHTMLVideoElement, gTypeHTMLVideoElement
+  , HashChangeEvent(HashChangeEvent), unHashChangeEvent, noHashChangeEvent, gTypeHashChangeEvent
+  , HashChangeEventInit(HashChangeEventInit), unHashChangeEventInit, noHashChangeEventInit, gTypeHashChangeEventInit
+  , Headers(Headers), unHeaders, noHeaders, gTypeHeaders
+  , History(History), unHistory, noHistory, gTypeHistory
+  , HkdfParams(HkdfParams), unHkdfParams, noHkdfParams, gTypeHkdfParams
+  , HmacKeyParams(HmacKeyParams), unHmacKeyParams, noHmacKeyParams, gTypeHmacKeyParams
+  , IDBCursor(IDBCursor), unIDBCursor, IsIDBCursor, toIDBCursor, noIDBCursor, gTypeIDBCursor
+  , IDBCursorWithValue(IDBCursorWithValue), unIDBCursorWithValue, noIDBCursorWithValue, gTypeIDBCursorWithValue
+  , IDBDatabase(IDBDatabase), unIDBDatabase, noIDBDatabase, gTypeIDBDatabase
+  , IDBFactory(IDBFactory), unIDBFactory, noIDBFactory, gTypeIDBFactory
+  , IDBIndex(IDBIndex), unIDBIndex, noIDBIndex, gTypeIDBIndex
+  , IDBIndexParameters(IDBIndexParameters), unIDBIndexParameters, noIDBIndexParameters, gTypeIDBIndexParameters
+  , IDBKeyRange(IDBKeyRange), unIDBKeyRange, noIDBKeyRange, gTypeIDBKeyRange
+  , IDBObjectStore(IDBObjectStore), unIDBObjectStore, noIDBObjectStore, gTypeIDBObjectStore
+  , IDBObjectStoreParameters(IDBObjectStoreParameters), unIDBObjectStoreParameters, noIDBObjectStoreParameters, gTypeIDBObjectStoreParameters
+  , IDBOpenDBRequest(IDBOpenDBRequest), unIDBOpenDBRequest, noIDBOpenDBRequest, gTypeIDBOpenDBRequest
+  , IDBRequest(IDBRequest), unIDBRequest, IsIDBRequest, toIDBRequest, noIDBRequest, gTypeIDBRequest
+  , IDBTransaction(IDBTransaction), unIDBTransaction, noIDBTransaction, gTypeIDBTransaction
+  , IDBVersionChangeEvent(IDBVersionChangeEvent), unIDBVersionChangeEvent, noIDBVersionChangeEvent, gTypeIDBVersionChangeEvent
+  , IDBVersionChangeEventInit(IDBVersionChangeEventInit), unIDBVersionChangeEventInit, noIDBVersionChangeEventInit, gTypeIDBVersionChangeEventInit
+  , ImageData(ImageData), unImageData, noImageData, gTypeImageData
+  , InputEvent(InputEvent), unInputEvent, noInputEvent, gTypeInputEvent
+  , InputEventInit(InputEventInit), unInputEventInit, noInputEventInit, gTypeInputEventInit
+  , InspectorFrontendHost(InspectorFrontendHost), unInspectorFrontendHost, noInspectorFrontendHost, gTypeInspectorFrontendHost
+  , IntersectionObserver(IntersectionObserver), unIntersectionObserver, noIntersectionObserver, gTypeIntersectionObserver
+  , IntersectionObserverEntry(IntersectionObserverEntry), unIntersectionObserverEntry, noIntersectionObserverEntry, gTypeIntersectionObserverEntry
+  , IntersectionObserverEntryInit(IntersectionObserverEntryInit), unIntersectionObserverEntryInit, noIntersectionObserverEntryInit, gTypeIntersectionObserverEntryInit
+  , IntersectionObserverInit(IntersectionObserverInit), unIntersectionObserverInit, noIntersectionObserverInit, gTypeIntersectionObserverInit
+  , JsonWebKey(JsonWebKey), unJsonWebKey, noJsonWebKey, gTypeJsonWebKey
+  , KeyboardEvent(KeyboardEvent), unKeyboardEvent, noKeyboardEvent, gTypeKeyboardEvent
+  , KeyboardEventInit(KeyboardEventInit), unKeyboardEventInit, noKeyboardEventInit, gTypeKeyboardEventInit
+  , KeyframeEffect(KeyframeEffect), unKeyframeEffect, noKeyframeEffect, gTypeKeyframeEffect
+  , Location(Location), unLocation, noLocation, gTypeLocation
+  , LongRange(LongRange), unLongRange, IsLongRange, toLongRange, noLongRange, gTypeLongRange
+  , MediaController(MediaController), unMediaController, noMediaController, gTypeMediaController
+  , MediaControlsHost(MediaControlsHost), unMediaControlsHost, noMediaControlsHost, gTypeMediaControlsHost
+  , MediaDeviceInfo(MediaDeviceInfo), unMediaDeviceInfo, noMediaDeviceInfo, gTypeMediaDeviceInfo
+  , MediaDevices(MediaDevices), unMediaDevices, noMediaDevices, gTypeMediaDevices
+  , MediaElementAudioSourceNode(MediaElementAudioSourceNode), unMediaElementAudioSourceNode, noMediaElementAudioSourceNode, gTypeMediaElementAudioSourceNode
+  , MediaEncryptedEvent(MediaEncryptedEvent), unMediaEncryptedEvent, noMediaEncryptedEvent, gTypeMediaEncryptedEvent
+  , MediaEncryptedEventInit(MediaEncryptedEventInit), unMediaEncryptedEventInit, noMediaEncryptedEventInit, gTypeMediaEncryptedEventInit
+  , MediaError(MediaError), unMediaError, noMediaError, gTypeMediaError
+  , MediaKeyMessageEvent(MediaKeyMessageEvent), unMediaKeyMessageEvent, noMediaKeyMessageEvent, gTypeMediaKeyMessageEvent
+  , MediaKeyMessageEventInit(MediaKeyMessageEventInit), unMediaKeyMessageEventInit, noMediaKeyMessageEventInit, gTypeMediaKeyMessageEventInit
+  , MediaKeySession(MediaKeySession), unMediaKeySession, noMediaKeySession, gTypeMediaKeySession
+  , MediaKeyStatusMap(MediaKeyStatusMap), unMediaKeyStatusMap, noMediaKeyStatusMap, gTypeMediaKeyStatusMap
+  , MediaKeySystemAccess(MediaKeySystemAccess), unMediaKeySystemAccess, noMediaKeySystemAccess, gTypeMediaKeySystemAccess
+  , MediaKeySystemConfiguration(MediaKeySystemConfiguration), unMediaKeySystemConfiguration, noMediaKeySystemConfiguration, gTypeMediaKeySystemConfiguration
+  , MediaKeySystemMediaCapability(MediaKeySystemMediaCapability), unMediaKeySystemMediaCapability, noMediaKeySystemMediaCapability, gTypeMediaKeySystemMediaCapability
+  , MediaKeys(MediaKeys), unMediaKeys, noMediaKeys, gTypeMediaKeys
+  , MediaList(MediaList), unMediaList, noMediaList, gTypeMediaList
+  , MediaMetadata(MediaMetadata), unMediaMetadata, noMediaMetadata, gTypeMediaMetadata
+  , MediaQueryList(MediaQueryList), unMediaQueryList, noMediaQueryList, gTypeMediaQueryList
+  , MediaRemoteControls(MediaRemoteControls), unMediaRemoteControls, noMediaRemoteControls, gTypeMediaRemoteControls
+  , MediaSession(MediaSession), unMediaSession, noMediaSession, gTypeMediaSession
+  , MediaSource(MediaSource), unMediaSource, noMediaSource, gTypeMediaSource
+  , MediaStream(MediaStream), unMediaStream, noMediaStream, gTypeMediaStream
+  , MediaStreamAudioDestinationNode(MediaStreamAudioDestinationNode), unMediaStreamAudioDestinationNode, noMediaStreamAudioDestinationNode, gTypeMediaStreamAudioDestinationNode
+  , MediaStreamAudioSourceNode(MediaStreamAudioSourceNode), unMediaStreamAudioSourceNode, noMediaStreamAudioSourceNode, gTypeMediaStreamAudioSourceNode
+  , MediaStreamConstraints(MediaStreamConstraints), unMediaStreamConstraints, noMediaStreamConstraints, gTypeMediaStreamConstraints
+  , MediaStreamEvent(MediaStreamEvent), unMediaStreamEvent, noMediaStreamEvent, gTypeMediaStreamEvent
+  , MediaStreamEventInit(MediaStreamEventInit), unMediaStreamEventInit, noMediaStreamEventInit, gTypeMediaStreamEventInit
+  , MediaStreamTrack(MediaStreamTrack), unMediaStreamTrack, IsMediaStreamTrack, toMediaStreamTrack, noMediaStreamTrack, gTypeMediaStreamTrack
+  , MediaStreamTrackEvent(MediaStreamTrackEvent), unMediaStreamTrackEvent, noMediaStreamTrackEvent, gTypeMediaStreamTrackEvent
+  , MediaStreamTrackEventInit(MediaStreamTrackEventInit), unMediaStreamTrackEventInit, noMediaStreamTrackEventInit, gTypeMediaStreamTrackEventInit
+  , MediaTrackCapabilities(MediaTrackCapabilities), unMediaTrackCapabilities, noMediaTrackCapabilities, gTypeMediaTrackCapabilities
+  , MediaTrackConstraintSet(MediaTrackConstraintSet), unMediaTrackConstraintSet, IsMediaTrackConstraintSet, toMediaTrackConstraintSet, noMediaTrackConstraintSet, gTypeMediaTrackConstraintSet
+  , MediaTrackConstraints(MediaTrackConstraints), unMediaTrackConstraints, noMediaTrackConstraints, gTypeMediaTrackConstraints
+  , MediaTrackSettings(MediaTrackSettings), unMediaTrackSettings, noMediaTrackSettings, gTypeMediaTrackSettings
+  , MediaTrackSupportedConstraints(MediaTrackSupportedConstraints), unMediaTrackSupportedConstraints, noMediaTrackSupportedConstraints, gTypeMediaTrackSupportedConstraints
+  , MessageChannel(MessageChannel), unMessageChannel, noMessageChannel, gTypeMessageChannel
+  , MessageEvent(MessageEvent), unMessageEvent, noMessageEvent, gTypeMessageEvent
+  , MessageEventInit(MessageEventInit), unMessageEventInit, noMessageEventInit, gTypeMessageEventInit
+  , MessagePort(MessagePort), unMessagePort, noMessagePort, gTypeMessagePort
+  , MimeType(MimeType), unMimeType, noMimeType, gTypeMimeType
+  , MimeTypeArray(MimeTypeArray), unMimeTypeArray, noMimeTypeArray, gTypeMimeTypeArray
+  , MouseEvent(MouseEvent), unMouseEvent, IsMouseEvent, toMouseEvent, noMouseEvent, gTypeMouseEvent
+  , MouseEventInit(MouseEventInit), unMouseEventInit, IsMouseEventInit, toMouseEventInit, noMouseEventInit, gTypeMouseEventInit
+  , MutationEvent(MutationEvent), unMutationEvent, noMutationEvent, gTypeMutationEvent
+  , MutationObserver(MutationObserver), unMutationObserver, noMutationObserver, gTypeMutationObserver
+  , MutationObserverInit(MutationObserverInit), unMutationObserverInit, noMutationObserverInit, gTypeMutationObserverInit
+  , MutationRecord(MutationRecord), unMutationRecord, noMutationRecord, gTypeMutationRecord
+  , NamedNodeMap(NamedNodeMap), unNamedNodeMap, noNamedNodeMap, gTypeNamedNodeMap
+  , Navigator(Navigator), unNavigator, noNavigator, gTypeNavigator
+  , NavigatorConcurrentHardware(NavigatorConcurrentHardware), unNavigatorConcurrentHardware, IsNavigatorConcurrentHardware, toNavigatorConcurrentHardware, noNavigatorConcurrentHardware, gTypeNavigatorConcurrentHardware
+  , NavigatorID(NavigatorID), unNavigatorID, IsNavigatorID, toNavigatorID, noNavigatorID, gTypeNavigatorID
+  , NavigatorLanguage(NavigatorLanguage), unNavigatorLanguage, IsNavigatorLanguage, toNavigatorLanguage, noNavigatorLanguage, gTypeNavigatorLanguage
+  , NavigatorOnLine(NavigatorOnLine), unNavigatorOnLine, IsNavigatorOnLine, toNavigatorOnLine, noNavigatorOnLine, gTypeNavigatorOnLine
+  , NavigatorUserMediaError(NavigatorUserMediaError), unNavigatorUserMediaError, noNavigatorUserMediaError, gTypeNavigatorUserMediaError
+  , Node(Node), unNode, IsNode, toNode, noNode, gTypeNode
+  , NodeIterator(NodeIterator), unNodeIterator, noNodeIterator, gTypeNodeIterator
+  , NodeList(NodeList), unNodeList, IsNodeList, toNodeList, noNodeList, gTypeNodeList
+  , NonDocumentTypeChildNode(NonDocumentTypeChildNode), unNonDocumentTypeChildNode, IsNonDocumentTypeChildNode, toNonDocumentTypeChildNode, noNonDocumentTypeChildNode, gTypeNonDocumentTypeChildNode
+  , NonElementParentNode(NonElementParentNode), unNonElementParentNode, IsNonElementParentNode, toNonElementParentNode, noNonElementParentNode, gTypeNonElementParentNode
+  , Notification(Notification), unNotification, noNotification, gTypeNotification
+  , NotificationOptions(NotificationOptions), unNotificationOptions, noNotificationOptions, gTypeNotificationOptions
+  , OESElementIndexUint(OESElementIndexUint), unOESElementIndexUint, noOESElementIndexUint, gTypeOESElementIndexUint
+  , OESStandardDerivatives(OESStandardDerivatives), unOESStandardDerivatives, noOESStandardDerivatives, gTypeOESStandardDerivatives
+  , OESTextureFloat(OESTextureFloat), unOESTextureFloat, noOESTextureFloat, gTypeOESTextureFloat
+  , OESTextureFloatLinear(OESTextureFloatLinear), unOESTextureFloatLinear, noOESTextureFloatLinear, gTypeOESTextureFloatLinear
+  , OESTextureHalfFloat(OESTextureHalfFloat), unOESTextureHalfFloat, noOESTextureHalfFloat, gTypeOESTextureHalfFloat
+  , OESTextureHalfFloatLinear(OESTextureHalfFloatLinear), unOESTextureHalfFloatLinear, noOESTextureHalfFloatLinear, gTypeOESTextureHalfFloatLinear
+  , OESVertexArrayObject(OESVertexArrayObject), unOESVertexArrayObject, noOESVertexArrayObject, gTypeOESVertexArrayObject
+  , OfflineAudioCompletionEvent(OfflineAudioCompletionEvent), unOfflineAudioCompletionEvent, noOfflineAudioCompletionEvent, gTypeOfflineAudioCompletionEvent
+  , OfflineAudioContext(OfflineAudioContext), unOfflineAudioContext, noOfflineAudioContext, gTypeOfflineAudioContext
+  , OscillatorNode(OscillatorNode), unOscillatorNode, noOscillatorNode, gTypeOscillatorNode
+  , OverconstrainedError(OverconstrainedError), unOverconstrainedError, noOverconstrainedError, gTypeOverconstrainedError
+  , OverconstrainedErrorEvent(OverconstrainedErrorEvent), unOverconstrainedErrorEvent, noOverconstrainedErrorEvent, gTypeOverconstrainedErrorEvent
+  , OverconstrainedErrorEventInit(OverconstrainedErrorEventInit), unOverconstrainedErrorEventInit, noOverconstrainedErrorEventInit, gTypeOverconstrainedErrorEventInit
+  , OverflowEvent(OverflowEvent), unOverflowEvent, noOverflowEvent, gTypeOverflowEvent
+  , OverflowEventInit(OverflowEventInit), unOverflowEventInit, noOverflowEventInit, gTypeOverflowEventInit
+  , PageTransitionEvent(PageTransitionEvent), unPageTransitionEvent, noPageTransitionEvent, gTypePageTransitionEvent
+  , PageTransitionEventInit(PageTransitionEventInit), unPageTransitionEventInit, noPageTransitionEventInit, gTypePageTransitionEventInit
+  , PannerNode(PannerNode), unPannerNode, noPannerNode, gTypePannerNode
+  , ParentNode(ParentNode), unParentNode, IsParentNode, toParentNode, noParentNode, gTypeParentNode
+  , PasswordCredential(PasswordCredential), unPasswordCredential, noPasswordCredential, gTypePasswordCredential
+  , PasswordCredentialData(PasswordCredentialData), unPasswordCredentialData, noPasswordCredentialData, gTypePasswordCredentialData
+  , Path2D(Path2D), unPath2D, noPath2D, gTypePath2D
+  , Pbkdf2Params(Pbkdf2Params), unPbkdf2Params, noPbkdf2Params, gTypePbkdf2Params
+  , Performance(Performance), unPerformance, noPerformance, gTypePerformance
+  , PerformanceEntry(PerformanceEntry), unPerformanceEntry, IsPerformanceEntry, toPerformanceEntry, noPerformanceEntry, gTypePerformanceEntry
+  , PerformanceMark(PerformanceMark), unPerformanceMark, noPerformanceMark, gTypePerformanceMark
+  , PerformanceMeasure(PerformanceMeasure), unPerformanceMeasure, noPerformanceMeasure, gTypePerformanceMeasure
+  , PerformanceNavigation(PerformanceNavigation), unPerformanceNavigation, noPerformanceNavigation, gTypePerformanceNavigation
+  , PerformanceObserver(PerformanceObserver), unPerformanceObserver, noPerformanceObserver, gTypePerformanceObserver
+  , PerformanceObserverEntryList(PerformanceObserverEntryList), unPerformanceObserverEntryList, noPerformanceObserverEntryList, gTypePerformanceObserverEntryList
+  , PerformanceObserverInit(PerformanceObserverInit), unPerformanceObserverInit, noPerformanceObserverInit, gTypePerformanceObserverInit
+  , PerformanceResourceTiming(PerformanceResourceTiming), unPerformanceResourceTiming, noPerformanceResourceTiming, gTypePerformanceResourceTiming
+  , PerformanceTiming(PerformanceTiming), unPerformanceTiming, noPerformanceTiming, gTypePerformanceTiming
+  , PeriodicWave(PeriodicWave), unPeriodicWave, noPeriodicWave, gTypePeriodicWave
+  , Plugin(Plugin), unPlugin, noPlugin, gTypePlugin
+  , PluginArray(PluginArray), unPluginArray, noPluginArray, gTypePluginArray
+  , PopStateEvent(PopStateEvent), unPopStateEvent, noPopStateEvent, gTypePopStateEvent
+  , PopStateEventInit(PopStateEventInit), unPopStateEventInit, noPopStateEventInit, gTypePopStateEventInit
+  , PositionError(PositionError), unPositionError, noPositionError, gTypePositionError
+  , PositionOptions(PositionOptions), unPositionOptions, noPositionOptions, gTypePositionOptions
+  , ProcessingInstruction(ProcessingInstruction), unProcessingInstruction, noProcessingInstruction, gTypeProcessingInstruction
+  , ProgressEvent(ProgressEvent), unProgressEvent, IsProgressEvent, toProgressEvent, noProgressEvent, gTypeProgressEvent
+  , ProgressEventInit(ProgressEventInit), unProgressEventInit, noProgressEventInit, gTypeProgressEventInit
+  , PromiseRejectionEvent(PromiseRejectionEvent), unPromiseRejectionEvent, noPromiseRejectionEvent, gTypePromiseRejectionEvent
+  , PromiseRejectionEventInit(PromiseRejectionEventInit), unPromiseRejectionEventInit, noPromiseRejectionEventInit, gTypePromiseRejectionEventInit
+  , QuickTimePluginReplacement(QuickTimePluginReplacement), unQuickTimePluginReplacement, noQuickTimePluginReplacement, gTypeQuickTimePluginReplacement
+  , RGBColor(RGBColor), unRGBColor, noRGBColor, gTypeRGBColor
+  , RTCAnswerOptions(RTCAnswerOptions), unRTCAnswerOptions, noRTCAnswerOptions, gTypeRTCAnswerOptions
+  , RTCConfiguration(RTCConfiguration), unRTCConfiguration, noRTCConfiguration, gTypeRTCConfiguration
+  , RTCDTMFSender(RTCDTMFSender), unRTCDTMFSender, noRTCDTMFSender, gTypeRTCDTMFSender
+  , RTCDTMFToneChangeEvent(RTCDTMFToneChangeEvent), unRTCDTMFToneChangeEvent, noRTCDTMFToneChangeEvent, gTypeRTCDTMFToneChangeEvent
+  , RTCDTMFToneChangeEventInit(RTCDTMFToneChangeEventInit), unRTCDTMFToneChangeEventInit, noRTCDTMFToneChangeEventInit, gTypeRTCDTMFToneChangeEventInit
+  , RTCDataChannel(RTCDataChannel), unRTCDataChannel, noRTCDataChannel, gTypeRTCDataChannel
+  , RTCDataChannelEvent(RTCDataChannelEvent), unRTCDataChannelEvent, noRTCDataChannelEvent, gTypeRTCDataChannelEvent
+  , RTCDataChannelEventInit(RTCDataChannelEventInit), unRTCDataChannelEventInit, noRTCDataChannelEventInit, gTypeRTCDataChannelEventInit
+  , RTCDataChannelInit(RTCDataChannelInit), unRTCDataChannelInit, noRTCDataChannelInit, gTypeRTCDataChannelInit
+  , RTCDataChannelStats(RTCDataChannelStats), unRTCDataChannelStats, noRTCDataChannelStats, gTypeRTCDataChannelStats
+  , RTCIceCandidate(RTCIceCandidate), unRTCIceCandidate, noRTCIceCandidate, gTypeRTCIceCandidate
+  , RTCIceCandidateEvent(RTCIceCandidateEvent), unRTCIceCandidateEvent, noRTCIceCandidateEvent, gTypeRTCIceCandidateEvent
+  , RTCIceCandidateInit(RTCIceCandidateInit), unRTCIceCandidateInit, noRTCIceCandidateInit, gTypeRTCIceCandidateInit
+  , RTCIceServer(RTCIceServer), unRTCIceServer, noRTCIceServer, gTypeRTCIceServer
+  , RTCIceTransport(RTCIceTransport), unRTCIceTransport, noRTCIceTransport, gTypeRTCIceTransport
+  , RTCInboundRTPStreamStats(RTCInboundRTPStreamStats), unRTCInboundRTPStreamStats, noRTCInboundRTPStreamStats, gTypeRTCInboundRTPStreamStats
+  , RTCMediaStreamTrackStats(RTCMediaStreamTrackStats), unRTCMediaStreamTrackStats, noRTCMediaStreamTrackStats, gTypeRTCMediaStreamTrackStats
+  , RTCOfferAnswerOptions(RTCOfferAnswerOptions), unRTCOfferAnswerOptions, IsRTCOfferAnswerOptions, toRTCOfferAnswerOptions, noRTCOfferAnswerOptions, gTypeRTCOfferAnswerOptions
+  , RTCOfferOptions(RTCOfferOptions), unRTCOfferOptions, noRTCOfferOptions, gTypeRTCOfferOptions
+  , RTCOutboundRTPStreamStats(RTCOutboundRTPStreamStats), unRTCOutboundRTPStreamStats, noRTCOutboundRTPStreamStats, gTypeRTCOutboundRTPStreamStats
+  , RTCPeerConnection(RTCPeerConnection), unRTCPeerConnection, noRTCPeerConnection, gTypeRTCPeerConnection
+  , RTCPeerConnectionIceEvent(RTCPeerConnectionIceEvent), unRTCPeerConnectionIceEvent, noRTCPeerConnectionIceEvent, gTypeRTCPeerConnectionIceEvent
+  , RTCRTPStreamStats(RTCRTPStreamStats), unRTCRTPStreamStats, IsRTCRTPStreamStats, toRTCRTPStreamStats, noRTCRTPStreamStats, gTypeRTCRTPStreamStats
+  , RTCRtpCodecParameters(RTCRtpCodecParameters), unRTCRtpCodecParameters, noRTCRtpCodecParameters, gTypeRTCRtpCodecParameters
+  , RTCRtpEncodingParameters(RTCRtpEncodingParameters), unRTCRtpEncodingParameters, noRTCRtpEncodingParameters, gTypeRTCRtpEncodingParameters
+  , RTCRtpFecParameters(RTCRtpFecParameters), unRTCRtpFecParameters, noRTCRtpFecParameters, gTypeRTCRtpFecParameters
+  , RTCRtpHeaderExtensionParameters(RTCRtpHeaderExtensionParameters), unRTCRtpHeaderExtensionParameters, noRTCRtpHeaderExtensionParameters, gTypeRTCRtpHeaderExtensionParameters
+  , RTCRtpParameters(RTCRtpParameters), unRTCRtpParameters, noRTCRtpParameters, gTypeRTCRtpParameters
+  , RTCRtpReceiver(RTCRtpReceiver), unRTCRtpReceiver, noRTCRtpReceiver, gTypeRTCRtpReceiver
+  , RTCRtpRtxParameters(RTCRtpRtxParameters), unRTCRtpRtxParameters, noRTCRtpRtxParameters, gTypeRTCRtpRtxParameters
+  , RTCRtpSender(RTCRtpSender), unRTCRtpSender, noRTCRtpSender, gTypeRTCRtpSender
+  , RTCRtpTransceiver(RTCRtpTransceiver), unRTCRtpTransceiver, noRTCRtpTransceiver, gTypeRTCRtpTransceiver
+  , RTCRtpTransceiverInit(RTCRtpTransceiverInit), unRTCRtpTransceiverInit, noRTCRtpTransceiverInit, gTypeRTCRtpTransceiverInit
+  , RTCSessionDescription(RTCSessionDescription), unRTCSessionDescription, noRTCSessionDescription, gTypeRTCSessionDescription
+  , RTCSessionDescriptionInit(RTCSessionDescriptionInit), unRTCSessionDescriptionInit, noRTCSessionDescriptionInit, gTypeRTCSessionDescriptionInit
+  , RTCStats(RTCStats), unRTCStats, IsRTCStats, toRTCStats, noRTCStats, gTypeRTCStats
+  , RTCStatsReport(RTCStatsReport), unRTCStatsReport, noRTCStatsReport, gTypeRTCStatsReport
+  , RTCTrackEvent(RTCTrackEvent), unRTCTrackEvent, noRTCTrackEvent, gTypeRTCTrackEvent
+  , RTCTrackEventInit(RTCTrackEventInit), unRTCTrackEventInit, noRTCTrackEventInit, gTypeRTCTrackEventInit
+  , RadioNodeList(RadioNodeList), unRadioNodeList, noRadioNodeList, gTypeRadioNodeList
+  , Range(Range), unRange, noRange, gTypeRange
+  , ReadableByteStreamController(ReadableByteStreamController), unReadableByteStreamController, noReadableByteStreamController, gTypeReadableByteStreamController
+  , ReadableStream(ReadableStream), unReadableStream, noReadableStream, gTypeReadableStream
+  , ReadableStreamBYOBReader(ReadableStreamBYOBReader), unReadableStreamBYOBReader, noReadableStreamBYOBReader, gTypeReadableStreamBYOBReader
+  , ReadableStreamBYOBRequest(ReadableStreamBYOBRequest), unReadableStreamBYOBRequest, noReadableStreamBYOBRequest, gTypeReadableStreamBYOBRequest
+  , ReadableStreamDefaultController(ReadableStreamDefaultController), unReadableStreamDefaultController, noReadableStreamDefaultController, gTypeReadableStreamDefaultController
+  , ReadableStreamDefaultReader(ReadableStreamDefaultReader), unReadableStreamDefaultReader, noReadableStreamDefaultReader, gTypeReadableStreamDefaultReader
+  , ReadableStreamSource(ReadableStreamSource), unReadableStreamSource, noReadableStreamSource, gTypeReadableStreamSource
+  , Rect(Rect), unRect, noRect, gTypeRect
+  , Request(Request), unRequest, noRequest, gTypeRequest
+  , RequestInit(RequestInit), unRequestInit, noRequestInit, gTypeRequestInit
+  , Response(Response), unResponse, noResponse, gTypeResponse
+  , RotationRate(RotationRate), unRotationRate, noRotationRate, gTypeRotationRate
+  , RsaHashedImportParams(RsaHashedImportParams), unRsaHashedImportParams, noRsaHashedImportParams, gTypeRsaHashedImportParams
+  , RsaHashedKeyGenParams(RsaHashedKeyGenParams), unRsaHashedKeyGenParams, noRsaHashedKeyGenParams, gTypeRsaHashedKeyGenParams
+  , RsaKeyGenParams(RsaKeyGenParams), unRsaKeyGenParams, IsRsaKeyGenParams, toRsaKeyGenParams, noRsaKeyGenParams, gTypeRsaKeyGenParams
+  , RsaOaepParams(RsaOaepParams), unRsaOaepParams, noRsaOaepParams, gTypeRsaOaepParams
+  , RsaOtherPrimesInfo(RsaOtherPrimesInfo), unRsaOtherPrimesInfo, noRsaOtherPrimesInfo, gTypeRsaOtherPrimesInfo
+  , SQLError(SQLError), unSQLError, noSQLError, gTypeSQLError
+  , SQLException(SQLException), unSQLException, noSQLException, gTypeSQLException
+  , SQLResultSet(SQLResultSet), unSQLResultSet, noSQLResultSet, gTypeSQLResultSet
+  , SQLResultSetRowList(SQLResultSetRowList), unSQLResultSetRowList, noSQLResultSetRowList, gTypeSQLResultSetRowList
+  , SQLTransaction(SQLTransaction), unSQLTransaction, noSQLTransaction, gTypeSQLTransaction
+  , SVGAElement(SVGAElement), unSVGAElement, noSVGAElement, gTypeSVGAElement
+  , SVGAltGlyphDefElement(SVGAltGlyphDefElement), unSVGAltGlyphDefElement, noSVGAltGlyphDefElement, gTypeSVGAltGlyphDefElement
+  , SVGAltGlyphElement(SVGAltGlyphElement), unSVGAltGlyphElement, noSVGAltGlyphElement, gTypeSVGAltGlyphElement
+  , SVGAltGlyphItemElement(SVGAltGlyphItemElement), unSVGAltGlyphItemElement, noSVGAltGlyphItemElement, gTypeSVGAltGlyphItemElement
+  , SVGAngle(SVGAngle), unSVGAngle, noSVGAngle, gTypeSVGAngle
+  , SVGAnimateColorElement(SVGAnimateColorElement), unSVGAnimateColorElement, noSVGAnimateColorElement, gTypeSVGAnimateColorElement
+  , SVGAnimateElement(SVGAnimateElement), unSVGAnimateElement, noSVGAnimateElement, gTypeSVGAnimateElement
+  , SVGAnimateMotionElement(SVGAnimateMotionElement), unSVGAnimateMotionElement, noSVGAnimateMotionElement, gTypeSVGAnimateMotionElement
+  , SVGAnimateTransformElement(SVGAnimateTransformElement), unSVGAnimateTransformElement, noSVGAnimateTransformElement, gTypeSVGAnimateTransformElement
+  , SVGAnimatedAngle(SVGAnimatedAngle), unSVGAnimatedAngle, noSVGAnimatedAngle, gTypeSVGAnimatedAngle
+  , SVGAnimatedBoolean(SVGAnimatedBoolean), unSVGAnimatedBoolean, noSVGAnimatedBoolean, gTypeSVGAnimatedBoolean
+  , SVGAnimatedEnumeration(SVGAnimatedEnumeration), unSVGAnimatedEnumeration, noSVGAnimatedEnumeration, gTypeSVGAnimatedEnumeration
+  , SVGAnimatedInteger(SVGAnimatedInteger), unSVGAnimatedInteger, noSVGAnimatedInteger, gTypeSVGAnimatedInteger
+  , SVGAnimatedLength(SVGAnimatedLength), unSVGAnimatedLength, noSVGAnimatedLength, gTypeSVGAnimatedLength
+  , SVGAnimatedLengthList(SVGAnimatedLengthList), unSVGAnimatedLengthList, noSVGAnimatedLengthList, gTypeSVGAnimatedLengthList
+  , SVGAnimatedNumber(SVGAnimatedNumber), unSVGAnimatedNumber, noSVGAnimatedNumber, gTypeSVGAnimatedNumber
+  , SVGAnimatedNumberList(SVGAnimatedNumberList), unSVGAnimatedNumberList, noSVGAnimatedNumberList, gTypeSVGAnimatedNumberList
+  , SVGAnimatedPreserveAspectRatio(SVGAnimatedPreserveAspectRatio), unSVGAnimatedPreserveAspectRatio, noSVGAnimatedPreserveAspectRatio, gTypeSVGAnimatedPreserveAspectRatio
+  , SVGAnimatedRect(SVGAnimatedRect), unSVGAnimatedRect, noSVGAnimatedRect, gTypeSVGAnimatedRect
+  , SVGAnimatedString(SVGAnimatedString), unSVGAnimatedString, noSVGAnimatedString, gTypeSVGAnimatedString
+  , SVGAnimatedTransformList(SVGAnimatedTransformList), unSVGAnimatedTransformList, noSVGAnimatedTransformList, gTypeSVGAnimatedTransformList
+  , SVGAnimationElement(SVGAnimationElement), unSVGAnimationElement, IsSVGAnimationElement, toSVGAnimationElement, noSVGAnimationElement, gTypeSVGAnimationElement
+  , SVGCircleElement(SVGCircleElement), unSVGCircleElement, noSVGCircleElement, gTypeSVGCircleElement
+  , SVGClipPathElement(SVGClipPathElement), unSVGClipPathElement, noSVGClipPathElement, gTypeSVGClipPathElement
+  , SVGComponentTransferFunctionElement(SVGComponentTransferFunctionElement), unSVGComponentTransferFunctionElement, IsSVGComponentTransferFunctionElement, toSVGComponentTransferFunctionElement, noSVGComponentTransferFunctionElement, gTypeSVGComponentTransferFunctionElement
+  , SVGCursorElement(SVGCursorElement), unSVGCursorElement, noSVGCursorElement, gTypeSVGCursorElement
+  , SVGDefsElement(SVGDefsElement), unSVGDefsElement, noSVGDefsElement, gTypeSVGDefsElement
+  , SVGDescElement(SVGDescElement), unSVGDescElement, noSVGDescElement, gTypeSVGDescElement
+  , SVGElement(SVGElement), unSVGElement, IsSVGElement, toSVGElement, noSVGElement, gTypeSVGElement
+  , SVGEllipseElement(SVGEllipseElement), unSVGEllipseElement, noSVGEllipseElement, gTypeSVGEllipseElement
+  , SVGException(SVGException), unSVGException, noSVGException, gTypeSVGException
+  , SVGExternalResourcesRequired(SVGExternalResourcesRequired), unSVGExternalResourcesRequired, IsSVGExternalResourcesRequired, toSVGExternalResourcesRequired, noSVGExternalResourcesRequired, gTypeSVGExternalResourcesRequired
+  , SVGFEBlendElement(SVGFEBlendElement), unSVGFEBlendElement, noSVGFEBlendElement, gTypeSVGFEBlendElement
+  , SVGFEColorMatrixElement(SVGFEColorMatrixElement), unSVGFEColorMatrixElement, noSVGFEColorMatrixElement, gTypeSVGFEColorMatrixElement
+  , SVGFEComponentTransferElement(SVGFEComponentTransferElement), unSVGFEComponentTransferElement, noSVGFEComponentTransferElement, gTypeSVGFEComponentTransferElement
+  , SVGFECompositeElement(SVGFECompositeElement), unSVGFECompositeElement, noSVGFECompositeElement, gTypeSVGFECompositeElement
+  , SVGFEConvolveMatrixElement(SVGFEConvolveMatrixElement), unSVGFEConvolveMatrixElement, noSVGFEConvolveMatrixElement, gTypeSVGFEConvolveMatrixElement
+  , SVGFEDiffuseLightingElement(SVGFEDiffuseLightingElement), unSVGFEDiffuseLightingElement, noSVGFEDiffuseLightingElement, gTypeSVGFEDiffuseLightingElement
+  , SVGFEDisplacementMapElement(SVGFEDisplacementMapElement), unSVGFEDisplacementMapElement, noSVGFEDisplacementMapElement, gTypeSVGFEDisplacementMapElement
+  , SVGFEDistantLightElement(SVGFEDistantLightElement), unSVGFEDistantLightElement, noSVGFEDistantLightElement, gTypeSVGFEDistantLightElement
+  , SVGFEDropShadowElement(SVGFEDropShadowElement), unSVGFEDropShadowElement, noSVGFEDropShadowElement, gTypeSVGFEDropShadowElement
+  , SVGFEFloodElement(SVGFEFloodElement), unSVGFEFloodElement, noSVGFEFloodElement, gTypeSVGFEFloodElement
+  , SVGFEFuncAElement(SVGFEFuncAElement), unSVGFEFuncAElement, noSVGFEFuncAElement, gTypeSVGFEFuncAElement
+  , SVGFEFuncBElement(SVGFEFuncBElement), unSVGFEFuncBElement, noSVGFEFuncBElement, gTypeSVGFEFuncBElement
+  , SVGFEFuncGElement(SVGFEFuncGElement), unSVGFEFuncGElement, noSVGFEFuncGElement, gTypeSVGFEFuncGElement
+  , SVGFEFuncRElement(SVGFEFuncRElement), unSVGFEFuncRElement, noSVGFEFuncRElement, gTypeSVGFEFuncRElement
+  , SVGFEGaussianBlurElement(SVGFEGaussianBlurElement), unSVGFEGaussianBlurElement, noSVGFEGaussianBlurElement, gTypeSVGFEGaussianBlurElement
+  , SVGFEImageElement(SVGFEImageElement), unSVGFEImageElement, noSVGFEImageElement, gTypeSVGFEImageElement
+  , SVGFEMergeElement(SVGFEMergeElement), unSVGFEMergeElement, noSVGFEMergeElement, gTypeSVGFEMergeElement
+  , SVGFEMergeNodeElement(SVGFEMergeNodeElement), unSVGFEMergeNodeElement, noSVGFEMergeNodeElement, gTypeSVGFEMergeNodeElement
+  , SVGFEMorphologyElement(SVGFEMorphologyElement), unSVGFEMorphologyElement, noSVGFEMorphologyElement, gTypeSVGFEMorphologyElement
+  , SVGFEOffsetElement(SVGFEOffsetElement), unSVGFEOffsetElement, noSVGFEOffsetElement, gTypeSVGFEOffsetElement
+  , SVGFEPointLightElement(SVGFEPointLightElement), unSVGFEPointLightElement, noSVGFEPointLightElement, gTypeSVGFEPointLightElement
+  , SVGFESpecularLightingElement(SVGFESpecularLightingElement), unSVGFESpecularLightingElement, noSVGFESpecularLightingElement, gTypeSVGFESpecularLightingElement
+  , SVGFESpotLightElement(SVGFESpotLightElement), unSVGFESpotLightElement, noSVGFESpotLightElement, gTypeSVGFESpotLightElement
+  , SVGFETileElement(SVGFETileElement), unSVGFETileElement, noSVGFETileElement, gTypeSVGFETileElement
+  , SVGFETurbulenceElement(SVGFETurbulenceElement), unSVGFETurbulenceElement, noSVGFETurbulenceElement, gTypeSVGFETurbulenceElement
+  , SVGFilterElement(SVGFilterElement), unSVGFilterElement, noSVGFilterElement, gTypeSVGFilterElement
+  , SVGFilterPrimitiveStandardAttributes(SVGFilterPrimitiveStandardAttributes), unSVGFilterPrimitiveStandardAttributes, IsSVGFilterPrimitiveStandardAttributes, toSVGFilterPrimitiveStandardAttributes, noSVGFilterPrimitiveStandardAttributes, gTypeSVGFilterPrimitiveStandardAttributes
+  , SVGFitToViewBox(SVGFitToViewBox), unSVGFitToViewBox, IsSVGFitToViewBox, toSVGFitToViewBox, noSVGFitToViewBox, gTypeSVGFitToViewBox
+  , SVGFontElement(SVGFontElement), unSVGFontElement, noSVGFontElement, gTypeSVGFontElement
+  , SVGFontFaceElement(SVGFontFaceElement), unSVGFontFaceElement, noSVGFontFaceElement, gTypeSVGFontFaceElement
+  , SVGFontFaceFormatElement(SVGFontFaceFormatElement), unSVGFontFaceFormatElement, noSVGFontFaceFormatElement, gTypeSVGFontFaceFormatElement
+  , SVGFontFaceNameElement(SVGFontFaceNameElement), unSVGFontFaceNameElement, noSVGFontFaceNameElement, gTypeSVGFontFaceNameElement
+  , SVGFontFaceSrcElement(SVGFontFaceSrcElement), unSVGFontFaceSrcElement, noSVGFontFaceSrcElement, gTypeSVGFontFaceSrcElement
+  , SVGFontFaceUriElement(SVGFontFaceUriElement), unSVGFontFaceUriElement, noSVGFontFaceUriElement, gTypeSVGFontFaceUriElement
+  , SVGForeignObjectElement(SVGForeignObjectElement), unSVGForeignObjectElement, noSVGForeignObjectElement, gTypeSVGForeignObjectElement
+  , SVGGElement(SVGGElement), unSVGGElement, noSVGGElement, gTypeSVGGElement
+  , SVGGlyphElement(SVGGlyphElement), unSVGGlyphElement, noSVGGlyphElement, gTypeSVGGlyphElement
+  , SVGGlyphRefElement(SVGGlyphRefElement), unSVGGlyphRefElement, noSVGGlyphRefElement, gTypeSVGGlyphRefElement
+  , SVGGradientElement(SVGGradientElement), unSVGGradientElement, IsSVGGradientElement, toSVGGradientElement, noSVGGradientElement, gTypeSVGGradientElement
+  , SVGGraphicsElement(SVGGraphicsElement), unSVGGraphicsElement, IsSVGGraphicsElement, toSVGGraphicsElement, noSVGGraphicsElement, gTypeSVGGraphicsElement
+  , SVGHKernElement(SVGHKernElement), unSVGHKernElement, noSVGHKernElement, gTypeSVGHKernElement
+  , SVGImageElement(SVGImageElement), unSVGImageElement, noSVGImageElement, gTypeSVGImageElement
+  , SVGLength(SVGLength), unSVGLength, noSVGLength, gTypeSVGLength
+  , SVGLengthList(SVGLengthList), unSVGLengthList, noSVGLengthList, gTypeSVGLengthList
+  , SVGLineElement(SVGLineElement), unSVGLineElement, noSVGLineElement, gTypeSVGLineElement
+  , SVGLinearGradientElement(SVGLinearGradientElement), unSVGLinearGradientElement, noSVGLinearGradientElement, gTypeSVGLinearGradientElement
+  , SVGMPathElement(SVGMPathElement), unSVGMPathElement, noSVGMPathElement, gTypeSVGMPathElement
+  , SVGMarkerElement(SVGMarkerElement), unSVGMarkerElement, noSVGMarkerElement, gTypeSVGMarkerElement
+  , SVGMaskElement(SVGMaskElement), unSVGMaskElement, noSVGMaskElement, gTypeSVGMaskElement
+  , SVGMatrix(SVGMatrix), unSVGMatrix, noSVGMatrix, gTypeSVGMatrix
+  , SVGMetadataElement(SVGMetadataElement), unSVGMetadataElement, noSVGMetadataElement, gTypeSVGMetadataElement
+  , SVGMissingGlyphElement(SVGMissingGlyphElement), unSVGMissingGlyphElement, noSVGMissingGlyphElement, gTypeSVGMissingGlyphElement
+  , SVGNumber(SVGNumber), unSVGNumber, noSVGNumber, gTypeSVGNumber
+  , SVGNumberList(SVGNumberList), unSVGNumberList, noSVGNumberList, gTypeSVGNumberList
+  , SVGPathElement(SVGPathElement), unSVGPathElement, noSVGPathElement, gTypeSVGPathElement
+  , SVGPathSeg(SVGPathSeg), unSVGPathSeg, IsSVGPathSeg, toSVGPathSeg, noSVGPathSeg, gTypeSVGPathSeg
+  , SVGPathSegArcAbs(SVGPathSegArcAbs), unSVGPathSegArcAbs, noSVGPathSegArcAbs, gTypeSVGPathSegArcAbs
+  , SVGPathSegArcRel(SVGPathSegArcRel), unSVGPathSegArcRel, noSVGPathSegArcRel, gTypeSVGPathSegArcRel
+  , SVGPathSegClosePath(SVGPathSegClosePath), unSVGPathSegClosePath, noSVGPathSegClosePath, gTypeSVGPathSegClosePath
+  , SVGPathSegCurvetoCubicAbs(SVGPathSegCurvetoCubicAbs), unSVGPathSegCurvetoCubicAbs, noSVGPathSegCurvetoCubicAbs, gTypeSVGPathSegCurvetoCubicAbs
+  , SVGPathSegCurvetoCubicRel(SVGPathSegCurvetoCubicRel), unSVGPathSegCurvetoCubicRel, noSVGPathSegCurvetoCubicRel, gTypeSVGPathSegCurvetoCubicRel
+  , SVGPathSegCurvetoCubicSmoothAbs(SVGPathSegCurvetoCubicSmoothAbs), unSVGPathSegCurvetoCubicSmoothAbs, noSVGPathSegCurvetoCubicSmoothAbs, gTypeSVGPathSegCurvetoCubicSmoothAbs
+  , SVGPathSegCurvetoCubicSmoothRel(SVGPathSegCurvetoCubicSmoothRel), unSVGPathSegCurvetoCubicSmoothRel, noSVGPathSegCurvetoCubicSmoothRel, gTypeSVGPathSegCurvetoCubicSmoothRel
+  , SVGPathSegCurvetoQuadraticAbs(SVGPathSegCurvetoQuadraticAbs), unSVGPathSegCurvetoQuadraticAbs, noSVGPathSegCurvetoQuadraticAbs, gTypeSVGPathSegCurvetoQuadraticAbs
+  , SVGPathSegCurvetoQuadraticRel(SVGPathSegCurvetoQuadraticRel), unSVGPathSegCurvetoQuadraticRel, noSVGPathSegCurvetoQuadraticRel, gTypeSVGPathSegCurvetoQuadraticRel
+  , SVGPathSegCurvetoQuadraticSmoothAbs(SVGPathSegCurvetoQuadraticSmoothAbs), unSVGPathSegCurvetoQuadraticSmoothAbs, noSVGPathSegCurvetoQuadraticSmoothAbs, gTypeSVGPathSegCurvetoQuadraticSmoothAbs
+  , SVGPathSegCurvetoQuadraticSmoothRel(SVGPathSegCurvetoQuadraticSmoothRel), unSVGPathSegCurvetoQuadraticSmoothRel, noSVGPathSegCurvetoQuadraticSmoothRel, gTypeSVGPathSegCurvetoQuadraticSmoothRel
+  , SVGPathSegLinetoAbs(SVGPathSegLinetoAbs), unSVGPathSegLinetoAbs, noSVGPathSegLinetoAbs, gTypeSVGPathSegLinetoAbs
+  , SVGPathSegLinetoHorizontalAbs(SVGPathSegLinetoHorizontalAbs), unSVGPathSegLinetoHorizontalAbs, noSVGPathSegLinetoHorizontalAbs, gTypeSVGPathSegLinetoHorizontalAbs
+  , SVGPathSegLinetoHorizontalRel(SVGPathSegLinetoHorizontalRel), unSVGPathSegLinetoHorizontalRel, noSVGPathSegLinetoHorizontalRel, gTypeSVGPathSegLinetoHorizontalRel
+  , SVGPathSegLinetoRel(SVGPathSegLinetoRel), unSVGPathSegLinetoRel, noSVGPathSegLinetoRel, gTypeSVGPathSegLinetoRel
+  , SVGPathSegLinetoVerticalAbs(SVGPathSegLinetoVerticalAbs), unSVGPathSegLinetoVerticalAbs, noSVGPathSegLinetoVerticalAbs, gTypeSVGPathSegLinetoVerticalAbs
+  , SVGPathSegLinetoVerticalRel(SVGPathSegLinetoVerticalRel), unSVGPathSegLinetoVerticalRel, noSVGPathSegLinetoVerticalRel, gTypeSVGPathSegLinetoVerticalRel
+  , SVGPathSegList(SVGPathSegList), unSVGPathSegList, noSVGPathSegList, gTypeSVGPathSegList
+  , SVGPathSegMovetoAbs(SVGPathSegMovetoAbs), unSVGPathSegMovetoAbs, noSVGPathSegMovetoAbs, gTypeSVGPathSegMovetoAbs
+  , SVGPathSegMovetoRel(SVGPathSegMovetoRel), unSVGPathSegMovetoRel, noSVGPathSegMovetoRel, gTypeSVGPathSegMovetoRel
+  , SVGPatternElement(SVGPatternElement), unSVGPatternElement, noSVGPatternElement, gTypeSVGPatternElement
+  , SVGPoint(SVGPoint), unSVGPoint, noSVGPoint, gTypeSVGPoint
+  , SVGPointList(SVGPointList), unSVGPointList, noSVGPointList, gTypeSVGPointList
+  , SVGPolygonElement(SVGPolygonElement), unSVGPolygonElement, noSVGPolygonElement, gTypeSVGPolygonElement
+  , SVGPolylineElement(SVGPolylineElement), unSVGPolylineElement, noSVGPolylineElement, gTypeSVGPolylineElement
+  , SVGPreserveAspectRatio(SVGPreserveAspectRatio), unSVGPreserveAspectRatio, noSVGPreserveAspectRatio, gTypeSVGPreserveAspectRatio
+  , SVGRadialGradientElement(SVGRadialGradientElement), unSVGRadialGradientElement, noSVGRadialGradientElement, gTypeSVGRadialGradientElement
+  , SVGRect(SVGRect), unSVGRect, noSVGRect, gTypeSVGRect
+  , SVGRectElement(SVGRectElement), unSVGRectElement, noSVGRectElement, gTypeSVGRectElement
+  , SVGRenderingIntent(SVGRenderingIntent), unSVGRenderingIntent, noSVGRenderingIntent, gTypeSVGRenderingIntent
+  , SVGSVGElement(SVGSVGElement), unSVGSVGElement, noSVGSVGElement, gTypeSVGSVGElement
+  , SVGScriptElement(SVGScriptElement), unSVGScriptElement, noSVGScriptElement, gTypeSVGScriptElement
+  , SVGSetElement(SVGSetElement), unSVGSetElement, noSVGSetElement, gTypeSVGSetElement
+  , SVGStopElement(SVGStopElement), unSVGStopElement, noSVGStopElement, gTypeSVGStopElement
+  , SVGStringList(SVGStringList), unSVGStringList, noSVGStringList, gTypeSVGStringList
+  , SVGStyleElement(SVGStyleElement), unSVGStyleElement, noSVGStyleElement, gTypeSVGStyleElement
+  , SVGSwitchElement(SVGSwitchElement), unSVGSwitchElement, noSVGSwitchElement, gTypeSVGSwitchElement
+  , SVGSymbolElement(SVGSymbolElement), unSVGSymbolElement, noSVGSymbolElement, gTypeSVGSymbolElement
+  , SVGTRefElement(SVGTRefElement), unSVGTRefElement, noSVGTRefElement, gTypeSVGTRefElement
+  , SVGTSpanElement(SVGTSpanElement), unSVGTSpanElement, noSVGTSpanElement, gTypeSVGTSpanElement
+  , SVGTests(SVGTests), unSVGTests, IsSVGTests, toSVGTests, noSVGTests, gTypeSVGTests
+  , SVGTextContentElement(SVGTextContentElement), unSVGTextContentElement, IsSVGTextContentElement, toSVGTextContentElement, noSVGTextContentElement, gTypeSVGTextContentElement
+  , SVGTextElement(SVGTextElement), unSVGTextElement, noSVGTextElement, gTypeSVGTextElement
+  , SVGTextPathElement(SVGTextPathElement), unSVGTextPathElement, noSVGTextPathElement, gTypeSVGTextPathElement
+  , SVGTextPositioningElement(SVGTextPositioningElement), unSVGTextPositioningElement, IsSVGTextPositioningElement, toSVGTextPositioningElement, noSVGTextPositioningElement, gTypeSVGTextPositioningElement
+  , SVGTitleElement(SVGTitleElement), unSVGTitleElement, noSVGTitleElement, gTypeSVGTitleElement
+  , SVGTransform(SVGTransform), unSVGTransform, noSVGTransform, gTypeSVGTransform
+  , SVGTransformList(SVGTransformList), unSVGTransformList, noSVGTransformList, gTypeSVGTransformList
+  , SVGURIReference(SVGURIReference), unSVGURIReference, IsSVGURIReference, toSVGURIReference, noSVGURIReference, gTypeSVGURIReference
+  , SVGUnitTypes(SVGUnitTypes), unSVGUnitTypes, noSVGUnitTypes, gTypeSVGUnitTypes
+  , SVGUseElement(SVGUseElement), unSVGUseElement, noSVGUseElement, gTypeSVGUseElement
+  , SVGVKernElement(SVGVKernElement), unSVGVKernElement, noSVGVKernElement, gTypeSVGVKernElement
+  , SVGViewElement(SVGViewElement), unSVGViewElement, noSVGViewElement, gTypeSVGViewElement
+  , SVGViewSpec(SVGViewSpec), unSVGViewSpec, noSVGViewSpec, gTypeSVGViewSpec
+  , SVGZoomAndPan(SVGZoomAndPan), unSVGZoomAndPan, IsSVGZoomAndPan, toSVGZoomAndPan, noSVGZoomAndPan, gTypeSVGZoomAndPan
+  , SVGZoomEvent(SVGZoomEvent), unSVGZoomEvent, noSVGZoomEvent, gTypeSVGZoomEvent
+  , Screen(Screen), unScreen, noScreen, gTypeScreen
+  , ScriptProcessorNode(ScriptProcessorNode), unScriptProcessorNode, noScriptProcessorNode, gTypeScriptProcessorNode
+  , ScrollToOptions(ScrollToOptions), unScrollToOptions, noScrollToOptions, gTypeScrollToOptions
+  , SecurityPolicyViolationEvent(SecurityPolicyViolationEvent), unSecurityPolicyViolationEvent, noSecurityPolicyViolationEvent, gTypeSecurityPolicyViolationEvent
+  , SecurityPolicyViolationEventInit(SecurityPolicyViolationEventInit), unSecurityPolicyViolationEventInit, noSecurityPolicyViolationEventInit, gTypeSecurityPolicyViolationEventInit
+  , Selection(Selection), unSelection, noSelection, gTypeSelection
+  , ShadowRoot(ShadowRoot), unShadowRoot, noShadowRoot, gTypeShadowRoot
+  , ShadowRootInit(ShadowRootInit), unShadowRootInit, noShadowRootInit, gTypeShadowRootInit
+  , SiteBoundCredential(SiteBoundCredential), unSiteBoundCredential, IsSiteBoundCredential, toSiteBoundCredential, noSiteBoundCredential, gTypeSiteBoundCredential
+  , SiteBoundCredentialData(SiteBoundCredentialData), unSiteBoundCredentialData, IsSiteBoundCredentialData, toSiteBoundCredentialData, noSiteBoundCredentialData, gTypeSiteBoundCredentialData
+  , Slotable(Slotable), unSlotable, IsSlotable, toSlotable, noSlotable, gTypeSlotable
+  , SourceBuffer(SourceBuffer), unSourceBuffer, noSourceBuffer, gTypeSourceBuffer
+  , SourceBufferList(SourceBufferList), unSourceBufferList, noSourceBufferList, gTypeSourceBufferList
+  , SpeechSynthesis(SpeechSynthesis), unSpeechSynthesis, noSpeechSynthesis, gTypeSpeechSynthesis
+  , SpeechSynthesisEvent(SpeechSynthesisEvent), unSpeechSynthesisEvent, noSpeechSynthesisEvent, gTypeSpeechSynthesisEvent
+  , SpeechSynthesisUtterance(SpeechSynthesisUtterance), unSpeechSynthesisUtterance, noSpeechSynthesisUtterance, gTypeSpeechSynthesisUtterance
+  , SpeechSynthesisVoice(SpeechSynthesisVoice), unSpeechSynthesisVoice, noSpeechSynthesisVoice, gTypeSpeechSynthesisVoice
+  , StaticRange(StaticRange), unStaticRange, noStaticRange, gTypeStaticRange
+  , Storage(Storage), unStorage, noStorage, gTypeStorage
+  , StorageEvent(StorageEvent), unStorageEvent, noStorageEvent, gTypeStorageEvent
+  , StorageEventInit(StorageEventInit), unStorageEventInit, noStorageEventInit, gTypeStorageEventInit
+  , StorageInfo(StorageInfo), unStorageInfo, noStorageInfo, gTypeStorageInfo
+  , StorageQuota(StorageQuota), unStorageQuota, noStorageQuota, gTypeStorageQuota
+  , StyleMedia(StyleMedia), unStyleMedia, noStyleMedia, gTypeStyleMedia
+  , StyleSheet(StyleSheet), unStyleSheet, IsStyleSheet, toStyleSheet, noStyleSheet, gTypeStyleSheet
+  , StyleSheetList(StyleSheetList), unStyleSheetList, noStyleSheetList, gTypeStyleSheetList
+  , SubtleCrypto(SubtleCrypto), unSubtleCrypto, noSubtleCrypto, gTypeSubtleCrypto
+  , Text(Text), unText, IsText, toText, noText, gTypeText
+  , TextDecodeOptions(TextDecodeOptions), unTextDecodeOptions, noTextDecodeOptions, gTypeTextDecodeOptions
+  , TextDecoder(TextDecoder), unTextDecoder, noTextDecoder, gTypeTextDecoder
+  , TextDecoderOptions(TextDecoderOptions), unTextDecoderOptions, noTextDecoderOptions, gTypeTextDecoderOptions
+  , TextEncoder(TextEncoder), unTextEncoder, noTextEncoder, gTypeTextEncoder
+  , TextEvent(TextEvent), unTextEvent, noTextEvent, gTypeTextEvent
+  , TextMetrics(TextMetrics), unTextMetrics, noTextMetrics, gTypeTextMetrics
+  , TextTrack(TextTrack), unTextTrack, noTextTrack, gTypeTextTrack
+  , TextTrackCue(TextTrackCue), unTextTrackCue, IsTextTrackCue, toTextTrackCue, noTextTrackCue, gTypeTextTrackCue
+  , TextTrackCueList(TextTrackCueList), unTextTrackCueList, noTextTrackCueList, gTypeTextTrackCueList
+  , TextTrackList(TextTrackList), unTextTrackList, noTextTrackList, gTypeTextTrackList
+  , TimeRanges(TimeRanges), unTimeRanges, noTimeRanges, gTypeTimeRanges
+  , Touch(Touch), unTouch, noTouch, gTypeTouch
+  , TouchEvent(TouchEvent), unTouchEvent, noTouchEvent, gTypeTouchEvent
+  , TouchEventInit(TouchEventInit), unTouchEventInit, noTouchEventInit, gTypeTouchEventInit
+  , TouchList(TouchList), unTouchList, noTouchList, gTypeTouchList
+  , TrackEvent(TrackEvent), unTrackEvent, noTrackEvent, gTypeTrackEvent
+  , TrackEventInit(TrackEventInit), unTrackEventInit, noTrackEventInit, gTypeTrackEventInit
+  , TransitionEvent(TransitionEvent), unTransitionEvent, noTransitionEvent, gTypeTransitionEvent
+  , TransitionEventInit(TransitionEventInit), unTransitionEventInit, noTransitionEventInit, gTypeTransitionEventInit
+  , TreeWalker(TreeWalker), unTreeWalker, noTreeWalker, gTypeTreeWalker
+  , UIEvent(UIEvent), unUIEvent, IsUIEvent, toUIEvent, noUIEvent, gTypeUIEvent
+  , UIEventInit(UIEventInit), unUIEventInit, IsUIEventInit, toUIEventInit, noUIEventInit, gTypeUIEventInit
+  , URL(URL), unURL, noURL, gTypeURL
+  , URLSearchParams(URLSearchParams), unURLSearchParams, noURLSearchParams, gTypeURLSearchParams
+  , UserMessageHandler(UserMessageHandler), unUserMessageHandler, noUserMessageHandler, gTypeUserMessageHandler
+  , UserMessageHandlersNamespace(UserMessageHandlersNamespace), unUserMessageHandlersNamespace, noUserMessageHandlersNamespace, gTypeUserMessageHandlersNamespace
+  , VTTCue(VTTCue), unVTTCue, noVTTCue, gTypeVTTCue
+  , VTTRegion(VTTRegion), unVTTRegion, noVTTRegion, gTypeVTTRegion
+  , VTTRegionList(VTTRegionList), unVTTRegionList, noVTTRegionList, gTypeVTTRegionList
+  , ValidityState(ValidityState), unValidityState, noValidityState, gTypeValidityState
+  , VideoPlaybackQuality(VideoPlaybackQuality), unVideoPlaybackQuality, noVideoPlaybackQuality, gTypeVideoPlaybackQuality
+  , VideoTrack(VideoTrack), unVideoTrack, noVideoTrack, gTypeVideoTrack
+  , VideoTrackList(VideoTrackList), unVideoTrackList, noVideoTrackList, gTypeVideoTrackList
+  , WaveShaperNode(WaveShaperNode), unWaveShaperNode, noWaveShaperNode, gTypeWaveShaperNode
+  , WebGL2RenderingContext(WebGL2RenderingContext), unWebGL2RenderingContext, noWebGL2RenderingContext, gTypeWebGL2RenderingContext
+  , WebGLActiveInfo(WebGLActiveInfo), unWebGLActiveInfo, noWebGLActiveInfo, gTypeWebGLActiveInfo
+  , WebGLBuffer(WebGLBuffer), unWebGLBuffer, noWebGLBuffer, gTypeWebGLBuffer
+  , WebGLCompressedTextureATC(WebGLCompressedTextureATC), unWebGLCompressedTextureATC, noWebGLCompressedTextureATC, gTypeWebGLCompressedTextureATC
+  , WebGLCompressedTexturePVRTC(WebGLCompressedTexturePVRTC), unWebGLCompressedTexturePVRTC, noWebGLCompressedTexturePVRTC, gTypeWebGLCompressedTexturePVRTC
+  , WebGLCompressedTextureS3TC(WebGLCompressedTextureS3TC), unWebGLCompressedTextureS3TC, noWebGLCompressedTextureS3TC, gTypeWebGLCompressedTextureS3TC
+  , WebGLContextAttributes(WebGLContextAttributes), unWebGLContextAttributes, noWebGLContextAttributes, gTypeWebGLContextAttributes
+  , WebGLContextEvent(WebGLContextEvent), unWebGLContextEvent, noWebGLContextEvent, gTypeWebGLContextEvent
+  , WebGLContextEventInit(WebGLContextEventInit), unWebGLContextEventInit, noWebGLContextEventInit, gTypeWebGLContextEventInit
+  , WebGLDebugRendererInfo(WebGLDebugRendererInfo), unWebGLDebugRendererInfo, noWebGLDebugRendererInfo, gTypeWebGLDebugRendererInfo
+  , WebGLDebugShaders(WebGLDebugShaders), unWebGLDebugShaders, noWebGLDebugShaders, gTypeWebGLDebugShaders
+  , WebGLDepthTexture(WebGLDepthTexture), unWebGLDepthTexture, noWebGLDepthTexture, gTypeWebGLDepthTexture
+  , WebGLDrawBuffers(WebGLDrawBuffers), unWebGLDrawBuffers, noWebGLDrawBuffers, gTypeWebGLDrawBuffers
+  , WebGLFramebuffer(WebGLFramebuffer), unWebGLFramebuffer, noWebGLFramebuffer, gTypeWebGLFramebuffer
+  , WebGLLoseContext(WebGLLoseContext), unWebGLLoseContext, noWebGLLoseContext, gTypeWebGLLoseContext
+  , WebGLProgram(WebGLProgram), unWebGLProgram, noWebGLProgram, gTypeWebGLProgram
+  , WebGLQuery(WebGLQuery), unWebGLQuery, noWebGLQuery, gTypeWebGLQuery
+  , WebGLRenderbuffer(WebGLRenderbuffer), unWebGLRenderbuffer, noWebGLRenderbuffer, gTypeWebGLRenderbuffer
+  , WebGLRenderingContext(WebGLRenderingContext), unWebGLRenderingContext, noWebGLRenderingContext, gTypeWebGLRenderingContext
+  , WebGLRenderingContextBase(WebGLRenderingContextBase), unWebGLRenderingContextBase, IsWebGLRenderingContextBase, toWebGLRenderingContextBase, noWebGLRenderingContextBase, gTypeWebGLRenderingContextBase
+  , WebGLSampler(WebGLSampler), unWebGLSampler, noWebGLSampler, gTypeWebGLSampler
+  , WebGLShader(WebGLShader), unWebGLShader, noWebGLShader, gTypeWebGLShader
+  , WebGLShaderPrecisionFormat(WebGLShaderPrecisionFormat), unWebGLShaderPrecisionFormat, noWebGLShaderPrecisionFormat, gTypeWebGLShaderPrecisionFormat
+  , WebGLSync(WebGLSync), unWebGLSync, noWebGLSync, gTypeWebGLSync
+  , WebGLTexture(WebGLTexture), unWebGLTexture, noWebGLTexture, gTypeWebGLTexture
+  , WebGLTransformFeedback(WebGLTransformFeedback), unWebGLTransformFeedback, noWebGLTransformFeedback, gTypeWebGLTransformFeedback
+  , WebGLUniformLocation(WebGLUniformLocation), unWebGLUniformLocation, noWebGLUniformLocation, gTypeWebGLUniformLocation
+  , WebGLVertexArrayObject(WebGLVertexArrayObject), unWebGLVertexArrayObject, noWebGLVertexArrayObject, gTypeWebGLVertexArrayObject
+  , WebGLVertexArrayObjectOES(WebGLVertexArrayObjectOES), unWebGLVertexArrayObjectOES, noWebGLVertexArrayObjectOES, gTypeWebGLVertexArrayObjectOES
+  , WebGPUBuffer(WebGPUBuffer), unWebGPUBuffer, noWebGPUBuffer, gTypeWebGPUBuffer
+  , WebGPUCommandBuffer(WebGPUCommandBuffer), unWebGPUCommandBuffer, noWebGPUCommandBuffer, gTypeWebGPUCommandBuffer
+  , WebGPUCommandQueue(WebGPUCommandQueue), unWebGPUCommandQueue, noWebGPUCommandQueue, gTypeWebGPUCommandQueue
+  , WebGPUComputeCommandEncoder(WebGPUComputeCommandEncoder), unWebGPUComputeCommandEncoder, noWebGPUComputeCommandEncoder, gTypeWebGPUComputeCommandEncoder
+  , WebGPUComputePipelineState(WebGPUComputePipelineState), unWebGPUComputePipelineState, noWebGPUComputePipelineState, gTypeWebGPUComputePipelineState
+  , WebGPUDepthStencilDescriptor(WebGPUDepthStencilDescriptor), unWebGPUDepthStencilDescriptor, noWebGPUDepthStencilDescriptor, gTypeWebGPUDepthStencilDescriptor
+  , WebGPUDepthStencilState(WebGPUDepthStencilState), unWebGPUDepthStencilState, noWebGPUDepthStencilState, gTypeWebGPUDepthStencilState
+  , WebGPUDrawable(WebGPUDrawable), unWebGPUDrawable, noWebGPUDrawable, gTypeWebGPUDrawable
+  , WebGPUFunction(WebGPUFunction), unWebGPUFunction, noWebGPUFunction, gTypeWebGPUFunction
+  , WebGPULibrary(WebGPULibrary), unWebGPULibrary, noWebGPULibrary, gTypeWebGPULibrary
+  , WebGPURenderCommandEncoder(WebGPURenderCommandEncoder), unWebGPURenderCommandEncoder, noWebGPURenderCommandEncoder, gTypeWebGPURenderCommandEncoder
+  , WebGPURenderPassAttachmentDescriptor(WebGPURenderPassAttachmentDescriptor), unWebGPURenderPassAttachmentDescriptor, IsWebGPURenderPassAttachmentDescriptor, toWebGPURenderPassAttachmentDescriptor, noWebGPURenderPassAttachmentDescriptor, gTypeWebGPURenderPassAttachmentDescriptor
+  , WebGPURenderPassColorAttachmentDescriptor(WebGPURenderPassColorAttachmentDescriptor), unWebGPURenderPassColorAttachmentDescriptor, noWebGPURenderPassColorAttachmentDescriptor, gTypeWebGPURenderPassColorAttachmentDescriptor
+  , WebGPURenderPassDepthAttachmentDescriptor(WebGPURenderPassDepthAttachmentDescriptor), unWebGPURenderPassDepthAttachmentDescriptor, noWebGPURenderPassDepthAttachmentDescriptor, gTypeWebGPURenderPassDepthAttachmentDescriptor
+  , WebGPURenderPassDescriptor(WebGPURenderPassDescriptor), unWebGPURenderPassDescriptor, noWebGPURenderPassDescriptor, gTypeWebGPURenderPassDescriptor
+  , WebGPURenderPipelineColorAttachmentDescriptor(WebGPURenderPipelineColorAttachmentDescriptor), unWebGPURenderPipelineColorAttachmentDescriptor, noWebGPURenderPipelineColorAttachmentDescriptor, gTypeWebGPURenderPipelineColorAttachmentDescriptor
+  , WebGPURenderPipelineDescriptor(WebGPURenderPipelineDescriptor), unWebGPURenderPipelineDescriptor, noWebGPURenderPipelineDescriptor, gTypeWebGPURenderPipelineDescriptor
+  , WebGPURenderPipelineState(WebGPURenderPipelineState), unWebGPURenderPipelineState, noWebGPURenderPipelineState, gTypeWebGPURenderPipelineState
+  , WebGPURenderingContext(WebGPURenderingContext), unWebGPURenderingContext, noWebGPURenderingContext, gTypeWebGPURenderingContext
+  , WebGPUSize(WebGPUSize), unWebGPUSize, noWebGPUSize, gTypeWebGPUSize
+  , WebGPUTexture(WebGPUTexture), unWebGPUTexture, noWebGPUTexture, gTypeWebGPUTexture
+  , WebGPUTextureDescriptor(WebGPUTextureDescriptor), unWebGPUTextureDescriptor, noWebGPUTextureDescriptor, gTypeWebGPUTextureDescriptor
+  , WebKitAnimationEvent(WebKitAnimationEvent), unWebKitAnimationEvent, noWebKitAnimationEvent, gTypeWebKitAnimationEvent
+  , WebKitAnimationEventInit(WebKitAnimationEventInit), unWebKitAnimationEventInit, noWebKitAnimationEventInit, gTypeWebKitAnimationEventInit
+  , WebKitCSSMatrix(WebKitCSSMatrix), unWebKitCSSMatrix, noWebKitCSSMatrix, gTypeWebKitCSSMatrix
+  , WebKitCSSRegionRule(WebKitCSSRegionRule), unWebKitCSSRegionRule, noWebKitCSSRegionRule, gTypeWebKitCSSRegionRule
+  , WebKitCSSViewportRule(WebKitCSSViewportRule), unWebKitCSSViewportRule, noWebKitCSSViewportRule, gTypeWebKitCSSViewportRule
+  , WebKitMediaKeyError(WebKitMediaKeyError), unWebKitMediaKeyError, noWebKitMediaKeyError, gTypeWebKitMediaKeyError
+  , WebKitMediaKeyMessageEvent(WebKitMediaKeyMessageEvent), unWebKitMediaKeyMessageEvent, noWebKitMediaKeyMessageEvent, gTypeWebKitMediaKeyMessageEvent
+  , WebKitMediaKeyMessageEventInit(WebKitMediaKeyMessageEventInit), unWebKitMediaKeyMessageEventInit, noWebKitMediaKeyMessageEventInit, gTypeWebKitMediaKeyMessageEventInit
+  , WebKitMediaKeyNeededEvent(WebKitMediaKeyNeededEvent), unWebKitMediaKeyNeededEvent, noWebKitMediaKeyNeededEvent, gTypeWebKitMediaKeyNeededEvent
+  , WebKitMediaKeyNeededEventInit(WebKitMediaKeyNeededEventInit), unWebKitMediaKeyNeededEventInit, noWebKitMediaKeyNeededEventInit, gTypeWebKitMediaKeyNeededEventInit
+  , WebKitMediaKeySession(WebKitMediaKeySession), unWebKitMediaKeySession, noWebKitMediaKeySession, gTypeWebKitMediaKeySession
+  , WebKitMediaKeys(WebKitMediaKeys), unWebKitMediaKeys, noWebKitMediaKeys, gTypeWebKitMediaKeys
+  , WebKitNamedFlow(WebKitNamedFlow), unWebKitNamedFlow, noWebKitNamedFlow, gTypeWebKitNamedFlow
+  , WebKitNamespace(WebKitNamespace), unWebKitNamespace, noWebKitNamespace, gTypeWebKitNamespace
+  , WebKitPlaybackTargetAvailabilityEvent(WebKitPlaybackTargetAvailabilityEvent), unWebKitPlaybackTargetAvailabilityEvent, noWebKitPlaybackTargetAvailabilityEvent, gTypeWebKitPlaybackTargetAvailabilityEvent
+  , WebKitPlaybackTargetAvailabilityEventInit(WebKitPlaybackTargetAvailabilityEventInit), unWebKitPlaybackTargetAvailabilityEventInit, noWebKitPlaybackTargetAvailabilityEventInit, gTypeWebKitPlaybackTargetAvailabilityEventInit
+  , WebKitPoint(WebKitPoint), unWebKitPoint, noWebKitPoint, gTypeWebKitPoint
+  , WebKitSubtleCrypto(WebKitSubtleCrypto), unWebKitSubtleCrypto, noWebKitSubtleCrypto, gTypeWebKitSubtleCrypto
+  , WebKitTransitionEvent(WebKitTransitionEvent), unWebKitTransitionEvent, noWebKitTransitionEvent, gTypeWebKitTransitionEvent
+  , WebKitTransitionEventInit(WebKitTransitionEventInit), unWebKitTransitionEventInit, noWebKitTransitionEventInit, gTypeWebKitTransitionEventInit
+  , WebSocket(WebSocket), unWebSocket, noWebSocket, gTypeWebSocket
+  , WheelEvent(WheelEvent), unWheelEvent, noWheelEvent, gTypeWheelEvent
+  , WheelEventInit(WheelEventInit), unWheelEventInit, noWheelEventInit, gTypeWheelEventInit
+  , Window(Window), unWindow, noWindow, gTypeWindow
+  , WindowEventHandlers(WindowEventHandlers), unWindowEventHandlers, IsWindowEventHandlers, toWindowEventHandlers, noWindowEventHandlers, gTypeWindowEventHandlers
+  , WindowOrWorkerGlobalScope(WindowOrWorkerGlobalScope), unWindowOrWorkerGlobalScope, IsWindowOrWorkerGlobalScope, toWindowOrWorkerGlobalScope, noWindowOrWorkerGlobalScope, gTypeWindowOrWorkerGlobalScope
+  , Worker(Worker), unWorker, noWorker, gTypeWorker
+  , WorkerGlobalScope(WorkerGlobalScope), unWorkerGlobalScope, IsWorkerGlobalScope, toWorkerGlobalScope, noWorkerGlobalScope, gTypeWorkerGlobalScope
+  , WorkerLocation(WorkerLocation), unWorkerLocation, noWorkerLocation, gTypeWorkerLocation
+  , WorkerNavigator(WorkerNavigator), unWorkerNavigator, noWorkerNavigator, gTypeWorkerNavigator
+  , WritableStream(WritableStream), unWritableStream, noWritableStream, gTypeWritableStream
+  , XMLDocument(XMLDocument), unXMLDocument, noXMLDocument, gTypeXMLDocument
+  , XMLHttpRequest(XMLHttpRequest), unXMLHttpRequest, noXMLHttpRequest, gTypeXMLHttpRequest
+  , XMLHttpRequestEventTarget(XMLHttpRequestEventTarget), unXMLHttpRequestEventTarget, IsXMLHttpRequestEventTarget, toXMLHttpRequestEventTarget, noXMLHttpRequestEventTarget, gTypeXMLHttpRequestEventTarget
+  , XMLHttpRequestProgressEvent(XMLHttpRequestProgressEvent), unXMLHttpRequestProgressEvent, noXMLHttpRequestProgressEvent, gTypeXMLHttpRequestProgressEvent
+  , XMLHttpRequestUpload(XMLHttpRequestUpload), unXMLHttpRequestUpload, noXMLHttpRequestUpload, gTypeXMLHttpRequestUpload
+  , XMLSerializer(XMLSerializer), unXMLSerializer, noXMLSerializer, gTypeXMLSerializer
+  , XPathEvaluator(XPathEvaluator), unXPathEvaluator, noXPathEvaluator, gTypeXPathEvaluator
+  , XPathException(XPathException), unXPathException, noXPathException, gTypeXPathException
+  , XPathExpression(XPathExpression), unXPathExpression, noXPathExpression, gTypeXPathExpression
+  , XPathNSResolver(XPathNSResolver), unXPathNSResolver, noXPathNSResolver, gTypeXPathNSResolver
+  , XPathResult(XPathResult), unXPathResult, noXPathResult, gTypeXPathResult
+  , XSLTProcessor(XSLTProcessor), unXSLTProcessor, noXSLTProcessor, gTypeXSLTProcessor
 -- AUTO GENERATION ENDS HERE
   ) where
 
@@ -1046,6 +1050,9 @@ isA :: IsGObject o => o -> GType -> JSM Bool
 isA obj = typeInstanceIsA (unGObject $ toGObject obj)
 
 newtype GObject = GObject { unGObject :: JSVal }
+noGObject :: Maybe GObject
+noGObject = Nothing
+{-# INLINE noGObject #-}
 
 class (ToJSVal o, FromJSVal o, Coercible o JSVal) => IsGObject o where
   -- | Given object get the GType of the type.  The actual argument
@@ -1127,9 +1134,21 @@ objectToString self = fromJSValUnchecked (unGObject $ toGObject self)
 --   want to take a string from the DOM then
 --   give it back as is.
 type DOMString = JSString
+noDOMString :: Maybe DOMString
+noDOMString = Nothing
+{-# INLINE noDOMString #-}
 type CSSOMString = JSString
+noCSSOMString :: Maybe CSSOMString
+noCSSOMString = Nothing
+{-# INLINE noCSSOMString #-}
 type USVString = JSString
+noUSVString :: Maybe USVString
+noUSVString = Nothing
+{-# INLINE noUSVString #-}
 type ByteString = JSString
+noByteString :: Maybe ByteString
+noByteString = Nothing
+{-# INLINE noByteString #-}
 
 fromJSStringArray :: FromJSString s => JSVal -> JSM [s]
 fromJSStringArray a = do
@@ -1154,6 +1173,10 @@ integralFromDoubleFromJSVal = fmap (fmap round) . (fromJSVal :: JSVal -> JSM (Ma
 integralFromDoubleFromJSValUnchecked :: Integral a => JSVal -> JSM a
 integralFromDoubleFromJSValUnchecked = fmap round . (fromJSValUnchecked :: JSVal -> JSM Double)
 
+noJSString :: Maybe JSString
+noJSString = Nothing
+{-# INLINE noJSString #-}
+
 type ToDOMString s = ToJSString s
 type FromDOMString s = FromJSString s
 type IsDOMString s = (ToDOMString s, FromDOMString s)
@@ -1162,6 +1185,9 @@ type IsUSVString s = (ToDOMString s, FromDOMString s)
 type IsByteString s = (ToDOMString s, FromDOMString s)
 
 newtype RawTypedArray = RawTypedArray { unRawTypedArray :: JSVal }
+noRawTypedArray :: Maybe RawTypedArray
+noRawTypedArray = Nothing
+{-# INLINE noRawTypedArray #-}
 
 instance PToJSVal RawTypedArray where
   pToJSVal = unRawTypedArray
@@ -1187,6 +1213,9 @@ toRawTypedArray :: IsRawTypedArray o => o -> RawTypedArray
 toRawTypedArray = RawTypedArray . coerce
 
 newtype Function = Function { unFunction :: JSVal }
+noFunction :: Maybe Function
+noFunction = Nothing
+{-# INLINE noFunction #-}
 
 instance PToJSVal Function where
   pToJSVal = unFunction
@@ -1215,6 +1244,9 @@ instance IsFunction Function
 
 -- Promise
 newtype PromiseRejected = PromiseRejected { rejectionReason :: JSVal } deriving (Typeable)
+noPromiseRejected :: Maybe PromiseRejected
+noPromiseRejected = Nothing
+{-# INLINE noPromiseRejected #-}
 
 instance Show PromiseRejected where
     show _ = "A promise was rejected"
@@ -1246,61 +1278,139 @@ withCallback aquire f = do
         (\t -> runJSM (f t) jsCtx)
 
 newtype AudioBufferCallback = AudioBufferCallback (Callback (JSVal -> IO ()))
+noAudioBufferCallback :: Maybe AudioBufferCallback
+noAudioBufferCallback = Nothing
+{-# INLINE noAudioBufferCallback #-}
 instance ToJSVal AudioBufferCallback where toJSVal (AudioBufferCallback (Callback r)) = toJSVal r
 newtype BlobCallback = BlobCallback (Callback (JSVal -> IO ()))
+noBlobCallback :: Maybe BlobCallback
+noBlobCallback = Nothing
+{-# INLINE noBlobCallback #-}
 instance ToJSVal BlobCallback where toJSVal (BlobCallback (Callback r)) = toJSVal r
 newtype DatabaseCallback = DatabaseCallback (Callback (JSVal -> IO ()))
+noDatabaseCallback :: Maybe DatabaseCallback
+noDatabaseCallback = Nothing
+{-# INLINE noDatabaseCallback #-}
 instance ToJSVal DatabaseCallback where toJSVal (DatabaseCallback (Callback r)) = toJSVal r
 newtype IntersectionObserverCallback = IntersectionObserverCallback (Callback (JSVal -> JSVal -> IO ()))
+noIntersectionObserverCallback :: Maybe IntersectionObserverCallback
+noIntersectionObserverCallback = Nothing
+{-# INLINE noIntersectionObserverCallback #-}
 instance ToJSVal IntersectionObserverCallback where toJSVal (IntersectionObserverCallback (Callback r)) = toJSVal r
 newtype MediaQueryListListener = MediaQueryListListener (Callback (JSVal -> IO ()))
+noMediaQueryListListener :: Maybe MediaQueryListListener
+noMediaQueryListListener = Nothing
+{-# INLINE noMediaQueryListListener #-}
 instance ToJSVal MediaQueryListListener where toJSVal (MediaQueryListListener (Callback r)) = toJSVal r
 newtype MediaStreamTrackSourcesCallback = MediaStreamTrackSourcesCallback (Callback (JSVal -> IO ()))
+noMediaStreamTrackSourcesCallback :: Maybe MediaStreamTrackSourcesCallback
+noMediaStreamTrackSourcesCallback = Nothing
+{-# INLINE noMediaStreamTrackSourcesCallback #-}
 instance ToJSVal MediaStreamTrackSourcesCallback where toJSVal (MediaStreamTrackSourcesCallback (Callback r)) = toJSVal r
 newtype NavigatorUserMediaErrorCallback = NavigatorUserMediaErrorCallback (Callback (JSVal -> IO ()))
+noNavigatorUserMediaErrorCallback :: Maybe NavigatorUserMediaErrorCallback
+noNavigatorUserMediaErrorCallback = Nothing
+{-# INLINE noNavigatorUserMediaErrorCallback #-}
 instance ToJSVal NavigatorUserMediaErrorCallback where toJSVal (NavigatorUserMediaErrorCallback (Callback r)) = toJSVal r
 newtype NavigatorUserMediaSuccessCallback = NavigatorUserMediaSuccessCallback (Callback (JSVal -> IO ()))
+noNavigatorUserMediaSuccessCallback :: Maybe NavigatorUserMediaSuccessCallback
+noNavigatorUserMediaSuccessCallback = Nothing
+{-# INLINE noNavigatorUserMediaSuccessCallback #-}
 instance ToJSVal NavigatorUserMediaSuccessCallback where toJSVal (NavigatorUserMediaSuccessCallback (Callback r)) = toJSVal r
 newtype NotificationPermissionCallback permissions = NotificationPermissionCallback (Callback (JSVal -> IO ()))
 instance ToJSVal (NotificationPermissionCallback permissions) where toJSVal (NotificationPermissionCallback (Callback r)) = toJSVal r
 newtype NodeFilter = NodeFilter (Callback (JSVal -> IO ()))
+noNodeFilter :: Maybe NodeFilter
+noNodeFilter = Nothing
+{-# INLINE noNodeFilter #-}
 instance ToJSVal NodeFilter where toJSVal (NodeFilter (Callback r)) = toJSVal r
 newtype PositionCallback = PositionCallback (Callback (JSVal -> IO ()))
+noPositionCallback :: Maybe PositionCallback
+noPositionCallback = Nothing
+{-# INLINE noPositionCallback #-}
 instance ToJSVal PositionCallback where toJSVal (PositionCallback (Callback r)) = toJSVal r
 newtype PositionErrorCallback = PositionErrorCallback (Callback (JSVal -> IO ()))
+noPositionErrorCallback :: Maybe PositionErrorCallback
+noPositionErrorCallback = Nothing
+{-# INLINE noPositionErrorCallback #-}
 instance ToJSVal PositionErrorCallback where toJSVal (PositionErrorCallback (Callback r)) = toJSVal r
 newtype PerformanceObserverCallback = PerformanceObserverCallback (Callback (JSVal -> JSVal -> IO ()))
+noPerformanceObserverCallback :: Maybe PerformanceObserverCallback
+noPerformanceObserverCallback = Nothing
+{-# INLINE noPerformanceObserverCallback #-}
 instance ToJSVal PerformanceObserverCallback where toJSVal (PerformanceObserverCallback (Callback r)) = toJSVal r
 newtype RequestAnimationFrameCallback = RequestAnimationFrameCallback (Callback (JSVal -> IO ()))
+noRequestAnimationFrameCallback :: Maybe RequestAnimationFrameCallback
+noRequestAnimationFrameCallback = Nothing
+{-# INLINE noRequestAnimationFrameCallback #-}
 instance ToJSVal RequestAnimationFrameCallback where toJSVal (RequestAnimationFrameCallback (Callback r)) = toJSVal r
 newtype RTCPeerConnectionErrorCallback = RTCPeerConnectionErrorCallback (Callback (JSVal -> IO ()))
+noRTCPeerConnectionErrorCallback :: Maybe RTCPeerConnectionErrorCallback
+noRTCPeerConnectionErrorCallback = Nothing
+{-# INLINE noRTCPeerConnectionErrorCallback #-}
 instance ToJSVal RTCPeerConnectionErrorCallback where toJSVal (RTCPeerConnectionErrorCallback (Callback r)) = toJSVal r
 newtype RTCSessionDescriptionCallback = RTCSessionDescriptionCallback (Callback (JSVal -> IO ()))
+noRTCSessionDescriptionCallback :: Maybe RTCSessionDescriptionCallback
+noRTCSessionDescriptionCallback = Nothing
+{-# INLINE noRTCSessionDescriptionCallback #-}
 instance ToJSVal RTCSessionDescriptionCallback where toJSVal (RTCSessionDescriptionCallback (Callback r)) = toJSVal r
 newtype RTCStatsCallback = RTCStatsCallback (Callback (JSVal -> IO ()))
+noRTCStatsCallback :: Maybe RTCStatsCallback
+noRTCStatsCallback = Nothing
+{-# INLINE noRTCStatsCallback #-}
 instance ToJSVal RTCStatsCallback where toJSVal (RTCStatsCallback (Callback r)) = toJSVal r
 newtype SQLStatementCallback = SQLStatementCallback (Callback (JSVal -> JSVal -> IO ()))
+noSQLStatementCallback :: Maybe SQLStatementCallback
+noSQLStatementCallback = Nothing
+{-# INLINE noSQLStatementCallback #-}
 instance ToJSVal SQLStatementCallback where toJSVal (SQLStatementCallback (Callback r)) = toJSVal r
 newtype SQLStatementErrorCallback = SQLStatementErrorCallback (Callback (JSVal -> JSVal -> IO ()))
+noSQLStatementErrorCallback :: Maybe SQLStatementErrorCallback
+noSQLStatementErrorCallback = Nothing
+{-# INLINE noSQLStatementErrorCallback #-}
 instance ToJSVal SQLStatementErrorCallback where toJSVal (SQLStatementErrorCallback (Callback r)) = toJSVal r
 newtype SQLTransactionCallback = SQLTransactionCallback (Callback (JSVal -> IO ()))
+noSQLTransactionCallback :: Maybe SQLTransactionCallback
+noSQLTransactionCallback = Nothing
+{-# INLINE noSQLTransactionCallback #-}
 instance ToJSVal SQLTransactionCallback where toJSVal (SQLTransactionCallback (Callback r)) = toJSVal r
 newtype SQLTransactionErrorCallback = SQLTransactionErrorCallback (Callback (JSVal -> IO ()))
+noSQLTransactionErrorCallback :: Maybe SQLTransactionErrorCallback
+noSQLTransactionErrorCallback = Nothing
+{-# INLINE noSQLTransactionErrorCallback #-}
 instance ToJSVal SQLTransactionErrorCallback where toJSVal (SQLTransactionErrorCallback (Callback r)) = toJSVal r
 newtype StorageErrorCallback = StorageErrorCallback (Callback (JSVal -> IO ()))
+noStorageErrorCallback :: Maybe StorageErrorCallback
+noStorageErrorCallback = Nothing
+{-# INLINE noStorageErrorCallback #-}
 instance ToJSVal StorageErrorCallback where toJSVal (StorageErrorCallback (Callback r)) = toJSVal r
 newtype StorageQuotaCallback = StorageQuotaCallback (Callback (JSVal -> IO ()))
+noStorageQuotaCallback :: Maybe StorageQuotaCallback
+noStorageQuotaCallback = Nothing
+{-# INLINE noStorageQuotaCallback #-}
 instance ToJSVal StorageQuotaCallback where toJSVal (StorageQuotaCallback (Callback r)) = toJSVal r
 newtype StorageUsageCallback = StorageUsageCallback (Callback (JSVal -> JSVal -> IO ()))
+noStorageUsageCallback :: Maybe StorageUsageCallback
+noStorageUsageCallback = Nothing
+{-# INLINE noStorageUsageCallback #-}
 instance ToJSVal StorageUsageCallback where toJSVal (StorageUsageCallback (Callback r)) = toJSVal r
 newtype StringCallback s = StringCallback (Callback (JSVal -> IO ()))
 instance ToJSVal (StringCallback s) where toJSVal (StringCallback (Callback r)) = toJSVal r
 newtype VoidCallback = VoidCallback (Callback (IO ()))
+noVoidCallback :: Maybe VoidCallback
+noVoidCallback = Nothing
+{-# INLINE noVoidCallback #-}
 instance ToJSVal VoidCallback where toJSVal (VoidCallback (Callback r)) = toJSVal r
 
 -- Custom types
 type DOMHighResTimeStamp = Double
+noDOMHighResTimeStamp :: Maybe DOMHighResTimeStamp
+noDOMHighResTimeStamp = Nothing
+{-# INLINE noDOMHighResTimeStamp #-}
 type PerformanceEntryList = [PerformanceEntry]
+noPerformanceEntryList :: Maybe PerformanceEntryList
+noPerformanceEntryList = Nothing
+{-# INLINE noPerformanceEntryList #-}
 
 -- Record Type
 newtype Record key value = Record { unRecord :: JSVal }
@@ -1324,6 +1434,9 @@ instance FromJSVal (Record key value) where
   {-# INLINE fromJSValUnchecked #-}
 
 newtype SerializedScriptValue = SerializedScriptValue { unSerializedScriptValue :: JSVal }
+noSerializedScriptValue :: Maybe SerializedScriptValue
+noSerializedScriptValue = Nothing
+{-# INLINE noSerializedScriptValue #-}
 
 instance PToJSVal SerializedScriptValue where
   pToJSVal = unSerializedScriptValue
@@ -1352,6 +1465,9 @@ instance IsGObject SerializedScriptValue where
   typeGType _ = error "Unable to get the JavaScript type of SerializedScriptValue"
 
 newtype Dictionary = Dictionary { unDictionary :: JSVal }
+noDictionary :: Maybe Dictionary
+noDictionary = Nothing
+{-# INLINE noDictionary #-}
 
 instance PToJSVal Dictionary where
   pToJSVal = unDictionary
@@ -1380,6 +1496,9 @@ instance IsGObject Dictionary where
   typeGType _ = error "Unable to get the JavaScript type of Dictionary"
 
 newtype MutationCallback = MutationCallback { unMutationCallback :: JSVal }
+noMutationCallback :: Maybe MutationCallback
+noMutationCallback = Nothing
+{-# INLINE noMutationCallback #-}
 
 instance PToJSVal MutationCallback where
   pToJSVal = unMutationCallback
@@ -1408,6 +1527,9 @@ instance IsGObject MutationCallback where
   typeGType _ = error "Unable to get the JavaScript type of MutationCallback"
 
 newtype ArrayBuffer = ArrayBuffer { unArrayBuffer :: JSVal }
+noArrayBuffer :: Maybe ArrayBuffer
+noArrayBuffer = Nothing
+{-# INLINE noArrayBuffer #-}
 
 instance PToJSVal ArrayBuffer where
   pToJSVal = unArrayBuffer
@@ -1439,6 +1561,9 @@ gTypeArrayBuffer :: JSM GType
 gTypeArrayBuffer = GType . Object <$> jsg "ArrayBuffer"
 
 newtype Float32Array = Float32Array { unFloat32Array :: JSVal }
+noFloat32Array :: Maybe Float32Array
+noFloat32Array = Nothing
+{-# INLINE noFloat32Array #-}
 
 instance PToJSVal Float32Array where
   pToJSVal = unFloat32Array
@@ -1470,6 +1595,9 @@ gTypeFloat32Array :: JSM GType
 gTypeFloat32Array = GType . Object <$> jsg "Float32Array"
 
 newtype Float64Array = Float64Array { unFloat64Array :: JSVal }
+noFloat64Array :: Maybe Float64Array
+noFloat64Array = Nothing
+{-# INLINE noFloat64Array #-}
 
 instance PToJSVal Float64Array where
   pToJSVal = unFloat64Array
@@ -1501,6 +1629,9 @@ gTypeFloat64Array :: JSM GType
 gTypeFloat64Array = GType . Object <$> jsg "Float64Array"
 
 newtype Uint8Array = Uint8Array { unUint8Array :: JSVal }
+noUint8Array :: Maybe Uint8Array
+noUint8Array = Nothing
+{-# INLINE noUint8Array #-}
 
 instance PToJSVal Uint8Array where
   pToJSVal = unUint8Array
@@ -1532,6 +1663,9 @@ gTypeUint8Array :: JSM GType
 gTypeUint8Array = GType . Object <$> jsg "Uint8Array"
 
 newtype Uint8ClampedArray = Uint8ClampedArray { unUint8ClampedArray :: JSVal }
+noUint8ClampedArray :: Maybe Uint8ClampedArray
+noUint8ClampedArray = Nothing
+{-# INLINE noUint8ClampedArray #-}
 
 instance PToJSVal Uint8ClampedArray where
   pToJSVal = unUint8ClampedArray
@@ -1563,6 +1697,9 @@ gTypeUint8ClampedArray :: JSM GType
 gTypeUint8ClampedArray = GType . Object <$> jsg "Uint8ClampedArray"
 
 newtype Uint16Array = Uint16Array { unUint16Array :: JSVal }
+noUint16Array :: Maybe Uint16Array
+noUint16Array = Nothing
+{-# INLINE noUint16Array #-}
 
 instance PToJSVal Uint16Array where
   pToJSVal = unUint16Array
@@ -1594,6 +1731,9 @@ gTypeUint16Array :: JSM GType
 gTypeUint16Array = GType . Object <$> jsg "Uint16Array"
 
 newtype Uint32Array = Uint32Array { unUint32Array :: JSVal }
+noUint32Array :: Maybe Uint32Array
+noUint32Array = Nothing
+{-# INLINE noUint32Array #-}
 
 instance PToJSVal Uint32Array where
   pToJSVal = unUint32Array
@@ -1625,6 +1765,9 @@ gTypeUint32Array :: JSM GType
 gTypeUint32Array = GType . Object <$> jsg "Uint32Array"
 
 newtype Int8Array = Int8Array { unInt8Array :: JSVal }
+noInt8Array :: Maybe Int8Array
+noInt8Array = Nothing
+{-# INLINE noInt8Array #-}
 
 instance PToJSVal Int8Array where
   pToJSVal = unInt8Array
@@ -1656,6 +1799,9 @@ gTypeInt8Array :: JSM GType
 gTypeInt8Array = GType . Object <$> jsg "Int8Array"
 
 newtype Int16Array = Int16Array { unInt16Array :: JSVal }
+noInt16Array :: Maybe Int16Array
+noInt16Array = Nothing
+{-# INLINE noInt16Array #-}
 
 instance PToJSVal Int16Array where
   pToJSVal = unInt16Array
@@ -1687,6 +1833,9 @@ gTypeInt16Array :: JSM GType
 gTypeInt16Array = GType . Object <$> jsg "Int16Array"
 
 newtype Int32Array = Int32Array { unInt32Array :: JSVal }
+noInt32Array :: Maybe Int32Array
+noInt32Array = Nothing
+{-# INLINE noInt32Array #-}
 
 instance PToJSVal Int32Array where
   pToJSVal = unInt32Array
@@ -1718,6 +1867,9 @@ gTypeInt32Array :: JSM GType
 gTypeInt32Array = GType . Object <$> jsg "Int32Array"
 
 newtype ObjectArray = ObjectArray { unObjectArray :: JSVal }
+noObjectArray :: Maybe ObjectArray
+noObjectArray = Nothing
+{-# INLINE noObjectArray #-}
 
 instance PToJSVal ObjectArray where
   pToJSVal = unObjectArray
@@ -1746,6 +1898,9 @@ instance IsGObject ObjectArray where
   typeGType _ = error "Unable to get the JavaScript type of ObjectArray"
 
 newtype ArrayBufferView = ArrayBufferView { unArrayBufferView :: JSVal }
+noArrayBufferView :: Maybe ArrayBufferView
+noArrayBufferView = Nothing
+{-# INLINE noArrayBufferView #-}
 
 instance PToJSVal ArrayBufferView where
   pToJSVal = unArrayBufferView
@@ -1774,6 +1929,9 @@ instance IsGObject ArrayBufferView where
   typeGType _ = error "Unable to get the JavaScript type of ArrayBufferView"
 
 newtype Array = Array { unArray :: JSVal }
+noArray :: Maybe Array
+noArray = Nothing
+{-# INLINE noArray #-}
 
 instance PToJSVal Array where
   pToJSVal = unArray
@@ -1805,6 +1963,9 @@ gTypeArray :: JSM GType
 gTypeArray = GType . Object <$> jsg "Array"
 
 newtype Date = Date { unDate :: JSVal }
+noDate :: Maybe Date
+noDate = Nothing
+{-# INLINE noDate #-}
 
 instance PToJSVal Date where
   pToJSVal = unDate
@@ -1836,6 +1997,9 @@ gTypeDate :: JSM GType
 gTypeDate = GType . Object <$> jsg "Date"
 
 newtype Algorithm = Algorithm { unAlgorithm :: JSVal }
+noAlgorithm :: Maybe Algorithm
+noAlgorithm = Nothing
+{-# INLINE noAlgorithm #-}
 
 instance PToJSVal Algorithm where
   pToJSVal = unAlgorithm
@@ -1864,6 +2028,9 @@ instance IsGObject Algorithm where
   typeGType _ = error "Unable to get the JavaScript type of Algorithm"
 
 newtype CryptoOperationData = CryptoOperationData { unCryptoOperationData :: JSVal }
+noCryptoOperationData :: Maybe CryptoOperationData
+noCryptoOperationData = Nothing
+{-# INLINE noCryptoOperationData #-}
 
 instance PToJSVal CryptoOperationData where
   pToJSVal = unCryptoOperationData
@@ -1894,21 +2061,69 @@ instance IsCryptoOperationData ArrayBuffer
 instance IsCryptoOperationData ArrayBufferView
 
 type GLenum = Word32
+noGLenum :: Maybe GLenum
+noGLenum = Nothing
+{-# INLINE noGLenum #-}
 type GLboolean = Bool
+noGLboolean :: Maybe GLboolean
+noGLboolean = Nothing
+{-# INLINE noGLboolean #-}
 type GLbitfield = Word32
+noGLbitfield :: Maybe GLbitfield
+noGLbitfield = Nothing
+{-# INLINE noGLbitfield #-}
 type GLbyte = Int8
+noGLbyte :: Maybe GLbyte
+noGLbyte = Nothing
+{-# INLINE noGLbyte #-}
 type GLshort = Int16
+noGLshort :: Maybe GLshort
+noGLshort = Nothing
+{-# INLINE noGLshort #-}
 type GLint = Int32
+noGLint :: Maybe GLint
+noGLint = Nothing
+{-# INLINE noGLint #-}
 type GLint64 = Int64
+noGLint64 :: Maybe GLint64
+noGLint64 = Nothing
+{-# INLINE noGLint64 #-}
 type GLsizei = Int32
+noGLsizei :: Maybe GLsizei
+noGLsizei = Nothing
+{-# INLINE noGLsizei #-}
 type GLintptr = Int64
+noGLintptr :: Maybe GLintptr
+noGLintptr = Nothing
+{-# INLINE noGLintptr #-}
 type GLsizeiptr = Int64
+noGLsizeiptr :: Maybe GLsizeiptr
+noGLsizeiptr = Nothing
+{-# INLINE noGLsizeiptr #-}
 type GLubyte = Word8
+noGLubyte :: Maybe GLubyte
+noGLubyte = Nothing
+{-# INLINE noGLubyte #-}
 type GLushort = Word16
+noGLushort :: Maybe GLushort
+noGLushort = Nothing
+{-# INLINE noGLushort #-}
 type GLuint = Word32
+noGLuint :: Maybe GLuint
+noGLuint = Nothing
+{-# INLINE noGLuint #-}
 type GLuint64 = Word64
+noGLuint64 :: Maybe GLuint64
+noGLuint64 = Nothing
+{-# INLINE noGLuint64 #-}
 type GLfloat = Double
+noGLfloat :: Maybe GLfloat
+noGLfloat = Nothing
+{-# INLINE noGLfloat #-}
 type GLclampf = Double
+noGLclampf :: Maybe GLclampf
+noGLclampf = Nothing
+{-# INLINE noGLclampf #-}
 
 -- AUTO GENERATION STARTS HERE
 -- The remainder of this file is generated from IDL files using domconv-webkit-jsffi
@@ -3687,6 +3902,10 @@ instance IsGObject ANGLEInstancedArrays where
   typeGType _ = gTypeANGLEInstancedArrays
   {-# INLINE typeGType #-}
 
+noANGLEInstancedArrays :: Maybe ANGLEInstancedArrays
+noANGLEInstancedArrays = Nothing
+{-# INLINE noANGLEInstancedArrays #-}
+
 gTypeANGLEInstancedArrays :: JSM GType
 gTypeANGLEInstancedArrays = GType . Object <$> jsg "ANGLEInstancedArrays"
 
@@ -3725,6 +3944,10 @@ instance IsGObject AbstractWorker where
   typeGType _ = gTypeAbstractWorker
   {-# INLINE typeGType #-}
 
+noAbstractWorker :: Maybe AbstractWorker
+noAbstractWorker = Nothing
+{-# INLINE noAbstractWorker #-}
+
 gTypeAbstractWorker :: JSM GType
 gTypeAbstractWorker = GType . Object <$> jsg "AbstractWorker"
 
@@ -3757,6 +3980,10 @@ instance MakeObject Acceleration where
 instance IsGObject Acceleration where
   typeGType _ = gTypeAcceleration
   {-# INLINE typeGType #-}
+
+noAcceleration :: Maybe Acceleration
+noAcceleration = Nothing
+{-# INLINE noAcceleration #-}
 
 gTypeAcceleration :: JSM GType
 gTypeAcceleration = GType . Object <$> jsg "Acceleration"
@@ -3795,6 +4022,10 @@ instance IsGObject AddEventListenerOptions where
   typeGType _ = gTypeAddEventListenerOptions
   {-# INLINE typeGType #-}
 
+noAddEventListenerOptions :: Maybe AddEventListenerOptions
+noAddEventListenerOptions = Nothing
+{-# INLINE noAddEventListenerOptions #-}
+
 gTypeAddEventListenerOptions :: JSM GType
 gTypeAddEventListenerOptions = GType . Object <$> jsg "AddEventListenerOptions"
 
@@ -3831,6 +4062,10 @@ instance IsCryptoAlgorithmParameters AesCbcCfbParams
 instance IsGObject AesCbcCfbParams where
   typeGType _ = gTypeAesCbcCfbParams
   {-# INLINE typeGType #-}
+
+noAesCbcCfbParams :: Maybe AesCbcCfbParams
+noAesCbcCfbParams = Nothing
+{-# INLINE noAesCbcCfbParams #-}
 
 gTypeAesCbcCfbParams :: JSM GType
 gTypeAesCbcCfbParams = GType . Object <$> jsg "AesCbcCfbParams"
@@ -3869,6 +4104,10 @@ instance IsGObject AesCtrParams where
   typeGType _ = gTypeAesCtrParams
   {-# INLINE typeGType #-}
 
+noAesCtrParams :: Maybe AesCtrParams
+noAesCtrParams = Nothing
+{-# INLINE noAesCtrParams #-}
+
 gTypeAesCtrParams :: JSM GType
 gTypeAesCtrParams = GType . Object <$> jsg "AesCtrParams"
 
@@ -3906,6 +4145,10 @@ instance IsGObject AesGcmParams where
   typeGType _ = gTypeAesGcmParams
   {-# INLINE typeGType #-}
 
+noAesGcmParams :: Maybe AesGcmParams
+noAesGcmParams = Nothing
+{-# INLINE noAesGcmParams #-}
+
 gTypeAesGcmParams :: JSM GType
 gTypeAesGcmParams = GType . Object <$> jsg "AesGcmParams"
 
@@ -3942,6 +4185,10 @@ instance IsCryptoAlgorithmParameters AesKeyParams
 instance IsGObject AesKeyParams where
   typeGType _ = gTypeAesKeyParams
   {-# INLINE typeGType #-}
+
+noAesKeyParams :: Maybe AesKeyParams
+noAesKeyParams = Nothing
+{-# INLINE noAesKeyParams #-}
 
 gTypeAesKeyParams :: JSM GType
 gTypeAesKeyParams = GType . Object <$> jsg "AesKeyParams"
@@ -3982,6 +4229,10 @@ instance IsGObject AnalyserNode where
   typeGType _ = gTypeAnalyserNode
   {-# INLINE typeGType #-}
 
+noAnalyserNode :: Maybe AnalyserNode
+noAnalyserNode = Nothing
+{-# INLINE noAnalyserNode #-}
+
 gTypeAnalyserNode :: JSM GType
 gTypeAnalyserNode = GType . Object <$> jsg "AnalyserNode"
 
@@ -4020,6 +4271,10 @@ instance IsGObject Animatable where
   typeGType _ = gTypeAnimatable
   {-# INLINE typeGType #-}
 
+noAnimatable :: Maybe Animatable
+noAnimatable = Nothing
+{-# INLINE noAnimatable #-}
+
 gTypeAnimatable :: JSM GType
 gTypeAnimatable = GType . Object <$> jsg "Animatable"
 
@@ -4052,6 +4307,10 @@ instance MakeObject Animation where
 instance IsGObject Animation where
   typeGType _ = gTypeAnimation
   {-# INLINE typeGType #-}
+
+noAnimation :: Maybe Animation
+noAnimation = Nothing
+{-# INLINE noAnimation #-}
 
 gTypeAnimation :: JSM GType
 gTypeAnimation = GType . Object <$> jsg "Animation"
@@ -4091,6 +4350,10 @@ instance IsGObject AnimationEffect where
   typeGType _ = gTypeAnimationEffect
   {-# INLINE typeGType #-}
 
+noAnimationEffect :: Maybe AnimationEffect
+noAnimationEffect = Nothing
+{-# INLINE noAnimationEffect #-}
+
 gTypeAnimationEffect :: JSM GType
 gTypeAnimationEffect = GType . Object <$> jsg "AnimationEffect"
 
@@ -4128,6 +4391,10 @@ instance IsGObject AnimationEvent where
   typeGType _ = gTypeAnimationEvent
   {-# INLINE typeGType #-}
 
+noAnimationEvent :: Maybe AnimationEvent
+noAnimationEvent = Nothing
+{-# INLINE noAnimationEvent #-}
+
 gTypeAnimationEvent :: JSM GType
 gTypeAnimationEvent = GType . Object <$> jsg "AnimationEvent"
 
@@ -4164,6 +4431,10 @@ instance IsEventInit AnimationEventInit
 instance IsGObject AnimationEventInit where
   typeGType _ = gTypeAnimationEventInit
   {-# INLINE typeGType #-}
+
+noAnimationEventInit :: Maybe AnimationEventInit
+noAnimationEventInit = Nothing
+{-# INLINE noAnimationEventInit #-}
 
 gTypeAnimationEventInit :: JSM GType
 gTypeAnimationEventInit = GType . Object <$> jsg "AnimationEventInit"
@@ -4203,6 +4474,10 @@ instance IsGObject AnimationTimeline where
   typeGType _ = gTypeAnimationTimeline
   {-# INLINE typeGType #-}
 
+noAnimationTimeline :: Maybe AnimationTimeline
+noAnimationTimeline = Nothing
+{-# INLINE noAnimationTimeline #-}
+
 gTypeAnimationTimeline :: JSM GType
 gTypeAnimationTimeline = GType . Object <$> jsg "AnimationTimeline"
 
@@ -4235,6 +4510,10 @@ instance MakeObject ApplePayError where
 instance IsGObject ApplePayError where
   typeGType _ = gTypeApplePayError
   {-# INLINE typeGType #-}
+
+noApplePayError :: Maybe ApplePayError
+noApplePayError = Nothing
+{-# INLINE noApplePayError #-}
 
 gTypeApplePayError :: JSM GType
 gTypeApplePayError = GType . Object <$> jsg "ApplePayError"
@@ -4269,6 +4548,10 @@ instance IsGObject ApplePayLineItem where
   typeGType _ = gTypeApplePayLineItem
   {-# INLINE typeGType #-}
 
+noApplePayLineItem :: Maybe ApplePayLineItem
+noApplePayLineItem = Nothing
+{-# INLINE noApplePayLineItem #-}
+
 gTypeApplePayLineItem :: JSM GType
 gTypeApplePayLineItem = GType . Object <$> jsg "ApplePayLineItem"
 
@@ -4302,6 +4585,10 @@ instance IsGObject ApplePayPayment where
   typeGType _ = gTypeApplePayPayment
   {-# INLINE typeGType #-}
 
+noApplePayPayment :: Maybe ApplePayPayment
+noApplePayPayment = Nothing
+{-# INLINE noApplePayPayment #-}
+
 gTypeApplePayPayment :: JSM GType
 gTypeApplePayPayment = GType . Object <$> jsg "ApplePayPayment"
 
@@ -4334,6 +4621,10 @@ instance MakeObject ApplePayPaymentAuthorizationResult where
 instance IsGObject ApplePayPaymentAuthorizationResult where
   typeGType _ = gTypeApplePayPaymentAuthorizationResult
   {-# INLINE typeGType #-}
+
+noApplePayPaymentAuthorizationResult :: Maybe ApplePayPaymentAuthorizationResult
+noApplePayPaymentAuthorizationResult = Nothing
+{-# INLINE noApplePayPaymentAuthorizationResult #-}
 
 gTypeApplePayPaymentAuthorizationResult :: JSM GType
 gTypeApplePayPaymentAuthorizationResult = GType . Object <$> jsg "ApplePayPaymentAuthorizationResult"
@@ -4372,6 +4663,10 @@ instance IsGObject ApplePayPaymentAuthorizedEvent where
   typeGType _ = gTypeApplePayPaymentAuthorizedEvent
   {-# INLINE typeGType #-}
 
+noApplePayPaymentAuthorizedEvent :: Maybe ApplePayPaymentAuthorizedEvent
+noApplePayPaymentAuthorizedEvent = Nothing
+{-# INLINE noApplePayPaymentAuthorizedEvent #-}
+
 gTypeApplePayPaymentAuthorizedEvent :: JSM GType
 gTypeApplePayPaymentAuthorizedEvent = GType . Object <$> jsg "ApplePayPaymentAuthorizedEvent"
 
@@ -4405,6 +4700,10 @@ instance IsGObject ApplePayPaymentContact where
   typeGType _ = gTypeApplePayPaymentContact
   {-# INLINE typeGType #-}
 
+noApplePayPaymentContact :: Maybe ApplePayPaymentContact
+noApplePayPaymentContact = Nothing
+{-# INLINE noApplePayPaymentContact #-}
+
 gTypeApplePayPaymentContact :: JSM GType
 gTypeApplePayPaymentContact = GType . Object <$> jsg "ApplePayPaymentContact"
 
@@ -4437,6 +4736,10 @@ instance MakeObject ApplePayPaymentMethod where
 instance IsGObject ApplePayPaymentMethod where
   typeGType _ = gTypeApplePayPaymentMethod
   {-# INLINE typeGType #-}
+
+noApplePayPaymentMethod :: Maybe ApplePayPaymentMethod
+noApplePayPaymentMethod = Nothing
+{-# INLINE noApplePayPaymentMethod #-}
 
 gTypeApplePayPaymentMethod :: JSM GType
 gTypeApplePayPaymentMethod = GType . Object <$> jsg "ApplePayPaymentMethod"
@@ -4475,6 +4778,10 @@ instance IsGObject ApplePayPaymentMethodSelectedEvent where
   typeGType _ = gTypeApplePayPaymentMethodSelectedEvent
   {-# INLINE typeGType #-}
 
+noApplePayPaymentMethodSelectedEvent :: Maybe ApplePayPaymentMethodSelectedEvent
+noApplePayPaymentMethodSelectedEvent = Nothing
+{-# INLINE noApplePayPaymentMethodSelectedEvent #-}
+
 gTypeApplePayPaymentMethodSelectedEvent :: JSM GType
 gTypeApplePayPaymentMethodSelectedEvent = GType . Object <$> jsg "ApplePayPaymentMethodSelectedEvent"
 
@@ -4507,6 +4814,10 @@ instance MakeObject ApplePayPaymentMethodUpdate where
 instance IsGObject ApplePayPaymentMethodUpdate where
   typeGType _ = gTypeApplePayPaymentMethodUpdate
   {-# INLINE typeGType #-}
+
+noApplePayPaymentMethodUpdate :: Maybe ApplePayPaymentMethodUpdate
+noApplePayPaymentMethodUpdate = Nothing
+{-# INLINE noApplePayPaymentMethodUpdate #-}
 
 gTypeApplePayPaymentMethodUpdate :: JSM GType
 gTypeApplePayPaymentMethodUpdate = GType . Object <$> jsg "ApplePayPaymentMethodUpdate"
@@ -4541,6 +4852,10 @@ instance IsGObject ApplePayPaymentPass where
   typeGType _ = gTypeApplePayPaymentPass
   {-# INLINE typeGType #-}
 
+noApplePayPaymentPass :: Maybe ApplePayPaymentPass
+noApplePayPaymentPass = Nothing
+{-# INLINE noApplePayPaymentPass #-}
+
 gTypeApplePayPaymentPass :: JSM GType
 gTypeApplePayPaymentPass = GType . Object <$> jsg "ApplePayPaymentPass"
 
@@ -4574,6 +4889,10 @@ instance IsGObject ApplePayPaymentRequest where
   typeGType _ = gTypeApplePayPaymentRequest
   {-# INLINE typeGType #-}
 
+noApplePayPaymentRequest :: Maybe ApplePayPaymentRequest
+noApplePayPaymentRequest = Nothing
+{-# INLINE noApplePayPaymentRequest #-}
+
 gTypeApplePayPaymentRequest :: JSM GType
 gTypeApplePayPaymentRequest = GType . Object <$> jsg "ApplePayPaymentRequest"
 
@@ -4606,6 +4925,10 @@ instance MakeObject ApplePayPaymentToken where
 instance IsGObject ApplePayPaymentToken where
   typeGType _ = gTypeApplePayPaymentToken
   {-# INLINE typeGType #-}
+
+noApplePayPaymentToken :: Maybe ApplePayPaymentToken
+noApplePayPaymentToken = Nothing
+{-# INLINE noApplePayPaymentToken #-}
 
 gTypeApplePayPaymentToken :: JSM GType
 gTypeApplePayPaymentToken = GType . Object <$> jsg "ApplePayPaymentToken"
@@ -4644,6 +4967,10 @@ instance IsGObject ApplePaySession where
   typeGType _ = gTypeApplePaySession
   {-# INLINE typeGType #-}
 
+noApplePaySession :: Maybe ApplePaySession
+noApplePaySession = Nothing
+{-# INLINE noApplePaySession #-}
+
 gTypeApplePaySession :: JSM GType
 gTypeApplePaySession = GType . Object <$> jsg "ApplePaySession"
 
@@ -4681,6 +5008,10 @@ instance IsGObject ApplePayShippingContactSelectedEvent where
   typeGType _ = gTypeApplePayShippingContactSelectedEvent
   {-# INLINE typeGType #-}
 
+noApplePayShippingContactSelectedEvent :: Maybe ApplePayShippingContactSelectedEvent
+noApplePayShippingContactSelectedEvent = Nothing
+{-# INLINE noApplePayShippingContactSelectedEvent #-}
+
 gTypeApplePayShippingContactSelectedEvent :: JSM GType
 gTypeApplePayShippingContactSelectedEvent = GType . Object <$> jsg "ApplePayShippingContactSelectedEvent"
 
@@ -4714,6 +5045,10 @@ instance IsGObject ApplePayShippingContactUpdate where
   typeGType _ = gTypeApplePayShippingContactUpdate
   {-# INLINE typeGType #-}
 
+noApplePayShippingContactUpdate :: Maybe ApplePayShippingContactUpdate
+noApplePayShippingContactUpdate = Nothing
+{-# INLINE noApplePayShippingContactUpdate #-}
+
 gTypeApplePayShippingContactUpdate :: JSM GType
 gTypeApplePayShippingContactUpdate = GType . Object <$> jsg "ApplePayShippingContactUpdate"
 
@@ -4746,6 +5081,10 @@ instance MakeObject ApplePayShippingMethod where
 instance IsGObject ApplePayShippingMethod where
   typeGType _ = gTypeApplePayShippingMethod
   {-# INLINE typeGType #-}
+
+noApplePayShippingMethod :: Maybe ApplePayShippingMethod
+noApplePayShippingMethod = Nothing
+{-# INLINE noApplePayShippingMethod #-}
 
 gTypeApplePayShippingMethod :: JSM GType
 gTypeApplePayShippingMethod = GType . Object <$> jsg "ApplePayShippingMethod"
@@ -4784,6 +5123,10 @@ instance IsGObject ApplePayShippingMethodSelectedEvent where
   typeGType _ = gTypeApplePayShippingMethodSelectedEvent
   {-# INLINE typeGType #-}
 
+noApplePayShippingMethodSelectedEvent :: Maybe ApplePayShippingMethodSelectedEvent
+noApplePayShippingMethodSelectedEvent = Nothing
+{-# INLINE noApplePayShippingMethodSelectedEvent #-}
+
 gTypeApplePayShippingMethodSelectedEvent :: JSM GType
 gTypeApplePayShippingMethodSelectedEvent = GType . Object <$> jsg "ApplePayShippingMethodSelectedEvent"
 
@@ -4816,6 +5159,10 @@ instance MakeObject ApplePayShippingMethodUpdate where
 instance IsGObject ApplePayShippingMethodUpdate where
   typeGType _ = gTypeApplePayShippingMethodUpdate
   {-# INLINE typeGType #-}
+
+noApplePayShippingMethodUpdate :: Maybe ApplePayShippingMethodUpdate
+noApplePayShippingMethodUpdate = Nothing
+{-# INLINE noApplePayShippingMethodUpdate #-}
 
 gTypeApplePayShippingMethodUpdate :: JSM GType
 gTypeApplePayShippingMethodUpdate = GType . Object <$> jsg "ApplePayShippingMethodUpdate"
@@ -4854,6 +5201,10 @@ instance IsGObject ApplePayValidateMerchantEvent where
   typeGType _ = gTypeApplePayValidateMerchantEvent
   {-# INLINE typeGType #-}
 
+noApplePayValidateMerchantEvent :: Maybe ApplePayValidateMerchantEvent
+noApplePayValidateMerchantEvent = Nothing
+{-# INLINE noApplePayValidateMerchantEvent #-}
+
 gTypeApplePayValidateMerchantEvent :: JSM GType
 gTypeApplePayValidateMerchantEvent = GType . Object <$> jsg "ApplePayValidateMerchantEvent"
 
@@ -4891,6 +5242,10 @@ instance IsGObject ApplicationCache where
   typeGType _ = gTypeApplicationCache
   {-# INLINE typeGType #-}
 
+noApplicationCache :: Maybe ApplicationCache
+noApplicationCache = Nothing
+{-# INLINE noApplicationCache #-}
+
 gTypeApplicationCache :: JSM GType
 gTypeApplicationCache = GType . Object <$> jsg "ApplicationCache"
 
@@ -4923,6 +5278,10 @@ instance MakeObject AssignedNodesOptions where
 instance IsGObject AssignedNodesOptions where
   typeGType _ = gTypeAssignedNodesOptions
   {-# INLINE typeGType #-}
+
+noAssignedNodesOptions :: Maybe AssignedNodesOptions
+noAssignedNodesOptions = Nothing
+{-# INLINE noAssignedNodesOptions #-}
 
 gTypeAssignedNodesOptions :: JSM GType
 gTypeAssignedNodesOptions = GType . Object <$> jsg "AssignedNodesOptions"
@@ -4963,6 +5322,10 @@ instance IsGObject Attr where
   typeGType _ = gTypeAttr
   {-# INLINE typeGType #-}
 
+noAttr :: Maybe Attr
+noAttr = Nothing
+{-# INLINE noAttr #-}
+
 gTypeAttr :: JSM GType
 gTypeAttr = GType . Object <$> jsg "Attr"
 
@@ -4995,6 +5358,10 @@ instance MakeObject AudioBuffer where
 instance IsGObject AudioBuffer where
   typeGType _ = gTypeAudioBuffer
   {-# INLINE typeGType #-}
+
+noAudioBuffer :: Maybe AudioBuffer
+noAudioBuffer = Nothing
+{-# INLINE noAudioBuffer #-}
 
 gTypeAudioBuffer :: JSM GType
 gTypeAudioBuffer = GType . Object <$> jsg "AudioBuffer"
@@ -5034,6 +5401,10 @@ instance IsEventTarget AudioBufferSourceNode
 instance IsGObject AudioBufferSourceNode where
   typeGType _ = gTypeAudioBufferSourceNode
   {-# INLINE typeGType #-}
+
+noAudioBufferSourceNode :: Maybe AudioBufferSourceNode
+noAudioBufferSourceNode = Nothing
+{-# INLINE noAudioBufferSourceNode #-}
 
 gTypeAudioBufferSourceNode :: JSM GType
 gTypeAudioBufferSourceNode = GType . Object <$> jsg "AudioBufferSourceNode"
@@ -5077,6 +5448,10 @@ instance IsGObject AudioContext where
   typeGType _ = gTypeAudioContext
   {-# INLINE typeGType #-}
 
+noAudioContext :: Maybe AudioContext
+noAudioContext = Nothing
+{-# INLINE noAudioContext #-}
+
 gTypeAudioContext :: JSM GType
 gTypeAudioContext = GType . Object <$> jsg "AudioContext"
 
@@ -5116,6 +5491,10 @@ instance IsGObject AudioDestinationNode where
   typeGType _ = gTypeAudioDestinationNode
   {-# INLINE typeGType #-}
 
+noAudioDestinationNode :: Maybe AudioDestinationNode
+noAudioDestinationNode = Nothing
+{-# INLINE noAudioDestinationNode #-}
+
 gTypeAudioDestinationNode :: JSM GType
 gTypeAudioDestinationNode = GType . Object <$> jsg "AudioDestinationNode"
 
@@ -5148,6 +5527,10 @@ instance MakeObject AudioListener where
 instance IsGObject AudioListener where
   typeGType _ = gTypeAudioListener
   {-# INLINE typeGType #-}
+
+noAudioListener :: Maybe AudioListener
+noAudioListener = Nothing
+{-# INLINE noAudioListener #-}
 
 gTypeAudioListener :: JSM GType
 gTypeAudioListener = GType . Object <$> jsg "AudioListener"
@@ -5191,6 +5574,10 @@ instance IsGObject AudioNode where
   typeGType _ = gTypeAudioNode
   {-# INLINE typeGType #-}
 
+noAudioNode :: Maybe AudioNode
+noAudioNode = Nothing
+{-# INLINE noAudioNode #-}
+
 gTypeAudioNode :: JSM GType
 gTypeAudioNode = GType . Object <$> jsg "AudioNode"
 
@@ -5223,6 +5610,10 @@ instance MakeObject AudioParam where
 instance IsGObject AudioParam where
   typeGType _ = gTypeAudioParam
   {-# INLINE typeGType #-}
+
+noAudioParam :: Maybe AudioParam
+noAudioParam = Nothing
+{-# INLINE noAudioParam #-}
 
 gTypeAudioParam :: JSM GType
 gTypeAudioParam = GType . Object <$> jsg "AudioParam"
@@ -5261,6 +5652,10 @@ instance IsGObject AudioProcessingEvent where
   typeGType _ = gTypeAudioProcessingEvent
   {-# INLINE typeGType #-}
 
+noAudioProcessingEvent :: Maybe AudioProcessingEvent
+noAudioProcessingEvent = Nothing
+{-# INLINE noAudioProcessingEvent #-}
+
 gTypeAudioProcessingEvent :: JSM GType
 gTypeAudioProcessingEvent = GType . Object <$> jsg "AudioProcessingEvent"
 
@@ -5293,6 +5688,10 @@ instance MakeObject AudioTrack where
 instance IsGObject AudioTrack where
   typeGType _ = gTypeAudioTrack
   {-# INLINE typeGType #-}
+
+noAudioTrack :: Maybe AudioTrack
+noAudioTrack = Nothing
+{-# INLINE noAudioTrack #-}
 
 gTypeAudioTrack :: JSM GType
 gTypeAudioTrack = GType . Object <$> jsg "AudioTrack"
@@ -5331,6 +5730,10 @@ instance IsGObject AudioTrackList where
   typeGType _ = gTypeAudioTrackList
   {-# INLINE typeGType #-}
 
+noAudioTrackList :: Maybe AudioTrackList
+noAudioTrackList = Nothing
+{-# INLINE noAudioTrackList #-}
+
 gTypeAudioTrackList :: JSM GType
 gTypeAudioTrackList = GType . Object <$> jsg "AudioTrackList"
 
@@ -5367,6 +5770,10 @@ instance IsEvent AutocompleteErrorEvent
 instance IsGObject AutocompleteErrorEvent where
   typeGType _ = gTypeAutocompleteErrorEvent
   {-# INLINE typeGType #-}
+
+noAutocompleteErrorEvent :: Maybe AutocompleteErrorEvent
+noAutocompleteErrorEvent = Nothing
+{-# INLINE noAutocompleteErrorEvent #-}
 
 gTypeAutocompleteErrorEvent :: JSM GType
 gTypeAutocompleteErrorEvent = GType . Object <$> jsg "AutocompleteErrorEvent"
@@ -5405,6 +5812,10 @@ instance IsGObject AutocompleteErrorEventInit where
   typeGType _ = gTypeAutocompleteErrorEventInit
   {-# INLINE typeGType #-}
 
+noAutocompleteErrorEventInit :: Maybe AutocompleteErrorEventInit
+noAutocompleteErrorEventInit = Nothing
+{-# INLINE noAutocompleteErrorEventInit #-}
+
 gTypeAutocompleteErrorEventInit :: JSM GType
 gTypeAutocompleteErrorEventInit = GType . Object <$> jsg "AutocompleteErrorEventInit"
 
@@ -5437,6 +5848,10 @@ instance MakeObject BarProp where
 instance IsGObject BarProp where
   typeGType _ = gTypeBarProp
   {-# INLINE typeGType #-}
+
+noBarProp :: Maybe BarProp
+noBarProp = Nothing
+{-# INLINE noBarProp #-}
 
 gTypeBarProp :: JSM GType
 gTypeBarProp = GType . Object <$> jsg "BarProp"
@@ -5476,6 +5891,10 @@ instance IsGObject BasicCredential where
   typeGType _ = gTypeBasicCredential
   {-# INLINE typeGType #-}
 
+noBasicCredential :: Maybe BasicCredential
+noBasicCredential = Nothing
+{-# INLINE noBasicCredential #-}
+
 gTypeBasicCredential :: JSM GType
 gTypeBasicCredential = GType . Object <$> jsg "BasicCredential"
 
@@ -5512,6 +5931,10 @@ instance IsEvent BeforeLoadEvent
 instance IsGObject BeforeLoadEvent where
   typeGType _ = gTypeBeforeLoadEvent
   {-# INLINE typeGType #-}
+
+noBeforeLoadEvent :: Maybe BeforeLoadEvent
+noBeforeLoadEvent = Nothing
+{-# INLINE noBeforeLoadEvent #-}
 
 gTypeBeforeLoadEvent :: JSM GType
 gTypeBeforeLoadEvent = GType . Object <$> jsg "BeforeLoadEvent"
@@ -5550,6 +5973,10 @@ instance IsGObject BeforeLoadEventInit where
   typeGType _ = gTypeBeforeLoadEventInit
   {-# INLINE typeGType #-}
 
+noBeforeLoadEventInit :: Maybe BeforeLoadEventInit
+noBeforeLoadEventInit = Nothing
+{-# INLINE noBeforeLoadEventInit #-}
+
 gTypeBeforeLoadEventInit :: JSM GType
 gTypeBeforeLoadEventInit = GType . Object <$> jsg "BeforeLoadEventInit"
 
@@ -5586,6 +6013,10 @@ instance IsEvent BeforeUnloadEvent
 instance IsGObject BeforeUnloadEvent where
   typeGType _ = gTypeBeforeUnloadEvent
   {-# INLINE typeGType #-}
+
+noBeforeUnloadEvent :: Maybe BeforeUnloadEvent
+noBeforeUnloadEvent = Nothing
+{-# INLINE noBeforeUnloadEvent #-}
 
 gTypeBeforeUnloadEvent :: JSM GType
 gTypeBeforeUnloadEvent = GType . Object <$> jsg "BeforeUnloadEvent"
@@ -5626,6 +6057,10 @@ instance IsGObject BiquadFilterNode where
   typeGType _ = gTypeBiquadFilterNode
   {-# INLINE typeGType #-}
 
+noBiquadFilterNode :: Maybe BiquadFilterNode
+noBiquadFilterNode = Nothing
+{-# INLINE noBiquadFilterNode #-}
+
 gTypeBiquadFilterNode :: JSM GType
 gTypeBiquadFilterNode = GType . Object <$> jsg "BiquadFilterNode"
 
@@ -5663,6 +6098,10 @@ instance IsBlob Blob
 instance IsGObject Blob where
   typeGType _ = gTypeBlob
   {-# INLINE typeGType #-}
+
+noBlob :: Maybe Blob
+noBlob = Nothing
+{-# INLINE noBlob #-}
 
 gTypeBlob :: JSM GType
 gTypeBlob = GType . Object <$> jsg "Blob"
@@ -5702,6 +6141,10 @@ instance IsGObject BlobPropertyBag where
   typeGType _ = gTypeBlobPropertyBag
   {-# INLINE typeGType #-}
 
+noBlobPropertyBag :: Maybe BlobPropertyBag
+noBlobPropertyBag = Nothing
+{-# INLINE noBlobPropertyBag #-}
+
 gTypeBlobPropertyBag :: JSM GType
 gTypeBlobPropertyBag = GType . Object <$> jsg "BlobPropertyBag"
 
@@ -5740,6 +6183,10 @@ instance IsGObject Body where
   typeGType _ = gTypeBody
   {-# INLINE typeGType #-}
 
+noBody :: Maybe Body
+noBody = Nothing
+{-# INLINE noBody #-}
+
 gTypeBody :: JSM GType
 gTypeBody = GType . Object <$> jsg "Body"
 
@@ -5772,6 +6219,10 @@ instance MakeObject ByteLengthQueuingStrategy where
 instance IsGObject ByteLengthQueuingStrategy where
   typeGType _ = gTypeByteLengthQueuingStrategy
   {-# INLINE typeGType #-}
+
+noByteLengthQueuingStrategy :: Maybe ByteLengthQueuingStrategy
+noByteLengthQueuingStrategy = Nothing
+{-# INLINE noByteLengthQueuingStrategy #-}
 
 gTypeByteLengthQueuingStrategy :: JSM GType
 gTypeByteLengthQueuingStrategy = GType . Object <$> jsg "ByteLengthQueuingStrategy"
@@ -5822,6 +6273,10 @@ instance IsGObject CDATASection where
   typeGType _ = gTypeCDATASection
   {-# INLINE typeGType #-}
 
+noCDATASection :: Maybe CDATASection
+noCDATASection = Nothing
+{-# INLINE noCDATASection #-}
+
 gTypeCDATASection :: JSM GType
 gTypeCDATASection = GType . Object <$> jsg "CDATASection"
 
@@ -5854,6 +6309,10 @@ instance MakeObject CSS where
 instance IsGObject CSS where
   typeGType _ = gTypeCSS
   {-# INLINE typeGType #-}
+
+noCSS :: Maybe CSS
+noCSS = Nothing
+{-# INLINE noCSS #-}
 
 gTypeCSS :: JSM GType
 gTypeCSS = GType . Object <$> jsg "CSS"
@@ -5892,6 +6351,10 @@ instance IsGObject CSSFontFaceLoadEvent where
   typeGType _ = gTypeCSSFontFaceLoadEvent
   {-# INLINE typeGType #-}
 
+noCSSFontFaceLoadEvent :: Maybe CSSFontFaceLoadEvent
+noCSSFontFaceLoadEvent = Nothing
+{-# INLINE noCSSFontFaceLoadEvent #-}
+
 gTypeCSSFontFaceLoadEvent :: JSM GType
 gTypeCSSFontFaceLoadEvent = GType . Object <$> jsg "CSSFontFaceLoadEvent"
 
@@ -5928,6 +6391,10 @@ instance IsEventInit CSSFontFaceLoadEventInit
 instance IsGObject CSSFontFaceLoadEventInit where
   typeGType _ = gTypeCSSFontFaceLoadEventInit
   {-# INLINE typeGType #-}
+
+noCSSFontFaceLoadEventInit :: Maybe CSSFontFaceLoadEventInit
+noCSSFontFaceLoadEventInit = Nothing
+{-# INLINE noCSSFontFaceLoadEventInit #-}
 
 gTypeCSSFontFaceLoadEventInit :: JSM GType
 gTypeCSSFontFaceLoadEventInit = GType . Object <$> jsg "CSSFontFaceLoadEventInit"
@@ -5966,6 +6433,10 @@ instance IsGObject CSSFontFaceRule where
   typeGType _ = gTypeCSSFontFaceRule
   {-# INLINE typeGType #-}
 
+noCSSFontFaceRule :: Maybe CSSFontFaceRule
+noCSSFontFaceRule = Nothing
+{-# INLINE noCSSFontFaceRule #-}
+
 gTypeCSSFontFaceRule :: JSM GType
 gTypeCSSFontFaceRule = GType . Object <$> jsg "CSSFontFaceRule"
 
@@ -6002,6 +6473,10 @@ instance IsCSSRule CSSImportRule
 instance IsGObject CSSImportRule where
   typeGType _ = gTypeCSSImportRule
   {-# INLINE typeGType #-}
+
+noCSSImportRule :: Maybe CSSImportRule
+noCSSImportRule = Nothing
+{-# INLINE noCSSImportRule #-}
 
 gTypeCSSImportRule :: JSM GType
 gTypeCSSImportRule = GType . Object <$> jsg "CSSImportRule"
@@ -6040,6 +6515,10 @@ instance IsGObject CSSKeyframeRule where
   typeGType _ = gTypeCSSKeyframeRule
   {-# INLINE typeGType #-}
 
+noCSSKeyframeRule :: Maybe CSSKeyframeRule
+noCSSKeyframeRule = Nothing
+{-# INLINE noCSSKeyframeRule #-}
+
 gTypeCSSKeyframeRule :: JSM GType
 gTypeCSSKeyframeRule = GType . Object <$> jsg "CSSKeyframeRule"
 
@@ -6076,6 +6555,10 @@ instance IsCSSRule CSSKeyframesRule
 instance IsGObject CSSKeyframesRule where
   typeGType _ = gTypeCSSKeyframesRule
   {-# INLINE typeGType #-}
+
+noCSSKeyframesRule :: Maybe CSSKeyframesRule
+noCSSKeyframesRule = Nothing
+{-# INLINE noCSSKeyframesRule #-}
 
 gTypeCSSKeyframesRule :: JSM GType
 gTypeCSSKeyframesRule = GType . Object <$> jsg "CSSKeyframesRule"
@@ -6114,6 +6597,10 @@ instance IsGObject CSSMediaRule where
   typeGType _ = gTypeCSSMediaRule
   {-# INLINE typeGType #-}
 
+noCSSMediaRule :: Maybe CSSMediaRule
+noCSSMediaRule = Nothing
+{-# INLINE noCSSMediaRule #-}
+
 gTypeCSSMediaRule :: JSM GType
 gTypeCSSMediaRule = GType . Object <$> jsg "CSSMediaRule"
 
@@ -6150,6 +6637,10 @@ instance IsCSSRule CSSNamespaceRule
 instance IsGObject CSSNamespaceRule where
   typeGType _ = gTypeCSSNamespaceRule
   {-# INLINE typeGType #-}
+
+noCSSNamespaceRule :: Maybe CSSNamespaceRule
+noCSSNamespaceRule = Nothing
+{-# INLINE noCSSNamespaceRule #-}
 
 gTypeCSSNamespaceRule :: JSM GType
 gTypeCSSNamespaceRule = GType . Object <$> jsg "CSSNamespaceRule"
@@ -6188,6 +6679,10 @@ instance IsGObject CSSPageRule where
   typeGType _ = gTypeCSSPageRule
   {-# INLINE typeGType #-}
 
+noCSSPageRule :: Maybe CSSPageRule
+noCSSPageRule = Nothing
+{-# INLINE noCSSPageRule #-}
+
 gTypeCSSPageRule :: JSM GType
 gTypeCSSPageRule = GType . Object <$> jsg "CSSPageRule"
 
@@ -6224,6 +6719,10 @@ instance IsCSSValue CSSPrimitiveValue
 instance IsGObject CSSPrimitiveValue where
   typeGType _ = gTypeCSSPrimitiveValue
   {-# INLINE typeGType #-}
+
+noCSSPrimitiveValue :: Maybe CSSPrimitiveValue
+noCSSPrimitiveValue = Nothing
+{-# INLINE noCSSPrimitiveValue #-}
 
 gTypeCSSPrimitiveValue :: JSM GType
 gTypeCSSPrimitiveValue = GType . Object <$> jsg "CSSPrimitiveValue"
@@ -6263,6 +6762,10 @@ instance IsGObject CSSRule where
   typeGType _ = gTypeCSSRule
   {-# INLINE typeGType #-}
 
+noCSSRule :: Maybe CSSRule
+noCSSRule = Nothing
+{-# INLINE noCSSRule #-}
+
 gTypeCSSRule :: JSM GType
 gTypeCSSRule = GType . Object <$> jsg "CSSRule"
 
@@ -6296,6 +6799,10 @@ instance IsGObject CSSRuleList where
   typeGType _ = gTypeCSSRuleList
   {-# INLINE typeGType #-}
 
+noCSSRuleList :: Maybe CSSRuleList
+noCSSRuleList = Nothing
+{-# INLINE noCSSRuleList #-}
+
 gTypeCSSRuleList :: JSM GType
 gTypeCSSRuleList = GType . Object <$> jsg "CSSRuleList"
 
@@ -6328,6 +6835,10 @@ instance MakeObject CSSStyleDeclaration where
 instance IsGObject CSSStyleDeclaration where
   typeGType _ = gTypeCSSStyleDeclaration
   {-# INLINE typeGType #-}
+
+noCSSStyleDeclaration :: Maybe CSSStyleDeclaration
+noCSSStyleDeclaration = Nothing
+{-# INLINE noCSSStyleDeclaration #-}
 
 gTypeCSSStyleDeclaration :: JSM GType
 gTypeCSSStyleDeclaration = GType . Object <$> jsg "CSSStyleDeclaration"
@@ -6366,6 +6877,10 @@ instance IsGObject CSSStyleRule where
   typeGType _ = gTypeCSSStyleRule
   {-# INLINE typeGType #-}
 
+noCSSStyleRule :: Maybe CSSStyleRule
+noCSSStyleRule = Nothing
+{-# INLINE noCSSStyleRule #-}
+
 gTypeCSSStyleRule :: JSM GType
 gTypeCSSStyleRule = GType . Object <$> jsg "CSSStyleRule"
 
@@ -6402,6 +6917,10 @@ instance IsStyleSheet CSSStyleSheet
 instance IsGObject CSSStyleSheet where
   typeGType _ = gTypeCSSStyleSheet
   {-# INLINE typeGType #-}
+
+noCSSStyleSheet :: Maybe CSSStyleSheet
+noCSSStyleSheet = Nothing
+{-# INLINE noCSSStyleSheet #-}
 
 gTypeCSSStyleSheet :: JSM GType
 gTypeCSSStyleSheet = GType . Object <$> jsg "CSSStyleSheet"
@@ -6440,6 +6959,10 @@ instance IsGObject CSSSupportsRule where
   typeGType _ = gTypeCSSSupportsRule
   {-# INLINE typeGType #-}
 
+noCSSSupportsRule :: Maybe CSSSupportsRule
+noCSSSupportsRule = Nothing
+{-# INLINE noCSSSupportsRule #-}
+
 gTypeCSSSupportsRule :: JSM GType
 gTypeCSSSupportsRule = GType . Object <$> jsg "CSSSupportsRule"
 
@@ -6476,6 +6999,10 @@ instance IsCSSRule CSSUnknownRule
 instance IsGObject CSSUnknownRule where
   typeGType _ = gTypeCSSUnknownRule
   {-# INLINE typeGType #-}
+
+noCSSUnknownRule :: Maybe CSSUnknownRule
+noCSSUnknownRule = Nothing
+{-# INLINE noCSSUnknownRule #-}
 
 gTypeCSSUnknownRule :: JSM GType
 gTypeCSSUnknownRule = GType . Object <$> jsg "CSSUnknownRule"
@@ -6515,6 +7042,10 @@ instance IsGObject CSSValue where
   typeGType _ = gTypeCSSValue
   {-# INLINE typeGType #-}
 
+noCSSValue :: Maybe CSSValue
+noCSSValue = Nothing
+{-# INLINE noCSSValue #-}
+
 gTypeCSSValue :: JSM GType
 gTypeCSSValue = GType . Object <$> jsg "CSSValue"
 
@@ -6551,6 +7082,10 @@ instance IsCSSValue CSSValueList
 instance IsGObject CSSValueList where
   typeGType _ = gTypeCSSValueList
   {-# INLINE typeGType #-}
+
+noCSSValueList :: Maybe CSSValueList
+noCSSValueList = Nothing
+{-# INLINE noCSSValueList #-}
 
 gTypeCSSValueList :: JSM GType
 gTypeCSSValueList = GType . Object <$> jsg "CSSValueList"
@@ -6591,6 +7126,10 @@ instance IsGObject CanvasCaptureMediaStreamTrack where
   typeGType _ = gTypeCanvasCaptureMediaStreamTrack
   {-# INLINE typeGType #-}
 
+noCanvasCaptureMediaStreamTrack :: Maybe CanvasCaptureMediaStreamTrack
+noCanvasCaptureMediaStreamTrack = Nothing
+{-# INLINE noCanvasCaptureMediaStreamTrack #-}
+
 gTypeCanvasCaptureMediaStreamTrack :: JSM GType
 gTypeCanvasCaptureMediaStreamTrack = GType . Object <$> jsg "CanvasCaptureMediaStreamTrack"
 
@@ -6623,6 +7162,10 @@ instance MakeObject CanvasGradient where
 instance IsGObject CanvasGradient where
   typeGType _ = gTypeCanvasGradient
   {-# INLINE typeGType #-}
+
+noCanvasGradient :: Maybe CanvasGradient
+noCanvasGradient = Nothing
+{-# INLINE noCanvasGradient #-}
 
 gTypeCanvasGradient :: JSM GType
 gTypeCanvasGradient = GType . Object <$> jsg "CanvasGradient"
@@ -6662,6 +7205,10 @@ instance IsGObject CanvasPath where
   typeGType _ = gTypeCanvasPath
   {-# INLINE typeGType #-}
 
+noCanvasPath :: Maybe CanvasPath
+noCanvasPath = Nothing
+{-# INLINE noCanvasPath #-}
+
 gTypeCanvasPath :: JSM GType
 gTypeCanvasPath = GType . Object <$> jsg "CanvasPath"
 
@@ -6695,6 +7242,10 @@ instance IsGObject CanvasPattern where
   typeGType _ = gTypeCanvasPattern
   {-# INLINE typeGType #-}
 
+noCanvasPattern :: Maybe CanvasPattern
+noCanvasPattern = Nothing
+{-# INLINE noCanvasPattern #-}
+
 gTypeCanvasPattern :: JSM GType
 gTypeCanvasPattern = GType . Object <$> jsg "CanvasPattern"
 
@@ -6727,6 +7278,10 @@ instance MakeObject CanvasProxy where
 instance IsGObject CanvasProxy where
   typeGType _ = gTypeCanvasProxy
   {-# INLINE typeGType #-}
+
+noCanvasProxy :: Maybe CanvasProxy
+noCanvasProxy = Nothing
+{-# INLINE noCanvasProxy #-}
 
 gTypeCanvasProxy :: JSM GType
 gTypeCanvasProxy = GType . Object <$> jsg "CanvasProxy"
@@ -6764,6 +7319,10 @@ instance IsCanvasPath CanvasRenderingContext2D
 instance IsGObject CanvasRenderingContext2D where
   typeGType _ = gTypeCanvasRenderingContext2D
   {-# INLINE typeGType #-}
+
+noCanvasRenderingContext2D :: Maybe CanvasRenderingContext2D
+noCanvasRenderingContext2D = Nothing
+{-# INLINE noCanvasRenderingContext2D #-}
 
 gTypeCanvasRenderingContext2D :: JSM GType
 gTypeCanvasRenderingContext2D = GType . Object <$> jsg "CanvasRenderingContext2D"
@@ -6804,6 +7363,10 @@ instance IsGObject ChannelMergerNode where
   typeGType _ = gTypeChannelMergerNode
   {-# INLINE typeGType #-}
 
+noChannelMergerNode :: Maybe ChannelMergerNode
+noChannelMergerNode = Nothing
+{-# INLINE noChannelMergerNode #-}
+
 gTypeChannelMergerNode :: JSM GType
 gTypeChannelMergerNode = GType . Object <$> jsg "ChannelMergerNode"
 
@@ -6842,6 +7405,10 @@ instance IsEventTarget ChannelSplitterNode
 instance IsGObject ChannelSplitterNode where
   typeGType _ = gTypeChannelSplitterNode
   {-# INLINE typeGType #-}
+
+noChannelSplitterNode :: Maybe ChannelSplitterNode
+noChannelSplitterNode = Nothing
+{-# INLINE noChannelSplitterNode #-}
 
 gTypeChannelSplitterNode :: JSM GType
 gTypeChannelSplitterNode = GType . Object <$> jsg "ChannelSplitterNode"
@@ -6891,6 +7458,10 @@ instance IsGObject CharacterData where
   typeGType _ = gTypeCharacterData
   {-# INLINE typeGType #-}
 
+noCharacterData :: Maybe CharacterData
+noCharacterData = Nothing
+{-# INLINE noCharacterData #-}
+
 gTypeCharacterData :: JSM GType
 gTypeCharacterData = GType . Object <$> jsg "CharacterData"
 
@@ -6929,6 +7500,10 @@ instance IsGObject ChildNode where
   typeGType _ = gTypeChildNode
   {-# INLINE typeGType #-}
 
+noChildNode :: Maybe ChildNode
+noChildNode = Nothing
+{-# INLINE noChildNode #-}
+
 gTypeChildNode :: JSM GType
 gTypeChildNode = GType . Object <$> jsg "ChildNode"
 
@@ -6965,6 +7540,10 @@ instance IsEvent ClipboardEvent
 instance IsGObject ClipboardEvent where
   typeGType _ = gTypeClipboardEvent
   {-# INLINE typeGType #-}
+
+noClipboardEvent :: Maybe ClipboardEvent
+noClipboardEvent = Nothing
+{-# INLINE noClipboardEvent #-}
 
 gTypeClipboardEvent :: JSM GType
 gTypeClipboardEvent = GType . Object <$> jsg "ClipboardEvent"
@@ -7003,6 +7582,10 @@ instance IsGObject ClipboardEventInit where
   typeGType _ = gTypeClipboardEventInit
   {-# INLINE typeGType #-}
 
+noClipboardEventInit :: Maybe ClipboardEventInit
+noClipboardEventInit = Nothing
+{-# INLINE noClipboardEventInit #-}
+
 gTypeClipboardEventInit :: JSM GType
 gTypeClipboardEventInit = GType . Object <$> jsg "ClipboardEventInit"
 
@@ -7039,6 +7622,10 @@ instance IsEvent CloseEvent
 instance IsGObject CloseEvent where
   typeGType _ = gTypeCloseEvent
   {-# INLINE typeGType #-}
+
+noCloseEvent :: Maybe CloseEvent
+noCloseEvent = Nothing
+{-# INLINE noCloseEvent #-}
 
 gTypeCloseEvent :: JSM GType
 gTypeCloseEvent = GType . Object <$> jsg "CloseEvent"
@@ -7077,6 +7664,10 @@ instance IsGObject CloseEventInit where
   typeGType _ = gTypeCloseEventInit
   {-# INLINE typeGType #-}
 
+noCloseEventInit :: Maybe CloseEventInit
+noCloseEventInit = Nothing
+{-# INLINE noCloseEventInit #-}
+
 gTypeCloseEventInit :: JSM GType
 gTypeCloseEventInit = GType . Object <$> jsg "CloseEventInit"
 
@@ -7109,6 +7700,10 @@ instance MakeObject CommandLineAPIHost where
 instance IsGObject CommandLineAPIHost where
   typeGType _ = gTypeCommandLineAPIHost
   {-# INLINE typeGType #-}
+
+noCommandLineAPIHost :: Maybe CommandLineAPIHost
+noCommandLineAPIHost = Nothing
+{-# INLINE noCommandLineAPIHost #-}
 
 gTypeCommandLineAPIHost :: JSM GType
 gTypeCommandLineAPIHost = GType . Object <$> jsg "CommandLineAPIHost"
@@ -7155,6 +7750,10 @@ instance IsGObject Comment where
   typeGType _ = gTypeComment
   {-# INLINE typeGType #-}
 
+noComment :: Maybe Comment
+noComment = Nothing
+{-# INLINE noComment #-}
+
 gTypeComment :: JSM GType
 gTypeComment = GType . Object <$> jsg "Comment"
 
@@ -7193,6 +7792,10 @@ instance IsEvent CompositionEvent
 instance IsGObject CompositionEvent where
   typeGType _ = gTypeCompositionEvent
   {-# INLINE typeGType #-}
+
+noCompositionEvent :: Maybe CompositionEvent
+noCompositionEvent = Nothing
+{-# INLINE noCompositionEvent #-}
 
 gTypeCompositionEvent :: JSM GType
 gTypeCompositionEvent = GType . Object <$> jsg "CompositionEvent"
@@ -7233,6 +7836,10 @@ instance IsGObject CompositionEventInit where
   typeGType _ = gTypeCompositionEventInit
   {-# INLINE typeGType #-}
 
+noCompositionEventInit :: Maybe CompositionEventInit
+noCompositionEventInit = Nothing
+{-# INLINE noCompositionEventInit #-}
+
 gTypeCompositionEventInit :: JSM GType
 gTypeCompositionEventInit = GType . Object <$> jsg "CompositionEventInit"
 
@@ -7266,6 +7873,10 @@ instance IsGObject ConstrainBooleanParameters where
   typeGType _ = gTypeConstrainBooleanParameters
   {-# INLINE typeGType #-}
 
+noConstrainBooleanParameters :: Maybe ConstrainBooleanParameters
+noConstrainBooleanParameters = Nothing
+{-# INLINE noConstrainBooleanParameters #-}
+
 gTypeConstrainBooleanParameters :: JSM GType
 gTypeConstrainBooleanParameters = GType . Object <$> jsg "ConstrainBooleanParameters"
 
@@ -7298,6 +7909,10 @@ instance MakeObject ConstrainDOMStringParameters where
 instance IsGObject ConstrainDOMStringParameters where
   typeGType _ = gTypeConstrainDOMStringParameters
   {-# INLINE typeGType #-}
+
+noConstrainDOMStringParameters :: Maybe ConstrainDOMStringParameters
+noConstrainDOMStringParameters = Nothing
+{-# INLINE noConstrainDOMStringParameters #-}
 
 gTypeConstrainDOMStringParameters :: JSM GType
 gTypeConstrainDOMStringParameters = GType . Object <$> jsg "ConstrainDOMStringParameters"
@@ -7336,6 +7951,10 @@ instance IsGObject ConstrainDoubleRange where
   typeGType _ = gTypeConstrainDoubleRange
   {-# INLINE typeGType #-}
 
+noConstrainDoubleRange :: Maybe ConstrainDoubleRange
+noConstrainDoubleRange = Nothing
+{-# INLINE noConstrainDoubleRange #-}
+
 gTypeConstrainDoubleRange :: JSM GType
 gTypeConstrainDoubleRange = GType . Object <$> jsg "ConstrainDoubleRange"
 
@@ -7372,6 +7991,10 @@ instance IsLongRange ConstrainLongRange
 instance IsGObject ConstrainLongRange where
   typeGType _ = gTypeConstrainLongRange
   {-# INLINE typeGType #-}
+
+noConstrainLongRange :: Maybe ConstrainLongRange
+noConstrainLongRange = Nothing
+{-# INLINE noConstrainLongRange #-}
 
 gTypeConstrainLongRange :: JSM GType
 gTypeConstrainLongRange = GType . Object <$> jsg "ConstrainLongRange"
@@ -7412,6 +8035,10 @@ instance IsGObject ConvolverNode where
   typeGType _ = gTypeConvolverNode
   {-# INLINE typeGType #-}
 
+noConvolverNode :: Maybe ConvolverNode
+noConvolverNode = Nothing
+{-# INLINE noConvolverNode #-}
+
 gTypeConvolverNode :: JSM GType
 gTypeConvolverNode = GType . Object <$> jsg "ConvolverNode"
 
@@ -7444,6 +8071,10 @@ instance MakeObject Coordinates where
 instance IsGObject Coordinates where
   typeGType _ = gTypeCoordinates
   {-# INLINE typeGType #-}
+
+noCoordinates :: Maybe Coordinates
+noCoordinates = Nothing
+{-# INLINE noCoordinates #-}
 
 gTypeCoordinates :: JSM GType
 gTypeCoordinates = GType . Object <$> jsg "Coordinates"
@@ -7478,6 +8109,10 @@ instance IsGObject CountQueuingStrategy where
   typeGType _ = gTypeCountQueuingStrategy
   {-# INLINE typeGType #-}
 
+noCountQueuingStrategy :: Maybe CountQueuingStrategy
+noCountQueuingStrategy = Nothing
+{-# INLINE noCountQueuingStrategy #-}
+
 gTypeCountQueuingStrategy :: JSM GType
 gTypeCountQueuingStrategy = GType . Object <$> jsg "CountQueuingStrategy"
 
@@ -7510,6 +8145,10 @@ instance MakeObject Counter where
 instance IsGObject Counter where
   typeGType _ = gTypeCounter
   {-# INLINE typeGType #-}
+
+noCounter :: Maybe Counter
+noCounter = Nothing
+{-# INLINE noCounter #-}
 
 gTypeCounter :: JSM GType
 gTypeCounter = GType . Object <$> jsg "Counter"
@@ -7549,6 +8188,10 @@ instance IsGObject CredentialData where
   typeGType _ = gTypeCredentialData
   {-# INLINE typeGType #-}
 
+noCredentialData :: Maybe CredentialData
+noCredentialData = Nothing
+{-# INLINE noCredentialData #-}
+
 gTypeCredentialData :: JSM GType
 gTypeCredentialData = GType . Object <$> jsg "CredentialData"
 
@@ -7581,6 +8224,10 @@ instance MakeObject Crypto where
 instance IsGObject Crypto where
   typeGType _ = gTypeCrypto
   {-# INLINE typeGType #-}
+
+noCrypto :: Maybe Crypto
+noCrypto = Nothing
+{-# INLINE noCrypto #-}
 
 gTypeCrypto :: JSM GType
 gTypeCrypto = GType . Object <$> jsg "Crypto"
@@ -7620,6 +8267,10 @@ instance IsGObject CryptoAlgorithmParameters where
   typeGType _ = gTypeCryptoAlgorithmParameters
   {-# INLINE typeGType #-}
 
+noCryptoAlgorithmParameters :: Maybe CryptoAlgorithmParameters
+noCryptoAlgorithmParameters = Nothing
+{-# INLINE noCryptoAlgorithmParameters #-}
+
 gTypeCryptoAlgorithmParameters :: JSM GType
 gTypeCryptoAlgorithmParameters = GType . Object <$> jsg "CryptoAlgorithmParameters"
 
@@ -7652,6 +8303,10 @@ instance MakeObject CryptoKey where
 instance IsGObject CryptoKey where
   typeGType _ = gTypeCryptoKey
   {-# INLINE typeGType #-}
+
+noCryptoKey :: Maybe CryptoKey
+noCryptoKey = Nothing
+{-# INLINE noCryptoKey #-}
 
 gTypeCryptoKey :: JSM GType
 gTypeCryptoKey = GType . Object <$> jsg "CryptoKey"
@@ -7686,6 +8341,10 @@ instance IsGObject CryptoKeyPair where
   typeGType _ = gTypeCryptoKeyPair
   {-# INLINE typeGType #-}
 
+noCryptoKeyPair :: Maybe CryptoKeyPair
+noCryptoKeyPair = Nothing
+{-# INLINE noCryptoKeyPair #-}
+
 gTypeCryptoKeyPair :: JSM GType
 gTypeCryptoKeyPair = GType . Object <$> jsg "CryptoKeyPair"
 
@@ -7718,6 +8377,10 @@ instance MakeObject CustomElementRegistry where
 instance IsGObject CustomElementRegistry where
   typeGType _ = gTypeCustomElementRegistry
   {-# INLINE typeGType #-}
+
+noCustomElementRegistry :: Maybe CustomElementRegistry
+noCustomElementRegistry = Nothing
+{-# INLINE noCustomElementRegistry #-}
 
 gTypeCustomElementRegistry :: JSM GType
 gTypeCustomElementRegistry = GType . Object <$> jsg "CustomElementRegistry"
@@ -7756,6 +8419,10 @@ instance IsGObject CustomEvent where
   typeGType _ = gTypeCustomEvent
   {-# INLINE typeGType #-}
 
+noCustomEvent :: Maybe CustomEvent
+noCustomEvent = Nothing
+{-# INLINE noCustomEvent #-}
+
 gTypeCustomEvent :: JSM GType
 gTypeCustomEvent = GType . Object <$> jsg "CustomEvent"
 
@@ -7792,6 +8459,10 @@ instance IsEventInit CustomEventInit
 instance IsGObject CustomEventInit where
   typeGType _ = gTypeCustomEventInit
   {-# INLINE typeGType #-}
+
+noCustomEventInit :: Maybe CustomEventInit
+noCustomEventInit = Nothing
+{-# INLINE noCustomEventInit #-}
 
 gTypeCustomEventInit :: JSM GType
 gTypeCustomEventInit = GType . Object <$> jsg "CustomEventInit"
@@ -7831,6 +8502,10 @@ instance IsGObject DOMError where
   typeGType _ = gTypeDOMError
   {-# INLINE typeGType #-}
 
+noDOMError :: Maybe DOMError
+noDOMError = Nothing
+{-# INLINE noDOMError #-}
+
 gTypeDOMError :: JSM GType
 gTypeDOMError = GType . Object <$> jsg "DOMError"
 
@@ -7863,6 +8538,10 @@ instance MakeObject DOMException where
 instance IsGObject DOMException where
   typeGType _ = gTypeDOMException
   {-# INLINE typeGType #-}
+
+noDOMException :: Maybe DOMException
+noDOMException = Nothing
+{-# INLINE noDOMException #-}
 
 gTypeDOMException :: JSM GType
 gTypeDOMException = GType . Object <$> jsg "DOMException"
@@ -7897,6 +8576,10 @@ instance IsGObject DOMImplementation where
   typeGType _ = gTypeDOMImplementation
   {-# INLINE typeGType #-}
 
+noDOMImplementation :: Maybe DOMImplementation
+noDOMImplementation = Nothing
+{-# INLINE noDOMImplementation #-}
+
 gTypeDOMImplementation :: JSM GType
 gTypeDOMImplementation = GType . Object <$> jsg "DOMImplementation"
 
@@ -7930,6 +8613,10 @@ instance IsGObject DOMNamedFlowCollection where
   typeGType _ = gTypeDOMNamedFlowCollection
   {-# INLINE typeGType #-}
 
+noDOMNamedFlowCollection :: Maybe DOMNamedFlowCollection
+noDOMNamedFlowCollection = Nothing
+{-# INLINE noDOMNamedFlowCollection #-}
+
 gTypeDOMNamedFlowCollection :: JSM GType
 gTypeDOMNamedFlowCollection = GType . Object <$> jsg "WebKitNamedFlowCollection"
 
@@ -7962,6 +8649,10 @@ instance MakeObject DOMParser where
 instance IsGObject DOMParser where
   typeGType _ = gTypeDOMParser
   {-# INLINE typeGType #-}
+
+noDOMParser :: Maybe DOMParser
+noDOMParser = Nothing
+{-# INLINE noDOMParser #-}
 
 gTypeDOMParser :: JSM GType
 gTypeDOMParser = GType . Object <$> jsg "DOMParser"
@@ -8000,6 +8691,10 @@ instance IsGObject DOMPoint where
   typeGType _ = gTypeDOMPoint
   {-# INLINE typeGType #-}
 
+noDOMPoint :: Maybe DOMPoint
+noDOMPoint = Nothing
+{-# INLINE noDOMPoint #-}
+
 gTypeDOMPoint :: JSM GType
 gTypeDOMPoint = GType . Object <$> jsg "DOMPoint"
 
@@ -8032,6 +8727,10 @@ instance MakeObject DOMPointInit where
 instance IsGObject DOMPointInit where
   typeGType _ = gTypeDOMPointInit
   {-# INLINE typeGType #-}
+
+noDOMPointInit :: Maybe DOMPointInit
+noDOMPointInit = Nothing
+{-# INLINE noDOMPointInit #-}
 
 gTypeDOMPointInit :: JSM GType
 gTypeDOMPointInit = GType . Object <$> jsg "DOMPointInit"
@@ -8071,6 +8770,10 @@ instance IsGObject DOMPointReadOnly where
   typeGType _ = gTypeDOMPointReadOnly
   {-# INLINE typeGType #-}
 
+noDOMPointReadOnly :: Maybe DOMPointReadOnly
+noDOMPointReadOnly = Nothing
+{-# INLINE noDOMPointReadOnly #-}
+
 gTypeDOMPointReadOnly :: JSM GType
 gTypeDOMPointReadOnly = GType . Object <$> jsg "DOMPointReadOnly"
 
@@ -8108,6 +8811,10 @@ instance IsGObject DOMRect where
   typeGType _ = gTypeDOMRect
   {-# INLINE typeGType #-}
 
+noDOMRect :: Maybe DOMRect
+noDOMRect = Nothing
+{-# INLINE noDOMRect #-}
+
 gTypeDOMRect :: JSM GType
 gTypeDOMRect = GType . Object <$> jsg "DOMRect"
 
@@ -8140,6 +8847,10 @@ instance MakeObject DOMRectInit where
 instance IsGObject DOMRectInit where
   typeGType _ = gTypeDOMRectInit
   {-# INLINE typeGType #-}
+
+noDOMRectInit :: Maybe DOMRectInit
+noDOMRectInit = Nothing
+{-# INLINE noDOMRectInit #-}
 
 gTypeDOMRectInit :: JSM GType
 gTypeDOMRectInit = GType . Object <$> jsg "DOMRectInit"
@@ -8179,6 +8890,10 @@ instance IsGObject DOMRectReadOnly where
   typeGType _ = gTypeDOMRectReadOnly
   {-# INLINE typeGType #-}
 
+noDOMRectReadOnly :: Maybe DOMRectReadOnly
+noDOMRectReadOnly = Nothing
+{-# INLINE noDOMRectReadOnly #-}
+
 gTypeDOMRectReadOnly :: JSM GType
 gTypeDOMRectReadOnly = GType . Object <$> jsg "DOMRectReadOnly"
 
@@ -8211,6 +8926,10 @@ instance MakeObject DOMStringList where
 instance IsGObject DOMStringList where
   typeGType _ = gTypeDOMStringList
   {-# INLINE typeGType #-}
+
+noDOMStringList :: Maybe DOMStringList
+noDOMStringList = Nothing
+{-# INLINE noDOMStringList #-}
 
 gTypeDOMStringList :: JSM GType
 gTypeDOMStringList = GType . Object <$> jsg "DOMStringList"
@@ -8245,6 +8964,10 @@ instance IsGObject DOMStringMap where
   typeGType _ = gTypeDOMStringMap
   {-# INLINE typeGType #-}
 
+noDOMStringMap :: Maybe DOMStringMap
+noDOMStringMap = Nothing
+{-# INLINE noDOMStringMap #-}
+
 gTypeDOMStringMap :: JSM GType
 gTypeDOMStringMap = GType . Object <$> jsg "DOMStringMap"
 
@@ -8277,6 +9000,10 @@ instance MakeObject DOMTokenList where
 instance IsGObject DOMTokenList where
   typeGType _ = gTypeDOMTokenList
   {-# INLINE typeGType #-}
+
+noDOMTokenList :: Maybe DOMTokenList
+noDOMTokenList = Nothing
+{-# INLINE noDOMTokenList #-}
 
 gTypeDOMTokenList :: JSM GType
 gTypeDOMTokenList = GType . Object <$> jsg "DOMTokenList"
@@ -8317,6 +9044,10 @@ instance IsGObject DataCue where
   typeGType _ = gTypeDataCue
   {-# INLINE typeGType #-}
 
+noDataCue :: Maybe DataCue
+noDataCue = Nothing
+{-# INLINE noDataCue #-}
+
 gTypeDataCue :: JSM GType
 gTypeDataCue = GType . Object <$> jsg "WebKitDataCue"
 
@@ -8349,6 +9080,10 @@ instance MakeObject DataTransfer where
 instance IsGObject DataTransfer where
   typeGType _ = gTypeDataTransfer
   {-# INLINE typeGType #-}
+
+noDataTransfer :: Maybe DataTransfer
+noDataTransfer = Nothing
+{-# INLINE noDataTransfer #-}
 
 gTypeDataTransfer :: JSM GType
 gTypeDataTransfer = GType . Object <$> jsg "DataTransfer"
@@ -8383,6 +9118,10 @@ instance IsGObject DataTransferItem where
   typeGType _ = gTypeDataTransferItem
   {-# INLINE typeGType #-}
 
+noDataTransferItem :: Maybe DataTransferItem
+noDataTransferItem = Nothing
+{-# INLINE noDataTransferItem #-}
+
 gTypeDataTransferItem :: JSM GType
 gTypeDataTransferItem = GType . Object <$> jsg "DataTransferItem"
 
@@ -8416,6 +9155,10 @@ instance IsGObject DataTransferItemList where
   typeGType _ = gTypeDataTransferItemList
   {-# INLINE typeGType #-}
 
+noDataTransferItemList :: Maybe DataTransferItemList
+noDataTransferItemList = Nothing
+{-# INLINE noDataTransferItemList #-}
+
 gTypeDataTransferItemList :: JSM GType
 gTypeDataTransferItemList = GType . Object <$> jsg "DataTransferItemList"
 
@@ -8448,6 +9191,10 @@ instance MakeObject Database where
 instance IsGObject Database where
   typeGType _ = gTypeDatabase
   {-# INLINE typeGType #-}
+
+noDatabase :: Maybe Database
+noDatabase = Nothing
+{-# INLINE noDatabase #-}
 
 gTypeDatabase :: JSM GType
 gTypeDatabase = GType . Object <$> jsg "Database"
@@ -8494,6 +9241,10 @@ instance IsGObject DedicatedWorkerGlobalScope where
   typeGType _ = gTypeDedicatedWorkerGlobalScope
   {-# INLINE typeGType #-}
 
+noDedicatedWorkerGlobalScope :: Maybe DedicatedWorkerGlobalScope
+noDedicatedWorkerGlobalScope = Nothing
+{-# INLINE noDedicatedWorkerGlobalScope #-}
+
 gTypeDedicatedWorkerGlobalScope :: JSM GType
 gTypeDedicatedWorkerGlobalScope = GType . Object <$> jsg "DedicatedWorkerGlobalScope"
 
@@ -8533,6 +9284,10 @@ instance IsGObject DelayNode where
   typeGType _ = gTypeDelayNode
   {-# INLINE typeGType #-}
 
+noDelayNode :: Maybe DelayNode
+noDelayNode = Nothing
+{-# INLINE noDelayNode #-}
+
 gTypeDelayNode :: JSM GType
 gTypeDelayNode = GType . Object <$> jsg "DelayNode"
 
@@ -8569,6 +9324,10 @@ instance IsEvent DeviceMotionEvent
 instance IsGObject DeviceMotionEvent where
   typeGType _ = gTypeDeviceMotionEvent
   {-# INLINE typeGType #-}
+
+noDeviceMotionEvent :: Maybe DeviceMotionEvent
+noDeviceMotionEvent = Nothing
+{-# INLINE noDeviceMotionEvent #-}
 
 gTypeDeviceMotionEvent :: JSM GType
 gTypeDeviceMotionEvent = GType . Object <$> jsg "DeviceMotionEvent"
@@ -8607,6 +9366,10 @@ instance IsGObject DeviceOrientationEvent where
   typeGType _ = gTypeDeviceOrientationEvent
   {-# INLINE typeGType #-}
 
+noDeviceOrientationEvent :: Maybe DeviceOrientationEvent
+noDeviceOrientationEvent = Nothing
+{-# INLINE noDeviceOrientationEvent #-}
+
 gTypeDeviceOrientationEvent :: JSM GType
 gTypeDeviceOrientationEvent = GType . Object <$> jsg "DeviceOrientationEvent"
 
@@ -8644,6 +9407,10 @@ instance IsGObject DeviceProximityEvent where
   typeGType _ = gTypeDeviceProximityEvent
   {-# INLINE typeGType #-}
 
+noDeviceProximityEvent :: Maybe DeviceProximityEvent
+noDeviceProximityEvent = Nothing
+{-# INLINE noDeviceProximityEvent #-}
+
 gTypeDeviceProximityEvent :: JSM GType
 gTypeDeviceProximityEvent = GType . Object <$> jsg "DeviceProximityEvent"
 
@@ -8680,6 +9447,10 @@ instance IsEventInit DeviceProximityEventInit
 instance IsGObject DeviceProximityEventInit where
   typeGType _ = gTypeDeviceProximityEventInit
   {-# INLINE typeGType #-}
+
+noDeviceProximityEventInit :: Maybe DeviceProximityEventInit
+noDeviceProximityEventInit = Nothing
+{-# INLINE noDeviceProximityEventInit #-}
 
 gTypeDeviceProximityEventInit :: JSM GType
 gTypeDeviceProximityEventInit = GType . Object <$> jsg "DeviceProximityEventInit"
@@ -8735,6 +9506,10 @@ instance IsGObject Document where
   typeGType _ = gTypeDocument
   {-# INLINE typeGType #-}
 
+noDocument :: Maybe Document
+noDocument = Nothing
+{-# INLINE noDocument #-}
+
 gTypeDocument :: JSM GType
 gTypeDocument = GType . Object <$> jsg "Document"
 
@@ -8772,6 +9547,10 @@ instance IsDocumentAndElementEventHandlers DocumentAndElementEventHandlers
 instance IsGObject DocumentAndElementEventHandlers where
   typeGType _ = gTypeDocumentAndElementEventHandlers
   {-# INLINE typeGType #-}
+
+noDocumentAndElementEventHandlers :: Maybe DocumentAndElementEventHandlers
+noDocumentAndElementEventHandlers = Nothing
+{-# INLINE noDocumentAndElementEventHandlers #-}
 
 gTypeDocumentAndElementEventHandlers :: JSM GType
 gTypeDocumentAndElementEventHandlers = GType . Object <$> jsg "DocumentAndElementEventHandlers"
@@ -8821,6 +9600,10 @@ instance IsGObject DocumentFragment where
   typeGType _ = gTypeDocumentFragment
   {-# INLINE typeGType #-}
 
+noDocumentFragment :: Maybe DocumentFragment
+noDocumentFragment = Nothing
+{-# INLINE noDocumentFragment #-}
+
 gTypeDocumentFragment :: JSM GType
 gTypeDocumentFragment = GType . Object <$> jsg "DocumentFragment"
 
@@ -8859,6 +9642,10 @@ instance IsGObject DocumentOrShadowRoot where
   typeGType _ = gTypeDocumentOrShadowRoot
   {-# INLINE typeGType #-}
 
+noDocumentOrShadowRoot :: Maybe DocumentOrShadowRoot
+noDocumentOrShadowRoot = Nothing
+{-# INLINE noDocumentOrShadowRoot #-}
+
 gTypeDocumentOrShadowRoot :: JSM GType
 gTypeDocumentOrShadowRoot = GType . Object <$> jsg "DocumentOrShadowRoot"
 
@@ -8895,6 +9682,10 @@ instance IsAnimationTimeline DocumentTimeline
 instance IsGObject DocumentTimeline where
   typeGType _ = gTypeDocumentTimeline
   {-# INLINE typeGType #-}
+
+noDocumentTimeline :: Maybe DocumentTimeline
+noDocumentTimeline = Nothing
+{-# INLINE noDocumentTimeline #-}
 
 gTypeDocumentTimeline :: JSM GType
 gTypeDocumentTimeline = GType . Object <$> jsg "DocumentTimeline"
@@ -8937,6 +9728,10 @@ instance IsGObject DocumentType where
   typeGType _ = gTypeDocumentType
   {-# INLINE typeGType #-}
 
+noDocumentType :: Maybe DocumentType
+noDocumentType = Nothing
+{-# INLINE noDocumentType #-}
+
 gTypeDocumentType :: JSM GType
 gTypeDocumentType = GType . Object <$> jsg "DocumentType"
 
@@ -8974,6 +9769,10 @@ instance IsDoubleRange DoubleRange
 instance IsGObject DoubleRange where
   typeGType _ = gTypeDoubleRange
   {-# INLINE typeGType #-}
+
+noDoubleRange :: Maybe DoubleRange
+noDoubleRange = Nothing
+{-# INLINE noDoubleRange #-}
 
 gTypeDoubleRange :: JSM GType
 gTypeDoubleRange = GType . Object <$> jsg "DoubleRange"
@@ -9014,6 +9813,10 @@ instance IsGObject DynamicsCompressorNode where
   typeGType _ = gTypeDynamicsCompressorNode
   {-# INLINE typeGType #-}
 
+noDynamicsCompressorNode :: Maybe DynamicsCompressorNode
+noDynamicsCompressorNode = Nothing
+{-# INLINE noDynamicsCompressorNode #-}
+
 gTypeDynamicsCompressorNode :: JSM GType
 gTypeDynamicsCompressorNode = GType . Object <$> jsg "DynamicsCompressorNode"
 
@@ -9046,6 +9849,10 @@ instance MakeObject EXTBlendMinMax where
 instance IsGObject EXTBlendMinMax where
   typeGType _ = gTypeEXTBlendMinMax
   {-# INLINE typeGType #-}
+
+noEXTBlendMinMax :: Maybe EXTBlendMinMax
+noEXTBlendMinMax = Nothing
+{-# INLINE noEXTBlendMinMax #-}
 
 gTypeEXTBlendMinMax :: JSM GType
 gTypeEXTBlendMinMax = GType . Object <$> jsg "EXTBlendMinMax"
@@ -9080,6 +9887,10 @@ instance IsGObject EXTFragDepth where
   typeGType _ = gTypeEXTFragDepth
   {-# INLINE typeGType #-}
 
+noEXTFragDepth :: Maybe EXTFragDepth
+noEXTFragDepth = Nothing
+{-# INLINE noEXTFragDepth #-}
+
 gTypeEXTFragDepth :: JSM GType
 gTypeEXTFragDepth = GType . Object <$> jsg "EXTFragDepth"
 
@@ -9112,6 +9923,10 @@ instance MakeObject EXTShaderTextureLOD where
 instance IsGObject EXTShaderTextureLOD where
   typeGType _ = gTypeEXTShaderTextureLOD
   {-# INLINE typeGType #-}
+
+noEXTShaderTextureLOD :: Maybe EXTShaderTextureLOD
+noEXTShaderTextureLOD = Nothing
+{-# INLINE noEXTShaderTextureLOD #-}
 
 gTypeEXTShaderTextureLOD :: JSM GType
 gTypeEXTShaderTextureLOD = GType . Object <$> jsg "EXTShaderTextureLOD"
@@ -9146,6 +9961,10 @@ instance IsGObject EXTTextureFilterAnisotropic where
   typeGType _ = gTypeEXTTextureFilterAnisotropic
   {-# INLINE typeGType #-}
 
+noEXTTextureFilterAnisotropic :: Maybe EXTTextureFilterAnisotropic
+noEXTTextureFilterAnisotropic = Nothing
+{-# INLINE noEXTTextureFilterAnisotropic #-}
+
 gTypeEXTTextureFilterAnisotropic :: JSM GType
 gTypeEXTTextureFilterAnisotropic = GType . Object <$> jsg "EXTTextureFilterAnisotropic"
 
@@ -9178,6 +9997,10 @@ instance MakeObject EXTsRGB where
 instance IsGObject EXTsRGB where
   typeGType _ = gTypeEXTsRGB
   {-# INLINE typeGType #-}
+
+noEXTsRGB :: Maybe EXTsRGB
+noEXTsRGB = Nothing
+{-# INLINE noEXTsRGB #-}
 
 gTypeEXTsRGB :: JSM GType
 gTypeEXTsRGB = GType . Object <$> jsg "EXTsRGB"
@@ -9216,6 +10039,10 @@ instance IsGObject EcKeyParams where
   typeGType _ = gTypeEcKeyParams
   {-# INLINE typeGType #-}
 
+noEcKeyParams :: Maybe EcKeyParams
+noEcKeyParams = Nothing
+{-# INLINE noEcKeyParams #-}
+
 gTypeEcKeyParams :: JSM GType
 gTypeEcKeyParams = GType . Object <$> jsg "EcKeyParams"
 
@@ -9253,6 +10080,10 @@ instance IsGObject EcdhKeyDeriveParams where
   typeGType _ = gTypeEcdhKeyDeriveParams
   {-# INLINE typeGType #-}
 
+noEcdhKeyDeriveParams :: Maybe EcdhKeyDeriveParams
+noEcdhKeyDeriveParams = Nothing
+{-# INLINE noEcdhKeyDeriveParams #-}
+
 gTypeEcdhKeyDeriveParams :: JSM GType
 gTypeEcdhKeyDeriveParams = GType . Object <$> jsg "EcdhKeyDeriveParams"
 
@@ -9289,6 +10120,10 @@ instance IsCryptoAlgorithmParameters EcdsaParams
 instance IsGObject EcdsaParams where
   typeGType _ = gTypeEcdsaParams
   {-# INLINE typeGType #-}
+
+noEcdsaParams :: Maybe EcdsaParams
+noEcdsaParams = Nothing
+{-# INLINE noEcdsaParams #-}
 
 gTypeEcdsaParams :: JSM GType
 gTypeEcdsaParams = GType . Object <$> jsg "EcdsaParams"
@@ -9346,6 +10181,10 @@ instance IsGObject Element where
   typeGType _ = gTypeElement
   {-# INLINE typeGType #-}
 
+noElement :: Maybe Element
+noElement = Nothing
+{-# INLINE noElement #-}
+
 gTypeElement :: JSM GType
 gTypeElement = GType . Object <$> jsg "Element"
 
@@ -9384,6 +10223,10 @@ instance IsGObject ElementCSSInlineStyle where
   typeGType _ = gTypeElementCSSInlineStyle
   {-# INLINE typeGType #-}
 
+noElementCSSInlineStyle :: Maybe ElementCSSInlineStyle
+noElementCSSInlineStyle = Nothing
+{-# INLINE noElementCSSInlineStyle #-}
+
 gTypeElementCSSInlineStyle :: JSM GType
 gTypeElementCSSInlineStyle = GType . Object <$> jsg "ElementCSSInlineStyle"
 
@@ -9421,6 +10264,10 @@ instance IsGObject ErrorEvent where
   typeGType _ = gTypeErrorEvent
   {-# INLINE typeGType #-}
 
+noErrorEvent :: Maybe ErrorEvent
+noErrorEvent = Nothing
+{-# INLINE noErrorEvent #-}
+
 gTypeErrorEvent :: JSM GType
 gTypeErrorEvent = GType . Object <$> jsg "ErrorEvent"
 
@@ -9457,6 +10304,10 @@ instance IsEventInit ErrorEventInit
 instance IsGObject ErrorEventInit where
   typeGType _ = gTypeErrorEventInit
   {-# INLINE typeGType #-}
+
+noErrorEventInit :: Maybe ErrorEventInit
+noErrorEventInit = Nothing
+{-# INLINE noErrorEventInit #-}
 
 gTypeErrorEventInit :: JSM GType
 gTypeErrorEventInit = GType . Object <$> jsg "ErrorEventInit"
@@ -9496,6 +10347,10 @@ instance IsGObject Event where
   typeGType _ = gTypeEvent
   {-# INLINE typeGType #-}
 
+noEvent :: Maybe Event
+noEvent = Nothing
+{-# INLINE noEvent #-}
+
 gTypeEvent :: JSM GType
 gTypeEvent = GType . Object <$> jsg "Event"
 
@@ -9534,6 +10389,10 @@ instance IsGObject EventInit where
   typeGType _ = gTypeEventInit
   {-# INLINE typeGType #-}
 
+noEventInit :: Maybe EventInit
+noEventInit = Nothing
+{-# INLINE noEventInit #-}
+
 gTypeEventInit :: JSM GType
 gTypeEventInit = GType . Object <$> jsg "EventInit"
 
@@ -9566,6 +10425,10 @@ instance MakeObject EventListener where
 instance IsGObject EventListener where
   typeGType _ = gTypeEventListener
   {-# INLINE typeGType #-}
+
+noEventListener :: Maybe EventListener
+noEventListener = Nothing
+{-# INLINE noEventListener #-}
 
 gTypeEventListener :: JSM GType
 gTypeEventListener = GType . Object <$> jsg "EventListener"
@@ -9604,6 +10467,10 @@ instance IsEventListenerOptions EventListenerOptions
 instance IsGObject EventListenerOptions where
   typeGType _ = gTypeEventListenerOptions
   {-# INLINE typeGType #-}
+
+noEventListenerOptions :: Maybe EventListenerOptions
+noEventListenerOptions = Nothing
+{-# INLINE noEventListenerOptions #-}
 
 gTypeEventListenerOptions :: JSM GType
 gTypeEventListenerOptions = GType . Object <$> jsg "EventListenerOptions"
@@ -9649,6 +10516,10 @@ instance IsGObject EventModifierInit where
   typeGType _ = gTypeEventModifierInit
   {-# INLINE typeGType #-}
 
+noEventModifierInit :: Maybe EventModifierInit
+noEventModifierInit = Nothing
+{-# INLINE noEventModifierInit #-}
+
 gTypeEventModifierInit :: JSM GType
 gTypeEventModifierInit = GType . Object <$> jsg "EventModifierInit"
 
@@ -9686,6 +10557,10 @@ instance IsGObject EventSource where
   typeGType _ = gTypeEventSource
   {-# INLINE typeGType #-}
 
+noEventSource :: Maybe EventSource
+noEventSource = Nothing
+{-# INLINE noEventSource #-}
+
 gTypeEventSource :: JSM GType
 gTypeEventSource = GType . Object <$> jsg "EventSource"
 
@@ -9718,6 +10593,10 @@ instance MakeObject EventSourceInit where
 instance IsGObject EventSourceInit where
   typeGType _ = gTypeEventSourceInit
   {-# INLINE typeGType #-}
+
+noEventSourceInit :: Maybe EventSourceInit
+noEventSourceInit = Nothing
+{-# INLINE noEventSourceInit #-}
 
 gTypeEventSourceInit :: JSM GType
 gTypeEventSourceInit = GType . Object <$> jsg "EventSourceInit"
@@ -9757,6 +10636,10 @@ instance IsGObject EventTarget where
   typeGType _ = gTypeEventTarget
   {-# INLINE typeGType #-}
 
+noEventTarget :: Maybe EventTarget
+noEventTarget = Nothing
+{-# INLINE noEventTarget #-}
+
 gTypeEventTarget :: JSM GType
 gTypeEventTarget = GType . Object <$> jsg "EventTarget"
 
@@ -9794,6 +10677,10 @@ instance IsGObject File where
   typeGType _ = gTypeFile
   {-# INLINE typeGType #-}
 
+noFile :: Maybe File
+noFile = Nothing
+{-# INLINE noFile #-}
+
 gTypeFile :: JSM GType
 gTypeFile = GType . Object <$> jsg "File"
 
@@ -9826,6 +10713,10 @@ instance MakeObject FileError where
 instance IsGObject FileError where
   typeGType _ = gTypeFileError
   {-# INLINE typeGType #-}
+
+noFileError :: Maybe FileError
+noFileError = Nothing
+{-# INLINE noFileError #-}
 
 gTypeFileError :: JSM GType
 gTypeFileError = GType . Object <$> jsg "FileError"
@@ -9860,6 +10751,10 @@ instance IsGObject FileException where
   typeGType _ = gTypeFileException
   {-# INLINE typeGType #-}
 
+noFileException :: Maybe FileException
+noFileException = Nothing
+{-# INLINE noFileException #-}
+
 gTypeFileException :: JSM GType
 gTypeFileException = GType . Object <$> jsg "FileException"
 
@@ -9892,6 +10787,10 @@ instance MakeObject FileList where
 instance IsGObject FileList where
   typeGType _ = gTypeFileList
   {-# INLINE typeGType #-}
+
+noFileList :: Maybe FileList
+noFileList = Nothing
+{-# INLINE noFileList #-}
 
 gTypeFileList :: JSM GType
 gTypeFileList = GType . Object <$> jsg "FileList"
@@ -9930,6 +10829,10 @@ instance IsGObject FilePropertyBag where
   typeGType _ = gTypeFilePropertyBag
   {-# INLINE typeGType #-}
 
+noFilePropertyBag :: Maybe FilePropertyBag
+noFilePropertyBag = Nothing
+{-# INLINE noFilePropertyBag #-}
+
 gTypeFilePropertyBag :: JSM GType
 gTypeFilePropertyBag = GType . Object <$> jsg "FilePropertyBag"
 
@@ -9967,6 +10870,10 @@ instance IsGObject FileReader where
   typeGType _ = gTypeFileReader
   {-# INLINE typeGType #-}
 
+noFileReader :: Maybe FileReader
+noFileReader = Nothing
+{-# INLINE noFileReader #-}
+
 gTypeFileReader :: JSM GType
 gTypeFileReader = GType . Object <$> jsg "FileReader"
 
@@ -9999,6 +10906,10 @@ instance MakeObject FileReaderSync where
 instance IsGObject FileReaderSync where
   typeGType _ = gTypeFileReaderSync
   {-# INLINE typeGType #-}
+
+noFileReaderSync :: Maybe FileReaderSync
+noFileReaderSync = Nothing
+{-# INLINE noFileReaderSync #-}
 
 gTypeFileReaderSync :: JSM GType
 gTypeFileReaderSync = GType . Object <$> jsg "FileReaderSync"
@@ -10039,6 +10950,10 @@ instance IsGObject FocusEvent where
   typeGType _ = gTypeFocusEvent
   {-# INLINE typeGType #-}
 
+noFocusEvent :: Maybe FocusEvent
+noFocusEvent = Nothing
+{-# INLINE noFocusEvent #-}
+
 gTypeFocusEvent :: JSM GType
 gTypeFocusEvent = GType . Object <$> jsg "FocusEvent"
 
@@ -10078,6 +10993,10 @@ instance IsGObject FocusEventInit where
   typeGType _ = gTypeFocusEventInit
   {-# INLINE typeGType #-}
 
+noFocusEventInit :: Maybe FocusEventInit
+noFocusEventInit = Nothing
+{-# INLINE noFocusEventInit #-}
+
 gTypeFocusEventInit :: JSM GType
 gTypeFocusEventInit = GType . Object <$> jsg "FocusEventInit"
 
@@ -10111,6 +11030,10 @@ instance IsGObject FontFace where
   typeGType _ = gTypeFontFace
   {-# INLINE typeGType #-}
 
+noFontFace :: Maybe FontFace
+noFontFace = Nothing
+{-# INLINE noFontFace #-}
+
 gTypeFontFace :: JSM GType
 gTypeFontFace = GType . Object <$> jsg "FontFace"
 
@@ -10143,6 +11066,10 @@ instance MakeObject FontFaceDescriptors where
 instance IsGObject FontFaceDescriptors where
   typeGType _ = gTypeFontFaceDescriptors
   {-# INLINE typeGType #-}
+
+noFontFaceDescriptors :: Maybe FontFaceDescriptors
+noFontFaceDescriptors = Nothing
+{-# INLINE noFontFaceDescriptors #-}
 
 gTypeFontFaceDescriptors :: JSM GType
 gTypeFontFaceDescriptors = GType . Object <$> jsg "FontFaceDescriptors"
@@ -10181,6 +11108,10 @@ instance IsGObject FontFaceSet where
   typeGType _ = gTypeFontFaceSet
   {-# INLINE typeGType #-}
 
+noFontFaceSet :: Maybe FontFaceSet
+noFontFaceSet = Nothing
+{-# INLINE noFontFaceSet #-}
+
 gTypeFontFaceSet :: JSM GType
 gTypeFontFaceSet = GType . Object <$> jsg "FontFaceSet"
 
@@ -10213,6 +11144,10 @@ instance MakeObject FormData where
 instance IsGObject FormData where
   typeGType _ = gTypeFormData
   {-# INLINE typeGType #-}
+
+noFormData :: Maybe FormData
+noFormData = Nothing
+{-# INLINE noFormData #-}
 
 gTypeFormData :: JSM GType
 gTypeFormData = GType . Object <$> jsg "FormData"
@@ -10253,6 +11188,10 @@ instance IsGObject GainNode where
   typeGType _ = gTypeGainNode
   {-# INLINE typeGType #-}
 
+noGainNode :: Maybe GainNode
+noGainNode = Nothing
+{-# INLINE noGainNode #-}
+
 gTypeGainNode :: JSM GType
 gTypeGainNode = GType . Object <$> jsg "GainNode"
 
@@ -10286,6 +11225,10 @@ instance IsGObject Gamepad where
   typeGType _ = gTypeGamepad
   {-# INLINE typeGType #-}
 
+noGamepad :: Maybe Gamepad
+noGamepad = Nothing
+{-# INLINE noGamepad #-}
+
 gTypeGamepad :: JSM GType
 gTypeGamepad = GType . Object <$> jsg "Gamepad"
 
@@ -10318,6 +11261,10 @@ instance MakeObject GamepadButton where
 instance IsGObject GamepadButton where
   typeGType _ = gTypeGamepadButton
   {-# INLINE typeGType #-}
+
+noGamepadButton :: Maybe GamepadButton
+noGamepadButton = Nothing
+{-# INLINE noGamepadButton #-}
 
 gTypeGamepadButton :: JSM GType
 gTypeGamepadButton = GType . Object <$> jsg "GamepadButton"
@@ -10356,6 +11303,10 @@ instance IsGObject GamepadEvent where
   typeGType _ = gTypeGamepadEvent
   {-# INLINE typeGType #-}
 
+noGamepadEvent :: Maybe GamepadEvent
+noGamepadEvent = Nothing
+{-# INLINE noGamepadEvent #-}
+
 gTypeGamepadEvent :: JSM GType
 gTypeGamepadEvent = GType . Object <$> jsg "GamepadEvent"
 
@@ -10393,6 +11344,10 @@ instance IsGObject GamepadEventInit where
   typeGType _ = gTypeGamepadEventInit
   {-# INLINE typeGType #-}
 
+noGamepadEventInit :: Maybe GamepadEventInit
+noGamepadEventInit = Nothing
+{-# INLINE noGamepadEventInit #-}
+
 gTypeGamepadEventInit :: JSM GType
 gTypeGamepadEventInit = GType . Object <$> jsg "GamepadEventInit"
 
@@ -10425,6 +11380,10 @@ instance MakeObject Geolocation where
 instance IsGObject Geolocation where
   typeGType _ = gTypeGeolocation
   {-# INLINE typeGType #-}
+
+noGeolocation :: Maybe Geolocation
+noGeolocation = Nothing
+{-# INLINE noGeolocation #-}
 
 gTypeGeolocation :: JSM GType
 gTypeGeolocation = GType . Object <$> jsg "Geolocation"
@@ -10459,6 +11418,10 @@ instance IsGObject Geoposition where
   typeGType _ = gTypeGeoposition
   {-# INLINE typeGType #-}
 
+noGeoposition :: Maybe Geoposition
+noGeoposition = Nothing
+{-# INLINE noGeoposition #-}
+
 gTypeGeoposition :: JSM GType
 gTypeGeoposition = GType . Object <$> jsg "Geoposition"
 
@@ -10491,6 +11454,10 @@ instance MakeObject GetRootNodeOptions where
 instance IsGObject GetRootNodeOptions where
   typeGType _ = gTypeGetRootNodeOptions
   {-# INLINE typeGType #-}
+
+noGetRootNodeOptions :: Maybe GetRootNodeOptions
+noGetRootNodeOptions = Nothing
+{-# INLINE noGetRootNodeOptions #-}
 
 gTypeGetRootNodeOptions :: JSM GType
 gTypeGetRootNodeOptions = GType . Object <$> jsg "GetRootNodeOptions"
@@ -10530,6 +11497,10 @@ instance IsGObject GlobalCrypto where
   typeGType _ = gTypeGlobalCrypto
   {-# INLINE typeGType #-}
 
+noGlobalCrypto :: Maybe GlobalCrypto
+noGlobalCrypto = Nothing
+{-# INLINE noGlobalCrypto #-}
+
 gTypeGlobalCrypto :: JSM GType
 gTypeGlobalCrypto = GType . Object <$> jsg "GlobalCrypto"
 
@@ -10567,6 +11538,10 @@ instance IsGlobalEventHandlers GlobalEventHandlers
 instance IsGObject GlobalEventHandlers where
   typeGType _ = gTypeGlobalEventHandlers
   {-# INLINE typeGType #-}
+
+noGlobalEventHandlers :: Maybe GlobalEventHandlers
+noGlobalEventHandlers = Nothing
+{-# INLINE noGlobalEventHandlers #-}
 
 gTypeGlobalEventHandlers :: JSM GType
 gTypeGlobalEventHandlers = GType . Object <$> jsg "GlobalEventHandlers"
@@ -10606,6 +11581,10 @@ instance IsGObject GlobalPerformance where
   typeGType _ = gTypeGlobalPerformance
   {-# INLINE typeGType #-}
 
+noGlobalPerformance :: Maybe GlobalPerformance
+noGlobalPerformance = Nothing
+{-# INLINE noGlobalPerformance #-}
+
 gTypeGlobalPerformance :: JSM GType
 gTypeGlobalPerformance = GType . Object <$> jsg "GlobalPerformance"
 
@@ -10638,6 +11617,10 @@ instance MakeObject HTMLAllCollection where
 instance IsGObject HTMLAllCollection where
   typeGType _ = gTypeHTMLAllCollection
   {-# INLINE typeGType #-}
+
+noHTMLAllCollection :: Maybe HTMLAllCollection
+noHTMLAllCollection = Nothing
+{-# INLINE noHTMLAllCollection #-}
 
 gTypeHTMLAllCollection :: JSM GType
 gTypeHTMLAllCollection = GType . Object <$> jsg "HTMLAllCollection"
@@ -10700,6 +11683,10 @@ instance IsGObject HTMLAnchorElement where
   typeGType _ = gTypeHTMLAnchorElement
   {-# INLINE typeGType #-}
 
+noHTMLAnchorElement :: Maybe HTMLAnchorElement
+noHTMLAnchorElement = Nothing
+{-# INLINE noHTMLAnchorElement #-}
+
 gTypeHTMLAnchorElement :: JSM GType
 gTypeHTMLAnchorElement = GType . Object <$> jsg "HTMLAnchorElement"
 
@@ -10758,6 +11745,10 @@ instance IsElementCSSInlineStyle HTMLAppletElement
 instance IsGObject HTMLAppletElement where
   typeGType _ = gTypeHTMLAppletElement
   {-# INLINE typeGType #-}
+
+noHTMLAppletElement :: Maybe HTMLAppletElement
+noHTMLAppletElement = Nothing
+{-# INLINE noHTMLAppletElement #-}
 
 gTypeHTMLAppletElement :: JSM GType
 gTypeHTMLAppletElement = GType . Object <$> jsg "HTMLAppletElement"
@@ -10820,6 +11811,10 @@ instance IsGObject HTMLAreaElement where
   typeGType _ = gTypeHTMLAreaElement
   {-# INLINE typeGType #-}
 
+noHTMLAreaElement :: Maybe HTMLAreaElement
+noHTMLAreaElement = Nothing
+{-# INLINE noHTMLAreaElement #-}
+
 gTypeHTMLAreaElement :: JSM GType
 gTypeHTMLAreaElement = GType . Object <$> jsg "HTMLAreaElement"
 
@@ -10878,6 +11873,10 @@ instance IsElementCSSInlineStyle HTMLAttachmentElement
 instance IsGObject HTMLAttachmentElement where
   typeGType _ = gTypeHTMLAttachmentElement
   {-# INLINE typeGType #-}
+
+noHTMLAttachmentElement :: Maybe HTMLAttachmentElement
+noHTMLAttachmentElement = Nothing
+{-# INLINE noHTMLAttachmentElement #-}
 
 gTypeHTMLAttachmentElement :: JSM GType
 gTypeHTMLAttachmentElement = GType . Object <$> jsg "HTMLAttachmentElement"
@@ -10940,6 +11939,10 @@ instance IsGObject HTMLAudioElement where
   typeGType _ = gTypeHTMLAudioElement
   {-# INLINE typeGType #-}
 
+noHTMLAudioElement :: Maybe HTMLAudioElement
+noHTMLAudioElement = Nothing
+{-# INLINE noHTMLAudioElement #-}
+
 gTypeHTMLAudioElement :: JSM GType
 gTypeHTMLAudioElement = GType . Object <$> jsg "HTMLAudioElement"
 
@@ -10999,6 +12002,10 @@ instance IsGObject HTMLBRElement where
   typeGType _ = gTypeHTMLBRElement
   {-# INLINE typeGType #-}
 
+noHTMLBRElement :: Maybe HTMLBRElement
+noHTMLBRElement = Nothing
+{-# INLINE noHTMLBRElement #-}
+
 gTypeHTMLBRElement :: JSM GType
 gTypeHTMLBRElement = GType . Object <$> jsg "HTMLBRElement"
 
@@ -11057,6 +12064,10 @@ instance IsElementCSSInlineStyle HTMLBaseElement
 instance IsGObject HTMLBaseElement where
   typeGType _ = gTypeHTMLBaseElement
   {-# INLINE typeGType #-}
+
+noHTMLBaseElement :: Maybe HTMLBaseElement
+noHTMLBaseElement = Nothing
+{-# INLINE noHTMLBaseElement #-}
 
 gTypeHTMLBaseElement :: JSM GType
 gTypeHTMLBaseElement = GType . Object <$> jsg "HTMLBaseElement"
@@ -11119,6 +12130,10 @@ instance IsGObject HTMLBodyElement where
   typeGType _ = gTypeHTMLBodyElement
   {-# INLINE typeGType #-}
 
+noHTMLBodyElement :: Maybe HTMLBodyElement
+noHTMLBodyElement = Nothing
+{-# INLINE noHTMLBodyElement #-}
+
 gTypeHTMLBodyElement :: JSM GType
 gTypeHTMLBodyElement = GType . Object <$> jsg "HTMLBodyElement"
 
@@ -11177,6 +12192,10 @@ instance IsElementCSSInlineStyle HTMLButtonElement
 instance IsGObject HTMLButtonElement where
   typeGType _ = gTypeHTMLButtonElement
   {-# INLINE typeGType #-}
+
+noHTMLButtonElement :: Maybe HTMLButtonElement
+noHTMLButtonElement = Nothing
+{-# INLINE noHTMLButtonElement #-}
 
 gTypeHTMLButtonElement :: JSM GType
 gTypeHTMLButtonElement = GType . Object <$> jsg "HTMLButtonElement"
@@ -11237,6 +12256,10 @@ instance IsGObject HTMLCanvasElement where
   typeGType _ = gTypeHTMLCanvasElement
   {-# INLINE typeGType #-}
 
+noHTMLCanvasElement :: Maybe HTMLCanvasElement
+noHTMLCanvasElement = Nothing
+{-# INLINE noHTMLCanvasElement #-}
+
 gTypeHTMLCanvasElement :: JSM GType
 gTypeHTMLCanvasElement = GType . Object <$> jsg "HTMLCanvasElement"
 
@@ -11274,6 +12297,10 @@ instance IsHTMLCollection HTMLCollection
 instance IsGObject HTMLCollection where
   typeGType _ = gTypeHTMLCollection
   {-# INLINE typeGType #-}
+
+noHTMLCollection :: Maybe HTMLCollection
+noHTMLCollection = Nothing
+{-# INLINE noHTMLCollection #-}
 
 gTypeHTMLCollection :: JSM GType
 gTypeHTMLCollection = GType . Object <$> jsg "HTMLCollection"
@@ -11334,6 +12361,10 @@ instance IsGObject HTMLDListElement where
   typeGType _ = gTypeHTMLDListElement
   {-# INLINE typeGType #-}
 
+noHTMLDListElement :: Maybe HTMLDListElement
+noHTMLDListElement = Nothing
+{-# INLINE noHTMLDListElement #-}
+
 gTypeHTMLDListElement :: JSM GType
 gTypeHTMLDListElement = GType . Object <$> jsg "HTMLDListElement"
 
@@ -11392,6 +12423,10 @@ instance IsElementCSSInlineStyle HTMLDataElement
 instance IsGObject HTMLDataElement where
   typeGType _ = gTypeHTMLDataElement
   {-# INLINE typeGType #-}
+
+noHTMLDataElement :: Maybe HTMLDataElement
+noHTMLDataElement = Nothing
+{-# INLINE noHTMLDataElement #-}
 
 gTypeHTMLDataElement :: JSM GType
 gTypeHTMLDataElement = GType . Object <$> jsg "HTMLDataElement"
@@ -11452,6 +12487,10 @@ instance IsGObject HTMLDataListElement where
   typeGType _ = gTypeHTMLDataListElement
   {-# INLINE typeGType #-}
 
+noHTMLDataListElement :: Maybe HTMLDataListElement
+noHTMLDataListElement = Nothing
+{-# INLINE noHTMLDataListElement #-}
+
 gTypeHTMLDataListElement :: JSM GType
 gTypeHTMLDataListElement = GType . Object <$> jsg "HTMLDataListElement"
 
@@ -11510,6 +12549,10 @@ instance IsElementCSSInlineStyle HTMLDetailsElement
 instance IsGObject HTMLDetailsElement where
   typeGType _ = gTypeHTMLDetailsElement
   {-# INLINE typeGType #-}
+
+noHTMLDetailsElement :: Maybe HTMLDetailsElement
+noHTMLDetailsElement = Nothing
+{-# INLINE noHTMLDetailsElement #-}
 
 gTypeHTMLDetailsElement :: JSM GType
 gTypeHTMLDetailsElement = GType . Object <$> jsg "HTMLDetailsElement"
@@ -11570,6 +12613,10 @@ instance IsGObject HTMLDirectoryElement where
   typeGType _ = gTypeHTMLDirectoryElement
   {-# INLINE typeGType #-}
 
+noHTMLDirectoryElement :: Maybe HTMLDirectoryElement
+noHTMLDirectoryElement = Nothing
+{-# INLINE noHTMLDirectoryElement #-}
+
 gTypeHTMLDirectoryElement :: JSM GType
 gTypeHTMLDirectoryElement = GType . Object <$> jsg "HTMLDirectoryElement"
 
@@ -11629,6 +12676,10 @@ instance IsGObject HTMLDivElement where
   typeGType _ = gTypeHTMLDivElement
   {-# INLINE typeGType #-}
 
+noHTMLDivElement :: Maybe HTMLDivElement
+noHTMLDivElement = Nothing
+{-# INLINE noHTMLDivElement #-}
+
 gTypeHTMLDivElement :: JSM GType
 gTypeHTMLDivElement = GType . Object <$> jsg "HTMLDivElement"
 
@@ -11679,6 +12730,10 @@ instance IsDocumentAndElementEventHandlers HTMLDocument
 instance IsGObject HTMLDocument where
   typeGType _ = gTypeHTMLDocument
   {-# INLINE typeGType #-}
+
+noHTMLDocument :: Maybe HTMLDocument
+noHTMLDocument = Nothing
+{-# INLINE noHTMLDocument #-}
 
 gTypeHTMLDocument :: JSM GType
 gTypeHTMLDocument = GType . Object <$> jsg "HTMLDocument"
@@ -11742,6 +12797,10 @@ instance IsGObject HTMLElement where
   typeGType _ = gTypeHTMLElement
   {-# INLINE typeGType #-}
 
+noHTMLElement :: Maybe HTMLElement
+noHTMLElement = Nothing
+{-# INLINE noHTMLElement #-}
+
 gTypeHTMLElement :: JSM GType
 gTypeHTMLElement = GType . Object <$> jsg "HTMLElement"
 
@@ -11800,6 +12859,10 @@ instance IsElementCSSInlineStyle HTMLEmbedElement
 instance IsGObject HTMLEmbedElement where
   typeGType _ = gTypeHTMLEmbedElement
   {-# INLINE typeGType #-}
+
+noHTMLEmbedElement :: Maybe HTMLEmbedElement
+noHTMLEmbedElement = Nothing
+{-# INLINE noHTMLEmbedElement #-}
 
 gTypeHTMLEmbedElement :: JSM GType
 gTypeHTMLEmbedElement = GType . Object <$> jsg "HTMLEmbedElement"
@@ -11860,6 +12923,10 @@ instance IsGObject HTMLFieldSetElement where
   typeGType _ = gTypeHTMLFieldSetElement
   {-# INLINE typeGType #-}
 
+noHTMLFieldSetElement :: Maybe HTMLFieldSetElement
+noHTMLFieldSetElement = Nothing
+{-# INLINE noHTMLFieldSetElement #-}
+
 gTypeHTMLFieldSetElement :: JSM GType
 gTypeHTMLFieldSetElement = GType . Object <$> jsg "HTMLFieldSetElement"
 
@@ -11919,6 +12986,10 @@ instance IsGObject HTMLFontElement where
   typeGType _ = gTypeHTMLFontElement
   {-# INLINE typeGType #-}
 
+noHTMLFontElement :: Maybe HTMLFontElement
+noHTMLFontElement = Nothing
+{-# INLINE noHTMLFontElement #-}
+
 gTypeHTMLFontElement :: JSM GType
 gTypeHTMLFontElement = GType . Object <$> jsg "HTMLFontElement"
 
@@ -11955,6 +13026,10 @@ instance IsHTMLCollection HTMLFormControlsCollection
 instance IsGObject HTMLFormControlsCollection where
   typeGType _ = gTypeHTMLFormControlsCollection
   {-# INLINE typeGType #-}
+
+noHTMLFormControlsCollection :: Maybe HTMLFormControlsCollection
+noHTMLFormControlsCollection = Nothing
+{-# INLINE noHTMLFormControlsCollection #-}
 
 gTypeHTMLFormControlsCollection :: JSM GType
 gTypeHTMLFormControlsCollection = GType . Object <$> jsg "HTMLFormControlsCollection"
@@ -12015,6 +13090,10 @@ instance IsGObject HTMLFormElement where
   typeGType _ = gTypeHTMLFormElement
   {-# INLINE typeGType #-}
 
+noHTMLFormElement :: Maybe HTMLFormElement
+noHTMLFormElement = Nothing
+{-# INLINE noHTMLFormElement #-}
+
 gTypeHTMLFormElement :: JSM GType
 gTypeHTMLFormElement = GType . Object <$> jsg "HTMLFormElement"
 
@@ -12073,6 +13152,10 @@ instance IsElementCSSInlineStyle HTMLFrameElement
 instance IsGObject HTMLFrameElement where
   typeGType _ = gTypeHTMLFrameElement
   {-# INLINE typeGType #-}
+
+noHTMLFrameElement :: Maybe HTMLFrameElement
+noHTMLFrameElement = Nothing
+{-# INLINE noHTMLFrameElement #-}
 
 gTypeHTMLFrameElement :: JSM GType
 gTypeHTMLFrameElement = GType . Object <$> jsg "HTMLFrameElement"
@@ -12135,6 +13218,10 @@ instance IsGObject HTMLFrameSetElement where
   typeGType _ = gTypeHTMLFrameSetElement
   {-# INLINE typeGType #-}
 
+noHTMLFrameSetElement :: Maybe HTMLFrameSetElement
+noHTMLFrameSetElement = Nothing
+{-# INLINE noHTMLFrameSetElement #-}
+
 gTypeHTMLFrameSetElement :: JSM GType
 gTypeHTMLFrameSetElement = GType . Object <$> jsg "HTMLFrameSetElement"
 
@@ -12193,6 +13280,10 @@ instance IsElementCSSInlineStyle HTMLHRElement
 instance IsGObject HTMLHRElement where
   typeGType _ = gTypeHTMLHRElement
   {-# INLINE typeGType #-}
+
+noHTMLHRElement :: Maybe HTMLHRElement
+noHTMLHRElement = Nothing
+{-# INLINE noHTMLHRElement #-}
 
 gTypeHTMLHRElement :: JSM GType
 gTypeHTMLHRElement = GType . Object <$> jsg "HTMLHRElement"
@@ -12253,6 +13344,10 @@ instance IsGObject HTMLHeadElement where
   typeGType _ = gTypeHTMLHeadElement
   {-# INLINE typeGType #-}
 
+noHTMLHeadElement :: Maybe HTMLHeadElement
+noHTMLHeadElement = Nothing
+{-# INLINE noHTMLHeadElement #-}
+
 gTypeHTMLHeadElement :: JSM GType
 gTypeHTMLHeadElement = GType . Object <$> jsg "HTMLHeadElement"
 
@@ -12311,6 +13406,10 @@ instance IsElementCSSInlineStyle HTMLHeadingElement
 instance IsGObject HTMLHeadingElement where
   typeGType _ = gTypeHTMLHeadingElement
   {-# INLINE typeGType #-}
+
+noHTMLHeadingElement :: Maybe HTMLHeadingElement
+noHTMLHeadingElement = Nothing
+{-# INLINE noHTMLHeadingElement #-}
 
 gTypeHTMLHeadingElement :: JSM GType
 gTypeHTMLHeadingElement = GType . Object <$> jsg "HTMLHeadingElement"
@@ -12371,6 +13470,10 @@ instance IsGObject HTMLHtmlElement where
   typeGType _ = gTypeHTMLHtmlElement
   {-# INLINE typeGType #-}
 
+noHTMLHtmlElement :: Maybe HTMLHtmlElement
+noHTMLHtmlElement = Nothing
+{-# INLINE noHTMLHtmlElement #-}
+
 gTypeHTMLHtmlElement :: JSM GType
 gTypeHTMLHtmlElement = GType . Object <$> jsg "HTMLHtmlElement"
 
@@ -12408,6 +13511,10 @@ instance IsHTMLHyperlinkElementUtils HTMLHyperlinkElementUtils
 instance IsGObject HTMLHyperlinkElementUtils where
   typeGType _ = gTypeHTMLHyperlinkElementUtils
   {-# INLINE typeGType #-}
+
+noHTMLHyperlinkElementUtils :: Maybe HTMLHyperlinkElementUtils
+noHTMLHyperlinkElementUtils = Nothing
+{-# INLINE noHTMLHyperlinkElementUtils #-}
 
 gTypeHTMLHyperlinkElementUtils :: JSM GType
 gTypeHTMLHyperlinkElementUtils = GType . Object <$> jsg "HTMLHyperlinkElementUtils"
@@ -12468,6 +13575,10 @@ instance IsGObject HTMLIFrameElement where
   typeGType _ = gTypeHTMLIFrameElement
   {-# INLINE typeGType #-}
 
+noHTMLIFrameElement :: Maybe HTMLIFrameElement
+noHTMLIFrameElement = Nothing
+{-# INLINE noHTMLIFrameElement #-}
+
 gTypeHTMLIFrameElement :: JSM GType
 gTypeHTMLIFrameElement = GType . Object <$> jsg "HTMLIFrameElement"
 
@@ -12526,6 +13637,10 @@ instance IsElementCSSInlineStyle HTMLImageElement
 instance IsGObject HTMLImageElement where
   typeGType _ = gTypeHTMLImageElement
   {-# INLINE typeGType #-}
+
+noHTMLImageElement :: Maybe HTMLImageElement
+noHTMLImageElement = Nothing
+{-# INLINE noHTMLImageElement #-}
 
 gTypeHTMLImageElement :: JSM GType
 gTypeHTMLImageElement = GType . Object <$> jsg "HTMLImageElement"
@@ -12586,6 +13701,10 @@ instance IsGObject HTMLInputElement where
   typeGType _ = gTypeHTMLInputElement
   {-# INLINE typeGType #-}
 
+noHTMLInputElement :: Maybe HTMLInputElement
+noHTMLInputElement = Nothing
+{-# INLINE noHTMLInputElement #-}
+
 gTypeHTMLInputElement :: JSM GType
 gTypeHTMLInputElement = GType . Object <$> jsg "HTMLInputElement"
 
@@ -12644,6 +13763,10 @@ instance IsElementCSSInlineStyle HTMLKeygenElement
 instance IsGObject HTMLKeygenElement where
   typeGType _ = gTypeHTMLKeygenElement
   {-# INLINE typeGType #-}
+
+noHTMLKeygenElement :: Maybe HTMLKeygenElement
+noHTMLKeygenElement = Nothing
+{-# INLINE noHTMLKeygenElement #-}
 
 gTypeHTMLKeygenElement :: JSM GType
 gTypeHTMLKeygenElement = GType . Object <$> jsg "HTMLKeygenElement"
@@ -12704,6 +13827,10 @@ instance IsGObject HTMLLIElement where
   typeGType _ = gTypeHTMLLIElement
   {-# INLINE typeGType #-}
 
+noHTMLLIElement :: Maybe HTMLLIElement
+noHTMLLIElement = Nothing
+{-# INLINE noHTMLLIElement #-}
+
 gTypeHTMLLIElement :: JSM GType
 gTypeHTMLLIElement = GType . Object <$> jsg "HTMLLIElement"
 
@@ -12762,6 +13889,10 @@ instance IsElementCSSInlineStyle HTMLLabelElement
 instance IsGObject HTMLLabelElement where
   typeGType _ = gTypeHTMLLabelElement
   {-# INLINE typeGType #-}
+
+noHTMLLabelElement :: Maybe HTMLLabelElement
+noHTMLLabelElement = Nothing
+{-# INLINE noHTMLLabelElement #-}
 
 gTypeHTMLLabelElement :: JSM GType
 gTypeHTMLLabelElement = GType . Object <$> jsg "HTMLLabelElement"
@@ -12822,6 +13953,10 @@ instance IsGObject HTMLLegendElement where
   typeGType _ = gTypeHTMLLegendElement
   {-# INLINE typeGType #-}
 
+noHTMLLegendElement :: Maybe HTMLLegendElement
+noHTMLLegendElement = Nothing
+{-# INLINE noHTMLLegendElement #-}
+
 gTypeHTMLLegendElement :: JSM GType
 gTypeHTMLLegendElement = GType . Object <$> jsg "HTMLLegendElement"
 
@@ -12880,6 +14015,10 @@ instance IsElementCSSInlineStyle HTMLLinkElement
 instance IsGObject HTMLLinkElement where
   typeGType _ = gTypeHTMLLinkElement
   {-# INLINE typeGType #-}
+
+noHTMLLinkElement :: Maybe HTMLLinkElement
+noHTMLLinkElement = Nothing
+{-# INLINE noHTMLLinkElement #-}
 
 gTypeHTMLLinkElement :: JSM GType
 gTypeHTMLLinkElement = GType . Object <$> jsg "HTMLLinkElement"
@@ -12940,6 +14079,10 @@ instance IsGObject HTMLMapElement where
   typeGType _ = gTypeHTMLMapElement
   {-# INLINE typeGType #-}
 
+noHTMLMapElement :: Maybe HTMLMapElement
+noHTMLMapElement = Nothing
+{-# INLINE noHTMLMapElement #-}
+
 gTypeHTMLMapElement :: JSM GType
 gTypeHTMLMapElement = GType . Object <$> jsg "HTMLMapElement"
 
@@ -12998,6 +14141,10 @@ instance IsElementCSSInlineStyle HTMLMarqueeElement
 instance IsGObject HTMLMarqueeElement where
   typeGType _ = gTypeHTMLMarqueeElement
   {-# INLINE typeGType #-}
+
+noHTMLMarqueeElement :: Maybe HTMLMarqueeElement
+noHTMLMarqueeElement = Nothing
+{-# INLINE noHTMLMarqueeElement #-}
 
 gTypeHTMLMarqueeElement :: JSM GType
 gTypeHTMLMarqueeElement = GType . Object <$> jsg "HTMLMarqueeElement"
@@ -13063,6 +14210,10 @@ instance IsGObject HTMLMediaElement where
   typeGType _ = gTypeHTMLMediaElement
   {-# INLINE typeGType #-}
 
+noHTMLMediaElement :: Maybe HTMLMediaElement
+noHTMLMediaElement = Nothing
+{-# INLINE noHTMLMediaElement #-}
+
 gTypeHTMLMediaElement :: JSM GType
 gTypeHTMLMediaElement = GType . Object <$> jsg "HTMLMediaElement"
 
@@ -13121,6 +14272,10 @@ instance IsElementCSSInlineStyle HTMLMenuElement
 instance IsGObject HTMLMenuElement where
   typeGType _ = gTypeHTMLMenuElement
   {-# INLINE typeGType #-}
+
+noHTMLMenuElement :: Maybe HTMLMenuElement
+noHTMLMenuElement = Nothing
+{-# INLINE noHTMLMenuElement #-}
 
 gTypeHTMLMenuElement :: JSM GType
 gTypeHTMLMenuElement = GType . Object <$> jsg "HTMLMenuElement"
@@ -13181,6 +14336,10 @@ instance IsGObject HTMLMetaElement where
   typeGType _ = gTypeHTMLMetaElement
   {-# INLINE typeGType #-}
 
+noHTMLMetaElement :: Maybe HTMLMetaElement
+noHTMLMetaElement = Nothing
+{-# INLINE noHTMLMetaElement #-}
+
 gTypeHTMLMetaElement :: JSM GType
 gTypeHTMLMetaElement = GType . Object <$> jsg "HTMLMetaElement"
 
@@ -13239,6 +14398,10 @@ instance IsElementCSSInlineStyle HTMLMeterElement
 instance IsGObject HTMLMeterElement where
   typeGType _ = gTypeHTMLMeterElement
   {-# INLINE typeGType #-}
+
+noHTMLMeterElement :: Maybe HTMLMeterElement
+noHTMLMeterElement = Nothing
+{-# INLINE noHTMLMeterElement #-}
 
 gTypeHTMLMeterElement :: JSM GType
 gTypeHTMLMeterElement = GType . Object <$> jsg "HTMLMeterElement"
@@ -13299,6 +14462,10 @@ instance IsGObject HTMLModElement where
   typeGType _ = gTypeHTMLModElement
   {-# INLINE typeGType #-}
 
+noHTMLModElement :: Maybe HTMLModElement
+noHTMLModElement = Nothing
+{-# INLINE noHTMLModElement #-}
+
 gTypeHTMLModElement :: JSM GType
 gTypeHTMLModElement = GType . Object <$> jsg "HTMLModElement"
 
@@ -13357,6 +14524,10 @@ instance IsElementCSSInlineStyle HTMLOListElement
 instance IsGObject HTMLOListElement where
   typeGType _ = gTypeHTMLOListElement
   {-# INLINE typeGType #-}
+
+noHTMLOListElement :: Maybe HTMLOListElement
+noHTMLOListElement = Nothing
+{-# INLINE noHTMLOListElement #-}
 
 gTypeHTMLOListElement :: JSM GType
 gTypeHTMLOListElement = GType . Object <$> jsg "HTMLOListElement"
@@ -13417,6 +14588,10 @@ instance IsGObject HTMLObjectElement where
   typeGType _ = gTypeHTMLObjectElement
   {-# INLINE typeGType #-}
 
+noHTMLObjectElement :: Maybe HTMLObjectElement
+noHTMLObjectElement = Nothing
+{-# INLINE noHTMLObjectElement #-}
+
 gTypeHTMLObjectElement :: JSM GType
 gTypeHTMLObjectElement = GType . Object <$> jsg "HTMLObjectElement"
 
@@ -13475,6 +14650,10 @@ instance IsElementCSSInlineStyle HTMLOptGroupElement
 instance IsGObject HTMLOptGroupElement where
   typeGType _ = gTypeHTMLOptGroupElement
   {-# INLINE typeGType #-}
+
+noHTMLOptGroupElement :: Maybe HTMLOptGroupElement
+noHTMLOptGroupElement = Nothing
+{-# INLINE noHTMLOptGroupElement #-}
 
 gTypeHTMLOptGroupElement :: JSM GType
 gTypeHTMLOptGroupElement = GType . Object <$> jsg "HTMLOptGroupElement"
@@ -13535,6 +14714,10 @@ instance IsGObject HTMLOptionElement where
   typeGType _ = gTypeHTMLOptionElement
   {-# INLINE typeGType #-}
 
+noHTMLOptionElement :: Maybe HTMLOptionElement
+noHTMLOptionElement = Nothing
+{-# INLINE noHTMLOptionElement #-}
+
 gTypeHTMLOptionElement :: JSM GType
 gTypeHTMLOptionElement = GType . Object <$> jsg "HTMLOptionElement"
 
@@ -13571,6 +14754,10 @@ instance IsHTMLCollection HTMLOptionsCollection
 instance IsGObject HTMLOptionsCollection where
   typeGType _ = gTypeHTMLOptionsCollection
   {-# INLINE typeGType #-}
+
+noHTMLOptionsCollection :: Maybe HTMLOptionsCollection
+noHTMLOptionsCollection = Nothing
+{-# INLINE noHTMLOptionsCollection #-}
 
 gTypeHTMLOptionsCollection :: JSM GType
 gTypeHTMLOptionsCollection = GType . Object <$> jsg "HTMLOptionsCollection"
@@ -13631,6 +14818,10 @@ instance IsGObject HTMLOutputElement where
   typeGType _ = gTypeHTMLOutputElement
   {-# INLINE typeGType #-}
 
+noHTMLOutputElement :: Maybe HTMLOutputElement
+noHTMLOutputElement = Nothing
+{-# INLINE noHTMLOutputElement #-}
+
 gTypeHTMLOutputElement :: JSM GType
 gTypeHTMLOutputElement = GType . Object <$> jsg "HTMLOutputElement"
 
@@ -13689,6 +14880,10 @@ instance IsElementCSSInlineStyle HTMLParagraphElement
 instance IsGObject HTMLParagraphElement where
   typeGType _ = gTypeHTMLParagraphElement
   {-# INLINE typeGType #-}
+
+noHTMLParagraphElement :: Maybe HTMLParagraphElement
+noHTMLParagraphElement = Nothing
+{-# INLINE noHTMLParagraphElement #-}
 
 gTypeHTMLParagraphElement :: JSM GType
 gTypeHTMLParagraphElement = GType . Object <$> jsg "HTMLParagraphElement"
@@ -13749,6 +14944,10 @@ instance IsGObject HTMLParamElement where
   typeGType _ = gTypeHTMLParamElement
   {-# INLINE typeGType #-}
 
+noHTMLParamElement :: Maybe HTMLParamElement
+noHTMLParamElement = Nothing
+{-# INLINE noHTMLParamElement #-}
+
 gTypeHTMLParamElement :: JSM GType
 gTypeHTMLParamElement = GType . Object <$> jsg "HTMLParamElement"
 
@@ -13807,6 +15006,10 @@ instance IsElementCSSInlineStyle HTMLPictureElement
 instance IsGObject HTMLPictureElement where
   typeGType _ = gTypeHTMLPictureElement
   {-# INLINE typeGType #-}
+
+noHTMLPictureElement :: Maybe HTMLPictureElement
+noHTMLPictureElement = Nothing
+{-# INLINE noHTMLPictureElement #-}
 
 gTypeHTMLPictureElement :: JSM GType
 gTypeHTMLPictureElement = GType . Object <$> jsg "HTMLPictureElement"
@@ -13867,6 +15070,10 @@ instance IsGObject HTMLPreElement where
   typeGType _ = gTypeHTMLPreElement
   {-# INLINE typeGType #-}
 
+noHTMLPreElement :: Maybe HTMLPreElement
+noHTMLPreElement = Nothing
+{-# INLINE noHTMLPreElement #-}
+
 gTypeHTMLPreElement :: JSM GType
 gTypeHTMLPreElement = GType . Object <$> jsg "HTMLPreElement"
 
@@ -13925,6 +15132,10 @@ instance IsElementCSSInlineStyle HTMLProgressElement
 instance IsGObject HTMLProgressElement where
   typeGType _ = gTypeHTMLProgressElement
   {-# INLINE typeGType #-}
+
+noHTMLProgressElement :: Maybe HTMLProgressElement
+noHTMLProgressElement = Nothing
+{-# INLINE noHTMLProgressElement #-}
 
 gTypeHTMLProgressElement :: JSM GType
 gTypeHTMLProgressElement = GType . Object <$> jsg "HTMLProgressElement"
@@ -13985,6 +15196,10 @@ instance IsGObject HTMLQuoteElement where
   typeGType _ = gTypeHTMLQuoteElement
   {-# INLINE typeGType #-}
 
+noHTMLQuoteElement :: Maybe HTMLQuoteElement
+noHTMLQuoteElement = Nothing
+{-# INLINE noHTMLQuoteElement #-}
+
 gTypeHTMLQuoteElement :: JSM GType
 gTypeHTMLQuoteElement = GType . Object <$> jsg "HTMLQuoteElement"
 
@@ -14043,6 +15258,10 @@ instance IsElementCSSInlineStyle HTMLScriptElement
 instance IsGObject HTMLScriptElement where
   typeGType _ = gTypeHTMLScriptElement
   {-# INLINE typeGType #-}
+
+noHTMLScriptElement :: Maybe HTMLScriptElement
+noHTMLScriptElement = Nothing
+{-# INLINE noHTMLScriptElement #-}
 
 gTypeHTMLScriptElement :: JSM GType
 gTypeHTMLScriptElement = GType . Object <$> jsg "HTMLScriptElement"
@@ -14103,6 +15322,10 @@ instance IsGObject HTMLSelectElement where
   typeGType _ = gTypeHTMLSelectElement
   {-# INLINE typeGType #-}
 
+noHTMLSelectElement :: Maybe HTMLSelectElement
+noHTMLSelectElement = Nothing
+{-# INLINE noHTMLSelectElement #-}
+
 gTypeHTMLSelectElement :: JSM GType
 gTypeHTMLSelectElement = GType . Object <$> jsg "HTMLSelectElement"
 
@@ -14161,6 +15384,10 @@ instance IsElementCSSInlineStyle HTMLSlotElement
 instance IsGObject HTMLSlotElement where
   typeGType _ = gTypeHTMLSlotElement
   {-# INLINE typeGType #-}
+
+noHTMLSlotElement :: Maybe HTMLSlotElement
+noHTMLSlotElement = Nothing
+{-# INLINE noHTMLSlotElement #-}
 
 gTypeHTMLSlotElement :: JSM GType
 gTypeHTMLSlotElement = GType . Object <$> jsg "HTMLSlotElement"
@@ -14221,6 +15448,10 @@ instance IsGObject HTMLSourceElement where
   typeGType _ = gTypeHTMLSourceElement
   {-# INLINE typeGType #-}
 
+noHTMLSourceElement :: Maybe HTMLSourceElement
+noHTMLSourceElement = Nothing
+{-# INLINE noHTMLSourceElement #-}
+
 gTypeHTMLSourceElement :: JSM GType
 gTypeHTMLSourceElement = GType . Object <$> jsg "HTMLSourceElement"
 
@@ -14279,6 +15510,10 @@ instance IsElementCSSInlineStyle HTMLSpanElement
 instance IsGObject HTMLSpanElement where
   typeGType _ = gTypeHTMLSpanElement
   {-# INLINE typeGType #-}
+
+noHTMLSpanElement :: Maybe HTMLSpanElement
+noHTMLSpanElement = Nothing
+{-# INLINE noHTMLSpanElement #-}
 
 gTypeHTMLSpanElement :: JSM GType
 gTypeHTMLSpanElement = GType . Object <$> jsg "HTMLSpanElement"
@@ -14339,6 +15574,10 @@ instance IsGObject HTMLStyleElement where
   typeGType _ = gTypeHTMLStyleElement
   {-# INLINE typeGType #-}
 
+noHTMLStyleElement :: Maybe HTMLStyleElement
+noHTMLStyleElement = Nothing
+{-# INLINE noHTMLStyleElement #-}
+
 gTypeHTMLStyleElement :: JSM GType
 gTypeHTMLStyleElement = GType . Object <$> jsg "HTMLStyleElement"
 
@@ -14397,6 +15636,10 @@ instance IsElementCSSInlineStyle HTMLTableCaptionElement
 instance IsGObject HTMLTableCaptionElement where
   typeGType _ = gTypeHTMLTableCaptionElement
   {-# INLINE typeGType #-}
+
+noHTMLTableCaptionElement :: Maybe HTMLTableCaptionElement
+noHTMLTableCaptionElement = Nothing
+{-# INLINE noHTMLTableCaptionElement #-}
 
 gTypeHTMLTableCaptionElement :: JSM GType
 gTypeHTMLTableCaptionElement = GType . Object <$> jsg "HTMLTableCaptionElement"
@@ -14457,6 +15700,10 @@ instance IsGObject HTMLTableCellElement where
   typeGType _ = gTypeHTMLTableCellElement
   {-# INLINE typeGType #-}
 
+noHTMLTableCellElement :: Maybe HTMLTableCellElement
+noHTMLTableCellElement = Nothing
+{-# INLINE noHTMLTableCellElement #-}
+
 gTypeHTMLTableCellElement :: JSM GType
 gTypeHTMLTableCellElement = GType . Object <$> jsg "HTMLTableCellElement"
 
@@ -14515,6 +15762,10 @@ instance IsElementCSSInlineStyle HTMLTableColElement
 instance IsGObject HTMLTableColElement where
   typeGType _ = gTypeHTMLTableColElement
   {-# INLINE typeGType #-}
+
+noHTMLTableColElement :: Maybe HTMLTableColElement
+noHTMLTableColElement = Nothing
+{-# INLINE noHTMLTableColElement #-}
 
 gTypeHTMLTableColElement :: JSM GType
 gTypeHTMLTableColElement = GType . Object <$> jsg "HTMLTableColElement"
@@ -14575,6 +15826,10 @@ instance IsGObject HTMLTableElement where
   typeGType _ = gTypeHTMLTableElement
   {-# INLINE typeGType #-}
 
+noHTMLTableElement :: Maybe HTMLTableElement
+noHTMLTableElement = Nothing
+{-# INLINE noHTMLTableElement #-}
+
 gTypeHTMLTableElement :: JSM GType
 gTypeHTMLTableElement = GType . Object <$> jsg "HTMLTableElement"
 
@@ -14633,6 +15888,10 @@ instance IsElementCSSInlineStyle HTMLTableRowElement
 instance IsGObject HTMLTableRowElement where
   typeGType _ = gTypeHTMLTableRowElement
   {-# INLINE typeGType #-}
+
+noHTMLTableRowElement :: Maybe HTMLTableRowElement
+noHTMLTableRowElement = Nothing
+{-# INLINE noHTMLTableRowElement #-}
 
 gTypeHTMLTableRowElement :: JSM GType
 gTypeHTMLTableRowElement = GType . Object <$> jsg "HTMLTableRowElement"
@@ -14693,6 +15952,10 @@ instance IsGObject HTMLTableSectionElement where
   typeGType _ = gTypeHTMLTableSectionElement
   {-# INLINE typeGType #-}
 
+noHTMLTableSectionElement :: Maybe HTMLTableSectionElement
+noHTMLTableSectionElement = Nothing
+{-# INLINE noHTMLTableSectionElement #-}
+
 gTypeHTMLTableSectionElement :: JSM GType
 gTypeHTMLTableSectionElement = GType . Object <$> jsg "HTMLTableSectionElement"
 
@@ -14751,6 +16014,10 @@ instance IsElementCSSInlineStyle HTMLTemplateElement
 instance IsGObject HTMLTemplateElement where
   typeGType _ = gTypeHTMLTemplateElement
   {-# INLINE typeGType #-}
+
+noHTMLTemplateElement :: Maybe HTMLTemplateElement
+noHTMLTemplateElement = Nothing
+{-# INLINE noHTMLTemplateElement #-}
 
 gTypeHTMLTemplateElement :: JSM GType
 gTypeHTMLTemplateElement = GType . Object <$> jsg "HTMLTemplateElement"
@@ -14811,6 +16078,10 @@ instance IsGObject HTMLTextAreaElement where
   typeGType _ = gTypeHTMLTextAreaElement
   {-# INLINE typeGType #-}
 
+noHTMLTextAreaElement :: Maybe HTMLTextAreaElement
+noHTMLTextAreaElement = Nothing
+{-# INLINE noHTMLTextAreaElement #-}
+
 gTypeHTMLTextAreaElement :: JSM GType
 gTypeHTMLTextAreaElement = GType . Object <$> jsg "HTMLTextAreaElement"
 
@@ -14869,6 +16140,10 @@ instance IsElementCSSInlineStyle HTMLTimeElement
 instance IsGObject HTMLTimeElement where
   typeGType _ = gTypeHTMLTimeElement
   {-# INLINE typeGType #-}
+
+noHTMLTimeElement :: Maybe HTMLTimeElement
+noHTMLTimeElement = Nothing
+{-# INLINE noHTMLTimeElement #-}
 
 gTypeHTMLTimeElement :: JSM GType
 gTypeHTMLTimeElement = GType . Object <$> jsg "HTMLTimeElement"
@@ -14929,6 +16204,10 @@ instance IsGObject HTMLTitleElement where
   typeGType _ = gTypeHTMLTitleElement
   {-# INLINE typeGType #-}
 
+noHTMLTitleElement :: Maybe HTMLTitleElement
+noHTMLTitleElement = Nothing
+{-# INLINE noHTMLTitleElement #-}
+
 gTypeHTMLTitleElement :: JSM GType
 gTypeHTMLTitleElement = GType . Object <$> jsg "HTMLTitleElement"
 
@@ -14987,6 +16266,10 @@ instance IsElementCSSInlineStyle HTMLTrackElement
 instance IsGObject HTMLTrackElement where
   typeGType _ = gTypeHTMLTrackElement
   {-# INLINE typeGType #-}
+
+noHTMLTrackElement :: Maybe HTMLTrackElement
+noHTMLTrackElement = Nothing
+{-# INLINE noHTMLTrackElement #-}
 
 gTypeHTMLTrackElement :: JSM GType
 gTypeHTMLTrackElement = GType . Object <$> jsg "HTMLTrackElement"
@@ -15047,6 +16330,10 @@ instance IsGObject HTMLUListElement where
   typeGType _ = gTypeHTMLUListElement
   {-# INLINE typeGType #-}
 
+noHTMLUListElement :: Maybe HTMLUListElement
+noHTMLUListElement = Nothing
+{-# INLINE noHTMLUListElement #-}
+
 gTypeHTMLUListElement :: JSM GType
 gTypeHTMLUListElement = GType . Object <$> jsg "HTMLUListElement"
 
@@ -15105,6 +16392,10 @@ instance IsElementCSSInlineStyle HTMLUnknownElement
 instance IsGObject HTMLUnknownElement where
   typeGType _ = gTypeHTMLUnknownElement
   {-# INLINE typeGType #-}
+
+noHTMLUnknownElement :: Maybe HTMLUnknownElement
+noHTMLUnknownElement = Nothing
+{-# INLINE noHTMLUnknownElement #-}
 
 gTypeHTMLUnknownElement :: JSM GType
 gTypeHTMLUnknownElement = GType . Object <$> jsg "HTMLUnknownElement"
@@ -15167,6 +16458,10 @@ instance IsGObject HTMLVideoElement where
   typeGType _ = gTypeHTMLVideoElement
   {-# INLINE typeGType #-}
 
+noHTMLVideoElement :: Maybe HTMLVideoElement
+noHTMLVideoElement = Nothing
+{-# INLINE noHTMLVideoElement #-}
+
 gTypeHTMLVideoElement :: JSM GType
 gTypeHTMLVideoElement = GType . Object <$> jsg "HTMLVideoElement"
 
@@ -15203,6 +16498,10 @@ instance IsEvent HashChangeEvent
 instance IsGObject HashChangeEvent where
   typeGType _ = gTypeHashChangeEvent
   {-# INLINE typeGType #-}
+
+noHashChangeEvent :: Maybe HashChangeEvent
+noHashChangeEvent = Nothing
+{-# INLINE noHashChangeEvent #-}
 
 gTypeHashChangeEvent :: JSM GType
 gTypeHashChangeEvent = GType . Object <$> jsg "HashChangeEvent"
@@ -15241,6 +16540,10 @@ instance IsGObject HashChangeEventInit where
   typeGType _ = gTypeHashChangeEventInit
   {-# INLINE typeGType #-}
 
+noHashChangeEventInit :: Maybe HashChangeEventInit
+noHashChangeEventInit = Nothing
+{-# INLINE noHashChangeEventInit #-}
+
 gTypeHashChangeEventInit :: JSM GType
 gTypeHashChangeEventInit = GType . Object <$> jsg "HashChangeEventInit"
 
@@ -15274,6 +16577,10 @@ instance IsGObject Headers where
   typeGType _ = gTypeHeaders
   {-# INLINE typeGType #-}
 
+noHeaders :: Maybe Headers
+noHeaders = Nothing
+{-# INLINE noHeaders #-}
+
 gTypeHeaders :: JSM GType
 gTypeHeaders = GType . Object <$> jsg "Headers"
 
@@ -15306,6 +16613,10 @@ instance MakeObject History where
 instance IsGObject History where
   typeGType _ = gTypeHistory
   {-# INLINE typeGType #-}
+
+noHistory :: Maybe History
+noHistory = Nothing
+{-# INLINE noHistory #-}
 
 gTypeHistory :: JSM GType
 gTypeHistory = GType . Object <$> jsg "History"
@@ -15344,6 +16655,10 @@ instance IsGObject HkdfParams where
   typeGType _ = gTypeHkdfParams
   {-# INLINE typeGType #-}
 
+noHkdfParams :: Maybe HkdfParams
+noHkdfParams = Nothing
+{-# INLINE noHkdfParams #-}
+
 gTypeHkdfParams :: JSM GType
 gTypeHkdfParams = GType . Object <$> jsg "HkdfParams"
 
@@ -15380,6 +16695,10 @@ instance IsCryptoAlgorithmParameters HmacKeyParams
 instance IsGObject HmacKeyParams where
   typeGType _ = gTypeHmacKeyParams
   {-# INLINE typeGType #-}
+
+noHmacKeyParams :: Maybe HmacKeyParams
+noHmacKeyParams = Nothing
+{-# INLINE noHmacKeyParams #-}
 
 gTypeHmacKeyParams :: JSM GType
 gTypeHmacKeyParams = GType . Object <$> jsg "HmacKeyParams"
@@ -15419,6 +16738,10 @@ instance IsGObject IDBCursor where
   typeGType _ = gTypeIDBCursor
   {-# INLINE typeGType #-}
 
+noIDBCursor :: Maybe IDBCursor
+noIDBCursor = Nothing
+{-# INLINE noIDBCursor #-}
+
 gTypeIDBCursor :: JSM GType
 gTypeIDBCursor = GType . Object <$> jsg "IDBCursor"
 
@@ -15455,6 +16778,10 @@ instance IsIDBCursor IDBCursorWithValue
 instance IsGObject IDBCursorWithValue where
   typeGType _ = gTypeIDBCursorWithValue
   {-# INLINE typeGType #-}
+
+noIDBCursorWithValue :: Maybe IDBCursorWithValue
+noIDBCursorWithValue = Nothing
+{-# INLINE noIDBCursorWithValue #-}
 
 gTypeIDBCursorWithValue :: JSM GType
 gTypeIDBCursorWithValue = GType . Object <$> jsg "IDBCursorWithValue"
@@ -15493,6 +16820,10 @@ instance IsGObject IDBDatabase where
   typeGType _ = gTypeIDBDatabase
   {-# INLINE typeGType #-}
 
+noIDBDatabase :: Maybe IDBDatabase
+noIDBDatabase = Nothing
+{-# INLINE noIDBDatabase #-}
+
 gTypeIDBDatabase :: JSM GType
 gTypeIDBDatabase = GType . Object <$> jsg "IDBDatabase"
 
@@ -15525,6 +16856,10 @@ instance MakeObject IDBFactory where
 instance IsGObject IDBFactory where
   typeGType _ = gTypeIDBFactory
   {-# INLINE typeGType #-}
+
+noIDBFactory :: Maybe IDBFactory
+noIDBFactory = Nothing
+{-# INLINE noIDBFactory #-}
 
 gTypeIDBFactory :: JSM GType
 gTypeIDBFactory = GType . Object <$> jsg "IDBFactory"
@@ -15559,6 +16894,10 @@ instance IsGObject IDBIndex where
   typeGType _ = gTypeIDBIndex
   {-# INLINE typeGType #-}
 
+noIDBIndex :: Maybe IDBIndex
+noIDBIndex = Nothing
+{-# INLINE noIDBIndex #-}
+
 gTypeIDBIndex :: JSM GType
 gTypeIDBIndex = GType . Object <$> jsg "IDBIndex"
 
@@ -15591,6 +16930,10 @@ instance MakeObject IDBIndexParameters where
 instance IsGObject IDBIndexParameters where
   typeGType _ = gTypeIDBIndexParameters
   {-# INLINE typeGType #-}
+
+noIDBIndexParameters :: Maybe IDBIndexParameters
+noIDBIndexParameters = Nothing
+{-# INLINE noIDBIndexParameters #-}
 
 gTypeIDBIndexParameters :: JSM GType
 gTypeIDBIndexParameters = GType . Object <$> jsg "IDBIndexParameters"
@@ -15625,6 +16968,10 @@ instance IsGObject IDBKeyRange where
   typeGType _ = gTypeIDBKeyRange
   {-# INLINE typeGType #-}
 
+noIDBKeyRange :: Maybe IDBKeyRange
+noIDBKeyRange = Nothing
+{-# INLINE noIDBKeyRange #-}
+
 gTypeIDBKeyRange :: JSM GType
 gTypeIDBKeyRange = GType . Object <$> jsg "IDBKeyRange"
 
@@ -15658,6 +17005,10 @@ instance IsGObject IDBObjectStore where
   typeGType _ = gTypeIDBObjectStore
   {-# INLINE typeGType #-}
 
+noIDBObjectStore :: Maybe IDBObjectStore
+noIDBObjectStore = Nothing
+{-# INLINE noIDBObjectStore #-}
+
 gTypeIDBObjectStore :: JSM GType
 gTypeIDBObjectStore = GType . Object <$> jsg "IDBObjectStore"
 
@@ -15690,6 +17041,10 @@ instance MakeObject IDBObjectStoreParameters where
 instance IsGObject IDBObjectStoreParameters where
   typeGType _ = gTypeIDBObjectStoreParameters
   {-# INLINE typeGType #-}
+
+noIDBObjectStoreParameters :: Maybe IDBObjectStoreParameters
+noIDBObjectStoreParameters = Nothing
+{-# INLINE noIDBObjectStoreParameters #-}
 
 gTypeIDBObjectStoreParameters :: JSM GType
 gTypeIDBObjectStoreParameters = GType . Object <$> jsg "IDBObjectStoreParameters"
@@ -15729,6 +17084,10 @@ instance IsEventTarget IDBOpenDBRequest
 instance IsGObject IDBOpenDBRequest where
   typeGType _ = gTypeIDBOpenDBRequest
   {-# INLINE typeGType #-}
+
+noIDBOpenDBRequest :: Maybe IDBOpenDBRequest
+noIDBOpenDBRequest = Nothing
+{-# INLINE noIDBOpenDBRequest #-}
 
 gTypeIDBOpenDBRequest :: JSM GType
 gTypeIDBOpenDBRequest = GType . Object <$> jsg "IDBOpenDBRequest"
@@ -15772,6 +17131,10 @@ instance IsGObject IDBRequest where
   typeGType _ = gTypeIDBRequest
   {-# INLINE typeGType #-}
 
+noIDBRequest :: Maybe IDBRequest
+noIDBRequest = Nothing
+{-# INLINE noIDBRequest #-}
+
 gTypeIDBRequest :: JSM GType
 gTypeIDBRequest = GType . Object <$> jsg "IDBRequest"
 
@@ -15808,6 +17171,10 @@ instance IsEventTarget IDBTransaction
 instance IsGObject IDBTransaction where
   typeGType _ = gTypeIDBTransaction
   {-# INLINE typeGType #-}
+
+noIDBTransaction :: Maybe IDBTransaction
+noIDBTransaction = Nothing
+{-# INLINE noIDBTransaction #-}
 
 gTypeIDBTransaction :: JSM GType
 gTypeIDBTransaction = GType . Object <$> jsg "IDBTransaction"
@@ -15846,6 +17213,10 @@ instance IsGObject IDBVersionChangeEvent where
   typeGType _ = gTypeIDBVersionChangeEvent
   {-# INLINE typeGType #-}
 
+noIDBVersionChangeEvent :: Maybe IDBVersionChangeEvent
+noIDBVersionChangeEvent = Nothing
+{-# INLINE noIDBVersionChangeEvent #-}
+
 gTypeIDBVersionChangeEvent :: JSM GType
 gTypeIDBVersionChangeEvent = GType . Object <$> jsg "IDBVersionChangeEvent"
 
@@ -15883,6 +17254,10 @@ instance IsGObject IDBVersionChangeEventInit where
   typeGType _ = gTypeIDBVersionChangeEventInit
   {-# INLINE typeGType #-}
 
+noIDBVersionChangeEventInit :: Maybe IDBVersionChangeEventInit
+noIDBVersionChangeEventInit = Nothing
+{-# INLINE noIDBVersionChangeEventInit #-}
+
 gTypeIDBVersionChangeEventInit :: JSM GType
 gTypeIDBVersionChangeEventInit = GType . Object <$> jsg "IDBVersionChangeEventInit"
 
@@ -15915,6 +17290,10 @@ instance MakeObject ImageData where
 instance IsGObject ImageData where
   typeGType _ = gTypeImageData
   {-# INLINE typeGType #-}
+
+noImageData :: Maybe ImageData
+noImageData = Nothing
+{-# INLINE noImageData #-}
 
 gTypeImageData :: JSM GType
 gTypeImageData = GType . Object <$> jsg "ImageData"
@@ -15955,6 +17334,10 @@ instance IsGObject InputEvent where
   typeGType _ = gTypeInputEvent
   {-# INLINE typeGType #-}
 
+noInputEvent :: Maybe InputEvent
+noInputEvent = Nothing
+{-# INLINE noInputEvent #-}
+
 gTypeInputEvent :: JSM GType
 gTypeInputEvent = GType . Object <$> jsg "InputEvent"
 
@@ -15994,6 +17377,10 @@ instance IsGObject InputEventInit where
   typeGType _ = gTypeInputEventInit
   {-# INLINE typeGType #-}
 
+noInputEventInit :: Maybe InputEventInit
+noInputEventInit = Nothing
+{-# INLINE noInputEventInit #-}
+
 gTypeInputEventInit :: JSM GType
 gTypeInputEventInit = GType . Object <$> jsg "InputEventInit"
 
@@ -16026,6 +17413,10 @@ instance MakeObject InspectorFrontendHost where
 instance IsGObject InspectorFrontendHost where
   typeGType _ = gTypeInspectorFrontendHost
   {-# INLINE typeGType #-}
+
+noInspectorFrontendHost :: Maybe InspectorFrontendHost
+noInspectorFrontendHost = Nothing
+{-# INLINE noInspectorFrontendHost #-}
 
 gTypeInspectorFrontendHost :: JSM GType
 gTypeInspectorFrontendHost = GType . Object <$> jsg "InspectorFrontendHost"
@@ -16060,6 +17451,10 @@ instance IsGObject IntersectionObserver where
   typeGType _ = gTypeIntersectionObserver
   {-# INLINE typeGType #-}
 
+noIntersectionObserver :: Maybe IntersectionObserver
+noIntersectionObserver = Nothing
+{-# INLINE noIntersectionObserver #-}
+
 gTypeIntersectionObserver :: JSM GType
 gTypeIntersectionObserver = GType . Object <$> jsg "IntersectionObserver"
 
@@ -16092,6 +17487,10 @@ instance MakeObject IntersectionObserverEntry where
 instance IsGObject IntersectionObserverEntry where
   typeGType _ = gTypeIntersectionObserverEntry
   {-# INLINE typeGType #-}
+
+noIntersectionObserverEntry :: Maybe IntersectionObserverEntry
+noIntersectionObserverEntry = Nothing
+{-# INLINE noIntersectionObserverEntry #-}
 
 gTypeIntersectionObserverEntry :: JSM GType
 gTypeIntersectionObserverEntry = GType . Object <$> jsg "IntersectionObserverEntry"
@@ -16126,6 +17525,10 @@ instance IsGObject IntersectionObserverEntryInit where
   typeGType _ = gTypeIntersectionObserverEntryInit
   {-# INLINE typeGType #-}
 
+noIntersectionObserverEntryInit :: Maybe IntersectionObserverEntryInit
+noIntersectionObserverEntryInit = Nothing
+{-# INLINE noIntersectionObserverEntryInit #-}
+
 gTypeIntersectionObserverEntryInit :: JSM GType
 gTypeIntersectionObserverEntryInit = GType . Object <$> jsg "IntersectionObserverEntryInit"
 
@@ -16159,6 +17562,10 @@ instance IsGObject IntersectionObserverInit where
   typeGType _ = gTypeIntersectionObserverInit
   {-# INLINE typeGType #-}
 
+noIntersectionObserverInit :: Maybe IntersectionObserverInit
+noIntersectionObserverInit = Nothing
+{-# INLINE noIntersectionObserverInit #-}
+
 gTypeIntersectionObserverInit :: JSM GType
 gTypeIntersectionObserverInit = GType . Object <$> jsg "IntersectionObserverInit"
 
@@ -16191,6 +17598,10 @@ instance MakeObject JsonWebKey where
 instance IsGObject JsonWebKey where
   typeGType _ = gTypeJsonWebKey
   {-# INLINE typeGType #-}
+
+noJsonWebKey :: Maybe JsonWebKey
+noJsonWebKey = Nothing
+{-# INLINE noJsonWebKey #-}
 
 gTypeJsonWebKey :: JSM GType
 gTypeJsonWebKey = GType . Object <$> jsg "JsonWebKey"
@@ -16230,6 +17641,10 @@ instance IsEvent KeyboardEvent
 instance IsGObject KeyboardEvent where
   typeGType _ = gTypeKeyboardEvent
   {-# INLINE typeGType #-}
+
+noKeyboardEvent :: Maybe KeyboardEvent
+noKeyboardEvent = Nothing
+{-# INLINE noKeyboardEvent #-}
 
 gTypeKeyboardEvent :: JSM GType
 gTypeKeyboardEvent = GType . Object <$> jsg "KeyboardEvent"
@@ -16272,6 +17687,10 @@ instance IsGObject KeyboardEventInit where
   typeGType _ = gTypeKeyboardEventInit
   {-# INLINE typeGType #-}
 
+noKeyboardEventInit :: Maybe KeyboardEventInit
+noKeyboardEventInit = Nothing
+{-# INLINE noKeyboardEventInit #-}
+
 gTypeKeyboardEventInit :: JSM GType
 gTypeKeyboardEventInit = GType . Object <$> jsg "KeyboardEventInit"
 
@@ -16309,6 +17728,10 @@ instance IsGObject KeyframeEffect where
   typeGType _ = gTypeKeyframeEffect
   {-# INLINE typeGType #-}
 
+noKeyframeEffect :: Maybe KeyframeEffect
+noKeyframeEffect = Nothing
+{-# INLINE noKeyframeEffect #-}
+
 gTypeKeyframeEffect :: JSM GType
 gTypeKeyframeEffect = GType . Object <$> jsg "KeyframeEffect"
 
@@ -16341,6 +17764,10 @@ instance MakeObject Location where
 instance IsGObject Location where
   typeGType _ = gTypeLocation
   {-# INLINE typeGType #-}
+
+noLocation :: Maybe Location
+noLocation = Nothing
+{-# INLINE noLocation #-}
 
 gTypeLocation :: JSM GType
 gTypeLocation = GType . Object <$> jsg "Location"
@@ -16380,6 +17807,10 @@ instance IsGObject LongRange where
   typeGType _ = gTypeLongRange
   {-# INLINE typeGType #-}
 
+noLongRange :: Maybe LongRange
+noLongRange = Nothing
+{-# INLINE noLongRange #-}
+
 gTypeLongRange :: JSM GType
 gTypeLongRange = GType . Object <$> jsg "LongRange"
 
@@ -16417,6 +17848,10 @@ instance IsGObject MediaController where
   typeGType _ = gTypeMediaController
   {-# INLINE typeGType #-}
 
+noMediaController :: Maybe MediaController
+noMediaController = Nothing
+{-# INLINE noMediaController #-}
+
 gTypeMediaController :: JSM GType
 gTypeMediaController = GType . Object <$> jsg "MediaController"
 
@@ -16449,6 +17884,10 @@ instance MakeObject MediaControlsHost where
 instance IsGObject MediaControlsHost where
   typeGType _ = gTypeMediaControlsHost
   {-# INLINE typeGType #-}
+
+noMediaControlsHost :: Maybe MediaControlsHost
+noMediaControlsHost = Nothing
+{-# INLINE noMediaControlsHost #-}
 
 gTypeMediaControlsHost :: JSM GType
 gTypeMediaControlsHost = GType . Object <$> jsg "MediaControlsHost"
@@ -16483,6 +17922,10 @@ instance IsGObject MediaDeviceInfo where
   typeGType _ = gTypeMediaDeviceInfo
   {-# INLINE typeGType #-}
 
+noMediaDeviceInfo :: Maybe MediaDeviceInfo
+noMediaDeviceInfo = Nothing
+{-# INLINE noMediaDeviceInfo #-}
+
 gTypeMediaDeviceInfo :: JSM GType
 gTypeMediaDeviceInfo = GType . Object <$> jsg "MediaDeviceInfo"
 
@@ -16515,6 +17958,10 @@ instance MakeObject MediaDevices where
 instance IsGObject MediaDevices where
   typeGType _ = gTypeMediaDevices
   {-# INLINE typeGType #-}
+
+noMediaDevices :: Maybe MediaDevices
+noMediaDevices = Nothing
+{-# INLINE noMediaDevices #-}
 
 gTypeMediaDevices :: JSM GType
 gTypeMediaDevices = GType . Object <$> jsg "MediaDevices"
@@ -16555,6 +18002,10 @@ instance IsGObject MediaElementAudioSourceNode where
   typeGType _ = gTypeMediaElementAudioSourceNode
   {-# INLINE typeGType #-}
 
+noMediaElementAudioSourceNode :: Maybe MediaElementAudioSourceNode
+noMediaElementAudioSourceNode = Nothing
+{-# INLINE noMediaElementAudioSourceNode #-}
+
 gTypeMediaElementAudioSourceNode :: JSM GType
 gTypeMediaElementAudioSourceNode = GType . Object <$> jsg "MediaElementAudioSourceNode"
 
@@ -16591,6 +18042,10 @@ instance IsEvent MediaEncryptedEvent
 instance IsGObject MediaEncryptedEvent where
   typeGType _ = gTypeMediaEncryptedEvent
   {-# INLINE typeGType #-}
+
+noMediaEncryptedEvent :: Maybe MediaEncryptedEvent
+noMediaEncryptedEvent = Nothing
+{-# INLINE noMediaEncryptedEvent #-}
 
 gTypeMediaEncryptedEvent :: JSM GType
 gTypeMediaEncryptedEvent = GType . Object <$> jsg "MediaEncryptedEvent"
@@ -16629,6 +18084,10 @@ instance IsGObject MediaEncryptedEventInit where
   typeGType _ = gTypeMediaEncryptedEventInit
   {-# INLINE typeGType #-}
 
+noMediaEncryptedEventInit :: Maybe MediaEncryptedEventInit
+noMediaEncryptedEventInit = Nothing
+{-# INLINE noMediaEncryptedEventInit #-}
+
 gTypeMediaEncryptedEventInit :: JSM GType
 gTypeMediaEncryptedEventInit = GType . Object <$> jsg "MediaEncryptedEventInit"
 
@@ -16661,6 +18120,10 @@ instance MakeObject MediaError where
 instance IsGObject MediaError where
   typeGType _ = gTypeMediaError
   {-# INLINE typeGType #-}
+
+noMediaError :: Maybe MediaError
+noMediaError = Nothing
+{-# INLINE noMediaError #-}
 
 gTypeMediaError :: JSM GType
 gTypeMediaError = GType . Object <$> jsg "MediaError"
@@ -16699,6 +18162,10 @@ instance IsGObject MediaKeyMessageEvent where
   typeGType _ = gTypeMediaKeyMessageEvent
   {-# INLINE typeGType #-}
 
+noMediaKeyMessageEvent :: Maybe MediaKeyMessageEvent
+noMediaKeyMessageEvent = Nothing
+{-# INLINE noMediaKeyMessageEvent #-}
+
 gTypeMediaKeyMessageEvent :: JSM GType
 gTypeMediaKeyMessageEvent = GType . Object <$> jsg "WebKitMediaKeyMessageEvent"
 
@@ -16735,6 +18202,10 @@ instance IsEventInit MediaKeyMessageEventInit
 instance IsGObject MediaKeyMessageEventInit where
   typeGType _ = gTypeMediaKeyMessageEventInit
   {-# INLINE typeGType #-}
+
+noMediaKeyMessageEventInit :: Maybe MediaKeyMessageEventInit
+noMediaKeyMessageEventInit = Nothing
+{-# INLINE noMediaKeyMessageEventInit #-}
 
 gTypeMediaKeyMessageEventInit :: JSM GType
 gTypeMediaKeyMessageEventInit = GType . Object <$> jsg "MediaKeyMessageEventInit"
@@ -16773,6 +18244,10 @@ instance IsGObject MediaKeySession where
   typeGType _ = gTypeMediaKeySession
   {-# INLINE typeGType #-}
 
+noMediaKeySession :: Maybe MediaKeySession
+noMediaKeySession = Nothing
+{-# INLINE noMediaKeySession #-}
+
 gTypeMediaKeySession :: JSM GType
 gTypeMediaKeySession = GType . Object <$> jsg "WebKitMediaKeySession"
 
@@ -16805,6 +18280,10 @@ instance MakeObject MediaKeyStatusMap where
 instance IsGObject MediaKeyStatusMap where
   typeGType _ = gTypeMediaKeyStatusMap
   {-# INLINE typeGType #-}
+
+noMediaKeyStatusMap :: Maybe MediaKeyStatusMap
+noMediaKeyStatusMap = Nothing
+{-# INLINE noMediaKeyStatusMap #-}
 
 gTypeMediaKeyStatusMap :: JSM GType
 gTypeMediaKeyStatusMap = GType . Object <$> jsg "MediaKeyStatusMap"
@@ -16839,6 +18318,10 @@ instance IsGObject MediaKeySystemAccess where
   typeGType _ = gTypeMediaKeySystemAccess
   {-# INLINE typeGType #-}
 
+noMediaKeySystemAccess :: Maybe MediaKeySystemAccess
+noMediaKeySystemAccess = Nothing
+{-# INLINE noMediaKeySystemAccess #-}
+
 gTypeMediaKeySystemAccess :: JSM GType
 gTypeMediaKeySystemAccess = GType . Object <$> jsg "MediaKeySystemAccess"
 
@@ -16871,6 +18354,10 @@ instance MakeObject MediaKeySystemConfiguration where
 instance IsGObject MediaKeySystemConfiguration where
   typeGType _ = gTypeMediaKeySystemConfiguration
   {-# INLINE typeGType #-}
+
+noMediaKeySystemConfiguration :: Maybe MediaKeySystemConfiguration
+noMediaKeySystemConfiguration = Nothing
+{-# INLINE noMediaKeySystemConfiguration #-}
 
 gTypeMediaKeySystemConfiguration :: JSM GType
 gTypeMediaKeySystemConfiguration = GType . Object <$> jsg "MediaKeySystemConfiguration"
@@ -16905,6 +18392,10 @@ instance IsGObject MediaKeySystemMediaCapability where
   typeGType _ = gTypeMediaKeySystemMediaCapability
   {-# INLINE typeGType #-}
 
+noMediaKeySystemMediaCapability :: Maybe MediaKeySystemMediaCapability
+noMediaKeySystemMediaCapability = Nothing
+{-# INLINE noMediaKeySystemMediaCapability #-}
+
 gTypeMediaKeySystemMediaCapability :: JSM GType
 gTypeMediaKeySystemMediaCapability = GType . Object <$> jsg "MediaKeySystemMediaCapability"
 
@@ -16937,6 +18428,10 @@ instance MakeObject MediaKeys where
 instance IsGObject MediaKeys where
   typeGType _ = gTypeMediaKeys
   {-# INLINE typeGType #-}
+
+noMediaKeys :: Maybe MediaKeys
+noMediaKeys = Nothing
+{-# INLINE noMediaKeys #-}
 
 gTypeMediaKeys :: JSM GType
 gTypeMediaKeys = GType . Object <$> jsg "WebKitMediaKeys"
@@ -16971,6 +18466,10 @@ instance IsGObject MediaList where
   typeGType _ = gTypeMediaList
   {-# INLINE typeGType #-}
 
+noMediaList :: Maybe MediaList
+noMediaList = Nothing
+{-# INLINE noMediaList #-}
+
 gTypeMediaList :: JSM GType
 gTypeMediaList = GType . Object <$> jsg "MediaList"
 
@@ -17004,6 +18503,10 @@ instance IsGObject MediaMetadata where
   typeGType _ = gTypeMediaMetadata
   {-# INLINE typeGType #-}
 
+noMediaMetadata :: Maybe MediaMetadata
+noMediaMetadata = Nothing
+{-# INLINE noMediaMetadata #-}
+
 gTypeMediaMetadata :: JSM GType
 gTypeMediaMetadata = GType . Object <$> jsg "MediaMetadata"
 
@@ -17036,6 +18539,10 @@ instance MakeObject MediaQueryList where
 instance IsGObject MediaQueryList where
   typeGType _ = gTypeMediaQueryList
   {-# INLINE typeGType #-}
+
+noMediaQueryList :: Maybe MediaQueryList
+noMediaQueryList = Nothing
+{-# INLINE noMediaQueryList #-}
 
 gTypeMediaQueryList :: JSM GType
 gTypeMediaQueryList = GType . Object <$> jsg "MediaQueryList"
@@ -17074,6 +18581,10 @@ instance IsGObject MediaRemoteControls where
   typeGType _ = gTypeMediaRemoteControls
   {-# INLINE typeGType #-}
 
+noMediaRemoteControls :: Maybe MediaRemoteControls
+noMediaRemoteControls = Nothing
+{-# INLINE noMediaRemoteControls #-}
+
 gTypeMediaRemoteControls :: JSM GType
 gTypeMediaRemoteControls = GType . Object <$> jsg "MediaRemoteControls"
 
@@ -17106,6 +18617,10 @@ instance MakeObject MediaSession where
 instance IsGObject MediaSession where
   typeGType _ = gTypeMediaSession
   {-# INLINE typeGType #-}
+
+noMediaSession :: Maybe MediaSession
+noMediaSession = Nothing
+{-# INLINE noMediaSession #-}
 
 gTypeMediaSession :: JSM GType
 gTypeMediaSession = GType . Object <$> jsg "MediaSession"
@@ -17144,6 +18659,10 @@ instance IsGObject MediaSource where
   typeGType _ = gTypeMediaSource
   {-# INLINE typeGType #-}
 
+noMediaSource :: Maybe MediaSource
+noMediaSource = Nothing
+{-# INLINE noMediaSource #-}
+
 gTypeMediaSource :: JSM GType
 gTypeMediaSource = GType . Object <$> jsg "MediaSource"
 
@@ -17180,6 +18699,10 @@ instance IsEventTarget MediaStream
 instance IsGObject MediaStream where
   typeGType _ = gTypeMediaStream
   {-# INLINE typeGType #-}
+
+noMediaStream :: Maybe MediaStream
+noMediaStream = Nothing
+{-# INLINE noMediaStream #-}
 
 gTypeMediaStream :: JSM GType
 gTypeMediaStream = GType . Object <$> jsg "webkitMediaStream"
@@ -17220,6 +18743,10 @@ instance IsGObject MediaStreamAudioDestinationNode where
   typeGType _ = gTypeMediaStreamAudioDestinationNode
   {-# INLINE typeGType #-}
 
+noMediaStreamAudioDestinationNode :: Maybe MediaStreamAudioDestinationNode
+noMediaStreamAudioDestinationNode = Nothing
+{-# INLINE noMediaStreamAudioDestinationNode #-}
+
 gTypeMediaStreamAudioDestinationNode :: JSM GType
 gTypeMediaStreamAudioDestinationNode = GType . Object <$> jsg "MediaStreamAudioDestinationNode"
 
@@ -17259,6 +18786,10 @@ instance IsGObject MediaStreamAudioSourceNode where
   typeGType _ = gTypeMediaStreamAudioSourceNode
   {-# INLINE typeGType #-}
 
+noMediaStreamAudioSourceNode :: Maybe MediaStreamAudioSourceNode
+noMediaStreamAudioSourceNode = Nothing
+{-# INLINE noMediaStreamAudioSourceNode #-}
+
 gTypeMediaStreamAudioSourceNode :: JSM GType
 gTypeMediaStreamAudioSourceNode = GType . Object <$> jsg "MediaStreamAudioSourceNode"
 
@@ -17291,6 +18822,10 @@ instance MakeObject MediaStreamConstraints where
 instance IsGObject MediaStreamConstraints where
   typeGType _ = gTypeMediaStreamConstraints
   {-# INLINE typeGType #-}
+
+noMediaStreamConstraints :: Maybe MediaStreamConstraints
+noMediaStreamConstraints = Nothing
+{-# INLINE noMediaStreamConstraints #-}
 
 gTypeMediaStreamConstraints :: JSM GType
 gTypeMediaStreamConstraints = GType . Object <$> jsg "MediaStreamConstraints"
@@ -17329,6 +18864,10 @@ instance IsGObject MediaStreamEvent where
   typeGType _ = gTypeMediaStreamEvent
   {-# INLINE typeGType #-}
 
+noMediaStreamEvent :: Maybe MediaStreamEvent
+noMediaStreamEvent = Nothing
+{-# INLINE noMediaStreamEvent #-}
+
 gTypeMediaStreamEvent :: JSM GType
 gTypeMediaStreamEvent = GType . Object <$> jsg "MediaStreamEvent"
 
@@ -17365,6 +18904,10 @@ instance IsEventInit MediaStreamEventInit
 instance IsGObject MediaStreamEventInit where
   typeGType _ = gTypeMediaStreamEventInit
   {-# INLINE typeGType #-}
+
+noMediaStreamEventInit :: Maybe MediaStreamEventInit
+noMediaStreamEventInit = Nothing
+{-# INLINE noMediaStreamEventInit #-}
 
 gTypeMediaStreamEventInit :: JSM GType
 gTypeMediaStreamEventInit = GType . Object <$> jsg "MediaStreamEventInit"
@@ -17408,6 +18951,10 @@ instance IsGObject MediaStreamTrack where
   typeGType _ = gTypeMediaStreamTrack
   {-# INLINE typeGType #-}
 
+noMediaStreamTrack :: Maybe MediaStreamTrack
+noMediaStreamTrack = Nothing
+{-# INLINE noMediaStreamTrack #-}
+
 gTypeMediaStreamTrack :: JSM GType
 gTypeMediaStreamTrack = GType . Object <$> jsg "MediaStreamTrack"
 
@@ -17444,6 +18991,10 @@ instance IsEvent MediaStreamTrackEvent
 instance IsGObject MediaStreamTrackEvent where
   typeGType _ = gTypeMediaStreamTrackEvent
   {-# INLINE typeGType #-}
+
+noMediaStreamTrackEvent :: Maybe MediaStreamTrackEvent
+noMediaStreamTrackEvent = Nothing
+{-# INLINE noMediaStreamTrackEvent #-}
 
 gTypeMediaStreamTrackEvent :: JSM GType
 gTypeMediaStreamTrackEvent = GType . Object <$> jsg "MediaStreamTrackEvent"
@@ -17482,6 +19033,10 @@ instance IsGObject MediaStreamTrackEventInit where
   typeGType _ = gTypeMediaStreamTrackEventInit
   {-# INLINE typeGType #-}
 
+noMediaStreamTrackEventInit :: Maybe MediaStreamTrackEventInit
+noMediaStreamTrackEventInit = Nothing
+{-# INLINE noMediaStreamTrackEventInit #-}
+
 gTypeMediaStreamTrackEventInit :: JSM GType
 gTypeMediaStreamTrackEventInit = GType . Object <$> jsg "MediaStreamTrackEventInit"
 
@@ -17514,6 +19069,10 @@ instance MakeObject MediaTrackCapabilities where
 instance IsGObject MediaTrackCapabilities where
   typeGType _ = gTypeMediaTrackCapabilities
   {-# INLINE typeGType #-}
+
+noMediaTrackCapabilities :: Maybe MediaTrackCapabilities
+noMediaTrackCapabilities = Nothing
+{-# INLINE noMediaTrackCapabilities #-}
 
 gTypeMediaTrackCapabilities :: JSM GType
 gTypeMediaTrackCapabilities = GType . Object <$> jsg "MediaTrackCapabilities"
@@ -17553,6 +19112,10 @@ instance IsGObject MediaTrackConstraintSet where
   typeGType _ = gTypeMediaTrackConstraintSet
   {-# INLINE typeGType #-}
 
+noMediaTrackConstraintSet :: Maybe MediaTrackConstraintSet
+noMediaTrackConstraintSet = Nothing
+{-# INLINE noMediaTrackConstraintSet #-}
+
 gTypeMediaTrackConstraintSet :: JSM GType
 gTypeMediaTrackConstraintSet = GType . Object <$> jsg "MediaTrackConstraintSet"
 
@@ -17590,6 +19153,10 @@ instance IsGObject MediaTrackConstraints where
   typeGType _ = gTypeMediaTrackConstraints
   {-# INLINE typeGType #-}
 
+noMediaTrackConstraints :: Maybe MediaTrackConstraints
+noMediaTrackConstraints = Nothing
+{-# INLINE noMediaTrackConstraints #-}
+
 gTypeMediaTrackConstraints :: JSM GType
 gTypeMediaTrackConstraints = GType . Object <$> jsg "MediaTrackConstraints"
 
@@ -17622,6 +19189,10 @@ instance MakeObject MediaTrackSettings where
 instance IsGObject MediaTrackSettings where
   typeGType _ = gTypeMediaTrackSettings
   {-# INLINE typeGType #-}
+
+noMediaTrackSettings :: Maybe MediaTrackSettings
+noMediaTrackSettings = Nothing
+{-# INLINE noMediaTrackSettings #-}
 
 gTypeMediaTrackSettings :: JSM GType
 gTypeMediaTrackSettings = GType . Object <$> jsg "MediaTrackSettings"
@@ -17656,6 +19227,10 @@ instance IsGObject MediaTrackSupportedConstraints where
   typeGType _ = gTypeMediaTrackSupportedConstraints
   {-# INLINE typeGType #-}
 
+noMediaTrackSupportedConstraints :: Maybe MediaTrackSupportedConstraints
+noMediaTrackSupportedConstraints = Nothing
+{-# INLINE noMediaTrackSupportedConstraints #-}
+
 gTypeMediaTrackSupportedConstraints :: JSM GType
 gTypeMediaTrackSupportedConstraints = GType . Object <$> jsg "MediaTrackSupportedConstraints"
 
@@ -17688,6 +19263,10 @@ instance MakeObject MessageChannel where
 instance IsGObject MessageChannel where
   typeGType _ = gTypeMessageChannel
   {-# INLINE typeGType #-}
+
+noMessageChannel :: Maybe MessageChannel
+noMessageChannel = Nothing
+{-# INLINE noMessageChannel #-}
 
 gTypeMessageChannel :: JSM GType
 gTypeMessageChannel = GType . Object <$> jsg "MessageChannel"
@@ -17726,6 +19305,10 @@ instance IsGObject MessageEvent where
   typeGType _ = gTypeMessageEvent
   {-# INLINE typeGType #-}
 
+noMessageEvent :: Maybe MessageEvent
+noMessageEvent = Nothing
+{-# INLINE noMessageEvent #-}
+
 gTypeMessageEvent :: JSM GType
 gTypeMessageEvent = GType . Object <$> jsg "MessageEvent"
 
@@ -17762,6 +19345,10 @@ instance IsEventInit MessageEventInit
 instance IsGObject MessageEventInit where
   typeGType _ = gTypeMessageEventInit
   {-# INLINE typeGType #-}
+
+noMessageEventInit :: Maybe MessageEventInit
+noMessageEventInit = Nothing
+{-# INLINE noMessageEventInit #-}
 
 gTypeMessageEventInit :: JSM GType
 gTypeMessageEventInit = GType . Object <$> jsg "MessageEventInit"
@@ -17800,6 +19387,10 @@ instance IsGObject MessagePort where
   typeGType _ = gTypeMessagePort
   {-# INLINE typeGType #-}
 
+noMessagePort :: Maybe MessagePort
+noMessagePort = Nothing
+{-# INLINE noMessagePort #-}
+
 gTypeMessagePort :: JSM GType
 gTypeMessagePort = GType . Object <$> jsg "MessagePort"
 
@@ -17833,6 +19424,10 @@ instance IsGObject MimeType where
   typeGType _ = gTypeMimeType
   {-# INLINE typeGType #-}
 
+noMimeType :: Maybe MimeType
+noMimeType = Nothing
+{-# INLINE noMimeType #-}
+
 gTypeMimeType :: JSM GType
 gTypeMimeType = GType . Object <$> jsg "MimeType"
 
@@ -17865,6 +19460,10 @@ instance MakeObject MimeTypeArray where
 instance IsGObject MimeTypeArray where
   typeGType _ = gTypeMimeTypeArray
   {-# INLINE typeGType #-}
+
+noMimeTypeArray :: Maybe MimeTypeArray
+noMimeTypeArray = Nothing
+{-# INLINE noMimeTypeArray #-}
 
 gTypeMimeTypeArray :: JSM GType
 gTypeMimeTypeArray = GType . Object <$> jsg "MimeTypeArray"
@@ -17909,6 +19508,10 @@ instance IsEvent MouseEvent
 instance IsGObject MouseEvent where
   typeGType _ = gTypeMouseEvent
   {-# INLINE typeGType #-}
+
+noMouseEvent :: Maybe MouseEvent
+noMouseEvent = Nothing
+{-# INLINE noMouseEvent #-}
 
 gTypeMouseEvent :: JSM GType
 gTypeMouseEvent = GType . Object <$> jsg "MouseEvent"
@@ -17956,6 +19559,10 @@ instance IsGObject MouseEventInit where
   typeGType _ = gTypeMouseEventInit
   {-# INLINE typeGType #-}
 
+noMouseEventInit :: Maybe MouseEventInit
+noMouseEventInit = Nothing
+{-# INLINE noMouseEventInit #-}
+
 gTypeMouseEventInit :: JSM GType
 gTypeMouseEventInit = GType . Object <$> jsg "MouseEventInit"
 
@@ -17993,6 +19600,10 @@ instance IsGObject MutationEvent where
   typeGType _ = gTypeMutationEvent
   {-# INLINE typeGType #-}
 
+noMutationEvent :: Maybe MutationEvent
+noMutationEvent = Nothing
+{-# INLINE noMutationEvent #-}
+
 gTypeMutationEvent :: JSM GType
 gTypeMutationEvent = GType . Object <$> jsg "MutationEvent"
 
@@ -18025,6 +19636,10 @@ instance MakeObject MutationObserver where
 instance IsGObject MutationObserver where
   typeGType _ = gTypeMutationObserver
   {-# INLINE typeGType #-}
+
+noMutationObserver :: Maybe MutationObserver
+noMutationObserver = Nothing
+{-# INLINE noMutationObserver #-}
 
 gTypeMutationObserver :: JSM GType
 gTypeMutationObserver = GType . Object <$> jsg "MutationObserver"
@@ -18059,6 +19674,10 @@ instance IsGObject MutationObserverInit where
   typeGType _ = gTypeMutationObserverInit
   {-# INLINE typeGType #-}
 
+noMutationObserverInit :: Maybe MutationObserverInit
+noMutationObserverInit = Nothing
+{-# INLINE noMutationObserverInit #-}
+
 gTypeMutationObserverInit :: JSM GType
 gTypeMutationObserverInit = GType . Object <$> jsg "MutationObserverInit"
 
@@ -18092,6 +19711,10 @@ instance IsGObject MutationRecord where
   typeGType _ = gTypeMutationRecord
   {-# INLINE typeGType #-}
 
+noMutationRecord :: Maybe MutationRecord
+noMutationRecord = Nothing
+{-# INLINE noMutationRecord #-}
+
 gTypeMutationRecord :: JSM GType
 gTypeMutationRecord = GType . Object <$> jsg "MutationRecord"
 
@@ -18124,6 +19747,10 @@ instance MakeObject NamedNodeMap where
 instance IsGObject NamedNodeMap where
   typeGType _ = gTypeNamedNodeMap
   {-# INLINE typeGType #-}
+
+noNamedNodeMap :: Maybe NamedNodeMap
+noNamedNodeMap = Nothing
+{-# INLINE noNamedNodeMap #-}
 
 gTypeNamedNodeMap :: JSM GType
 gTypeNamedNodeMap = GType . Object <$> jsg "NamedNodeMap"
@@ -18168,6 +19795,10 @@ instance IsGObject Navigator where
   typeGType _ = gTypeNavigator
   {-# INLINE typeGType #-}
 
+noNavigator :: Maybe Navigator
+noNavigator = Nothing
+{-# INLINE noNavigator #-}
+
 gTypeNavigator :: JSM GType
 gTypeNavigator = GType . Object <$> jsg "Navigator"
 
@@ -18205,6 +19836,10 @@ instance IsNavigatorConcurrentHardware NavigatorConcurrentHardware
 instance IsGObject NavigatorConcurrentHardware where
   typeGType _ = gTypeNavigatorConcurrentHardware
   {-# INLINE typeGType #-}
+
+noNavigatorConcurrentHardware :: Maybe NavigatorConcurrentHardware
+noNavigatorConcurrentHardware = Nothing
+{-# INLINE noNavigatorConcurrentHardware #-}
 
 gTypeNavigatorConcurrentHardware :: JSM GType
 gTypeNavigatorConcurrentHardware = GType . Object <$> jsg "NavigatorConcurrentHardware"
@@ -18244,6 +19879,10 @@ instance IsGObject NavigatorID where
   typeGType _ = gTypeNavigatorID
   {-# INLINE typeGType #-}
 
+noNavigatorID :: Maybe NavigatorID
+noNavigatorID = Nothing
+{-# INLINE noNavigatorID #-}
+
 gTypeNavigatorID :: JSM GType
 gTypeNavigatorID = GType . Object <$> jsg "NavigatorID"
 
@@ -18281,6 +19920,10 @@ instance IsNavigatorLanguage NavigatorLanguage
 instance IsGObject NavigatorLanguage where
   typeGType _ = gTypeNavigatorLanguage
   {-# INLINE typeGType #-}
+
+noNavigatorLanguage :: Maybe NavigatorLanguage
+noNavigatorLanguage = Nothing
+{-# INLINE noNavigatorLanguage #-}
 
 gTypeNavigatorLanguage :: JSM GType
 gTypeNavigatorLanguage = GType . Object <$> jsg "NavigatorLanguage"
@@ -18320,6 +19963,10 @@ instance IsGObject NavigatorOnLine where
   typeGType _ = gTypeNavigatorOnLine
   {-# INLINE typeGType #-}
 
+noNavigatorOnLine :: Maybe NavigatorOnLine
+noNavigatorOnLine = Nothing
+{-# INLINE noNavigatorOnLine #-}
+
 gTypeNavigatorOnLine :: JSM GType
 gTypeNavigatorOnLine = GType . Object <$> jsg "NavigatorOnLine"
 
@@ -18356,6 +20003,10 @@ instance IsDOMError NavigatorUserMediaError
 instance IsGObject NavigatorUserMediaError where
   typeGType _ = gTypeNavigatorUserMediaError
   {-# INLINE typeGType #-}
+
+noNavigatorUserMediaError :: Maybe NavigatorUserMediaError
+noNavigatorUserMediaError = Nothing
+{-# INLINE noNavigatorUserMediaError #-}
 
 gTypeNavigatorUserMediaError :: JSM GType
 gTypeNavigatorUserMediaError = GType . Object <$> jsg "NavigatorUserMediaError"
@@ -18399,6 +20050,10 @@ instance IsGObject Node where
   typeGType _ = gTypeNode
   {-# INLINE typeGType #-}
 
+noNode :: Maybe Node
+noNode = Nothing
+{-# INLINE noNode #-}
+
 gTypeNode :: JSM GType
 gTypeNode = GType . Object <$> jsg "Node"
 
@@ -18431,6 +20086,10 @@ instance MakeObject NodeIterator where
 instance IsGObject NodeIterator where
   typeGType _ = gTypeNodeIterator
   {-# INLINE typeGType #-}
+
+noNodeIterator :: Maybe NodeIterator
+noNodeIterator = Nothing
+{-# INLINE noNodeIterator #-}
 
 gTypeNodeIterator :: JSM GType
 gTypeNodeIterator = GType . Object <$> jsg "NodeIterator"
@@ -18470,6 +20129,10 @@ instance IsGObject NodeList where
   typeGType _ = gTypeNodeList
   {-# INLINE typeGType #-}
 
+noNodeList :: Maybe NodeList
+noNodeList = Nothing
+{-# INLINE noNodeList #-}
+
 gTypeNodeList :: JSM GType
 gTypeNodeList = GType . Object <$> jsg "NodeList"
 
@@ -18507,6 +20170,10 @@ instance IsNonDocumentTypeChildNode NonDocumentTypeChildNode
 instance IsGObject NonDocumentTypeChildNode where
   typeGType _ = gTypeNonDocumentTypeChildNode
   {-# INLINE typeGType #-}
+
+noNonDocumentTypeChildNode :: Maybe NonDocumentTypeChildNode
+noNonDocumentTypeChildNode = Nothing
+{-# INLINE noNonDocumentTypeChildNode #-}
 
 gTypeNonDocumentTypeChildNode :: JSM GType
 gTypeNonDocumentTypeChildNode = GType . Object <$> jsg "NonDocumentTypeChildNode"
@@ -18546,6 +20213,10 @@ instance IsGObject NonElementParentNode where
   typeGType _ = gTypeNonElementParentNode
   {-# INLINE typeGType #-}
 
+noNonElementParentNode :: Maybe NonElementParentNode
+noNonElementParentNode = Nothing
+{-# INLINE noNonElementParentNode #-}
+
 gTypeNonElementParentNode :: JSM GType
 gTypeNonElementParentNode = GType . Object <$> jsg "NonElementParentNode"
 
@@ -18583,6 +20254,10 @@ instance IsGObject Notification where
   typeGType _ = gTypeNotification
   {-# INLINE typeGType #-}
 
+noNotification :: Maybe Notification
+noNotification = Nothing
+{-# INLINE noNotification #-}
+
 gTypeNotification :: JSM GType
 gTypeNotification = GType . Object <$> jsg "Notification"
 
@@ -18615,6 +20290,10 @@ instance MakeObject NotificationOptions where
 instance IsGObject NotificationOptions where
   typeGType _ = gTypeNotificationOptions
   {-# INLINE typeGType #-}
+
+noNotificationOptions :: Maybe NotificationOptions
+noNotificationOptions = Nothing
+{-# INLINE noNotificationOptions #-}
 
 gTypeNotificationOptions :: JSM GType
 gTypeNotificationOptions = GType . Object <$> jsg "NotificationOptions"
@@ -18649,6 +20328,10 @@ instance IsGObject OESElementIndexUint where
   typeGType _ = gTypeOESElementIndexUint
   {-# INLINE typeGType #-}
 
+noOESElementIndexUint :: Maybe OESElementIndexUint
+noOESElementIndexUint = Nothing
+{-# INLINE noOESElementIndexUint #-}
+
 gTypeOESElementIndexUint :: JSM GType
 gTypeOESElementIndexUint = GType . Object <$> jsg "OESElementIndexUint"
 
@@ -18681,6 +20364,10 @@ instance MakeObject OESStandardDerivatives where
 instance IsGObject OESStandardDerivatives where
   typeGType _ = gTypeOESStandardDerivatives
   {-# INLINE typeGType #-}
+
+noOESStandardDerivatives :: Maybe OESStandardDerivatives
+noOESStandardDerivatives = Nothing
+{-# INLINE noOESStandardDerivatives #-}
 
 gTypeOESStandardDerivatives :: JSM GType
 gTypeOESStandardDerivatives = GType . Object <$> jsg "OESStandardDerivatives"
@@ -18715,6 +20402,10 @@ instance IsGObject OESTextureFloat where
   typeGType _ = gTypeOESTextureFloat
   {-# INLINE typeGType #-}
 
+noOESTextureFloat :: Maybe OESTextureFloat
+noOESTextureFloat = Nothing
+{-# INLINE noOESTextureFloat #-}
+
 gTypeOESTextureFloat :: JSM GType
 gTypeOESTextureFloat = GType . Object <$> jsg "OESTextureFloat"
 
@@ -18747,6 +20438,10 @@ instance MakeObject OESTextureFloatLinear where
 instance IsGObject OESTextureFloatLinear where
   typeGType _ = gTypeOESTextureFloatLinear
   {-# INLINE typeGType #-}
+
+noOESTextureFloatLinear :: Maybe OESTextureFloatLinear
+noOESTextureFloatLinear = Nothing
+{-# INLINE noOESTextureFloatLinear #-}
 
 gTypeOESTextureFloatLinear :: JSM GType
 gTypeOESTextureFloatLinear = GType . Object <$> jsg "OESTextureFloatLinear"
@@ -18781,6 +20476,10 @@ instance IsGObject OESTextureHalfFloat where
   typeGType _ = gTypeOESTextureHalfFloat
   {-# INLINE typeGType #-}
 
+noOESTextureHalfFloat :: Maybe OESTextureHalfFloat
+noOESTextureHalfFloat = Nothing
+{-# INLINE noOESTextureHalfFloat #-}
+
 gTypeOESTextureHalfFloat :: JSM GType
 gTypeOESTextureHalfFloat = GType . Object <$> jsg "OESTextureHalfFloat"
 
@@ -18814,6 +20513,10 @@ instance IsGObject OESTextureHalfFloatLinear where
   typeGType _ = gTypeOESTextureHalfFloatLinear
   {-# INLINE typeGType #-}
 
+noOESTextureHalfFloatLinear :: Maybe OESTextureHalfFloatLinear
+noOESTextureHalfFloatLinear = Nothing
+{-# INLINE noOESTextureHalfFloatLinear #-}
+
 gTypeOESTextureHalfFloatLinear :: JSM GType
 gTypeOESTextureHalfFloatLinear = GType . Object <$> jsg "OESTextureHalfFloatLinear"
 
@@ -18846,6 +20549,10 @@ instance MakeObject OESVertexArrayObject where
 instance IsGObject OESVertexArrayObject where
   typeGType _ = gTypeOESVertexArrayObject
   {-# INLINE typeGType #-}
+
+noOESVertexArrayObject :: Maybe OESVertexArrayObject
+noOESVertexArrayObject = Nothing
+{-# INLINE noOESVertexArrayObject #-}
 
 gTypeOESVertexArrayObject :: JSM GType
 gTypeOESVertexArrayObject = GType . Object <$> jsg "OESVertexArrayObject"
@@ -18883,6 +20590,10 @@ instance IsEvent OfflineAudioCompletionEvent
 instance IsGObject OfflineAudioCompletionEvent where
   typeGType _ = gTypeOfflineAudioCompletionEvent
   {-# INLINE typeGType #-}
+
+noOfflineAudioCompletionEvent :: Maybe OfflineAudioCompletionEvent
+noOfflineAudioCompletionEvent = Nothing
+{-# INLINE noOfflineAudioCompletionEvent #-}
 
 gTypeOfflineAudioCompletionEvent :: JSM GType
 gTypeOfflineAudioCompletionEvent = GType . Object <$> jsg "OfflineAudioCompletionEvent"
@@ -18923,6 +20634,10 @@ instance IsGObject OfflineAudioContext where
   typeGType _ = gTypeOfflineAudioContext
   {-# INLINE typeGType #-}
 
+noOfflineAudioContext :: Maybe OfflineAudioContext
+noOfflineAudioContext = Nothing
+{-# INLINE noOfflineAudioContext #-}
+
 gTypeOfflineAudioContext :: JSM GType
 gTypeOfflineAudioContext = GType . Object <$> jsg "OfflineAudioContext"
 
@@ -18962,6 +20677,10 @@ instance IsGObject OscillatorNode where
   typeGType _ = gTypeOscillatorNode
   {-# INLINE typeGType #-}
 
+noOscillatorNode :: Maybe OscillatorNode
+noOscillatorNode = Nothing
+{-# INLINE noOscillatorNode #-}
+
 gTypeOscillatorNode :: JSM GType
 gTypeOscillatorNode = GType . Object <$> jsg "OscillatorNode"
 
@@ -18994,6 +20713,10 @@ instance MakeObject OverconstrainedError where
 instance IsGObject OverconstrainedError where
   typeGType _ = gTypeOverconstrainedError
   {-# INLINE typeGType #-}
+
+noOverconstrainedError :: Maybe OverconstrainedError
+noOverconstrainedError = Nothing
+{-# INLINE noOverconstrainedError #-}
 
 gTypeOverconstrainedError :: JSM GType
 gTypeOverconstrainedError = GType . Object <$> jsg "OverconstrainedError"
@@ -19032,6 +20755,10 @@ instance IsGObject OverconstrainedErrorEvent where
   typeGType _ = gTypeOverconstrainedErrorEvent
   {-# INLINE typeGType #-}
 
+noOverconstrainedErrorEvent :: Maybe OverconstrainedErrorEvent
+noOverconstrainedErrorEvent = Nothing
+{-# INLINE noOverconstrainedErrorEvent #-}
+
 gTypeOverconstrainedErrorEvent :: JSM GType
 gTypeOverconstrainedErrorEvent = GType . Object <$> jsg "OverconstrainedErrorEvent"
 
@@ -19068,6 +20795,10 @@ instance IsEventInit OverconstrainedErrorEventInit
 instance IsGObject OverconstrainedErrorEventInit where
   typeGType _ = gTypeOverconstrainedErrorEventInit
   {-# INLINE typeGType #-}
+
+noOverconstrainedErrorEventInit :: Maybe OverconstrainedErrorEventInit
+noOverconstrainedErrorEventInit = Nothing
+{-# INLINE noOverconstrainedErrorEventInit #-}
 
 gTypeOverconstrainedErrorEventInit :: JSM GType
 gTypeOverconstrainedErrorEventInit = GType . Object <$> jsg "OverconstrainedErrorEventInit"
@@ -19106,6 +20837,10 @@ instance IsGObject OverflowEvent where
   typeGType _ = gTypeOverflowEvent
   {-# INLINE typeGType #-}
 
+noOverflowEvent :: Maybe OverflowEvent
+noOverflowEvent = Nothing
+{-# INLINE noOverflowEvent #-}
+
 gTypeOverflowEvent :: JSM GType
 gTypeOverflowEvent = GType . Object <$> jsg "OverflowEvent"
 
@@ -19142,6 +20877,10 @@ instance IsEventInit OverflowEventInit
 instance IsGObject OverflowEventInit where
   typeGType _ = gTypeOverflowEventInit
   {-# INLINE typeGType #-}
+
+noOverflowEventInit :: Maybe OverflowEventInit
+noOverflowEventInit = Nothing
+{-# INLINE noOverflowEventInit #-}
 
 gTypeOverflowEventInit :: JSM GType
 gTypeOverflowEventInit = GType . Object <$> jsg "OverflowEventInit"
@@ -19180,6 +20919,10 @@ instance IsGObject PageTransitionEvent where
   typeGType _ = gTypePageTransitionEvent
   {-# INLINE typeGType #-}
 
+noPageTransitionEvent :: Maybe PageTransitionEvent
+noPageTransitionEvent = Nothing
+{-# INLINE noPageTransitionEvent #-}
+
 gTypePageTransitionEvent :: JSM GType
 gTypePageTransitionEvent = GType . Object <$> jsg "PageTransitionEvent"
 
@@ -19216,6 +20959,10 @@ instance IsEventInit PageTransitionEventInit
 instance IsGObject PageTransitionEventInit where
   typeGType _ = gTypePageTransitionEventInit
   {-# INLINE typeGType #-}
+
+noPageTransitionEventInit :: Maybe PageTransitionEventInit
+noPageTransitionEventInit = Nothing
+{-# INLINE noPageTransitionEventInit #-}
 
 gTypePageTransitionEventInit :: JSM GType
 gTypePageTransitionEventInit = GType . Object <$> jsg "PageTransitionEventInit"
@@ -19256,6 +21003,10 @@ instance IsGObject PannerNode where
   typeGType _ = gTypePannerNode
   {-# INLINE typeGType #-}
 
+noPannerNode :: Maybe PannerNode
+noPannerNode = Nothing
+{-# INLINE noPannerNode #-}
+
 gTypePannerNode :: JSM GType
 gTypePannerNode = GType . Object <$> jsg "webkitAudioPannerNode"
 
@@ -19293,6 +21044,10 @@ instance IsParentNode ParentNode
 instance IsGObject ParentNode where
   typeGType _ = gTypeParentNode
   {-# INLINE typeGType #-}
+
+noParentNode :: Maybe ParentNode
+noParentNode = Nothing
+{-# INLINE noParentNode #-}
 
 gTypeParentNode :: JSM GType
 gTypeParentNode = GType . Object <$> jsg "ParentNode"
@@ -19333,6 +21088,10 @@ instance IsGObject PasswordCredential where
   typeGType _ = gTypePasswordCredential
   {-# INLINE typeGType #-}
 
+noPasswordCredential :: Maybe PasswordCredential
+noPasswordCredential = Nothing
+{-# INLINE noPasswordCredential #-}
+
 gTypePasswordCredential :: JSM GType
 gTypePasswordCredential = GType . Object <$> jsg "PasswordCredential"
 
@@ -19372,6 +21131,10 @@ instance IsGObject PasswordCredentialData where
   typeGType _ = gTypePasswordCredentialData
   {-# INLINE typeGType #-}
 
+noPasswordCredentialData :: Maybe PasswordCredentialData
+noPasswordCredentialData = Nothing
+{-# INLINE noPasswordCredentialData #-}
+
 gTypePasswordCredentialData :: JSM GType
 gTypePasswordCredentialData = GType . Object <$> jsg "PasswordCredentialData"
 
@@ -19408,6 +21171,10 @@ instance IsCanvasPath Path2D
 instance IsGObject Path2D where
   typeGType _ = gTypePath2D
   {-# INLINE typeGType #-}
+
+noPath2D :: Maybe Path2D
+noPath2D = Nothing
+{-# INLINE noPath2D #-}
 
 gTypePath2D :: JSM GType
 gTypePath2D = GType . Object <$> jsg "Path2D"
@@ -19446,6 +21213,10 @@ instance IsGObject Pbkdf2Params where
   typeGType _ = gTypePbkdf2Params
   {-# INLINE typeGType #-}
 
+noPbkdf2Params :: Maybe Pbkdf2Params
+noPbkdf2Params = Nothing
+{-# INLINE noPbkdf2Params #-}
+
 gTypePbkdf2Params :: JSM GType
 gTypePbkdf2Params = GType . Object <$> jsg "Pbkdf2Params"
 
@@ -19482,6 +21253,10 @@ instance IsEventTarget Performance
 instance IsGObject Performance where
   typeGType _ = gTypePerformance
   {-# INLINE typeGType #-}
+
+noPerformance :: Maybe Performance
+noPerformance = Nothing
+{-# INLINE noPerformance #-}
 
 gTypePerformance :: JSM GType
 gTypePerformance = GType . Object <$> jsg "Performance"
@@ -19521,6 +21296,10 @@ instance IsGObject PerformanceEntry where
   typeGType _ = gTypePerformanceEntry
   {-# INLINE typeGType #-}
 
+noPerformanceEntry :: Maybe PerformanceEntry
+noPerformanceEntry = Nothing
+{-# INLINE noPerformanceEntry #-}
+
 gTypePerformanceEntry :: JSM GType
 gTypePerformanceEntry = GType . Object <$> jsg "PerformanceEntry"
 
@@ -19557,6 +21336,10 @@ instance IsPerformanceEntry PerformanceMark
 instance IsGObject PerformanceMark where
   typeGType _ = gTypePerformanceMark
   {-# INLINE typeGType #-}
+
+noPerformanceMark :: Maybe PerformanceMark
+noPerformanceMark = Nothing
+{-# INLINE noPerformanceMark #-}
 
 gTypePerformanceMark :: JSM GType
 gTypePerformanceMark = GType . Object <$> jsg "PerformanceMark"
@@ -19595,6 +21378,10 @@ instance IsGObject PerformanceMeasure where
   typeGType _ = gTypePerformanceMeasure
   {-# INLINE typeGType #-}
 
+noPerformanceMeasure :: Maybe PerformanceMeasure
+noPerformanceMeasure = Nothing
+{-# INLINE noPerformanceMeasure #-}
+
 gTypePerformanceMeasure :: JSM GType
 gTypePerformanceMeasure = GType . Object <$> jsg "PerformanceMeasure"
 
@@ -19627,6 +21414,10 @@ instance MakeObject PerformanceNavigation where
 instance IsGObject PerformanceNavigation where
   typeGType _ = gTypePerformanceNavigation
   {-# INLINE typeGType #-}
+
+noPerformanceNavigation :: Maybe PerformanceNavigation
+noPerformanceNavigation = Nothing
+{-# INLINE noPerformanceNavigation #-}
 
 gTypePerformanceNavigation :: JSM GType
 gTypePerformanceNavigation = GType . Object <$> jsg "PerformanceNavigation"
@@ -19661,6 +21452,10 @@ instance IsGObject PerformanceObserver where
   typeGType _ = gTypePerformanceObserver
   {-# INLINE typeGType #-}
 
+noPerformanceObserver :: Maybe PerformanceObserver
+noPerformanceObserver = Nothing
+{-# INLINE noPerformanceObserver #-}
+
 gTypePerformanceObserver :: JSM GType
 gTypePerformanceObserver = GType . Object <$> jsg "PerformanceObserver"
 
@@ -19694,6 +21489,10 @@ instance IsGObject PerformanceObserverEntryList where
   typeGType _ = gTypePerformanceObserverEntryList
   {-# INLINE typeGType #-}
 
+noPerformanceObserverEntryList :: Maybe PerformanceObserverEntryList
+noPerformanceObserverEntryList = Nothing
+{-# INLINE noPerformanceObserverEntryList #-}
+
 gTypePerformanceObserverEntryList :: JSM GType
 gTypePerformanceObserverEntryList = GType . Object <$> jsg "PerformanceObserverEntryList"
 
@@ -19726,6 +21525,10 @@ instance MakeObject PerformanceObserverInit where
 instance IsGObject PerformanceObserverInit where
   typeGType _ = gTypePerformanceObserverInit
   {-# INLINE typeGType #-}
+
+noPerformanceObserverInit :: Maybe PerformanceObserverInit
+noPerformanceObserverInit = Nothing
+{-# INLINE noPerformanceObserverInit #-}
 
 gTypePerformanceObserverInit :: JSM GType
 gTypePerformanceObserverInit = GType . Object <$> jsg "PerformanceObserverInit"
@@ -19764,6 +21567,10 @@ instance IsGObject PerformanceResourceTiming where
   typeGType _ = gTypePerformanceResourceTiming
   {-# INLINE typeGType #-}
 
+noPerformanceResourceTiming :: Maybe PerformanceResourceTiming
+noPerformanceResourceTiming = Nothing
+{-# INLINE noPerformanceResourceTiming #-}
+
 gTypePerformanceResourceTiming :: JSM GType
 gTypePerformanceResourceTiming = GType . Object <$> jsg "PerformanceResourceTiming"
 
@@ -19796,6 +21603,10 @@ instance MakeObject PerformanceTiming where
 instance IsGObject PerformanceTiming where
   typeGType _ = gTypePerformanceTiming
   {-# INLINE typeGType #-}
+
+noPerformanceTiming :: Maybe PerformanceTiming
+noPerformanceTiming = Nothing
+{-# INLINE noPerformanceTiming #-}
 
 gTypePerformanceTiming :: JSM GType
 gTypePerformanceTiming = GType . Object <$> jsg "PerformanceTiming"
@@ -19830,6 +21641,10 @@ instance IsGObject PeriodicWave where
   typeGType _ = gTypePeriodicWave
   {-# INLINE typeGType #-}
 
+noPeriodicWave :: Maybe PeriodicWave
+noPeriodicWave = Nothing
+{-# INLINE noPeriodicWave #-}
+
 gTypePeriodicWave :: JSM GType
 gTypePeriodicWave = GType . Object <$> jsg "PeriodicWave"
 
@@ -19863,6 +21678,10 @@ instance IsGObject Plugin where
   typeGType _ = gTypePlugin
   {-# INLINE typeGType #-}
 
+noPlugin :: Maybe Plugin
+noPlugin = Nothing
+{-# INLINE noPlugin #-}
+
 gTypePlugin :: JSM GType
 gTypePlugin = GType . Object <$> jsg "Plugin"
 
@@ -19895,6 +21714,10 @@ instance MakeObject PluginArray where
 instance IsGObject PluginArray where
   typeGType _ = gTypePluginArray
   {-# INLINE typeGType #-}
+
+noPluginArray :: Maybe PluginArray
+noPluginArray = Nothing
+{-# INLINE noPluginArray #-}
 
 gTypePluginArray :: JSM GType
 gTypePluginArray = GType . Object <$> jsg "PluginArray"
@@ -19933,6 +21756,10 @@ instance IsGObject PopStateEvent where
   typeGType _ = gTypePopStateEvent
   {-# INLINE typeGType #-}
 
+noPopStateEvent :: Maybe PopStateEvent
+noPopStateEvent = Nothing
+{-# INLINE noPopStateEvent #-}
+
 gTypePopStateEvent :: JSM GType
 gTypePopStateEvent = GType . Object <$> jsg "PopStateEvent"
 
@@ -19970,6 +21797,10 @@ instance IsGObject PopStateEventInit where
   typeGType _ = gTypePopStateEventInit
   {-# INLINE typeGType #-}
 
+noPopStateEventInit :: Maybe PopStateEventInit
+noPopStateEventInit = Nothing
+{-# INLINE noPopStateEventInit #-}
+
 gTypePopStateEventInit :: JSM GType
 gTypePopStateEventInit = GType . Object <$> jsg "PopStateEventInit"
 
@@ -20003,6 +21834,10 @@ instance IsGObject PositionError where
   typeGType _ = gTypePositionError
   {-# INLINE typeGType #-}
 
+noPositionError :: Maybe PositionError
+noPositionError = Nothing
+{-# INLINE noPositionError #-}
+
 gTypePositionError :: JSM GType
 gTypePositionError = GType . Object <$> jsg "PositionError"
 
@@ -20035,6 +21870,10 @@ instance MakeObject PositionOptions where
 instance IsGObject PositionOptions where
   typeGType _ = gTypePositionOptions
   {-# INLINE typeGType #-}
+
+noPositionOptions :: Maybe PositionOptions
+noPositionOptions = Nothing
+{-# INLINE noPositionOptions #-}
 
 gTypePositionOptions :: JSM GType
 gTypePositionOptions = GType . Object <$> jsg "PositionOptions"
@@ -20081,6 +21920,10 @@ instance IsGObject ProcessingInstruction where
   typeGType _ = gTypeProcessingInstruction
   {-# INLINE typeGType #-}
 
+noProcessingInstruction :: Maybe ProcessingInstruction
+noProcessingInstruction = Nothing
+{-# INLINE noProcessingInstruction #-}
+
 gTypeProcessingInstruction :: JSM GType
 gTypeProcessingInstruction = GType . Object <$> jsg "ProcessingInstruction"
 
@@ -20123,6 +21966,10 @@ instance IsGObject ProgressEvent where
   typeGType _ = gTypeProgressEvent
   {-# INLINE typeGType #-}
 
+noProgressEvent :: Maybe ProgressEvent
+noProgressEvent = Nothing
+{-# INLINE noProgressEvent #-}
+
 gTypeProgressEvent :: JSM GType
 gTypeProgressEvent = GType . Object <$> jsg "ProgressEvent"
 
@@ -20159,6 +22006,10 @@ instance IsEventInit ProgressEventInit
 instance IsGObject ProgressEventInit where
   typeGType _ = gTypeProgressEventInit
   {-# INLINE typeGType #-}
+
+noProgressEventInit :: Maybe ProgressEventInit
+noProgressEventInit = Nothing
+{-# INLINE noProgressEventInit #-}
 
 gTypeProgressEventInit :: JSM GType
 gTypeProgressEventInit = GType . Object <$> jsg "ProgressEventInit"
@@ -20197,6 +22048,10 @@ instance IsGObject PromiseRejectionEvent where
   typeGType _ = gTypePromiseRejectionEvent
   {-# INLINE typeGType #-}
 
+noPromiseRejectionEvent :: Maybe PromiseRejectionEvent
+noPromiseRejectionEvent = Nothing
+{-# INLINE noPromiseRejectionEvent #-}
+
 gTypePromiseRejectionEvent :: JSM GType
 gTypePromiseRejectionEvent = GType . Object <$> jsg "PromiseRejectionEvent"
 
@@ -20234,6 +22089,10 @@ instance IsGObject PromiseRejectionEventInit where
   typeGType _ = gTypePromiseRejectionEventInit
   {-# INLINE typeGType #-}
 
+noPromiseRejectionEventInit :: Maybe PromiseRejectionEventInit
+noPromiseRejectionEventInit = Nothing
+{-# INLINE noPromiseRejectionEventInit #-}
+
 gTypePromiseRejectionEventInit :: JSM GType
 gTypePromiseRejectionEventInit = GType . Object <$> jsg "PromiseRejectionEventInit"
 
@@ -20267,6 +22126,10 @@ instance IsGObject QuickTimePluginReplacement where
   typeGType _ = gTypeQuickTimePluginReplacement
   {-# INLINE typeGType #-}
 
+noQuickTimePluginReplacement :: Maybe QuickTimePluginReplacement
+noQuickTimePluginReplacement = Nothing
+{-# INLINE noQuickTimePluginReplacement #-}
+
 gTypeQuickTimePluginReplacement :: JSM GType
 gTypeQuickTimePluginReplacement = GType . Object <$> jsg "QuickTimePluginReplacement"
 
@@ -20299,6 +22162,10 @@ instance MakeObject RGBColor where
 instance IsGObject RGBColor where
   typeGType _ = gTypeRGBColor
   {-# INLINE typeGType #-}
+
+noRGBColor :: Maybe RGBColor
+noRGBColor = Nothing
+{-# INLINE noRGBColor #-}
 
 gTypeRGBColor :: JSM GType
 gTypeRGBColor = GType . Object <$> jsg "RGBColor"
@@ -20337,6 +22204,10 @@ instance IsGObject RTCAnswerOptions where
   typeGType _ = gTypeRTCAnswerOptions
   {-# INLINE typeGType #-}
 
+noRTCAnswerOptions :: Maybe RTCAnswerOptions
+noRTCAnswerOptions = Nothing
+{-# INLINE noRTCAnswerOptions #-}
+
 gTypeRTCAnswerOptions :: JSM GType
 gTypeRTCAnswerOptions = GType . Object <$> jsg "RTCAnswerOptions"
 
@@ -20369,6 +22240,10 @@ instance MakeObject RTCConfiguration where
 instance IsGObject RTCConfiguration where
   typeGType _ = gTypeRTCConfiguration
   {-# INLINE typeGType #-}
+
+noRTCConfiguration :: Maybe RTCConfiguration
+noRTCConfiguration = Nothing
+{-# INLINE noRTCConfiguration #-}
 
 gTypeRTCConfiguration :: JSM GType
 gTypeRTCConfiguration = GType . Object <$> jsg "RTCConfiguration"
@@ -20407,6 +22282,10 @@ instance IsGObject RTCDTMFSender where
   typeGType _ = gTypeRTCDTMFSender
   {-# INLINE typeGType #-}
 
+noRTCDTMFSender :: Maybe RTCDTMFSender
+noRTCDTMFSender = Nothing
+{-# INLINE noRTCDTMFSender #-}
+
 gTypeRTCDTMFSender :: JSM GType
 gTypeRTCDTMFSender = GType . Object <$> jsg "RTCDTMFSender"
 
@@ -20443,6 +22322,10 @@ instance IsEvent RTCDTMFToneChangeEvent
 instance IsGObject RTCDTMFToneChangeEvent where
   typeGType _ = gTypeRTCDTMFToneChangeEvent
   {-# INLINE typeGType #-}
+
+noRTCDTMFToneChangeEvent :: Maybe RTCDTMFToneChangeEvent
+noRTCDTMFToneChangeEvent = Nothing
+{-# INLINE noRTCDTMFToneChangeEvent #-}
 
 gTypeRTCDTMFToneChangeEvent :: JSM GType
 gTypeRTCDTMFToneChangeEvent = GType . Object <$> jsg "RTCDTMFToneChangeEvent"
@@ -20481,6 +22364,10 @@ instance IsGObject RTCDTMFToneChangeEventInit where
   typeGType _ = gTypeRTCDTMFToneChangeEventInit
   {-# INLINE typeGType #-}
 
+noRTCDTMFToneChangeEventInit :: Maybe RTCDTMFToneChangeEventInit
+noRTCDTMFToneChangeEventInit = Nothing
+{-# INLINE noRTCDTMFToneChangeEventInit #-}
+
 gTypeRTCDTMFToneChangeEventInit :: JSM GType
 gTypeRTCDTMFToneChangeEventInit = GType . Object <$> jsg "RTCDTMFToneChangeEventInit"
 
@@ -20517,6 +22404,10 @@ instance IsEventTarget RTCDataChannel
 instance IsGObject RTCDataChannel where
   typeGType _ = gTypeRTCDataChannel
   {-# INLINE typeGType #-}
+
+noRTCDataChannel :: Maybe RTCDataChannel
+noRTCDataChannel = Nothing
+{-# INLINE noRTCDataChannel #-}
 
 gTypeRTCDataChannel :: JSM GType
 gTypeRTCDataChannel = GType . Object <$> jsg "RTCDataChannel"
@@ -20555,6 +22446,10 @@ instance IsGObject RTCDataChannelEvent where
   typeGType _ = gTypeRTCDataChannelEvent
   {-# INLINE typeGType #-}
 
+noRTCDataChannelEvent :: Maybe RTCDataChannelEvent
+noRTCDataChannelEvent = Nothing
+{-# INLINE noRTCDataChannelEvent #-}
+
 gTypeRTCDataChannelEvent :: JSM GType
 gTypeRTCDataChannelEvent = GType . Object <$> jsg "RTCDataChannelEvent"
 
@@ -20592,6 +22487,10 @@ instance IsGObject RTCDataChannelEventInit where
   typeGType _ = gTypeRTCDataChannelEventInit
   {-# INLINE typeGType #-}
 
+noRTCDataChannelEventInit :: Maybe RTCDataChannelEventInit
+noRTCDataChannelEventInit = Nothing
+{-# INLINE noRTCDataChannelEventInit #-}
+
 gTypeRTCDataChannelEventInit :: JSM GType
 gTypeRTCDataChannelEventInit = GType . Object <$> jsg "RTCDataChannelEventInit"
 
@@ -20624,6 +22523,10 @@ instance MakeObject RTCDataChannelInit where
 instance IsGObject RTCDataChannelInit where
   typeGType _ = gTypeRTCDataChannelInit
   {-# INLINE typeGType #-}
+
+noRTCDataChannelInit :: Maybe RTCDataChannelInit
+noRTCDataChannelInit = Nothing
+{-# INLINE noRTCDataChannelInit #-}
 
 gTypeRTCDataChannelInit :: JSM GType
 gTypeRTCDataChannelInit = GType . Object <$> jsg "RTCDataChannelInit"
@@ -20662,6 +22565,10 @@ instance IsGObject RTCDataChannelStats where
   typeGType _ = gTypeRTCDataChannelStats
   {-# INLINE typeGType #-}
 
+noRTCDataChannelStats :: Maybe RTCDataChannelStats
+noRTCDataChannelStats = Nothing
+{-# INLINE noRTCDataChannelStats #-}
+
 gTypeRTCDataChannelStats :: JSM GType
 gTypeRTCDataChannelStats = GType . Object <$> jsg "RTCDataChannelStats"
 
@@ -20694,6 +22601,10 @@ instance MakeObject RTCIceCandidate where
 instance IsGObject RTCIceCandidate where
   typeGType _ = gTypeRTCIceCandidate
   {-# INLINE typeGType #-}
+
+noRTCIceCandidate :: Maybe RTCIceCandidate
+noRTCIceCandidate = Nothing
+{-# INLINE noRTCIceCandidate #-}
 
 gTypeRTCIceCandidate :: JSM GType
 gTypeRTCIceCandidate = GType . Object <$> jsg "RTCIceCandidate"
@@ -20732,6 +22643,10 @@ instance IsGObject RTCIceCandidateEvent where
   typeGType _ = gTypeRTCIceCandidateEvent
   {-# INLINE typeGType #-}
 
+noRTCIceCandidateEvent :: Maybe RTCIceCandidateEvent
+noRTCIceCandidateEvent = Nothing
+{-# INLINE noRTCIceCandidateEvent #-}
+
 gTypeRTCIceCandidateEvent :: JSM GType
 gTypeRTCIceCandidateEvent = GType . Object <$> jsg "RTCIceCandidateEvent"
 
@@ -20764,6 +22679,10 @@ instance MakeObject RTCIceCandidateInit where
 instance IsGObject RTCIceCandidateInit where
   typeGType _ = gTypeRTCIceCandidateInit
   {-# INLINE typeGType #-}
+
+noRTCIceCandidateInit :: Maybe RTCIceCandidateInit
+noRTCIceCandidateInit = Nothing
+{-# INLINE noRTCIceCandidateInit #-}
 
 gTypeRTCIceCandidateInit :: JSM GType
 gTypeRTCIceCandidateInit = GType . Object <$> jsg "RTCIceCandidateInit"
@@ -20798,6 +22717,10 @@ instance IsGObject RTCIceServer where
   typeGType _ = gTypeRTCIceServer
   {-# INLINE typeGType #-}
 
+noRTCIceServer :: Maybe RTCIceServer
+noRTCIceServer = Nothing
+{-# INLINE noRTCIceServer #-}
+
 gTypeRTCIceServer :: JSM GType
 gTypeRTCIceServer = GType . Object <$> jsg "RTCIceServer"
 
@@ -20830,6 +22753,10 @@ instance MakeObject RTCIceTransport where
 instance IsGObject RTCIceTransport where
   typeGType _ = gTypeRTCIceTransport
   {-# INLINE typeGType #-}
+
+noRTCIceTransport :: Maybe RTCIceTransport
+noRTCIceTransport = Nothing
+{-# INLINE noRTCIceTransport #-}
 
 gTypeRTCIceTransport :: JSM GType
 gTypeRTCIceTransport = GType . Object <$> jsg "RTCIceTransport"
@@ -20870,6 +22797,10 @@ instance IsGObject RTCInboundRTPStreamStats where
   typeGType _ = gTypeRTCInboundRTPStreamStats
   {-# INLINE typeGType #-}
 
+noRTCInboundRTPStreamStats :: Maybe RTCInboundRTPStreamStats
+noRTCInboundRTPStreamStats = Nothing
+{-# INLINE noRTCInboundRTPStreamStats #-}
+
 gTypeRTCInboundRTPStreamStats :: JSM GType
 gTypeRTCInboundRTPStreamStats = GType . Object <$> jsg "RTCInboundRTPStreamStats"
 
@@ -20906,6 +22837,10 @@ instance IsRTCStats RTCMediaStreamTrackStats
 instance IsGObject RTCMediaStreamTrackStats where
   typeGType _ = gTypeRTCMediaStreamTrackStats
   {-# INLINE typeGType #-}
+
+noRTCMediaStreamTrackStats :: Maybe RTCMediaStreamTrackStats
+noRTCMediaStreamTrackStats = Nothing
+{-# INLINE noRTCMediaStreamTrackStats #-}
 
 gTypeRTCMediaStreamTrackStats :: JSM GType
 gTypeRTCMediaStreamTrackStats = GType . Object <$> jsg "RTCMediaStreamTrackStats"
@@ -20945,6 +22880,10 @@ instance IsGObject RTCOfferAnswerOptions where
   typeGType _ = gTypeRTCOfferAnswerOptions
   {-# INLINE typeGType #-}
 
+noRTCOfferAnswerOptions :: Maybe RTCOfferAnswerOptions
+noRTCOfferAnswerOptions = Nothing
+{-# INLINE noRTCOfferAnswerOptions #-}
+
 gTypeRTCOfferAnswerOptions :: JSM GType
 gTypeRTCOfferAnswerOptions = GType . Object <$> jsg "RTCOfferAnswerOptions"
 
@@ -20981,6 +22920,10 @@ instance IsRTCOfferAnswerOptions RTCOfferOptions
 instance IsGObject RTCOfferOptions where
   typeGType _ = gTypeRTCOfferOptions
   {-# INLINE typeGType #-}
+
+noRTCOfferOptions :: Maybe RTCOfferOptions
+noRTCOfferOptions = Nothing
+{-# INLINE noRTCOfferOptions #-}
 
 gTypeRTCOfferOptions :: JSM GType
 gTypeRTCOfferOptions = GType . Object <$> jsg "RTCOfferOptions"
@@ -21021,6 +22964,10 @@ instance IsGObject RTCOutboundRTPStreamStats where
   typeGType _ = gTypeRTCOutboundRTPStreamStats
   {-# INLINE typeGType #-}
 
+noRTCOutboundRTPStreamStats :: Maybe RTCOutboundRTPStreamStats
+noRTCOutboundRTPStreamStats = Nothing
+{-# INLINE noRTCOutboundRTPStreamStats #-}
+
 gTypeRTCOutboundRTPStreamStats :: JSM GType
 gTypeRTCOutboundRTPStreamStats = GType . Object <$> jsg "RTCOutboundRTPStreamStats"
 
@@ -21058,6 +23005,10 @@ instance IsGObject RTCPeerConnection where
   typeGType _ = gTypeRTCPeerConnection
   {-# INLINE typeGType #-}
 
+noRTCPeerConnection :: Maybe RTCPeerConnection
+noRTCPeerConnection = Nothing
+{-# INLINE noRTCPeerConnection #-}
+
 gTypeRTCPeerConnection :: JSM GType
 gTypeRTCPeerConnection = GType . Object <$> jsg "webkitRTCPeerConnection"
 
@@ -21094,6 +23045,10 @@ instance IsEvent RTCPeerConnectionIceEvent
 instance IsGObject RTCPeerConnectionIceEvent where
   typeGType _ = gTypeRTCPeerConnectionIceEvent
   {-# INLINE typeGType #-}
+
+noRTCPeerConnectionIceEvent :: Maybe RTCPeerConnectionIceEvent
+noRTCPeerConnectionIceEvent = Nothing
+{-# INLINE noRTCPeerConnectionIceEvent #-}
 
 gTypeRTCPeerConnectionIceEvent :: JSM GType
 gTypeRTCPeerConnectionIceEvent = GType . Object <$> jsg "RTCPeerConnectionIceEvent"
@@ -21137,6 +23092,10 @@ instance IsGObject RTCRTPStreamStats where
   typeGType _ = gTypeRTCRTPStreamStats
   {-# INLINE typeGType #-}
 
+noRTCRTPStreamStats :: Maybe RTCRTPStreamStats
+noRTCRTPStreamStats = Nothing
+{-# INLINE noRTCRTPStreamStats #-}
+
 gTypeRTCRTPStreamStats :: JSM GType
 gTypeRTCRTPStreamStats = GType . Object <$> jsg "RTCRTPStreamStats"
 
@@ -21169,6 +23128,10 @@ instance MakeObject RTCRtpCodecParameters where
 instance IsGObject RTCRtpCodecParameters where
   typeGType _ = gTypeRTCRtpCodecParameters
   {-# INLINE typeGType #-}
+
+noRTCRtpCodecParameters :: Maybe RTCRtpCodecParameters
+noRTCRtpCodecParameters = Nothing
+{-# INLINE noRTCRtpCodecParameters #-}
 
 gTypeRTCRtpCodecParameters :: JSM GType
 gTypeRTCRtpCodecParameters = GType . Object <$> jsg "RTCRtpCodecParameters"
@@ -21203,6 +23166,10 @@ instance IsGObject RTCRtpEncodingParameters where
   typeGType _ = gTypeRTCRtpEncodingParameters
   {-# INLINE typeGType #-}
 
+noRTCRtpEncodingParameters :: Maybe RTCRtpEncodingParameters
+noRTCRtpEncodingParameters = Nothing
+{-# INLINE noRTCRtpEncodingParameters #-}
+
 gTypeRTCRtpEncodingParameters :: JSM GType
 gTypeRTCRtpEncodingParameters = GType . Object <$> jsg "RTCRtpEncodingParameters"
 
@@ -21235,6 +23202,10 @@ instance MakeObject RTCRtpFecParameters where
 instance IsGObject RTCRtpFecParameters where
   typeGType _ = gTypeRTCRtpFecParameters
   {-# INLINE typeGType #-}
+
+noRTCRtpFecParameters :: Maybe RTCRtpFecParameters
+noRTCRtpFecParameters = Nothing
+{-# INLINE noRTCRtpFecParameters #-}
 
 gTypeRTCRtpFecParameters :: JSM GType
 gTypeRTCRtpFecParameters = GType . Object <$> jsg "RTCRtpFecParameters"
@@ -21269,6 +23240,10 @@ instance IsGObject RTCRtpHeaderExtensionParameters where
   typeGType _ = gTypeRTCRtpHeaderExtensionParameters
   {-# INLINE typeGType #-}
 
+noRTCRtpHeaderExtensionParameters :: Maybe RTCRtpHeaderExtensionParameters
+noRTCRtpHeaderExtensionParameters = Nothing
+{-# INLINE noRTCRtpHeaderExtensionParameters #-}
+
 gTypeRTCRtpHeaderExtensionParameters :: JSM GType
 gTypeRTCRtpHeaderExtensionParameters = GType . Object <$> jsg "RTCRtpHeaderExtensionParameters"
 
@@ -21301,6 +23276,10 @@ instance MakeObject RTCRtpParameters where
 instance IsGObject RTCRtpParameters where
   typeGType _ = gTypeRTCRtpParameters
   {-# INLINE typeGType #-}
+
+noRTCRtpParameters :: Maybe RTCRtpParameters
+noRTCRtpParameters = Nothing
+{-# INLINE noRTCRtpParameters #-}
 
 gTypeRTCRtpParameters :: JSM GType
 gTypeRTCRtpParameters = GType . Object <$> jsg "RTCRtpParameters"
@@ -21335,6 +23314,10 @@ instance IsGObject RTCRtpReceiver where
   typeGType _ = gTypeRTCRtpReceiver
   {-# INLINE typeGType #-}
 
+noRTCRtpReceiver :: Maybe RTCRtpReceiver
+noRTCRtpReceiver = Nothing
+{-# INLINE noRTCRtpReceiver #-}
+
 gTypeRTCRtpReceiver :: JSM GType
 gTypeRTCRtpReceiver = GType . Object <$> jsg "RTCRtpReceiver"
 
@@ -21367,6 +23350,10 @@ instance MakeObject RTCRtpRtxParameters where
 instance IsGObject RTCRtpRtxParameters where
   typeGType _ = gTypeRTCRtpRtxParameters
   {-# INLINE typeGType #-}
+
+noRTCRtpRtxParameters :: Maybe RTCRtpRtxParameters
+noRTCRtpRtxParameters = Nothing
+{-# INLINE noRTCRtpRtxParameters #-}
 
 gTypeRTCRtpRtxParameters :: JSM GType
 gTypeRTCRtpRtxParameters = GType . Object <$> jsg "RTCRtpRtxParameters"
@@ -21401,6 +23388,10 @@ instance IsGObject RTCRtpSender where
   typeGType _ = gTypeRTCRtpSender
   {-# INLINE typeGType #-}
 
+noRTCRtpSender :: Maybe RTCRtpSender
+noRTCRtpSender = Nothing
+{-# INLINE noRTCRtpSender #-}
+
 gTypeRTCRtpSender :: JSM GType
 gTypeRTCRtpSender = GType . Object <$> jsg "RTCRtpSender"
 
@@ -21433,6 +23424,10 @@ instance MakeObject RTCRtpTransceiver where
 instance IsGObject RTCRtpTransceiver where
   typeGType _ = gTypeRTCRtpTransceiver
   {-# INLINE typeGType #-}
+
+noRTCRtpTransceiver :: Maybe RTCRtpTransceiver
+noRTCRtpTransceiver = Nothing
+{-# INLINE noRTCRtpTransceiver #-}
 
 gTypeRTCRtpTransceiver :: JSM GType
 gTypeRTCRtpTransceiver = GType . Object <$> jsg "RTCRtpTransceiver"
@@ -21467,6 +23462,10 @@ instance IsGObject RTCRtpTransceiverInit where
   typeGType _ = gTypeRTCRtpTransceiverInit
   {-# INLINE typeGType #-}
 
+noRTCRtpTransceiverInit :: Maybe RTCRtpTransceiverInit
+noRTCRtpTransceiverInit = Nothing
+{-# INLINE noRTCRtpTransceiverInit #-}
+
 gTypeRTCRtpTransceiverInit :: JSM GType
 gTypeRTCRtpTransceiverInit = GType . Object <$> jsg "RTCRtpTransceiverInit"
 
@@ -21500,6 +23499,10 @@ instance IsGObject RTCSessionDescription where
   typeGType _ = gTypeRTCSessionDescription
   {-# INLINE typeGType #-}
 
+noRTCSessionDescription :: Maybe RTCSessionDescription
+noRTCSessionDescription = Nothing
+{-# INLINE noRTCSessionDescription #-}
+
 gTypeRTCSessionDescription :: JSM GType
 gTypeRTCSessionDescription = GType . Object <$> jsg "RTCSessionDescription"
 
@@ -21532,6 +23535,10 @@ instance MakeObject RTCSessionDescriptionInit where
 instance IsGObject RTCSessionDescriptionInit where
   typeGType _ = gTypeRTCSessionDescriptionInit
   {-# INLINE typeGType #-}
+
+noRTCSessionDescriptionInit :: Maybe RTCSessionDescriptionInit
+noRTCSessionDescriptionInit = Nothing
+{-# INLINE noRTCSessionDescriptionInit #-}
 
 gTypeRTCSessionDescriptionInit :: JSM GType
 gTypeRTCSessionDescriptionInit = GType . Object <$> jsg "RTCSessionDescriptionInit"
@@ -21571,6 +23578,10 @@ instance IsGObject RTCStats where
   typeGType _ = gTypeRTCStats
   {-# INLINE typeGType #-}
 
+noRTCStats :: Maybe RTCStats
+noRTCStats = Nothing
+{-# INLINE noRTCStats #-}
+
 gTypeRTCStats :: JSM GType
 gTypeRTCStats = GType . Object <$> jsg "RTCStats"
 
@@ -21603,6 +23614,10 @@ instance MakeObject RTCStatsReport where
 instance IsGObject RTCStatsReport where
   typeGType _ = gTypeRTCStatsReport
   {-# INLINE typeGType #-}
+
+noRTCStatsReport :: Maybe RTCStatsReport
+noRTCStatsReport = Nothing
+{-# INLINE noRTCStatsReport #-}
 
 gTypeRTCStatsReport :: JSM GType
 gTypeRTCStatsReport = GType . Object <$> jsg "RTCStatsReport"
@@ -21641,6 +23656,10 @@ instance IsGObject RTCTrackEvent where
   typeGType _ = gTypeRTCTrackEvent
   {-# INLINE typeGType #-}
 
+noRTCTrackEvent :: Maybe RTCTrackEvent
+noRTCTrackEvent = Nothing
+{-# INLINE noRTCTrackEvent #-}
+
 gTypeRTCTrackEvent :: JSM GType
 gTypeRTCTrackEvent = GType . Object <$> jsg "RTCTrackEvent"
 
@@ -21677,6 +23696,10 @@ instance IsEventInit RTCTrackEventInit
 instance IsGObject RTCTrackEventInit where
   typeGType _ = gTypeRTCTrackEventInit
   {-# INLINE typeGType #-}
+
+noRTCTrackEventInit :: Maybe RTCTrackEventInit
+noRTCTrackEventInit = Nothing
+{-# INLINE noRTCTrackEventInit #-}
 
 gTypeRTCTrackEventInit :: JSM GType
 gTypeRTCTrackEventInit = GType . Object <$> jsg "RTCTrackEventInit"
@@ -21715,6 +23738,10 @@ instance IsGObject RadioNodeList where
   typeGType _ = gTypeRadioNodeList
   {-# INLINE typeGType #-}
 
+noRadioNodeList :: Maybe RadioNodeList
+noRadioNodeList = Nothing
+{-# INLINE noRadioNodeList #-}
+
 gTypeRadioNodeList :: JSM GType
 gTypeRadioNodeList = GType . Object <$> jsg "RadioNodeList"
 
@@ -21747,6 +23774,10 @@ instance MakeObject Range where
 instance IsGObject Range where
   typeGType _ = gTypeRange
   {-# INLINE typeGType #-}
+
+noRange :: Maybe Range
+noRange = Nothing
+{-# INLINE noRange #-}
 
 gTypeRange :: JSM GType
 gTypeRange = GType . Object <$> jsg "Range"
@@ -21781,6 +23812,10 @@ instance IsGObject ReadableByteStreamController where
   typeGType _ = gTypeReadableByteStreamController
   {-# INLINE typeGType #-}
 
+noReadableByteStreamController :: Maybe ReadableByteStreamController
+noReadableByteStreamController = Nothing
+{-# INLINE noReadableByteStreamController #-}
+
 gTypeReadableByteStreamController :: JSM GType
 gTypeReadableByteStreamController = GType . Object <$> jsg "ReadableByteStreamController"
 
@@ -21813,6 +23848,10 @@ instance MakeObject ReadableStream where
 instance IsGObject ReadableStream where
   typeGType _ = gTypeReadableStream
   {-# INLINE typeGType #-}
+
+noReadableStream :: Maybe ReadableStream
+noReadableStream = Nothing
+{-# INLINE noReadableStream #-}
 
 gTypeReadableStream :: JSM GType
 gTypeReadableStream = GType . Object <$> jsg "ReadableStream"
@@ -21847,6 +23886,10 @@ instance IsGObject ReadableStreamBYOBReader where
   typeGType _ = gTypeReadableStreamBYOBReader
   {-# INLINE typeGType #-}
 
+noReadableStreamBYOBReader :: Maybe ReadableStreamBYOBReader
+noReadableStreamBYOBReader = Nothing
+{-# INLINE noReadableStreamBYOBReader #-}
+
 gTypeReadableStreamBYOBReader :: JSM GType
 gTypeReadableStreamBYOBReader = GType . Object <$> jsg "ReadableStreamBYOBReader"
 
@@ -21879,6 +23922,10 @@ instance MakeObject ReadableStreamBYOBRequest where
 instance IsGObject ReadableStreamBYOBRequest where
   typeGType _ = gTypeReadableStreamBYOBRequest
   {-# INLINE typeGType #-}
+
+noReadableStreamBYOBRequest :: Maybe ReadableStreamBYOBRequest
+noReadableStreamBYOBRequest = Nothing
+{-# INLINE noReadableStreamBYOBRequest #-}
 
 gTypeReadableStreamBYOBRequest :: JSM GType
 gTypeReadableStreamBYOBRequest = GType . Object <$> jsg "ReadableStreamBYOBRequest"
@@ -21913,6 +23960,10 @@ instance IsGObject ReadableStreamDefaultController where
   typeGType _ = gTypeReadableStreamDefaultController
   {-# INLINE typeGType #-}
 
+noReadableStreamDefaultController :: Maybe ReadableStreamDefaultController
+noReadableStreamDefaultController = Nothing
+{-# INLINE noReadableStreamDefaultController #-}
+
 gTypeReadableStreamDefaultController :: JSM GType
 gTypeReadableStreamDefaultController = GType . Object <$> jsg "ReadableStreamDefaultController"
 
@@ -21945,6 +23996,10 @@ instance MakeObject ReadableStreamDefaultReader where
 instance IsGObject ReadableStreamDefaultReader where
   typeGType _ = gTypeReadableStreamDefaultReader
   {-# INLINE typeGType #-}
+
+noReadableStreamDefaultReader :: Maybe ReadableStreamDefaultReader
+noReadableStreamDefaultReader = Nothing
+{-# INLINE noReadableStreamDefaultReader #-}
 
 gTypeReadableStreamDefaultReader :: JSM GType
 gTypeReadableStreamDefaultReader = GType . Object <$> jsg "ReadableStreamDefaultReader"
@@ -21979,6 +24034,10 @@ instance IsGObject ReadableStreamSource where
   typeGType _ = gTypeReadableStreamSource
   {-# INLINE typeGType #-}
 
+noReadableStreamSource :: Maybe ReadableStreamSource
+noReadableStreamSource = Nothing
+{-# INLINE noReadableStreamSource #-}
+
 gTypeReadableStreamSource :: JSM GType
 gTypeReadableStreamSource = GType . Object <$> jsg "ReadableStreamSource"
 
@@ -22011,6 +24070,10 @@ instance MakeObject Rect where
 instance IsGObject Rect where
   typeGType _ = gTypeRect
   {-# INLINE typeGType #-}
+
+noRect :: Maybe Rect
+noRect = Nothing
+{-# INLINE noRect #-}
 
 gTypeRect :: JSM GType
 gTypeRect = GType . Object <$> jsg "Rect"
@@ -22049,6 +24112,10 @@ instance IsGObject Request where
   typeGType _ = gTypeRequest
   {-# INLINE typeGType #-}
 
+noRequest :: Maybe Request
+noRequest = Nothing
+{-# INLINE noRequest #-}
+
 gTypeRequest :: JSM GType
 gTypeRequest = GType . Object <$> jsg "Request"
 
@@ -22081,6 +24148,10 @@ instance MakeObject RequestInit where
 instance IsGObject RequestInit where
   typeGType _ = gTypeRequestInit
   {-# INLINE typeGType #-}
+
+noRequestInit :: Maybe RequestInit
+noRequestInit = Nothing
+{-# INLINE noRequestInit #-}
 
 gTypeRequestInit :: JSM GType
 gTypeRequestInit = GType . Object <$> jsg "RequestInit"
@@ -22115,6 +24186,10 @@ instance IsGObject Response where
   typeGType _ = gTypeResponse
   {-# INLINE typeGType #-}
 
+noResponse :: Maybe Response
+noResponse = Nothing
+{-# INLINE noResponse #-}
+
 gTypeResponse :: JSM GType
 gTypeResponse = GType . Object <$> jsg "Response"
 
@@ -22147,6 +24222,10 @@ instance MakeObject RotationRate where
 instance IsGObject RotationRate where
   typeGType _ = gTypeRotationRate
   {-# INLINE typeGType #-}
+
+noRotationRate :: Maybe RotationRate
+noRotationRate = Nothing
+{-# INLINE noRotationRate #-}
 
 gTypeRotationRate :: JSM GType
 gTypeRotationRate = GType . Object <$> jsg "RotationRate"
@@ -22184,6 +24263,10 @@ instance IsCryptoAlgorithmParameters RsaHashedImportParams
 instance IsGObject RsaHashedImportParams where
   typeGType _ = gTypeRsaHashedImportParams
   {-# INLINE typeGType #-}
+
+noRsaHashedImportParams :: Maybe RsaHashedImportParams
+noRsaHashedImportParams = Nothing
+{-# INLINE noRsaHashedImportParams #-}
 
 gTypeRsaHashedImportParams :: JSM GType
 gTypeRsaHashedImportParams = GType . Object <$> jsg "RsaHashedImportParams"
@@ -22223,6 +24306,10 @@ instance IsCryptoAlgorithmParameters RsaHashedKeyGenParams
 instance IsGObject RsaHashedKeyGenParams where
   typeGType _ = gTypeRsaHashedKeyGenParams
   {-# INLINE typeGType #-}
+
+noRsaHashedKeyGenParams :: Maybe RsaHashedKeyGenParams
+noRsaHashedKeyGenParams = Nothing
+{-# INLINE noRsaHashedKeyGenParams #-}
 
 gTypeRsaHashedKeyGenParams :: JSM GType
 gTypeRsaHashedKeyGenParams = GType . Object <$> jsg "RsaHashedKeyGenParams"
@@ -22266,6 +24353,10 @@ instance IsGObject RsaKeyGenParams where
   typeGType _ = gTypeRsaKeyGenParams
   {-# INLINE typeGType #-}
 
+noRsaKeyGenParams :: Maybe RsaKeyGenParams
+noRsaKeyGenParams = Nothing
+{-# INLINE noRsaKeyGenParams #-}
+
 gTypeRsaKeyGenParams :: JSM GType
 gTypeRsaKeyGenParams = GType . Object <$> jsg "RsaKeyGenParams"
 
@@ -22303,6 +24394,10 @@ instance IsGObject RsaOaepParams where
   typeGType _ = gTypeRsaOaepParams
   {-# INLINE typeGType #-}
 
+noRsaOaepParams :: Maybe RsaOaepParams
+noRsaOaepParams = Nothing
+{-# INLINE noRsaOaepParams #-}
+
 gTypeRsaOaepParams :: JSM GType
 gTypeRsaOaepParams = GType . Object <$> jsg "RsaOaepParams"
 
@@ -22335,6 +24430,10 @@ instance MakeObject RsaOtherPrimesInfo where
 instance IsGObject RsaOtherPrimesInfo where
   typeGType _ = gTypeRsaOtherPrimesInfo
   {-# INLINE typeGType #-}
+
+noRsaOtherPrimesInfo :: Maybe RsaOtherPrimesInfo
+noRsaOtherPrimesInfo = Nothing
+{-# INLINE noRsaOtherPrimesInfo #-}
 
 gTypeRsaOtherPrimesInfo :: JSM GType
 gTypeRsaOtherPrimesInfo = GType . Object <$> jsg "RsaOtherPrimesInfo"
@@ -22369,6 +24468,10 @@ instance IsGObject SQLError where
   typeGType _ = gTypeSQLError
   {-# INLINE typeGType #-}
 
+noSQLError :: Maybe SQLError
+noSQLError = Nothing
+{-# INLINE noSQLError #-}
+
 gTypeSQLError :: JSM GType
 gTypeSQLError = GType . Object <$> jsg "SQLError"
 
@@ -22401,6 +24504,10 @@ instance MakeObject SQLException where
 instance IsGObject SQLException where
   typeGType _ = gTypeSQLException
   {-# INLINE typeGType #-}
+
+noSQLException :: Maybe SQLException
+noSQLException = Nothing
+{-# INLINE noSQLException #-}
 
 gTypeSQLException :: JSM GType
 gTypeSQLException = GType . Object <$> jsg "SQLException"
@@ -22435,6 +24542,10 @@ instance IsGObject SQLResultSet where
   typeGType _ = gTypeSQLResultSet
   {-# INLINE typeGType #-}
 
+noSQLResultSet :: Maybe SQLResultSet
+noSQLResultSet = Nothing
+{-# INLINE noSQLResultSet #-}
+
 gTypeSQLResultSet :: JSM GType
 gTypeSQLResultSet = GType . Object <$> jsg "SQLResultSet"
 
@@ -22468,6 +24579,10 @@ instance IsGObject SQLResultSetRowList where
   typeGType _ = gTypeSQLResultSetRowList
   {-# INLINE typeGType #-}
 
+noSQLResultSetRowList :: Maybe SQLResultSetRowList
+noSQLResultSetRowList = Nothing
+{-# INLINE noSQLResultSetRowList #-}
+
 gTypeSQLResultSetRowList :: JSM GType
 gTypeSQLResultSetRowList = GType . Object <$> jsg "SQLResultSetRowList"
 
@@ -22500,6 +24615,10 @@ instance MakeObject SQLTransaction where
 instance IsGObject SQLTransaction where
   typeGType _ = gTypeSQLTransaction
   {-# INLINE typeGType #-}
+
+noSQLTransaction :: Maybe SQLTransaction
+noSQLTransaction = Nothing
+{-# INLINE noSQLTransaction #-}
 
 gTypeSQLTransaction :: JSM GType
 gTypeSQLTransaction = GType . Object <$> jsg "SQLTransaction"
@@ -22568,6 +24687,10 @@ instance IsGObject SVGAElement where
   typeGType _ = gTypeSVGAElement
   {-# INLINE typeGType #-}
 
+noSVGAElement :: Maybe SVGAElement
+noSVGAElement = Nothing
+{-# INLINE noSVGAElement #-}
+
 gTypeSVGAElement :: JSM GType
 gTypeSVGAElement = GType . Object <$> jsg "SVGAElement"
 
@@ -22626,6 +24749,10 @@ instance IsElementCSSInlineStyle SVGAltGlyphDefElement
 instance IsGObject SVGAltGlyphDefElement where
   typeGType _ = gTypeSVGAltGlyphDefElement
   {-# INLINE typeGType #-}
+
+noSVGAltGlyphDefElement :: Maybe SVGAltGlyphDefElement
+noSVGAltGlyphDefElement = Nothing
+{-# INLINE noSVGAltGlyphDefElement #-}
 
 gTypeSVGAltGlyphDefElement :: JSM GType
 gTypeSVGAltGlyphDefElement = GType . Object <$> jsg "SVGAltGlyphDefElement"
@@ -22698,6 +24825,10 @@ instance IsGObject SVGAltGlyphElement where
   typeGType _ = gTypeSVGAltGlyphElement
   {-# INLINE typeGType #-}
 
+noSVGAltGlyphElement :: Maybe SVGAltGlyphElement
+noSVGAltGlyphElement = Nothing
+{-# INLINE noSVGAltGlyphElement #-}
+
 gTypeSVGAltGlyphElement :: JSM GType
 gTypeSVGAltGlyphElement = GType . Object <$> jsg "SVGAltGlyphElement"
 
@@ -22757,6 +24888,10 @@ instance IsGObject SVGAltGlyphItemElement where
   typeGType _ = gTypeSVGAltGlyphItemElement
   {-# INLINE typeGType #-}
 
+noSVGAltGlyphItemElement :: Maybe SVGAltGlyphItemElement
+noSVGAltGlyphItemElement = Nothing
+{-# INLINE noSVGAltGlyphItemElement #-}
+
 gTypeSVGAltGlyphItemElement :: JSM GType
 gTypeSVGAltGlyphItemElement = GType . Object <$> jsg "SVGAltGlyphItemElement"
 
@@ -22789,6 +24924,10 @@ instance MakeObject SVGAngle where
 instance IsGObject SVGAngle where
   typeGType _ = gTypeSVGAngle
   {-# INLINE typeGType #-}
+
+noSVGAngle :: Maybe SVGAngle
+noSVGAngle = Nothing
+{-# INLINE noSVGAngle #-}
 
 gTypeSVGAngle :: JSM GType
 gTypeSVGAngle = GType . Object <$> jsg "SVGAngle"
@@ -22855,6 +24994,10 @@ instance IsGObject SVGAnimateColorElement where
   typeGType _ = gTypeSVGAnimateColorElement
   {-# INLINE typeGType #-}
 
+noSVGAnimateColorElement :: Maybe SVGAnimateColorElement
+noSVGAnimateColorElement = Nothing
+{-# INLINE noSVGAnimateColorElement #-}
+
 gTypeSVGAnimateColorElement :: JSM GType
 gTypeSVGAnimateColorElement = GType . Object <$> jsg "SVGAnimateColorElement"
 
@@ -22919,6 +25062,10 @@ instance IsSVGExternalResourcesRequired SVGAnimateElement
 instance IsGObject SVGAnimateElement where
   typeGType _ = gTypeSVGAnimateElement
   {-# INLINE typeGType #-}
+
+noSVGAnimateElement :: Maybe SVGAnimateElement
+noSVGAnimateElement = Nothing
+{-# INLINE noSVGAnimateElement #-}
 
 gTypeSVGAnimateElement :: JSM GType
 gTypeSVGAnimateElement = GType . Object <$> jsg "SVGAnimateElement"
@@ -22985,6 +25132,10 @@ instance IsGObject SVGAnimateMotionElement where
   typeGType _ = gTypeSVGAnimateMotionElement
   {-# INLINE typeGType #-}
 
+noSVGAnimateMotionElement :: Maybe SVGAnimateMotionElement
+noSVGAnimateMotionElement = Nothing
+{-# INLINE noSVGAnimateMotionElement #-}
+
 gTypeSVGAnimateMotionElement :: JSM GType
 gTypeSVGAnimateMotionElement = GType . Object <$> jsg "SVGAnimateMotionElement"
 
@@ -23050,6 +25201,10 @@ instance IsGObject SVGAnimateTransformElement where
   typeGType _ = gTypeSVGAnimateTransformElement
   {-# INLINE typeGType #-}
 
+noSVGAnimateTransformElement :: Maybe SVGAnimateTransformElement
+noSVGAnimateTransformElement = Nothing
+{-# INLINE noSVGAnimateTransformElement #-}
+
 gTypeSVGAnimateTransformElement :: JSM GType
 gTypeSVGAnimateTransformElement = GType . Object <$> jsg "SVGAnimateTransformElement"
 
@@ -23082,6 +25237,10 @@ instance MakeObject SVGAnimatedAngle where
 instance IsGObject SVGAnimatedAngle where
   typeGType _ = gTypeSVGAnimatedAngle
   {-# INLINE typeGType #-}
+
+noSVGAnimatedAngle :: Maybe SVGAnimatedAngle
+noSVGAnimatedAngle = Nothing
+{-# INLINE noSVGAnimatedAngle #-}
 
 gTypeSVGAnimatedAngle :: JSM GType
 gTypeSVGAnimatedAngle = GType . Object <$> jsg "SVGAnimatedAngle"
@@ -23116,6 +25275,10 @@ instance IsGObject SVGAnimatedBoolean where
   typeGType _ = gTypeSVGAnimatedBoolean
   {-# INLINE typeGType #-}
 
+noSVGAnimatedBoolean :: Maybe SVGAnimatedBoolean
+noSVGAnimatedBoolean = Nothing
+{-# INLINE noSVGAnimatedBoolean #-}
+
 gTypeSVGAnimatedBoolean :: JSM GType
 gTypeSVGAnimatedBoolean = GType . Object <$> jsg "SVGAnimatedBoolean"
 
@@ -23148,6 +25311,10 @@ instance MakeObject SVGAnimatedEnumeration where
 instance IsGObject SVGAnimatedEnumeration where
   typeGType _ = gTypeSVGAnimatedEnumeration
   {-# INLINE typeGType #-}
+
+noSVGAnimatedEnumeration :: Maybe SVGAnimatedEnumeration
+noSVGAnimatedEnumeration = Nothing
+{-# INLINE noSVGAnimatedEnumeration #-}
 
 gTypeSVGAnimatedEnumeration :: JSM GType
 gTypeSVGAnimatedEnumeration = GType . Object <$> jsg "SVGAnimatedEnumeration"
@@ -23182,6 +25349,10 @@ instance IsGObject SVGAnimatedInteger where
   typeGType _ = gTypeSVGAnimatedInteger
   {-# INLINE typeGType #-}
 
+noSVGAnimatedInteger :: Maybe SVGAnimatedInteger
+noSVGAnimatedInteger = Nothing
+{-# INLINE noSVGAnimatedInteger #-}
+
 gTypeSVGAnimatedInteger :: JSM GType
 gTypeSVGAnimatedInteger = GType . Object <$> jsg "SVGAnimatedInteger"
 
@@ -23214,6 +25385,10 @@ instance MakeObject SVGAnimatedLength where
 instance IsGObject SVGAnimatedLength where
   typeGType _ = gTypeSVGAnimatedLength
   {-# INLINE typeGType #-}
+
+noSVGAnimatedLength :: Maybe SVGAnimatedLength
+noSVGAnimatedLength = Nothing
+{-# INLINE noSVGAnimatedLength #-}
 
 gTypeSVGAnimatedLength :: JSM GType
 gTypeSVGAnimatedLength = GType . Object <$> jsg "SVGAnimatedLength"
@@ -23248,6 +25423,10 @@ instance IsGObject SVGAnimatedLengthList where
   typeGType _ = gTypeSVGAnimatedLengthList
   {-# INLINE typeGType #-}
 
+noSVGAnimatedLengthList :: Maybe SVGAnimatedLengthList
+noSVGAnimatedLengthList = Nothing
+{-# INLINE noSVGAnimatedLengthList #-}
+
 gTypeSVGAnimatedLengthList :: JSM GType
 gTypeSVGAnimatedLengthList = GType . Object <$> jsg "SVGAnimatedLengthList"
 
@@ -23280,6 +25459,10 @@ instance MakeObject SVGAnimatedNumber where
 instance IsGObject SVGAnimatedNumber where
   typeGType _ = gTypeSVGAnimatedNumber
   {-# INLINE typeGType #-}
+
+noSVGAnimatedNumber :: Maybe SVGAnimatedNumber
+noSVGAnimatedNumber = Nothing
+{-# INLINE noSVGAnimatedNumber #-}
 
 gTypeSVGAnimatedNumber :: JSM GType
 gTypeSVGAnimatedNumber = GType . Object <$> jsg "SVGAnimatedNumber"
@@ -23314,6 +25497,10 @@ instance IsGObject SVGAnimatedNumberList where
   typeGType _ = gTypeSVGAnimatedNumberList
   {-# INLINE typeGType #-}
 
+noSVGAnimatedNumberList :: Maybe SVGAnimatedNumberList
+noSVGAnimatedNumberList = Nothing
+{-# INLINE noSVGAnimatedNumberList #-}
+
 gTypeSVGAnimatedNumberList :: JSM GType
 gTypeSVGAnimatedNumberList = GType . Object <$> jsg "SVGAnimatedNumberList"
 
@@ -23346,6 +25533,10 @@ instance MakeObject SVGAnimatedPreserveAspectRatio where
 instance IsGObject SVGAnimatedPreserveAspectRatio where
   typeGType _ = gTypeSVGAnimatedPreserveAspectRatio
   {-# INLINE typeGType #-}
+
+noSVGAnimatedPreserveAspectRatio :: Maybe SVGAnimatedPreserveAspectRatio
+noSVGAnimatedPreserveAspectRatio = Nothing
+{-# INLINE noSVGAnimatedPreserveAspectRatio #-}
 
 gTypeSVGAnimatedPreserveAspectRatio :: JSM GType
 gTypeSVGAnimatedPreserveAspectRatio = GType . Object <$> jsg "SVGAnimatedPreserveAspectRatio"
@@ -23380,6 +25571,10 @@ instance IsGObject SVGAnimatedRect where
   typeGType _ = gTypeSVGAnimatedRect
   {-# INLINE typeGType #-}
 
+noSVGAnimatedRect :: Maybe SVGAnimatedRect
+noSVGAnimatedRect = Nothing
+{-# INLINE noSVGAnimatedRect #-}
+
 gTypeSVGAnimatedRect :: JSM GType
 gTypeSVGAnimatedRect = GType . Object <$> jsg "SVGAnimatedRect"
 
@@ -23413,6 +25608,10 @@ instance IsGObject SVGAnimatedString where
   typeGType _ = gTypeSVGAnimatedString
   {-# INLINE typeGType #-}
 
+noSVGAnimatedString :: Maybe SVGAnimatedString
+noSVGAnimatedString = Nothing
+{-# INLINE noSVGAnimatedString #-}
+
 gTypeSVGAnimatedString :: JSM GType
 gTypeSVGAnimatedString = GType . Object <$> jsg "SVGAnimatedString"
 
@@ -23445,6 +25644,10 @@ instance MakeObject SVGAnimatedTransformList where
 instance IsGObject SVGAnimatedTransformList where
   typeGType _ = gTypeSVGAnimatedTransformList
   {-# INLINE typeGType #-}
+
+noSVGAnimatedTransformList :: Maybe SVGAnimatedTransformList
+noSVGAnimatedTransformList = Nothing
+{-# INLINE noSVGAnimatedTransformList #-}
 
 gTypeSVGAnimatedTransformList :: JSM GType
 gTypeSVGAnimatedTransformList = GType . Object <$> jsg "SVGAnimatedTransformList"
@@ -23514,6 +25717,10 @@ instance IsGObject SVGAnimationElement where
   typeGType _ = gTypeSVGAnimationElement
   {-# INLINE typeGType #-}
 
+noSVGAnimationElement :: Maybe SVGAnimationElement
+noSVGAnimationElement = Nothing
+{-# INLINE noSVGAnimationElement #-}
+
 gTypeSVGAnimationElement :: JSM GType
 gTypeSVGAnimationElement = GType . Object <$> jsg "SVGAnimationElement"
 
@@ -23578,6 +25785,10 @@ instance IsSVGExternalResourcesRequired SVGCircleElement
 instance IsGObject SVGCircleElement where
   typeGType _ = gTypeSVGCircleElement
   {-# INLINE typeGType #-}
+
+noSVGCircleElement :: Maybe SVGCircleElement
+noSVGCircleElement = Nothing
+{-# INLINE noSVGCircleElement #-}
 
 gTypeSVGCircleElement :: JSM GType
 gTypeSVGCircleElement = GType . Object <$> jsg "SVGCircleElement"
@@ -23644,6 +25855,10 @@ instance IsGObject SVGClipPathElement where
   typeGType _ = gTypeSVGClipPathElement
   {-# INLINE typeGType #-}
 
+noSVGClipPathElement :: Maybe SVGClipPathElement
+noSVGClipPathElement = Nothing
+{-# INLINE noSVGClipPathElement #-}
+
 gTypeSVGClipPathElement :: JSM GType
 gTypeSVGClipPathElement = GType . Object <$> jsg "SVGClipPathElement"
 
@@ -23707,6 +25922,10 @@ instance IsElementCSSInlineStyle SVGComponentTransferFunctionElement
 instance IsGObject SVGComponentTransferFunctionElement where
   typeGType _ = gTypeSVGComponentTransferFunctionElement
   {-# INLINE typeGType #-}
+
+noSVGComponentTransferFunctionElement :: Maybe SVGComponentTransferFunctionElement
+noSVGComponentTransferFunctionElement = Nothing
+{-# INLINE noSVGComponentTransferFunctionElement #-}
 
 gTypeSVGComponentTransferFunctionElement :: JSM GType
 gTypeSVGComponentTransferFunctionElement = GType . Object <$> jsg "SVGComponentTransferFunctionElement"
@@ -23773,6 +25992,10 @@ instance IsGObject SVGCursorElement where
   typeGType _ = gTypeSVGCursorElement
   {-# INLINE typeGType #-}
 
+noSVGCursorElement :: Maybe SVGCursorElement
+noSVGCursorElement = Nothing
+{-# INLINE noSVGCursorElement #-}
+
 gTypeSVGCursorElement :: JSM GType
 gTypeSVGCursorElement = GType . Object <$> jsg "SVGCursorElement"
 
@@ -23838,6 +26061,10 @@ instance IsGObject SVGDefsElement where
   typeGType _ = gTypeSVGDefsElement
   {-# INLINE typeGType #-}
 
+noSVGDefsElement :: Maybe SVGDefsElement
+noSVGDefsElement = Nothing
+{-# INLINE noSVGDefsElement #-}
+
 gTypeSVGDefsElement :: JSM GType
 gTypeSVGDefsElement = GType . Object <$> jsg "SVGDefsElement"
 
@@ -23896,6 +26123,10 @@ instance IsElementCSSInlineStyle SVGDescElement
 instance IsGObject SVGDescElement where
   typeGType _ = gTypeSVGDescElement
   {-# INLINE typeGType #-}
+
+noSVGDescElement :: Maybe SVGDescElement
+noSVGDescElement = Nothing
+{-# INLINE noSVGDescElement #-}
 
 gTypeSVGDescElement :: JSM GType
 gTypeSVGDescElement = GType . Object <$> jsg "SVGDescElement"
@@ -23958,6 +26189,10 @@ instance IsElementCSSInlineStyle SVGElement
 instance IsGObject SVGElement where
   typeGType _ = gTypeSVGElement
   {-# INLINE typeGType #-}
+
+noSVGElement :: Maybe SVGElement
+noSVGElement = Nothing
+{-# INLINE noSVGElement #-}
 
 gTypeSVGElement :: JSM GType
 gTypeSVGElement = GType . Object <$> jsg "SVGElement"
@@ -24024,6 +26259,10 @@ instance IsGObject SVGEllipseElement where
   typeGType _ = gTypeSVGEllipseElement
   {-# INLINE typeGType #-}
 
+noSVGEllipseElement :: Maybe SVGEllipseElement
+noSVGEllipseElement = Nothing
+{-# INLINE noSVGEllipseElement #-}
+
 gTypeSVGEllipseElement :: JSM GType
 gTypeSVGEllipseElement = GType . Object <$> jsg "SVGEllipseElement"
 
@@ -24056,6 +26295,10 @@ instance MakeObject SVGException where
 instance IsGObject SVGException where
   typeGType _ = gTypeSVGException
   {-# INLINE typeGType #-}
+
+noSVGException :: Maybe SVGException
+noSVGException = Nothing
+{-# INLINE noSVGException #-}
 
 gTypeSVGException :: JSM GType
 gTypeSVGException = GType . Object <$> jsg "SVGException"
@@ -24094,6 +26337,10 @@ instance IsSVGExternalResourcesRequired SVGExternalResourcesRequired
 instance IsGObject SVGExternalResourcesRequired where
   typeGType _ = gTypeSVGExternalResourcesRequired
   {-# INLINE typeGType #-}
+
+noSVGExternalResourcesRequired :: Maybe SVGExternalResourcesRequired
+noSVGExternalResourcesRequired = Nothing
+{-# INLINE noSVGExternalResourcesRequired #-}
 
 gTypeSVGExternalResourcesRequired :: JSM GType
 gTypeSVGExternalResourcesRequired = GType . Object <$> jsg "SVGExternalResourcesRequired"
@@ -24156,6 +26403,10 @@ instance IsGObject SVGFEBlendElement where
   typeGType _ = gTypeSVGFEBlendElement
   {-# INLINE typeGType #-}
 
+noSVGFEBlendElement :: Maybe SVGFEBlendElement
+noSVGFEBlendElement = Nothing
+{-# INLINE noSVGFEBlendElement #-}
+
 gTypeSVGFEBlendElement :: JSM GType
 gTypeSVGFEBlendElement = GType . Object <$> jsg "SVGFEBlendElement"
 
@@ -24216,6 +26467,10 @@ instance IsSVGFilterPrimitiveStandardAttributes SVGFEColorMatrixElement
 instance IsGObject SVGFEColorMatrixElement where
   typeGType _ = gTypeSVGFEColorMatrixElement
   {-# INLINE typeGType #-}
+
+noSVGFEColorMatrixElement :: Maybe SVGFEColorMatrixElement
+noSVGFEColorMatrixElement = Nothing
+{-# INLINE noSVGFEColorMatrixElement #-}
 
 gTypeSVGFEColorMatrixElement :: JSM GType
 gTypeSVGFEColorMatrixElement = GType . Object <$> jsg "SVGFEColorMatrixElement"
@@ -24278,6 +26533,10 @@ instance IsGObject SVGFEComponentTransferElement where
   typeGType _ = gTypeSVGFEComponentTransferElement
   {-# INLINE typeGType #-}
 
+noSVGFEComponentTransferElement :: Maybe SVGFEComponentTransferElement
+noSVGFEComponentTransferElement = Nothing
+{-# INLINE noSVGFEComponentTransferElement #-}
+
 gTypeSVGFEComponentTransferElement :: JSM GType
 gTypeSVGFEComponentTransferElement = GType . Object <$> jsg "SVGFEComponentTransferElement"
 
@@ -24338,6 +26597,10 @@ instance IsSVGFilterPrimitiveStandardAttributes SVGFECompositeElement
 instance IsGObject SVGFECompositeElement where
   typeGType _ = gTypeSVGFECompositeElement
   {-# INLINE typeGType #-}
+
+noSVGFECompositeElement :: Maybe SVGFECompositeElement
+noSVGFECompositeElement = Nothing
+{-# INLINE noSVGFECompositeElement #-}
 
 gTypeSVGFECompositeElement :: JSM GType
 gTypeSVGFECompositeElement = GType . Object <$> jsg "SVGFECompositeElement"
@@ -24400,6 +26663,10 @@ instance IsGObject SVGFEConvolveMatrixElement where
   typeGType _ = gTypeSVGFEConvolveMatrixElement
   {-# INLINE typeGType #-}
 
+noSVGFEConvolveMatrixElement :: Maybe SVGFEConvolveMatrixElement
+noSVGFEConvolveMatrixElement = Nothing
+{-# INLINE noSVGFEConvolveMatrixElement #-}
+
 gTypeSVGFEConvolveMatrixElement :: JSM GType
 gTypeSVGFEConvolveMatrixElement = GType . Object <$> jsg "SVGFEConvolveMatrixElement"
 
@@ -24460,6 +26727,10 @@ instance IsSVGFilterPrimitiveStandardAttributes SVGFEDiffuseLightingElement
 instance IsGObject SVGFEDiffuseLightingElement where
   typeGType _ = gTypeSVGFEDiffuseLightingElement
   {-# INLINE typeGType #-}
+
+noSVGFEDiffuseLightingElement :: Maybe SVGFEDiffuseLightingElement
+noSVGFEDiffuseLightingElement = Nothing
+{-# INLINE noSVGFEDiffuseLightingElement #-}
 
 gTypeSVGFEDiffuseLightingElement :: JSM GType
 gTypeSVGFEDiffuseLightingElement = GType . Object <$> jsg "SVGFEDiffuseLightingElement"
@@ -24522,6 +26793,10 @@ instance IsGObject SVGFEDisplacementMapElement where
   typeGType _ = gTypeSVGFEDisplacementMapElement
   {-# INLINE typeGType #-}
 
+noSVGFEDisplacementMapElement :: Maybe SVGFEDisplacementMapElement
+noSVGFEDisplacementMapElement = Nothing
+{-# INLINE noSVGFEDisplacementMapElement #-}
+
 gTypeSVGFEDisplacementMapElement :: JSM GType
 gTypeSVGFEDisplacementMapElement = GType . Object <$> jsg "SVGFEDisplacementMapElement"
 
@@ -24580,6 +26855,10 @@ instance IsElementCSSInlineStyle SVGFEDistantLightElement
 instance IsGObject SVGFEDistantLightElement where
   typeGType _ = gTypeSVGFEDistantLightElement
   {-# INLINE typeGType #-}
+
+noSVGFEDistantLightElement :: Maybe SVGFEDistantLightElement
+noSVGFEDistantLightElement = Nothing
+{-# INLINE noSVGFEDistantLightElement #-}
 
 gTypeSVGFEDistantLightElement :: JSM GType
 gTypeSVGFEDistantLightElement = GType . Object <$> jsg "SVGFEDistantLightElement"
@@ -24642,6 +26921,10 @@ instance IsGObject SVGFEDropShadowElement where
   typeGType _ = gTypeSVGFEDropShadowElement
   {-# INLINE typeGType #-}
 
+noSVGFEDropShadowElement :: Maybe SVGFEDropShadowElement
+noSVGFEDropShadowElement = Nothing
+{-# INLINE noSVGFEDropShadowElement #-}
+
 gTypeSVGFEDropShadowElement :: JSM GType
 gTypeSVGFEDropShadowElement = GType . Object <$> jsg "SVGFEDropShadowElement"
 
@@ -24702,6 +26985,10 @@ instance IsSVGFilterPrimitiveStandardAttributes SVGFEFloodElement
 instance IsGObject SVGFEFloodElement where
   typeGType _ = gTypeSVGFEFloodElement
   {-# INLINE typeGType #-}
+
+noSVGFEFloodElement :: Maybe SVGFEFloodElement
+noSVGFEFloodElement = Nothing
+{-# INLINE noSVGFEFloodElement #-}
 
 gTypeSVGFEFloodElement :: JSM GType
 gTypeSVGFEFloodElement = GType . Object <$> jsg "SVGFEFloodElement"
@@ -24764,6 +27051,10 @@ instance IsGObject SVGFEFuncAElement where
   typeGType _ = gTypeSVGFEFuncAElement
   {-# INLINE typeGType #-}
 
+noSVGFEFuncAElement :: Maybe SVGFEFuncAElement
+noSVGFEFuncAElement = Nothing
+{-# INLINE noSVGFEFuncAElement #-}
+
 gTypeSVGFEFuncAElement :: JSM GType
 gTypeSVGFEFuncAElement = GType . Object <$> jsg "SVGFEFuncAElement"
 
@@ -24824,6 +27115,10 @@ instance IsElementCSSInlineStyle SVGFEFuncBElement
 instance IsGObject SVGFEFuncBElement where
   typeGType _ = gTypeSVGFEFuncBElement
   {-# INLINE typeGType #-}
+
+noSVGFEFuncBElement :: Maybe SVGFEFuncBElement
+noSVGFEFuncBElement = Nothing
+{-# INLINE noSVGFEFuncBElement #-}
 
 gTypeSVGFEFuncBElement :: JSM GType
 gTypeSVGFEFuncBElement = GType . Object <$> jsg "SVGFEFuncBElement"
@@ -24886,6 +27181,10 @@ instance IsGObject SVGFEFuncGElement where
   typeGType _ = gTypeSVGFEFuncGElement
   {-# INLINE typeGType #-}
 
+noSVGFEFuncGElement :: Maybe SVGFEFuncGElement
+noSVGFEFuncGElement = Nothing
+{-# INLINE noSVGFEFuncGElement #-}
+
 gTypeSVGFEFuncGElement :: JSM GType
 gTypeSVGFEFuncGElement = GType . Object <$> jsg "SVGFEFuncGElement"
 
@@ -24947,6 +27246,10 @@ instance IsGObject SVGFEFuncRElement where
   typeGType _ = gTypeSVGFEFuncRElement
   {-# INLINE typeGType #-}
 
+noSVGFEFuncRElement :: Maybe SVGFEFuncRElement
+noSVGFEFuncRElement = Nothing
+{-# INLINE noSVGFEFuncRElement #-}
+
 gTypeSVGFEFuncRElement :: JSM GType
 gTypeSVGFEFuncRElement = GType . Object <$> jsg "SVGFEFuncRElement"
 
@@ -25007,6 +27310,10 @@ instance IsSVGFilterPrimitiveStandardAttributes SVGFEGaussianBlurElement
 instance IsGObject SVGFEGaussianBlurElement where
   typeGType _ = gTypeSVGFEGaussianBlurElement
   {-# INLINE typeGType #-}
+
+noSVGFEGaussianBlurElement :: Maybe SVGFEGaussianBlurElement
+noSVGFEGaussianBlurElement = Nothing
+{-# INLINE noSVGFEGaussianBlurElement #-}
 
 gTypeSVGFEGaussianBlurElement :: JSM GType
 gTypeSVGFEGaussianBlurElement = GType . Object <$> jsg "SVGFEGaussianBlurElement"
@@ -25073,6 +27380,10 @@ instance IsGObject SVGFEImageElement where
   typeGType _ = gTypeSVGFEImageElement
   {-# INLINE typeGType #-}
 
+noSVGFEImageElement :: Maybe SVGFEImageElement
+noSVGFEImageElement = Nothing
+{-# INLINE noSVGFEImageElement #-}
+
 gTypeSVGFEImageElement :: JSM GType
 gTypeSVGFEImageElement = GType . Object <$> jsg "SVGFEImageElement"
 
@@ -25134,6 +27445,10 @@ instance IsGObject SVGFEMergeElement where
   typeGType _ = gTypeSVGFEMergeElement
   {-# INLINE typeGType #-}
 
+noSVGFEMergeElement :: Maybe SVGFEMergeElement
+noSVGFEMergeElement = Nothing
+{-# INLINE noSVGFEMergeElement #-}
+
 gTypeSVGFEMergeElement :: JSM GType
 gTypeSVGFEMergeElement = GType . Object <$> jsg "SVGFEMergeElement"
 
@@ -25192,6 +27507,10 @@ instance IsElementCSSInlineStyle SVGFEMergeNodeElement
 instance IsGObject SVGFEMergeNodeElement where
   typeGType _ = gTypeSVGFEMergeNodeElement
   {-# INLINE typeGType #-}
+
+noSVGFEMergeNodeElement :: Maybe SVGFEMergeNodeElement
+noSVGFEMergeNodeElement = Nothing
+{-# INLINE noSVGFEMergeNodeElement #-}
 
 gTypeSVGFEMergeNodeElement :: JSM GType
 gTypeSVGFEMergeNodeElement = GType . Object <$> jsg "SVGFEMergeNodeElement"
@@ -25254,6 +27573,10 @@ instance IsGObject SVGFEMorphologyElement where
   typeGType _ = gTypeSVGFEMorphologyElement
   {-# INLINE typeGType #-}
 
+noSVGFEMorphologyElement :: Maybe SVGFEMorphologyElement
+noSVGFEMorphologyElement = Nothing
+{-# INLINE noSVGFEMorphologyElement #-}
+
 gTypeSVGFEMorphologyElement :: JSM GType
 gTypeSVGFEMorphologyElement = GType . Object <$> jsg "SVGFEMorphologyElement"
 
@@ -25315,6 +27638,10 @@ instance IsGObject SVGFEOffsetElement where
   typeGType _ = gTypeSVGFEOffsetElement
   {-# INLINE typeGType #-}
 
+noSVGFEOffsetElement :: Maybe SVGFEOffsetElement
+noSVGFEOffsetElement = Nothing
+{-# INLINE noSVGFEOffsetElement #-}
+
 gTypeSVGFEOffsetElement :: JSM GType
 gTypeSVGFEOffsetElement = GType . Object <$> jsg "SVGFEOffsetElement"
 
@@ -25373,6 +27700,10 @@ instance IsElementCSSInlineStyle SVGFEPointLightElement
 instance IsGObject SVGFEPointLightElement where
   typeGType _ = gTypeSVGFEPointLightElement
   {-# INLINE typeGType #-}
+
+noSVGFEPointLightElement :: Maybe SVGFEPointLightElement
+noSVGFEPointLightElement = Nothing
+{-# INLINE noSVGFEPointLightElement #-}
 
 gTypeSVGFEPointLightElement :: JSM GType
 gTypeSVGFEPointLightElement = GType . Object <$> jsg "SVGFEPointLightElement"
@@ -25435,6 +27766,10 @@ instance IsGObject SVGFESpecularLightingElement where
   typeGType _ = gTypeSVGFESpecularLightingElement
   {-# INLINE typeGType #-}
 
+noSVGFESpecularLightingElement :: Maybe SVGFESpecularLightingElement
+noSVGFESpecularLightingElement = Nothing
+{-# INLINE noSVGFESpecularLightingElement #-}
+
 gTypeSVGFESpecularLightingElement :: JSM GType
 gTypeSVGFESpecularLightingElement = GType . Object <$> jsg "SVGFESpecularLightingElement"
 
@@ -25493,6 +27828,10 @@ instance IsElementCSSInlineStyle SVGFESpotLightElement
 instance IsGObject SVGFESpotLightElement where
   typeGType _ = gTypeSVGFESpotLightElement
   {-# INLINE typeGType #-}
+
+noSVGFESpotLightElement :: Maybe SVGFESpotLightElement
+noSVGFESpotLightElement = Nothing
+{-# INLINE noSVGFESpotLightElement #-}
 
 gTypeSVGFESpotLightElement :: JSM GType
 gTypeSVGFESpotLightElement = GType . Object <$> jsg "SVGFESpotLightElement"
@@ -25555,6 +27894,10 @@ instance IsGObject SVGFETileElement where
   typeGType _ = gTypeSVGFETileElement
   {-# INLINE typeGType #-}
 
+noSVGFETileElement :: Maybe SVGFETileElement
+noSVGFETileElement = Nothing
+{-# INLINE noSVGFETileElement #-}
+
 gTypeSVGFETileElement :: JSM GType
 gTypeSVGFETileElement = GType . Object <$> jsg "SVGFETileElement"
 
@@ -25615,6 +27958,10 @@ instance IsSVGFilterPrimitiveStandardAttributes SVGFETurbulenceElement
 instance IsGObject SVGFETurbulenceElement where
   typeGType _ = gTypeSVGFETurbulenceElement
   {-# INLINE typeGType #-}
+
+noSVGFETurbulenceElement :: Maybe SVGFETurbulenceElement
+noSVGFETurbulenceElement = Nothing
+{-# INLINE noSVGFETurbulenceElement #-}
 
 gTypeSVGFETurbulenceElement :: JSM GType
 gTypeSVGFETurbulenceElement = GType . Object <$> jsg "SVGFETurbulenceElement"
@@ -25679,6 +28026,10 @@ instance IsGObject SVGFilterElement where
   typeGType _ = gTypeSVGFilterElement
   {-# INLINE typeGType #-}
 
+noSVGFilterElement :: Maybe SVGFilterElement
+noSVGFilterElement = Nothing
+{-# INLINE noSVGFilterElement #-}
+
 gTypeSVGFilterElement :: JSM GType
 gTypeSVGFilterElement = GType . Object <$> jsg "SVGFilterElement"
 
@@ -25717,6 +28068,10 @@ instance IsGObject SVGFilterPrimitiveStandardAttributes where
   typeGType _ = gTypeSVGFilterPrimitiveStandardAttributes
   {-# INLINE typeGType #-}
 
+noSVGFilterPrimitiveStandardAttributes :: Maybe SVGFilterPrimitiveStandardAttributes
+noSVGFilterPrimitiveStandardAttributes = Nothing
+{-# INLINE noSVGFilterPrimitiveStandardAttributes #-}
+
 gTypeSVGFilterPrimitiveStandardAttributes :: JSM GType
 gTypeSVGFilterPrimitiveStandardAttributes = GType . Object <$> jsg "SVGFilterPrimitiveStandardAttributes"
 
@@ -25754,6 +28109,10 @@ instance IsSVGFitToViewBox SVGFitToViewBox
 instance IsGObject SVGFitToViewBox where
   typeGType _ = gTypeSVGFitToViewBox
   {-# INLINE typeGType #-}
+
+noSVGFitToViewBox :: Maybe SVGFitToViewBox
+noSVGFitToViewBox = Nothing
+{-# INLINE noSVGFitToViewBox #-}
 
 gTypeSVGFitToViewBox :: JSM GType
 gTypeSVGFitToViewBox = GType . Object <$> jsg "SVGFitToViewBox"
@@ -25814,6 +28173,10 @@ instance IsGObject SVGFontElement where
   typeGType _ = gTypeSVGFontElement
   {-# INLINE typeGType #-}
 
+noSVGFontElement :: Maybe SVGFontElement
+noSVGFontElement = Nothing
+{-# INLINE noSVGFontElement #-}
+
 gTypeSVGFontElement :: JSM GType
 gTypeSVGFontElement = GType . Object <$> jsg "SVGFontElement"
 
@@ -25872,6 +28235,10 @@ instance IsElementCSSInlineStyle SVGFontFaceElement
 instance IsGObject SVGFontFaceElement where
   typeGType _ = gTypeSVGFontFaceElement
   {-# INLINE typeGType #-}
+
+noSVGFontFaceElement :: Maybe SVGFontFaceElement
+noSVGFontFaceElement = Nothing
+{-# INLINE noSVGFontFaceElement #-}
 
 gTypeSVGFontFaceElement :: JSM GType
 gTypeSVGFontFaceElement = GType . Object <$> jsg "SVGFontFaceElement"
@@ -25932,6 +28299,10 @@ instance IsGObject SVGFontFaceFormatElement where
   typeGType _ = gTypeSVGFontFaceFormatElement
   {-# INLINE typeGType #-}
 
+noSVGFontFaceFormatElement :: Maybe SVGFontFaceFormatElement
+noSVGFontFaceFormatElement = Nothing
+{-# INLINE noSVGFontFaceFormatElement #-}
+
 gTypeSVGFontFaceFormatElement :: JSM GType
 gTypeSVGFontFaceFormatElement = GType . Object <$> jsg "SVGFontFaceFormatElement"
 
@@ -25990,6 +28361,10 @@ instance IsElementCSSInlineStyle SVGFontFaceNameElement
 instance IsGObject SVGFontFaceNameElement where
   typeGType _ = gTypeSVGFontFaceNameElement
   {-# INLINE typeGType #-}
+
+noSVGFontFaceNameElement :: Maybe SVGFontFaceNameElement
+noSVGFontFaceNameElement = Nothing
+{-# INLINE noSVGFontFaceNameElement #-}
 
 gTypeSVGFontFaceNameElement :: JSM GType
 gTypeSVGFontFaceNameElement = GType . Object <$> jsg "SVGFontFaceNameElement"
@@ -26050,6 +28425,10 @@ instance IsGObject SVGFontFaceSrcElement where
   typeGType _ = gTypeSVGFontFaceSrcElement
   {-# INLINE typeGType #-}
 
+noSVGFontFaceSrcElement :: Maybe SVGFontFaceSrcElement
+noSVGFontFaceSrcElement = Nothing
+{-# INLINE noSVGFontFaceSrcElement #-}
+
 gTypeSVGFontFaceSrcElement :: JSM GType
 gTypeSVGFontFaceSrcElement = GType . Object <$> jsg "SVGFontFaceSrcElement"
 
@@ -26108,6 +28487,10 @@ instance IsElementCSSInlineStyle SVGFontFaceUriElement
 instance IsGObject SVGFontFaceUriElement where
   typeGType _ = gTypeSVGFontFaceUriElement
   {-# INLINE typeGType #-}
+
+noSVGFontFaceUriElement :: Maybe SVGFontFaceUriElement
+noSVGFontFaceUriElement = Nothing
+{-# INLINE noSVGFontFaceUriElement #-}
 
 gTypeSVGFontFaceUriElement :: JSM GType
 gTypeSVGFontFaceUriElement = GType . Object <$> jsg "SVGFontFaceUriElement"
@@ -26174,6 +28557,10 @@ instance IsGObject SVGForeignObjectElement where
   typeGType _ = gTypeSVGForeignObjectElement
   {-# INLINE typeGType #-}
 
+noSVGForeignObjectElement :: Maybe SVGForeignObjectElement
+noSVGForeignObjectElement = Nothing
+{-# INLINE noSVGForeignObjectElement #-}
+
 gTypeSVGForeignObjectElement :: JSM GType
 gTypeSVGForeignObjectElement = GType . Object <$> jsg "SVGForeignObjectElement"
 
@@ -26239,6 +28626,10 @@ instance IsGObject SVGGElement where
   typeGType _ = gTypeSVGGElement
   {-# INLINE typeGType #-}
 
+noSVGGElement :: Maybe SVGGElement
+noSVGGElement = Nothing
+{-# INLINE noSVGGElement #-}
+
 gTypeSVGGElement :: JSM GType
 gTypeSVGGElement = GType . Object <$> jsg "SVGGElement"
 
@@ -26297,6 +28688,10 @@ instance IsElementCSSInlineStyle SVGGlyphElement
 instance IsGObject SVGGlyphElement where
   typeGType _ = gTypeSVGGlyphElement
   {-# INLINE typeGType #-}
+
+noSVGGlyphElement :: Maybe SVGGlyphElement
+noSVGGlyphElement = Nothing
+{-# INLINE noSVGGlyphElement #-}
 
 gTypeSVGGlyphElement :: JSM GType
 gTypeSVGGlyphElement = GType . Object <$> jsg "SVGGlyphElement"
@@ -26358,6 +28753,10 @@ instance IsSVGURIReference SVGGlyphRefElement
 instance IsGObject SVGGlyphRefElement where
   typeGType _ = gTypeSVGGlyphRefElement
   {-# INLINE typeGType #-}
+
+noSVGGlyphRefElement :: Maybe SVGGlyphRefElement
+noSVGGlyphRefElement = Nothing
+{-# INLINE noSVGGlyphRefElement #-}
 
 gTypeSVGGlyphRefElement :: JSM GType
 gTypeSVGGlyphRefElement = GType . Object <$> jsg "SVGGlyphRefElement"
@@ -26427,6 +28826,10 @@ instance IsGObject SVGGradientElement where
   typeGType _ = gTypeSVGGradientElement
   {-# INLINE typeGType #-}
 
+noSVGGradientElement :: Maybe SVGGradientElement
+noSVGGradientElement = Nothing
+{-# INLINE noSVGGradientElement #-}
+
 gTypeSVGGradientElement :: JSM GType
 gTypeSVGGradientElement = GType . Object <$> jsg "SVGGradientElement"
 
@@ -26493,6 +28896,10 @@ instance IsGObject SVGGraphicsElement where
   typeGType _ = gTypeSVGGraphicsElement
   {-# INLINE typeGType #-}
 
+noSVGGraphicsElement :: Maybe SVGGraphicsElement
+noSVGGraphicsElement = Nothing
+{-# INLINE noSVGGraphicsElement #-}
+
 gTypeSVGGraphicsElement :: JSM GType
 gTypeSVGGraphicsElement = GType . Object <$> jsg "SVGGraphicsElement"
 
@@ -26551,6 +28958,10 @@ instance IsElementCSSInlineStyle SVGHKernElement
 instance IsGObject SVGHKernElement where
   typeGType _ = gTypeSVGHKernElement
   {-# INLINE typeGType #-}
+
+noSVGHKernElement :: Maybe SVGHKernElement
+noSVGHKernElement = Nothing
+{-# INLINE noSVGHKernElement #-}
 
 gTypeSVGHKernElement :: JSM GType
 gTypeSVGHKernElement = GType . Object <$> jsg "SVGHKernElement"
@@ -26619,6 +29030,10 @@ instance IsGObject SVGImageElement where
   typeGType _ = gTypeSVGImageElement
   {-# INLINE typeGType #-}
 
+noSVGImageElement :: Maybe SVGImageElement
+noSVGImageElement = Nothing
+{-# INLINE noSVGImageElement #-}
+
 gTypeSVGImageElement :: JSM GType
 gTypeSVGImageElement = GType . Object <$> jsg "SVGImageElement"
 
@@ -26652,6 +29067,10 @@ instance IsGObject SVGLength where
   typeGType _ = gTypeSVGLength
   {-# INLINE typeGType #-}
 
+noSVGLength :: Maybe SVGLength
+noSVGLength = Nothing
+{-# INLINE noSVGLength #-}
+
 gTypeSVGLength :: JSM GType
 gTypeSVGLength = GType . Object <$> jsg "SVGLength"
 
@@ -26684,6 +29103,10 @@ instance MakeObject SVGLengthList where
 instance IsGObject SVGLengthList where
   typeGType _ = gTypeSVGLengthList
   {-# INLINE typeGType #-}
+
+noSVGLengthList :: Maybe SVGLengthList
+noSVGLengthList = Nothing
+{-# INLINE noSVGLengthList #-}
 
 gTypeSVGLengthList :: JSM GType
 gTypeSVGLengthList = GType . Object <$> jsg "SVGLengthList"
@@ -26750,6 +29173,10 @@ instance IsGObject SVGLineElement where
   typeGType _ = gTypeSVGLineElement
   {-# INLINE typeGType #-}
 
+noSVGLineElement :: Maybe SVGLineElement
+noSVGLineElement = Nothing
+{-# INLINE noSVGLineElement #-}
+
 gTypeSVGLineElement :: JSM GType
 gTypeSVGLineElement = GType . Object <$> jsg "SVGLineElement"
 
@@ -26815,6 +29242,10 @@ instance IsGObject SVGLinearGradientElement where
   typeGType _ = gTypeSVGLinearGradientElement
   {-# INLINE typeGType #-}
 
+noSVGLinearGradientElement :: Maybe SVGLinearGradientElement
+noSVGLinearGradientElement = Nothing
+{-# INLINE noSVGLinearGradientElement #-}
+
 gTypeSVGLinearGradientElement :: JSM GType
 gTypeSVGLinearGradientElement = GType . Object <$> jsg "SVGLinearGradientElement"
 
@@ -26877,6 +29308,10 @@ instance IsSVGExternalResourcesRequired SVGMPathElement
 instance IsGObject SVGMPathElement where
   typeGType _ = gTypeSVGMPathElement
   {-# INLINE typeGType #-}
+
+noSVGMPathElement :: Maybe SVGMPathElement
+noSVGMPathElement = Nothing
+{-# INLINE noSVGMPathElement #-}
 
 gTypeSVGMPathElement :: JSM GType
 gTypeSVGMPathElement = GType . Object <$> jsg "SVGMPathElement"
@@ -26941,6 +29376,10 @@ instance IsGObject SVGMarkerElement where
   typeGType _ = gTypeSVGMarkerElement
   {-# INLINE typeGType #-}
 
+noSVGMarkerElement :: Maybe SVGMarkerElement
+noSVGMarkerElement = Nothing
+{-# INLINE noSVGMarkerElement #-}
+
 gTypeSVGMarkerElement :: JSM GType
 gTypeSVGMarkerElement = GType . Object <$> jsg "SVGMarkerElement"
 
@@ -27004,6 +29443,10 @@ instance IsGObject SVGMaskElement where
   typeGType _ = gTypeSVGMaskElement
   {-# INLINE typeGType #-}
 
+noSVGMaskElement :: Maybe SVGMaskElement
+noSVGMaskElement = Nothing
+{-# INLINE noSVGMaskElement #-}
+
 gTypeSVGMaskElement :: JSM GType
 gTypeSVGMaskElement = GType . Object <$> jsg "SVGMaskElement"
 
@@ -27036,6 +29479,10 @@ instance MakeObject SVGMatrix where
 instance IsGObject SVGMatrix where
   typeGType _ = gTypeSVGMatrix
   {-# INLINE typeGType #-}
+
+noSVGMatrix :: Maybe SVGMatrix
+noSVGMatrix = Nothing
+{-# INLINE noSVGMatrix #-}
 
 gTypeSVGMatrix :: JSM GType
 gTypeSVGMatrix = GType . Object <$> jsg "SVGMatrix"
@@ -27096,6 +29543,10 @@ instance IsGObject SVGMetadataElement where
   typeGType _ = gTypeSVGMetadataElement
   {-# INLINE typeGType #-}
 
+noSVGMetadataElement :: Maybe SVGMetadataElement
+noSVGMetadataElement = Nothing
+{-# INLINE noSVGMetadataElement #-}
+
 gTypeSVGMetadataElement :: JSM GType
 gTypeSVGMetadataElement = GType . Object <$> jsg "SVGMetadataElement"
 
@@ -27155,6 +29606,10 @@ instance IsGObject SVGMissingGlyphElement where
   typeGType _ = gTypeSVGMissingGlyphElement
   {-# INLINE typeGType #-}
 
+noSVGMissingGlyphElement :: Maybe SVGMissingGlyphElement
+noSVGMissingGlyphElement = Nothing
+{-# INLINE noSVGMissingGlyphElement #-}
+
 gTypeSVGMissingGlyphElement :: JSM GType
 gTypeSVGMissingGlyphElement = GType . Object <$> jsg "SVGMissingGlyphElement"
 
@@ -27188,6 +29643,10 @@ instance IsGObject SVGNumber where
   typeGType _ = gTypeSVGNumber
   {-# INLINE typeGType #-}
 
+noSVGNumber :: Maybe SVGNumber
+noSVGNumber = Nothing
+{-# INLINE noSVGNumber #-}
+
 gTypeSVGNumber :: JSM GType
 gTypeSVGNumber = GType . Object <$> jsg "SVGNumber"
 
@@ -27220,6 +29679,10 @@ instance MakeObject SVGNumberList where
 instance IsGObject SVGNumberList where
   typeGType _ = gTypeSVGNumberList
   {-# INLINE typeGType #-}
+
+noSVGNumberList :: Maybe SVGNumberList
+noSVGNumberList = Nothing
+{-# INLINE noSVGNumberList #-}
 
 gTypeSVGNumberList :: JSM GType
 gTypeSVGNumberList = GType . Object <$> jsg "SVGNumberList"
@@ -27286,6 +29749,10 @@ instance IsGObject SVGPathElement where
   typeGType _ = gTypeSVGPathElement
   {-# INLINE typeGType #-}
 
+noSVGPathElement :: Maybe SVGPathElement
+noSVGPathElement = Nothing
+{-# INLINE noSVGPathElement #-}
+
 gTypeSVGPathElement :: JSM GType
 gTypeSVGPathElement = GType . Object <$> jsg "SVGPathElement"
 
@@ -27324,6 +29791,10 @@ instance IsGObject SVGPathSeg where
   typeGType _ = gTypeSVGPathSeg
   {-# INLINE typeGType #-}
 
+noSVGPathSeg :: Maybe SVGPathSeg
+noSVGPathSeg = Nothing
+{-# INLINE noSVGPathSeg #-}
+
 gTypeSVGPathSeg :: JSM GType
 gTypeSVGPathSeg = GType . Object <$> jsg "SVGPathSeg"
 
@@ -27360,6 +29831,10 @@ instance IsSVGPathSeg SVGPathSegArcAbs
 instance IsGObject SVGPathSegArcAbs where
   typeGType _ = gTypeSVGPathSegArcAbs
   {-# INLINE typeGType #-}
+
+noSVGPathSegArcAbs :: Maybe SVGPathSegArcAbs
+noSVGPathSegArcAbs = Nothing
+{-# INLINE noSVGPathSegArcAbs #-}
 
 gTypeSVGPathSegArcAbs :: JSM GType
 gTypeSVGPathSegArcAbs = GType . Object <$> jsg "SVGPathSegArcAbs"
@@ -27398,6 +29873,10 @@ instance IsGObject SVGPathSegArcRel where
   typeGType _ = gTypeSVGPathSegArcRel
   {-# INLINE typeGType #-}
 
+noSVGPathSegArcRel :: Maybe SVGPathSegArcRel
+noSVGPathSegArcRel = Nothing
+{-# INLINE noSVGPathSegArcRel #-}
+
 gTypeSVGPathSegArcRel :: JSM GType
 gTypeSVGPathSegArcRel = GType . Object <$> jsg "SVGPathSegArcRel"
 
@@ -27434,6 +29913,10 @@ instance IsSVGPathSeg SVGPathSegClosePath
 instance IsGObject SVGPathSegClosePath where
   typeGType _ = gTypeSVGPathSegClosePath
   {-# INLINE typeGType #-}
+
+noSVGPathSegClosePath :: Maybe SVGPathSegClosePath
+noSVGPathSegClosePath = Nothing
+{-# INLINE noSVGPathSegClosePath #-}
 
 gTypeSVGPathSegClosePath :: JSM GType
 gTypeSVGPathSegClosePath = GType . Object <$> jsg "SVGPathSegClosePath"
@@ -27472,6 +29955,10 @@ instance IsGObject SVGPathSegCurvetoCubicAbs where
   typeGType _ = gTypeSVGPathSegCurvetoCubicAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegCurvetoCubicAbs :: Maybe SVGPathSegCurvetoCubicAbs
+noSVGPathSegCurvetoCubicAbs = Nothing
+{-# INLINE noSVGPathSegCurvetoCubicAbs #-}
+
 gTypeSVGPathSegCurvetoCubicAbs :: JSM GType
 gTypeSVGPathSegCurvetoCubicAbs = GType . Object <$> jsg "SVGPathSegCurvetoCubicAbs"
 
@@ -27508,6 +29995,10 @@ instance IsSVGPathSeg SVGPathSegCurvetoCubicRel
 instance IsGObject SVGPathSegCurvetoCubicRel where
   typeGType _ = gTypeSVGPathSegCurvetoCubicRel
   {-# INLINE typeGType #-}
+
+noSVGPathSegCurvetoCubicRel :: Maybe SVGPathSegCurvetoCubicRel
+noSVGPathSegCurvetoCubicRel = Nothing
+{-# INLINE noSVGPathSegCurvetoCubicRel #-}
 
 gTypeSVGPathSegCurvetoCubicRel :: JSM GType
 gTypeSVGPathSegCurvetoCubicRel = GType . Object <$> jsg "SVGPathSegCurvetoCubicRel"
@@ -27546,6 +30037,10 @@ instance IsGObject SVGPathSegCurvetoCubicSmoothAbs where
   typeGType _ = gTypeSVGPathSegCurvetoCubicSmoothAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegCurvetoCubicSmoothAbs :: Maybe SVGPathSegCurvetoCubicSmoothAbs
+noSVGPathSegCurvetoCubicSmoothAbs = Nothing
+{-# INLINE noSVGPathSegCurvetoCubicSmoothAbs #-}
+
 gTypeSVGPathSegCurvetoCubicSmoothAbs :: JSM GType
 gTypeSVGPathSegCurvetoCubicSmoothAbs = GType . Object <$> jsg "SVGPathSegCurvetoCubicSmoothAbs"
 
@@ -27582,6 +30077,10 @@ instance IsSVGPathSeg SVGPathSegCurvetoCubicSmoothRel
 instance IsGObject SVGPathSegCurvetoCubicSmoothRel where
   typeGType _ = gTypeSVGPathSegCurvetoCubicSmoothRel
   {-# INLINE typeGType #-}
+
+noSVGPathSegCurvetoCubicSmoothRel :: Maybe SVGPathSegCurvetoCubicSmoothRel
+noSVGPathSegCurvetoCubicSmoothRel = Nothing
+{-# INLINE noSVGPathSegCurvetoCubicSmoothRel #-}
 
 gTypeSVGPathSegCurvetoCubicSmoothRel :: JSM GType
 gTypeSVGPathSegCurvetoCubicSmoothRel = GType . Object <$> jsg "SVGPathSegCurvetoCubicSmoothRel"
@@ -27620,6 +30119,10 @@ instance IsGObject SVGPathSegCurvetoQuadraticAbs where
   typeGType _ = gTypeSVGPathSegCurvetoQuadraticAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegCurvetoQuadraticAbs :: Maybe SVGPathSegCurvetoQuadraticAbs
+noSVGPathSegCurvetoQuadraticAbs = Nothing
+{-# INLINE noSVGPathSegCurvetoQuadraticAbs #-}
+
 gTypeSVGPathSegCurvetoQuadraticAbs :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticAbs = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticAbs"
 
@@ -27656,6 +30159,10 @@ instance IsSVGPathSeg SVGPathSegCurvetoQuadraticRel
 instance IsGObject SVGPathSegCurvetoQuadraticRel where
   typeGType _ = gTypeSVGPathSegCurvetoQuadraticRel
   {-# INLINE typeGType #-}
+
+noSVGPathSegCurvetoQuadraticRel :: Maybe SVGPathSegCurvetoQuadraticRel
+noSVGPathSegCurvetoQuadraticRel = Nothing
+{-# INLINE noSVGPathSegCurvetoQuadraticRel #-}
 
 gTypeSVGPathSegCurvetoQuadraticRel :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticRel = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticRel"
@@ -27694,6 +30201,10 @@ instance IsGObject SVGPathSegCurvetoQuadraticSmoothAbs where
   typeGType _ = gTypeSVGPathSegCurvetoQuadraticSmoothAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegCurvetoQuadraticSmoothAbs :: Maybe SVGPathSegCurvetoQuadraticSmoothAbs
+noSVGPathSegCurvetoQuadraticSmoothAbs = Nothing
+{-# INLINE noSVGPathSegCurvetoQuadraticSmoothAbs #-}
+
 gTypeSVGPathSegCurvetoQuadraticSmoothAbs :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticSmoothAbs = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticSmoothAbs"
 
@@ -27730,6 +30241,10 @@ instance IsSVGPathSeg SVGPathSegCurvetoQuadraticSmoothRel
 instance IsGObject SVGPathSegCurvetoQuadraticSmoothRel where
   typeGType _ = gTypeSVGPathSegCurvetoQuadraticSmoothRel
   {-# INLINE typeGType #-}
+
+noSVGPathSegCurvetoQuadraticSmoothRel :: Maybe SVGPathSegCurvetoQuadraticSmoothRel
+noSVGPathSegCurvetoQuadraticSmoothRel = Nothing
+{-# INLINE noSVGPathSegCurvetoQuadraticSmoothRel #-}
 
 gTypeSVGPathSegCurvetoQuadraticSmoothRel :: JSM GType
 gTypeSVGPathSegCurvetoQuadraticSmoothRel = GType . Object <$> jsg "SVGPathSegCurvetoQuadraticSmoothRel"
@@ -27768,6 +30283,10 @@ instance IsGObject SVGPathSegLinetoAbs where
   typeGType _ = gTypeSVGPathSegLinetoAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegLinetoAbs :: Maybe SVGPathSegLinetoAbs
+noSVGPathSegLinetoAbs = Nothing
+{-# INLINE noSVGPathSegLinetoAbs #-}
+
 gTypeSVGPathSegLinetoAbs :: JSM GType
 gTypeSVGPathSegLinetoAbs = GType . Object <$> jsg "SVGPathSegLinetoAbs"
 
@@ -27804,6 +30323,10 @@ instance IsSVGPathSeg SVGPathSegLinetoHorizontalAbs
 instance IsGObject SVGPathSegLinetoHorizontalAbs where
   typeGType _ = gTypeSVGPathSegLinetoHorizontalAbs
   {-# INLINE typeGType #-}
+
+noSVGPathSegLinetoHorizontalAbs :: Maybe SVGPathSegLinetoHorizontalAbs
+noSVGPathSegLinetoHorizontalAbs = Nothing
+{-# INLINE noSVGPathSegLinetoHorizontalAbs #-}
 
 gTypeSVGPathSegLinetoHorizontalAbs :: JSM GType
 gTypeSVGPathSegLinetoHorizontalAbs = GType . Object <$> jsg "SVGPathSegLinetoHorizontalAbs"
@@ -27842,6 +30365,10 @@ instance IsGObject SVGPathSegLinetoHorizontalRel where
   typeGType _ = gTypeSVGPathSegLinetoHorizontalRel
   {-# INLINE typeGType #-}
 
+noSVGPathSegLinetoHorizontalRel :: Maybe SVGPathSegLinetoHorizontalRel
+noSVGPathSegLinetoHorizontalRel = Nothing
+{-# INLINE noSVGPathSegLinetoHorizontalRel #-}
+
 gTypeSVGPathSegLinetoHorizontalRel :: JSM GType
 gTypeSVGPathSegLinetoHorizontalRel = GType . Object <$> jsg "SVGPathSegLinetoHorizontalRel"
 
@@ -27878,6 +30405,10 @@ instance IsSVGPathSeg SVGPathSegLinetoRel
 instance IsGObject SVGPathSegLinetoRel where
   typeGType _ = gTypeSVGPathSegLinetoRel
   {-# INLINE typeGType #-}
+
+noSVGPathSegLinetoRel :: Maybe SVGPathSegLinetoRel
+noSVGPathSegLinetoRel = Nothing
+{-# INLINE noSVGPathSegLinetoRel #-}
 
 gTypeSVGPathSegLinetoRel :: JSM GType
 gTypeSVGPathSegLinetoRel = GType . Object <$> jsg "SVGPathSegLinetoRel"
@@ -27916,6 +30447,10 @@ instance IsGObject SVGPathSegLinetoVerticalAbs where
   typeGType _ = gTypeSVGPathSegLinetoVerticalAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegLinetoVerticalAbs :: Maybe SVGPathSegLinetoVerticalAbs
+noSVGPathSegLinetoVerticalAbs = Nothing
+{-# INLINE noSVGPathSegLinetoVerticalAbs #-}
+
 gTypeSVGPathSegLinetoVerticalAbs :: JSM GType
 gTypeSVGPathSegLinetoVerticalAbs = GType . Object <$> jsg "SVGPathSegLinetoVerticalAbs"
 
@@ -27953,6 +30488,10 @@ instance IsGObject SVGPathSegLinetoVerticalRel where
   typeGType _ = gTypeSVGPathSegLinetoVerticalRel
   {-# INLINE typeGType #-}
 
+noSVGPathSegLinetoVerticalRel :: Maybe SVGPathSegLinetoVerticalRel
+noSVGPathSegLinetoVerticalRel = Nothing
+{-# INLINE noSVGPathSegLinetoVerticalRel #-}
+
 gTypeSVGPathSegLinetoVerticalRel :: JSM GType
 gTypeSVGPathSegLinetoVerticalRel = GType . Object <$> jsg "SVGPathSegLinetoVerticalRel"
 
@@ -27985,6 +30524,10 @@ instance MakeObject SVGPathSegList where
 instance IsGObject SVGPathSegList where
   typeGType _ = gTypeSVGPathSegList
   {-# INLINE typeGType #-}
+
+noSVGPathSegList :: Maybe SVGPathSegList
+noSVGPathSegList = Nothing
+{-# INLINE noSVGPathSegList #-}
 
 gTypeSVGPathSegList :: JSM GType
 gTypeSVGPathSegList = GType . Object <$> jsg "SVGPathSegList"
@@ -28023,6 +30566,10 @@ instance IsGObject SVGPathSegMovetoAbs where
   typeGType _ = gTypeSVGPathSegMovetoAbs
   {-# INLINE typeGType #-}
 
+noSVGPathSegMovetoAbs :: Maybe SVGPathSegMovetoAbs
+noSVGPathSegMovetoAbs = Nothing
+{-# INLINE noSVGPathSegMovetoAbs #-}
+
 gTypeSVGPathSegMovetoAbs :: JSM GType
 gTypeSVGPathSegMovetoAbs = GType . Object <$> jsg "SVGPathSegMovetoAbs"
 
@@ -28059,6 +30606,10 @@ instance IsSVGPathSeg SVGPathSegMovetoRel
 instance IsGObject SVGPathSegMovetoRel where
   typeGType _ = gTypeSVGPathSegMovetoRel
   {-# INLINE typeGType #-}
+
+noSVGPathSegMovetoRel :: Maybe SVGPathSegMovetoRel
+noSVGPathSegMovetoRel = Nothing
+{-# INLINE noSVGPathSegMovetoRel #-}
 
 gTypeSVGPathSegMovetoRel :: JSM GType
 gTypeSVGPathSegMovetoRel = GType . Object <$> jsg "SVGPathSegMovetoRel"
@@ -28127,6 +30678,10 @@ instance IsGObject SVGPatternElement where
   typeGType _ = gTypeSVGPatternElement
   {-# INLINE typeGType #-}
 
+noSVGPatternElement :: Maybe SVGPatternElement
+noSVGPatternElement = Nothing
+{-# INLINE noSVGPatternElement #-}
+
 gTypeSVGPatternElement :: JSM GType
 gTypeSVGPatternElement = GType . Object <$> jsg "SVGPatternElement"
 
@@ -28160,6 +30715,10 @@ instance IsGObject SVGPoint where
   typeGType _ = gTypeSVGPoint
   {-# INLINE typeGType #-}
 
+noSVGPoint :: Maybe SVGPoint
+noSVGPoint = Nothing
+{-# INLINE noSVGPoint #-}
+
 gTypeSVGPoint :: JSM GType
 gTypeSVGPoint = GType . Object <$> jsg "SVGPoint"
 
@@ -28192,6 +30751,10 @@ instance MakeObject SVGPointList where
 instance IsGObject SVGPointList where
   typeGType _ = gTypeSVGPointList
   {-# INLINE typeGType #-}
+
+noSVGPointList :: Maybe SVGPointList
+noSVGPointList = Nothing
+{-# INLINE noSVGPointList #-}
 
 gTypeSVGPointList :: JSM GType
 gTypeSVGPointList = GType . Object <$> jsg "SVGPointList"
@@ -28258,6 +30821,10 @@ instance IsGObject SVGPolygonElement where
   typeGType _ = gTypeSVGPolygonElement
   {-# INLINE typeGType #-}
 
+noSVGPolygonElement :: Maybe SVGPolygonElement
+noSVGPolygonElement = Nothing
+{-# INLINE noSVGPolygonElement #-}
+
 gTypeSVGPolygonElement :: JSM GType
 gTypeSVGPolygonElement = GType . Object <$> jsg "SVGPolygonElement"
 
@@ -28323,6 +30890,10 @@ instance IsGObject SVGPolylineElement where
   typeGType _ = gTypeSVGPolylineElement
   {-# INLINE typeGType #-}
 
+noSVGPolylineElement :: Maybe SVGPolylineElement
+noSVGPolylineElement = Nothing
+{-# INLINE noSVGPolylineElement #-}
+
 gTypeSVGPolylineElement :: JSM GType
 gTypeSVGPolylineElement = GType . Object <$> jsg "SVGPolylineElement"
 
@@ -28355,6 +30926,10 @@ instance MakeObject SVGPreserveAspectRatio where
 instance IsGObject SVGPreserveAspectRatio where
   typeGType _ = gTypeSVGPreserveAspectRatio
   {-# INLINE typeGType #-}
+
+noSVGPreserveAspectRatio :: Maybe SVGPreserveAspectRatio
+noSVGPreserveAspectRatio = Nothing
+{-# INLINE noSVGPreserveAspectRatio #-}
 
 gTypeSVGPreserveAspectRatio :: JSM GType
 gTypeSVGPreserveAspectRatio = GType . Object <$> jsg "SVGPreserveAspectRatio"
@@ -28421,6 +30996,10 @@ instance IsGObject SVGRadialGradientElement where
   typeGType _ = gTypeSVGRadialGradientElement
   {-# INLINE typeGType #-}
 
+noSVGRadialGradientElement :: Maybe SVGRadialGradientElement
+noSVGRadialGradientElement = Nothing
+{-# INLINE noSVGRadialGradientElement #-}
+
 gTypeSVGRadialGradientElement :: JSM GType
 gTypeSVGRadialGradientElement = GType . Object <$> jsg "SVGRadialGradientElement"
 
@@ -28453,6 +31032,10 @@ instance MakeObject SVGRect where
 instance IsGObject SVGRect where
   typeGType _ = gTypeSVGRect
   {-# INLINE typeGType #-}
+
+noSVGRect :: Maybe SVGRect
+noSVGRect = Nothing
+{-# INLINE noSVGRect #-}
 
 gTypeSVGRect :: JSM GType
 gTypeSVGRect = GType . Object <$> jsg "SVGRect"
@@ -28519,6 +31102,10 @@ instance IsGObject SVGRectElement where
   typeGType _ = gTypeSVGRectElement
   {-# INLINE typeGType #-}
 
+noSVGRectElement :: Maybe SVGRectElement
+noSVGRectElement = Nothing
+{-# INLINE noSVGRectElement #-}
+
 gTypeSVGRectElement :: JSM GType
 gTypeSVGRectElement = GType . Object <$> jsg "SVGRectElement"
 
@@ -28551,6 +31138,10 @@ instance MakeObject SVGRenderingIntent where
 instance IsGObject SVGRenderingIntent where
   typeGType _ = gTypeSVGRenderingIntent
   {-# INLINE typeGType #-}
+
+noSVGRenderingIntent :: Maybe SVGRenderingIntent
+noSVGRenderingIntent = Nothing
+{-# INLINE noSVGRenderingIntent #-}
 
 gTypeSVGRenderingIntent :: JSM GType
 gTypeSVGRenderingIntent = GType . Object <$> jsg "SVGRenderingIntent"
@@ -28621,6 +31212,10 @@ instance IsGObject SVGSVGElement where
   typeGType _ = gTypeSVGSVGElement
   {-# INLINE typeGType #-}
 
+noSVGSVGElement :: Maybe SVGSVGElement
+noSVGSVGElement = Nothing
+{-# INLINE noSVGSVGElement #-}
+
 gTypeSVGSVGElement :: JSM GType
 gTypeSVGSVGElement = GType . Object <$> jsg "SVGSVGElement"
 
@@ -28683,6 +31278,10 @@ instance IsSVGExternalResourcesRequired SVGScriptElement
 instance IsGObject SVGScriptElement where
   typeGType _ = gTypeSVGScriptElement
   {-# INLINE typeGType #-}
+
+noSVGScriptElement :: Maybe SVGScriptElement
+noSVGScriptElement = Nothing
+{-# INLINE noSVGScriptElement #-}
 
 gTypeSVGScriptElement :: JSM GType
 gTypeSVGScriptElement = GType . Object <$> jsg "SVGScriptElement"
@@ -28749,6 +31348,10 @@ instance IsGObject SVGSetElement where
   typeGType _ = gTypeSVGSetElement
   {-# INLINE typeGType #-}
 
+noSVGSetElement :: Maybe SVGSetElement
+noSVGSetElement = Nothing
+{-# INLINE noSVGSetElement #-}
+
 gTypeSVGSetElement :: JSM GType
 gTypeSVGSetElement = GType . Object <$> jsg "SVGSetElement"
 
@@ -28808,6 +31411,10 @@ instance IsGObject SVGStopElement where
   typeGType _ = gTypeSVGStopElement
   {-# INLINE typeGType #-}
 
+noSVGStopElement :: Maybe SVGStopElement
+noSVGStopElement = Nothing
+{-# INLINE noSVGStopElement #-}
+
 gTypeSVGStopElement :: JSM GType
 gTypeSVGStopElement = GType . Object <$> jsg "SVGStopElement"
 
@@ -28840,6 +31447,10 @@ instance MakeObject SVGStringList where
 instance IsGObject SVGStringList where
   typeGType _ = gTypeSVGStringList
   {-# INLINE typeGType #-}
+
+noSVGStringList :: Maybe SVGStringList
+noSVGStringList = Nothing
+{-# INLINE noSVGStringList #-}
 
 gTypeSVGStringList :: JSM GType
 gTypeSVGStringList = GType . Object <$> jsg "SVGStringList"
@@ -28899,6 +31510,10 @@ instance IsElementCSSInlineStyle SVGStyleElement
 instance IsGObject SVGStyleElement where
   typeGType _ = gTypeSVGStyleElement
   {-# INLINE typeGType #-}
+
+noSVGStyleElement :: Maybe SVGStyleElement
+noSVGStyleElement = Nothing
+{-# INLINE noSVGStyleElement #-}
 
 gTypeSVGStyleElement :: JSM GType
 gTypeSVGStyleElement = GType . Object <$> jsg "SVGStyleElement"
@@ -28965,6 +31580,10 @@ instance IsGObject SVGSwitchElement where
   typeGType _ = gTypeSVGSwitchElement
   {-# INLINE typeGType #-}
 
+noSVGSwitchElement :: Maybe SVGSwitchElement
+noSVGSwitchElement = Nothing
+{-# INLINE noSVGSwitchElement #-}
+
 gTypeSVGSwitchElement :: JSM GType
 gTypeSVGSwitchElement = GType . Object <$> jsg "SVGSwitchElement"
 
@@ -29027,6 +31646,10 @@ instance IsSVGExternalResourcesRequired SVGSymbolElement
 instance IsGObject SVGSymbolElement where
   typeGType _ = gTypeSVGSymbolElement
   {-# INLINE typeGType #-}
+
+noSVGSymbolElement :: Maybe SVGSymbolElement
+noSVGSymbolElement = Nothing
+{-# INLINE noSVGSymbolElement #-}
 
 gTypeSVGSymbolElement :: JSM GType
 gTypeSVGSymbolElement = GType . Object <$> jsg "SVGSymbolElement"
@@ -29099,6 +31722,10 @@ instance IsGObject SVGTRefElement where
   typeGType _ = gTypeSVGTRefElement
   {-# INLINE typeGType #-}
 
+noSVGTRefElement :: Maybe SVGTRefElement
+noSVGTRefElement = Nothing
+{-# INLINE noSVGTRefElement #-}
+
 gTypeSVGTRefElement :: JSM GType
 gTypeSVGTRefElement = GType . Object <$> jsg "SVGTRefElement"
 
@@ -29168,6 +31795,10 @@ instance IsGObject SVGTSpanElement where
   typeGType _ = gTypeSVGTSpanElement
   {-# INLINE typeGType #-}
 
+noSVGTSpanElement :: Maybe SVGTSpanElement
+noSVGTSpanElement = Nothing
+{-# INLINE noSVGTSpanElement #-}
+
 gTypeSVGTSpanElement :: JSM GType
 gTypeSVGTSpanElement = GType . Object <$> jsg "SVGTSpanElement"
 
@@ -29205,6 +31836,10 @@ instance IsSVGTests SVGTests
 instance IsGObject SVGTests where
   typeGType _ = gTypeSVGTests
   {-# INLINE typeGType #-}
+
+noSVGTests :: Maybe SVGTests
+noSVGTests = Nothing
+{-# INLINE noSVGTests #-}
 
 gTypeSVGTests :: JSM GType
 gTypeSVGTests = GType . Object <$> jsg "SVGTests"
@@ -29276,6 +31911,10 @@ instance IsGObject SVGTextContentElement where
   typeGType _ = gTypeSVGTextContentElement
   {-# INLINE typeGType #-}
 
+noSVGTextContentElement :: Maybe SVGTextContentElement
+noSVGTextContentElement = Nothing
+{-# INLINE noSVGTextContentElement #-}
+
 gTypeSVGTextContentElement :: JSM GType
 gTypeSVGTextContentElement = GType . Object <$> jsg "SVGTextContentElement"
 
@@ -29345,6 +31984,10 @@ instance IsGObject SVGTextElement where
   typeGType _ = gTypeSVGTextElement
   {-# INLINE typeGType #-}
 
+noSVGTextElement :: Maybe SVGTextElement
+noSVGTextElement = Nothing
+{-# INLINE noSVGTextElement #-}
+
 gTypeSVGTextElement :: JSM GType
 gTypeSVGTextElement = GType . Object <$> jsg "SVGTextElement"
 
@@ -29413,6 +32056,10 @@ instance IsSVGURIReference SVGTextPathElement
 instance IsGObject SVGTextPathElement where
   typeGType _ = gTypeSVGTextPathElement
   {-# INLINE typeGType #-}
+
+noSVGTextPathElement :: Maybe SVGTextPathElement
+noSVGTextPathElement = Nothing
+{-# INLINE noSVGTextPathElement #-}
 
 gTypeSVGTextPathElement :: JSM GType
 gTypeSVGTextPathElement = GType . Object <$> jsg "SVGTextPathElement"
@@ -29486,6 +32133,10 @@ instance IsGObject SVGTextPositioningElement where
   typeGType _ = gTypeSVGTextPositioningElement
   {-# INLINE typeGType #-}
 
+noSVGTextPositioningElement :: Maybe SVGTextPositioningElement
+noSVGTextPositioningElement = Nothing
+{-# INLINE noSVGTextPositioningElement #-}
+
 gTypeSVGTextPositioningElement :: JSM GType
 gTypeSVGTextPositioningElement = GType . Object <$> jsg "SVGTextPositioningElement"
 
@@ -29545,6 +32196,10 @@ instance IsGObject SVGTitleElement where
   typeGType _ = gTypeSVGTitleElement
   {-# INLINE typeGType #-}
 
+noSVGTitleElement :: Maybe SVGTitleElement
+noSVGTitleElement = Nothing
+{-# INLINE noSVGTitleElement #-}
+
 gTypeSVGTitleElement :: JSM GType
 gTypeSVGTitleElement = GType . Object <$> jsg "SVGTitleElement"
 
@@ -29578,6 +32233,10 @@ instance IsGObject SVGTransform where
   typeGType _ = gTypeSVGTransform
   {-# INLINE typeGType #-}
 
+noSVGTransform :: Maybe SVGTransform
+noSVGTransform = Nothing
+{-# INLINE noSVGTransform #-}
+
 gTypeSVGTransform :: JSM GType
 gTypeSVGTransform = GType . Object <$> jsg "SVGTransform"
 
@@ -29610,6 +32269,10 @@ instance MakeObject SVGTransformList where
 instance IsGObject SVGTransformList where
   typeGType _ = gTypeSVGTransformList
   {-# INLINE typeGType #-}
+
+noSVGTransformList :: Maybe SVGTransformList
+noSVGTransformList = Nothing
+{-# INLINE noSVGTransformList #-}
 
 gTypeSVGTransformList :: JSM GType
 gTypeSVGTransformList = GType . Object <$> jsg "SVGTransformList"
@@ -29649,6 +32312,10 @@ instance IsGObject SVGURIReference where
   typeGType _ = gTypeSVGURIReference
   {-# INLINE typeGType #-}
 
+noSVGURIReference :: Maybe SVGURIReference
+noSVGURIReference = Nothing
+{-# INLINE noSVGURIReference #-}
+
 gTypeSVGURIReference :: JSM GType
 gTypeSVGURIReference = GType . Object <$> jsg "SVGURIReference"
 
@@ -29681,6 +32348,10 @@ instance MakeObject SVGUnitTypes where
 instance IsGObject SVGUnitTypes where
   typeGType _ = gTypeSVGUnitTypes
   {-# INLINE typeGType #-}
+
+noSVGUnitTypes :: Maybe SVGUnitTypes
+noSVGUnitTypes = Nothing
+{-# INLINE noSVGUnitTypes #-}
 
 gTypeSVGUnitTypes :: JSM GType
 gTypeSVGUnitTypes = GType . Object <$> jsg "SVGUnitTypes"
@@ -29749,6 +32420,10 @@ instance IsGObject SVGUseElement where
   typeGType _ = gTypeSVGUseElement
   {-# INLINE typeGType #-}
 
+noSVGUseElement :: Maybe SVGUseElement
+noSVGUseElement = Nothing
+{-# INLINE noSVGUseElement #-}
+
 gTypeSVGUseElement :: JSM GType
 gTypeSVGUseElement = GType . Object <$> jsg "SVGUseElement"
 
@@ -29807,6 +32482,10 @@ instance IsElementCSSInlineStyle SVGVKernElement
 instance IsGObject SVGVKernElement where
   typeGType _ = gTypeSVGVKernElement
   {-# INLINE typeGType #-}
+
+noSVGVKernElement :: Maybe SVGVKernElement
+noSVGVKernElement = Nothing
+{-# INLINE noSVGVKernElement #-}
 
 gTypeSVGVKernElement :: JSM GType
 gTypeSVGVKernElement = GType . Object <$> jsg "SVGVKernElement"
@@ -29873,6 +32552,10 @@ instance IsGObject SVGViewElement where
   typeGType _ = gTypeSVGViewElement
   {-# INLINE typeGType #-}
 
+noSVGViewElement :: Maybe SVGViewElement
+noSVGViewElement = Nothing
+{-# INLINE noSVGViewElement #-}
+
 gTypeSVGViewElement :: JSM GType
 gTypeSVGViewElement = GType . Object <$> jsg "SVGViewElement"
 
@@ -29909,6 +32592,10 @@ instance IsSVGFitToViewBox SVGViewSpec
 instance IsGObject SVGViewSpec where
   typeGType _ = gTypeSVGViewSpec
   {-# INLINE typeGType #-}
+
+noSVGViewSpec :: Maybe SVGViewSpec
+noSVGViewSpec = Nothing
+{-# INLINE noSVGViewSpec #-}
 
 gTypeSVGViewSpec :: JSM GType
 gTypeSVGViewSpec = GType . Object <$> jsg "SVGViewSpec"
@@ -29947,6 +32634,10 @@ instance IsSVGZoomAndPan SVGZoomAndPan
 instance IsGObject SVGZoomAndPan where
   typeGType _ = gTypeSVGZoomAndPan
   {-# INLINE typeGType #-}
+
+noSVGZoomAndPan :: Maybe SVGZoomAndPan
+noSVGZoomAndPan = Nothing
+{-# INLINE noSVGZoomAndPan #-}
 
 gTypeSVGZoomAndPan :: JSM GType
 gTypeSVGZoomAndPan = GType . Object <$> jsg "SVGZoomAndPan"
@@ -29987,6 +32678,10 @@ instance IsGObject SVGZoomEvent where
   typeGType _ = gTypeSVGZoomEvent
   {-# INLINE typeGType #-}
 
+noSVGZoomEvent :: Maybe SVGZoomEvent
+noSVGZoomEvent = Nothing
+{-# INLINE noSVGZoomEvent #-}
+
 gTypeSVGZoomEvent :: JSM GType
 gTypeSVGZoomEvent = GType . Object <$> jsg "SVGZoomEvent"
 
@@ -30019,6 +32714,10 @@ instance MakeObject Screen where
 instance IsGObject Screen where
   typeGType _ = gTypeScreen
   {-# INLINE typeGType #-}
+
+noScreen :: Maybe Screen
+noScreen = Nothing
+{-# INLINE noScreen #-}
 
 gTypeScreen :: JSM GType
 gTypeScreen = GType . Object <$> jsg "Screen"
@@ -30059,6 +32758,10 @@ instance IsGObject ScriptProcessorNode where
   typeGType _ = gTypeScriptProcessorNode
   {-# INLINE typeGType #-}
 
+noScriptProcessorNode :: Maybe ScriptProcessorNode
+noScriptProcessorNode = Nothing
+{-# INLINE noScriptProcessorNode #-}
+
 gTypeScriptProcessorNode :: JSM GType
 gTypeScriptProcessorNode = GType . Object <$> jsg "ScriptProcessorNode"
 
@@ -30091,6 +32794,10 @@ instance MakeObject ScrollToOptions where
 instance IsGObject ScrollToOptions where
   typeGType _ = gTypeScrollToOptions
   {-# INLINE typeGType #-}
+
+noScrollToOptions :: Maybe ScrollToOptions
+noScrollToOptions = Nothing
+{-# INLINE noScrollToOptions #-}
 
 gTypeScrollToOptions :: JSM GType
 gTypeScrollToOptions = GType . Object <$> jsg "ScrollToOptions"
@@ -30129,6 +32836,10 @@ instance IsGObject SecurityPolicyViolationEvent where
   typeGType _ = gTypeSecurityPolicyViolationEvent
   {-# INLINE typeGType #-}
 
+noSecurityPolicyViolationEvent :: Maybe SecurityPolicyViolationEvent
+noSecurityPolicyViolationEvent = Nothing
+{-# INLINE noSecurityPolicyViolationEvent #-}
+
 gTypeSecurityPolicyViolationEvent :: JSM GType
 gTypeSecurityPolicyViolationEvent = GType . Object <$> jsg "SecurityPolicyViolationEvent"
 
@@ -30166,6 +32877,10 @@ instance IsGObject SecurityPolicyViolationEventInit where
   typeGType _ = gTypeSecurityPolicyViolationEventInit
   {-# INLINE typeGType #-}
 
+noSecurityPolicyViolationEventInit :: Maybe SecurityPolicyViolationEventInit
+noSecurityPolicyViolationEventInit = Nothing
+{-# INLINE noSecurityPolicyViolationEventInit #-}
+
 gTypeSecurityPolicyViolationEventInit :: JSM GType
 gTypeSecurityPolicyViolationEventInit = GType . Object <$> jsg "SecurityPolicyViolationEventInit"
 
@@ -30198,6 +32913,10 @@ instance MakeObject Selection where
 instance IsGObject Selection where
   typeGType _ = gTypeSelection
   {-# INLINE typeGType #-}
+
+noSelection :: Maybe Selection
+noSelection = Nothing
+{-# INLINE noSelection #-}
 
 gTypeSelection :: JSM GType
 gTypeSelection = GType . Object <$> jsg "Selection"
@@ -30246,6 +32965,10 @@ instance IsGObject ShadowRoot where
   typeGType _ = gTypeShadowRoot
   {-# INLINE typeGType #-}
 
+noShadowRoot :: Maybe ShadowRoot
+noShadowRoot = Nothing
+{-# INLINE noShadowRoot #-}
+
 gTypeShadowRoot :: JSM GType
 gTypeShadowRoot = GType . Object <$> jsg "ShadowRoot"
 
@@ -30278,6 +33001,10 @@ instance MakeObject ShadowRootInit where
 instance IsGObject ShadowRootInit where
   typeGType _ = gTypeShadowRootInit
   {-# INLINE typeGType #-}
+
+noShadowRootInit :: Maybe ShadowRootInit
+noShadowRootInit = Nothing
+{-# INLINE noShadowRootInit #-}
 
 gTypeShadowRootInit :: JSM GType
 gTypeShadowRootInit = GType . Object <$> jsg "ShadowRootInit"
@@ -30321,6 +33048,10 @@ instance IsGObject SiteBoundCredential where
   typeGType _ = gTypeSiteBoundCredential
   {-# INLINE typeGType #-}
 
+noSiteBoundCredential :: Maybe SiteBoundCredential
+noSiteBoundCredential = Nothing
+{-# INLINE noSiteBoundCredential #-}
+
 gTypeSiteBoundCredential :: JSM GType
 gTypeSiteBoundCredential = GType . Object <$> jsg "SiteBoundCredential"
 
@@ -30363,6 +33094,10 @@ instance IsGObject SiteBoundCredentialData where
   typeGType _ = gTypeSiteBoundCredentialData
   {-# INLINE typeGType #-}
 
+noSiteBoundCredentialData :: Maybe SiteBoundCredentialData
+noSiteBoundCredentialData = Nothing
+{-# INLINE noSiteBoundCredentialData #-}
+
 gTypeSiteBoundCredentialData :: JSM GType
 gTypeSiteBoundCredentialData = GType . Object <$> jsg "SiteBoundCredentialData"
 
@@ -30401,6 +33136,10 @@ instance IsGObject Slotable where
   typeGType _ = gTypeSlotable
   {-# INLINE typeGType #-}
 
+noSlotable :: Maybe Slotable
+noSlotable = Nothing
+{-# INLINE noSlotable #-}
+
 gTypeSlotable :: JSM GType
 gTypeSlotable = GType . Object <$> jsg "Slotable"
 
@@ -30437,6 +33176,10 @@ instance IsEventTarget SourceBuffer
 instance IsGObject SourceBuffer where
   typeGType _ = gTypeSourceBuffer
   {-# INLINE typeGType #-}
+
+noSourceBuffer :: Maybe SourceBuffer
+noSourceBuffer = Nothing
+{-# INLINE noSourceBuffer #-}
 
 gTypeSourceBuffer :: JSM GType
 gTypeSourceBuffer = GType . Object <$> jsg "SourceBuffer"
@@ -30475,6 +33218,10 @@ instance IsGObject SourceBufferList where
   typeGType _ = gTypeSourceBufferList
   {-# INLINE typeGType #-}
 
+noSourceBufferList :: Maybe SourceBufferList
+noSourceBufferList = Nothing
+{-# INLINE noSourceBufferList #-}
+
 gTypeSourceBufferList :: JSM GType
 gTypeSourceBufferList = GType . Object <$> jsg "SourceBufferList"
 
@@ -30507,6 +33254,10 @@ instance MakeObject SpeechSynthesis where
 instance IsGObject SpeechSynthesis where
   typeGType _ = gTypeSpeechSynthesis
   {-# INLINE typeGType #-}
+
+noSpeechSynthesis :: Maybe SpeechSynthesis
+noSpeechSynthesis = Nothing
+{-# INLINE noSpeechSynthesis #-}
 
 gTypeSpeechSynthesis :: JSM GType
 gTypeSpeechSynthesis = GType . Object <$> jsg "SpeechSynthesis"
@@ -30545,6 +33296,10 @@ instance IsGObject SpeechSynthesisEvent where
   typeGType _ = gTypeSpeechSynthesisEvent
   {-# INLINE typeGType #-}
 
+noSpeechSynthesisEvent :: Maybe SpeechSynthesisEvent
+noSpeechSynthesisEvent = Nothing
+{-# INLINE noSpeechSynthesisEvent #-}
+
 gTypeSpeechSynthesisEvent :: JSM GType
 gTypeSpeechSynthesisEvent = GType . Object <$> jsg "SpeechSynthesisEvent"
 
@@ -30582,6 +33337,10 @@ instance IsGObject SpeechSynthesisUtterance where
   typeGType _ = gTypeSpeechSynthesisUtterance
   {-# INLINE typeGType #-}
 
+noSpeechSynthesisUtterance :: Maybe SpeechSynthesisUtterance
+noSpeechSynthesisUtterance = Nothing
+{-# INLINE noSpeechSynthesisUtterance #-}
+
 gTypeSpeechSynthesisUtterance :: JSM GType
 gTypeSpeechSynthesisUtterance = GType . Object <$> jsg "SpeechSynthesisUtterance"
 
@@ -30614,6 +33373,10 @@ instance MakeObject SpeechSynthesisVoice where
 instance IsGObject SpeechSynthesisVoice where
   typeGType _ = gTypeSpeechSynthesisVoice
   {-# INLINE typeGType #-}
+
+noSpeechSynthesisVoice :: Maybe SpeechSynthesisVoice
+noSpeechSynthesisVoice = Nothing
+{-# INLINE noSpeechSynthesisVoice #-}
 
 gTypeSpeechSynthesisVoice :: JSM GType
 gTypeSpeechSynthesisVoice = GType . Object <$> jsg "SpeechSynthesisVoice"
@@ -30648,6 +33411,10 @@ instance IsGObject StaticRange where
   typeGType _ = gTypeStaticRange
   {-# INLINE typeGType #-}
 
+noStaticRange :: Maybe StaticRange
+noStaticRange = Nothing
+{-# INLINE noStaticRange #-}
+
 gTypeStaticRange :: JSM GType
 gTypeStaticRange = GType . Object <$> jsg "StaticRange"
 
@@ -30680,6 +33447,10 @@ instance MakeObject Storage where
 instance IsGObject Storage where
   typeGType _ = gTypeStorage
   {-# INLINE typeGType #-}
+
+noStorage :: Maybe Storage
+noStorage = Nothing
+{-# INLINE noStorage #-}
 
 gTypeStorage :: JSM GType
 gTypeStorage = GType . Object <$> jsg "Storage"
@@ -30718,6 +33489,10 @@ instance IsGObject StorageEvent where
   typeGType _ = gTypeStorageEvent
   {-# INLINE typeGType #-}
 
+noStorageEvent :: Maybe StorageEvent
+noStorageEvent = Nothing
+{-# INLINE noStorageEvent #-}
+
 gTypeStorageEvent :: JSM GType
 gTypeStorageEvent = GType . Object <$> jsg "StorageEvent"
 
@@ -30755,6 +33530,10 @@ instance IsGObject StorageEventInit where
   typeGType _ = gTypeStorageEventInit
   {-# INLINE typeGType #-}
 
+noStorageEventInit :: Maybe StorageEventInit
+noStorageEventInit = Nothing
+{-# INLINE noStorageEventInit #-}
+
 gTypeStorageEventInit :: JSM GType
 gTypeStorageEventInit = GType . Object <$> jsg "StorageEventInit"
 
@@ -30787,6 +33566,10 @@ instance MakeObject StorageInfo where
 instance IsGObject StorageInfo where
   typeGType _ = gTypeStorageInfo
   {-# INLINE typeGType #-}
+
+noStorageInfo :: Maybe StorageInfo
+noStorageInfo = Nothing
+{-# INLINE noStorageInfo #-}
 
 gTypeStorageInfo :: JSM GType
 gTypeStorageInfo = GType . Object <$> jsg "StorageInfo"
@@ -30821,6 +33604,10 @@ instance IsGObject StorageQuota where
   typeGType _ = gTypeStorageQuota
   {-# INLINE typeGType #-}
 
+noStorageQuota :: Maybe StorageQuota
+noStorageQuota = Nothing
+{-# INLINE noStorageQuota #-}
+
 gTypeStorageQuota :: JSM GType
 gTypeStorageQuota = GType . Object <$> jsg "StorageQuota"
 
@@ -30853,6 +33640,10 @@ instance MakeObject StyleMedia where
 instance IsGObject StyleMedia where
   typeGType _ = gTypeStyleMedia
   {-# INLINE typeGType #-}
+
+noStyleMedia :: Maybe StyleMedia
+noStyleMedia = Nothing
+{-# INLINE noStyleMedia #-}
 
 gTypeStyleMedia :: JSM GType
 gTypeStyleMedia = GType . Object <$> jsg "StyleMedia"
@@ -30892,6 +33683,10 @@ instance IsGObject StyleSheet where
   typeGType _ = gTypeStyleSheet
   {-# INLINE typeGType #-}
 
+noStyleSheet :: Maybe StyleSheet
+noStyleSheet = Nothing
+{-# INLINE noStyleSheet #-}
+
 gTypeStyleSheet :: JSM GType
 gTypeStyleSheet = GType . Object <$> jsg "StyleSheet"
 
@@ -30925,6 +33720,10 @@ instance IsGObject StyleSheetList where
   typeGType _ = gTypeStyleSheetList
   {-# INLINE typeGType #-}
 
+noStyleSheetList :: Maybe StyleSheetList
+noStyleSheetList = Nothing
+{-# INLINE noStyleSheetList #-}
+
 gTypeStyleSheetList :: JSM GType
 gTypeStyleSheetList = GType . Object <$> jsg "StyleSheetList"
 
@@ -30957,6 +33756,10 @@ instance MakeObject SubtleCrypto where
 instance IsGObject SubtleCrypto where
   typeGType _ = gTypeSubtleCrypto
   {-# INLINE typeGType #-}
+
+noSubtleCrypto :: Maybe SubtleCrypto
+noSubtleCrypto = Nothing
+{-# INLINE noSubtleCrypto #-}
 
 gTypeSubtleCrypto :: JSM GType
 gTypeSubtleCrypto = GType . Object <$> jsg "WebKitSubtleCrypto"
@@ -31010,6 +33813,10 @@ instance IsGObject Text where
   typeGType _ = gTypeText
   {-# INLINE typeGType #-}
 
+noText :: Maybe Text
+noText = Nothing
+{-# INLINE noText #-}
+
 gTypeText :: JSM GType
 gTypeText = GType . Object <$> jsg "Text"
 
@@ -31042,6 +33849,10 @@ instance MakeObject TextDecodeOptions where
 instance IsGObject TextDecodeOptions where
   typeGType _ = gTypeTextDecodeOptions
   {-# INLINE typeGType #-}
+
+noTextDecodeOptions :: Maybe TextDecodeOptions
+noTextDecodeOptions = Nothing
+{-# INLINE noTextDecodeOptions #-}
 
 gTypeTextDecodeOptions :: JSM GType
 gTypeTextDecodeOptions = GType . Object <$> jsg "TextDecodeOptions"
@@ -31076,6 +33887,10 @@ instance IsGObject TextDecoder where
   typeGType _ = gTypeTextDecoder
   {-# INLINE typeGType #-}
 
+noTextDecoder :: Maybe TextDecoder
+noTextDecoder = Nothing
+{-# INLINE noTextDecoder #-}
+
 gTypeTextDecoder :: JSM GType
 gTypeTextDecoder = GType . Object <$> jsg "TextDecoder"
 
@@ -31109,6 +33924,10 @@ instance IsGObject TextDecoderOptions where
   typeGType _ = gTypeTextDecoderOptions
   {-# INLINE typeGType #-}
 
+noTextDecoderOptions :: Maybe TextDecoderOptions
+noTextDecoderOptions = Nothing
+{-# INLINE noTextDecoderOptions #-}
+
 gTypeTextDecoderOptions :: JSM GType
 gTypeTextDecoderOptions = GType . Object <$> jsg "TextDecoderOptions"
 
@@ -31141,6 +33960,10 @@ instance MakeObject TextEncoder where
 instance IsGObject TextEncoder where
   typeGType _ = gTypeTextEncoder
   {-# INLINE typeGType #-}
+
+noTextEncoder :: Maybe TextEncoder
+noTextEncoder = Nothing
+{-# INLINE noTextEncoder #-}
 
 gTypeTextEncoder :: JSM GType
 gTypeTextEncoder = GType . Object <$> jsg "TextEncoder"
@@ -31181,6 +34004,10 @@ instance IsGObject TextEvent where
   typeGType _ = gTypeTextEvent
   {-# INLINE typeGType #-}
 
+noTextEvent :: Maybe TextEvent
+noTextEvent = Nothing
+{-# INLINE noTextEvent #-}
+
 gTypeTextEvent :: JSM GType
 gTypeTextEvent = GType . Object <$> jsg "TextEvent"
 
@@ -31213,6 +34040,10 @@ instance MakeObject TextMetrics where
 instance IsGObject TextMetrics where
   typeGType _ = gTypeTextMetrics
   {-# INLINE typeGType #-}
+
+noTextMetrics :: Maybe TextMetrics
+noTextMetrics = Nothing
+{-# INLINE noTextMetrics #-}
 
 gTypeTextMetrics :: JSM GType
 gTypeTextMetrics = GType . Object <$> jsg "TextMetrics"
@@ -31250,6 +34081,10 @@ instance IsEventTarget TextTrack
 instance IsGObject TextTrack where
   typeGType _ = gTypeTextTrack
   {-# INLINE typeGType #-}
+
+noTextTrack :: Maybe TextTrack
+noTextTrack = Nothing
+{-# INLINE noTextTrack #-}
 
 gTypeTextTrack :: JSM GType
 gTypeTextTrack = GType . Object <$> jsg "TextTrack"
@@ -31293,6 +34128,10 @@ instance IsGObject TextTrackCue where
   typeGType _ = gTypeTextTrackCue
   {-# INLINE typeGType #-}
 
+noTextTrackCue :: Maybe TextTrackCue
+noTextTrackCue = Nothing
+{-# INLINE noTextTrackCue #-}
+
 gTypeTextTrackCue :: JSM GType
 gTypeTextTrackCue = GType . Object <$> jsg "TextTrackCue"
 
@@ -31325,6 +34164,10 @@ instance MakeObject TextTrackCueList where
 instance IsGObject TextTrackCueList where
   typeGType _ = gTypeTextTrackCueList
   {-# INLINE typeGType #-}
+
+noTextTrackCueList :: Maybe TextTrackCueList
+noTextTrackCueList = Nothing
+{-# INLINE noTextTrackCueList #-}
 
 gTypeTextTrackCueList :: JSM GType
 gTypeTextTrackCueList = GType . Object <$> jsg "TextTrackCueList"
@@ -31363,6 +34206,10 @@ instance IsGObject TextTrackList where
   typeGType _ = gTypeTextTrackList
   {-# INLINE typeGType #-}
 
+noTextTrackList :: Maybe TextTrackList
+noTextTrackList = Nothing
+{-# INLINE noTextTrackList #-}
+
 gTypeTextTrackList :: JSM GType
 gTypeTextTrackList = GType . Object <$> jsg "TextTrackList"
 
@@ -31396,6 +34243,10 @@ instance IsGObject TimeRanges where
   typeGType _ = gTypeTimeRanges
   {-# INLINE typeGType #-}
 
+noTimeRanges :: Maybe TimeRanges
+noTimeRanges = Nothing
+{-# INLINE noTimeRanges #-}
+
 gTypeTimeRanges :: JSM GType
 gTypeTimeRanges = GType . Object <$> jsg "TimeRanges"
 
@@ -31428,6 +34279,10 @@ instance MakeObject Touch where
 instance IsGObject Touch where
   typeGType _ = gTypeTouch
   {-# INLINE typeGType #-}
+
+noTouch :: Maybe Touch
+noTouch = Nothing
+{-# INLINE noTouch #-}
 
 gTypeTouch :: JSM GType
 gTypeTouch = GType . Object <$> jsg "Touch"
@@ -31468,6 +34323,10 @@ instance IsGObject TouchEvent where
   typeGType _ = gTypeTouchEvent
   {-# INLINE typeGType #-}
 
+noTouchEvent :: Maybe TouchEvent
+noTouchEvent = Nothing
+{-# INLINE noTouchEvent #-}
+
 gTypeTouchEvent :: JSM GType
 gTypeTouchEvent = GType . Object <$> jsg "TouchEvent"
 
@@ -31507,6 +34366,10 @@ instance IsGObject TouchEventInit where
   typeGType _ = gTypeTouchEventInit
   {-# INLINE typeGType #-}
 
+noTouchEventInit :: Maybe TouchEventInit
+noTouchEventInit = Nothing
+{-# INLINE noTouchEventInit #-}
+
 gTypeTouchEventInit :: JSM GType
 gTypeTouchEventInit = GType . Object <$> jsg "TouchEventInit"
 
@@ -31539,6 +34402,10 @@ instance MakeObject TouchList where
 instance IsGObject TouchList where
   typeGType _ = gTypeTouchList
   {-# INLINE typeGType #-}
+
+noTouchList :: Maybe TouchList
+noTouchList = Nothing
+{-# INLINE noTouchList #-}
 
 gTypeTouchList :: JSM GType
 gTypeTouchList = GType . Object <$> jsg "TouchList"
@@ -31577,6 +34444,10 @@ instance IsGObject TrackEvent where
   typeGType _ = gTypeTrackEvent
   {-# INLINE typeGType #-}
 
+noTrackEvent :: Maybe TrackEvent
+noTrackEvent = Nothing
+{-# INLINE noTrackEvent #-}
+
 gTypeTrackEvent :: JSM GType
 gTypeTrackEvent = GType . Object <$> jsg "TrackEvent"
 
@@ -31613,6 +34484,10 @@ instance IsEventInit TrackEventInit
 instance IsGObject TrackEventInit where
   typeGType _ = gTypeTrackEventInit
   {-# INLINE typeGType #-}
+
+noTrackEventInit :: Maybe TrackEventInit
+noTrackEventInit = Nothing
+{-# INLINE noTrackEventInit #-}
 
 gTypeTrackEventInit :: JSM GType
 gTypeTrackEventInit = GType . Object <$> jsg "TrackEventInit"
@@ -31651,6 +34526,10 @@ instance IsGObject TransitionEvent where
   typeGType _ = gTypeTransitionEvent
   {-# INLINE typeGType #-}
 
+noTransitionEvent :: Maybe TransitionEvent
+noTransitionEvent = Nothing
+{-# INLINE noTransitionEvent #-}
+
 gTypeTransitionEvent :: JSM GType
 gTypeTransitionEvent = GType . Object <$> jsg "TransitionEvent"
 
@@ -31688,6 +34567,10 @@ instance IsGObject TransitionEventInit where
   typeGType _ = gTypeTransitionEventInit
   {-# INLINE typeGType #-}
 
+noTransitionEventInit :: Maybe TransitionEventInit
+noTransitionEventInit = Nothing
+{-# INLINE noTransitionEventInit #-}
+
 gTypeTransitionEventInit :: JSM GType
 gTypeTransitionEventInit = GType . Object <$> jsg "TransitionEventInit"
 
@@ -31720,6 +34603,10 @@ instance MakeObject TreeWalker where
 instance IsGObject TreeWalker where
   typeGType _ = gTypeTreeWalker
   {-# INLINE typeGType #-}
+
+noTreeWalker :: Maybe TreeWalker
+noTreeWalker = Nothing
+{-# INLINE noTreeWalker #-}
 
 gTypeTreeWalker :: JSM GType
 gTypeTreeWalker = GType . Object <$> jsg "TreeWalker"
@@ -31763,6 +34650,10 @@ instance IsGObject UIEvent where
   typeGType _ = gTypeUIEvent
   {-# INLINE typeGType #-}
 
+noUIEvent :: Maybe UIEvent
+noUIEvent = Nothing
+{-# INLINE noUIEvent #-}
+
 gTypeUIEvent :: JSM GType
 gTypeUIEvent = GType . Object <$> jsg "UIEvent"
 
@@ -31805,6 +34696,10 @@ instance IsGObject UIEventInit where
   typeGType _ = gTypeUIEventInit
   {-# INLINE typeGType #-}
 
+noUIEventInit :: Maybe UIEventInit
+noUIEventInit = Nothing
+{-# INLINE noUIEventInit #-}
+
 gTypeUIEventInit :: JSM GType
 gTypeUIEventInit = GType . Object <$> jsg "UIEventInit"
 
@@ -31837,6 +34732,10 @@ instance MakeObject URL where
 instance IsGObject URL where
   typeGType _ = gTypeURL
   {-# INLINE typeGType #-}
+
+noURL :: Maybe URL
+noURL = Nothing
+{-# INLINE noURL #-}
 
 gTypeURL :: JSM GType
 gTypeURL = GType . Object <$> jsg "URL"
@@ -31871,6 +34770,10 @@ instance IsGObject URLSearchParams where
   typeGType _ = gTypeURLSearchParams
   {-# INLINE typeGType #-}
 
+noURLSearchParams :: Maybe URLSearchParams
+noURLSearchParams = Nothing
+{-# INLINE noURLSearchParams #-}
+
 gTypeURLSearchParams :: JSM GType
 gTypeURLSearchParams = GType . Object <$> jsg "URLSearchParams"
 
@@ -31904,6 +34807,10 @@ instance IsGObject UserMessageHandler where
   typeGType _ = gTypeUserMessageHandler
   {-# INLINE typeGType #-}
 
+noUserMessageHandler :: Maybe UserMessageHandler
+noUserMessageHandler = Nothing
+{-# INLINE noUserMessageHandler #-}
+
 gTypeUserMessageHandler :: JSM GType
 gTypeUserMessageHandler = GType . Object <$> jsg "UserMessageHandler"
 
@@ -31936,6 +34843,10 @@ instance MakeObject UserMessageHandlersNamespace where
 instance IsGObject UserMessageHandlersNamespace where
   typeGType _ = gTypeUserMessageHandlersNamespace
   {-# INLINE typeGType #-}
+
+noUserMessageHandlersNamespace :: Maybe UserMessageHandlersNamespace
+noUserMessageHandlersNamespace = Nothing
+{-# INLINE noUserMessageHandlersNamespace #-}
 
 gTypeUserMessageHandlersNamespace :: JSM GType
 gTypeUserMessageHandlersNamespace = GType . Object <$> jsg "UserMessageHandlersNamespace"
@@ -31976,6 +34887,10 @@ instance IsGObject VTTCue where
   typeGType _ = gTypeVTTCue
   {-# INLINE typeGType #-}
 
+noVTTCue :: Maybe VTTCue
+noVTTCue = Nothing
+{-# INLINE noVTTCue #-}
+
 gTypeVTTCue :: JSM GType
 gTypeVTTCue = GType . Object <$> jsg "VTTCue"
 
@@ -32008,6 +34923,10 @@ instance MakeObject VTTRegion where
 instance IsGObject VTTRegion where
   typeGType _ = gTypeVTTRegion
   {-# INLINE typeGType #-}
+
+noVTTRegion :: Maybe VTTRegion
+noVTTRegion = Nothing
+{-# INLINE noVTTRegion #-}
 
 gTypeVTTRegion :: JSM GType
 gTypeVTTRegion = GType . Object <$> jsg "VTTRegion"
@@ -32042,6 +34961,10 @@ instance IsGObject VTTRegionList where
   typeGType _ = gTypeVTTRegionList
   {-# INLINE typeGType #-}
 
+noVTTRegionList :: Maybe VTTRegionList
+noVTTRegionList = Nothing
+{-# INLINE noVTTRegionList #-}
+
 gTypeVTTRegionList :: JSM GType
 gTypeVTTRegionList = GType . Object <$> jsg "VTTRegionList"
 
@@ -32074,6 +34997,10 @@ instance MakeObject ValidityState where
 instance IsGObject ValidityState where
   typeGType _ = gTypeValidityState
   {-# INLINE typeGType #-}
+
+noValidityState :: Maybe ValidityState
+noValidityState = Nothing
+{-# INLINE noValidityState #-}
 
 gTypeValidityState :: JSM GType
 gTypeValidityState = GType . Object <$> jsg "ValidityState"
@@ -32108,6 +35035,10 @@ instance IsGObject VideoPlaybackQuality where
   typeGType _ = gTypeVideoPlaybackQuality
   {-# INLINE typeGType #-}
 
+noVideoPlaybackQuality :: Maybe VideoPlaybackQuality
+noVideoPlaybackQuality = Nothing
+{-# INLINE noVideoPlaybackQuality #-}
+
 gTypeVideoPlaybackQuality :: JSM GType
 gTypeVideoPlaybackQuality = GType . Object <$> jsg "VideoPlaybackQuality"
 
@@ -32140,6 +35071,10 @@ instance MakeObject VideoTrack where
 instance IsGObject VideoTrack where
   typeGType _ = gTypeVideoTrack
   {-# INLINE typeGType #-}
+
+noVideoTrack :: Maybe VideoTrack
+noVideoTrack = Nothing
+{-# INLINE noVideoTrack #-}
 
 gTypeVideoTrack :: JSM GType
 gTypeVideoTrack = GType . Object <$> jsg "VideoTrack"
@@ -32177,6 +35112,10 @@ instance IsEventTarget VideoTrackList
 instance IsGObject VideoTrackList where
   typeGType _ = gTypeVideoTrackList
   {-# INLINE typeGType #-}
+
+noVideoTrackList :: Maybe VideoTrackList
+noVideoTrackList = Nothing
+{-# INLINE noVideoTrackList #-}
 
 gTypeVideoTrackList :: JSM GType
 gTypeVideoTrackList = GType . Object <$> jsg "VideoTrackList"
@@ -32217,6 +35156,10 @@ instance IsGObject WaveShaperNode where
   typeGType _ = gTypeWaveShaperNode
   {-# INLINE typeGType #-}
 
+noWaveShaperNode :: Maybe WaveShaperNode
+noWaveShaperNode = Nothing
+{-# INLINE noWaveShaperNode #-}
+
 gTypeWaveShaperNode :: JSM GType
 gTypeWaveShaperNode = GType . Object <$> jsg "WaveShaperNode"
 
@@ -32254,6 +35197,10 @@ instance IsGObject WebGL2RenderingContext where
   typeGType _ = gTypeWebGL2RenderingContext
   {-# INLINE typeGType #-}
 
+noWebGL2RenderingContext :: Maybe WebGL2RenderingContext
+noWebGL2RenderingContext = Nothing
+{-# INLINE noWebGL2RenderingContext #-}
+
 gTypeWebGL2RenderingContext :: JSM GType
 gTypeWebGL2RenderingContext = GType . Object <$> jsg "WebGL2RenderingContext"
 
@@ -32286,6 +35233,10 @@ instance MakeObject WebGLActiveInfo where
 instance IsGObject WebGLActiveInfo where
   typeGType _ = gTypeWebGLActiveInfo
   {-# INLINE typeGType #-}
+
+noWebGLActiveInfo :: Maybe WebGLActiveInfo
+noWebGLActiveInfo = Nothing
+{-# INLINE noWebGLActiveInfo #-}
 
 gTypeWebGLActiveInfo :: JSM GType
 gTypeWebGLActiveInfo = GType . Object <$> jsg "WebGLActiveInfo"
@@ -32320,6 +35271,10 @@ instance IsGObject WebGLBuffer where
   typeGType _ = gTypeWebGLBuffer
   {-# INLINE typeGType #-}
 
+noWebGLBuffer :: Maybe WebGLBuffer
+noWebGLBuffer = Nothing
+{-# INLINE noWebGLBuffer #-}
+
 gTypeWebGLBuffer :: JSM GType
 gTypeWebGLBuffer = GType . Object <$> jsg "WebGLBuffer"
 
@@ -32352,6 +35307,10 @@ instance MakeObject WebGLCompressedTextureATC where
 instance IsGObject WebGLCompressedTextureATC where
   typeGType _ = gTypeWebGLCompressedTextureATC
   {-# INLINE typeGType #-}
+
+noWebGLCompressedTextureATC :: Maybe WebGLCompressedTextureATC
+noWebGLCompressedTextureATC = Nothing
+{-# INLINE noWebGLCompressedTextureATC #-}
 
 gTypeWebGLCompressedTextureATC :: JSM GType
 gTypeWebGLCompressedTextureATC = GType . Object <$> jsg "WebGLCompressedTextureATC"
@@ -32386,6 +35345,10 @@ instance IsGObject WebGLCompressedTexturePVRTC where
   typeGType _ = gTypeWebGLCompressedTexturePVRTC
   {-# INLINE typeGType #-}
 
+noWebGLCompressedTexturePVRTC :: Maybe WebGLCompressedTexturePVRTC
+noWebGLCompressedTexturePVRTC = Nothing
+{-# INLINE noWebGLCompressedTexturePVRTC #-}
+
 gTypeWebGLCompressedTexturePVRTC :: JSM GType
 gTypeWebGLCompressedTexturePVRTC = GType . Object <$> jsg "WebGLCompressedTexturePVRTC"
 
@@ -32419,6 +35382,10 @@ instance IsGObject WebGLCompressedTextureS3TC where
   typeGType _ = gTypeWebGLCompressedTextureS3TC
   {-# INLINE typeGType #-}
 
+noWebGLCompressedTextureS3TC :: Maybe WebGLCompressedTextureS3TC
+noWebGLCompressedTextureS3TC = Nothing
+{-# INLINE noWebGLCompressedTextureS3TC #-}
+
 gTypeWebGLCompressedTextureS3TC :: JSM GType
 gTypeWebGLCompressedTextureS3TC = GType . Object <$> jsg "WebGLCompressedTextureS3TC"
 
@@ -32451,6 +35418,10 @@ instance MakeObject WebGLContextAttributes where
 instance IsGObject WebGLContextAttributes where
   typeGType _ = gTypeWebGLContextAttributes
   {-# INLINE typeGType #-}
+
+noWebGLContextAttributes :: Maybe WebGLContextAttributes
+noWebGLContextAttributes = Nothing
+{-# INLINE noWebGLContextAttributes #-}
 
 gTypeWebGLContextAttributes :: JSM GType
 gTypeWebGLContextAttributes = GType . Object <$> jsg "WebGLContextAttributes"
@@ -32489,6 +35460,10 @@ instance IsGObject WebGLContextEvent where
   typeGType _ = gTypeWebGLContextEvent
   {-# INLINE typeGType #-}
 
+noWebGLContextEvent :: Maybe WebGLContextEvent
+noWebGLContextEvent = Nothing
+{-# INLINE noWebGLContextEvent #-}
+
 gTypeWebGLContextEvent :: JSM GType
 gTypeWebGLContextEvent = GType . Object <$> jsg "WebGLContextEvent"
 
@@ -32526,6 +35501,10 @@ instance IsGObject WebGLContextEventInit where
   typeGType _ = gTypeWebGLContextEventInit
   {-# INLINE typeGType #-}
 
+noWebGLContextEventInit :: Maybe WebGLContextEventInit
+noWebGLContextEventInit = Nothing
+{-# INLINE noWebGLContextEventInit #-}
+
 gTypeWebGLContextEventInit :: JSM GType
 gTypeWebGLContextEventInit = GType . Object <$> jsg "WebGLContextEventInit"
 
@@ -32558,6 +35537,10 @@ instance MakeObject WebGLDebugRendererInfo where
 instance IsGObject WebGLDebugRendererInfo where
   typeGType _ = gTypeWebGLDebugRendererInfo
   {-# INLINE typeGType #-}
+
+noWebGLDebugRendererInfo :: Maybe WebGLDebugRendererInfo
+noWebGLDebugRendererInfo = Nothing
+{-# INLINE noWebGLDebugRendererInfo #-}
 
 gTypeWebGLDebugRendererInfo :: JSM GType
 gTypeWebGLDebugRendererInfo = GType . Object <$> jsg "WebGLDebugRendererInfo"
@@ -32592,6 +35575,10 @@ instance IsGObject WebGLDebugShaders where
   typeGType _ = gTypeWebGLDebugShaders
   {-# INLINE typeGType #-}
 
+noWebGLDebugShaders :: Maybe WebGLDebugShaders
+noWebGLDebugShaders = Nothing
+{-# INLINE noWebGLDebugShaders #-}
+
 gTypeWebGLDebugShaders :: JSM GType
 gTypeWebGLDebugShaders = GType . Object <$> jsg "WebGLDebugShaders"
 
@@ -32624,6 +35611,10 @@ instance MakeObject WebGLDepthTexture where
 instance IsGObject WebGLDepthTexture where
   typeGType _ = gTypeWebGLDepthTexture
   {-# INLINE typeGType #-}
+
+noWebGLDepthTexture :: Maybe WebGLDepthTexture
+noWebGLDepthTexture = Nothing
+{-# INLINE noWebGLDepthTexture #-}
 
 gTypeWebGLDepthTexture :: JSM GType
 gTypeWebGLDepthTexture = GType . Object <$> jsg "WebGLDepthTexture"
@@ -32658,6 +35649,10 @@ instance IsGObject WebGLDrawBuffers where
   typeGType _ = gTypeWebGLDrawBuffers
   {-# INLINE typeGType #-}
 
+noWebGLDrawBuffers :: Maybe WebGLDrawBuffers
+noWebGLDrawBuffers = Nothing
+{-# INLINE noWebGLDrawBuffers #-}
+
 gTypeWebGLDrawBuffers :: JSM GType
 gTypeWebGLDrawBuffers = GType . Object <$> jsg "WebGLDrawBuffers"
 
@@ -32690,6 +35685,10 @@ instance MakeObject WebGLFramebuffer where
 instance IsGObject WebGLFramebuffer where
   typeGType _ = gTypeWebGLFramebuffer
   {-# INLINE typeGType #-}
+
+noWebGLFramebuffer :: Maybe WebGLFramebuffer
+noWebGLFramebuffer = Nothing
+{-# INLINE noWebGLFramebuffer #-}
 
 gTypeWebGLFramebuffer :: JSM GType
 gTypeWebGLFramebuffer = GType . Object <$> jsg "WebGLFramebuffer"
@@ -32724,6 +35723,10 @@ instance IsGObject WebGLLoseContext where
   typeGType _ = gTypeWebGLLoseContext
   {-# INLINE typeGType #-}
 
+noWebGLLoseContext :: Maybe WebGLLoseContext
+noWebGLLoseContext = Nothing
+{-# INLINE noWebGLLoseContext #-}
+
 gTypeWebGLLoseContext :: JSM GType
 gTypeWebGLLoseContext = GType . Object <$> jsg "WebGLLoseContext"
 
@@ -32756,6 +35759,10 @@ instance MakeObject WebGLProgram where
 instance IsGObject WebGLProgram where
   typeGType _ = gTypeWebGLProgram
   {-# INLINE typeGType #-}
+
+noWebGLProgram :: Maybe WebGLProgram
+noWebGLProgram = Nothing
+{-# INLINE noWebGLProgram #-}
 
 gTypeWebGLProgram :: JSM GType
 gTypeWebGLProgram = GType . Object <$> jsg "WebGLProgram"
@@ -32790,6 +35797,10 @@ instance IsGObject WebGLQuery where
   typeGType _ = gTypeWebGLQuery
   {-# INLINE typeGType #-}
 
+noWebGLQuery :: Maybe WebGLQuery
+noWebGLQuery = Nothing
+{-# INLINE noWebGLQuery #-}
+
 gTypeWebGLQuery :: JSM GType
 gTypeWebGLQuery = GType . Object <$> jsg "WebGLQuery"
 
@@ -32822,6 +35833,10 @@ instance MakeObject WebGLRenderbuffer where
 instance IsGObject WebGLRenderbuffer where
   typeGType _ = gTypeWebGLRenderbuffer
   {-# INLINE typeGType #-}
+
+noWebGLRenderbuffer :: Maybe WebGLRenderbuffer
+noWebGLRenderbuffer = Nothing
+{-# INLINE noWebGLRenderbuffer #-}
 
 gTypeWebGLRenderbuffer :: JSM GType
 gTypeWebGLRenderbuffer = GType . Object <$> jsg "WebGLRenderbuffer"
@@ -32859,6 +35874,10 @@ instance IsWebGLRenderingContextBase WebGLRenderingContext
 instance IsGObject WebGLRenderingContext where
   typeGType _ = gTypeWebGLRenderingContext
   {-# INLINE typeGType #-}
+
+noWebGLRenderingContext :: Maybe WebGLRenderingContext
+noWebGLRenderingContext = Nothing
+{-# INLINE noWebGLRenderingContext #-}
 
 gTypeWebGLRenderingContext :: JSM GType
 gTypeWebGLRenderingContext = GType . Object <$> jsg "WebGLRenderingContext"
@@ -32898,6 +35917,10 @@ instance IsGObject WebGLRenderingContextBase where
   typeGType _ = gTypeWebGLRenderingContextBase
   {-# INLINE typeGType #-}
 
+noWebGLRenderingContextBase :: Maybe WebGLRenderingContextBase
+noWebGLRenderingContextBase = Nothing
+{-# INLINE noWebGLRenderingContextBase #-}
+
 gTypeWebGLRenderingContextBase :: JSM GType
 gTypeWebGLRenderingContextBase = GType . Object <$> jsg "WebGLRenderingContextBase"
 
@@ -32930,6 +35953,10 @@ instance MakeObject WebGLSampler where
 instance IsGObject WebGLSampler where
   typeGType _ = gTypeWebGLSampler
   {-# INLINE typeGType #-}
+
+noWebGLSampler :: Maybe WebGLSampler
+noWebGLSampler = Nothing
+{-# INLINE noWebGLSampler #-}
 
 gTypeWebGLSampler :: JSM GType
 gTypeWebGLSampler = GType . Object <$> jsg "WebGLSampler"
@@ -32964,6 +35991,10 @@ instance IsGObject WebGLShader where
   typeGType _ = gTypeWebGLShader
   {-# INLINE typeGType #-}
 
+noWebGLShader :: Maybe WebGLShader
+noWebGLShader = Nothing
+{-# INLINE noWebGLShader #-}
+
 gTypeWebGLShader :: JSM GType
 gTypeWebGLShader = GType . Object <$> jsg "WebGLShader"
 
@@ -32996,6 +36027,10 @@ instance MakeObject WebGLShaderPrecisionFormat where
 instance IsGObject WebGLShaderPrecisionFormat where
   typeGType _ = gTypeWebGLShaderPrecisionFormat
   {-# INLINE typeGType #-}
+
+noWebGLShaderPrecisionFormat :: Maybe WebGLShaderPrecisionFormat
+noWebGLShaderPrecisionFormat = Nothing
+{-# INLINE noWebGLShaderPrecisionFormat #-}
 
 gTypeWebGLShaderPrecisionFormat :: JSM GType
 gTypeWebGLShaderPrecisionFormat = GType . Object <$> jsg "WebGLShaderPrecisionFormat"
@@ -33030,6 +36065,10 @@ instance IsGObject WebGLSync where
   typeGType _ = gTypeWebGLSync
   {-# INLINE typeGType #-}
 
+noWebGLSync :: Maybe WebGLSync
+noWebGLSync = Nothing
+{-# INLINE noWebGLSync #-}
+
 gTypeWebGLSync :: JSM GType
 gTypeWebGLSync = GType . Object <$> jsg "WebGLSync"
 
@@ -33062,6 +36101,10 @@ instance MakeObject WebGLTexture where
 instance IsGObject WebGLTexture where
   typeGType _ = gTypeWebGLTexture
   {-# INLINE typeGType #-}
+
+noWebGLTexture :: Maybe WebGLTexture
+noWebGLTexture = Nothing
+{-# INLINE noWebGLTexture #-}
 
 gTypeWebGLTexture :: JSM GType
 gTypeWebGLTexture = GType . Object <$> jsg "WebGLTexture"
@@ -33096,6 +36139,10 @@ instance IsGObject WebGLTransformFeedback where
   typeGType _ = gTypeWebGLTransformFeedback
   {-# INLINE typeGType #-}
 
+noWebGLTransformFeedback :: Maybe WebGLTransformFeedback
+noWebGLTransformFeedback = Nothing
+{-# INLINE noWebGLTransformFeedback #-}
+
 gTypeWebGLTransformFeedback :: JSM GType
 gTypeWebGLTransformFeedback = GType . Object <$> jsg "WebGLTransformFeedback"
 
@@ -33128,6 +36175,10 @@ instance MakeObject WebGLUniformLocation where
 instance IsGObject WebGLUniformLocation where
   typeGType _ = gTypeWebGLUniformLocation
   {-# INLINE typeGType #-}
+
+noWebGLUniformLocation :: Maybe WebGLUniformLocation
+noWebGLUniformLocation = Nothing
+{-# INLINE noWebGLUniformLocation #-}
 
 gTypeWebGLUniformLocation :: JSM GType
 gTypeWebGLUniformLocation = GType . Object <$> jsg "WebGLUniformLocation"
@@ -33162,6 +36213,10 @@ instance IsGObject WebGLVertexArrayObject where
   typeGType _ = gTypeWebGLVertexArrayObject
   {-# INLINE typeGType #-}
 
+noWebGLVertexArrayObject :: Maybe WebGLVertexArrayObject
+noWebGLVertexArrayObject = Nothing
+{-# INLINE noWebGLVertexArrayObject #-}
+
 gTypeWebGLVertexArrayObject :: JSM GType
 gTypeWebGLVertexArrayObject = GType . Object <$> jsg "WebGLVertexArrayObject"
 
@@ -33194,6 +36249,10 @@ instance MakeObject WebGLVertexArrayObjectOES where
 instance IsGObject WebGLVertexArrayObjectOES where
   typeGType _ = gTypeWebGLVertexArrayObjectOES
   {-# INLINE typeGType #-}
+
+noWebGLVertexArrayObjectOES :: Maybe WebGLVertexArrayObjectOES
+noWebGLVertexArrayObjectOES = Nothing
+{-# INLINE noWebGLVertexArrayObjectOES #-}
 
 gTypeWebGLVertexArrayObjectOES :: JSM GType
 gTypeWebGLVertexArrayObjectOES = GType . Object <$> jsg "WebGLVertexArrayObjectOES"
@@ -33228,6 +36287,10 @@ instance IsGObject WebGPUBuffer where
   typeGType _ = gTypeWebGPUBuffer
   {-# INLINE typeGType #-}
 
+noWebGPUBuffer :: Maybe WebGPUBuffer
+noWebGPUBuffer = Nothing
+{-# INLINE noWebGPUBuffer #-}
+
 gTypeWebGPUBuffer :: JSM GType
 gTypeWebGPUBuffer = GType . Object <$> jsg "WebGPUBuffer"
 
@@ -33260,6 +36323,10 @@ instance MakeObject WebGPUCommandBuffer where
 instance IsGObject WebGPUCommandBuffer where
   typeGType _ = gTypeWebGPUCommandBuffer
   {-# INLINE typeGType #-}
+
+noWebGPUCommandBuffer :: Maybe WebGPUCommandBuffer
+noWebGPUCommandBuffer = Nothing
+{-# INLINE noWebGPUCommandBuffer #-}
 
 gTypeWebGPUCommandBuffer :: JSM GType
 gTypeWebGPUCommandBuffer = GType . Object <$> jsg "WebGPUCommandBuffer"
@@ -33294,6 +36361,10 @@ instance IsGObject WebGPUCommandQueue where
   typeGType _ = gTypeWebGPUCommandQueue
   {-# INLINE typeGType #-}
 
+noWebGPUCommandQueue :: Maybe WebGPUCommandQueue
+noWebGPUCommandQueue = Nothing
+{-# INLINE noWebGPUCommandQueue #-}
+
 gTypeWebGPUCommandQueue :: JSM GType
 gTypeWebGPUCommandQueue = GType . Object <$> jsg "WebGPUCommandQueue"
 
@@ -33326,6 +36397,10 @@ instance MakeObject WebGPUComputeCommandEncoder where
 instance IsGObject WebGPUComputeCommandEncoder where
   typeGType _ = gTypeWebGPUComputeCommandEncoder
   {-# INLINE typeGType #-}
+
+noWebGPUComputeCommandEncoder :: Maybe WebGPUComputeCommandEncoder
+noWebGPUComputeCommandEncoder = Nothing
+{-# INLINE noWebGPUComputeCommandEncoder #-}
 
 gTypeWebGPUComputeCommandEncoder :: JSM GType
 gTypeWebGPUComputeCommandEncoder = GType . Object <$> jsg "WebGPUComputeCommandEncoder"
@@ -33360,6 +36435,10 @@ instance IsGObject WebGPUComputePipelineState where
   typeGType _ = gTypeWebGPUComputePipelineState
   {-# INLINE typeGType #-}
 
+noWebGPUComputePipelineState :: Maybe WebGPUComputePipelineState
+noWebGPUComputePipelineState = Nothing
+{-# INLINE noWebGPUComputePipelineState #-}
+
 gTypeWebGPUComputePipelineState :: JSM GType
 gTypeWebGPUComputePipelineState = GType . Object <$> jsg "WebGPUComputePipelineState"
 
@@ -33392,6 +36471,10 @@ instance MakeObject WebGPUDepthStencilDescriptor where
 instance IsGObject WebGPUDepthStencilDescriptor where
   typeGType _ = gTypeWebGPUDepthStencilDescriptor
   {-# INLINE typeGType #-}
+
+noWebGPUDepthStencilDescriptor :: Maybe WebGPUDepthStencilDescriptor
+noWebGPUDepthStencilDescriptor = Nothing
+{-# INLINE noWebGPUDepthStencilDescriptor #-}
 
 gTypeWebGPUDepthStencilDescriptor :: JSM GType
 gTypeWebGPUDepthStencilDescriptor = GType . Object <$> jsg "WebGPUDepthStencilDescriptor"
@@ -33426,6 +36509,10 @@ instance IsGObject WebGPUDepthStencilState where
   typeGType _ = gTypeWebGPUDepthStencilState
   {-# INLINE typeGType #-}
 
+noWebGPUDepthStencilState :: Maybe WebGPUDepthStencilState
+noWebGPUDepthStencilState = Nothing
+{-# INLINE noWebGPUDepthStencilState #-}
+
 gTypeWebGPUDepthStencilState :: JSM GType
 gTypeWebGPUDepthStencilState = GType . Object <$> jsg "WebGPUDepthStencilState"
 
@@ -33458,6 +36545,10 @@ instance MakeObject WebGPUDrawable where
 instance IsGObject WebGPUDrawable where
   typeGType _ = gTypeWebGPUDrawable
   {-# INLINE typeGType #-}
+
+noWebGPUDrawable :: Maybe WebGPUDrawable
+noWebGPUDrawable = Nothing
+{-# INLINE noWebGPUDrawable #-}
 
 gTypeWebGPUDrawable :: JSM GType
 gTypeWebGPUDrawable = GType . Object <$> jsg "WebGPUDrawable"
@@ -33492,6 +36583,10 @@ instance IsGObject WebGPUFunction where
   typeGType _ = gTypeWebGPUFunction
   {-# INLINE typeGType #-}
 
+noWebGPUFunction :: Maybe WebGPUFunction
+noWebGPUFunction = Nothing
+{-# INLINE noWebGPUFunction #-}
+
 gTypeWebGPUFunction :: JSM GType
 gTypeWebGPUFunction = GType . Object <$> jsg "WebGPUFunction"
 
@@ -33525,6 +36620,10 @@ instance IsGObject WebGPULibrary where
   typeGType _ = gTypeWebGPULibrary
   {-# INLINE typeGType #-}
 
+noWebGPULibrary :: Maybe WebGPULibrary
+noWebGPULibrary = Nothing
+{-# INLINE noWebGPULibrary #-}
+
 gTypeWebGPULibrary :: JSM GType
 gTypeWebGPULibrary = GType . Object <$> jsg "WebGPULibrary"
 
@@ -33557,6 +36656,10 @@ instance MakeObject WebGPURenderCommandEncoder where
 instance IsGObject WebGPURenderCommandEncoder where
   typeGType _ = gTypeWebGPURenderCommandEncoder
   {-# INLINE typeGType #-}
+
+noWebGPURenderCommandEncoder :: Maybe WebGPURenderCommandEncoder
+noWebGPURenderCommandEncoder = Nothing
+{-# INLINE noWebGPURenderCommandEncoder #-}
 
 gTypeWebGPURenderCommandEncoder :: JSM GType
 gTypeWebGPURenderCommandEncoder = GType . Object <$> jsg "WebGPURenderCommandEncoder"
@@ -33596,6 +36699,10 @@ instance IsGObject WebGPURenderPassAttachmentDescriptor where
   typeGType _ = gTypeWebGPURenderPassAttachmentDescriptor
   {-# INLINE typeGType #-}
 
+noWebGPURenderPassAttachmentDescriptor :: Maybe WebGPURenderPassAttachmentDescriptor
+noWebGPURenderPassAttachmentDescriptor = Nothing
+{-# INLINE noWebGPURenderPassAttachmentDescriptor #-}
+
 gTypeWebGPURenderPassAttachmentDescriptor :: JSM GType
 gTypeWebGPURenderPassAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPassAttachmentDescriptor"
 
@@ -33632,6 +36739,10 @@ instance IsWebGPURenderPassAttachmentDescriptor WebGPURenderPassColorAttachmentD
 instance IsGObject WebGPURenderPassColorAttachmentDescriptor where
   typeGType _ = gTypeWebGPURenderPassColorAttachmentDescriptor
   {-# INLINE typeGType #-}
+
+noWebGPURenderPassColorAttachmentDescriptor :: Maybe WebGPURenderPassColorAttachmentDescriptor
+noWebGPURenderPassColorAttachmentDescriptor = Nothing
+{-# INLINE noWebGPURenderPassColorAttachmentDescriptor #-}
 
 gTypeWebGPURenderPassColorAttachmentDescriptor :: JSM GType
 gTypeWebGPURenderPassColorAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPassColorAttachmentDescriptor"
@@ -33670,6 +36781,10 @@ instance IsGObject WebGPURenderPassDepthAttachmentDescriptor where
   typeGType _ = gTypeWebGPURenderPassDepthAttachmentDescriptor
   {-# INLINE typeGType #-}
 
+noWebGPURenderPassDepthAttachmentDescriptor :: Maybe WebGPURenderPassDepthAttachmentDescriptor
+noWebGPURenderPassDepthAttachmentDescriptor = Nothing
+{-# INLINE noWebGPURenderPassDepthAttachmentDescriptor #-}
+
 gTypeWebGPURenderPassDepthAttachmentDescriptor :: JSM GType
 gTypeWebGPURenderPassDepthAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPassDepthAttachmentDescriptor"
 
@@ -33702,6 +36817,10 @@ instance MakeObject WebGPURenderPassDescriptor where
 instance IsGObject WebGPURenderPassDescriptor where
   typeGType _ = gTypeWebGPURenderPassDescriptor
   {-# INLINE typeGType #-}
+
+noWebGPURenderPassDescriptor :: Maybe WebGPURenderPassDescriptor
+noWebGPURenderPassDescriptor = Nothing
+{-# INLINE noWebGPURenderPassDescriptor #-}
 
 gTypeWebGPURenderPassDescriptor :: JSM GType
 gTypeWebGPURenderPassDescriptor = GType . Object <$> jsg "WebGPURenderPassDescriptor"
@@ -33736,6 +36855,10 @@ instance IsGObject WebGPURenderPipelineColorAttachmentDescriptor where
   typeGType _ = gTypeWebGPURenderPipelineColorAttachmentDescriptor
   {-# INLINE typeGType #-}
 
+noWebGPURenderPipelineColorAttachmentDescriptor :: Maybe WebGPURenderPipelineColorAttachmentDescriptor
+noWebGPURenderPipelineColorAttachmentDescriptor = Nothing
+{-# INLINE noWebGPURenderPipelineColorAttachmentDescriptor #-}
+
 gTypeWebGPURenderPipelineColorAttachmentDescriptor :: JSM GType
 gTypeWebGPURenderPipelineColorAttachmentDescriptor = GType . Object <$> jsg "WebGPURenderPipelineColorAttachmentDescriptor"
 
@@ -33768,6 +36891,10 @@ instance MakeObject WebGPURenderPipelineDescriptor where
 instance IsGObject WebGPURenderPipelineDescriptor where
   typeGType _ = gTypeWebGPURenderPipelineDescriptor
   {-# INLINE typeGType #-}
+
+noWebGPURenderPipelineDescriptor :: Maybe WebGPURenderPipelineDescriptor
+noWebGPURenderPipelineDescriptor = Nothing
+{-# INLINE noWebGPURenderPipelineDescriptor #-}
 
 gTypeWebGPURenderPipelineDescriptor :: JSM GType
 gTypeWebGPURenderPipelineDescriptor = GType . Object <$> jsg "WebGPURenderPipelineDescriptor"
@@ -33802,6 +36929,10 @@ instance IsGObject WebGPURenderPipelineState where
   typeGType _ = gTypeWebGPURenderPipelineState
   {-# INLINE typeGType #-}
 
+noWebGPURenderPipelineState :: Maybe WebGPURenderPipelineState
+noWebGPURenderPipelineState = Nothing
+{-# INLINE noWebGPURenderPipelineState #-}
+
 gTypeWebGPURenderPipelineState :: JSM GType
 gTypeWebGPURenderPipelineState = GType . Object <$> jsg "WebGPURenderPipelineState"
 
@@ -33834,6 +36965,10 @@ instance MakeObject WebGPURenderingContext where
 instance IsGObject WebGPURenderingContext where
   typeGType _ = gTypeWebGPURenderingContext
   {-# INLINE typeGType #-}
+
+noWebGPURenderingContext :: Maybe WebGPURenderingContext
+noWebGPURenderingContext = Nothing
+{-# INLINE noWebGPURenderingContext #-}
 
 gTypeWebGPURenderingContext :: JSM GType
 gTypeWebGPURenderingContext = GType . Object <$> jsg "WebGPURenderingContext"
@@ -33868,6 +37003,10 @@ instance IsGObject WebGPUSize where
   typeGType _ = gTypeWebGPUSize
   {-# INLINE typeGType #-}
 
+noWebGPUSize :: Maybe WebGPUSize
+noWebGPUSize = Nothing
+{-# INLINE noWebGPUSize #-}
+
 gTypeWebGPUSize :: JSM GType
 gTypeWebGPUSize = GType . Object <$> jsg "WebGPUSize"
 
@@ -33901,6 +37040,10 @@ instance IsGObject WebGPUTexture where
   typeGType _ = gTypeWebGPUTexture
   {-# INLINE typeGType #-}
 
+noWebGPUTexture :: Maybe WebGPUTexture
+noWebGPUTexture = Nothing
+{-# INLINE noWebGPUTexture #-}
+
 gTypeWebGPUTexture :: JSM GType
 gTypeWebGPUTexture = GType . Object <$> jsg "WebGPUTexture"
 
@@ -33933,6 +37076,10 @@ instance MakeObject WebGPUTextureDescriptor where
 instance IsGObject WebGPUTextureDescriptor where
   typeGType _ = gTypeWebGPUTextureDescriptor
   {-# INLINE typeGType #-}
+
+noWebGPUTextureDescriptor :: Maybe WebGPUTextureDescriptor
+noWebGPUTextureDescriptor = Nothing
+{-# INLINE noWebGPUTextureDescriptor #-}
 
 gTypeWebGPUTextureDescriptor :: JSM GType
 gTypeWebGPUTextureDescriptor = GType . Object <$> jsg "WebGPUTextureDescriptor"
@@ -33971,6 +37118,10 @@ instance IsGObject WebKitAnimationEvent where
   typeGType _ = gTypeWebKitAnimationEvent
   {-# INLINE typeGType #-}
 
+noWebKitAnimationEvent :: Maybe WebKitAnimationEvent
+noWebKitAnimationEvent = Nothing
+{-# INLINE noWebKitAnimationEvent #-}
+
 gTypeWebKitAnimationEvent :: JSM GType
 gTypeWebKitAnimationEvent = GType . Object <$> jsg "WebKitAnimationEvent"
 
@@ -34008,6 +37159,10 @@ instance IsGObject WebKitAnimationEventInit where
   typeGType _ = gTypeWebKitAnimationEventInit
   {-# INLINE typeGType #-}
 
+noWebKitAnimationEventInit :: Maybe WebKitAnimationEventInit
+noWebKitAnimationEventInit = Nothing
+{-# INLINE noWebKitAnimationEventInit #-}
+
 gTypeWebKitAnimationEventInit :: JSM GType
 gTypeWebKitAnimationEventInit = GType . Object <$> jsg "WebKitAnimationEventInit"
 
@@ -34040,6 +37195,10 @@ instance MakeObject WebKitCSSMatrix where
 instance IsGObject WebKitCSSMatrix where
   typeGType _ = gTypeWebKitCSSMatrix
   {-# INLINE typeGType #-}
+
+noWebKitCSSMatrix :: Maybe WebKitCSSMatrix
+noWebKitCSSMatrix = Nothing
+{-# INLINE noWebKitCSSMatrix #-}
 
 gTypeWebKitCSSMatrix :: JSM GType
 gTypeWebKitCSSMatrix = GType . Object <$> jsg "WebKitCSSMatrix"
@@ -34078,6 +37237,10 @@ instance IsGObject WebKitCSSRegionRule where
   typeGType _ = gTypeWebKitCSSRegionRule
   {-# INLINE typeGType #-}
 
+noWebKitCSSRegionRule :: Maybe WebKitCSSRegionRule
+noWebKitCSSRegionRule = Nothing
+{-# INLINE noWebKitCSSRegionRule #-}
+
 gTypeWebKitCSSRegionRule :: JSM GType
 gTypeWebKitCSSRegionRule = GType . Object <$> jsg "WebKitCSSRegionRule"
 
@@ -34115,6 +37278,10 @@ instance IsGObject WebKitCSSViewportRule where
   typeGType _ = gTypeWebKitCSSViewportRule
   {-# INLINE typeGType #-}
 
+noWebKitCSSViewportRule :: Maybe WebKitCSSViewportRule
+noWebKitCSSViewportRule = Nothing
+{-# INLINE noWebKitCSSViewportRule #-}
+
 gTypeWebKitCSSViewportRule :: JSM GType
 gTypeWebKitCSSViewportRule = GType . Object <$> jsg "WebKitCSSViewportRule"
 
@@ -34147,6 +37314,10 @@ instance MakeObject WebKitMediaKeyError where
 instance IsGObject WebKitMediaKeyError where
   typeGType _ = gTypeWebKitMediaKeyError
   {-# INLINE typeGType #-}
+
+noWebKitMediaKeyError :: Maybe WebKitMediaKeyError
+noWebKitMediaKeyError = Nothing
+{-# INLINE noWebKitMediaKeyError #-}
 
 gTypeWebKitMediaKeyError :: JSM GType
 gTypeWebKitMediaKeyError = GType . Object <$> jsg "WebKitMediaKeyError"
@@ -34185,6 +37356,10 @@ instance IsGObject WebKitMediaKeyMessageEvent where
   typeGType _ = gTypeWebKitMediaKeyMessageEvent
   {-# INLINE typeGType #-}
 
+noWebKitMediaKeyMessageEvent :: Maybe WebKitMediaKeyMessageEvent
+noWebKitMediaKeyMessageEvent = Nothing
+{-# INLINE noWebKitMediaKeyMessageEvent #-}
+
 gTypeWebKitMediaKeyMessageEvent :: JSM GType
 gTypeWebKitMediaKeyMessageEvent = GType . Object <$> jsg "WebKitMediaKeyMessageEvent"
 
@@ -34221,6 +37396,10 @@ instance IsEventInit WebKitMediaKeyMessageEventInit
 instance IsGObject WebKitMediaKeyMessageEventInit where
   typeGType _ = gTypeWebKitMediaKeyMessageEventInit
   {-# INLINE typeGType #-}
+
+noWebKitMediaKeyMessageEventInit :: Maybe WebKitMediaKeyMessageEventInit
+noWebKitMediaKeyMessageEventInit = Nothing
+{-# INLINE noWebKitMediaKeyMessageEventInit #-}
 
 gTypeWebKitMediaKeyMessageEventInit :: JSM GType
 gTypeWebKitMediaKeyMessageEventInit = GType . Object <$> jsg "WebKitMediaKeyMessageEventInit"
@@ -34259,6 +37438,10 @@ instance IsGObject WebKitMediaKeyNeededEvent where
   typeGType _ = gTypeWebKitMediaKeyNeededEvent
   {-# INLINE typeGType #-}
 
+noWebKitMediaKeyNeededEvent :: Maybe WebKitMediaKeyNeededEvent
+noWebKitMediaKeyNeededEvent = Nothing
+{-# INLINE noWebKitMediaKeyNeededEvent #-}
+
 gTypeWebKitMediaKeyNeededEvent :: JSM GType
 gTypeWebKitMediaKeyNeededEvent = GType . Object <$> jsg "WebKitMediaKeyNeededEvent"
 
@@ -34295,6 +37478,10 @@ instance IsEventInit WebKitMediaKeyNeededEventInit
 instance IsGObject WebKitMediaKeyNeededEventInit where
   typeGType _ = gTypeWebKitMediaKeyNeededEventInit
   {-# INLINE typeGType #-}
+
+noWebKitMediaKeyNeededEventInit :: Maybe WebKitMediaKeyNeededEventInit
+noWebKitMediaKeyNeededEventInit = Nothing
+{-# INLINE noWebKitMediaKeyNeededEventInit #-}
 
 gTypeWebKitMediaKeyNeededEventInit :: JSM GType
 gTypeWebKitMediaKeyNeededEventInit = GType . Object <$> jsg "WebKitMediaKeyNeededEventInit"
@@ -34333,6 +37520,10 @@ instance IsGObject WebKitMediaKeySession where
   typeGType _ = gTypeWebKitMediaKeySession
   {-# INLINE typeGType #-}
 
+noWebKitMediaKeySession :: Maybe WebKitMediaKeySession
+noWebKitMediaKeySession = Nothing
+{-# INLINE noWebKitMediaKeySession #-}
+
 gTypeWebKitMediaKeySession :: JSM GType
 gTypeWebKitMediaKeySession = GType . Object <$> jsg "WebKitMediaKeySession"
 
@@ -34365,6 +37556,10 @@ instance MakeObject WebKitMediaKeys where
 instance IsGObject WebKitMediaKeys where
   typeGType _ = gTypeWebKitMediaKeys
   {-# INLINE typeGType #-}
+
+noWebKitMediaKeys :: Maybe WebKitMediaKeys
+noWebKitMediaKeys = Nothing
+{-# INLINE noWebKitMediaKeys #-}
 
 gTypeWebKitMediaKeys :: JSM GType
 gTypeWebKitMediaKeys = GType . Object <$> jsg "WebKitMediaKeys"
@@ -34403,6 +37598,10 @@ instance IsGObject WebKitNamedFlow where
   typeGType _ = gTypeWebKitNamedFlow
   {-# INLINE typeGType #-}
 
+noWebKitNamedFlow :: Maybe WebKitNamedFlow
+noWebKitNamedFlow = Nothing
+{-# INLINE noWebKitNamedFlow #-}
+
 gTypeWebKitNamedFlow :: JSM GType
 gTypeWebKitNamedFlow = GType . Object <$> jsg "WebKitNamedFlow"
 
@@ -34435,6 +37634,10 @@ instance MakeObject WebKitNamespace where
 instance IsGObject WebKitNamespace where
   typeGType _ = gTypeWebKitNamespace
   {-# INLINE typeGType #-}
+
+noWebKitNamespace :: Maybe WebKitNamespace
+noWebKitNamespace = Nothing
+{-# INLINE noWebKitNamespace #-}
 
 gTypeWebKitNamespace :: JSM GType
 gTypeWebKitNamespace = GType . Object <$> jsg "WebKitNamespace"
@@ -34473,6 +37676,10 @@ instance IsGObject WebKitPlaybackTargetAvailabilityEvent where
   typeGType _ = gTypeWebKitPlaybackTargetAvailabilityEvent
   {-# INLINE typeGType #-}
 
+noWebKitPlaybackTargetAvailabilityEvent :: Maybe WebKitPlaybackTargetAvailabilityEvent
+noWebKitPlaybackTargetAvailabilityEvent = Nothing
+{-# INLINE noWebKitPlaybackTargetAvailabilityEvent #-}
+
 gTypeWebKitPlaybackTargetAvailabilityEvent :: JSM GType
 gTypeWebKitPlaybackTargetAvailabilityEvent = GType . Object <$> jsg "WebKitPlaybackTargetAvailabilityEvent"
 
@@ -34510,6 +37717,10 @@ instance IsGObject WebKitPlaybackTargetAvailabilityEventInit where
   typeGType _ = gTypeWebKitPlaybackTargetAvailabilityEventInit
   {-# INLINE typeGType #-}
 
+noWebKitPlaybackTargetAvailabilityEventInit :: Maybe WebKitPlaybackTargetAvailabilityEventInit
+noWebKitPlaybackTargetAvailabilityEventInit = Nothing
+{-# INLINE noWebKitPlaybackTargetAvailabilityEventInit #-}
+
 gTypeWebKitPlaybackTargetAvailabilityEventInit :: JSM GType
 gTypeWebKitPlaybackTargetAvailabilityEventInit = GType . Object <$> jsg "WebKitPlaybackTargetAvailabilityEventInit"
 
@@ -34543,6 +37754,10 @@ instance IsGObject WebKitPoint where
   typeGType _ = gTypeWebKitPoint
   {-# INLINE typeGType #-}
 
+noWebKitPoint :: Maybe WebKitPoint
+noWebKitPoint = Nothing
+{-# INLINE noWebKitPoint #-}
+
 gTypeWebKitPoint :: JSM GType
 gTypeWebKitPoint = GType . Object <$> jsg "WebKitPoint"
 
@@ -34575,6 +37790,10 @@ instance MakeObject WebKitSubtleCrypto where
 instance IsGObject WebKitSubtleCrypto where
   typeGType _ = gTypeWebKitSubtleCrypto
   {-# INLINE typeGType #-}
+
+noWebKitSubtleCrypto :: Maybe WebKitSubtleCrypto
+noWebKitSubtleCrypto = Nothing
+{-# INLINE noWebKitSubtleCrypto #-}
 
 gTypeWebKitSubtleCrypto :: JSM GType
 gTypeWebKitSubtleCrypto = GType . Object <$> jsg "WebKitSubtleCrypto"
@@ -34613,6 +37832,10 @@ instance IsGObject WebKitTransitionEvent where
   typeGType _ = gTypeWebKitTransitionEvent
   {-# INLINE typeGType #-}
 
+noWebKitTransitionEvent :: Maybe WebKitTransitionEvent
+noWebKitTransitionEvent = Nothing
+{-# INLINE noWebKitTransitionEvent #-}
+
 gTypeWebKitTransitionEvent :: JSM GType
 gTypeWebKitTransitionEvent = GType . Object <$> jsg "WebKitTransitionEvent"
 
@@ -34650,6 +37873,10 @@ instance IsGObject WebKitTransitionEventInit where
   typeGType _ = gTypeWebKitTransitionEventInit
   {-# INLINE typeGType #-}
 
+noWebKitTransitionEventInit :: Maybe WebKitTransitionEventInit
+noWebKitTransitionEventInit = Nothing
+{-# INLINE noWebKitTransitionEventInit #-}
+
 gTypeWebKitTransitionEventInit :: JSM GType
 gTypeWebKitTransitionEventInit = GType . Object <$> jsg "WebKitTransitionEventInit"
 
@@ -34686,6 +37913,10 @@ instance IsEventTarget WebSocket
 instance IsGObject WebSocket where
   typeGType _ = gTypeWebSocket
   {-# INLINE typeGType #-}
+
+noWebSocket :: Maybe WebSocket
+noWebSocket = Nothing
+{-# INLINE noWebSocket #-}
 
 gTypeWebSocket :: JSM GType
 gTypeWebSocket = GType . Object <$> jsg "WebSocket"
@@ -34727,6 +37958,10 @@ instance IsEvent WheelEvent
 instance IsGObject WheelEvent where
   typeGType _ = gTypeWheelEvent
   {-# INLINE typeGType #-}
+
+noWheelEvent :: Maybe WheelEvent
+noWheelEvent = Nothing
+{-# INLINE noWheelEvent #-}
 
 gTypeWheelEvent :: JSM GType
 gTypeWheelEvent = GType . Object <$> jsg "WheelEvent"
@@ -34770,6 +38005,10 @@ instance IsEventInit WheelEventInit
 instance IsGObject WheelEventInit where
   typeGType _ = gTypeWheelEventInit
   {-# INLINE typeGType #-}
+
+noWheelEventInit :: Maybe WheelEventInit
+noWheelEventInit = Nothing
+{-# INLINE noWheelEventInit #-}
 
 gTypeWheelEventInit :: JSM GType
 gTypeWheelEventInit = GType . Object <$> jsg "WheelEventInit"
@@ -34818,6 +38057,10 @@ instance IsGObject Window where
   typeGType _ = gTypeWindow
   {-# INLINE typeGType #-}
 
+noWindow :: Maybe Window
+noWindow = Nothing
+{-# INLINE noWindow #-}
+
 gTypeWindow :: JSM GType
 gTypeWindow = GType . Object <$> jsg "Window"
 
@@ -34855,6 +38098,10 @@ instance IsWindowEventHandlers WindowEventHandlers
 instance IsGObject WindowEventHandlers where
   typeGType _ = gTypeWindowEventHandlers
   {-# INLINE typeGType #-}
+
+noWindowEventHandlers :: Maybe WindowEventHandlers
+noWindowEventHandlers = Nothing
+{-# INLINE noWindowEventHandlers #-}
 
 gTypeWindowEventHandlers :: JSM GType
 gTypeWindowEventHandlers = GType . Object <$> jsg "WindowEventHandlers"
@@ -34894,6 +38141,10 @@ instance IsGObject WindowOrWorkerGlobalScope where
   typeGType _ = gTypeWindowOrWorkerGlobalScope
   {-# INLINE typeGType #-}
 
+noWindowOrWorkerGlobalScope :: Maybe WindowOrWorkerGlobalScope
+noWindowOrWorkerGlobalScope = Nothing
+{-# INLINE noWindowOrWorkerGlobalScope #-}
+
 gTypeWindowOrWorkerGlobalScope :: JSM GType
 gTypeWindowOrWorkerGlobalScope = GType . Object <$> jsg "WindowOrWorkerGlobalScope"
 
@@ -34932,6 +38183,10 @@ instance IsAbstractWorker Worker
 instance IsGObject Worker where
   typeGType _ = gTypeWorker
   {-# INLINE typeGType #-}
+
+noWorker :: Maybe Worker
+noWorker = Nothing
+{-# INLINE noWorker #-}
 
 gTypeWorker :: JSM GType
 gTypeWorker = GType . Object <$> jsg "Worker"
@@ -34981,6 +38236,10 @@ instance IsGObject WorkerGlobalScope where
   typeGType _ = gTypeWorkerGlobalScope
   {-# INLINE typeGType #-}
 
+noWorkerGlobalScope :: Maybe WorkerGlobalScope
+noWorkerGlobalScope = Nothing
+{-# INLINE noWorkerGlobalScope #-}
+
 gTypeWorkerGlobalScope :: JSM GType
 gTypeWorkerGlobalScope = GType . Object <$> jsg "WorkerGlobalScope"
 
@@ -35013,6 +38272,10 @@ instance MakeObject WorkerLocation where
 instance IsGObject WorkerLocation where
   typeGType _ = gTypeWorkerLocation
   {-# INLINE typeGType #-}
+
+noWorkerLocation :: Maybe WorkerLocation
+noWorkerLocation = Nothing
+{-# INLINE noWorkerLocation #-}
 
 gTypeWorkerLocation :: JSM GType
 gTypeWorkerLocation = GType . Object <$> jsg "WorkerLocation"
@@ -35057,6 +38320,10 @@ instance IsGObject WorkerNavigator where
   typeGType _ = gTypeWorkerNavigator
   {-# INLINE typeGType #-}
 
+noWorkerNavigator :: Maybe WorkerNavigator
+noWorkerNavigator = Nothing
+{-# INLINE noWorkerNavigator #-}
+
 gTypeWorkerNavigator :: JSM GType
 gTypeWorkerNavigator = GType . Object <$> jsg "WorkerNavigator"
 
@@ -35089,6 +38356,10 @@ instance MakeObject WritableStream where
 instance IsGObject WritableStream where
   typeGType _ = gTypeWritableStream
   {-# INLINE typeGType #-}
+
+noWritableStream :: Maybe WritableStream
+noWritableStream = Nothing
+{-# INLINE noWritableStream #-}
 
 gTypeWritableStream :: JSM GType
 gTypeWritableStream = GType . Object <$> jsg "WritableStream"
@@ -35141,6 +38412,10 @@ instance IsGObject XMLDocument where
   typeGType _ = gTypeXMLDocument
   {-# INLINE typeGType #-}
 
+noXMLDocument :: Maybe XMLDocument
+noXMLDocument = Nothing
+{-# INLINE noXMLDocument #-}
+
 gTypeXMLDocument :: JSM GType
 gTypeXMLDocument = GType . Object <$> jsg "XMLDocument"
 
@@ -35179,6 +38454,10 @@ instance IsEventTarget XMLHttpRequest
 instance IsGObject XMLHttpRequest where
   typeGType _ = gTypeXMLHttpRequest
   {-# INLINE typeGType #-}
+
+noXMLHttpRequest :: Maybe XMLHttpRequest
+noXMLHttpRequest = Nothing
+{-# INLINE noXMLHttpRequest #-}
 
 gTypeXMLHttpRequest :: JSM GType
 gTypeXMLHttpRequest = GType . Object <$> jsg "XMLHttpRequest"
@@ -35222,6 +38501,10 @@ instance IsGObject XMLHttpRequestEventTarget where
   typeGType _ = gTypeXMLHttpRequestEventTarget
   {-# INLINE typeGType #-}
 
+noXMLHttpRequestEventTarget :: Maybe XMLHttpRequestEventTarget
+noXMLHttpRequestEventTarget = Nothing
+{-# INLINE noXMLHttpRequestEventTarget #-}
+
 gTypeXMLHttpRequestEventTarget :: JSM GType
 gTypeXMLHttpRequestEventTarget = GType . Object <$> jsg "XMLHttpRequestEventTarget"
 
@@ -35260,6 +38543,10 @@ instance IsEvent XMLHttpRequestProgressEvent
 instance IsGObject XMLHttpRequestProgressEvent where
   typeGType _ = gTypeXMLHttpRequestProgressEvent
   {-# INLINE typeGType #-}
+
+noXMLHttpRequestProgressEvent :: Maybe XMLHttpRequestProgressEvent
+noXMLHttpRequestProgressEvent = Nothing
+{-# INLINE noXMLHttpRequestProgressEvent #-}
 
 gTypeXMLHttpRequestProgressEvent :: JSM GType
 gTypeXMLHttpRequestProgressEvent = GType . Object <$> jsg "XMLHttpRequestProgressEvent"
@@ -35300,6 +38587,10 @@ instance IsGObject XMLHttpRequestUpload where
   typeGType _ = gTypeXMLHttpRequestUpload
   {-# INLINE typeGType #-}
 
+noXMLHttpRequestUpload :: Maybe XMLHttpRequestUpload
+noXMLHttpRequestUpload = Nothing
+{-# INLINE noXMLHttpRequestUpload #-}
+
 gTypeXMLHttpRequestUpload :: JSM GType
 gTypeXMLHttpRequestUpload = GType . Object <$> jsg "XMLHttpRequestUpload"
 
@@ -35332,6 +38623,10 @@ instance MakeObject XMLSerializer where
 instance IsGObject XMLSerializer where
   typeGType _ = gTypeXMLSerializer
   {-# INLINE typeGType #-}
+
+noXMLSerializer :: Maybe XMLSerializer
+noXMLSerializer = Nothing
+{-# INLINE noXMLSerializer #-}
 
 gTypeXMLSerializer :: JSM GType
 gTypeXMLSerializer = GType . Object <$> jsg "XMLSerializer"
@@ -35366,6 +38661,10 @@ instance IsGObject XPathEvaluator where
   typeGType _ = gTypeXPathEvaluator
   {-# INLINE typeGType #-}
 
+noXPathEvaluator :: Maybe XPathEvaluator
+noXPathEvaluator = Nothing
+{-# INLINE noXPathEvaluator #-}
+
 gTypeXPathEvaluator :: JSM GType
 gTypeXPathEvaluator = GType . Object <$> jsg "XPathEvaluator"
 
@@ -35398,6 +38697,10 @@ instance MakeObject XPathException where
 instance IsGObject XPathException where
   typeGType _ = gTypeXPathException
   {-# INLINE typeGType #-}
+
+noXPathException :: Maybe XPathException
+noXPathException = Nothing
+{-# INLINE noXPathException #-}
 
 gTypeXPathException :: JSM GType
 gTypeXPathException = GType . Object <$> jsg "XPathException"
@@ -35432,6 +38735,10 @@ instance IsGObject XPathExpression where
   typeGType _ = gTypeXPathExpression
   {-# INLINE typeGType #-}
 
+noXPathExpression :: Maybe XPathExpression
+noXPathExpression = Nothing
+{-# INLINE noXPathExpression #-}
+
 gTypeXPathExpression :: JSM GType
 gTypeXPathExpression = GType . Object <$> jsg "XPathExpression"
 
@@ -35464,6 +38771,10 @@ instance MakeObject XPathNSResolver where
 instance IsGObject XPathNSResolver where
   typeGType _ = gTypeXPathNSResolver
   {-# INLINE typeGType #-}
+
+noXPathNSResolver :: Maybe XPathNSResolver
+noXPathNSResolver = Nothing
+{-# INLINE noXPathNSResolver #-}
 
 gTypeXPathNSResolver :: JSM GType
 gTypeXPathNSResolver = GType . Object <$> jsg "XPathNSResolver"
@@ -35498,6 +38809,10 @@ instance IsGObject XPathResult where
   typeGType _ = gTypeXPathResult
   {-# INLINE typeGType #-}
 
+noXPathResult :: Maybe XPathResult
+noXPathResult = Nothing
+{-# INLINE noXPathResult #-}
+
 gTypeXPathResult :: JSM GType
 gTypeXPathResult = GType . Object <$> jsg "XPathResult"
 
@@ -35530,6 +38845,10 @@ instance MakeObject XSLTProcessor where
 instance IsGObject XSLTProcessor where
   typeGType _ = gTypeXSLTProcessor
   {-# INLINE typeGType #-}
+
+noXSLTProcessor :: Maybe XSLTProcessor
+noXSLTProcessor = Nothing
+{-# INLINE noXSLTProcessor #-}
 
 gTypeXSLTProcessor :: JSM GType
 gTypeXSLTProcessor = GType . Object <$> jsg "XSLTProcessor"
