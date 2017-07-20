@@ -31,7 +31,6 @@ library
         JSDOM.Custom.Navigator
         JSDOM.Custom.NavigatorUserMediaError
         JSDOM.Custom.PositionError
-        JSDOM.Custom.RTCPeerConnection
         JSDOM.Custom.RTCPeerConnectionError
         JSDOM.Custom.SQLError
         JSDOM.Custom.SQLTransaction
@@ -632,7 +631,6 @@ library
                         JSDOM.Custom.Navigator as JSDOM.Navigator,
                         JSDOM.Custom.NavigatorUserMediaError as JSDOM.NavigatorUserMediaError,
                         JSDOM.Custom.PositionError as JSDOM.PositionError,
-                        JSDOM.Custom.RTCPeerConnection as JSDOM.RTCPeerConnection,
                         JSDOM.Custom.RTCPeerConnectionError as JSDOM.RTCPeerConnectionError,
                         JSDOM.Custom.SQLError as JSDOM.SQLError,
                         JSDOM.Custom.SQLTransaction as JSDOM.SQLTransaction,
@@ -952,6 +950,7 @@ library
                         JSDOM.Generated.RTCIceCandidate as JSDOM.RTCIceCandidate,
                         JSDOM.Generated.RTCIceCandidateEvent as JSDOM.RTCIceCandidateEvent,
                         JSDOM.Generated.RTCIceTransport as JSDOM.RTCIceTransport,
+                        JSDOM.Generated.RTCPeerConnection as JSDOM.RTCPeerConnection,
                         JSDOM.Generated.RTCPeerConnectionIceEvent as JSDOM.RTCPeerConnectionIceEvent,
                         JSDOM.Generated.RTCRtpReceiver as JSDOM.RTCRtpReceiver,
                         JSDOM.Generated.RTCRtpSender as JSDOM.RTCRtpSender,
