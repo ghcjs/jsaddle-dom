@@ -52,7 +52,7 @@ module JSDOM.Types (
   , Function(Function), unFunction, IsFunction, toFunction, noFunction
 
   -- * Promise
-  , readPromise
+  , PromiseRejected(..), noPromiseRejected, readPromise
 
   -- * Callbacks
   , Callback(..)
