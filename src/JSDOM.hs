@@ -1,4 +1,7 @@
-{-# LANGUAGE OverloadedStrings, PatternSynonyms, RecursiveDo #-}
+{-# LANGUAGE CPP, OverloadedStrings, PatternSynonyms #-}
+#ifndef ghcjs_HOST_OS
+{-# LANGUAGE RecursiveDo #-}
+#endif
 module JSDOM (
   currentWindow
 , currentWindowUnchecked
@@ -15,13 +18,15 @@ module JSDOM (
 , bracket
 ) where
 
+#ifdef ghcjs_HOST_OS
+import JSDOM.Types
+       (FromJSVal(..), MonadDOM, liftDOM, Document(..), Window(..), JSM)
+import Language.Javascript.JSaddle.Object (jsg)
+import JavaScript.Web.AnimationFrame (AnimationFrameHandle, inAnimationFrame)
+#else
 import Control.Monad (void, forM_, when)
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Concurrent.MVar (putMVar, takeMVar)
-import GHCJS.Concurrent (OnBlocked(..))
-import Language.Javascript.JSaddle
-       (syncPoint, syncAfter, waitForAnimationFrame,
-        nextAnimationFrame, catch, bracket)
 import Language.Javascript.JSaddle.Types (JSContextRef(..))
 import Language.Javascript.JSaddle.Object (freeFunction, jsg)
 import Language.Javascript.JSaddle.Monad (askJSM)
@@ -31,6 +36,11 @@ import JSDOM.Types
 import JSDOM.Generated.RequestAnimationFrameCallback
        (newRequestAnimationFrameCallbackSync)
 import JSDOM.Generated.Window (requestAnimationFrame)
+#endif
+import GHCJS.Concurrent (OnBlocked(..))
+import Language.Javascript.JSaddle
+       (syncPoint, syncAfter, waitForAnimationFrame,
+        nextAnimationFrame, catch, bracket)
 
 currentWindow :: MonadDOM m => m (Maybe Window)
 currentWindow = liftDOM $ jsg ("window" :: String) >>= fromJSVal
@@ -43,6 +53,8 @@ currentDocument = liftDOM $ jsg ("document" :: String) >>= fromJSVal
 
 currentDocumentUnchecked :: MonadDOM m => m Document
 currentDocumentUnchecked = liftDOM $ jsg ("document" :: String) >>= fromJSValUnchecked
+
+#ifndef ghcjs_HOST_OS
 
 data AnimationFrameHandle = AnimationFrameHandle
 
@@ -67,6 +79,8 @@ inAnimationFrame _ f = do
         void $ requestAnimationFrame win cb
     liftIO $ putMVar handlersMVar (f : handlers)
     return AnimationFrameHandle
+
+#endif
 
 {- |
      Run the action in an animationframe callback. The action runs in a
