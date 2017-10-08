@@ -17,7 +17,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker Mozilla Worker documentation> 
@@ -42,4 +42,4 @@ postMessage self message transfer
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Worker.onmessage Mozilla Worker.onmessage documentation> 
 message :: EventName Worker MessageEvent
-message = unsafeEventName (toJSString "message")
+message = unsafeEventNameAsync (toJSString "message")

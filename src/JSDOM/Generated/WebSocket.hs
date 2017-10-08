@@ -22,7 +22,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket Mozilla WebSocket documentation> 
@@ -97,19 +97,19 @@ getBufferedAmount self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.onopen Mozilla WebSocket.onopen documentation> 
 open :: EventName WebSocket Event
-open = unsafeEventName (toJSString "open")
+open = unsafeEventNameAsync (toJSString "open")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.onmessage Mozilla WebSocket.onmessage documentation> 
 message :: EventName WebSocket MessageEvent
-message = unsafeEventName (toJSString "message")
+message = unsafeEventNameAsync (toJSString "message")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.onerror Mozilla WebSocket.onerror documentation> 
 error :: EventName WebSocket UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.onclose Mozilla WebSocket.onclose documentation> 
 closeEvent :: EventName WebSocket CloseEvent
-closeEvent = unsafeEventName (toJSString "close")
+closeEvent = unsafeEventNameAsync (toJSString "close")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
 getProtocol ::

@@ -20,7 +20,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.update Mozilla ApplicationCache.update documentation> 
@@ -52,7 +52,7 @@ checking = unsafeEventName (toJSString "checking")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.onerror Mozilla ApplicationCache.onerror documentation> 
 error :: EventName ApplicationCache UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.onnoupdate Mozilla ApplicationCache.onnoupdate documentation> 
 noUpdate :: EventName ApplicationCache Event
@@ -64,7 +64,7 @@ downloading = unsafeEventName (toJSString "downloading")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.onprogress Mozilla ApplicationCache.onprogress documentation> 
 progress :: EventName ApplicationCache ProgressEvent
-progress = unsafeEventName (toJSString "progress")
+progress = unsafeEventNameAsync (toJSString "progress")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplicationCache.onupdateready Mozilla ApplicationCache.onupdateready documentation> 
 updateReady :: EventName ApplicationCache Event

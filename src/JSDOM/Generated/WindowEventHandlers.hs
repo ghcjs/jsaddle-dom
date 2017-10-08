@@ -20,7 +20,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers.onbeforeunload Mozilla WindowEventHandlers.onbeforeunload documentation> 
@@ -45,7 +45,7 @@ languagechange = unsafeEventName (toJSString "languagechange")
 message ::
         (IsWindowEventHandlers self, IsEventTarget self) =>
           EventName self MessageEvent
-message = unsafeEventName (toJSString "message")
+message = unsafeEventNameAsync (toJSString "message")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers.onoffline Mozilla WindowEventHandlers.onoffline documentation> 
 offline ::

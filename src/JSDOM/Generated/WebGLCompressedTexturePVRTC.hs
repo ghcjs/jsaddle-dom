@@ -20,7 +20,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 pattern COMPRESSED_RGB_PVRTC_4BPPV1_IMG = 35840
 pattern COMPRESSED_RGB_PVRTC_2BPPV1_IMG = 35841

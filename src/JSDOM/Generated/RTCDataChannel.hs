@@ -24,7 +24,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.send Mozilla RTCDataChannel.send documentation> 
@@ -175,19 +175,19 @@ getBinaryType self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onopen Mozilla RTCDataChannel.onopen documentation> 
 open :: EventName RTCDataChannel Event
-open = unsafeEventName (toJSString "open")
+open = unsafeEventNameAsync (toJSString "open")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onerror Mozilla RTCDataChannel.onerror documentation> 
 error :: EventName RTCDataChannel UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onclose Mozilla RTCDataChannel.onclose documentation> 
 closeEvent :: EventName RTCDataChannel CloseEvent
-closeEvent = unsafeEventName (toJSString "close")
+closeEvent = unsafeEventNameAsync (toJSString "close")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onmessage Mozilla RTCDataChannel.onmessage documentation> 
 message :: EventName RTCDataChannel MessageEvent
-message = unsafeEventName (toJSString "message")
+message = unsafeEventNameAsync (toJSString "message")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel.onbufferedamountlow Mozilla RTCDataChannel.onbufferedamountlow documentation> 
 bufferedamountlow :: EventName RTCDataChannel onbufferedamountlow

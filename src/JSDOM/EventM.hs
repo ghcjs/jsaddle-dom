@@ -1,7 +1,13 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
+{- | 'EventM' provides a convenient monadic interface for handling DOM events.
+
+The <https://developer.mozilla.org/en-US/docs/Web/API/Event DOM Event interface>
+is exposed, as well as functions for accessing UIEvents and MouseEvents.
+-}
 module JSDOM.EventM
 (
+-- $doc
   EventM(..)
 , SaferEventListener(..)
 , EventName
@@ -12,6 +18,11 @@ module JSDOM.EventM
 , removeListener
 , releaseListener
 , on
+, onSync
+, onAsync
+, onTheseSync
+, onTheseAsync
+-- * Event interface
 , event
 , eventTarget
 , target
@@ -29,6 +40,7 @@ module JSDOM.EventM
 , cancelBubble
 , getReturnValue
 , returnValue
+-- * UIEvent helpers
 , uiView
 , uiDetail
 , uiKeyCode
@@ -40,6 +52,7 @@ module JSDOM.EventM
 , uiPageY
 , uiPageXY
 , uiWhich
+-- * MouseEvent helpers
 , mouseScreenX
 , mouseScreenY
 , mouseScreenXY
@@ -81,41 +94,90 @@ import           Data.Foldable (forM_)
 import           Data.Traversable (mapM)
 import           Data.Coerce (coerce)
 
+-- $doc
+-- TODO: small tutorial w/ example function
+
+-- | @IO@ with the current @Event@ in scope (read with 'event').
 type EventM t e = ReaderT e DOM
 
+-- | See 'eventListenerNew'.
 newListener :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListener f = eventListenerNew (runReaderT f)
 
+-- | See 'eventListenerNewSync'.
 newListenerSync :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListenerSync f = eventListenerNewSync (runReaderT f)
 
+-- | See 'eventListenerNewAsync'.
 newListenerAsync :: (IsEvent e) => EventM t e () -> DOM (SaferEventListener t e)
 newListenerAsync f = eventListenerNewAsync (runReaderT f)
 
+-- | Add an EventListener to an EventTarget.
 addListener :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> SaferEventListener t e -> Bool -> DOM ()
-addListener target (EventName eventName) l useCapture = do
+addListener target eventName l useCapture = do
     raw <- EventListener <$> toJSVal l
-    addEventListener target eventName (Just raw) useCapture
+    addEventListener target (eventNameString eventName) (Just raw) useCapture
 
+-- | Remove an EventListener from an EventTarget.
 removeListener :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> SaferEventListener t e -> Bool -> DOM ()
-removeListener target (EventName eventName) l useCapture = do
+removeListener target eventName l useCapture = do
     raw <- EventListener <$> toJSVal l
-    removeEventListener target eventName (Just raw) useCapture
+    removeEventListener target (eventNameString eventName) (Just raw) useCapture
 
+-- | Release the listener (deallocates callbacks).
 releaseListener :: (IsEventTarget t, IsEvent e) => SaferEventListener t e -> DOM ()
 releaseListener = eventListenerRelease
 
+-- | Shortcut for create, add and release:
+--
+-- @
+-- releaseAction <- on element 'GHCJS.DOM.Document.click' $ do
+--     w <- 'GHCJS.DOM.currentWindowUnchecked'
+--     'GHCJS.DOM.Window.alert' w "I was clicked!"
+-- -- remove click handler again
+-- releaseAction
+-- @
 on :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> EventM t e () -> DOM (DOM ())
-on target eventName callback = do
-    l <- newListener callback
+on target eventName@(EventNameSyncDefault _) = onSync target eventName
+on target eventName@(EventNameAsyncDefault _) = onAsync target eventName
+
+-- | Like 'on' but always uses 'newListenerSync'
+onSync :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> EventM t e () -> DOM (DOM ())
+onSync target eventName callback = do
+    l <- newListenerSync callback
     addListener target eventName l False
     return $ do
         removeListener target eventName l False
         releaseListener l
 
-onThese :: (IsEventTarget t, IsEvent e) => [(t, EventName t e)] -> EventM t e () -> DOM (DOM ())
-onThese targetsAndEventNames callback = do
-    l <- newListener callback
+-- | Like 'on' but always uses 'newListenerAsync'
+onAsync :: (IsEventTarget t, IsEvent e) => t -> EventName t e -> EventM t e () -> JSM (JSM ())
+onAsync target eventName callback = do
+    l <- newListenerAsync callback
+    addListener target eventName l False
+    return $ do
+        removeListener target eventName l False
+        releaseListener l
+
+-- | 'onSync' for multiple targets & events.
+--
+--   The returned @IO@ action removes them all at once.
+onTheseSync :: (IsEventTarget t, IsEvent e) => [(t, EventName t e)] -> EventM t e () -> DOM (DOM ())
+onTheseSync targetsAndEventNames callback = do
+    l <- newListenerSync callback
+    forM_ targetsAndEventNames $ \(target, eventName) ->
+        addListener target eventName l False
+    return (do
+        forM_ targetsAndEventNames (\(target, eventName) ->
+            removeListener target eventName l False)
+        releaseListener l)
+
+-- | 'onAsync' for multiple targets & events.
+--
+--   The returned @IO@ action removes them all at once.
+onTheseAsync :: (IsEventTarget t, IsEvent e) => [(t, EventName t e)] -> EventM t e () -> DOM (DOM ())
+onTheseAsync targetsAndEventNames callback = do
+    l <- newListenerAsync callback
     forM_ targetsAndEventNames $ \(target, eventName) ->
         addListener target eventName l False
     return (do

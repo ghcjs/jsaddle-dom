@@ -17,11 +17,11 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/AbstractWorker.onerror Mozilla AbstractWorker.onerror documentation> 
 error ::
       (IsAbstractWorker self, IsEventTarget self) =>
         EventName self UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")

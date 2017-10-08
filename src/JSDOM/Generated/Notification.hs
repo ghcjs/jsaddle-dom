@@ -18,7 +18,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification Mozilla Notification documentation> 
@@ -59,11 +59,11 @@ click = unsafeEventName (toJSString "click")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.onerror Mozilla Notification.onerror documentation> 
 error :: EventName Notification UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.onclose Mozilla Notification.onclose documentation> 
 cLoseEvent :: EventName Notification CloseEvent
-cLoseEvent = unsafeEventName (toJSString "close")
+cLoseEvent = unsafeEventNameAsync (toJSString "close")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.ondisplay Mozilla Notification.ondisplay documentation> 
 display :: EventName Notification ondisplay

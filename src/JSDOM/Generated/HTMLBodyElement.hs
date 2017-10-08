@@ -23,7 +23,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.aLink Mozilla HTMLBodyElement.aLink documentation> 
@@ -93,15 +93,15 @@ getVLink self
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onblur Mozilla HTMLBodyElement.onblur documentation> 
 blur :: EventName HTMLBodyElement FocusEvent
-blur = unsafeEventName (toJSString "blur")
+blur = unsafeEventNameAsync (toJSString "blur")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onerror Mozilla HTMLBodyElement.onerror documentation> 
 error :: EventName HTMLBodyElement UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onfocus Mozilla HTMLBodyElement.onfocus documentation> 
 focus :: EventName HTMLBodyElement FocusEvent
-focus = unsafeEventName (toJSString "focus")
+focus = unsafeEventNameAsync (toJSString "focus")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onfocusin Mozilla HTMLBodyElement.onfocusin documentation> 
 focusin :: EventName HTMLBodyElement onfocusin
@@ -113,7 +113,7 @@ focusout = unsafeEventName (toJSString "focusout")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onload Mozilla HTMLBodyElement.onload documentation> 
 load :: EventName HTMLBodyElement UIEvent
-load = unsafeEventName (toJSString "load")
+load = unsafeEventNameAsync (toJSString "load")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLBodyElement.onresize Mozilla HTMLBodyElement.onresize documentation> 
 resize :: EventName HTMLBodyElement UIEvent

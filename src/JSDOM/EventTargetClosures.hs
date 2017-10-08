@@ -1,11 +1,24 @@
 module JSDOM.EventTargetClosures
-       (EventName(..), SaferEventListener(..), unsafeEventName, eventListenerNew, eventListenerNewSync, eventListenerNewAsync, eventListenerRelease) where
+  ( EventName(..)
+  , SaferEventListener(..)
+  , eventNameString
+  , unsafeEventName
+  , unsafeEventNameAsync
+  , eventListenerNew
+  , eventListenerNewSync
+  , eventListenerNewAsync
+  , eventListenerRelease) where
 
 import Control.Applicative ((<$>))
 import JSDOM.Types
-import Language.Javascript.JSaddle as JSaddle (function, JSM, Function(..), freeFunction)
+import Language.Javascript.JSaddle as JSaddle (function, asyncFunction, JSM, Function(..), freeFunction)
 
-newtype EventName t e = EventName DOMString
+data EventName t e = EventNameSyncDefault DOMString | EventNameAsyncDefault DOMString
+
+eventNameString :: EventName t e -> DOMString
+eventNameString (EventNameSyncDefault s) = s
+eventNameString (EventNameAsyncDefault s) = s
+
 newtype SaferEventListener t e = SaferEventListener JSaddle.Function
 
 instance ToJSVal (SaferEventListener t e) where
@@ -17,7 +30,10 @@ instance ToJSVal (SaferEventListener t e) where
 --    {-# INLINE fromJSVal #-}
 
 unsafeEventName :: DOMString -> EventName t e
-unsafeEventName = EventName
+unsafeEventName = EventNameSyncDefault
+
+unsafeEventNameAsync :: DOMString -> EventName t e
+unsafeEventNameAsync = EventNameAsyncDefault
 
 eventListenerNew :: (IsEvent e) => (e -> JSM ()) -> JSM (SaferEventListener t e)
 eventListenerNew callback = SaferEventListener <$> function (\_ _ [e] -> fromJSValUnchecked e >>= callback)
@@ -26,7 +42,7 @@ eventListenerNewSync :: (IsEvent e) => (e -> JSM ()) -> JSM (SaferEventListener 
 eventListenerNewSync callback = SaferEventListener <$> function (\_ _ [e] -> fromJSValUnchecked e >>= callback)
 
 eventListenerNewAsync :: (IsEvent e) => (e -> JSM ()) -> JSM (SaferEventListener t e)
-eventListenerNewAsync callback = SaferEventListener <$> function (\_ _ [e] -> fromJSValUnchecked e >>= callback)
+eventListenerNewAsync callback = SaferEventListener <$> asyncFunction (\_ _ [e] -> fromJSValUnchecked e >>= callback)
 
 eventListenerRelease :: SaferEventListener t e -> JSM ()
 eventListenerRelease (SaferEventListener f) = freeFunction f

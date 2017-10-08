@@ -21,7 +21,7 @@ import JSDOM.Types
 import Control.Applicative ((<$>))
 import Control.Monad (void)
 import Control.Lens.Operators ((^.))
-import JSDOM.EventTargetClosures (EventName, unsafeEventName)
+import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsync)
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.appendBuffer Mozilla SourceBuffer.appendBuffer documentation> 
@@ -119,8 +119,8 @@ updateend = unsafeEventName (toJSString "updateend")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onerror Mozilla SourceBuffer.onerror documentation> 
 error :: EventName SourceBuffer UIEvent
-error = unsafeEventName (toJSString "error")
+error = unsafeEventNameAsync (toJSString "error")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer.onabort Mozilla SourceBuffer.onabort documentation> 
 abortEvent :: EventName SourceBuffer UIEvent
-abortEvent = unsafeEventName (toJSString "abort")
+abortEvent = unsafeEventNameAsync (toJSString "abort")
