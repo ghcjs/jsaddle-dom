@@ -131,7 +131,8 @@ pattern DONE = 4
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.onreadystatechange Mozilla XMLHttpRequest.onreadystatechange documentation> 
 readyStateChange :: EventName XMLHttpRequest Event
-readyStateChange = unsafeEventName (toJSString "readystatechange")
+readyStateChange
+  = unsafeEventNameAsync (toJSString "readystatechange")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.readyState Mozilla XMLHttpRequest.readyState documentation> 
 getReadyState :: (MonadDOM m) => XMLHttpRequest -> m Word

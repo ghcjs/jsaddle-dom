@@ -1215,7 +1215,8 @@ getDesignMode self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.onreadystatechange Mozilla Document.onreadystatechange documentation> 
 readyStateChange ::
                  (IsDocument self, IsEventTarget self) => EventName self Event
-readyStateChange = unsafeEventName (toJSString "readystatechange")
+readyStateChange
+  = unsafeEventNameAsync (toJSString "readystatechange")
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.styleSheets Mozilla Document.styleSheets documentation> 
 getStyleSheets ::
