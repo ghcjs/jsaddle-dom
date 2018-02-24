@@ -68,15 +68,23 @@ inAnimationFrame :: OnBlocked       -- ^ what to do when encountering a blocking
                  -> JSM AnimationFrameHandle
 inAnimationFrame _ f = do
     handlersMVar <- animationFrameHandlers <$> askJSM
+    -- Take the list of pending animation fram handlers
     handlers <- liftIO $ takeMVar handlersMVar
+    -- If this was the first handler added set up a callback
+    -- to run the handlers in the next animation frame.
     when (null handlers) $ do
         win <- currentWindowUnchecked
-        rec cb@(RequestAnimationFrameCallback (Callback f)) <- newRequestAnimationFrameCallbackSync $ \t -> do
-              freeFunction f
+        rec cb@(RequestAnimationFrameCallback (Callback fCb)) <- newRequestAnimationFrameCallbackSync $ \t -> do
+              -- This is a one off handler so free it when it runs
+              freeFunction fCb
+              -- Take the list of handers and empty it
               handlersToRun <- liftIO $ takeMVar handlersMVar
               liftIO $ putMVar handlersMVar []
+              -- Exectute handlers in the order 
               forM_ (reverse handlersToRun) (\handler -> handler t)
+        -- Add the callback function
         void $ requestAnimationFrame win cb
+    -- Add this handler to the list to be run by the callback
     liftIO $ putMVar handlersMVar (f : handlers)
     return AnimationFrameHandle
 
