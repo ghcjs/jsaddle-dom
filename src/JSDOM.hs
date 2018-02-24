@@ -70,6 +70,8 @@ inAnimationFrame _ f = do
     handlersMVar <- animationFrameHandlers <$> askJSM
     -- Take the list of pending animation fram handlers
     handlers <- liftIO $ takeMVar handlersMVar
+    -- Add this handler to the list to be run by the callback
+    liftIO $ putMVar handlersMVar (f : handlers)
     -- If this was the first handler added set up a callback
     -- to run the handlers in the next animation frame.
     when (null handlers) $ do
@@ -84,8 +86,6 @@ inAnimationFrame _ f = do
               forM_ (reverse handlersToRun) (\handler -> handler t)
         -- Add the callback function
         void $ requestAnimationFrame win cb
-    -- Add this handler to the list to be run by the callback
-    liftIO $ putMVar handlersMVar (f : handlers)
     return AnimationFrameHandle
 
 #endif
