@@ -17,6 +17,10 @@ source-repository head
     location: https://github.com/ghcjs/jsaddle-dom
 
 library
+    -- workaround for older GHC choking the C compiler with cost centre
+    -- declarations (GHC trac #7960)
+    if impl(ghc < 8.4)
+        ghc-prof-options: -fno-prof-auto
 
     if impl(ghcjs -any)
         build-depends:
