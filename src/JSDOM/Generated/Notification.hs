@@ -41,11 +41,12 @@ close self = liftDOM (void (self ^. jsf "close" ()))
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.requestPermission Mozilla Notification.requestPermission documentation> 
 requestPermission ::
                   (MonadDOM m, ToJSString callback) =>
-                    Notification ->
-                      Maybe (NotificationPermissionCallback callback) -> m ()
-requestPermission self callback
+                    Maybe (NotificationPermissionCallback callback) -> m ()
+requestPermission callback
   = liftDOM
-      (void (self ^. jsf "requestPermission" [toJSVal callback]))
+      (void
+         ((jsg "Notification") ^. jsf "requestPermission"
+            [toJSVal callback]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Notification.permission Mozilla Notification.permission documentation> 
 getPermission ::

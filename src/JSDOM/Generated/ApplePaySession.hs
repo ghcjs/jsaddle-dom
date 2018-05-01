@@ -46,34 +46,41 @@ newApplePaySession version paymentRequest
            [toJSVal version, toJSVal paymentRequest])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.supportsVersion Mozilla ApplePaySession.supportsVersion documentation> 
-supportsVersion ::
-                (MonadDOM m) => ApplePaySession -> Word -> m Bool
-supportsVersion self version
+supportsVersion :: (MonadDOM m) => Word -> m Bool
+supportsVersion version
   = liftDOM
-      ((self ^. jsf "supportsVersion" [toJSVal version]) >>= valToBool)
+      (((jsg "ApplePaySession") ^. jsf "supportsVersion"
+          [toJSVal version])
+         >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.supportsVersion Mozilla ApplePaySession.supportsVersion documentation> 
-supportsVersion_ :: (MonadDOM m) => ApplePaySession -> Word -> m ()
-supportsVersion_ self version
-  = liftDOM (void (self ^. jsf "supportsVersion" [toJSVal version]))
+supportsVersion_ :: (MonadDOM m) => Word -> m ()
+supportsVersion_ version
+  = liftDOM
+      (void
+         ((jsg "ApplePaySession") ^. jsf "supportsVersion"
+            [toJSVal version]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.canMakePayments Mozilla ApplePaySession.canMakePayments documentation> 
-canMakePayments :: (MonadDOM m) => ApplePaySession -> m Bool
-canMakePayments self
-  = liftDOM ((self ^. jsf "canMakePayments" ()) >>= valToBool)
+canMakePayments :: (MonadDOM m) => m Bool
+canMakePayments
+  = liftDOM
+      (((jsg "ApplePaySession") ^. jsf "canMakePayments" ()) >>=
+         valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.canMakePayments Mozilla ApplePaySession.canMakePayments documentation> 
-canMakePayments_ :: (MonadDOM m) => ApplePaySession -> m ()
-canMakePayments_ self
-  = liftDOM (void (self ^. jsf "canMakePayments" ()))
+canMakePayments_ :: (MonadDOM m) => m ()
+canMakePayments_
+  = liftDOM
+      (void ((jsg "ApplePaySession") ^. jsf "canMakePayments" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.canMakePaymentsWithActiveCard Mozilla ApplePaySession.canMakePaymentsWithActiveCard documentation> 
 canMakePaymentsWithActiveCard ::
                               (MonadDOM m, ToJSString merchantIdentifier) =>
-                                ApplePaySession -> merchantIdentifier -> m Bool
-canMakePaymentsWithActiveCard self merchantIdentifier
+                                merchantIdentifier -> m Bool
+canMakePaymentsWithActiveCard merchantIdentifier
   = liftDOM
-      (((self ^. jsf "canMakePaymentsWithActiveCard"
+      ((((jsg "ApplePaySession") ^. jsf "canMakePaymentsWithActiveCard"
            [toJSVal merchantIdentifier])
           >>= readPromise)
          >>= valToBool)
@@ -81,31 +88,33 @@ canMakePaymentsWithActiveCard self merchantIdentifier
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.canMakePaymentsWithActiveCard Mozilla ApplePaySession.canMakePaymentsWithActiveCard documentation> 
 canMakePaymentsWithActiveCard_ ::
                                (MonadDOM m, ToJSString merchantIdentifier) =>
-                                 ApplePaySession -> merchantIdentifier -> m ()
-canMakePaymentsWithActiveCard_ self merchantIdentifier
+                                 merchantIdentifier -> m ()
+canMakePaymentsWithActiveCard_ merchantIdentifier
   = liftDOM
       (void
-         (self ^. jsf "canMakePaymentsWithActiveCard"
+         ((jsg "ApplePaySession") ^. jsf "canMakePaymentsWithActiveCard"
             [toJSVal merchantIdentifier]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.openPaymentSetup Mozilla ApplePaySession.openPaymentSetup documentation> 
 openPaymentSetup ::
                  (MonadDOM m, ToJSString merchantIdentifier) =>
-                   ApplePaySession -> merchantIdentifier -> m Bool
-openPaymentSetup self merchantIdentifier
+                   merchantIdentifier -> m Bool
+openPaymentSetup merchantIdentifier
   = liftDOM
-      (((self ^. jsf "openPaymentSetup" [toJSVal merchantIdentifier]) >>=
-          readPromise)
+      ((((jsg "ApplePaySession") ^. jsf "openPaymentSetup"
+           [toJSVal merchantIdentifier])
+          >>= readPromise)
          >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.openPaymentSetup Mozilla ApplePaySession.openPaymentSetup documentation> 
 openPaymentSetup_ ::
                   (MonadDOM m, ToJSString merchantIdentifier) =>
-                    ApplePaySession -> merchantIdentifier -> m ()
-openPaymentSetup_ self merchantIdentifier
+                    merchantIdentifier -> m ()
+openPaymentSetup_ merchantIdentifier
   = liftDOM
       (void
-         (self ^. jsf "openPaymentSetup" [toJSVal merchantIdentifier]))
+         ((jsg "ApplePaySession") ^. jsf "openPaymentSetup"
+            [toJSVal merchantIdentifier]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/ApplePaySession.begin Mozilla ApplePaySession.begin documentation> 
 begin :: (MonadDOM m) => ApplePaySession -> m ()

@@ -32,16 +32,17 @@ newDOMRect x y width height
            [toJSVal x, toJSVal y, toJSVal width, toJSVal height])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMRect.fromRect Mozilla DOMRect.fromRect documentation> 
-fromRect ::
-         (MonadDOM m) => DOMRect -> Maybe DOMRectInit -> m DOMRect
-fromRect self other
+fromRect :: (MonadDOM m) => Maybe DOMRectInit -> m DOMRect
+fromRect other
   = liftDOM
-      ((self ^. jsf "fromRect" [toJSVal other]) >>= fromJSValUnchecked)
+      (((jsg "DOMRect") ^. jsf "fromRect" [toJSVal other]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMRect.fromRect Mozilla DOMRect.fromRect documentation> 
-fromRect_ :: (MonadDOM m) => DOMRect -> Maybe DOMRectInit -> m ()
-fromRect_ self other
-  = liftDOM (void (self ^. jsf "fromRect" [toJSVal other]))
+fromRect_ :: (MonadDOM m) => Maybe DOMRectInit -> m ()
+fromRect_ other
+  = liftDOM
+      (void ((jsg "DOMRect") ^. jsf "fromRect" [toJSVal other]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMRect.x Mozilla DOMRect.x documentation> 
 setX :: (MonadDOM m) => DOMRect -> Double -> m ()

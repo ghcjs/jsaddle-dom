@@ -34,21 +34,17 @@ newDOMRectReadOnly x y width height
            [toJSVal x, toJSVal y, toJSVal width, toJSVal height])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMRectReadOnly.fromRect Mozilla DOMRectReadOnly.fromRect documentation> 
-fromRect ::
-         (MonadDOM m, IsDOMRectReadOnly self) =>
-           self -> Maybe DOMRectInit -> m DOMRectReadOnly
-fromRect self other
+fromRect :: (MonadDOM m) => Maybe DOMRectInit -> m DOMRectReadOnly
+fromRect other
   = liftDOM
-      (((toDOMRectReadOnly self) ^. jsf "fromRect" [toJSVal other]) >>=
+      (((jsg "DOMRectReadOnly") ^. jsf "fromRect" [toJSVal other]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMRectReadOnly.fromRect Mozilla DOMRectReadOnly.fromRect documentation> 
-fromRect_ ::
-          (MonadDOM m, IsDOMRectReadOnly self) =>
-            self -> Maybe DOMRectInit -> m ()
-fromRect_ self other
+fromRect_ :: (MonadDOM m) => Maybe DOMRectInit -> m ()
+fromRect_ other
   = liftDOM
-      (void ((toDOMRectReadOnly self) ^. jsf "fromRect" [toJSVal other]))
+      (void ((jsg "DOMRectReadOnly") ^. jsf "fromRect" [toJSVal other]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMRectReadOnly.x Mozilla DOMRectReadOnly.x documentation> 
 getX :: (MonadDOM m, IsDOMRectReadOnly self) => self -> m Double

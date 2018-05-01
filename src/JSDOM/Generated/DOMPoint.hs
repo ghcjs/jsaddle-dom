@@ -36,17 +36,17 @@ newDOMPoint' x y z w
          new (jsg "DOMPoint") [toJSVal x, toJSVal y, toJSVal z, toJSVal w])
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMPoint.fromPoint Mozilla DOMPoint.fromPoint documentation> 
-fromPoint ::
-          (MonadDOM m) => DOMPoint -> Maybe DOMPointInit -> m DOMPoint
-fromPoint self other
+fromPoint :: (MonadDOM m) => Maybe DOMPointInit -> m DOMPoint
+fromPoint other
   = liftDOM
-      ((self ^. jsf "fromPoint" [toJSVal other]) >>= fromJSValUnchecked)
+      (((jsg "DOMPoint") ^. jsf "fromPoint" [toJSVal other]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMPoint.fromPoint Mozilla DOMPoint.fromPoint documentation> 
-fromPoint_ ::
-           (MonadDOM m) => DOMPoint -> Maybe DOMPointInit -> m ()
-fromPoint_ self other
-  = liftDOM (void (self ^. jsf "fromPoint" [toJSVal other]))
+fromPoint_ :: (MonadDOM m) => Maybe DOMPointInit -> m ()
+fromPoint_ other
+  = liftDOM
+      (void ((jsg "DOMPoint") ^. jsf "fromPoint" [toJSVal other]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMPoint.x Mozilla DOMPoint.x documentation> 
 setX :: (MonadDOM m) => DOMPoint -> Double -> m ()

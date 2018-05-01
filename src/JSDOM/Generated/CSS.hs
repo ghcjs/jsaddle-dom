@@ -23,44 +23,46 @@ import JSDOM.Enums
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.supports Mozilla CSS.supports documentation> 
 supports2 ::
           (MonadDOM m, ToJSString property, ToJSString value) =>
-            CSS -> property -> value -> m Bool
-supports2 self property value
+            property -> value -> m Bool
+supports2 property value
   = liftDOM
-      ((self ^. jsf "supports" [toJSVal property, toJSVal value]) >>=
-         valToBool)
+      (((jsg "CSS") ^. jsf "supports" [toJSVal property, toJSVal value])
+         >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.supports Mozilla CSS.supports documentation> 
 supports2_ ::
            (MonadDOM m, ToJSString property, ToJSString value) =>
-             CSS -> property -> value -> m ()
-supports2_ self property value
+             property -> value -> m ()
+supports2_ property value
   = liftDOM
-      (void (self ^. jsf "supports" [toJSVal property, toJSVal value]))
+      (void
+         ((jsg "CSS") ^. jsf "supports" [toJSVal property, toJSVal value]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.supports Mozilla CSS.supports documentation> 
 supports ::
-         (MonadDOM m, ToJSString conditionText) =>
-           CSS -> conditionText -> m Bool
-supports self conditionText
+         (MonadDOM m, ToJSString conditionText) => conditionText -> m Bool
+supports conditionText
   = liftDOM
-      ((self ^. jsf "supports" [toJSVal conditionText]) >>= valToBool)
+      (((jsg "CSS") ^. jsf "supports" [toJSVal conditionText]) >>=
+         valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.supports Mozilla CSS.supports documentation> 
 supports_ ::
-          (MonadDOM m, ToJSString conditionText) =>
-            CSS -> conditionText -> m ()
-supports_ self conditionText
-  = liftDOM (void (self ^. jsf "supports" [toJSVal conditionText]))
+          (MonadDOM m, ToJSString conditionText) => conditionText -> m ()
+supports_ conditionText
+  = liftDOM
+      (void ((jsg "CSS") ^. jsf "supports" [toJSVal conditionText]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.escape Mozilla CSS.escape documentation> 
 escape ::
        (MonadDOM m, ToJSString ident, FromJSString result) =>
-         CSS -> ident -> m result
-escape self ident
+         ident -> m result
+escape ident
   = liftDOM
-      ((self ^. jsf "escape" [toJSVal ident]) >>= fromJSValUnchecked)
+      (((jsg "CSS") ^. jsf "escape" [toJSVal ident]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSS.escape Mozilla CSS.escape documentation> 
-escape_ :: (MonadDOM m, ToJSString ident) => CSS -> ident -> m ()
-escape_ self ident
-  = liftDOM (void (self ^. jsf "escape" [toJSVal ident]))
+escape_ :: (MonadDOM m, ToJSString ident) => ident -> m ()
+escape_ ident
+  = liftDOM (void ((jsg "CSS") ^. jsf "escape" [toJSVal ident]))

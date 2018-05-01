@@ -22,58 +22,59 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsy
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
-only ::
-     (MonadDOM m, ToJSVal value) =>
-       IDBKeyRange -> value -> m IDBKeyRange
-only self value
+only :: (MonadDOM m, ToJSVal value) => value -> m IDBKeyRange
+only value
   = liftDOM
-      ((self ^. jsf "only" [toJSVal value]) >>= fromJSValUnchecked)
+      (((jsg "IDBKeyRange") ^. jsf "only" [toJSVal value]) >>=
+         fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.only Mozilla IDBKeyRange.only documentation> 
-only_ ::
-      (MonadDOM m, ToJSVal value) => IDBKeyRange -> value -> m ()
-only_ self value
-  = liftDOM (void (self ^. jsf "only" [toJSVal value]))
+only_ :: (MonadDOM m, ToJSVal value) => value -> m ()
+only_ value
+  = liftDOM
+      (void ((jsg "IDBKeyRange") ^. jsf "only" [toJSVal value]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lowerBound Mozilla IDBKeyRange.lowerBound documentation> 
 lowerBound ::
-           (MonadDOM m, ToJSVal lower) =>
-             IDBKeyRange -> lower -> Bool -> m IDBKeyRange
-lowerBound self lower open
+           (MonadDOM m, ToJSVal lower) => lower -> Bool -> m IDBKeyRange
+lowerBound lower open
   = liftDOM
-      ((self ^. jsf "lowerBound" [toJSVal lower, toJSVal open]) >>=
-         fromJSValUnchecked)
+      (((jsg "IDBKeyRange") ^. jsf "lowerBound"
+          [toJSVal lower, toJSVal open])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.lowerBound Mozilla IDBKeyRange.lowerBound documentation> 
-lowerBound_ ::
-            (MonadDOM m, ToJSVal lower) => IDBKeyRange -> lower -> Bool -> m ()
-lowerBound_ self lower open
+lowerBound_ :: (MonadDOM m, ToJSVal lower) => lower -> Bool -> m ()
+lowerBound_ lower open
   = liftDOM
-      (void (self ^. jsf "lowerBound" [toJSVal lower, toJSVal open]))
+      (void
+         ((jsg "IDBKeyRange") ^. jsf "lowerBound"
+            [toJSVal lower, toJSVal open]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.upperBound Mozilla IDBKeyRange.upperBound documentation> 
 upperBound ::
-           (MonadDOM m, ToJSVal upper) =>
-             IDBKeyRange -> upper -> Bool -> m IDBKeyRange
-upperBound self upper open
+           (MonadDOM m, ToJSVal upper) => upper -> Bool -> m IDBKeyRange
+upperBound upper open
   = liftDOM
-      ((self ^. jsf "upperBound" [toJSVal upper, toJSVal open]) >>=
-         fromJSValUnchecked)
+      (((jsg "IDBKeyRange") ^. jsf "upperBound"
+          [toJSVal upper, toJSVal open])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.upperBound Mozilla IDBKeyRange.upperBound documentation> 
-upperBound_ ::
-            (MonadDOM m, ToJSVal upper) => IDBKeyRange -> upper -> Bool -> m ()
-upperBound_ self upper open
+upperBound_ :: (MonadDOM m, ToJSVal upper) => upper -> Bool -> m ()
+upperBound_ upper open
   = liftDOM
-      (void (self ^. jsf "upperBound" [toJSVal upper, toJSVal open]))
+      (void
+         ((jsg "IDBKeyRange") ^. jsf "upperBound"
+            [toJSVal upper, toJSVal open]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.bound Mozilla IDBKeyRange.bound documentation> 
 bound ::
       (MonadDOM m, ToJSVal lower, ToJSVal upper) =>
-        IDBKeyRange -> lower -> upper -> Bool -> Bool -> m IDBKeyRange
-bound self lower upper lowerOpen upperOpen
+        lower -> upper -> Bool -> Bool -> m IDBKeyRange
+bound lower upper lowerOpen upperOpen
   = liftDOM
-      ((self ^. jsf "bound"
+      (((jsg "IDBKeyRange") ^. jsf "bound"
           [toJSVal lower, toJSVal upper, toJSVal lowerOpen,
            toJSVal upperOpen])
          >>= fromJSValUnchecked)
@@ -81,11 +82,11 @@ bound self lower upper lowerOpen upperOpen
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange.bound Mozilla IDBKeyRange.bound documentation> 
 bound_ ::
        (MonadDOM m, ToJSVal lower, ToJSVal upper) =>
-         IDBKeyRange -> lower -> upper -> Bool -> Bool -> m ()
-bound_ self lower upper lowerOpen upperOpen
+         lower -> upper -> Bool -> Bool -> m ()
+bound_ lower upper lowerOpen upperOpen
   = liftDOM
       (void
-         (self ^. jsf "bound"
+         ((jsg "IDBKeyRange") ^. jsf "bound"
             [toJSVal lower, toJSVal upper, toJSVal lowerOpen,
              toJSVal upperOpen]))
 

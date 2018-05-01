@@ -41,21 +41,18 @@ newDOMPointReadOnly' x y z w
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMPointReadOnly.fromPoint Mozilla DOMPointReadOnly.fromPoint documentation> 
 fromPoint ::
-          (MonadDOM m, IsDOMPointReadOnly self) =>
-            self -> Maybe DOMPointInit -> m DOMPointReadOnly
-fromPoint self other
+          (MonadDOM m) => Maybe DOMPointInit -> m DOMPointReadOnly
+fromPoint other
   = liftDOM
-      (((toDOMPointReadOnly self) ^. jsf "fromPoint" [toJSVal other]) >>=
+      (((jsg "DOMPointReadOnly") ^. jsf "fromPoint" [toJSVal other]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMPointReadOnly.fromPoint Mozilla DOMPointReadOnly.fromPoint documentation> 
-fromPoint_ ::
-           (MonadDOM m, IsDOMPointReadOnly self) =>
-             self -> Maybe DOMPointInit -> m ()
-fromPoint_ self other
+fromPoint_ :: (MonadDOM m) => Maybe DOMPointInit -> m ()
+fromPoint_ other
   = liftDOM
       (void
-         ((toDOMPointReadOnly self) ^. jsf "fromPoint" [toJSVal other]))
+         ((jsg "DOMPointReadOnly") ^. jsf "fromPoint" [toJSVal other]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/DOMPointReadOnly.x Mozilla DOMPointReadOnly.x documentation> 
 getX :: (MonadDOM m, IsDOMPointReadOnly self) => self -> m Double

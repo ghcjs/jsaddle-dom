@@ -59,16 +59,18 @@ endOfStream self error
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.isTypeSupported Mozilla MediaSource.isTypeSupported documentation> 
 isTypeSupported ::
-                (MonadDOM m, ToJSString type') => MediaSource -> type' -> m Bool
-isTypeSupported self type'
+                (MonadDOM m, ToJSString type') => type' -> m Bool
+isTypeSupported type'
   = liftDOM
-      ((self ^. jsf "isTypeSupported" [toJSVal type']) >>= valToBool)
+      (((jsg "MediaSource") ^. jsf "isTypeSupported" [toJSVal type']) >>=
+         valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.isTypeSupported Mozilla MediaSource.isTypeSupported documentation> 
-isTypeSupported_ ::
-                 (MonadDOM m, ToJSString type') => MediaSource -> type' -> m ()
-isTypeSupported_ self type'
-  = liftDOM (void (self ^. jsf "isTypeSupported" [toJSVal type']))
+isTypeSupported_ :: (MonadDOM m, ToJSString type') => type' -> m ()
+isTypeSupported_ type'
+  = liftDOM
+      (void
+         ((jsg "MediaSource") ^. jsf "isTypeSupported" [toJSVal type']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaSource.setLiveSeekableRange Mozilla MediaSource.setLiveSeekableRange documentation> 
 setLiveSeekableRange ::

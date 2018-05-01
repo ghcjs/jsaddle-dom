@@ -52,38 +52,37 @@ toJSON_ self = liftDOM (void (self ^. jsf "toJSON" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL Mozilla URL.createObjectURL documentation> 
 createObjectURL ::
-                (MonadDOM m, IsBlob blob, FromJSString result) =>
-                  URL -> blob -> m result
-createObjectURL self blob
+                (MonadDOM m, IsBlob blob, FromJSString result) => blob -> m result
+createObjectURL blob
   = liftDOM
-      ((self ^. jsf "createObjectURL" [toJSVal blob]) >>=
+      (((jsg "URL") ^. jsf "createObjectURL" [toJSVal blob]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL Mozilla URL.createObjectURL documentation> 
-createObjectURL_ ::
-                 (MonadDOM m, IsBlob blob) => URL -> blob -> m ()
-createObjectURL_ self blob
-  = liftDOM (void (self ^. jsf "createObjectURL" [toJSVal blob]))
+createObjectURL_ :: (MonadDOM m, IsBlob blob) => blob -> m ()
+createObjectURL_ blob
+  = liftDOM
+      (void ((jsg "URL") ^. jsf "createObjectURL" [toJSVal blob]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL Mozilla URL.revokeObjectURL documentation> 
-revokeObjectURL ::
-                (MonadDOM m, ToJSString url) => URL -> url -> m ()
-revokeObjectURL self url
-  = liftDOM (void (self ^. jsf "revokeObjectURL" [toJSVal url]))
+revokeObjectURL :: (MonadDOM m, ToJSString url) => url -> m ()
+revokeObjectURL url
+  = liftDOM
+      (void ((jsg "URL") ^. jsf "revokeObjectURL" [toJSVal url]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL Mozilla URL.createObjectURL documentation> 
 createObjectURLSource ::
-                      (MonadDOM m, FromJSString result) => URL -> MediaSource -> m result
-createObjectURLSource self source
+                      (MonadDOM m, FromJSString result) => MediaSource -> m result
+createObjectURLSource source
   = liftDOM
-      ((self ^. jsf "createObjectURL" [toJSVal source]) >>=
+      (((jsg "URL") ^. jsf "createObjectURL" [toJSVal source]) >>=
          fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL Mozilla URL.createObjectURL documentation> 
-createObjectURLSource_ ::
-                       (MonadDOM m) => URL -> MediaSource -> m ()
-createObjectURLSource_ self source
-  = liftDOM (void (self ^. jsf "createObjectURL" [toJSVal source]))
+createObjectURLSource_ :: (MonadDOM m) => MediaSource -> m ()
+createObjectURLSource_ source
+  = liftDOM
+      (void ((jsg "URL") ^. jsf "createObjectURL" [toJSVal source]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URL.href Mozilla URL.href documentation> 
 setHref :: (MonadDOM m, ToJSString val) => URL -> val -> m ()

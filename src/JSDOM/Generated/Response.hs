@@ -24,30 +24,30 @@ import JSDOM.EventTargetClosures (EventName, unsafeEventName, unsafeEventNameAsy
 import JSDOM.Enums
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Response.error Mozilla Response.error documentation> 
-error :: (MonadDOM m) => Response -> m Response
-error self
-  = liftDOM ((self ^. jsf "error" ()) >>= fromJSValUnchecked)
+error :: (MonadDOM m) => m Response
+error
+  = liftDOM
+      (((jsg "Response") ^. jsf "error" ()) >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Response.error Mozilla Response.error documentation> 
-error_ :: (MonadDOM m) => Response -> m ()
-error_ self = liftDOM (void (self ^. jsf "error" ()))
+error_ :: (MonadDOM m) => m ()
+error_ = liftDOM (void ((jsg "Response") ^. jsf "error" ()))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Response.redirect Mozilla Response.redirect documentation> 
 redirect ::
-         (MonadDOM m, ToJSString url) =>
-           Response -> url -> Maybe Word -> m Response
-redirect self url status
+         (MonadDOM m, ToJSString url) => url -> Maybe Word -> m Response
+redirect url status
   = liftDOM
-      ((self ^. jsf "redirect" [toJSVal url, toJSVal status]) >>=
-         fromJSValUnchecked)
+      (((jsg "Response") ^. jsf "redirect" [toJSVal url, toJSVal status])
+         >>= fromJSValUnchecked)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Response.redirect Mozilla Response.redirect documentation> 
 redirect_ ::
-          (MonadDOM m, ToJSString url) =>
-            Response -> url -> Maybe Word -> m ()
-redirect_ self url status
+          (MonadDOM m, ToJSString url) => url -> Maybe Word -> m ()
+redirect_ url status
   = liftDOM
-      (void (self ^. jsf "redirect" [toJSVal url, toJSVal status]))
+      (void
+         ((jsg "Response") ^. jsf "redirect" [toJSVal url, toJSVal status]))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Response.arrayBuffer Mozilla Response.arrayBuffer documentation> 
 arrayBuffer :: (MonadDOM m) => Response -> m ArrayBuffer

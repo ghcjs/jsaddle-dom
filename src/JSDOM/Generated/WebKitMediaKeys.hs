@@ -51,20 +51,22 @@ createSession_ self type' initData
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.isTypeSupported Mozilla WebKitMediaKeys.isTypeSupported documentation> 
 isTypeSupported ::
                 (MonadDOM m, ToJSString keySystem, ToJSString type') =>
-                  WebKitMediaKeys -> keySystem -> Maybe type' -> m Bool
-isTypeSupported self keySystem type'
+                  keySystem -> Maybe type' -> m Bool
+isTypeSupported keySystem type'
   = liftDOM
-      ((self ^. jsf "isTypeSupported" [toJSVal keySystem, toJSVal type'])
+      (((jsg "WebKitMediaKeys") ^. jsf "isTypeSupported"
+          [toJSVal keySystem, toJSVal type'])
          >>= valToBool)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.isTypeSupported Mozilla WebKitMediaKeys.isTypeSupported documentation> 
 isTypeSupported_ ::
                  (MonadDOM m, ToJSString keySystem, ToJSString type') =>
-                   WebKitMediaKeys -> keySystem -> Maybe type' -> m ()
-isTypeSupported_ self keySystem type'
+                   keySystem -> Maybe type' -> m ()
+isTypeSupported_ keySystem type'
   = liftDOM
       (void
-         (self ^. jsf "isTypeSupported" [toJSVal keySystem, toJSVal type']))
+         ((jsg "WebKitMediaKeys") ^. jsf "isTypeSupported"
+            [toJSVal keySystem, toJSVal type']))
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebKitMediaKeys.keySystem Mozilla WebKitMediaKeys.keySystem documentation> 
 getKeySystem ::
