@@ -146,7 +146,7 @@ getCrossOrigin ::
                (MonadDOM m, FromJSString result) =>
                  HTMLLinkElement -> m (Maybe result)
 getCrossOrigin self
-  = liftDOM ((self ^. js "crossOrigin") >>= fromJSVal)
+  = liftDOM ((self ^. js "crossOrigin") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.crossOrigin Mozilla HTMLLinkElement.crossOrigin documentation> 
 getCrossOriginUnsafe ::
@@ -154,7 +154,7 @@ getCrossOriginUnsafe ::
                        HTMLLinkElement -> m result
 getCrossOriginUnsafe self
   = liftDOM
-      (((self ^. js "crossOrigin") >>= fromJSVal) >>=
+      (((self ^. js "crossOrigin") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLLinkElement.crossOrigin Mozilla HTMLLinkElement.crossOrigin documentation> 

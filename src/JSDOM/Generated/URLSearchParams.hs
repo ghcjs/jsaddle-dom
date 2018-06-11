@@ -48,7 +48,8 @@ get ::
     (MonadDOM m, ToJSString name, FromJSString result) =>
       URLSearchParams -> name -> m (Maybe result)
 get self name
-  = liftDOM ((self ^. jsf "get" [toJSVal name]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "get" [toJSVal name]) >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams.get Mozilla URLSearchParams.get documentation> 
 get_ ::
@@ -61,7 +62,7 @@ getUnsafe ::
             URLSearchParams -> name -> m result
 getUnsafe self name
   = liftDOM
-      (((self ^. jsf "get" [toJSVal name]) >>= fromJSVal) >>=
+      (((self ^. jsf "get" [toJSVal name]) >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams.get Mozilla URLSearchParams.get documentation> 

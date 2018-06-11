@@ -36,7 +36,7 @@ stop self = liftDOM (void (self ^. jsf "stop" ()))
 getMid ::
        (MonadDOM m, FromJSString result) =>
          RTCRtpTransceiver -> m (Maybe result)
-getMid self = liftDOM ((self ^. js "mid") >>= fromJSVal)
+getMid self = liftDOM ((self ^. js "mid") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpTransceiver.mid Mozilla RTCRtpTransceiver.mid documentation> 
 getMidUnsafe ::
@@ -44,7 +44,7 @@ getMidUnsafe ::
                RTCRtpTransceiver -> m result
 getMidUnsafe self
   = liftDOM
-      (((self ^. js "mid") >>= fromJSVal) >>=
+      (((self ^. js "mid") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCRtpTransceiver.mid Mozilla RTCRtpTransceiver.mid documentation> 

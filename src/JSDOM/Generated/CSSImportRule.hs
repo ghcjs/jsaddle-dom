@@ -24,7 +24,7 @@ import JSDOM.Enums
 getHref ::
         (MonadDOM m, FromJSString result) =>
           CSSImportRule -> m (Maybe result)
-getHref self = liftDOM ((self ^. js "href") >>= fromJSVal)
+getHref self = liftDOM ((self ^. js "href") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.href Mozilla CSSImportRule.href documentation> 
 getHrefUnsafe ::
@@ -32,7 +32,7 @@ getHrefUnsafe ::
                 CSSImportRule -> m result
 getHrefUnsafe self
   = liftDOM
-      (((self ^. js "href") >>= fromJSVal) >>=
+      (((self ^. js "href") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSImportRule.href Mozilla CSSImportRule.href documentation> 

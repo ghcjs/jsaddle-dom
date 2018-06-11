@@ -94,7 +94,7 @@ getAttribute ::
 getAttribute self qualifiedName
   = liftDOM
       (((toElement self) ^. jsf "getAttribute" [toJSVal qualifiedName])
-         >>= fromJSVal)
+         >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
 getAttribute_ ::
@@ -113,7 +113,7 @@ getAttributeUnsafe ::
 getAttributeUnsafe self qualifiedName
   = liftDOM
       ((((toElement self) ^. jsf "getAttribute" [toJSVal qualifiedName])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute Mozilla Element.getAttribute documentation> 
@@ -135,7 +135,7 @@ getAttributeNS self namespaceURI localName
   = liftDOM
       (((toElement self) ^. jsf "getAttributeNS"
           [toJSVal namespaceURI, toJSVal localName])
-         >>= fromJSVal)
+         >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
 getAttributeNS_ ::
@@ -157,7 +157,7 @@ getAttributeNSUnsafe self namespaceURI localName
   = liftDOM
       ((((toElement self) ^. jsf "getAttributeNS"
            [toJSVal namespaceURI, toJSVal localName])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttributeNS Mozilla Element.getAttributeNS documentation> 
@@ -769,7 +769,8 @@ getNamespaceURI ::
                 (MonadDOM m, IsElement self, FromJSString result) =>
                   self -> m (Maybe result)
 getNamespaceURI self
-  = liftDOM (((toElement self) ^. js "namespaceURI") >>= fromJSVal)
+  = liftDOM
+      (((toElement self) ^. js "namespaceURI") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.namespaceURI Mozilla Element.namespaceURI documentation> 
 getNamespaceURIUnsafe ::
@@ -777,8 +778,8 @@ getNamespaceURIUnsafe ::
                         self -> m result
 getNamespaceURIUnsafe self
   = liftDOM
-      ((((toElement self) ^. js "namespaceURI") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
+      ((((toElement self) ^. js "namespaceURI") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.namespaceURI Mozilla Element.namespaceURI documentation> 
 getNamespaceURIUnchecked ::
@@ -793,7 +794,7 @@ getPrefix ::
           (MonadDOM m, IsElement self, FromJSString result) =>
             self -> m (Maybe result)
 getPrefix self
-  = liftDOM (((toElement self) ^. js "prefix") >>= fromJSVal)
+  = liftDOM (((toElement self) ^. js "prefix") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.prefix Mozilla Element.prefix documentation> 
 getPrefixUnsafe ::
@@ -801,7 +802,7 @@ getPrefixUnsafe ::
                   self -> m result
 getPrefixUnsafe self
   = liftDOM
-      ((((toElement self) ^. js "prefix") >>= fromJSVal) >>=
+      ((((toElement self) ^. js "prefix") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Element.prefix Mozilla Element.prefix documentation> 

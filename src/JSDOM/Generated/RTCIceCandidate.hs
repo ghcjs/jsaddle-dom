@@ -40,7 +40,8 @@ getCandidate self
 getSdpMid ::
           (MonadDOM m, FromJSString result) =>
             RTCIceCandidate -> m (Maybe result)
-getSdpMid self = liftDOM ((self ^. js "sdpMid") >>= fromJSVal)
+getSdpMid self
+  = liftDOM ((self ^. js "sdpMid") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate.sdpMid Mozilla RTCIceCandidate.sdpMid documentation> 
 getSdpMidUnsafe ::
@@ -48,7 +49,7 @@ getSdpMidUnsafe ::
                   RTCIceCandidate -> m result
 getSdpMidUnsafe self
   = liftDOM
-      (((self ^. js "sdpMid") >>= fromJSVal) >>=
+      (((self ^. js "sdpMid") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate.sdpMid Mozilla RTCIceCandidate.sdpMid documentation> 

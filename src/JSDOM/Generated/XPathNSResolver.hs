@@ -27,7 +27,8 @@ lookupNamespaceURI ::
                      XPathNSResolver -> Maybe prefix -> m (Maybe result)
 lookupNamespaceURI self prefix
   = liftDOM
-      ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>= fromJSVal)
+      ((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 
 lookupNamespaceURI_ ::
@@ -45,7 +46,7 @@ lookupNamespaceURIUnsafe ::
 lookupNamespaceURIUnsafe self prefix
   = liftDOM
       (((self ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
-          fromJSVal)
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XPathNSResolver.lookupNamespaceURI Mozilla XPathNSResolver.lookupNamespaceURI documentation> 

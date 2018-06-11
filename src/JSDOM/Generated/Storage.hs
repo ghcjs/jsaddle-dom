@@ -26,7 +26,8 @@ key ::
     (MonadDOM m, FromJSString result) =>
       Storage -> Word -> m (Maybe result)
 key self index
-  = liftDOM ((self ^. jsf "key" [toJSVal index]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "key" [toJSVal index]) >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.key Mozilla Storage.key documentation> 
 key_ :: (MonadDOM m) => Storage -> Word -> m ()
@@ -39,7 +40,7 @@ keyUnsafe ::
             Storage -> Word -> m result
 keyUnsafe self index
   = liftDOM
-      (((self ^. jsf "key" [toJSVal index]) >>= fromJSVal) >>=
+      (((self ^. jsf "key" [toJSVal index]) >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.key Mozilla Storage.key documentation> 
@@ -53,7 +54,7 @@ keyUnchecked self index
 getItem ::
         (MonadDOM m, ToJSString key, FromJSString result) =>
           Storage -> key -> m (Maybe result)
-getItem self key = liftDOM ((self ! key) >>= fromJSVal)
+getItem self key = liftDOM ((self ! key) >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 
 getItem_ :: (MonadDOM m, ToJSString key) => Storage -> key -> m ()
@@ -65,7 +66,7 @@ getItemUnsafe ::
                 Storage -> key -> m result
 getItemUnsafe self key
   = liftDOM
-      (((self ! key) >>= fromJSVal) >>=
+      (((self ! key) >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Storage.getItem Mozilla Storage.getItem documentation> 

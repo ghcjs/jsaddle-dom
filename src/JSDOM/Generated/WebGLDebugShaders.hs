@@ -29,7 +29,7 @@ getTranslatedShaderSource ::
 getTranslatedShaderSource self shader
   = liftDOM
       ((self ^. jsf "getTranslatedShaderSource" [toJSVal shader]) >>=
-         fromJSVal)
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLDebugShaders.getTranslatedShaderSource Mozilla WebGLDebugShaders.getTranslatedShaderSource documentation> 
 getTranslatedShaderSource_ ::
@@ -45,7 +45,7 @@ getTranslatedShaderSourceUnsafe ::
 getTranslatedShaderSourceUnsafe self shader
   = liftDOM
       (((self ^. jsf "getTranslatedShaderSource" [toJSVal shader]) >>=
-          fromJSVal)
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLDebugShaders.getTranslatedShaderSource Mozilla WebGLDebugShaders.getTranslatedShaderSource documentation> 

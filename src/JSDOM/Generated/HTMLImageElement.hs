@@ -81,7 +81,7 @@ getCrossOrigin ::
                (MonadDOM m, FromJSString result) =>
                  HTMLImageElement -> m (Maybe result)
 getCrossOrigin self
-  = liftDOM ((self ^. js "crossOrigin") >>= fromJSVal)
+  = liftDOM ((self ^. js "crossOrigin") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 
 getCrossOriginUnsafe ::
@@ -89,7 +89,7 @@ getCrossOriginUnsafe ::
                        HTMLImageElement -> m result
 getCrossOriginUnsafe self
   = liftDOM
-      (((self ^. js "crossOrigin") >>= fromJSVal) >>=
+      (((self ^. js "crossOrigin") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement.crossOrigin Mozilla HTMLImageElement.crossOrigin documentation> 

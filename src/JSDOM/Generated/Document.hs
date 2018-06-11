@@ -1369,7 +1369,8 @@ getPreferredStylesheetSet ::
                             self -> m (Maybe result)
 getPreferredStylesheetSet self
   = liftDOM
-      (((toDocument self) ^. js "preferredStylesheetSet") >>= fromJSVal)
+      (((toDocument self) ^. js "preferredStylesheetSet") >>=
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.preferredStylesheetSet Mozilla Document.preferredStylesheetSet documentation> 
 getPreferredStylesheetSetUnsafe ::
@@ -1377,7 +1378,8 @@ getPreferredStylesheetSetUnsafe ::
                                   self -> m result
 getPreferredStylesheetSetUnsafe self
   = liftDOM
-      ((((toDocument self) ^. js "preferredStylesheetSet") >>= fromJSVal)
+      ((((toDocument self) ^. js "preferredStylesheetSet") >>=
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.preferredStylesheetSet Mozilla Document.preferredStylesheetSet documentation> 
@@ -1403,7 +1405,8 @@ getSelectedStylesheetSet ::
                            self -> m (Maybe result)
 getSelectedStylesheetSet self
   = liftDOM
-      (((toDocument self) ^. js "selectedStylesheetSet") >>= fromJSVal)
+      (((toDocument self) ^. js "selectedStylesheetSet") >>=
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.selectedStylesheetSet Mozilla Document.selectedStylesheetSet documentation> 
 getSelectedStylesheetSetUnsafe ::
@@ -1411,7 +1414,8 @@ getSelectedStylesheetSetUnsafe ::
                                  self -> m result
 getSelectedStylesheetSetUnsafe self
   = liftDOM
-      ((((toDocument self) ^. js "selectedStylesheetSet") >>= fromJSVal)
+      ((((toDocument self) ^. js "selectedStylesheetSet") >>=
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.selectedStylesheetSet Mozilla Document.selectedStylesheetSet documentation> 
@@ -1428,7 +1432,8 @@ getXmlEncoding ::
                (MonadDOM m, IsDocument self, FromJSString result) =>
                  self -> m (Maybe result)
 getXmlEncoding self
-  = liftDOM (((toDocument self) ^. js "xmlEncoding") >>= fromJSVal)
+  = liftDOM
+      (((toDocument self) ^. js "xmlEncoding") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlEncoding Mozilla Document.xmlEncoding documentation> 
 getXmlEncodingUnsafe ::
@@ -1436,8 +1441,8 @@ getXmlEncodingUnsafe ::
                        self -> m result
 getXmlEncodingUnsafe self
   = liftDOM
-      ((((toDocument self) ^. js "xmlEncoding") >>= fromJSVal) >>=
-         maybe (Prelude.error "Nothing to return") return)
+      ((((toDocument self) ^. js "xmlEncoding") >>= fromMaybeJSString)
+         >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlEncoding Mozilla Document.xmlEncoding documentation> 
 getXmlEncodingUnchecked ::
@@ -1459,7 +1464,8 @@ getXmlVersion ::
               (MonadDOM m, IsDocument self, FromJSString result) =>
                 self -> m (Maybe result)
 getXmlVersion self
-  = liftDOM (((toDocument self) ^. js "xmlVersion") >>= fromJSVal)
+  = liftDOM
+      (((toDocument self) ^. js "xmlVersion") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlVersion Mozilla Document.xmlVersion documentation> 
 getXmlVersionUnsafe ::
@@ -1467,7 +1473,7 @@ getXmlVersionUnsafe ::
                       self -> m result
 getXmlVersionUnsafe self
   = liftDOM
-      ((((toDocument self) ^. js "xmlVersion") >>= fromJSVal) >>=
+      ((((toDocument self) ^. js "xmlVersion") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Document.xmlVersion Mozilla Document.xmlVersion documentation> 

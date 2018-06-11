@@ -32,7 +32,7 @@ getSelectorText ::
                 (MonadDOM m, FromJSString result) =>
                   CSSPageRule -> m (Maybe result)
 getSelectorText self
-  = liftDOM ((self ^. js "selectorText") >>= fromJSVal)
+  = liftDOM ((self ^. js "selectorText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.selectorText Mozilla CSSPageRule.selectorText documentation> 
 getSelectorTextUnsafe ::
@@ -40,7 +40,7 @@ getSelectorTextUnsafe ::
                         CSSPageRule -> m result
 getSelectorTextUnsafe self
   = liftDOM
-      (((self ^. js "selectorText") >>= fromJSVal) >>=
+      (((self ^. js "selectorText") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSPageRule.selectorText Mozilla CSSPageRule.selectorText documentation> 

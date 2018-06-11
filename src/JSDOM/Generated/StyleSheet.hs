@@ -28,7 +28,8 @@ getType ::
         (MonadDOM m, IsStyleSheet self, FromJSString result) =>
           self -> m (Maybe result)
 getType self
-  = liftDOM (((toStyleSheet self) ^. js "type") >>= fromJSVal)
+  = liftDOM
+      (((toStyleSheet self) ^. js "type") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.type Mozilla StyleSheet.type documentation> 
 getTypeUnsafe ::
@@ -37,7 +38,7 @@ getTypeUnsafe ::
                 self -> m result
 getTypeUnsafe self
   = liftDOM
-      ((((toStyleSheet self) ^. js "type") >>= fromJSVal) >>=
+      ((((toStyleSheet self) ^. js "type") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.type Mozilla StyleSheet.type documentation> 
@@ -78,7 +79,8 @@ getHref ::
         (MonadDOM m, IsStyleSheet self, FromJSString result) =>
           self -> m (Maybe result)
 getHref self
-  = liftDOM (((toStyleSheet self) ^. js "href") >>= fromJSVal)
+  = liftDOM
+      (((toStyleSheet self) ^. js "href") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.href Mozilla StyleSheet.href documentation> 
 getHrefUnsafe ::
@@ -87,7 +89,7 @@ getHrefUnsafe ::
                 self -> m result
 getHrefUnsafe self
   = liftDOM
-      ((((toStyleSheet self) ^. js "href") >>= fromJSVal) >>=
+      ((((toStyleSheet self) ^. js "href") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.href Mozilla StyleSheet.href documentation> 
@@ -103,7 +105,8 @@ getTitle ::
          (MonadDOM m, IsStyleSheet self, FromJSString result) =>
            self -> m (Maybe result)
 getTitle self
-  = liftDOM (((toStyleSheet self) ^. js "title") >>= fromJSVal)
+  = liftDOM
+      (((toStyleSheet self) ^. js "title") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.title Mozilla StyleSheet.title documentation> 
 getTitleUnsafe ::
@@ -112,7 +115,7 @@ getTitleUnsafe ::
                  self -> m result
 getTitleUnsafe self
   = liftDOM
-      ((((toStyleSheet self) ^. js "title") >>= fromJSVal) >>=
+      ((((toStyleSheet self) ^. js "title") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StyleSheet.title Mozilla StyleSheet.title documentation> 

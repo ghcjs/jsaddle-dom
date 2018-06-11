@@ -261,7 +261,8 @@ getCrossOrigin ::
                  self -> m (Maybe result)
 getCrossOrigin self
   = liftDOM
-      (((toHTMLMediaElement self) ^. js "crossOrigin") >>= fromJSVal)
+      (((toHTMLMediaElement self) ^. js "crossOrigin") >>=
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.crossOrigin Mozilla HTMLMediaElement.crossOrigin documentation> 
 getCrossOriginUnsafe ::
@@ -270,7 +271,8 @@ getCrossOriginUnsafe ::
                        self -> m result
 getCrossOriginUnsafe self
   = liftDOM
-      ((((toHTMLMediaElement self) ^. js "crossOrigin") >>= fromJSVal)
+      ((((toHTMLMediaElement self) ^. js "crossOrigin") >>=
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement.crossOrigin Mozilla HTMLMediaElement.crossOrigin documentation> 

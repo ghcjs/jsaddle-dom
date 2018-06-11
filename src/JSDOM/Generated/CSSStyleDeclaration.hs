@@ -106,7 +106,7 @@ getPropertyPriority ::
 getPropertyPriority self propertyName
   = liftDOM
       ((self ^. jsf "getPropertyPriority" [toJSVal propertyName]) >>=
-         fromJSVal)
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
 getPropertyPriority_ ::
@@ -124,7 +124,7 @@ getPropertyPriorityUnsafe ::
 getPropertyPriorityUnsafe self propertyName
   = liftDOM
       (((self ^. jsf "getPropertyPriority" [toJSVal propertyName]) >>=
-          fromJSVal)
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyPriority Mozilla CSSStyleDeclaration.getPropertyPriority documentation> 
@@ -168,7 +168,7 @@ getPropertyShorthand ::
 getPropertyShorthand self propertyName
   = liftDOM
       ((self ^. jsf "getPropertyShorthand" [toJSVal propertyName]) >>=
-         fromJSVal)
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 
 getPropertyShorthand_ ::
@@ -186,7 +186,7 @@ getPropertyShorthandUnsafe ::
 getPropertyShorthandUnsafe self propertyName
   = liftDOM
       (((self ^. jsf "getPropertyShorthand" [toJSVal propertyName]) >>=
-          fromJSVal)
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration.getPropertyShorthand Mozilla CSSStyleDeclaration.getPropertyShorthand documentation> 

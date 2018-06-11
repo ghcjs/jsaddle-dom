@@ -291,7 +291,7 @@ prompt ::
 prompt self message defaultValue
   = liftDOM
       ((self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue]) >>=
-         fromJSVal)
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 
 prompt_ ::
@@ -310,7 +310,7 @@ promptUnsafe ::
 promptUnsafe self message defaultValue
   = liftDOM
       (((self ^. jsf "prompt" [toJSVal message, toJSVal defaultValue])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt Mozilla Window.prompt documentation> 

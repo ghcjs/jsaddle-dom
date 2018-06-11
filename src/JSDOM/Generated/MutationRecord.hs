@@ -89,7 +89,7 @@ getAttributeName ::
                  (MonadDOM m, FromJSString result) =>
                    MutationRecord -> m (Maybe result)
 getAttributeName self
-  = liftDOM ((self ^. js "attributeName") >>= fromJSVal)
+  = liftDOM ((self ^. js "attributeName") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord.attributeName Mozilla MutationRecord.attributeName documentation> 
 getAttributeNameUnsafe ::
@@ -97,7 +97,7 @@ getAttributeNameUnsafe ::
                          MutationRecord -> m result
 getAttributeNameUnsafe self
   = liftDOM
-      (((self ^. js "attributeName") >>= fromJSVal) >>=
+      (((self ^. js "attributeName") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord.attributeName Mozilla MutationRecord.attributeName documentation> 
@@ -111,7 +111,7 @@ getAttributeNamespace ::
                       (MonadDOM m, FromJSString result) =>
                         MutationRecord -> m (Maybe result)
 getAttributeNamespace self
-  = liftDOM ((self ^. js "attributeNamespace") >>= fromJSVal)
+  = liftDOM ((self ^. js "attributeNamespace") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord.attributeNamespace Mozilla MutationRecord.attributeNamespace documentation> 
 getAttributeNamespaceUnsafe ::
@@ -119,7 +119,7 @@ getAttributeNamespaceUnsafe ::
                               MutationRecord -> m result
 getAttributeNamespaceUnsafe self
   = liftDOM
-      (((self ^. js "attributeNamespace") >>= fromJSVal) >>=
+      (((self ^. js "attributeNamespace") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord.attributeNamespace Mozilla MutationRecord.attributeNamespace documentation> 
@@ -133,7 +133,8 @@ getAttributeNamespaceUnchecked self
 getOldValue ::
             (MonadDOM m, FromJSString result) =>
               MutationRecord -> m (Maybe result)
-getOldValue self = liftDOM ((self ^. js "oldValue") >>= fromJSVal)
+getOldValue self
+  = liftDOM ((self ^. js "oldValue") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord.oldValue Mozilla MutationRecord.oldValue documentation> 
 getOldValueUnsafe ::
@@ -141,7 +142,7 @@ getOldValueUnsafe ::
                     MutationRecord -> m result
 getOldValueUnsafe self
   = liftDOM
-      (((self ^. js "oldValue") >>= fromJSVal) >>=
+      (((self ^. js "oldValue") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord.oldValue Mozilla MutationRecord.oldValue documentation> 

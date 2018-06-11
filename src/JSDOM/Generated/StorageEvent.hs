@@ -57,7 +57,7 @@ initStorageEvent self typeArg canBubbleArg cancelableArg keyArg
 getKey ::
        (MonadDOM m, FromJSString result) =>
          StorageEvent -> m (Maybe result)
-getKey self = liftDOM ((self ^. js "key") >>= fromJSVal)
+getKey self = liftDOM ((self ^. js "key") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.key Mozilla StorageEvent.key documentation> 
 getKeyUnsafe ::
@@ -65,7 +65,7 @@ getKeyUnsafe ::
                StorageEvent -> m result
 getKeyUnsafe self
   = liftDOM
-      (((self ^. js "key") >>= fromJSVal) >>=
+      (((self ^. js "key") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.key Mozilla StorageEvent.key documentation> 
@@ -78,7 +78,8 @@ getKeyUnchecked self
 getOldValue ::
             (MonadDOM m, FromJSString result) =>
               StorageEvent -> m (Maybe result)
-getOldValue self = liftDOM ((self ^. js "oldValue") >>= fromJSVal)
+getOldValue self
+  = liftDOM ((self ^. js "oldValue") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.oldValue Mozilla StorageEvent.oldValue documentation> 
 getOldValueUnsafe ::
@@ -86,7 +87,7 @@ getOldValueUnsafe ::
                     StorageEvent -> m result
 getOldValueUnsafe self
   = liftDOM
-      (((self ^. js "oldValue") >>= fromJSVal) >>=
+      (((self ^. js "oldValue") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.oldValue Mozilla StorageEvent.oldValue documentation> 
@@ -99,7 +100,8 @@ getOldValueUnchecked self
 getNewValue ::
             (MonadDOM m, FromJSString result) =>
               StorageEvent -> m (Maybe result)
-getNewValue self = liftDOM ((self ^. js "newValue") >>= fromJSVal)
+getNewValue self
+  = liftDOM ((self ^. js "newValue") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.newValue Mozilla StorageEvent.newValue documentation> 
 getNewValueUnsafe ::
@@ -107,7 +109,7 @@ getNewValueUnsafe ::
                     StorageEvent -> m result
 getNewValueUnsafe self
   = liftDOM
-      (((self ^. js "newValue") >>= fromJSVal) >>=
+      (((self ^. js "newValue") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/StorageEvent.newValue Mozilla StorageEvent.newValue documentation> 

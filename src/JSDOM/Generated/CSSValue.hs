@@ -38,7 +38,8 @@ getCssText ::
            (MonadDOM m, IsCSSValue self, FromJSString result) =>
              self -> m (Maybe result)
 getCssText self
-  = liftDOM (((toCSSValue self) ^. js "cssText") >>= fromJSVal)
+  = liftDOM
+      (((toCSSValue self) ^. js "cssText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValue.cssText Mozilla CSSValue.cssText documentation> 
 getCssTextUnsafe ::
@@ -46,7 +47,7 @@ getCssTextUnsafe ::
                    self -> m result
 getCssTextUnsafe self
   = liftDOM
-      ((((toCSSValue self) ^. js "cssText") >>= fromJSVal) >>=
+      ((((toCSSValue self) ^. js "cssText") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/CSSValue.cssText Mozilla CSSValue.cssText documentation> 

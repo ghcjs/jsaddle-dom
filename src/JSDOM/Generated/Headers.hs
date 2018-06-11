@@ -38,7 +38,8 @@ get ::
     (MonadDOM m, ToJSString name, FromJSString result) =>
       Headers -> name -> m (Maybe result)
 get self name
-  = liftDOM ((self ^. jsf "get" [toJSVal name]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "get" [toJSVal name]) >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Headers.get Mozilla Headers.get documentation> 
 get_ :: (MonadDOM m, ToJSString name) => Headers -> name -> m ()
@@ -50,7 +51,7 @@ getUnsafe ::
             Headers -> name -> m result
 getUnsafe self name
   = liftDOM
-      (((self ^. jsf "get" [toJSVal name]) >>= fromJSVal) >>=
+      (((self ^. jsf "get" [toJSVal name]) >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Headers.get Mozilla Headers.get documentation> 

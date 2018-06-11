@@ -27,14 +27,14 @@ import JSDOM.Enums
 getNamespaceURI ::
                 (MonadDOM m, FromJSString result) => Attr -> m (Maybe result)
 getNamespaceURI self
-  = liftDOM ((self ^. js "namespaceURI") >>= fromJSVal)
+  = liftDOM ((self ^. js "namespaceURI") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.namespaceURI Mozilla Attr.namespaceURI documentation> 
 getNamespaceURIUnsafe ::
                       (MonadDOM m, HasCallStack, FromJSString result) => Attr -> m result
 getNamespaceURIUnsafe self
   = liftDOM
-      (((self ^. js "namespaceURI") >>= fromJSVal) >>=
+      (((self ^. js "namespaceURI") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.namespaceURI Mozilla Attr.namespaceURI documentation> 
@@ -46,14 +46,15 @@ getNamespaceURIUnchecked self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.prefix Mozilla Attr.prefix documentation> 
 getPrefix ::
           (MonadDOM m, FromJSString result) => Attr -> m (Maybe result)
-getPrefix self = liftDOM ((self ^. js "prefix") >>= fromJSVal)
+getPrefix self
+  = liftDOM ((self ^. js "prefix") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.prefix Mozilla Attr.prefix documentation> 
 getPrefixUnsafe ::
                 (MonadDOM m, HasCallStack, FromJSString result) => Attr -> m result
 getPrefixUnsafe self
   = liftDOM
-      (((self ^. js "prefix") >>= fromJSVal) >>=
+      (((self ^. js "prefix") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Attr.prefix Mozilla Attr.prefix documentation> 

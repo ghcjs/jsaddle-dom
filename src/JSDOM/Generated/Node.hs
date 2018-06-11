@@ -168,7 +168,7 @@ lookupPrefix ::
 lookupPrefix self namespaceURI
   = liftDOM
       (((toNode self) ^. jsf "lookupPrefix" [toJSVal namespaceURI]) >>=
-         fromJSVal)
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupPrefix Mozilla Node.lookupPrefix documentation> 
 lookupPrefix_ ::
@@ -186,7 +186,7 @@ lookupPrefixUnsafe ::
 lookupPrefixUnsafe self namespaceURI
   = liftDOM
       ((((toNode self) ^. jsf "lookupPrefix" [toJSVal namespaceURI]) >>=
-          fromJSVal)
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupPrefix Mozilla Node.lookupPrefix documentation> 
@@ -207,7 +207,7 @@ lookupNamespaceURI ::
 lookupNamespaceURI self prefix
   = liftDOM
       (((toNode self) ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
-         fromJSVal)
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupNamespaceURI Mozilla Node.lookupNamespaceURI documentation> 
 lookupNamespaceURI_ ::
@@ -225,7 +225,7 @@ lookupNamespaceURIUnsafe ::
 lookupNamespaceURIUnsafe self prefix
   = liftDOM
       ((((toNode self) ^. jsf "lookupNamespaceURI" [toJSVal prefix]) >>=
-          fromJSVal)
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.lookupNamespaceURI Mozilla Node.lookupNamespaceURI documentation> 
@@ -531,7 +531,7 @@ getNodeValue ::
              (MonadDOM m, IsNode self, FromJSString result) =>
                self -> m (Maybe result)
 getNodeValue self
-  = liftDOM (((toNode self) ^. js "nodeValue") >>= fromJSVal)
+  = liftDOM (((toNode self) ^. js "nodeValue") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
 getNodeValueUnsafe ::
@@ -539,7 +539,7 @@ getNodeValueUnsafe ::
                      self -> m result
 getNodeValueUnsafe self
   = liftDOM
-      ((((toNode self) ^. js "nodeValue") >>= fromJSVal) >>=
+      ((((toNode self) ^. js "nodeValue") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue Mozilla Node.nodeValue documentation> 
@@ -561,7 +561,8 @@ getTextContent ::
                (MonadDOM m, IsNode self, FromJSString result) =>
                  self -> m (Maybe result)
 getTextContent self
-  = liftDOM (((toNode self) ^. js "textContent") >>= fromJSVal)
+  = liftDOM
+      (((toNode self) ^. js "textContent") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent Mozilla Node.textContent documentation> 
 getTextContentUnsafe ::
@@ -569,7 +570,7 @@ getTextContentUnsafe ::
                        self -> m result
 getTextContentUnsafe self
   = liftDOM
-      ((((toNode self) ^. js "textContent") >>= fromJSVal) >>=
+      ((((toNode self) ^. js "textContent") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent Mozilla Node.textContent documentation> 

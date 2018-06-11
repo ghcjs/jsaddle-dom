@@ -51,7 +51,7 @@ getInputType self
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InputEvent.data Mozilla InputEvent.data documentation> 
 getData ::
         (MonadDOM m, FromJSString result) => InputEvent -> m (Maybe result)
-getData self = liftDOM ((self ^. js "data") >>= fromJSVal)
+getData self = liftDOM ((self ^. js "data") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InputEvent.data Mozilla InputEvent.data documentation> 
 getDataUnsafe ::
@@ -59,7 +59,7 @@ getDataUnsafe ::
                 InputEvent -> m result
 getDataUnsafe self
   = liftDOM
-      (((self ^. js "data") >>= fromJSVal) >>=
+      (((self ^. js "data") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/InputEvent.data Mozilla InputEvent.data documentation> 

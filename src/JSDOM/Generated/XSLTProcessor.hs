@@ -95,7 +95,7 @@ getParameter self namespaceURI localName
   = liftDOM
       ((self ^. jsf "getParameter"
           [toJSVal namespaceURI, toJSVal localName])
-         >>= fromJSVal)
+         >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.getParameter Mozilla XSLTProcessor.getParameter documentation> 
 getParameter_ ::
@@ -116,7 +116,7 @@ getParameterUnsafe self namespaceURI localName
   = liftDOM
       (((self ^. jsf "getParameter"
            [toJSVal namespaceURI, toJSVal localName])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XSLTProcessor.getParameter Mozilla XSLTProcessor.getParameter documentation> 

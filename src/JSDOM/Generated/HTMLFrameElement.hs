@@ -157,7 +157,8 @@ setLocation self val
 getLocation ::
             (MonadDOM m, FromJSString result) =>
               HTMLFrameElement -> m (Maybe result)
-getLocation self = liftDOM ((self ^. js "location") >>= fromJSVal)
+getLocation self
+  = liftDOM ((self ^. js "location") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 
 getLocationUnsafe ::
@@ -165,7 +166,7 @@ getLocationUnsafe ::
                     HTMLFrameElement -> m result
 getLocationUnsafe self
   = liftDOM
-      (((self ^. js "location") >>= fromJSVal) >>=
+      (((self ^. js "location") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/HTMLFrameElement.location Mozilla HTMLFrameElement.location documentation> 

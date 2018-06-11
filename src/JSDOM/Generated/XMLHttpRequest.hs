@@ -80,7 +80,8 @@ getResponseHeader ::
                     XMLHttpRequest -> name -> m (Maybe result)
 getResponseHeader self name
   = liftDOM
-      ((self ^. jsf "getResponseHeader" [toJSVal name]) >>= fromJSVal)
+      ((self ^. jsf "getResponseHeader" [toJSVal name]) >>=
+         fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
 getResponseHeader_ ::
@@ -94,7 +95,8 @@ getResponseHeaderUnsafe ::
                           XMLHttpRequest -> name -> m result
 getResponseHeaderUnsafe self name
   = liftDOM
-      (((self ^. jsf "getResponseHeader" [toJSVal name]) >>= fromJSVal)
+      (((self ^. jsf "getResponseHeader" [toJSVal name]) >>=
+          fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.getResponseHeader Mozilla XMLHttpRequest.getResponseHeader documentation> 
@@ -204,7 +206,7 @@ getResponseText ::
                 (MonadDOM m, FromJSString result) =>
                   XMLHttpRequest -> m (Maybe result)
 getResponseText self
-  = liftDOM ((self ^. js "responseText") >>= fromJSVal)
+  = liftDOM ((self ^. js "responseText") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseText Mozilla XMLHttpRequest.responseText documentation> 
 getResponseTextUnsafe ::
@@ -212,7 +214,7 @@ getResponseTextUnsafe ::
                         XMLHttpRequest -> m result
 getResponseTextUnsafe self
   = liftDOM
-      (((self ^. js "responseText") >>= fromJSVal) >>=
+      (((self ^. js "responseText") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest.responseText Mozilla XMLHttpRequest.responseText documentation> 

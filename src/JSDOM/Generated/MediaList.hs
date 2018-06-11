@@ -26,7 +26,8 @@ item ::
      (MonadDOM m, FromJSString result) =>
        MediaList -> Word -> m (Maybe result)
 item self index
-  = liftDOM ((self ^. jsf "item" [toJSVal index]) >>= fromJSVal)
+  = liftDOM
+      ((self ^. jsf "item" [toJSVal index]) >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.item Mozilla MediaList.item documentation> 
 item_ :: (MonadDOM m) => MediaList -> Word -> m ()
@@ -39,7 +40,7 @@ itemUnsafe ::
              MediaList -> Word -> m result
 itemUnsafe self index
   = liftDOM
-      (((self ^. jsf "item" [toJSVal index]) >>= fromJSVal) >>=
+      (((self ^. jsf "item" [toJSVal index]) >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/MediaList.item Mozilla MediaList.item documentation> 

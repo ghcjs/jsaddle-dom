@@ -1133,7 +1133,7 @@ getProgramInfoLog self program
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "getProgramInfoLog"
           [toJSVal program])
-         >>= fromJSVal)
+         >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramInfoLog Mozilla WebGLRenderingContextBase.getProgramInfoLog documentation> 
 getProgramInfoLog_ ::
@@ -1154,7 +1154,7 @@ getProgramInfoLogUnsafe self program
   = liftDOM
       ((((toWebGLRenderingContextBase self) ^. jsf "getProgramInfoLog"
            [toJSVal program])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getProgramInfoLog Mozilla WebGLRenderingContextBase.getProgramInfoLog documentation> 
@@ -1219,7 +1219,7 @@ getShaderInfoLog self shader
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "getShaderInfoLog"
           [toJSVal shader])
-         >>= fromJSVal)
+         >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderInfoLog Mozilla WebGLRenderingContextBase.getShaderInfoLog documentation> 
 getShaderInfoLog_ ::
@@ -1240,7 +1240,7 @@ getShaderInfoLogUnsafe self shader
   = liftDOM
       ((((toWebGLRenderingContextBase self) ^. jsf "getShaderInfoLog"
            [toJSVal shader])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderInfoLog Mozilla WebGLRenderingContextBase.getShaderInfoLog documentation> 
@@ -1285,7 +1285,7 @@ getShaderSource self shader
   = liftDOM
       (((toWebGLRenderingContextBase self) ^. jsf "getShaderSource"
           [toJSVal shader])
-         >>= fromJSVal)
+         >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderSource Mozilla WebGLRenderingContextBase.getShaderSource documentation> 
 getShaderSource_ ::
@@ -1306,7 +1306,7 @@ getShaderSourceUnsafe self shader
   = liftDOM
       ((((toWebGLRenderingContextBase self) ^. jsf "getShaderSource"
            [toJSVal shader])
-          >>= fromJSVal)
+          >>= fromMaybeJSString)
          >>= maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContextBase.getShaderSource Mozilla WebGLRenderingContextBase.getShaderSource documentation> 

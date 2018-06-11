@@ -114,7 +114,8 @@ closeEvent = unsafeEventNameAsync (toJSString "close")
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
 getProtocol ::
             (MonadDOM m, FromJSString result) => WebSocket -> m (Maybe result)
-getProtocol self = liftDOM ((self ^. js "protocol") >>= fromJSVal)
+getProtocol self
+  = liftDOM ((self ^. js "protocol") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
 getProtocolUnsafe ::
@@ -122,7 +123,7 @@ getProtocolUnsafe ::
                     WebSocket -> m result
 getProtocolUnsafe self
   = liftDOM
-      (((self ^. js "protocol") >>= fromJSVal) >>=
+      (((self ^. js "protocol") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.protocol Mozilla WebSocket.protocol documentation> 
@@ -135,7 +136,7 @@ getProtocolUnchecked self
 getExtensions ::
               (MonadDOM m, FromJSString result) => WebSocket -> m (Maybe result)
 getExtensions self
-  = liftDOM ((self ^. js "extensions") >>= fromJSVal)
+  = liftDOM ((self ^. js "extensions") >>= fromMaybeJSString)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.extensions Mozilla WebSocket.extensions documentation> 
 getExtensionsUnsafe ::
@@ -143,7 +144,7 @@ getExtensionsUnsafe ::
                       WebSocket -> m result
 getExtensionsUnsafe self
   = liftDOM
-      (((self ^. js "extensions") >>= fromJSVal) >>=
+      (((self ^. js "extensions") >>= fromMaybeJSString) >>=
          maybe (Prelude.error "Nothing to return") return)
 
 -- | <https://developer.mozilla.org/en-US/docs/Web/API/WebSocket.extensions Mozilla WebSocket.extensions documentation> 
