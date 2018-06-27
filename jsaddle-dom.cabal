@@ -1213,7 +1213,7 @@ library
                         JSDOM.Generated.XSLTProcessor as JSDOM.XSLTProcessor
     build-depends:
         base >=4.7.0.0 && <5,
-        base-compat >=0.9.0 && <0.10,
+        base-compat >=0.9.0,
         exceptions >=0.8 && <0.9,
         transformers >=0.2 && <0.6,
         text >=0.11.0.6 && <1.3,
