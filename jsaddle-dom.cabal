@@ -1214,7 +1214,7 @@ library
     build-depends:
         base >=4.7.0.0 && <5,
         base-compat >=0.9.0 && <0.12,
-        exceptions >=0.8 && <0.9,
+        exceptions >=0.8 && <0.10,
         transformers >=0.2 && <0.6,
         text >=0.11.0.6 && <1.3,
         jsaddle >=0.9.3.0 && <0.10,
