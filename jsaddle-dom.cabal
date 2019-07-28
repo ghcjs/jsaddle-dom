@@ -1,7 +1,7 @@
+cabal-version: 2.4
 name: jsaddle-dom
 version: 0.9.3.1
-cabal-version: >=1.22
-build-type: Simple
+build-type: Custom
 license: MIT
 license-file: LICENSE
 maintainer: Hamish Mackenzie <Hamish.K.Mackenzie@googlemail.com>
@@ -11,6 +11,11 @@ description:
     It works with both GHCJS and GHC.
 category: Web
 author: Hamish Mackenzie
+
+custom-setup
+  setup-depends:
+    base  >=4.5 && <4.13,
+    Cabal >=2.4 && <2.5
 
 source-repository head
     type: git
