@@ -1,6 +1,6 @@
 cabal-version: 2.4
 name: jsaddle-dom
-version: 0.9.3.1
+version: 0.9.3.2
 build-type: Custom
 license: MIT
 license-file: LICENSE
