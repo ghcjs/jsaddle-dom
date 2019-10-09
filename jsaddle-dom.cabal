@@ -1,4 +1,4 @@
-cabal-version: 2.4
+cabal-version: 2.2
 name: jsaddle-dom
 version: 0.9.3.2
 build-type: Custom
@@ -36,6 +36,7 @@ library
         JSDOM.Custom.AudioContext
         JSDOM.Custom.Database
         JSDOM.Custom.DOMError
+        JSDOM.Custom.FormData
         JSDOM.Custom.Geolocation
         JSDOM.Custom.Navigator
         JSDOM.Custom.NavigatorUserMediaError
@@ -636,6 +637,7 @@ library
     reexported-modules: JSDOM.Custom.AudioContext as JSDOM.AudioContext,
                         JSDOM.Custom.Database as JSDOM.Database,
                         JSDOM.Custom.DOMError as JSDOM.DOMError,
+                        JSDOM.Custom.FormData as JSDOM.FormData,
                         JSDOM.Custom.Geolocation as JSDOM.Geolocation,
                         JSDOM.Custom.Navigator as JSDOM.Navigator,
                         JSDOM.Custom.NavigatorUserMediaError as JSDOM.NavigatorUserMediaError,
@@ -765,7 +767,6 @@ library
                         JSDOM.Generated.FocusEvent as JSDOM.FocusEvent,
                         JSDOM.Generated.FontFace as JSDOM.FontFace,
                         JSDOM.Generated.FontFaceSet as JSDOM.FontFaceSet,
-                        JSDOM.Generated.FormData as JSDOM.FormData,
                         JSDOM.Generated.GainNode as JSDOM.GainNode,
                         JSDOM.Generated.Gamepad as JSDOM.Gamepad,
                         JSDOM.Generated.GamepadButton as JSDOM.GamepadButton,
