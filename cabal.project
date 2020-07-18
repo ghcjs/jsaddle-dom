@@ -1,11 +1,9 @@
 packages:
  ./
 
-write-ghc-environment-files: never
-
 source-repository-package
   type: git
   location: https://github.com/ghcjs/jsaddle
-  tag: 2c317aab60831b21dd11935e59287566919e4e86
-  --sha256: 1s603cfigg5y3asgji5gsvijvll1bcv5phqyvpvxg1n16qplijv7
+  tag: e671d1851dc335087398951f5ca5fad46093146e
+  --sha256: 1x788mnx8mqhkcjai3gism89l87np5kl1lzlkg3ls15rb2vnr3x2
   subdir: jsaddle
