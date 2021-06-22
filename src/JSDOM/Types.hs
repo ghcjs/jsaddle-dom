@@ -1242,13 +1242,13 @@ toFunction = Function . coerce
 instance IsFunction Function
 
 -- Promise
-newtype PromiseRejected = PromiseRejected { rejectionReason :: JSVal } deriving (Typeable)
+newtype PromiseRejected = PromiseRejected { rejectionReason :: String } deriving (Typeable)
 noPromiseRejected :: Maybe PromiseRejected
 noPromiseRejected = Nothing
 {-# INLINE noPromiseRejected #-}
 
 instance Show PromiseRejected where
-    show _ = "A promise was rejected"
+    show (PromiseRejected reason) = "A promise was rejected: " ++ reason
 instance Exception PromiseRejected
 
 readPromise :: JSVal -> JSM JSVal
@@ -1261,7 +1261,12 @@ readPromise promise = do
     freeFunction success
     freeFunction error
     case result of
-        Left reason -> liftIO . throwIO $ PromiseRejected reason
+        Left reason -> do
+          reason' <- fromJSVal reason
+          let reason'' = case reason' of
+                Just t -> T.unpack t
+                Nothing -> "Unknown reason"
+          liftIO . throwIO $ PromiseRejected reason''
         Right x -> return x
 
 -- Callbacks
