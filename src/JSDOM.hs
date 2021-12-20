@@ -3,7 +3,9 @@
 {-# LANGUAGE RecursiveDo #-}
 #endif
 module JSDOM (
-  currentWindow
+  globalThis
+, globalThisUnchecked
+, currentWindow
 , currentWindowUnchecked
 , currentDocument
 , currentDocumentUnchecked
@@ -41,6 +43,45 @@ import GHCJS.Concurrent (OnBlocked(..))
 import Language.Javascript.JSaddle
        (syncPoint, syncAfter, waitForAnimationFrame,
         nextAnimationFrame, catch, bracket)
+
+-- This type is used to access the `globalThis` (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
+newtype GlobalThis = GlobalThis { unGlobalThis :: JSVal }
+
+instance PToJSVal GlobalThis where
+  pToJSVal = unGlobalThis
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal GlobalThis where
+  pFromJSVal = GlobalThis
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal GlobalThis where
+  toJSVal = return . unGlobalThis
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal GlobalThis where
+  fromJSVal v = fmap GlobalThis <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . GlobalThis
+  {-# INLINE fromJSValUnchecked #-}
+
+instance MakeObject GlobalThis where
+  makeObject = makeObject . unGlobalThis
+
+instance IsEventTarget GlobalThis
+instance IsWindowOrWorkerGlobalScope GlobalThis
+instance IsGlobalPerformance GlobalThis
+instance IsGlobalEventHandlers GlobalThis
+instance IsGlobalCrypto GlobalThis
+noGlobalThis :: Maybe GlobalThis
+noGlobalThis = Nothing
+{-# INLINE noGlobalThis #-}
+
+globalThis :: MonadDOM m => m (Maybe GlobalThis)
+globalThis = liftDOM $ jsg ("globalThis" :: String) >>= fromJSVal
+
+globalThisUnchecked :: MonadDOM m => m GlobalThis
+globalThisUnchecked = liftDOM $ jsg ("globalThis" :: String) >>= fromJSValUnchecked
 
 currentWindow :: MonadDOM m => m (Maybe Window)
 currentWindow = liftDOM $ jsg ("window" :: String) >>= fromJSVal
