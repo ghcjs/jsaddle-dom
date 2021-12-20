@@ -133,6 +133,8 @@ module JSDOM.Types (
   -- * Used for better error messages
   , HasCallStack
 
+  , GlobalThis(GlobalThis), unGlobalThis, noGlobalThis
+
   -- * Interface types from IDL files
 
 -- AUTO GENERATION STARTS HERE
@@ -2123,6 +2125,42 @@ type GLclampf = Double
 noGLclampf :: Maybe GLclampf
 noGLclampf = Nothing
 {-# INLINE noGLclampf #-}
+
+-- This type is used to access the `globalThis` (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
+newtype GlobalThis = GlobalThis { unGlobalThis :: JSVal }
+
+instance PToJSVal GlobalThis where
+  pToJSVal = unGlobalThis
+  {-# INLINE pToJSVal #-}
+
+instance PFromJSVal GlobalThis where
+  pFromJSVal = GlobalThis
+  {-# INLINE pFromJSVal #-}
+
+instance ToJSVal GlobalThis where
+  toJSVal = return . unGlobalThis
+  {-# INLINE toJSVal #-}
+
+instance FromJSVal GlobalThis where
+  fromJSVal v = fmap GlobalThis <$> maybeNullOrUndefined v
+  {-# INLINE fromJSVal #-}
+  fromJSValUnchecked = return . GlobalThis
+  {-# INLINE fromJSValUnchecked #-}
+
+instance IsGObject GlobalThis where
+  typeGType _ = error "Unable to get the JavaScript type of GlobalThis"
+
+instance MakeObject GlobalThis where
+  makeObject = makeObject . unGlobalThis
+
+instance IsEventTarget GlobalThis
+instance IsWindowOrWorkerGlobalScope GlobalThis
+instance IsGlobalPerformance GlobalThis
+instance IsGlobalEventHandlers GlobalThis
+instance IsGlobalCrypto GlobalThis
+noGlobalThis :: Maybe GlobalThis
+noGlobalThis = Nothing
+{-# INLINE noGlobalThis #-}
 
 -- AUTO GENERATION STARTS HERE
 -- The remainder of this file is generated from IDL files using domconv-webkit-jsffi

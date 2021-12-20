@@ -22,7 +22,7 @@ module JSDOM (
 
 #ifdef ghcjs_HOST_OS
 import JSDOM.Types
-       (FromJSVal(..), MonadDOM, liftDOM, Document(..), Window(..), JSM)
+       (FromJSVal(..), MonadDOM, liftDOM, GlobalThis(..), Document(..), Window(..), JSM)
 import Language.Javascript.JSaddle.Object (jsg)
 import JavaScript.Web.AnimationFrame (AnimationFrameHandle, inAnimationFrame)
 #else
@@ -34,7 +34,7 @@ import Language.Javascript.JSaddle.Object (freeFunction, jsg)
 import Language.Javascript.JSaddle.Monad (askJSM)
 import JSDOM.Types
        (Callback(..), RequestAnimationFrameCallback(..), FromJSVal(..),
-        MonadDOM, liftDOM, Document(..), Window(..), JSM, JSContextRef(..))
+        MonadDOM, liftDOM, GlobalThis(..), Document(..), Window(..), JSM, JSContextRef(..))
 import JSDOM.Generated.RequestAnimationFrameCallback
        (newRequestAnimationFrameCallbackSync)
 import JSDOM.Generated.Window (requestAnimationFrame)
@@ -43,39 +43,6 @@ import GHCJS.Concurrent (OnBlocked(..))
 import Language.Javascript.JSaddle
        (syncPoint, syncAfter, waitForAnimationFrame,
         nextAnimationFrame, catch, bracket)
-
--- This type is used to access the `globalThis` (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
-newtype GlobalThis = GlobalThis { unGlobalThis :: JSVal }
-
-instance PToJSVal GlobalThis where
-  pToJSVal = unGlobalThis
-  {-# INLINE pToJSVal #-}
-
-instance PFromJSVal GlobalThis where
-  pFromJSVal = GlobalThis
-  {-# INLINE pFromJSVal #-}
-
-instance ToJSVal GlobalThis where
-  toJSVal = return . unGlobalThis
-  {-# INLINE toJSVal #-}
-
-instance FromJSVal GlobalThis where
-  fromJSVal v = fmap GlobalThis <$> maybeNullOrUndefined v
-  {-# INLINE fromJSVal #-}
-  fromJSValUnchecked = return . GlobalThis
-  {-# INLINE fromJSValUnchecked #-}
-
-instance MakeObject GlobalThis where
-  makeObject = makeObject . unGlobalThis
-
-instance IsEventTarget GlobalThis
-instance IsWindowOrWorkerGlobalScope GlobalThis
-instance IsGlobalPerformance GlobalThis
-instance IsGlobalEventHandlers GlobalThis
-instance IsGlobalCrypto GlobalThis
-noGlobalThis :: Maybe GlobalThis
-noGlobalThis = Nothing
-{-# INLINE noGlobalThis #-}
 
 globalThis :: MonadDOM m => m (Maybe GlobalThis)
 globalThis = liftDOM $ jsg ("globalThis" :: String) >>= fromJSVal
