@@ -3,7 +3,9 @@
 {-# LANGUAGE RecursiveDo #-}
 #endif
 module JSDOM (
-  currentWindow
+  globalThis
+, globalThisUnchecked
+, currentWindow
 , currentWindowUnchecked
 , currentDocument
 , currentDocumentUnchecked
@@ -20,7 +22,7 @@ module JSDOM (
 
 #ifdef ghcjs_HOST_OS
 import JSDOM.Types
-       (FromJSVal(..), MonadDOM, liftDOM, Document(..), Window(..), JSM)
+       (FromJSVal(..), MonadDOM, liftDOM, GlobalThis(..), Document(..), Window(..), JSM)
 import Language.Javascript.JSaddle.Object (jsg)
 import JavaScript.Web.AnimationFrame (AnimationFrameHandle, inAnimationFrame)
 #else
@@ -32,7 +34,7 @@ import Language.Javascript.JSaddle.Object (freeFunction, jsg)
 import Language.Javascript.JSaddle.Monad (askJSM)
 import JSDOM.Types
        (Callback(..), RequestAnimationFrameCallback(..), FromJSVal(..),
-        MonadDOM, liftDOM, Document(..), Window(..), JSM, JSContextRef(..))
+        MonadDOM, liftDOM, GlobalThis(..), Document(..), Window(..), JSM, JSContextRef(..))
 import JSDOM.Generated.RequestAnimationFrameCallback
        (newRequestAnimationFrameCallbackSync)
 import JSDOM.Generated.Window (requestAnimationFrame)
@@ -41,6 +43,12 @@ import GHCJS.Concurrent (OnBlocked(..))
 import Language.Javascript.JSaddle
        (syncPoint, syncAfter, waitForAnimationFrame,
         nextAnimationFrame, catch, bracket)
+
+globalThis :: MonadDOM m => m (Maybe GlobalThis)
+globalThis = liftDOM $ jsg ("globalThis" :: String) >>= fromJSVal
+
+globalThisUnchecked :: MonadDOM m => m GlobalThis
+globalThisUnchecked = liftDOM $ jsg ("globalThis" :: String) >>= fromJSValUnchecked
 
 currentWindow :: MonadDOM m => m (Maybe Window)
 currentWindow = liftDOM $ jsg ("window" :: String) >>= fromJSVal
