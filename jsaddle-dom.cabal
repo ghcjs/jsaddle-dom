@@ -1,6 +1,6 @@
 cabal-version: 2.2
 name: jsaddle-dom
-version: 0.9.4.1
+version: 0.9.5.0
 build-type: Custom
 license: MIT
 license-file: LICENSE
@@ -14,8 +14,8 @@ author: Hamish Mackenzie
 
 custom-setup
   setup-depends:
-    base  >=4.5 && <4.15,
-    Cabal >=2.4 && <3.3
+    base  >=4.5 && <4.17,
+    Cabal >=2.4 && <3.7
 
 source-repository head
     type: git
