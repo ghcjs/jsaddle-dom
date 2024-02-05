@@ -9,6 +9,8 @@ import System.IO (stdout, hFlush)
 -- For now let the user (or CI system) know that it
 -- is not unusual for there to be no output for a
 -- long time.
+main = defaultMain
+{-
 main = defaultMainWithHooks simpleUserHooks {
   buildHook = \a b c d -> do
     void . forkIO $
@@ -19,3 +21,4 @@ main = defaultMainWithHooks simpleUserHooks {
         hFlush stdout
     buildHook simpleUserHooks a b c d
   }
+-}
