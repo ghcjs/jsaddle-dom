@@ -24,7 +24,7 @@ library
 
     if impl(ghcjs -any)
         build-depends:
-            ghcjs-base >=0.2.0.0 && <0.3,
+            ghcjs-base >=0.2.0.0 && <1.1,
             ghcjs-prim -any,
             ghc-prim -any
     if arch(javascript)
