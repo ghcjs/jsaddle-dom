@@ -4,14 +4,12 @@ module JSDOM.Custom.Geolocation (
   , getCurrentPosition
 ) where
 
-import Data.Maybe (fromJust)
-
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 
 import JSDOM.Types
 
-import JSDOM.Custom.PositionError (throwPositionException)
+import JSDOM.Custom.GeolocationPositionError (throwPositionException)
 
 import JSDOM.Generated.PositionCallback
        (newPositionCallback)
@@ -23,8 +21,9 @@ import qualified
        JSDOM.Generated.Geolocation as Generated
        (getCurrentPosition)
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition Mozilla Geolocation.getCurrentPosition documentation>
-getCurrentPosition' :: MonadDOM m => Geolocation -> Maybe PositionOptions -> m (Either PositionError Geoposition)
+-- | Blocking version of
+-- <https://developer.mozilla.org/docs/Web/API/Geolocation/getCurrentPosition Geolocation.getCurrentPosition>.
+getCurrentPosition' :: MonadDOM m => Geolocation -> Maybe PositionOptions -> m (Either GeolocationPositionError GeolocationPosition)
 getCurrentPosition' self options = do
     result <- liftIO newEmptyMVar
     withCallback (newPositionCallback (liftIO . putMVar result . Right)) $ \success ->
@@ -32,7 +31,7 @@ getCurrentPosition' self options = do
             Generated.getCurrentPosition self success (Just error) options
             liftIO $ takeMVar result
 
--- | <https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition Mozilla Geolocation.getCurrentPosition documentation>
-getCurrentPosition :: MonadDOM m => Geolocation -> Maybe PositionOptions -> m Geoposition
+-- | Like 'getCurrentPosition'' but throws 'PositionException' on error.
+getCurrentPosition :: MonadDOM m => Geolocation -> Maybe PositionOptions -> m GeolocationPosition
 getCurrentPosition self options =
     getCurrentPosition' self options >>= either throwPositionException return

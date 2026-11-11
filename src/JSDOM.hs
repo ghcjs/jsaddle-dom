@@ -33,11 +33,11 @@ import Language.Javascript.JSaddle.Types (JSContextRef(..))
 import Language.Javascript.JSaddle.Object (freeFunction, jsg)
 import Language.Javascript.JSaddle.Monad (askJSM)
 import JSDOM.Types
-       (Callback(..), RequestAnimationFrameCallback(..), FromJSVal(..),
+       (Callback(..), FrameRequestCallback(..), FromJSVal(..),
         MonadDOM, liftDOM, GlobalThis(..), Document(..), Window(..), JSM, JSContextRef(..))
-import JSDOM.Generated.RequestAnimationFrameCallback
-       (newRequestAnimationFrameCallbackSync)
-import JSDOM.Generated.Window (requestAnimationFrame)
+import JSDOM.Generated.FrameRequestCallback
+       (newFrameRequestCallbackSync)
+import JSDOM.Generated.AnimationFrameProvider (requestAnimationFrame)
 #endif
 import GHCJS.Concurrent (OnBlocked(..))
 import Language.Javascript.JSaddle
@@ -84,7 +84,7 @@ inAnimationFrame _ f = do
     -- to run the handlers in the next animation frame.
     when (null handlers) $ do
         win <- currentWindowUnchecked
-        rec cb@(RequestAnimationFrameCallback (Callback fCb)) <- newRequestAnimationFrameCallbackSync $ \t -> do
+        rec cb@(FrameRequestCallback (Callback fCb)) <- newFrameRequestCallbackSync $ \t -> do
               -- This is a one off handler so free it when it runs
               freeFunction fCb
               -- Take the list of handers and empty it
